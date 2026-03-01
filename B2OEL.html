@@ -46,6 +46,14 @@
         }
 
         /* ====== TEACHER MODE STYLES ====== */
+        .editable-container {
+            outline: none;
+        }
+        
+        .editable-container:focus {
+            outline: none;
+        }
+
         .highlight {
             background-color: var(--highlight-bg);
             color: var(--highlight-text);
@@ -53,6 +61,23 @@
             padding: 2px 6px;
             border-radius: 4px;
             border-bottom: 2px solid var(--accent);
+        }
+
+        .redact {
+            background-color: var(--gray-800);
+            color: var(--gray-800); /* Matches background to hide text */
+            border-radius: 4px;
+            padding: 2px 6px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s ease;
+        }
+
+        .redact.revealed {
+            background-color: var(--highlight-bg);
+            color: var(--highlight-text);
+            font-weight: bold;
+            border-bottom: 2px dashed var(--accent);
         }
 
         .save-btn {
@@ -393,6 +418,10 @@
             font-size: 0.85rem;
         }
 
+        .footer p {
+            margin: 5px 0;
+        }
+
         /* Mobile Adjustments */
         @media (max-width: 768px) {
             .hero { padding: 72px 20px 60px; }
@@ -401,63 +430,6 @@
     </style>
 </head>
 <body>
-
-<!-- TEACHER SCRIPT -->
-<script>
-    const highlightStack = [];
-    document.addEventListener('keydown', function(e) {
-        // Highlight: Cmd/Ctrl + H
-        if ((e.altKey || e.ctrlKey || e.metaKey) && (e.key === 'h' || e.key === 'H')) {
-            e.preventDefault(); 
-            const selection = window.getSelection();
-            if (!selection.rangeCount || selection.isCollapsed) return;
-            const range = selection.getRangeAt(0);
-            const span = document.createElement('span');
-            span.className = 'highlight';
-            try {
-                range.surroundContents(span);
-                highlightStack.push(span);
-                selection.removeAllRanges(); 
-            } catch (error) { console.log("Selection error"); }
-        }
-        // Undo: Cmd/Ctrl + Z
-        if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z')) {
-            if (highlightStack.length > 0) {
-                e.preventDefault();
-                const lastSpan = highlightStack.pop();
-                if (document.body.contains(lastSpan)) {
-                    const parent = lastSpan.parentNode;
-                    while (lastSpan.firstChild) {
-                        parent.insertBefore(lastSpan.firstChild, lastSpan);
-                    }
-                    parent.removeChild(lastSpan);
-                }
-            }
-        }
-    });
-
-    function saveDocument() {
-        const htmlContent = document.documentElement.outerHTML;
-        const blob = new Blob([htmlContent], {type: 'text/html'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Lesson_1_Relationships_Interactive.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }
-</script>
-
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-content">
-        <div class="hero-badge">B2 Level</div>
-        <h1>Lesson 1: <span>Relationships</span></h1>
-        <p class="hero-subtitle">Present Tenses & Neighborhood Connections</p>
-    </div>
-</section>
 
 <!-- NAV -->
 <nav class="nav-bar">
@@ -474,8 +446,18 @@
     </div>
 </nav>
 
-<!-- CONTENT (Editable for teacher annotations) -->
-<div contenteditable="true" style="outline: none;">
+<!-- FULLY EDITABLE CONTENT CONTAINER -->
+<!-- Making this single container editable allows users to type, delete, add lines, and format anywhere -->
+<main class="editable-container" contenteditable="true" spellcheck="false">
+
+    <!-- HERO -->
+    <section class="hero" contenteditable="true">
+        <div class="hero-content">
+            <div class="hero-badge">B2 Level</div>
+            <h1>Lesson 1: <span>Relationships</span></h1>
+            <p class="hero-subtitle">Present Tenses & Neighborhood Connections</p>
+        </div>
+    </section>
 
     <!-- SECTION 1: SPEAKING -->
     <section class="section" id="speaking">
@@ -728,7 +710,7 @@
             <h2 class="section-title">Whiteboard 📝</h2>
             <p class="section-desc">Use this space during the lesson to type out corrections, new vocabulary, pronunciation notes, or feedback for the student.</p>
 
-            <div class="whiteboard-area" contenteditable="true">
+            <div class="whiteboard-area">
                 <strong>Vocab & Pronunciation Notes:</strong>
                 <ul>
                     <li>...</li>
@@ -749,15 +731,83 @@
         </div>
     </section>
 
-</div>
+</main>
 
-<!-- FOOTER -->
+<!-- FOOTER (Not editable) -->
 <footer class="footer">
     <p>Prepared for Academic &amp; Clinical Use</p>
     <p><strong>English Course B2 | Relationships</strong></p>
+    <p style="margin-top: 20px; font-size: 0.85rem; opacity: 0.8; color: var(--white); line-height: 1.8;">
+        <strong>🛠️ Editor Shortcuts:</strong> Highlight <code>Cmd+H</code> or <code>Ctrl+H</code> | Redact <code>Alt+R</code> or <code>Cmd+Shift+H</code><br>
+        <em>If Cmd+H hides your browser (Mac restriction), use Ctrl+H or Cmd+Shift+H instead!<br>
+        You can now freely type, format, delete text anywhere, and use <strong>Cmd+Z</strong> to perfectly undo highlights and typing!</em>
+    </p>
 </footer>
 
 <button onclick="saveDocument()" class="save-btn" title="Save your notes">💾 Save Lesson</button>
+
+<!-- TEACHER SCRIPT -->
+<script>
+    // Robust text formatting that preserves inner HTML and registers with Native Browser Undo!
+    function applyFormat(className) {
+        const selection = window.getSelection();
+        if (!selection.rangeCount || selection.isCollapsed) return;
+        
+        // Extract exact HTML inside the selection to keep bold/italics
+        const range = selection.getRangeAt(0);
+        const container = document.createElement('div');
+        container.appendChild(range.cloneContents());
+        const innerHTML = container.innerHTML;
+        
+        // Using execCommand ensures the action is added to the browser's native Undo stack (Cmd+Z)
+        const wrappedHTML = `<span class="${className}">${innerHTML}</span>`;
+        document.execCommand('insertHTML', false, wrappedHTML);
+    }
+
+    document.addEventListener('keydown', function(e) {
+        // Highlight: Cmd/Ctrl + H OR Cmd/Ctrl + Shift + H
+        if ((e.ctrlKey || e.metaKey) && e.code === 'KeyH' && !e.shiftKey) {
+            e.preventDefault(); 
+            applyFormat('highlight');
+        }
+
+        // Redact: Alt + R OR Cmd/Ctrl + Shift + H (Fallback if Mac blocks Cmd+H)
+        if ((e.altKey && e.code === 'KeyR') || ((e.ctrlKey || e.metaKey) && e.shiftKey && e.code === 'KeyH')) {
+            e.preventDefault();
+            applyFormat('redact');
+        }
+    });
+
+    // Click to reveal redacted text using event delegation
+    document.addEventListener('click', function(e) {
+        const redactSpan = e.target.closest('.redact');
+        if (redactSpan) {
+            redactSpan.classList.toggle('revealed');
+        }
+    });
+
+    function saveDocument() {
+        // Remove contenteditable attributes before saving so it looks clean
+        const main = document.querySelector('.editable-container');
+        const isEditable = main.getAttribute('contenteditable') === 'true';
+        if(isEditable) main.removeAttribute('contenteditable');
+        
+        const htmlContent = document.documentElement.outerHTML;
+        
+        // Put it back
+        if(isEditable) main.setAttribute('contenteditable', 'true');
+
+        const blob = new Blob([htmlContent], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Lesson_1_Relationships_Interactive.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+</script>
 
 </body>
 </html>
