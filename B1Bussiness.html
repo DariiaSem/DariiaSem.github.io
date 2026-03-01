@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trial Lesson | Business English</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* THEME: Mint & Midnight (Fresh, Professional) */
+            --primary: #00897B;       /* Mint Teal */
+            --primary-dark: #004D40;
+            --primary-light: #4DB6AC;
+            --secondary: #1A237E;     /* Midnight Blue */
+            --accent: #FF6D00;        /* Sunset Orange */
+            --accent-light: #FF9E80;
+            --bg-light: #F5F7FA;
+            --white: #FFFFFF;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-600: #475569;
+            --gray-800: #1E293B;
+            
+            /* UI Elements */
+            --highlight-bg: #FFF59D;
+            --highlight-text: #BF360C;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        /* ====== TEACHER MODE STYLES ====== */
+        .highlight {
+            background-color: var(--highlight-bg);
+            color: var(--highlight-text);
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .save-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary);
+            color: var(--white);
+            border: 3px solid var(--white);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+            z-index: 1000;
+            font-family: 'Segoe UI', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .save-btn:hover {
+            transform: scale(1.05);
+            background: var(--primary);
+        }
+
+        /* ====== HERO SECTION ====== */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary-dark) 60%, var(--primary) 100%);
+            color: var(--white);
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--accent);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.3rem);
+            color: rgba(255,255,255,0.75);
+            max-width: 620px;
+            margin: 0 auto 36px;
+            font-weight: 400;
+        }
+
+        /* ====== NAVIGATION ====== */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-logo .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: var(--gray-100);
+        }
+
+        /* ====== SECTION LAYOUT ====== */
+        .section {
+            padding: 80px 24px;
+        }
+
+        .section:nth-child(even) {
+            background: var(--white);
+        }
+
+        .section-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+            background: rgba(0, 137, 123, 0.08);
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-desc {
+            color: var(--gray-600);
+            font-size: 1.05rem;
+            margin-bottom: 36px;
+            max-width: 640px;
+        }
+
+        /* ====== CARDS ====== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .card-icon.mint { background: rgba(0, 137, 123, 0.1); color: var(--primary); }
+        .card-icon.blue { background: rgba(26, 35, 126, 0.1); color: var(--secondary); }
+        .card-icon.orange { background: rgba(255, 109, 0, 0.1); color: var(--accent); }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        /* ====== PROMPT LIST ====== */
+        .prompt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .prompt-item {
+            background: var(--white);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 24px 28px;
+            box-shadow: var(--shadow-sm);
+            transition: border-color 0.25s;
+        }
+
+        .prompt-item:hover {
+            border-left-color: var(--accent);
+        }
+
+        .prompt-item strong {
+            display: block;
+            color: var(--secondary);
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+
+        /* ====== GRAMMAR TABLE ====== */
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            font-size: 0.92rem;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .grammar-table thead th {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .grammar-table tbody td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: top;
+        }
+
+        .grammar-table tbody tr:nth-child(even) {
+            background: var(--gray-100);
+        }
+
+        /* ====== INPUTS ====== */
+        .gap {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--accent);
+            font-weight: bold;
+            padding: 0 5px;
+            cursor: text;
+        }
+
+        .gap:focus {
+            outline: none;
+            border-bottom-color: var(--accent);
+            background: rgba(255, 109, 0, 0.05);
+        }
+
+        /* ====== INTERACTIVE ELEMENTS ====== */
+        .blurred-text {
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0,0,0,0.6);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            padding: 0 4px;
+        }
+
+        .blurred-text:hover {
+            text-shadow: 0 0 6px rgba(0,0,0,0.4);
+        }
+
+        .blurred-text.revealed {
+            color: inherit;
+            text-shadow: none;
+        }
+
+        .gap.blurred-text.revealed {
+            color: var(--accent);
+        }
+
+        /* ====== DRAG AND DROP ====== */
+        .dnd-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 16px;
+            font-size: 0.95rem;
+        }
+
+        .dnd-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gray-100);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--gray-200);
+        }
+
+        .dnd-verb {
+            font-weight: 700;
+            color: var(--secondary);
+            width: 100px;
+            flex-shrink: 0;
+        }
+
+        .drop-area {
+            flex-grow: 1;
+            min-height: 44px;
+            border: 2px dashed var(--gray-200);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .dnd-pool {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 16px;
+            background: var(--white);
+            border: 1px solid var(--primary-light);
+            border-radius: var(--radius-md);
+            min-height: 60px;
+        }
+
+        .draggable-noun {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: grab;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.1s, box-shadow 0.1s;
+            user-select: none;
+        }
+
+        .draggable-noun:active {
+            cursor: grabbing;
+            transform: scale(0.98);
+        }
+
+        /* ====== WHITEBOARD ====== */
+        .whiteboard-container {
+            background-color: var(--white);
+            background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            min-height: 400px;
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .whiteboard-title {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ====== FOOTER ====== */
+        .footer {
+            background: var(--secondary);
+            color: rgba(255,255,255,0.5);
+            text-align: center;
+            padding: 40px 24px;
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 60px; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TEACHER SCRIPT -->
+<script>
+    const highlightStack = [];
+    document.addEventListener('keydown', function(e) {
+        // Highlight: Cmd/Ctrl + H
+        if ((e.altKey || e.ctrlKey || e.metaKey) && (e.key === 'h' || e.key === 'H')) {
+            e.preventDefault(); 
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            try {
+                range.surroundContents(span);
+                highlightStack.push(span);
+                selection.removeAllRanges(); 
+            } catch (error) { console.log("Selection error"); }
+        }
+        // Undo: Cmd/Ctrl + Z
+        if ((e.metaKey || e.ctrlKey) && (e.key === 'z' || e.key === 'Z')) {
+            if (highlightStack.length > 0) {
+                e.preventDefault();
+                const lastSpan = highlightStack.pop();
+                if (document.body.contains(lastSpan)) {
+                    const parent = lastSpan.parentNode;
+                    while (lastSpan.firstChild) {
+                        parent.insertBefore(lastSpan.firstChild, lastSpan);
+                    }
+                    parent.removeChild(lastSpan);
+                }
+            }
+        }
+    });
+
+    function saveDocument() {
+        const htmlContent = document.documentElement.outerHTML;
+        const blob = new Blob([htmlContent], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Trial_Lesson_Business_Saved.html';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // Interactive elements logic
+    document.addEventListener('DOMContentLoaded', () => {
+        // Unblur logic
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('blurred-text')) {
+                e.target.classList.toggle('revealed');
+            }
+        });
+
+        // Drag and Drop logic
+        const nouns = Array.from(document.querySelectorAll('.draggable-noun'));
+        const pool = document.getElementById('noun-pool');
+        
+        if (nouns.length > 0 && pool) {
+            // Shuffle nouns on load
+            nouns.sort(() => Math.random() - 0.5);
+            nouns.forEach(noun => pool.appendChild(noun));
+
+            let draggedItem = null;
+
+            document.querySelectorAll('.draggable-noun').forEach(item => {
+                item.addEventListener('dragstart', function() {
+                    draggedItem = this;
+                    setTimeout(() => this.style.opacity = '0.5', 0);
+                });
+                item.addEventListener('dragend', function() {
+                    setTimeout(() => this.style.opacity = '1', 0);
+                    draggedItem = null;
+                });
+            });
+
+            document.querySelectorAll('.drop-area, .dnd-pool').forEach(zone => {
+                zone.addEventListener('dragover', e => e.preventDefault());
+                zone.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    if (this.classList.contains('drop-area')) {
+                        this.style.borderColor = 'var(--primary)';
+                        this.style.background = 'rgba(0, 137, 123, 0.05)';
+                    }
+                });
+                zone.addEventListener('dragleave', function() {
+                    if (this.classList.contains('drop-area')) {
+                        this.style.borderColor = 'var(--gray-200)';
+                        this.style.background = 'transparent';
+                    }
+                });
+                zone.addEventListener('drop', function() {
+                    if (this.classList.contains('drop-area')) {
+                        this.style.borderColor = 'var(--gray-200)';
+                        this.style.background = 'transparent';
+                        
+                        // Only allow one item per drop area
+                        if (this.children.length > 0 && draggedItem) {
+                            pool.appendChild(this.children[0]);
+                        }
+                    }
+                    
+                    if (draggedItem) {
+                        this.appendChild(draggedItem);
+                        
+                        // Check match
+                        if (this.classList.contains('drop-area')) {
+                            if (draggedItem.dataset.match === this.dataset.verb) {
+                                draggedItem.style.borderLeft = '4px solid #00897B'; // Correct green
+                            } else {
+                                draggedItem.style.borderLeft = '4px solid #FF6D00'; // Incorrect orange
+                            }
+                        } else {
+                            draggedItem.style.borderLeft = 'none';
+                        }
+                    }
+                });
+            });
+        }
+    });
+</script>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">B1 Level • Business</div>
+        <h1>Trial Lesson: <span>Connections & Business</span></h1>
+        <p class="hero-subtitle">Getting to know your professional background, goals, and communication style.</p>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- NAV -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> Executive English</a>
+        <ul class="nav-links">
+            <li><a href="#intro">1. Intro</a></li>
+            <li><a href="#icebreaker">2. This/That</a></li>
+            <li><a href="#game">3. Truth/Lie</a></li>
+            <li><a href="#grammar">4. Grammar</a></li>
+            <li><a href="#wouldyou">5. Would You</a></li>
+            <li><a href="#life">6. Discussion</a></li>
+            <li><a href="#extra">7. Practice</a></li>
+            <li><a href="#summary">8. Summary</a></li>
+            <li><a href="#whiteboard">9. Whiteboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- CONTENT -->
+<div contenteditable="true" style="outline: none;">
+
+    <!-- TASK 1: INTRO -->
+    <section class="section" id="intro">
+        <div class="section-inner">
+            <span class="section-label">Task 1</span>
+            <h2 class="section-title">The Basics & The Story 🎲</h2>
+            <p class="section-desc">Let's start with your background. We'll go card by card.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon mint">01</div>
+                    <h3>From Turkey to the World</h3>
+                    <p>Tell me a little about where you are based in Turkey vs. the markets you work with. What do you love about your home base?</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon blue">02</div>
+                    <h3>The Outdoors & Travel</h3>
+                    <p>When you are not working, I know you enjoy the outdoors and traveling. What has been your favorite destination or outdoor activity recently?</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange">03</div>
+                    <h3>The World of Finance</h3>
+                    <p>Briefly introduce your executive role. What do you actually <em>do</em> every day? (Try to explain your main responsibilities simply).</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon mint">04</div>
+                    <h3>The Mission (English)</h3>
+                    <p>Why are you here? We know meetings and client communication are key. In which specific situations do you want to feel the most confident?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 2: ICEBREAKER -->
+    <section class="section" id="icebreaker">
+        <div class="section-inner">
+            <span class="section-label">Task 2</span>
+            <h2 class="section-title">This or That? ⚡</h2>
+            <p class="section-desc">Rapid fire. Choose one immediately. No thinking!</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Meetings</h3>
+                    <p><strong>In-person / Boardroom</strong> 🤝<br>vs<br><strong>Virtual / Zoom</strong> 💻</p>
+                </div>
+                <div class="card">
+                    <h3>Finance & Business</h3>
+                    <p><strong>High Risk / High Reward</strong> 📈<br>vs<br><strong>Safe & Steady</strong> 🏦</p>
+                </div>
+                <div class="card">
+                    <h3>The Outdoors</h3>
+                    <p><strong>Hiking in the Mountains</strong> ⛰️<br>vs<br><strong>Relaxing by the Sea</strong> 🌊</p>
+                </div>
+                <div class="card">
+                    <h3>Communication</h3>
+                    <p><strong>Direct & Blunt</strong> 🎯<br>vs<br><strong>Polite & Indirect</strong> ☕</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 3: GAME -->
+    <section class="section" id="game">
+        <div class="section-inner">
+            <span class="section-label">Task 3</span>
+            <h2 class="section-title">Game: Two Truths & A Lie 🤥</h2>
+            <p class="section-desc">Tell me 3 statements about yourself. 2 must be true, 1 must be a lie. I will guess.</p>
+
+            <div class="prompt-item" style="border-color: var(--accent);">
+                <strong>Example (Teacher):</strong>
+                <ul>
+                    <li>1. I have negotiated a million-dollar contract.</li>
+                    <li>2. I have hiked the highest peak in my country.</li>
+                    <li>3. I can speak 3 languages fluently.</li>
+                </ul>
+                <p><em>Which one is the lie?</em></p>
+            </div>
+
+            <div class="prompt-item" style="margin-top: 20px;">
+                <strong>Student's Turn:</strong>
+                <ul>
+                    <li>1. <span class="gap" style="width: 80%;">[Type here]</span></li>
+                    <li>2. <span class="gap" style="width: 80%;">[Type here]</span></li>
+                    <li>3. <span class="gap" style="width: 80%;">[Type here]</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 4: GRAMMAR -->
+    <section class="section" id="grammar">
+        <div class="section-inner">
+            <span class="section-label">Task 4</span>
+            <h2 class="section-title">Grammar: Conditionals 2 & 3 🧠</h2>
+            <p class="section-desc">Talking about "Imaginary Business Scenarios" vs. "Past Reflections".</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Concept</th>
+                        <th>Structure</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>2nd Conditional</strong></td>
+                        <td><strong>Hypothetical Present</strong><br>(Imagining business is different now)</td>
+                        <td>If + Past Simple, ... would + Verb</td>
+                        <td>"If we <strong>had</strong> a bigger budget, we <strong>would expand</strong> faster."</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3rd Conditional</strong></td>
+                        <td><strong>Past Reflection</strong><br>(Analyzing past outcomes)</td>
+                        <td>If + Past Perfect, ... would have + PP</td>
+                        <td>"If they <strong>had invested</strong> earlier, they <strong>would have made</strong> a profit."</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top: 40px; color: var(--secondary);">Your Turn: Complete the Thoughts ✍️</h3>
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    <strong>2nd Conditional (Dreaming):</strong>
+                    <p>If I were the CEO of my current company, I <span class="gap" style="width: 60%;">[finish the sentence]</span>.</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>2nd Conditional (Hypothetical):</strong>
+                    <p>If we had an unlimited budget for our next project, we <span class="gap" style="width: 60%;">[finish the sentence]</span>.</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>3rd Conditional (Reflection):</strong>
+                    <p>If I hadn't gone into the finance sector, I <span class="gap" style="width: 60%;">[finish the sentence]</span>.</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>3rd Conditional (Past Choice):</strong>
+                    <p>If I had bought Bitcoin 15 years ago, I <span class="gap" style="width: 60%;">[finish the sentence]</span>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 5: WOULD YOU RATHER -->
+    <section class="section" id="wouldyou">
+        <div class="section-inner">
+            <span class="section-label">Task 5</span>
+            <h2 class="section-title">Game: Would You Rather? 🤔</h2>
+            <p class="section-desc">Use <strong>2nd Conditional</strong> to answer. <em>"If I had to choose, I would..."</em></p>
+
+            <div class="prompt-list">
+                <div class="prompt-item">
+                    <strong>1. Skills</strong>
+                    <p>Would you rather be completely fluent in 5 languages <strong>OR</strong> be a master at predicting financial markets?</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>2. Work Style</strong>
+                    <p>Would you rather work 4 days a week for 12 hours a day <strong>OR</strong> 5 days a week for 6 hours a day?</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>3. Meetings</strong>
+                    <p>Would you rather lead a crucial client meeting completely unprepared <strong>OR</strong> give a rehearsed speech to 1000 people?</p>
+                </div>
+                <div class="prompt-item">
+                    <strong>4. Outdoors</strong>
+                    <p>Would you rather spend a month camping in the deep wilderness <strong>OR</strong> a month in a luxury hotel in a chaotic city?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 6: DISCUSSION -->
+    <section class="section" id="life">
+        <div class="section-inner">
+            <span class="section-label">Task 6</span>
+            <h2 class="section-title">Deep Dive: Travel & Culture 🌍</h2>
+            <p class="section-desc">Let's use <strong>3rd Conditional</strong> (Past) and general narrative tenses to discuss your travels.</p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h3>🏠 Culture Shock</h3>
+                    <p>Think about when you first traveled or moved abroad. If you <strong>had known</strong> then what you know now, what <strong>would you have done</strong> differently?</p>
+                </div>
+                <div class="card">
+                    <h3>✈️ The Best Trip</h3>
+                    <p>Describe your favorite travel experience. Why was it special? (The food? The people? The landscape?)</p>
+                </div>
+                <div class="card">
+                    <h3>🚫 The Disaster</h3>
+                    <p>Have you ever had a travel disaster? (Missed flight, lost luggage). If it <strong>hadn't happened</strong>, how would the trip have been different?</p>
+                </div>
+                <div class="card">
+                    <h3>🎯 The Future</h3>
+                    <p>If you could live in any country for 1 year (working remotely in finance), where <strong>would it be</strong>?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXTRA PRACTICE -->
+    <section class="section" id="extra">
+        <div class="section-inner">
+            <span class="section-label">Tasks 7, 8, 9</span>
+            <h2 class="section-title">Business English Practice 📚</h2>
+            
+            <!-- Task 7 -->
+            <div class="card" style="margin-bottom: 20px;">
+                <h3>7. Phrasal Verbs (Meetings & Management)</h3>
+                <p><em>Fill in the correct verb, then click the gap to reveal the answer.</em></p>
+                <ol style="padding-left: 20px; line-height: 2;">
+                    <li>I <span class="gap blurred-text">look forward to</span> our next client meeting.</li>
+                    <li>We need to <span class="gap blurred-text">set up</span> a conference call for tomorrow.</li>
+                    <li>We have to <span class="gap blurred-text">figure out</span> the budget before Q3.</li>
+                    <li>The larger corporation is going to <span class="gap blurred-text">take over</span> the startup.</li>
+                    <li>Unfortunately, the branch had to <span class="gap blurred-text">close down</span> due to losses.</li>
+                </ol>
+            </div>
+
+            <!-- Task 8 -->
+            <div class="card" style="margin-bottom: 20px;">
+                <h3>8. Meanings in Context (Small Talk & Meetings)</h3>
+                <p><em>What do the <strong>bold</strong> phrases mean? Click the blurred text to check.</em></p>
+                <ul>
+                    <li>"Let's <strong>get down to business</strong>." <span class="blurred-text">(Stop small talk, start the main topic)</span>.</li>
+                    <li>"I just wanted to <strong>touch base</strong> with you." <span class="blurred-text">(Make quick contact/check-in)</span>.</li>
+                    <li>"We don't really <strong>see eye to eye</strong> on this deal." <span class="blurred-text">(Agree with each other)</span>.</li>
+                </ul>
+            </div>
+
+            <!-- Task 9 -->
+            <div class="card" contenteditable="false">
+                <h3>9. Collocations (Finance & Exec Level)</h3>
+                <p><em>Drag the nouns from the box and drop them next to the correct verb.</em></p>
+                
+                <div class="dnd-container">
+                    <div class="dnd-pool" id="noun-pool">
+                        <div class="draggable-noun" draggable="true" data-match="make">...a profit / a deal.</div>
+                        <div class="draggable-noun" draggable="true" data-match="do">...business / market research.</div>
+                        <div class="draggable-noun" draggable="true" data-match="take">...a risk / control.</div>
+                        <div class="draggable-noun" draggable="true" data-match="have">...a meeting / a competitive edge.</div>
+                        <div class="draggable-noun" draggable="true" data-match="keep">...a record / track of expenses.</div>
+                    </div>
+
+                    <div class="dnd-row">
+                        <div class="dnd-verb">1. Make</div>
+                        <div class="drop-area" data-verb="make"></div>
+                    </div>
+                    <div class="dnd-row">
+                        <div class="dnd-verb">2. Do</div>
+                        <div class="drop-area" data-verb="do"></div>
+                    </div>
+                    <div class="dnd-row">
+                        <div class="dnd-verb">3. Take</div>
+                        <div class="drop-area" data-verb="take"></div>
+                    </div>
+                    <div class="dnd-row">
+                        <div class="dnd-verb">4. Have</div>
+                        <div class="drop-area" data-verb="have"></div>
+                    </div>
+                    <div class="dnd-row">
+                        <div class="dnd-verb">5. Keep</div>
+                        <div class="drop-area" data-verb="keep"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="section" id="summary">
+        <div class="section-inner">
+            <span class="section-label">Task 10</span>
+            <h2 class="section-title">Lesson Summary & Next Steps 🚀</h2>
+            <p class="section-desc">A quick recap of what we covered today and our roadmap.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon mint">✓</div>
+                    <h3>What We Studied</h3>
+                    <ul style="padding-left: 20px; color: var(--gray-600);">
+                        <li><strong>Grammar:</strong> 2nd Conditional (Hypotheticals) & 3rd Conditional (Past Reflections).</li>
+                        <li><strong>Vocabulary:</strong> Phrasal verbs for management and finance collocations.</li>
+                        <li><strong>Speaking:</strong> Discussed travel preferences and business scenarios.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-icon orange">↗</div>
+                    <h3>What's Next</h3>
+                    <ul style="padding-left: 20px; color: var(--gray-600);">
+                        <li><strong>Focus:</strong> Role-playing realistic board meetings and client negotiations.</li>
+                        <li><strong>Homework:</strong> Prepare a 2-minute pitch for a hypothetical financial product.</li>
+                        <li><strong>Goal:</strong> Gain 100% confidence in spontaneous English conversations.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHITEBOARD -->
+    <section class="section" id="whiteboard">
+        <div class="section-inner">
+            <span class="section-label">Task 11</span>
