@@ -143,7 +143,7 @@
         /* ====== NAVIGATION ====== */
         .nav-bar {
             position: sticky;
-            top: 36px;
+            top: 0;
             z-index: 100;
             background: rgba(255,255,255,0.92);
             backdrop-filter: blur(12px);
@@ -872,22 +872,22 @@
 
         <div class="match-board">
             <ul class="drag-column" id="phrasesColumn">
-                <li class="drag-item" draggable="true">
+                <li class="drag-item" id="drag-1" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">1. eat out</span>
                 </li>
-                <li class="drag-item" draggable="true">
+                <li class="drag-item" id="drag-2" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">2. portion</span>
                 </li>
-                <li class="drag-item" draggable="true">
+                <li class="drag-item" id="drag-3" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">3. heat up</span>
                 </li>
-                <li class="drag-item" draggable="true">
+                <li class="drag-item" id="drag-4" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">4. takeaway</span>
                 </li>
-                <li class="drag-item" draggable="true">
+                <li class="drag-item" id="drag-5" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">5. wholemeal</span>
                 </li>
-                <li class="drag-item" draggable="true">
+                <li class="drag-item" id="drag-6" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">6. stew</span>
                 </li>
             </ul>
@@ -1202,10 +1202,11 @@
     </div>
 </section>
 
-<!-- ====== FLOATING ACTIONS (SAVE & QUIZLET) ====== -->
+<!-- ====== FLOATING ACTIONS (SAVE, RESET & QUIZLET) ====== -->
 <div class="floating-actions" id="floatingActions">
     <button class="fab-btn quizlet-btn" onclick="openQuizletModal()">📝 Quizlet</button>
     <button class="fab-btn save-btn" onclick="saveAsPDF()">💾 Save PDF</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background: var(--rose);">🔄 Reset Lesson</button>
 </div>
 
 <!-- ====== QUIZLET EXPORT MODAL ====== -->
@@ -1286,6 +1287,7 @@
 
     clearBtn.addEventListener('click', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear(); // Call to firebase sync
     });
 
     function getMousePos(e) {
@@ -1377,7 +1379,10 @@
     if (dragColumn && dragItems) {
         dragItems.forEach(item => {
             item.addEventListener('dragstart', () => { item.classList.add('dragging'); });
-            item.addEventListener('dragend', () => { item.classList.remove('dragging'); });
+            item.addEventListener('dragend', () => { 
+                item.classList.remove('dragging'); 
+                if (window.syncDragOrder) window.syncDragOrder(); // Call to firebase sync
+            });
         });
 
         dragColumn.addEventListener('dragover', e => {
@@ -1437,7 +1442,6 @@
         row.className = 'word-row';
         row.innerHTML = '<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation (RU/UA)" class="q-trans">';
         document.getElementById('wordList').appendChild(row);
-        // Scroll to bottom of list
         const wordList = document.getElementById('wordList');
         wordList.scrollTop = wordList.scrollHeight;
     }
@@ -1449,14 +1453,10 @@
         rows.forEach(row => {
             const word = row.querySelector('.q-word').value.trim();
             const trans = row.querySelector('.q-trans').value.trim();
-            if (word || trans) {
-                // Formatting: Tab space between Word and Definition, New Line for next card
-                output += `${word}\t${trans}\n`;
-            }
+            if (word || trans) output += `${word}\t${trans}\n`;
         });
 
         if (output) {
-            // Fallback copy method to ensure it works in all environments
             const textArea = document.createElement("textarea");
             textArea.value = output;
             document.body.appendChild(textArea);
@@ -1464,18 +1464,196 @@
             document.execCommand("copy");
             document.body.removeChild(textArea);
 
-            // Change button text temporarily
             const btn = document.getElementById('copyQuizletBtn');
             const originalText = btn.innerText;
             btn.innerText = "✅ Copied! Ready to Paste";
             setTimeout(() => { btn.innerText = originalText; }, 3000);
         } else {
-            // User hasn't typed anything yet
             const btn = document.getElementById('copyQuizletBtn');
             const originalText = btn.innerText;
             btn.innerText = "⚠️ Add some words first!";
             setTimeout(() => { btn.innerText = originalText; }, 3000);
         }
+    }
+    
+    // --- 6. Navigation Link Fix ---
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    const headerOffset = 100;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }
+        });
+    });
+</script>
+
+<!-- ====== FIREBASE COLLABORATION SCRIPT ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Standard Environment Variables
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-lesson-app';
+    const customToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    if (!firebaseConfig) {
+        console.warn("Real-time collaboration is not active outside the supported environment.");
+    } else {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+
+        // Store original state for resets
+        const editables = document.querySelectorAll('[contenteditable="true"]');
+        const originalStates = {};
+        
+        editables.forEach((el, index) => {
+            el.dataset.syncId = 'edit-' + index;
+            originalStates['edit-' + index] = el.innerHTML;
+        });
+
+        const originalDragOrder = ['drag-1', 'drag-2', 'drag-3', 'drag-4', 'drag-5', 'drag-6'];
+        let isEditing = null;
+
+        // Utility: Debounce rapid typing
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => { clearTimeout(timeout); func(...args); };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Initialize Authentication
+        const initAuth = async () => {
+            try {
+                if (customToken) {
+                    await signInWithCustomToken(auth, customToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (e) {
+                console.error("Auth error:", e);
+            }
+        };
+
+        // Attach listeners when authenticated
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                setupRealtimeSync(db, appId);
+            }
+        });
+
+        initAuth();
+
+        function setupRealtimeSync(db, appId) {
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'wb_clear');
+
+            // 1. Text Synchronization
+            const saveTextUpdate = (el) => {
+                if (!currentUser) return;
+                setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true });
+            };
+
+            editables.forEach(el => {
+                el.addEventListener('focus', () => { isEditing = el.dataset.syncId; });
+                el.addEventListener('blur', () => { isEditing = null; saveTextUpdate(el); });
+                el.addEventListener('input', debounce(() => { saveTextUpdate(el); }, 500));
+            });
+
+            onSnapshot(textRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    for (const [syncId, html] of Object.entries(data)) {
+                        // Prevent overwriting the element the local user is currently typing in
+                        if (isEditing !== syncId) {
+                            const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                            if (el && el.innerHTML !== html) {
+                                el.innerHTML = html;
+                            }
+                        }
+                    }
+                } else {
+                    // Document was deleted (Lesson Reset)
+                    Object.entries(originalStates).forEach(([syncId, html]) => {
+                        const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                        if (el && el.innerHTML !== html) el.innerHTML = html;
+                    });
+                }
+            }, (error) => console.error(error));
+
+            // 2. Drag & Drop Synchronization
+            window.syncDragOrder = () => {
+                if (!currentUser) return;
+                const dragContainer = document.getElementById('phrasesColumn');
+                const currentOrder = Array.from(dragContainer.children).map(child => child.id);
+                setDoc(dragRef, { order: currentOrder });
+            };
+
+            onSnapshot(dragRef, (snap) => {
+                const dragContainer = document.getElementById('phrasesColumn');
+                if (snap.exists()) {
+                    const data = snap.data();
+                    if (data.order && dragContainer) {
+                        data.order.forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) dragContainer.appendChild(el);
+                        });
+                    }
+                } else {
+                    // Document was deleted (Lesson Reset)
+                    if (dragContainer) {
+                        originalDragOrder.forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) dragContainer.appendChild(el);
+                        });
+                    }
+                }
+            }, (error) => console.error(error));
+
+            // 3. Whiteboard Sync (Clear event)
+            window.syncWhiteboardClear = () => {
+                if (!currentUser) return;
+                setDoc(wbRef, { timestamp: Date.now() });
+            };
+
+            onSnapshot(wbRef, (snap) => {
+                if (snap.exists()) {
+                    const canvas = document.getElementById('boardCanvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            });
+        }
+
+        // 4. Global Reset Lesson Function
+        window.resetLesson = async () => {
+            if (!currentUser) return;
+            if (!confirm("Are you sure you want to reset the lesson? This will clear all text edits and rearrange the board for everyone.")) return;
+            
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'wb_clear');
+            
+            // Deleting the docs will trigger the onSnapshot functions to revert the DOM locally and for remote users
+            await deleteDoc(textRef);
+            await deleteDoc(dragRef);
+            await setDoc(wbRef, { timestamp: Date.now() }); // Fire a clear event
+        };
     }
 </script>
 </body>
