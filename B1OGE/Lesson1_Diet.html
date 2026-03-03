@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson 1: Intermediate | Food & Present Continuous</title>
+    <!-- html2pdf for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         *, *::before, *::after {
             box-sizing: border-box;
@@ -63,27 +65,6 @@
         [contenteditable="true"]:hover {
             background-color: rgba(13, 115, 119, 0.05);
             box-shadow: 0 0 0 2px rgba(13, 115, 119, 0.1);
-        }
-
-        /* Shortcut Banner */
-        .shortcut-banner {
-            background: var(--slate);
-            color: var(--white);
-            text-align: center;
-            padding: 8px 24px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            position: sticky;
-            top: 0;
-            z-index: 200;
-        }
-
-        .shortcut-banner span {
-            color: var(--gold-light);
-            background: rgba(255,255,255,0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin: 0 4px;
         }
 
         /* ====== HERO SECTION ====== */
@@ -630,6 +611,96 @@
             font-size: 1.1rem;
         }
 
+        /* ====== FLOATING ACTION BUTTONS ====== */
+        .floating-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .fab-btn {
+            background: var(--teal);
+            color: var(--white);
+            border: none;
+            padding: 14px 22px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .fab-btn:hover {
+            transform: translateY(-3px);
+            background: var(--teal-dark);
+        }
+
+        .quizlet-btn {
+            background: #4255FF; /* Quizlet Blurple */
+        }
+        
+        .quizlet-btn:hover {
+            background: #2839d0;
+        }
+
+        /* ====== QUIZLET MODAL ====== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 22, 40, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray-600);
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover { color: var(--rose); }
+
+        .word-row {
+            display: flex; gap: 10px; margin-bottom: 12px;
+        }
+
+        .word-row input {
+            flex: 1; padding: 10px 14px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 1rem;
+        }
+
+        .word-row input:focus {
+            outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(13,115,119,0.1);
+        }
+
+        #wordList {
+            max-height: 350px; overflow-y: auto; margin: 20px 0; padding-right: 10px;
+        }
+
         /* ====== RESPONSIVE ====== */
         @media (max-width: 768px) {
             .hero { padding: 72px 20px 60px; }
@@ -652,15 +723,13 @@
                 flex-direction: column;
                 gap: 16px;
             }
+            .floating-actions {
+                bottom: 20px; right: 20px;
+            }
         }
     </style>
 </head>
 <body>
-
-<!-- Editing Hint Banner -->
-<div class="shortcut-banner">
-    Interactive Mode Active: You can edit any text directly. Highlight text and press <span contenteditable="true">Cmd</span> + <span contenteditable="true">H</span> (Mac) or <span contenteditable="true">Ctrl</span> + <span contenteditable="true">H</span> (Win) to mark it.
-</div>
 
 <!-- ====== HERO ====== -->
 <section class="hero">
@@ -677,12 +746,12 @@
     <div class="nav-inner">
         <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">English Course</span></a>
         <ul class="nav-links">
-            <li><a href="#warmup" contenteditable="true">1-2. Warm-Up</a></li>
-            <li><a href="#reading" contenteditable="true">3-5. Reading</a></li>
-            <li><a href="#vocab" contenteditable="true">6-7. Vocabulary</a></li>
-            <li><a href="#grammar" contenteditable="true">8-11. Grammar</a></li>
-            <li><a href="#practice" contenteditable="true">12-14. Practice</a></li>
-            <li><a href="#whiteboard" contenteditable="true">15. Whiteboard</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#practice" contenteditable="true">Practice</a></li>
+            <li><a href="#whiteboard" contenteditable="true">Whiteboard</a></li>
         </ul>
     </div>
 </nav>
@@ -1133,13 +1202,42 @@
     </div>
 </section>
 
-<!-- ====== FOOTER ====== -->
-<footer class="footer" style="text-align: center; padding: 40px; background: var(--slate); color: var(--gray-400);">
-    <p contenteditable="true">2020. Developed by englishwithagile.com</p>
-    <p><strong contenteditable="true" style="color: var(--white);">Adapted for Interactive Practice</strong></p>
-</footer>
+<!-- ====== FLOATING ACTIONS (SAVE & QUIZLET) ====== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()">📝 Quizlet</button>
+    <button class="fab-btn save-btn" onclick="saveAsPDF()">💾 Save PDF</button>
+</div>
 
-<!-- Highlighting & Whiteboard Script -->
+<!-- ====== QUIZLET EXPORT MODAL ====== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2>Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.95rem; color: var(--gray-600);">Add English words and their translations. When finished, copy the text and paste it directly into Quizlet's "Import from Word, Excel, Google Docs" tool!</p>
+        
+        <div id="wordList">
+            <div class="word-row">
+                <input type="text" placeholder="English Word" class="q-word">
+                <input type="text" placeholder="Translation (RU/UA)" class="q-trans">
+            </div>
+            <div class="word-row">
+                <input type="text" placeholder="English Word" class="q-word">
+                <input type="text" placeholder="Translation (RU/UA)" class="q-trans">
+            </div>
+            <div class="word-row">
+                <input type="text" placeholder="English Word" class="q-word">
+                <input type="text" placeholder="Translation (RU/UA)" class="q-trans">
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1; text-align: center;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex: 2; text-align: center; background: #4255FF; border-color: #4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
 <script>
     // --- 1. Text Highlighting Script ---
     document.addEventListener('keydown', function(e) {
@@ -1156,28 +1254,23 @@
     const ctx = canvas.getContext('2d');
     const container = canvas.parentElement;
     
-    // Set Canvas Dimensions
     function resizeCanvas() {
         canvas.width = canvas.parentElement.clientWidth;
-        // height is set via CSS, need to match internal rendering res
         canvas.height = 500; 
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // State Variables
     let isDrawing = false;
     let startX, startY;
     let currentTool = 'pencil';
     let currentColor = '#0A1628';
     let savedImageData;
 
-    // UI Elements
     const tools = document.querySelectorAll('.wb-btn[data-tool]');
     const colorPicker = document.getElementById('wbColor');
     const clearBtn = document.getElementById('wbClear');
 
-    // Tool Selection
     tools.forEach(btn => {
         btn.addEventListener('click', () => {
             tools.forEach(b => b.classList.remove('active'));
@@ -1187,23 +1280,17 @@
         });
     });
 
-    // Color Selection
     colorPicker.addEventListener('change', (e) => {
         currentColor = e.target.value;
     });
 
-    // Clear Board
     clearBtn.addEventListener('click', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-    // Drawing Logic
     function getMousePos(e) {
         const rect = canvas.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        };
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
     }
 
     canvas.addEventListener('mousedown', (e) => {
@@ -1223,7 +1310,6 @@
 
         isDrawing = true;
         savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        
         ctx.beginPath();
         ctx.moveTo(startX, startY);
     });
@@ -1234,13 +1320,12 @@
 
         if (currentTool === 'pencil' || currentTool === 'highlight') {
             ctx.lineTo(pos.x, pos.y);
-            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor; // Add transparency for highlight
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor; 
             ctx.lineWidth = currentTool === 'highlight' ? 15 : 2;
             ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
             ctx.lineJoin = 'round';
             ctx.stroke();
         } else {
-            // Shape Previews: restore background and draw shape to current mouse pos
             ctx.putImageData(savedImageData, 0, 0);
             drawShape(pos.x, pos.y);
         }
@@ -1265,27 +1350,17 @@
         ctx.lineWidth = 2;
 
         if (currentTool === 'square') {
-            const width = endX - startX;
-            const height = endY - startY;
-            ctx.strokeRect(startX, startY, width, height);
-        } 
-        else if (currentTool === 'circle') {
+            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+        } else if (currentTool === 'circle') {
             const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
             ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
             ctx.stroke();
-        }
-        else if (currentTool === 'arrow') {
-            const headlen = 15; // length of head in pixels
-            const dx = endX - startX;
-            const dy = endY - startY;
-            const angle = Math.atan2(dy, dx);
-            
-            // Draw main line
+        } else if (currentTool === 'arrow') {
+            const headlen = 15; 
+            const angle = Math.atan2(endY - startY, endX - startX);
             ctx.moveTo(startX, startY);
             ctx.lineTo(endX, endY);
             ctx.stroke();
-            
-            // Draw arrow head
             ctx.beginPath();
             ctx.moveTo(endX, endY);
             ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
@@ -1301,13 +1376,8 @@
 
     if (dragColumn && dragItems) {
         dragItems.forEach(item => {
-            item.addEventListener('dragstart', () => {
-                item.classList.add('dragging');
-            });
-
-            item.addEventListener('dragend', () => {
-                item.classList.remove('dragging');
-            });
+            item.addEventListener('dragstart', () => { item.classList.add('dragging'); });
+            item.addEventListener('dragend', () => { item.classList.remove('dragging'); });
         });
 
         dragColumn.addEventListener('dragover', e => {
@@ -1315,26 +1385,96 @@
             const afterElement = getDragAfterElement(dragColumn, e.clientY);
             const draggable = document.querySelector('.dragging');
             if (draggable) {
-                if (afterElement == null) {
-                    dragColumn.appendChild(draggable);
-                } else {
-                    dragColumn.insertBefore(draggable, afterElement);
-                }
+                if (afterElement == null) dragColumn.appendChild(draggable);
+                else dragColumn.insertBefore(draggable, afterElement);
             }
         });
 
         function getDragAfterElement(container, y) {
             const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
-
             return draggableElements.reduce((closest, child) => {
                 const box = child.getBoundingClientRect();
                 const offset = y - box.top - box.height / 2;
-                if (offset < 0 && offset > closest.offset) {
-                    return { offset: offset, element: child };
-                } else {
-                    return closest;
-                }
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+                else return closest;
             }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    }
+
+    // --- 4. PDF Generation Script ---
+    function saveAsPDF() {
+        // Temporarily hide UI elements we don't want in the final PDF document
+        const floatingActions = document.getElementById('floatingActions');
+        
+        floatingActions.style.display = 'none';
+
+        const opt = {
+            margin:       [0.4, 0],
+            filename:     'Lesson-1-Completed.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, windowWidth: document.body.scrollWidth },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Generate and download
+        html2pdf().set(opt).from(document.body).save().then(() => {
+            // Restore UI elements after generation is done
+            floatingActions.style.display = 'flex';
+        });
+    }
+
+    // --- 5. Quizlet Modal Scripts ---
+    function openQuizletModal() {
+        document.getElementById('quizletModal').style.display = 'flex';
+    }
+
+    function closeQuizletModal() {
+        document.getElementById('quizletModal').style.display = 'none';
+    }
+
+    function addWordRow() {
+        const row = document.createElement('div');
+        row.className = 'word-row';
+        row.innerHTML = '<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation (RU/UA)" class="q-trans">';
+        document.getElementById('wordList').appendChild(row);
+        // Scroll to bottom of list
+        const wordList = document.getElementById('wordList');
+        wordList.scrollTop = wordList.scrollHeight;
+    }
+
+    function copyForQuizlet() {
+        const rows = document.querySelectorAll('.word-row');
+        let output = '';
+        
+        rows.forEach(row => {
+            const word = row.querySelector('.q-word').value.trim();
+            const trans = row.querySelector('.q-trans').value.trim();
+            if (word || trans) {
+                // Formatting: Tab space between Word and Definition, New Line for next card
+                output += `${word}\t${trans}\n`;
+            }
+        });
+
+        if (output) {
+            // Fallback copy method to ensure it works in all environments
+            const textArea = document.createElement("textarea");
+            textArea.value = output;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+
+            // Change button text temporarily
+            const btn = document.getElementById('copyQuizletBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "✅ Copied! Ready to Paste";
+            setTimeout(() => { btn.innerText = originalText; }, 3000);
+        } else {
+            // User hasn't typed anything yet
+            const btn = document.getElementById('copyQuizletBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "⚠️ Add some words first!";
+            setTimeout(() => { btn.innerText = originalText; }, 3000);
         }
     }
 </script>
