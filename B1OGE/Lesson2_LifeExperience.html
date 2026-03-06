@@ -1919,6 +1919,10 @@
             const ts = Date.now();
             window.lastClear = ts;
             await setDoc(wbRef, { clearTimestamp: ts, image: null });
+
+            // Clear Quizlet rows locally
+            const quizletInputs = document.querySelectorAll('.word-row input');
+            quizletInputs.forEach(input => input.value = '');
             
             setTimeout(() => setStatus('Live Sync On', '#14A3A8'), 1000);
         };
