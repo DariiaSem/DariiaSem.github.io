@@ -341,7 +341,7 @@
             line-height: 1.4;
         }
 
-        /* ====== DRAG & DROP MATCH LIST ====== */
+        /* ====== DRAG & DROP MATCH LIST (Robust Flex Layout) ====== */
         .match-board {
             display: flex;
             gap: 20px;
@@ -355,6 +355,7 @@
             flex-direction: column;
             gap: 12px;
             list-style: none;
+            min-width: 0;
         }
         
         .arrows-column {
@@ -376,10 +377,12 @@
             color: var(--navy);
             box-shadow: var(--shadow-sm);
             transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-            height: 70px;
-            padding: 0 16px;
+            height: auto;
+            min-height: 70px;
+            padding: 12px 16px;
             font-size: 0.95rem;
-            justify-content: center;
+            justify-content: flex-start;
+            text-align: left;
         }
         
         .drag-item:active {
@@ -392,24 +395,34 @@
             box-shadow: none;
         }
         
+        .drag-handle {
+            color: var(--teal-light);
+            font-size: 1.4rem;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
         .static-item {
             background: var(--gray-100);
             border: 1px solid var(--gray-200);
             border-radius: var(--radius-sm);
             color: var(--gray-800);
-            height: 70px;
+            height: auto;
+            min-height: 70px;
             display: flex;
             align-items: center;
-            padding: 0 16px;
-            line-height: 1.3;
+            padding: 12px 16px;
+            line-height: 1.4;
             font-size: 0.95rem;
+            text-align: left;
         }
         
         .match-arrow {
             color: var(--teal);
             font-weight: 800;
             font-size: 1.5rem;
-            height: 70px;
+            height: auto;
+            min-height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -511,8 +524,6 @@
             display: flex;
             gap: 40px;
             align-items: center;
-            width: 100%;
-            justify-content: center;
         }
 
         /* ====== GRAMMAR TABLE ====== */
@@ -548,88 +559,86 @@
             background: var(--gray-100);
         }
 
-        .prep-highlight {
-            font-weight: 800;
-            color: var(--rose);
-            font-size: 1.1rem;
-        }
-
-        .watch-out {
-            background: rgba(232, 168, 56, 0.15);
-            border-left: 3px solid var(--gold);
-            padding: 12px 16px;
-            margin-top: 16px;
-            font-size: 0.95rem;
-            border-radius: 0 4px 4px 0;
-        }
-
-        /* ====== VISUAL TIMELINE FOR FUTURE GRAMMAR ====== */
-        .timeline-box {
-            background: var(--gray-100);
+        /* ====== ROBUST VISUAL TIMELINE ====== */
+        .timeline-wrapper {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
             padding: 40px 24px;
-            border-radius: var(--radius-md);
             margin: 32px 0;
-            position: relative;
-        }
-        
-        .timeline-track {
-            height: 4px;
-            background: var(--gray-400);
-            position: relative;
-            margin: 20px 0;
-            border-radius: 2px;
-        }
-        
-        .timeline-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            position: absolute;
-            top: -6px;
-            transform: translateX(-50%);
-        }
-        
-        .timeline-dot.past { left: 15%; background: var(--rose); }
-        .timeline-dot.now { left: 50%; background: var(--teal); }
-        .timeline-dot.future { left: 85%; background: var(--gold); }
-        
-        .timeline-label {
-            position: absolute;
-            top: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            transform: translateX(-50%);
-        }
-        
-        .timeline-label.past { left: 15%; color: var(--rose); }
-        .timeline-label.now { left: 50%; color: var(--teal); }
-        .timeline-label.future { left: 85%; color: var(--gold); }
-
-        .timeline-arrow {
-            position: absolute;
-            height: 3px;
-            background: var(--navy);
-            top: -20px;
-            border-radius: 2px;
+            box-shadow: var(--shadow-md);
         }
 
-        .timeline-arrow::after {
-            content: '▶';
-            position: absolute;
-            right: -10px;
-            top: -10px;
+        .timeline-header {
+            text-align: center;
             color: var(--navy);
-            font-size: 1rem;
+            margin-bottom: 40px;
         }
 
-        .t-going-to { left: 15%; width: 68%; border-color: var(--rose); background: var(--rose); }
-        .t-going-to::after { color: var(--rose); }
-        
-        .t-will { left: 50%; width: 33%; border-color: var(--teal); background: var(--teal); top: -40px; }
-        .t-will::after { color: var(--teal); }
+        .timeline-flex-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-        .t-arr { left: 85%; width: 16px; height: 16px; background: var(--gold); border-radius: 0; top: -6px; box-shadow: 0 0 0 3px white, 0 0 0 5px var(--gold); }
-        .t-arr::after { display: none; }
+        .timeline-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gray-300);
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .timeline-point {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: 120px;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gray-400);
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 2px var(--gray-300);
+        }
+
+        .timeline-point.past .timeline-dot { background: var(--rose); box-shadow: 0 0 0 2px var(--rose); }
+        .timeline-point.now .timeline-dot { background: var(--teal); box-shadow: 0 0 0 2px var(--teal); }
+        .timeline-point.future .timeline-dot { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+
+        .timeline-label {
+            font-weight: 800;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            color: var(--gray-600);
+        }
+
+        .timeline-annotation {
+            background: var(--gray-100);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border-top: 3px solid var(--gray-400);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--navy);
+            width: 160px;
+        }
+
+        .timeline-point.past .timeline-annotation { border-top-color: var(--rose); }
+        .timeline-point.now .timeline-annotation { border-top-color: var(--teal); }
+        .timeline-point.future .timeline-annotation { border-top-color: var(--gold); }
 
         /* ====== PRACTICE LIST ====== */
         .practice-list {
@@ -896,6 +905,12 @@
                 flex-direction: column;
                 gap: 16px;
             }
+            .timeline-flex-container {
+                flex-direction: column;
+                gap: 32px;
+            }
+            .timeline-line { display: none; }
+            .timeline-annotation { width: 100%; max-width: 250px; }
             .floating-actions {
                 bottom: 20px; right: 20px;
             }
@@ -960,18 +975,18 @@
 <section class="section" id="vocab">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 2: Advanced Vocabulary</span>
-        <h2 class="section-title" contenteditable="true">Work Habits</h2>
+        <h2 class="section-title" contenteditable="true">Work Habits & Planning</h2>
         <p class="section-desc" contenteditable="true"><strong>Interactive Format:</strong> Tap or hover over the cards below to reveal the definitions of these advanced workplace words.</p>
 
         <div class="flip-card-container">
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" style="border-color: var(--rose);">
-                        <h3 contenteditable="true">Procrastinate</h3>
-                        <span style="font-size: 0.8rem; color: var(--gray-400);">(verb)</span>
+                        <h3 contenteditable="true">Triage</h3>
+                        <span style="font-size: 0.8rem; color: var(--gray-400);">(verb / noun)</span>
                     </div>
                     <div class="flip-card-back" style="background-color: var(--rose); border-color: var(--rose);">
-                        <p contenteditable="true">To delay or put off doing something that you should do, often until the last minute.</p>
+                        <p contenteditable="true">To sort tasks or problems by urgency, deciding which are the most important to deal with first.</p>
                     </div>
                 </div>
             </div>
@@ -979,11 +994,11 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" style="border-color: var(--teal);">
-                        <h3 contenteditable="true">Prioritize</h3>
+                        <h3 contenteditable="true">Micro-manage</h3>
                         <span style="font-size: 0.8rem; color: var(--gray-400);">(verb)</span>
                     </div>
                     <div class="flip-card-back" style="background-color: var(--teal); border-color: var(--teal);">
-                        <p contenteditable="true">To decide which tasks are the most important and do them first.</p>
+                        <p contenteditable="true">To control every single, small detail of an employee's work in an annoying or restrictive way.</p>
                     </div>
                 </div>
             </div>
@@ -991,11 +1006,11 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" style="border-color: var(--navy);">
-                        <h3 contenteditable="true">Multitask</h3>
+                        <h3 contenteditable="true">Expedite</h3>
                         <span style="font-size: 0.8rem; color: var(--gray-400);">(verb)</span>
                     </div>
                     <div class="flip-card-back" style="background-color: var(--navy); border-color: var(--navy);">
-                        <p contenteditable="true">To do several different tasks at exactly the same time.</p>
+                        <p contenteditable="true">To make an action or process happen sooner or be accomplished more quickly.</p>
                     </div>
                 </div>
             </div>
@@ -1003,11 +1018,11 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" style="border-color: var(--gold);">
-                        <h3 contenteditable="true">Distraction</h3>
-                        <span style="font-size: 0.8rem; color: var(--gray-400);">(noun)</span>
+                        <h3 contenteditable="true">Squander</h3>
+                        <span style="font-size: 0.8rem; color: var(--gray-400);">(verb)</span>
                     </div>
                     <div class="flip-card-back" style="background-color: var(--gold); border-color: var(--gold);">
-                        <p contenteditable="true">Something that prevents someone from giving their full attention to a task.</p>
+                        <p contenteditable="true">To waste time, money, or opportunities in a reckless or foolish manner.</p>
                     </div>
                 </div>
             </div>
@@ -1015,11 +1030,11 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" style="border-color: var(--teal-dark);">
-                        <h3 contenteditable="true">Deadline</h3>
+                        <h3 contenteditable="true">Bottleneck</h3>
                         <span style="font-size: 0.8rem; color: var(--gray-400);">(noun)</span>
                     </div>
                     <div class="flip-card-back" style="background-color: var(--teal-dark); border-color: var(--teal-dark);">
-                        <p contenteditable="true">The latest time or date by which a job must be completely finished.</p>
+                        <p contenteditable="true">A point of congestion in a system that slows down the overall process.</p>
                     </div>
                 </div>
             </div>
@@ -1027,11 +1042,11 @@
             <div class="flip-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="flip-card-front" style="border-color: var(--rose-light);">
-                        <h3 contenteditable="true">Delegate</h3>
-                        <span style="font-size: 0.8rem; color: var(--gray-400);">(verb)</span>
+                        <h3 contenteditable="true">Haphazard</h3>
+                        <span style="font-size: 0.8rem; color: var(--gray-400);">(adjective)</span>
                     </div>
                     <div class="flip-card-back" style="background-color: var(--rose-light); border-color: var(--rose-light); color: var(--white);">
-                        <p contenteditable="true">To give a task or responsibility to someone else (usually an employee) to do for you.</p>
+                        <p contenteditable="true">Lacking any obvious principle of organization; random and messy.</p>
                     </div>
                 </div>
             </div>
@@ -1047,12 +1062,12 @@
         <p class="section-desc" contenteditable="true">Use the words from the flip cards to complete these sentences.</p>
 
         <ul class="practice-list">
-            <li><div contenteditable="true">If you have too much work to do, you should <span class="blank-input"></span> the easy tasks to your assistant.</div></li>
-            <li><div contenteditable="true">I always <span class="blank-input"></span> when I have to write a difficult report. I usually clean my desk instead!</div></li>
-            <li><div contenteditable="true">The project must be submitted by Friday. We cannot miss this <span class="blank-input"></span>.</div></li>
-            <li><div contenteditable="true">It's important to <span class="blank-input"></span> your work; always do the most urgent things first.</div></li>
-            <li><div contenteditable="true">My phone is a massive <span class="blank-input"></span>. I have to turn it off when I am studying.</div></li>
-            <li><div contenteditable="true">Some people think they can <span class="blank-input"></span>, but studies show our brains only focus on one thing at a time.</div></li>
+            <li><div contenteditable="true">We need to <span class="blank-input"></span> this delivery because the client is very angry and waiting.</div></li>
+            <li><div contenteditable="true">If you try to <span class="blank-input"></span> your team, they will lose their motivation and independence.</div></li>
+            <li><div contenteditable="true">When you have fifty emails, you must <span class="blank-input"></span> them and answer the urgent ones first.</div></li>
+            <li><div contenteditable="true">Don't <span class="blank-input"></span> your weekend playing video games if you have an exam on Monday.</div></li>
+            <li><div contenteditable="true">The manager's desk is a mess, and his schedule is completely <span class="blank-input"></span>.</div></li>
+            <li><div contenteditable="true">The design department is a major <span class="blank-input"></span>; every project gets stuck there for weeks.</div></li>
         </ul>
     </div>
 </section>
@@ -1074,7 +1089,7 @@
             <div class="scenario-card" style="border-top: 4px solid var(--rose);">
                 <h3 contenteditable="true">Profile B: The Procrastinator ⏳</h3>
                 <p contenteditable="true" style="line-height: 2;">
-                    A procrastinator prefers to see what happens. They put off doing difficult jobs until later. They are more likely to arrive at work just in time, with a coffee in their hand and a stressed look on their face. They tend to get distracted easily and waste time, but they can work incredibly fast when a deadline is very close.
+                    A procrastinator prefers to see what happens. They put off doing difficult jobs until later. They are more likely to arrive at work just in time, with a coffee in their hand and a stressed look on their face. They tend to get distracted easily and squander time, but they can work incredibly fast when a deadline is very close.
                 </p>
             </div>
         </div>
@@ -1088,11 +1103,17 @@
         <h2 class="section-title" contenteditable="true">Self-Reflection</h2>
         <p class="section-desc" contenteditable="true">Discuss your habits with your partner.</p>
 
-        <ul class="practice-list" style="background: transparent; border: none; padding: 0;">
-            <li style="background: transparent; border: none; padding-left: 30px;"><div contenteditable="true">Are you mostly Profile A or Profile B? Give a real-life example.</div></li>
-            <li style="background: transparent; border: none; padding-left: 30px;"><div contenteditable="true">Can you think of a difficult job that you have put off for a while? When do you plan to do it?</div></li>
-            <li style="background: transparent; border: none; padding-left: 30px;"><div contenteditable="true">Do you think a team needs both Planners and Procrastinators to be successful? Why?</div></li>
-        </ul>
+        <div class="prompt-list">
+            <div class="prompt-item" style="border-left-color: var(--teal);">
+                <p contenteditable="true" style="font-size: 1.05rem;">Are you mostly Profile A or Profile B? Give a real-life example.</p>
+            </div>
+            <div class="prompt-item" style="border-left-color: var(--gold);">
+                <p contenteditable="true" style="font-size: 1.05rem;">Can you think of a difficult job that you have put off for a while? When do you plan to actually do it?</p>
+            </div>
+            <div class="prompt-item" style="border-left-color: var(--rose);">
+                <p contenteditable="true" style="font-size: 1.05rem;">Do you think a team needs both Planners and Procrastinators to be successful? Why?</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1103,33 +1124,30 @@
         <h2 class="section-title" contenteditable="true">Future Forms</h2>
         <p class="section-desc" contenteditable="true">We use different grammar forms depending on <em>when</em> we made the plan. Look at the visual timeline below to understand the differences.</p>
 
-        <!-- Visual Timeline for Future Grammar -->
-        <div class="timeline-box">
-            <h4 contenteditable="true" style="text-align: center; margin-bottom: 8px; color: var(--navy);">How we make plans</h4>
+        <!-- Robust Flexbox Timeline -->
+        <div class="timeline-wrapper">
+            <h4 class="timeline-header" contenteditable="true">How We Make Plans</h4>
             
-            <div class="timeline-track">
-                <!-- Will -->
-                <div class="timeline-arrow t-will">
-                    <div style="position: absolute; top: -25px; left: 5px; font-weight: bold; color: var(--teal);" contenteditable="true">1. WILL (Spontaneous Decision)</div>
+            <div class="timeline-flex-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-point past">
+                    <div class="timeline-annotation" contenteditable="true"><strong>Going to</strong><br><span style="font-weight:normal;">Prior Intention</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label" contenteditable="true">PAST</div>
                 </div>
                 
-                <!-- Going to -->
-                <div class="timeline-arrow t-going-to">
-                    <div style="position: absolute; top: -25px; left: 5px; font-weight: bold; color: var(--rose);" contenteditable="true">2. GOING TO (Prior Intention)</div>
+                <div class="timeline-point now">
+                    <div class="timeline-annotation" contenteditable="true"><strong>Will</strong><br><span style="font-weight:normal;">Spontaneous Decision</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label" contenteditable="true">NOW</div>
                 </div>
                 
-                <!-- Present Cont -->
-                <div class="timeline-dot t-arr"></div>
-                <div style="position: absolute; top: -50px; right: -20px; font-weight: bold; color: var(--gold); text-align: right;" contenteditable="true">3. PRESENT CONTINUOUS<br>(Fixed Arrangement)</div>
-
-                <!-- Dots & Labels -->
-                <div class="timeline-dot past"></div>
-                <div class="timeline-dot now"></div>
-                <div class="timeline-dot future"></div>
-                
-                <div class="timeline-label past" contenteditable="true">PAST</div>
-                <div class="timeline-label now" contenteditable="true">NOW (Speaking)</div>
-                <div class="timeline-label future" contenteditable="true">FUTURE</div>
+                <div class="timeline-point future">
+                    <div class="timeline-annotation" contenteditable="true"><strong>Present Cont.</strong><br><span style="font-weight:normal;">Fixed Arrangement</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label" contenteditable="true">FUTURE</div>
+                </div>
             </div>
         </div>
 
@@ -1171,6 +1189,7 @@
 
         <div class="match-board">
             <ul class="drag-column" id="grammarColumn">
+                <!-- Shuffled perfectly -->
                 <li class="drag-item" id="drag-g2" draggable="true">
                     <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">I am flying to Paris on Friday.</span>
                 </li>
@@ -1275,17 +1294,17 @@
 <section class="section" id="video">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 12: Video Study</span>
-        <h2 class="section-title" contenteditable="true">How do self-driving cars see? 🤖</h2>
-        <p class="section-desc" contenteditable="true">Watch this TED-Ed animation about the technology that will power our future. Notice how complex it is to replace human decision-making.</p>
+        <h2 class="section-title" contenteditable="true">The Ethics of Self-Driving Cars 🤖</h2>
+        <p class="section-desc" contenteditable="true">Watch this TED-Ed animation (2021) about the impossible choices we must program into autonomous vehicles. How do we plan for accidents?</p>
 
         <!-- YouTube Embed -->
         <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 16px; background-color: var(--navy);" contenteditable="false">
-            <iframe src="https://www.youtube-nocookie.com/embed/PRg5RNKU_JU?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="How do self-driving cars see?"></iframe>
+            <iframe src="https://www.youtube-nocookie.com/embed/z1_KDEuKxlc?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Can you solve the self-driving car ethics paradox?"></iframe>
         </div>
         
         <!-- Fallback Link -->
         <div style="text-align: center; margin-bottom: 32px;" contenteditable="false">
-            <a href="https://www.youtube.com/watch?v=PRg5RNKU_JU" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: var(--teal); text-decoration: underline; font-weight: 600; transition: color 0.2s;">
+            <a href="https://www.youtube.com/watch?v=z1_KDEuKxlc" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: var(--teal); text-decoration: underline; font-weight: 600; transition: color 0.2s;">
                 🔗 Video not loading? Watch it directly on YouTube here.
             </a>
         </div>
@@ -1296,13 +1315,13 @@
 <section class="section">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 13: Video Discussion</span>
-        <h2 class="section-title" contenteditable="true">Future Tech Predictions</h2>
-        <p class="section-desc" contenteditable="true">Discuss the following with your teacher based on the reading and the video.</p>
+        <h2 class="section-title" contenteditable="true">Programming the Future</h2>
+        <p class="section-desc" contenteditable="true">Discuss the following with your teacher based on the video and the reading.</p>
 
         <ul class="practice-list">
-            <li><div contenteditable="true">What are the three main "sensors" a self-driving car uses to see its environment?</div></li>
-            <li><div contenteditable="true">Make a prediction: When do you think fully self-driving cars <strong>will</strong> replace normal cars in your city?</div></li>
-            <li><div contenteditable="true">Would you feel safe sleeping in the back seat while a computer drives you on the highway? Why or why not?</div></li>
+            <li><div contenteditable="true">What is the "trolley problem" and how does it relate to how we program self-driving cars today?</div></li>
+            <li><div contenteditable="true">Do you think it's possible to program a machine to make perfect ethical decisions in a <em>haphazard</em> environment like city traffic?</div></li>
+            <li><div contenteditable="true">If you were going to buy an autonomous car in the future, would you want it to prioritize your safety over pedestrians?</div></li>
         </ul>
     </div>
 </section>
@@ -1317,9 +1336,9 @@
         <div class="flowchart">
             <div class="flow-bubble" contenteditable="true"><strong>Boss:</strong> Ask the employee why the report isn't finished. Say: "We <em>are presenting</em> this to the client at 2 PM!" (Fixed arrangement)</div>
             <div class="flow-arrow">↓</div>
-            <div class="flow-bubble b-side" contenteditable="true"><strong>Employee:</strong> Apologize. Explain that you had too many <em>distractions</em>. Make a promise: "I <em>will finish</em> it in 20 minutes!"</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Employee:</strong> Apologize. Explain that the design team was a <em>bottleneck</em>. Make a promise: "I <em>will expedite</em> it right now!"</div>
             <div class="flow-arrow">↓</div>
-            <div class="flow-bubble" contenteditable="true"><strong>Boss:</strong> Refuse. Say that you <em>are going to reassign</em> the task to someone else because they can't <em>prioritize</em>.</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Boss:</strong> Refuse. Say that you <em>are going to reassign</em> the task to someone else because they can't <em>triage</em> their work.</div>
             <div class="flow-arrow">↓</div>
             <div class="flow-bubble b-side" contenteditable="true"><strong>Employee:</strong> Beg for one more chance. Say you <em>are going to stay</em> late every night this week to fix it.</div>
         </div>
@@ -1336,11 +1355,11 @@
         <div class="scenario-grid">
             <div class="scenario-card" style="border-top-color: var(--rose);">
                 <h3 contenteditable="true">The Workplace 🏢</h3>
-                <p contenteditable="true">Will offices still exist, or will everyone work remotely? Will robots do most of the jobs?</p>
+                <p contenteditable="true">Will traditional offices still exist, or will everyone work remotely? Will AI remove the need for human managers?</p>
             </div>
             <div class="scenario-card" style="border-top-color: var(--teal);">
                 <h3 contenteditable="true">Transportation ✈️</h3>
-                <p contenteditable="true">Will we have flying cars? Will commercial air travel be replaced by high-speed trains?</p>
+                <p contenteditable="true">Will we finally have flying cars? Will commercial air travel be completely replaced by high-speed vacuum trains?</p>
             </div>
             <div class="scenario-card" style="border-top-color: var(--gold);">
                 <h3 contenteditable="true">Human Lifespan 🧬</h3>
@@ -1383,10 +1402,10 @@
             <h2 contenteditable="true">Lesson Complete! ✨</h2>
             <p contenteditable="true"><strong>What we've learned today:</strong></p>
             <ul style="list-style: none; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">
-                <li contenteditable="true">✅ <strong>Vocabulary:</strong> Procrastinate, prioritize, deadline, distraction, multitask.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> Triage, micro-manage, expedite, squander, bottleneck, haphazard.</li>
                 <li contenteditable="true">✅ <strong>Grammar (Future Forms):</strong> Differentiating between spontaneous decisions (will), prior plans (going to), and fixed arrangements (present continuous).</li>
                 <li contenteditable="true">✅ <strong>Pronunciation:</strong> Reducing "going to" into the weak Schwa sound /gənə/.</li>
-                <li contenteditable="true">✅ <strong>Speaking Skills:</strong> Debating work habits and making bold predictions about future technology.</li>
+                <li contenteditable="true">✅ <strong>Speaking Skills:</strong> Debating work habits and making bold predictions about future technology and ethics.</li>
             </ul>
         </div>
     </div>
@@ -1738,7 +1757,7 @@
     };
     
     // Unique ID for this specific lesson's database folder
-    const appId = 'lesson-4-b1-old-general-future-planning';
+    const appId = 'lesson-4-b1-old-general-future-planning-v2';
 
     // Status Indicator helper
     const statusText = document.getElementById('syncText');
