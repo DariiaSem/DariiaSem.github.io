@@ -230,7 +230,7 @@
             font-size: clamp(1.8rem, 3vw, 2.4rem);
             font-weight: 800;
             color: var(--clinic-blue);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             letter-spacing: -0.5px;
         }
 
@@ -257,7 +257,8 @@
             box-shadow: var(--shadow-soft);
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
-            overflow: hidden;
+            /* OVERFLOW VISIBLE - Fixed to allow tooltips to escape the box boundaries */
+            overflow: visible; 
         }
 
         .clean-card:hover {
@@ -273,6 +274,8 @@
             width: 6px;
             height: 100%;
             background: var(--mint);
+            /* Match the border radius on the left side so it looks clean */
+            border-radius: var(--radius-card) 0 0 var(--radius-card);
         }
 
         .clean-card.accent-blue::before { background: var(--clinic-blue); }
@@ -296,6 +299,7 @@
             padding: 0 4px;
             border-radius: 4px;
             transition: background 0.2s;
+            z-index: 100;
         }
 
         .tooltip-container:hover {
@@ -311,7 +315,7 @@
             border-radius: 12px;
             padding: 16px;
             position: absolute;
-            z-index: 100;
+            z-index: 1000; /* Ensure tooltip sits above everything else */
             bottom: 140%;
             left: 50%;
             margin-left: -140px;
@@ -584,6 +588,7 @@
             font-weight: 700;
             white-space: nowrap;
             transform: translateX(-50%);
+            z-index: 10;
         }
 
         .tl-label-top { top: 20px; }
@@ -762,7 +767,7 @@
 
         #wordList { max-height: 350px; overflow-y: auto; margin: 24px 0; padding-right: 12px; }
 
-        /* ====== LIVE CURSORS ====== */
+        /* ====== LIVE CURSOR STYLES ====== */
         .remote-cursor {
             position: absolute;
             pointer-events: none;
@@ -827,8 +832,9 @@
             <li><a href="#reading" contenteditable="true">4. Reading</a></li>
             <li><a href="#grammar1" contenteditable="true">6. Grammar 1</a></li>
             <li><a href="#grammar2" contenteditable="true">8. Grammar 2</a></li>
-            <li><a href="#pronunciation" contenteditable="true">10. Pronunciation</a></li>
             <li><a href="#video" contenteditable="true">11. Video Study</a></li>
+            <li><a href="#roleplay" contenteditable="true">13. Role-Play</a></li>
+            <li><a href="#ethics" contenteditable="true">15. Ethics</a></li>
         </ul>
     </div>
 </nav>
@@ -858,11 +864,11 @@
 </section>
 
 <!-- ====== TASK 2: VOCABULARY (TOOLTIPS) ====== -->
-<section class="section" id="vocab">
+<section class="section" id="vocab" style="position: relative; z-index: 50;">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 2: Advanced Vocabulary</span>
         <h2 class="section-title" contenteditable="true">Hover to Reveal</h2>
-        <p class="section-desc" contenteditable="true"><strong>Interactive Format:</strong> Read the clinical sentences below. Hover your mouse over the highlighted words to reveal their B2-C1 definitions.</p>
+        <p class="section-desc" contenteditable="true"><strong>Interactive Format:</strong> Read the clinical sentences below. Hover your mouse over the highlighted words to safely reveal their B2-C1 definitions without getting cut off.</p>
 
         <div class="clean-card accent-mint" style="line-height: 2.2;">
             <p contenteditable="true" style="margin-bottom: 16px;">
@@ -938,7 +944,7 @@
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 6: Grammar Theory</span>
         <h2 class="section-title" contenteditable="true">Past Simple vs. Past Continuous</h2>
-        <p class="section-desc" contenteditable="true">We use these two tenses together to show how a longer background action was interrupted by a shorter, sudden event.</p>
+        <p class="section-desc" contenteditable="true">Review the basic rules, and learn the advanced C1 nuances of how we mix these two tenses in clinical and professional contexts.</p>
 
         <!-- Unbreakable Visual Timeline -->
         <div class="timeline-box">
@@ -961,24 +967,36 @@
             <div class="tl-label-bottom" style="right: 10%; transform: translateX(50%); color: var(--teal);" contenteditable="true">NOW</div>
         </div>
 
-        <table class="grammar-table">
+        <table class="grammar-table" style="margin-top: 40px;">
             <thead>
                 <tr>
                     <th contenteditable="true">Tense</th>
-                    <th contenteditable="true">Structure</th>
-                    <th contenteditable="true">Usage in Storytelling</th>
+                    <th contenteditable="true">Usage Context</th>
+                    <th contenteditable="true">Clinical / Advanced Example</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td contenteditable="true"><strong>Past Continuous</strong></td>
-                    <td contenteditable="true">was/were + V-ing</td>
-                    <td contenteditable="true">Sets the background scene. Describes a longer, continuous action that was in progress.</td>
+                    <td contenteditable="true" rowspan="2"><strong>Past Simple</strong><br><span style="font-size: 0.85em; font-weight: normal;">(V-ed / Irregular)</span></td>
+                    <td contenteditable="true"><strong>Main Events & Interruptions:</strong> Short, sudden actions that interrupt the background.</td>
+                    <td contenteditable="true">The power suddenly <strong>went</strong> out.</td>
                 </tr>
                 <tr>
-                    <td contenteditable="true"><strong>Past Simple</strong></td>
-                    <td contenteditable="true">V-ed / Irregular</td>
-                    <td contenteditable="true">The main events of the story. Short, sudden actions that interrupt the background.</td>
+                    <td contenteditable="true"><strong>Sequential Actions:</strong> A series of completed events happening one after the other.</td>
+                    <td contenteditable="true">The patient <strong>arrived</strong>, <strong>sat</strong> down, and <strong>opened</strong> his mouth.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" rowspan="3"><strong>Past Continuous</strong><br><span style="font-size: 0.85em; font-weight: normal;">(was/were + V-ing)</span></td>
+                    <td contenteditable="true"><strong>Background Scene:</strong> Describes a longer action that was in progress when something else happened.</td>
+                    <td contenteditable="true">I <strong>was sterilizing</strong> the instruments when he walked in.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Annoying Past Habits (C1):</strong> Repeated actions in the past that caused frustration (used with *always* or *constantly*).</td>
+                    <td contenteditable="true">The old receptionist <strong>was always cancelling</strong> appointments at the last minute!</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Tentative/Polite Requests (C1):</strong> Making a past statement to sound extremely polite in the present.</td>
+                    <td contenteditable="true">I <strong>was wondering</strong> if we could reschedule my surgery?</td>
                 </tr>
             </tbody>
         </table>
@@ -989,13 +1007,14 @@
 <section class="section">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 7: Grammar Practice 1</span>
-        <h2 class="section-title" contenteditable="true">Interrupted Actions</h2>
-        <p class="section-desc" contenteditable="true">Fill in the blanks with the Past Simple or Past Continuous form of the verbs in brackets. Then, discuss the scenarios.</p>
+        <h2 class="section-title" contenteditable="true">Interrupted Actions & Nuances</h2>
+        <p class="section-desc" contenteditable="true">Fill in the blanks with the Past Simple or Past Continuous form of the verbs in brackets.</p>
 
         <ul class="practice-list">
             <li><div contenteditable="true">While Dr. Smith <span class="blank-input"></span> <em>(extract)</em> the tooth, the power suddenly <span class="blank-input"></span> <em>(go)</em> out.</div></li>
-            <li><div contenteditable="true">I <span class="blank-input"></span> <em>(triage)</em> the patients in the waiting room when I <span class="blank-input"></span> <em>(notice)</em> the child was bleeding.</div></li>
-            <li><div contenteditable="true">What <span class="blank-input"></span> you <span class="blank-input"></span> <em>(do)</em> when the emergency alarm <span class="blank-input"></span> <em>(ring)</em>?</div></li>
+            <li><div contenteditable="true">My old manager was a nightmare. She <span class="blank-input"></span> <em>(always / complain)</em> about the cost of gloves.</div></li>
+            <li><div contenteditable="true">The paramedic <span class="blank-input"></span> <em>(run)</em> into the clinic, <span class="blank-input"></span> <em>(grab)</em> the ice pack, and <span class="blank-input"></span> <em>(leave)</em> immediately.</div></li>
+            <li><div contenteditable="true">I <span class="blank-input"></span> <em>(hope)</em> that Dr. Evans had time to look at my X-rays today? <em>(Polite request)</em></div></li>
             <li><div contenteditable="true">The patient <span class="blank-input"></span> <em>(cry)</em> quietly while we <span class="blank-input"></span> <em>(wait)</em> for the ambulance.</div></li>
         </ul>
     </div>
@@ -1005,11 +1024,11 @@
 <section class="section" id="grammar2">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 8: Grammar Theory</span>
-        <h2 class="section-title" contenteditable="true">The Past Perfects</h2>
-        <p class="section-desc" contenteditable="true">When we are already talking about the past (Past Simple), and we need to talk about something that happened <em>even earlier</em>, we use the Past Perfect. It is "the past of the past".</p>
+        <h2 class="section-title" contenteditable="true">The Past Perfects (C1 Nuances)</h2>
+        <p class="section-desc" contenteditable="true">When we are already talking about the past (Past Simple), and we need to talk about something that happened <em>even earlier</em>, we use the Past Perfect. Let's look at the advanced usages.</p>
 
         <!-- Unbreakable Visual Timeline -->
-        <div class="timeline-box">
+        <div class="timeline-box" style="margin-bottom: 40px;">
             <div class="timeline-track-main"></div>
             
             <!-- Past Perfect Cont Wave -->
@@ -1036,20 +1055,32 @@
             <thead>
                 <tr>
                     <th contenteditable="true">Tense</th>
-                    <th contenteditable="true">Structure</th>
                     <th contenteditable="true">Usage Emphasis</th>
+                    <th contenteditable="true">Clinical / Advanced Example</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td contenteditable="true"><strong>Past Perfect Simple</strong></td>
-                    <td contenteditable="true">had + V3</td>
-                    <td contenteditable="true">An action that was completely finished before another past action. (Emphasizes the result).</td>
+                    <td contenteditable="true" rowspan="3"><strong>Past Perfect Simple</strong><br><span style="font-size: 0.85em; font-weight: normal;">(had + V3)</span></td>
+                    <td contenteditable="true"><strong>Finished Result:</strong> An action that was completely finished before another past action.</td>
+                    <td contenteditable="true">The receptionist realized she <strong>had given</strong> him the wrong file.</td>
                 </tr>
                 <tr>
-                    <td contenteditable="true"><strong>Past Perfect Continuous</strong></td>
-                    <td contenteditable="true">had been + V-ing</td>
-                    <td contenteditable="true">An action that was ongoing up until another past action. (Emphasizes the duration/cause of a visible past state).</td>
+                    <td contenteditable="true"><strong>Unfulfilled Intentions (C1):</strong> A plan or hope in the past that did not happen.</td>
+                    <td contenteditable="true">I <strong>had hoped</strong> to save the tooth, but the root was completely fractured.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>With Superlatives (C1):</strong> Emphasizing a "first time" or extreme case in the past.</td>
+                    <td contenteditable="true">It was the worst abscess I <strong>had ever seen</strong>.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" rowspan="2"><strong>Past Perfect Continuous</strong><br><span style="font-size: 0.85em; font-weight: normal;">(had been + V-ing)</span></td>
+                    <td contenteditable="true"><strong>Ongoing Duration:</strong> An action that was ongoing up until another past action.</td>
+                    <td contenteditable="true">She <strong>had been experiencing</strong> pain for three weeks before she called.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Deductions (C1):</strong> Drawing a conclusion based on visible past evidence.</td>
+                    <td contenteditable="true">The tray was wet; someone <strong>had been cleaning</strong> it.</td>
                 </tr>
             </tbody>
         </table>
@@ -1061,14 +1092,14 @@
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 9: Grammar Practice 2</span>
         <h2 class="section-title" contenteditable="true">The Root Cause</h2>
-        <p class="section-desc" contenteditable="true">Fill in the blanks with the Past Perfect Simple or Past Perfect Continuous.</p>
+        <p class="section-desc" contenteditable="true">Fill in the blanks with the Past Perfect Simple or Past Perfect Continuous based on the advanced rules.</p>
 
         <ul class="practice-list">
             <li><div contenteditable="true">When I looked in the patient's mouth, I realized he <span class="blank-input"></span> <em>(not / brush)</em> his teeth properly for months.</div></li>
+            <li><div contenteditable="true">I <span class="blank-input"></span> <em>(intend)</em> to use a composite filling, but the cavity was simply too large.</div></li>
             <li><div contenteditable="true">We were exhausted at 5 PM because we <span class="blank-input"></span> <em>(deal)</em> with emergencies all day.</div></li>
-            <li><div contenteditable="true">The abscess formed because the bacteria <span class="blank-input"></span> <em>(infect)</em> the pulp of the tooth previously.</div></li>
-            <li><div contenteditable="true">Before she finally called the clinic, she <span class="blank-input"></span> <em>(experience)</em> severe pain for three days.</div></li>
-            <li><div contenteditable="true">The doctor was angry because the supplier <span class="blank-input"></span> <em>(forget)</em> to deliver the composite resin.</div></li>
+            <li><div contenteditable="true">The floor of the lab was covered in white dust; the technician <span class="blank-input"></span> <em>(mix)</em> plaster.</div></li>
+            <li><div contenteditable="true">It was the most difficult surgical extraction Dr. Evans <span class="blank-input"></span> <em>(ever / perform)</em> in her career.</div></li>
         </ul>
     </div>
 </section>
@@ -1110,17 +1141,17 @@
 <section class="section" id="video">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 11: Video Study</span>
-        <h2 class="section-title" contenteditable="true">What Causes Panic Attacks? 🧠</h2>
-        <p class="section-desc" contenteditable="true">Watch this TED-Ed animation (2021) by clinical psychologist Cindy J. Aaronson. It perfectly explains the biology of panic—something many patients experience in the dental chair!</p>
+        <h2 class="section-title" contenteditable="true">Handling Dental Emergencies 🚨</h2>
+        <p class="section-desc" contenteditable="true">Watch this clinical first aid video about the exact protocol for handling avulsions and fractures. Listen closely to the step-by-step instructions for saving a tooth.</p>
 
         <!-- YouTube Embed -->
         <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-card); box-shadow: var(--shadow-hover); margin-bottom: 16px; background-color: var(--navy);" contenteditable="false">
-            <iframe src="https://www.youtube-nocookie.com/embed/O81F10hAIfQ?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="What causes panic attacks"></iframe>
+            <iframe src="https://www.youtube-nocookie.com/embed/CqgmozFr_GM?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Common Dental Emergencies | First Aid Training"></iframe>
         </div>
         
         <!-- Fallback Link -->
         <div style="text-align: center; margin-bottom: 32px;" contenteditable="false">
-            <a href="https://www.youtube.com/watch?v=O81F10hAIfQ" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: var(--clinic-blue); text-decoration: underline; font-weight: 600; transition: color 0.2s;">
+            <a href="https://www.youtube.com/watch?v=CqgmozFr_GM" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: var(--clinic-blue); text-decoration: underline; font-weight: 600; transition: color 0.2s;">
                 🔗 Video not loading? Watch it directly on YouTube here.
             </a>
         </div>
@@ -1131,13 +1162,13 @@
 <section class="section">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 12: Video Discussion</span>
-        <h2 class="section-title" contenteditable="true">Crisis Management Psychology</h2>
+        <h2 class="section-title" contenteditable="true">Clinical First Aid Protocol</h2>
         <p class="section-desc" contenteditable="true">Discuss the following with your teacher based on the video.</p>
 
         <ul class="practice-list">
-            <li><div contenteditable="true">According to the video, what happens biologically during the "fight or flight" response when a patient panics?</div></li>
-            <li><div contenteditable="true">What are some practical, clinical ways to <em>mitigate</em> a patient's panic attack before a major dental surgery?</div></li>
-            <li><div contenteditable="true">Have you ever witnessed a patient have a severe panic attack? What <em>were you doing</em> when it happened? (Use Past Continuous!)</div></li>
+            <li><div contenteditable="true">What are the first steps the video recommends when dealing with an avulsed (knocked-out) tooth before the patient reaches the clinic?</div></li>
+            <li><div contenteditable="true">How can a patient <em>mitigate</em> the pain and bleeding of a fractured tooth at home?</div></li>
+            <li><div contenteditable="true">Have you ever had to perform or assist with these exact first-aid steps in real life? What <em>were you doing</em> when the emergency arrived?</div></li>
         </ul>
     </div>
 </section>
@@ -1147,24 +1178,39 @@
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 13: Speaking</span>
         <h2 class="section-title" contenteditable="true">The Post-Crisis Debrief Role-Play</h2>
-        <p class="section-desc" contenteditable="true">Act out a scenario between a Senior Dentist and a Junior Assistant after a very stressful emergency avulsion case.</p>
+        <p class="section-desc" contenteditable="true">Act out a scenario between a Senior Dentist and a Junior Assistant after a very stressful emergency avulsion case. <strong>The Dentist will read the pre-written text, and the Assistant must formulate their own responses based on the prompts.</strong></p>
 
         <div class="flowchart">
-            <div class="flow-bubble" contenteditable="true"><strong>Dentist:</strong> Initiate the <em>debrief</em>. Ask the assistant how they felt during the emergency. Use Past Cont: "How did you feel while we <em>were mitigating</em> the bleeding?"</div>
+            <div class="flow-bubble" contenteditable="true">
+                <strong>Senior Dentist:</strong><br>
+                "Okay, let's debrief. That avulsion case was intense. How were you feeling while we were mitigating the bleeding?"
+            </div>
             <div class="flow-arrow">↓</div>
-            <div class="flow-bubble b-side" contenteditable="true"><strong>Assistant:</strong> Admit you panicked a bit. Use Past Perfect: "I was scared because I <em>had never seen</em> an <em>avulsion</em> before."</div>
+            <div class="flow-bubble b-side" contenteditable="true" style="background: var(--rose-light); border-color: var(--rose);">
+                <strong>Student (Assistant):</strong><br>
+                <em style="color: var(--rose);">[Prompt: Admit you panicked a bit. Use the <strong>Past Perfect</strong> to explain that you had never seen an avulsion before.]</em>
+            </div>
             <div class="flow-arrow">↓</div>
-            <div class="flow-bubble" contenteditable="true"><strong>Dentist:</strong> Reassure them. "You did great. While I <em>was prepping</em> the tooth, you <em>were preparing</em> the composite perfectly."</div>
+            <div class="flow-bubble" contenteditable="true">
+                <strong>Senior Dentist:</strong><br>
+                "You did great. While I was prepping the socket, you were preparing the composite perfectly. It's normal to be scared."
+            </div>
             <div class="flow-arrow">↓</div>
-            <div class="flow-bubble b-side" contenteditable="true"><strong>Assistant:</strong> Ask for advice. "What should I do next time so I don't panic?"</div>
+            <div class="flow-bubble b-side" contenteditable="true" style="background: var(--rose-light); border-color: var(--rose);">
+                <strong>Student (Assistant):</strong><br>
+                <em style="color: var(--rose);">[Prompt: Ask for advice using a past continuous tense. E.g., Ask what the dentist was thinking about when the patient started crying.]</em>
+            </div>
             <div class="flow-arrow">↓</div>
-            <div class="flow-bubble" contenteditable="true"><strong>Dentist:</strong> Give practical advice based on the video (e.g., control your breathing, remember it is a safe environment).</div>
+            <div class="flow-bubble" contenteditable="true">
+                <strong>Senior Dentist:</strong><br>
+                "I was just focusing on the protocol. Next time, take a deep breath. We handle these things one step at a time."
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ====== TASK 14: DISCUSSION 1 ====== -->
-<section class="section">
+<section class="section" id="discussion">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 14: Discussion 1</span>
         <h2 class="section-title" contenteditable="true">Worst Case Scenarios</h2>
@@ -1184,7 +1230,7 @@
 </section>
 
 <!-- ====== TASK 15: DISCUSSION 2 ====== -->
-<section class="section">
+<section class="section" id="ethics">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 15: Deep Discussion</span>
         <h2 class="section-title" contenteditable="true">Medical Ethics & Malpractice</h2>
@@ -1237,9 +1283,9 @@
             <p contenteditable="true"><strong>What we've learned today:</strong></p>
             <ul style="list-style: none; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">
                 <li contenteditable="true">✅ <strong>Vocabulary:</strong> Triage, avulsion, mitigate, abscess, unprecedented, debrief.</li>
-                <li contenteditable="true">✅ <strong>Grammar (Narrative Tenses):</strong> Using Past Continuous to set the scene, Past Simple for interruptions, and Past Perfect for "the past of the past".</li>
+                <li contenteditable="true">✅ <strong>Grammar (Narrative Tenses):</strong> Using Past Continuous to set the scene, Past Simple for interruptions, and Past Perfect for "the past of the past". Learned C1 rules like unfulfilled past intentions and polite past continuous.</li>
                 <li contenteditable="true">✅ <strong>Pronunciation:</strong> Mastering fluent consonant-to-vowel linking in past tense phrases (e.g., pulled_it_out).</li>
-                <li contenteditable="true">✅ <strong>Speaking Skills:</strong> Discussing the psychology of panic attacks and navigating severe clinical dilemmas.</li>
+                <li contenteditable="true">✅ <strong>Speaking Skills:</strong> Debriefing clinical emergencies, giving advice, and navigating severe clinical dilemmas.</li>
             </ul>
         </div>
     </div>
@@ -1592,7 +1638,7 @@
     };
     
     // Unique ID for this specific lesson's database folder
-    const appId = 'lesson-3-b2-dental-emergencies';
+    const appId = 'lesson-3-b2-dental-emergencies-v4';
 
     // Status Indicator helper
     const statusText = document.getElementById('syncText');
