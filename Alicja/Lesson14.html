@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 14 | The Next Chapter</title>
+    
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* THEME: Deep Ocean & Gold (Professional, Future-focused) */
+            --primary: #0F2027;       
+            --primary-light: #263238;
+            --secondary: #D4AF37;     /* Rich Gold */
+            --secondary-light: #F1C40F;
+            --accent: #00BFA5;        /* Success Teal */
+            --bg-main: #F4F7F6;
+            --white: #FFFFFF;
+            --gray-100: #F8F9FA;
+            --gray-200: #E9ECEF;
+            --gray-300: #DEE2E6;
+            --gray-600: #6C757D;
+            --gray-800: #343A40;
+            
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 24px rgba(0,0,0,0.12);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background-color: var(--bg-main);
+            overflow-x: hidden;
+            padding-bottom: 100px;
+        }
+
+        [contenteditable="true"] {
+            outline: none;
+            transition: background 0.3s;
+        }
+        [contenteditable="true"]:focus {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+        }
+
+        /* ====== HERO SECTION ====== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 100px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+        .hero h1 span { color: var(--secondary); }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ====== NAVIGATION ====== */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 15px 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-bar a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            transition: all 0.2s;
+        }
+        .nav-bar a:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        /* ====== LAYOUT ====== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            border-top: 4px solid var(--primary);
+        }
+        .section-label {
+            color: var(--secondary);
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .section-desc {
+            color: var(--gray-600);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* ====== SCENARIO GRID ====== */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .scenario-card {
+            background: var(--gray-100);
+            padding: 25px;
+            border-radius: var(--radius-md);
+            border-left: 4px solid var(--secondary);
+        }
+        .scenario-card h3 { color: var(--primary); margin-bottom: 10px; }
+
+        /* ====== DRAG AND DROP (MATCH BOARD) ====== */
+        .match-board {
+            display: flex;
+            gap: 30px;
+            background: var(--gray-100);
+            padding: 30px;
+            border-radius: var(--radius-md);
+        }
+        .drag-column, .static-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .drag-item {
+            background: var(--primary);
+            color: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: grab;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .drag-item:active { cursor: grabbing; opacity: 0.8; }
+        .drop-zone {
+            background: var(--white);
+            border: 2px dashed var(--gray-300);
+            border-radius: 8px;
+            min-height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+        }
+        .drop-zone.hovered { border-color: var(--secondary); background: rgba(212, 175, 55, 0.1); }
+        .static-card {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .static-text { flex: 1; font-weight: 500; }
+        .static-drop { width: 150px; margin-left: 15px; }
+
+        /* ====== GRAMMAR TABLE & LISTS ====== */
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .grammar-table th, .grammar-table td {
+            padding: 15px;
+            border: 1px solid var(--gray-200);
+            text-align: left;
+        }
+        .grammar-table th { background: var(--primary); color: var(--secondary); }
+        .grammar-table td { background: var(--white); }
+        
+        .practice-list { list-style: none; padding: 0; }
+        .practice-list li { margin-bottom: 20px; font-size: 1.1rem; }
+        .blank-input {
+            display: inline-block;
+            min-width: 100px;
+            border-bottom: 2px solid var(--secondary);
+            padding: 0 10px;
+            color: var(--primary);
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        /* ====== BOARD GAME GRID ====== */
+        .board-game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .board-tile {
+            background: var(--white);
+            border: 2px solid var(--secondary);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s;
+        }
+        .board-tile:hover { transform: scale(1.02); background: var(--secondary); color: var(--white); }
+
+        /* ====== ROLEPLAY FLOWCHART ====== */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: var(--gray-100);
+            padding: 30px;
+            border-radius: var(--radius-md);
+        }
+        .flow-bubble {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 20px;
+            width: 80%;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        .flow-bubble.b-side {
+            align-self: flex-end;
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        .flow-arrow {
+            text-align: center;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin: -10px 0;
+        }
+
+        /* ====== IFRAME WRAPPER ====== */
+        .media-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+        }
+        .media-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 0;
+        }
+
+        /* ====== WHITEBOARD ====== */
+        .whiteboard-container {
+            border: 4px solid var(--primary);
+            border-radius: var(--radius-md);
+            background: #fff;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        #drawingCanvas { width: 100%; height: 100%; }
+        .wb-controls {
+            position: absolute;
+            bottom: 10px; right: 10px;
+            display: flex; gap: 10px;
+        }
+        .wb-btn {
+            background: var(--primary); color: var(--white);
+            border: none; padding: 8px 15px; border-radius: 5px;
+            cursor: pointer; font-weight: bold;
+        }
+        .wb-btn:hover { background: var(--secondary); color: var(--primary); }
+
+        /* ====== CONTROLS ====== */
+        .admin-controls {
+            position: fixed;
+            bottom: 20px; right: 20px;
+            z-index: 1000;
+        }
+        .reset-btn {
+            background: #E53935;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Live Cursors */
+        .live-cursor {
+            position: absolute;
+            width: 15px; height: 15px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: top 0.1s, left 0.1s;
+        }
+        
+        @media (max-width: 768px) {
+            .match-board { flex-direction: column; }
+            .board-game-grid { grid-template-columns: 1fr; }
+            .flow-bubble { width: 100%; }
+            .nav-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <header class="hero" contenteditable="true">
+        <div class="hero-badge">Lesson 14</div>
+        <h1>The Next <span>Chapter</span></h1>
+        <p class="hero-subtitle">Reflecting on your London Fellowship, analyzing your career trajectory, and planning the transition to Consultant.</p>
+    </header>
+
+    <!-- NAV -->
+    <nav class="nav-bar">
+        <a href="#task1">1. Reflections</a>
+        <a href="#task2">2. Vocab</a>
+        <a href="#task3">3. Reading</a>
+        <a href="#task4">4. Grammar Theory</a>
+        <a href="#task5">5. Practice</a>
+        <a href="#task6">6. 5-Year Plan</a>
+        <a href="#task7">7. Idioms</a>
+        <a href="#task8">8. Listening</a>
+        <a href="#task9">9. Discussion</a>
+        <a href="#task10">10. Role-Play</a>
+        <a href="#task11">11. Phrasals</a>
+        <a href="#task12">12. Writing</a>
+        <a href="#task13">13. The Brand</a>
+        <a href="#task14">14. Whiteboard</a>
+        <a href="#task15">15. Sum Up</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- TASK 1: WARM UP -->
+        <section id="task1" class="section">
+            <span class="section-label">Task 1</span>
+            <h2 class="section-title" contenteditable="true">Looking Back 🔙</h2>
+            <p class="section-desc" contenteditable="true">As your time in London comes to an end, let's reflect on the reality vs. expectations.</p>
+            
+            <div class="scenario-grid">
+                <div class="scenario-card" contenteditable="true">
+                    <h3>The High Point</h3>
+                    <p>What was the absolute best professional moment you had in the UK? A specific surgery, a compliment from a boss, or mastering a new skill?</p>
+                </div>
+                <div class="scenario-card" contenteditable="true">
+                    <h3>The Reality Check</h3>
+                    <p>What was the most frustrating part of working in the NHS? How did it compare to your expectations before you arrived?</p>
+                </div>
+                <div class="scenario-card" contenteditable="true">
+                    <h3>The Takeaway</h3>
+                    <p>What is one specific clinical habit or mindset from the UK that you will absolutely take back to Poland with you?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 2: VOCABULARY DRAG & DROP -->
+        <section id="task2" class="section">
+            <span class="section-label">Task 2</span>
+            <h2 class="section-title" contenteditable="true">Career Progression Vocabulary 📈</h2>
+            <p class="section-desc" contenteditable="true">Drag the professional term to match its definition.</p>
+
+            <div class="match-board">
+                <!-- Shuffled Draggable Items (No Numbers) -->
+                <div class="drag-column">
+                    <div class="drag-item" id="drag-1" draggable="true" ondragstart="drag(event)" contenteditable="true">Autonomy</div>
+                    <div class="drag-item" id="drag-2" draggable="true" ondragstart="drag(event)" contenteditable="true">Stagnate</div>
+                    <div class="drag-item" id="drag-3" draggable="true" ondragstart="drag(event)" contenteditable="true">Consolidate</div>
+                    <div class="drag-item" id="drag-4" draggable="true" ondragstart="drag(event)" contenteditable="true">Pivotal</div>
+                    <div class="drag-item" id="drag-5" draggable="true" ondragstart="drag(event)" contenteditable="true">Transition</div>
+                </div>
+
+                <!-- Static Definitions -->
+                <div class="static-column">
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">To solidify and strengthen the skills you have learned.</div>
+                        <div class="drop-zone static-drop" id="drop-1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">A period of changing from one state or role to another.</div>
+                        <div class="drop-zone static-drop" id="drop-2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">Crucial, highly important to the success of something.</div>
+                        <div class="drop-zone static-drop" id="drop-3" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">The ability to make your own decisions independently.</div>
+                        <div class="drop-zone static-drop" id="drop-4" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">To stop developing, growing, or progressing.</div>
+                        <div class="drop-zone static-drop" id="drop-5" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 3: READING -->
+        <section id="task3" class="section">
+            <span class="section-label">Task 3</span>
+            <h2 class="section-title" contenteditable="true">Reading: The Post-Fellowship Dip 📉</h2>
+            <p class="section-desc" contenteditable="true">Read the text about the psychology of returning home.</p>
+            
+            <div class="scenario-card" contenteditable="true" style="border-left-color: var(--primary);">
+                <p>Many doctors experience what is known as the "Post-Fellowship Dip" when returning to their home country. After months of high-adrenaline learning, adapting to a new culture, and gaining immense <strong>autonomy</strong> abroad, returning to your old hospital can feel restrictive. You may feel that you are ready to implement new protocols, but your senior colleagues back home might resist change. It is a <strong>pivotal</strong> moment in a doctor's career: you must gracefully <strong>transition</strong> into a senior role without alienating your team, ensuring that your new skills <strong>consolidate</strong> rather than <strong>stagnate</strong>.</p>
+                <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--gray-300);">
+                <p><strong>Discussion:</strong> Are you worried about "reverse culture shock" when returning to your hospital in Poland? How will you handle a senior doctor who rejects a technique you learned in London?</p>
+            </div>
+        </section>
+
+        <!-- TASK 4: GRAMMAR THEORY -->
+        <section id="task4" class="section">
+            <span class="section-label">Task 4</span>
+            <h2 class="section-title" contenteditable="true">Grammar: Looking to the Future 🔭</h2>
+            <p class="section-desc" contenteditable="true">When planning your career, advanced future tenses make you sound decisive and professional.</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th contenteditable="true">Tense</th>
+                        <th contenteditable="true">Usage</th>
+                        <th contenteditable="true">Example (Medical Career)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true"><strong>Future Perfect</strong><br>(will have + V3)</td>
+                        <td contenteditable="true">Looking back from a point in the future at an action that will be <strong>completed</strong>.</td>
+                        <td contenteditable="true">"By 2028, I <strong>will have established</strong> my own private clinic."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>Future Continuous</strong><br>(will be + V-ing)</td>
+                        <td contenteditable="true">Projecting yourself into the future to see an action <strong>in progress</strong>.</td>
+                        <td contenteditable="true">"This time next year, I <strong>will be operating</strong> as a full Consultant."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- TASK 5: GRAMMAR PRACTICE -->
+        <section id="task5" class="section">
+            <span class="section-label">Task 5</span>
+            <h2 class="section-title" contenteditable="true">Practice: The 3-Year Projection 📝</h2>
+            <p class="section-desc" contenteditable="true">Fill in the blanks using either Future Perfect or Future Continuous.</p>
+
+            <ul class="practice-list">
+                <li contenteditable="true">1. By December, I <span class="blank-input"></span> (finish) my specialization paperwork.</li>
+                <li contenteditable="true">2. In two years' time, I <span class="blank-input"></span> (mentor) junior doctors myself.</li>
+                <li contenteditable="true">3. By the time I am 35, I <span class="blank-input"></span> (perform) over 500 complex laparoscopies.</li>
+                <li contenteditable="true">4. Next summer, I hope I <span class="blank-input"></span> (work) in a hospital with better funding.</li>
+                <li contenteditable="true">5. Before the end of the decade, medicine <span class="blank-input"></span> (change) significantly due to AI.</li>
+            </ul>
+        </section>
+
+        <!-- TASK 6: SPEAKING GAME -->
+        <section id="task6" class="section">
+            <span class="section-label">Task 6</span>
+            <h2 class="section-title" contenteditable="true">The 5-Year Roadmap 🗺️</h2>
+            <p class="section-desc" contenteditable="true">Choose a tile. Answer using Future Perfect or Future Continuous.</p>
+
+            <div class="board-game-grid">
+                <div class="board-tile" contenteditable="true">What new surgical skill will you have mastered by 2029?</div>
+                <div class="board-tile" contenteditable="true">Where will you be living and working this time in 3 years?</div>
+                <div class="board-tile" contenteditable="true">How much will your work-life balance have improved by then?</div>
+                <div class="board-tile" contenteditable="true">What obsolete medical practice will we no longer be doing in 5 years?</div>
+                <div class="board-tile" contenteditable="true">What leadership role will you have taken on by 2030?</div>
+                <div class="board-tile" contenteditable="true">How will your relationship with your patients be changing?</div>
+            </div>
+        </section>
+
+        <!-- TASK 7: IDIOMS -->
+        <section id="task7" class="section">
+            <span class="section-label">Task 7</span>
+            <h2 class="section-title" contenteditable="true">Idioms of Transition 🌉</h2>
+            <p class="section-desc" contenteditable="true">Match the idiom to its meaning.</p>
+
+            <div class="match-board">
+                <div class="drag-column">
+                    <div class="drag-item" id="drag-6" draggable="true" ondragstart="drag(event)" contenteditable="true">A stepping stone</div>
+                    <div class="drag-item" id="drag-7" draggable="true" ondragstart="drag(event)" contenteditable="true">The ball is in your court</div>
+                    <div class="drag-item" id="drag-8" draggable="true" ondragstart="drag(event)" contenteditable="true">Cross that bridge when we come to it</div>
+                    <div class="drag-item" id="drag-9" draggable="true" ondragstart="drag(event)" contenteditable="true">Hit the ground running</div>
+                </div>
+
+                <div class="static-column">
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">To start a new job or project energetically and immediately successful.</div>
+                        <div class="drop-zone static-drop" id="drop-6" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">An experience that helps you achieve a larger, long-term goal.</div>
+                        <div class="drop-zone static-drop" id="drop-7" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">To not worry about a future problem until it actually happens.</div>
+                        <div class="drop-zone static-drop" id="drop-8" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                    <div class="static-card">
+                        <div class="static-text" contenteditable="true">It is now your responsibility to make the next decision or move.</div>
+                        <div class="drop-zone static-drop" id="drop-9" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 8: VIDEO -->
+        <section id="task8" class="section">
+            <span class="section-label">Task 8</span>
+            <h2 class="section-title" contenteditable="true">Video: Career Transitions 🎬</h2>
+            <p class="section-desc" contenteditable="true">Watch this excerpt on navigating major career shifts.</p>
+
+            <div class="media-wrapper">
+                <!-- Using a generic TEDx placeholder video about careers -->
+                <iframe src="https://www.youtube-nocookie.com/embed/vMIJbExf9pM?rel=0&modestbranding=1" allowfullscreen></iframe>
+            </div>
+            
+            <div class="scenario-card" contenteditable="true">
+                <strong>Comprehension:</strong> According to the speaker, why do high-achievers struggle the most with transitional periods? Do you relate to this feeling as you leave the UK?
+            </div>
+        </section>
+
+        <!-- TASK 9: DISCUSSION -->
+        <section id="task9" class="section">
+            <span class="section-label">Task 9</span>
+            <h2 class="section-title" contenteditable="true">The Final Verdict: UK vs. Poland ⚖️</h2>
+            <p class="section-desc" contenteditable="true">Now that you've experienced both systems deeply, let's settle the debate.</p>
+
+            <ul class="practice-list">
+                <li contenteditable="true"><strong>Patient Care:</strong> Which system provides better actual care to the patient?</li>
+                <li contenteditable="true"><strong>Doctor Lifestyle:</strong> Which system respects the doctor's time and mental health more?</li>
+                <li contenteditable="true"><strong>Hierarchy:</strong> Did the "flat hierarchy" of the NHS help you grow, or was it inefficient?</li>
+                <li contenteditable="true"><strong>The Choice:</strong> If salary was identical in both countries, where would you choose to work forever?</li>
+            </ul>
+        </section>
+
+        <!-- TASK 10: ROLE PLAY -->
+        <section id="task10" class="section">
+            <span class="section-label">Task 10</span>
+            <h2 class="section-title" contenteditable="true">Role-Play: The Exit Interview 🗣️</h2>
+            <p class="section-desc" contenteditable="true">You are having your final appraisal with your NHS Consultant. Negotiate a strong reference or a future return.</p>
+
+            <div class="flowchart">
+                <div class="flow-bubble" contenteditable="true">
+                    <strong>Consultant (Teacher):</strong> "Alicja, it's been fantastic having you on the team. We are really going to miss your surgical skills. So, what's next for you?"
+                </div>
+                <div class="flow-arrow">⬇</div>
+                <div class="flow-bubble b-side" contenteditable="true">
+                    <strong>You:</strong> <em>(Express gratitude. Explain your transition back to Poland using Future Continuous).</em>
+                </div>
+                <div class="flow-arrow">⬇</div>
+                <div class="flow-bubble" contenteditable="true">
+                    <strong>Consultant (Teacher):</strong> "Well, if you ever want to come back, there is a permanent Consultant post opening here next year. Would you consider it?"
+                </div>
+                <div class="flow-arrow">⬇</div>
+                <div class="flow-bubble b-side" contenteditable="true">
+                    <strong>You:</strong> <em>(Use the idiom "The ball is in your court" or "Cross that bridge" to leave the door open without committing).</em>
+                </div>
+                <div class="flow-arrow">⬇</div>
+                <div class="flow-bubble b-side" contenteditable="true">
+                    <strong>You:</strong> <em>(Politely ask for a formal letter of recommendation outlining your specific laparoscopic competencies).</em>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 11: PHRASAL VERBS -->
+        <section id="task11" class="section">
+            <span class="section-label">Task 11</span>
+            <h2 class="section-title" contenteditable="true">Phrasal Verbs for Careers 💼</h2>
+            <p class="section-desc" contenteditable="true">Fill the blanks with: <em>Step down, Take on, Burn out, Move up, Branch out.</em></p>
+
+            <ul class="practice-list">
+                <li contenteditable="true">1. I don't want to <span class="blank-input"></span> from exhaustion before I'm 40.</li>
+                <li contenteditable="true">2. It's time for me to <span class="blank-input"></span> the ladder and become a Consultant.</li>
+                <li contenteditable="true">3. I am ready to <span class="blank-input"></span> more leadership responsibilities.</li>
+                <li contenteditable="true">4. The Clinical Director decided to <span class="blank-input"></span> due to health issues.</li>
+                <li contenteditable="true">5. I'd like to <span class="blank-input"></span> into aesthetic gynecology in my private practice.</li>
+            </ul>
+        </section>
+
+        <!-- TASK 12: WRITING -->
+        <section id="task12" class="section">
+            <span class="section-label">Task 12</span>
+            <h2 class="section-title" contenteditable="true">Professional Writing: The Farewell ✉️</h2>
+            <p class="section-desc" contenteditable="true">Draft your final "Goodbye" email to the ward staff (Nurses, Midwives, Junior Doctors).</p>
+
+            <div class="scenario-card" contenteditable="true" style="font-family: monospace; background: var(--white); border: 1px solid var(--gray-300);">
+                <strong>Subject:</strong> Thank you and Farewell!<br><br>
+                <strong>Dear Team,</strong><br><br>
+                [Paragraph 1: State that you are leaving and when your last day is].<br><br>
+                [Paragraph 2: Express gratitude for their support during your fellowship. Mention 1 specific thing you learned from them].<br><br>
+                [Paragraph 3: Share your future plan briefly and provide contact info/LinkedIn to stay in touch].<br><br>
+                <strong>Best regards,</strong><br>
+                Alicja
+            </div>
+        </section>
+
+        <!-- TASK 13: THE BRAND -->
+        <section id="task13" class="section">
+            <span class="section-label">Task 13</span>
+            <h2 class="section-title" contenteditable="true">Building "The Brand" 🌟</h2>
+            <p class="section-desc" contenteditable="true">How to leverage your UK experience back in Poland.</p>
+            
+            <div class="scenario-grid">
+                <div class="scenario-card" contenteditable="true">
+                    <p>Having a London fellowship on your CV is a massive asset. How do you plan to market this to private patients in Poland? Will you use social media? What is your "Unique Selling Proposition" (USP)?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 14: INTERACTIVE WHITEBOARD -->
+        <section id="task14" class="section">
+            <span class="section-label">Task 14</span>
+            <h2 class="section-title" contenteditable="true">Interactive Whiteboard: The 2026 Mind Map 🖍️</h2>
+            <p class="section-desc" contenteditable="true">Draw a mind-map of your goals (Clinical, Financial, Personal) for the next 2 years.</p>
+
+            <div class="whiteboard-container">
+                <canvas id="drawingCanvas"></canvas>
+                <div class="wb-controls">
+                    <button class="wb-btn" id="clearBtn">Clear</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 15: SUM UP -->
+        <section id="task15" class="section">
+            <span class="section-label">Task 15</span>
+            <h2 class="section-title" contenteditable="true">Sum Up & Final Thoughts 🎉</h2>
+            <div class="scenario-card" contenteditable="true" style="border-color: var(--accent); background: rgba(0, 191, 165, 0.1);">
+                <p><strong>Congratulations on completing the course and your fellowship!</strong></p>
+                <p>What was the most useful English phrase or concept you learned during our lessons? Any final thoughts before you pack your bags?</p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Admin Controls -->
+    <div class="admin-controls">
+        <button class="reset-btn" id="resetLessonBtn">Reset Lesson</button>
+    </div>
+
+    <!-- SCRIPTS FOR LOGIC, FIREBASE & SYNC -->
+    <script>
+        // --- 1. FIREBASE SETUP (Strict Adherence to Rules 1, 2, 3) ---
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        if (Object.keys(firebaseConfig).length > 0) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        
+        const auth = firebase.auth ? firebase.auth() : null;
+        const db = firebase.firestore ? firebase.firestore() : null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'lesson-14-alicja-post-internship';
+        let currentUser = null;
+        let isDrawing = false;
+        let isSyncing = false;
+
+        async function initAuth() {
+            if (!auth) return;
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await auth.signInWithCustomToken(__initial_auth_token);
+                } else {
+                    await auth.signInAnonymously();
+                }
+            } catch (error) {
+                console.error("Auth error:", error);
+            }
+        }
+
+        if (auth) {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    currentUser = user;
+                    setupRealtimeSync();
+                    setupLiveCursors();
+                    setupWhiteboardSync();
+                }
+            });
+            initAuth();
+        }
+
+        // --- 2. CONTENTEDITABLE SYNC ---
+        function setupRealtimeSync() {
+            if (!db || !currentUser) return;
+            const editables = document.querySelectorAll('[contenteditable="true"]');
+            const docRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('lessonState').doc('edits');
+
+            // Listen for remote changes
+            docRef.onSnapshot((docSnap) => {
+                if (!docSnap.exists) return;
+                const data = docSnap.data();
+                isSyncing = true;
+                editables.forEach((el, index) => {
+                    const key = `edit_${index}`;
+                    if (data[key] !== undefined && el.innerHTML !== data[key]) {
+                        el.innerHTML = data[key];
+                    }
+                });
+                setTimeout(() => isSyncing = false, 100);
+            }, (err) => console.error("Sync error:", err));
+
+            // Push local changes (Debounced)
+            let timeout;
+            editables.forEach((el, index) => {
+                el.addEventListener('input', () => {
+                    if (isSyncing) return;
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        const updates = {};
+                        editables.forEach((e, i) => updates[`edit_${i}`] = e.innerHTML);
+                        docRef.set(updates, { merge: true });
+                    }, 500);
+                });
+            });
+        }
+
+        // --- 3. LIVE CURSORS ---
+        const cursorColors = ['#FF3B30', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#00BCD4', '#009688', '#4CAF50', '#FF9800', '#FF5722'];
+        function getCursorColor(uid) {
+            let hash = 0;
+            for (let i = 0; i < uid.length; i++) hash = uid.charCodeAt(i) + ((hash << 5) - hash);
+            return cursorColors[Math.abs(hash) % cursorColors.length];
+        }
+
+        function setupLiveCursors() {
+            if (!db || !currentUser) return;
+            const cursorsRef = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('cursors');
+            const activeCursors = {};
+
+            document.addEventListener('mousemove', (e) => {
+                const x = e.pageX / window.innerWidth;
+                const y = e.pageY / window.innerHeight;
+                cursorsRef.doc(currentUser.uid).set({ x, y, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+            });
+
+            cursorsRef.onSnapshot((snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    if (change.doc.id === currentUser.uid) return;
+                    const data = change.doc.data();
+                    
+                    if (change.type === 'added' || change.type === 'modified') {
+                        let cursorEl = activeCursors[change.doc.id];
+                        if (!cursorEl) {
+                            cursorEl = document.createElement('div');
+                            cursorEl.className = 'live-cursor';
+                            cursorEl.style.backgroundColor = getCursorColor(change.doc.id);
+                            document.body.appendChild(cursorEl);
+                            activeCursors[change.doc.id] = cursorEl;
+                        }
+                        cursorEl.style.left = `${data.x * window.innerWidth}px`;
+                        cursorEl.style.top = `${data.y * window.innerHeight}px`;
+                    }
+                    if (change.type === 'removed') {
+                        if (activeCursors[change.doc.id]) {
+                            activeCursors[change.doc.id].remove();
+                            delete activeCursors[change.doc.id];
+                        }
+                    }
+                });
+            }, (err) => console.error("Cursor sync error:", err));
+
+            // Cleanup old cursors interval
+            setInterval(() => {
+                cursorsRef.get().then(snap => {
+                    const now = new Date();
+                    snap.forEach(docSnap => {
+                        const data = docSnap.data();
+                        if (data.timestamp && (now - data.timestamp.toDate()) > 10000) {
+                            cursorsRef.doc(docSnap.id).delete();
+                        }
+                    });
+                });
+            }, 10000);
+        }
+
+        // --- 4. DRAG AND DROP MATCHING ---
+        function allowDrop(ev) { ev.preventDefault(); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var target = ev.target;
+            
+            // Allow dropping into the drop-zone specifically
+            if (target.classList.contains('drop-zone')) {
+                // If it already has an item, swap it back to the drag-column
+                if (target.children.length > 0) {
+                    document.querySelector('.drag-column').appendChild(target.children[0]);
+                }
+                target.appendChild(document.getElementById(data));
+                target.classList.remove('hovered');
+                syncDragState();
+            }
+        }
+
+        // Hover effects for drop zones
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.addEventListener('dragenter', () => zone.classList.add('hovered'));
+            zone.addEventListener('dragleave', () => zone.classList.remove('hovered'));
+        });
+
+        // Sync Drag State to Firebase
+        function syncDragState() {
+            if (!db || !currentUser) return;
+            const state = {};
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                state[zone.id] = zone.children.length > 0 ? zone.children[0].id : null;
+            });
+            db.collection('artifacts').doc(appId).collection('public').doc('data').collection('lessonState').doc('dragDrop').set(state);
+        }
+
+        // --- 5. INTERACTIVE WHITEBOARD ---
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        let lastX = 0, lastY = 0;
+
+        if (canvas && ctx) {
+            function resizeCanvas() {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = canvas.parentElement.clientHeight;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            function draw(x, y, isDown) {
+                if (isDown) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = '#0F2027';
+                    ctx.lineWidth = 3;
+                    ctx.lineJoin = "round";
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(x, y);
+                    ctx.closePath();
+                    ctx.stroke();
+                }
+                lastX = x; lastY = y;
+            }
+
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                draw(e.offsetX, e.offsetY, false);
+            });
+            canvas.addEventListener('mousemove', (e) => {
+                if (isDrawing) {
+                    draw(e.offsetX, e.offsetY, true);
+                    syncWhiteboard(e.offsetX, e.offsetY, true);
+                }
+            });
+            canvas.addEventListener('mouseup', () => isDrawing = false);
+            canvas.addEventListener('mouseout', () => isDrawing = false);
+
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if(db && currentUser) db.collection('artifacts').doc(appId).collection('public').doc('data').collection('lessonState').doc('whiteboard').delete();
+            });
+        }
+
+        function syncWhiteboard(x, y, isDown) {
+            if (!db || !currentUser) return;
+            // Simple approach: save lines as an array (Note: for production this needs batching, simplified here)
+            db.collection('artifacts').doc(appId).collection('public').doc('data').collection('lessonState').doc('whiteboard').set({
+                drawings: firebase.firestore.FieldValue.arrayUnion({x, y, isDown, lastX, lastY})
+            }, {merge: true});
+        }
+
+        function setupWhiteboardSync() {
+            if (!db || !currentUser || !canvas) return;
+            db.collection('artifacts').doc(appId).collection('public').doc('data').collection('lessonState').doc('whiteboard')
+              .onSnapshot(doc => {
+                  if (isDrawing || !doc.exists) return;
+                  const data = doc.data();
+                  if (data.drawings) {
+                      ctx.clearRect(0, 0, canvas.width, canvas.height);
+                      data.drawings.forEach(pt => {
+                         if(pt.isDown) {
+                            ctx.beginPath(); ctx.strokeStyle = '#0F2027'; ctx.lineWidth = 3; ctx.lineJoin = "round";
+                            ctx.moveTo(pt.lastX, pt.lastY); ctx.lineTo(pt.x, pt.y); ctx.closePath(); ctx.stroke();
+                         }
+                      });
+                  }
+              });
+        }
+
+        // --- 6. RESET LOGIC (Strict requirement) ---
+        document.getElementById('resetLessonBtn').addEventListener('click', async () => {
+            if (!confirm('Are you sure you want to reset the lesson? All data will be lost.')) return;
+            
+            // 1. Clear local inputs (Quizlet/practice list)
+            const quizletInputs = document.querySelectorAll('.practice-list .blank-input');
+            quizletInputs.forEach(input => input.innerHTML = '');
+            
+            const editables = document.querySelectorAll('[contenteditable="true"]');
+            editables.forEach(el => {
+                if(!el.classList.contains('section-title') && !el.classList.contains('section-label') && !el.classList.contains('drag-item')) {
+                    // Soft reset of content (optional, omitting full HTML wipe to preserve structure)
+                }
+            });
+
+            // 2. Return Drag items
+            const dragCol = document.querySelector('.drag-column');
+            document.querySelectorAll('.drop-zone .drag-item').forEach(item => dragCol.appendChild(item));
+
+            // 3. Clear Canvas
+            if(ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 4. Clear Firebase
+            if (db && currentUser) {
+                const basePath = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('lessonState');
+                await basePath.doc('edits').delete();
+                await basePath.doc('dragDrop').delete();
+                await basePath.doc('whiteboard').delete();
+            }
+        });
+
+    </script>
+</body>
+</html>
