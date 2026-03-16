@@ -1176,11 +1176,6 @@
                     </div>
                 </div>
             </div>
-            
-            <script>
-                // Need to initialize the second drag-and-drop board after load
-                setTimeout(() => { if(typeof setupDragAndDrop === 'function') setupDragAndDrop('idiomMatch'); }, 1000);
-            </script>
         </div>
     </section>
 
@@ -1191,9 +1186,13 @@
             <h2 class="section-title" contenteditable="true">Career Transitions 🎬</h2>
             <p class="section-desc" contenteditable="true">Watch this excerpt on navigating major career shifts.</p>
 
-            <div class="media-wrapper">
-                <iframe src="https://www.youtube-nocookie.com/embed/vMIJbExf9pM?rel=0&modestbranding=1" allowfullscreen></iframe>
+            <!-- Video Embed -->
+            <div class="media-wrapper" contenteditable="false">
+                <iframe src="https://www.youtube.com/embed/dDh1l3qVNoY" title="Yes Man Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
+            <p style="text-align: center; margin-bottom: 32px;" contenteditable="false">
+                <a href="https://www.youtube.com/watch?v=dDh1l3qVNoY" target="_blank" style="color: var(--teal); font-weight: 600; text-decoration: none;">🔗 Click here to watch directly on YouTube</a>
+            </p>
         </div>
     </section>
 
@@ -1203,7 +1202,7 @@
             <span class="section-label" contenteditable="true">Task 9: Video Comprehension</span>
             <h2 class="section-title" contenteditable="true">Understanding the Metaphor</h2>
             <div class="scenario-card" contenteditable="true">
-                <strong>Discussion:</strong> According to the speaker, why do high-achievers struggle the most with transitional periods? Do you relate to this feeling of uncertainty as you prepare to leave the UK and restart your professional life in Poland?
+                <strong>Discussion:</strong> The video emphasizes saying "Yes" to new opportunities. As you transition back to Poland, what new professional opportunities or challenges do you plan to say "Yes" to that you might have previously avoided?
             </div>
         </div>
     </section>
@@ -1731,7 +1730,7 @@
     };
     
     // Unique ID for this specific lesson's database folder
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'lesson-14-alicja-future-v5';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'lesson-14-alicja-future-v7';
 
     // Status Indicator helper
     const statusText = document.getElementById('syncText');
@@ -1921,7 +1920,68 @@
                 }
             });
             
-            // --- C. MEDIA PASTE INTERCEPTOR (Images & Video) ---
+            // Drag and Drop Logic Initialization
+            function setupDragAndDrop(columnId) {
+                const dragColumn = document.getElementById(columnId);
+                if (!dragColumn) return;
+                const dragItems = dragColumn.querySelectorAll('.drag-item');
+
+                dragItems.forEach(item => {
+                    item.addEventListener('dragstart', () => { item.classList.add('dragging'); });
+                    item.addEventListener('dragend', () => { 
+                        item.classList.remove('dragging'); 
+                        if (window.syncDragOrder) window.syncDragOrder(columnId); 
+                    });
+                });
+
+                dragColumn.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const afterElement = getDragAfterElement(dragColumn, e.clientY);
+                    const draggable = document.querySelector('.dragging');
+                    if (draggable) {
+                        if (afterElement == null) dragColumn.appendChild(draggable);
+                        else dragColumn.insertBefore(draggable, afterElement);
+                    }
+                });
+
+                function getDragAfterElement(container, y) {
+                    const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+                    return draggableElements.reduce((closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+                        if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+                        else return closest;
+                    }, { offset: Number.NEGATIVE_INFINITY }).element;
+                }
+            }
+            
+            // Allow Drop Zones
+            window.allowDrop = function(ev) { ev.preventDefault(); };
+            window.drag = function(ev) { ev.dataTransfer.setData("text", ev.target.id); };
+            window.drop = function(ev) {
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("text");
+                var target = ev.target;
+                
+                if (target.classList.contains('drop-zone')) {
+                    if (target.children.length > 0) {
+                        document.querySelector('.drag-column').appendChild(target.children[0]);
+                    }
+                    target.appendChild(document.getElementById(data));
+                    target.classList.remove('hovered');
+                    if (window.syncDragOrder) window.syncDragOrder('careerVocab');
+                }
+            };
+
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragenter', () => zone.classList.add('hovered'));
+                zone.addEventListener('dragleave', () => zone.classList.remove('hovered'));
+            });
+
+            setupDragAndDrop('careerVocab');
+            if(document.getElementById('idiomMatch')) setupDragAndDrop('idiomMatch');
+
+            // Paste Interceptor
             document.addEventListener('paste', function(e) {
                 const target = e.target;
                 if (!target.closest('[contenteditable="true"]')) return;
@@ -1967,7 +2027,8 @@
                     const ytMatch = pasteText.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
                     if (ytMatch && ytMatch[1]) {
                         e.preventDefault();
-                        const iframeWrapper = `<div contenteditable="false" style="margin: 16px 0; user-select: none; text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; max-width: 100%;"></iframe></div><p><br></p>`;
+                        // Note: Added ?rel=0&modestbranding=1 directly in the URL 
+                        const iframeWrapper = `<div contenteditable="false" style="margin: 16px 0; user-select: none; text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; max-width: 100%;"></iframe></div><p><br></p>`;
                         document.execCommand('insertHTML', false, iframeWrapper);
                         target.dispatchEvent(new Event('input', { bubbles: true }));
                         return;
@@ -2088,36 +2149,38 @@
         }
 
         // --- F. GLOBAL RESET LESSON ---
-        window.resetLesson = async () => {
-            if (!currentUser) return;
-            if (!confirm("Are you sure you want to reset the lesson? This will clear all text edits, the whiteboard, and rearrange the board for everyone.")) return;
-            
-            setStatus('Resetting...', '#F1C40F');
-            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
-            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
-            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
-            
-            try {
-                await deleteDoc(textRef);
-                await deleteDoc(dragRef);
+        const resetBtn = document.getElementById('resetLessonBtn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', async () => {
+                if (!currentUser) return;
+                if (!confirm("Are you sure you want to reset the lesson? This will clear all text edits, the whiteboard, and rearrange the board for everyone.")) return;
                 
-                const ts = Date.now();
-                window.lastClear = ts;
-                await setDoc(wbRef, { clearTimestamp: ts, image: null });
+                setStatus('Resetting...', '#F1C40F');
+                const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+                const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+                const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+                
+                try {
+                    await deleteDoc(textRef);
+                    await deleteDoc(dragRef);
+                    
+                    const ts = Date.now();
+                    window.lastClear = ts;
+                    await setDoc(wbRef, { clearTimestamp: ts, image: null });
 
-                // Clear Quizlet and Practice rows locally
-                const quizletInputs = document.querySelectorAll('.word-row input');
-                quizletInputs.forEach(input => input.value = '');
-                
-                const blankInputs = document.querySelectorAll('.practice-list .blank-input');
-                blankInputs.forEach(input => input.innerHTML = '');
-                
-                setTimeout(() => setStatus('Live Sync On', '#1DE9B6'), 1000);
-            } catch (e) {
-                console.error("Reset error: ", e);
-                setStatus('Reset Failed', '#E53935');
-            }
-        };
+                    const quizletInputs = document.querySelectorAll('.word-row input');
+                    quizletInputs.forEach(input => input.value = '');
+                    
+                    const blankInputs = document.querySelectorAll('.practice-list .blank-input');
+                    blankInputs.forEach(input => input.innerHTML = '');
+                    
+                    setTimeout(() => setStatus('Live Sync On', '#1DE9B6'), 1000);
+                } catch (e) {
+                    console.error("Reset error: ", e);
+                    setStatus('Reset Failed', '#E53935');
+                }
+            });
+        }
     }
 </script>
 </body>
