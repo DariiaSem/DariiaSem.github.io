@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5: B1 | Mysteries, Gossip & Deductions</title>
+    <!-- html2pdf for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* VINTAGE DETECTIVE / COZY MYSTERY THEME FOR OLDER LEARNERS */
+        :root {
+            --primary: #2C1E16; /* Deep espresso brown */
+            --primary-light: #4A3B32;
+            --accent-red: #8B0000; /* Deep crimson */
+            --accent-red-light: #F5E6E6;
+            --accent-gold: #DAA520; /* Antique gold */
+            --accent-gold-light: #FCF8E8;
+            --accent-green: #4A5D23; /* Hunter green */
+            --accent-green-light: #EDF1E8;
+            
+            --paper-bg: #FDFBF7; /* Warm parchment cream */
+            --white: #FFFFFF;
+            --gray-100: #F4F1EA; /* Softer, warmer grays */
+            --gray-200: #E6E2D8;
+            --gray-400: #A39E93;
+            --gray-600: #5C584F;
+            --gray-800: #33302B;
+            
+            --shadow-sm: 0 2px 5px rgba(44, 30, 22, 0.08);
+            --shadow-md: 0 8px 20px rgba(44, 30, 22, 0.12);
+            --shadow-lg: 0 15px 35px rgba(44, 30, 22, 0.15);
+            
+            --radius-soft: 8px; /* Slightly sharper, classic corners */
+            --radius-pill: 50px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            /* Elegant, highly readable serif font for older learners */
+            font-family: 'Georgia', 'Times New Roman', serif; 
+            line-height: 1.8;
+            color: var(--gray-800);
+            background-color: var(--paper-bg);
+            overflow-x: hidden;
+            font-size: 20px; /* Large base font for accessibility */
+            background-image: url('data:image/svg+xml,%3Csvg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%23e6e2d8" fill-opacity="0.4" fill-rule="evenodd"%3E%3Ccircle cx="3" cy="3" r="3"/%3E%3Ccircle cx="13" cy="13" r="3"/%3E%3C/g%3E%3C/svg%3E');
+        }
+
+        h1, h2, h3, h4, .nav-links a, .fab-btn, .wb-btn, .task-label, .sans-serif {
+            /* Clean sans-serif for UI elements to contrast the serif body */
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+        }
+
+        [contenteditable="true"] {
+            outline: none;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            border-radius: 4px;
+        }
+        
+        [contenteditable="true"]:focus, [contenteditable="true"]:hover {
+            background-color: rgba(218, 165, 32, 0.1);
+            box-shadow: 0 0 0 2px rgba(218, 165, 32, 0.4);
+        }
+
+        /* ====== HERO SECTION ====== */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a110c 100%);
+            color: var(--white);
+            padding: 120px 24px 90px;
+            text-align: center;
+            overflow: hidden;
+            border-bottom: 8px solid var(--accent-red);
+        }
+
+        .hero::after {
+            content: '🔎';
+            position: absolute;
+            font-size: 24rem;
+            opacity: 0.05;
+            top: -60px;
+            right: -40px;
+            transform: rotate(-15deg);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 8px 24px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            font-family: 'Georgia', serif;
+        }
+
+        .hero h1 span { color: var(--accent-gold); font-style: italic; }
+
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* ====== NAVIGATION ====== */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(253, 251, 247, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--gray-200);
+            padding: 0 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            overflow-x: auto;
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            margin-right: 20px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+        }
+
+        .nav-logo .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background: var(--gray-200);
+        }
+
+        /* ====== SECTION LAYOUT ====== */
+        .section { padding: 90px 24px; }
+        .section:nth-child(even) { background: var(--white); border-top: 1px dashed var(--gray-200); border-bottom: 1px dashed var(--gray-200); }
+        .section-inner { max-width: 900px; margin: 0 auto; }
+
+        .task-label {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-red);
+            background: var(--accent-red-light);
+            padding: 6px 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border: 1px solid var(--accent-red);
+        }
+
+        .section-title {
+            font-family: 'Georgia', serif;
+            font-size: clamp(2.2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-desc {
+            color: var(--gray-600);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ====== DOSSIER CARDS (Replaces standard grids) ====== */
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .dossier-card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            border-top: 12px solid var(--primary);
+        }
+        
+        .dossier-card::before {
+            content: 'CONFIDENTIAL';
+            position: absolute;
+            top: 10px; right: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.7rem;
+            color: var(--gray-400);
+            letter-spacing: 1px;
+        }
+
+        .dossier-card h3 {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: var(--accent-red);
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        /* ====== EVIDENCE BOARD (Drag & Drop) ====== */
+        .match-board {
+            display: flex;
+            gap: 24px;
+            align-items: stretch;
+            margin-top: 24px;
+            background: var(--gray-100);
+            padding: 32px;
+            border-radius: var(--radius-soft);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .drag-column, .static-column, .arrows-column {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .drag-column, .static-column { flex: 1; min-width: 0; }
+        
+        .drag-item, .static-item, .match-arrow {
+            height: 75px; 
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+        
+        .drag-item {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            cursor: grab;
+            gap: 16px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+            padding: 0 20px;
+            font-size: 1.1rem;
+            justify-content: flex-start;
+            text-align: left;
+        }
+        
+        .drag-item:active { cursor: grabbing; transform: scale(0.98); }
+        .drag-item.dragging { opacity: 0.4; border-style: dashed; }
+        
+        .drag-handle {
+            color: var(--gray-400);
+            font-size: 1.4rem;
+            user-select: none;
+            flex-shrink: 0;
+        }
+        
+        .static-item {
+            background: var(--paper-bg);
+            border: 1px dashed var(--gray-400);
+            color: var(--gray-800);
+            padding: 0 20px;
+            line-height: 1.4;
+            font-size: 1.05rem;
+            text-align: left;
+            font-family: 'Georgia', serif;
+        }
+        
+        .match-arrow {
+            color: var(--accent-gold);
+            font-weight: 800;
+            font-size: 1.5rem;
+            justify-content: center;
+        }
+
+        /* ====== POLICE REPORT (Fill in the blanks) ====== */
+        .police-report {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            padding: 40px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.15rem;
+            line-height: 2.2;
+            color: #333;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .police-report::after {
+            content: '';
+            position: absolute;
+            top: 20px; right: 20px;
+            width: 60px; height: 60px;
+            border: 4px solid var(--accent-red);
+            border-radius: 50%;
+            opacity: 0.2;
+        }
+
+        .blank-input {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 2px solid var(--primary);
+            color: var(--accent-red);
+            font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 0 8px;
+            text-align: center;
+            background: rgba(139, 0, 0, 0.05);
+        }
+
+        .blank-input:focus {
+            border-bottom-style: dashed;
+            background: rgba(139, 0, 0, 0.1);
+        }
+
+        /* ====== LISTENING STATION ====== */
+        .listening-station {
+            background: var(--primary);
+            padding: 40px;
+            color: var(--white);
+            box-shadow: var(--shadow-lg);
+            border-bottom: 8px solid var(--accent-gold);
+        }
+
+        /* ====== GRAMMAR CHALKBOARD ====== */
+        .grammar-board {
+            background: #2a3b32; /* Chalkboard green */
+            border: 12px solid #5c4033; /* Wood frame */
+            padding: 40px;
+            color: #f4f1ea;
+            font-family: 'Inter', sans-serif;
+            box-shadow: var(--shadow-lg);
+            border-radius: 4px;
+        }
+
+        .grammar-board h3 {
+            color: #daa520;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px dashed rgba(255,255,255,0.3);
+            padding-bottom: 16px;
+        }
+
+        .grammar-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .chalk-box {
+            border: 2px solid rgba(255,255,255,0.2);
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .chalk-box strong {
+            display: block;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        /* ====== ROLEPLAY DIALOGUE ====== */
+        .chat-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background: var(--white);
+            padding: 40px;
+            border: 1px solid var(--gray-200);
+            box-shadow: var(--shadow-md);
+        }
+
+        .chat-bubble {
+            padding: 20px 28px;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            max-width: 85%;
+            box-shadow: var(--shadow-sm);
+            font-family: 'Georgia', serif;
+            border-left: 4px solid transparent;
+        }
+
+        .chat-a {
+            background: var(--gray-100);
+            align-self: flex-start;
+            border-left-color: var(--primary);
+        }
+
+        .chat-b {
+            background: var(--accent-gold-light);
+            align-self: flex-end;
+            border-left-color: var(--accent-gold);
+            text-align: right;
+            border-right: 4px solid var(--accent-gold);
+            border-left: none;
+        }
+
+        /* ====== WHITEBOARD ====== */
+        .whiteboard-container {
+            border: 2px solid var(--gray-200);
+            background: var(--white);
+            overflow: hidden;
+            margin-top: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .wb-toolbar {
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 12px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .wb-btn {
+            background: var(--white);
+            color: var(--gray-800);
+            border: 1px solid var(--gray-200);
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .wb-btn:hover, .wb-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .wb-color {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            cursor: pointer;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 500px;
+            background: var(--white);
+            cursor: crosshair;
+        }
+
+        /* ====== FLOATING ACTIONS ====== */
+        .floating-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .fab-btn {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-btn:hover {
+            transform: translateY(-4px);
+            background: var(--accent-red);
+        }
+
+        .quizlet-btn { background: #4255FF; }
+        
+        /* ====== QUIZLET MODAL ====== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(44, 30, 22, 0.8);
+            backdrop-filter: blur(6px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 40px;
+            border-radius: var(--radius-soft);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px; right: 24px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--gray-400);
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover { color: var(--accent-red); }
+
+        .word-row { display: flex; gap: 12px; margin-bottom: 16px; }
+        .word-row input {
+            flex: 1; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 4px; font-size: 1.1rem; font-family: 'Inter', sans-serif;
+        }
+        .word-row input:focus {
+            outline: none; border-color: var(--accent-gold); box-shadow: 0 0 0 3px var(--accent-gold-light);
+        }
+
+        #wordList { max-height: 350px; overflow-y: auto; margin: 24px 0; padding-right: 12px; }
+
+        /* ====== LIVE CURSOR STYLES ====== */
+        .remote-cursor {
+            position: absolute;
+            pointer-events: none;
+            z-index: 999999;
+            transition: top 0.4s linear, left 0.4s linear;
+            display: flex;
+            align-items: flex-start;
+            opacity: 0;
+            animation: fadeInCursor 0.3s forwards;
+        }
+        @keyframes fadeInCursor { to { opacity: 1; } }
+        .remote-cursor svg {
+            width: 26px; height: 26px; transform: rotate(-15deg);
+            filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3));
+        }
+        .remote-cursor-label {
+            color: white; font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 700; padding: 4px 10px;
+            border-radius: var(--radius-pill); margin-left: -5px; margin-top: 15px;
+            white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .hero { padding: 100px 20px 60px; }
+            .section { padding: 60px 16px; }
+            .nav-links { display: none; }
+            .match-board { flex-direction: column; }
+            .arrows-column { display: none; }
+            .drag-item, .static-item { height: auto; min-height: 60px; padding: 12px 20px; }
+            .grammar-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sync Status Indicator -->
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(44, 30, 22, 0.95); color: white; font-family: 'Inter', sans-serif; padding: 8px 20px; border-radius: var(--radius-pill); font-size: 0.85rem; font-weight: 600; z-index: 10000; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); box-shadow: var(--shadow-md);">
+    <span id="syncDot" style="display: block; width: 10px; height: 10px; background: var(--accent-gold); border-radius: 50%; box-shadow: 0 0 10px var(--accent-gold);"></span>
+    <span id="syncText">Connecting Session...</span>
+</div>
+
+<!-- Container for Live Cursors -->
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Intermediate (B1)</div>
+        <h1 contenteditable="true">Mysteries, Gossip &amp; <span>Deductions</span></h1>
+        <p class="hero-subtitle" contenteditable="true">Lesson 5 — Become a detective! Discuss strange events, analyze clues, and learn how to guess the truth using Modals of Deduction.</p>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">English Workshop</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--accent-red); color: white; padding: 6px 12px; font-weight: 800; border-radius: var(--radius-pill);" title="Add Custom Tab">+</a></li>
+            <li><a href="#warmup" contenteditable="true">1. Warm-Up</a></li>
+            <li><a href="#vocab" contenteditable="true">2. Vocabulary</a></li>
+            <li><a href="#grammar" contenteditable="true">5. Grammar</a></li>
+            <li><a href="#reading" contenteditable="true">8. The Story</a></li>
+            <li><a href="#listening1" contenteditable="true">11. Listening 1</a></li>
+            <li><a href="#listening2" contenteditable="true">13. Listening 2</a></li>
+            <li><a href="#discussion" contenteditable="true">15. Discussion</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: WARM-UP ====== -->
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 1: Speaking</span>
+        <h2 class="section-title" contenteditable="true">The Detective's Eye 👁️</h2>
+        <p class="section-desc" contenteditable="true">Look at these three strange situations. What do you think is happening? Discuss your theories with your teacher.</p>
+        
+        <div class="dossier-grid">
+            <div class="dossier-card" style="border-top-color: var(--primary);">
+                <h3 contenteditable="true">Case 01</h3>
+                <p contenteditable="true" style="font-size: 1.1rem;">You look out the window. Your neighbor is running down the street wearing a wedding dress and crying. She has no shoes on.</p>
+            </div>
+            <div class="dossier-card" style="border-top-color: var(--accent-gold);">
+                <h3 contenteditable="true">Case 02</h3>
+                <p contenteditable="true" style="font-size: 1.1rem;">You come home from the supermarket. The front door is wide open, but your dog is sitting quietly on the sofa.</p>
+            </div>
+            <div class="dossier-card" style="border-top-color: var(--accent-red);">
+                <h3 contenteditable="true">Case 03</h3>
+                <p contenteditable="true" style="font-size: 1.1rem;">A man is standing in the middle of a busy restaurant. He is wearing sunglasses indoors and holding a large watermelon.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: VOCABULARY ====== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 2: Vocabulary</span>
+        <h2 class="section-title" contenteditable="true">The Evidence Board</h2>
+        <p class="section-desc" contenteditable="true">Before we investigate, we need the right words. Drag the vocabulary words to match their definitions.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="mysteryVocab">
+                <li class="drag-item" id="drag-m2" draggable="true">
+                    <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">a hoax</span>
+                </li>
+                <li class="drag-item" id="drag-m5" draggable="true">
+                    <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">an alibi</span>
+                </li>
+                <li class="drag-item" id="drag-m1" draggable="true">
+                    <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">evidence</span>
+                </li>
+                <li class="drag-item" id="drag-m4" draggable="true">
+                    <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">to investigate</span>
+                </li>
+                <li class="drag-item" id="drag-m6" draggable="true">
+                    <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">a suspect</span>
+                </li>
+                <li class="drag-item" id="drag-m3" draggable="true">
+                    <span class="drag-handle" contenteditable="true">⋮⋮</span> <span contenteditable="true">to vanish</span>
+                </li>
+            </ul>
+            
+            <div class="arrows-column">
+                <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+                <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+            </div>
+            
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) facts or signs that help prove the truth (clues)</li>
+                <li class="static-item" contenteditable="true">b) a trick or a made-up story to deceive people</li>
+                <li class="static-item" contenteditable="true">c) to disappear suddenly and completely</li>
+                <li class="static-item" contenteditable="true">d) to carefully look for answers or examine a crime</li>
+                <li class="static-item" contenteditable="true">e) proof that you were somewhere else during a crime</li>
+                <li class="static-item" contenteditable="true">f) a person who might be guilty of a crime</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY PRACTICE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 3: Practice</span>
+        <h2 class="section-title" contenteditable="true">The Police Report</h2>
+        <p class="section-desc" contenteditable="true">Use the words from the Evidence Board to complete this official document.</p>
+
+        <div class="police-report">
+            <p contenteditable="true">
+                <strong>CASE FILE: #4092</strong><br>
+                Last night, a famous painting seemed to <span class="blank-input"></span> from the museum walls. The police arrived immediately to <span class="blank-input"></span> the scene. They found no broken glass, but they did find one piece of <span class="blank-input"></span>: a single black glove left on the floor. 
+                <br><br>
+                The main <span class="blank-input"></span> is the night guard, Mr. Jones. However, he has a strong <span class="blank-input"></span>; he says he was drinking coffee in the cafe across the street at the time of the robbery. Some journalists believe the entire robbery is just a <span class="blank-input"></span> to sell more tickets to the museum.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: SPEAKING / DEDUCTION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 4: Speaking</span>
+        <h2 class="section-title" contenteditable="true">Who is Mr. Jones?</h2>
+        <p class="section-desc" contenteditable="true">Based on the Police Report in Task 3, discuss with your partner: Do you think Mr. Jones is guilty? Why or why not?</p>
+        
+        <div style="background: var(--white); padding: 24px; border-left: 4px solid var(--accent-gold); box-shadow: var(--shadow-sm); font-size: 1.15rem; font-style: italic; color: var(--gray-600);" contenteditable="true">
+            "If he was in the cafe across the street, how did the glove get inside the museum?"
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: GRAMMAR THEORY ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 5: Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">Modals of Deduction</h2>
+        <p class="section-desc" contenteditable="true">When we don't know the exact truth, we use "Modals of Deduction" to guess. We choose the word based on <strong>how sure</strong> we are.</p>
+
+        <div class="grammar-board">
+            <h3 contenteditable="true">How to Guess in English</h3>
+            
+            <div class="grammar-grid">
+                <div class="chalk-box">
+                    <strong contenteditable="true" style="color: var(--accent-green-light);">99% Sure (YES)</strong>
+                    <span contenteditable="true" style="font-size: 1.4rem; color: #fff; display: block; margin: 16px 0;">MUST BE</span>
+                    <p contenteditable="true" style="font-size: 1rem; color: #ccc;">"He has a Ferrari. He <em>must be</em> rich."</p>
+                </div>
+                
+                <div class="chalk-box">
+                    <strong contenteditable="true" style="color: var(--accent-gold);">50% Sure (MAYBE)</strong>
+                    <span contenteditable="true" style="font-size: 1.4rem; color: #fff; display: block; margin: 16px 0;">MIGHT / COULD BE</span>
+                    <p contenteditable="true" style="font-size: 1rem; color: #ccc;">"She is late. She <em>might be</em> stuck in traffic."</p>
+                </div>
+                
+                <div class="chalk-box">
+                    <strong contenteditable="true" style="color: var(--accent-red-light);">99% Sure (NO)</strong>
+                    <span contenteditable="true" style="font-size: 1.4rem; color: #fff; display: block; margin: 16px 0;">CAN'T BE</span>
+                    <p contenteditable="true" style="font-size: 1rem; color: #ccc;">"He is 10 years old. He <em>can't be</em> a doctor."</p>
+                </div>
+            </div>
+            
+            <p contenteditable="true" style="text-align: center; margin-top: 30px; font-size: 1.1rem; color: var(--accent-gold);">
+                <strong>🚨 IMPORTANT:</strong> We NEVER use "mustn't" to guess that something is false. We always use "can't".
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: PRONUNCIATION ====== -->
+<section class="section" id="pronunciation">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 6: Pronunciation</span>
+        <h2 class="section-title" contenteditable="true">Fast Speech</h2>
+        <p class="section-desc" contenteditable="true">In fast, spoken English, the "T" at the end of these modals is often silent when followed by a consonant like "B".</p>
+
+        <div class="dossier-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="dossier-card" style="border-top-color: var(--primary-light); padding: 24px; text-align: center;">
+                <h3 contenteditable="true" style="margin-bottom: 8px;">Must be</h3>
+                <p contenteditable="true" style="font-size: 1.2rem; font-family: 'Inter', sans-serif;">Sounds like: <strong>"Mus-bee"</strong></p>
+            </div>
+            <div class="dossier-card" style="border-top-color: var(--accent-red); padding: 24px; text-align: center;">
+                <h3 contenteditable="true" style="margin-bottom: 8px;">Can't be</h3>
+                <p contenteditable="true" style="font-size: 1.2rem; font-family: 'Inter', sans-serif;">Sounds like: <strong>"Cam-bee"</strong></p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 32px;">
+            <strong class="sans-serif" contenteditable="true" style="font-size: 1.2rem; color: var(--primary);">Listen & Repeat:</strong>
+            <p contenteditable="true" style="font-size: 1.2rem; font-style: italic; margin-top: 12px;">"It <strong>must be</strong> true... No, it <strong>can't be</strong>!"</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR PRACTICE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 7: Grammar Practice</span>
+        <h2 class="section-title" contenteditable="true">The Detective's Quiz</h2>
+        <p class="section-desc" contenteditable="true">Read the evidence. Choose <em>must, might</em>, or <em>can't</em> to complete the deduction.</p>
+
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+            <li style="background: var(--white); padding: 20px; border-radius: var(--radius-soft); box-shadow: var(--shadow-sm); border-left: 4px solid var(--primary);">
+                <div contenteditable="true" style="font-size: 1.1rem;">1. John's light is off, and his car is not in the driveway. He <span class="blank-input"></span> be at home.</div>
+            </li>
+            <li style="background: var(--white); padding: 20px; border-radius: var(--radius-soft); box-shadow: var(--shadow-sm); border-left: 4px solid var(--primary);">
+                <div contenteditable="true" style="font-size: 1.1rem;">2. I don't know where my keys are. They <span class="blank-input"></span> be in my jacket pocket, but I'm not sure.</div>
+            </li>
+            <li style="background: var(--white); padding: 20px; border-radius: var(--radius-soft); box-shadow: var(--shadow-sm); border-left: 4px solid var(--primary);">
+                <div contenteditable="true" style="font-size: 1.1rem;">3. You have been walking in the snow for three hours! You <span class="blank-input"></span> be freezing!</div>
+            </li>
+            <li style="background: var(--white); padding: 20px; border-radius: var(--radius-soft); box-shadow: var(--shadow-sm); border-left: 4px solid var(--primary);">
+                <div contenteditable="true" style="font-size: 1.1rem;">4. That restaurant is always completely empty. The food <span class="blank-input"></span> be very good.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 8: READING ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 8: Reading</span>
+        <h2 class="section-title" contenteditable="true">The Ghost Ship</h2>
+        <p class="section-desc" contenteditable="true">Read the true story of the <em>Mary Celeste</em>. It is one of the most famous unsolved mysteries in history.</p>
+
+        <div class="dossier-card" style="border-top-color: var(--navy);">
+            <h3 contenteditable="true">The Mystery of the Mary Celeste</h3>
+            <p contenteditable="true" style="line-height: 2;">
+                In November 1872, the ship <em>Mary Celeste</em> sailed from New York to Italy. The captain, his wife, his young daughter, and seven sailors were on board. <br><br>
+                One month later, another ship found the <em>Mary Celeste</em> floating alone in the Atlantic Ocean. The sailors went onto the ship to investigate. They found no one. The captain and his family had vanished. However, the ship was in perfect condition. There was plenty of food and water for six months. The captain's money and jewelry were still on the desk. But one small lifeboat was missing. <br><br>
+                Nobody ever saw the people from the <em>Mary Celeste</em> again. To this day, nobody knows why they left a perfectly safe ship to get into a tiny wooden boat in the middle of the ocean.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: READING COMPREHENSION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 9: Comprehension</span>
+        <h2 class="section-title" contenteditable="true">True or False?</h2>
+        <p class="section-desc" contenteditable="true">Are the statements true (T) or false (F) based on the story?</p>
+
+        <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px;">
+            <li style="background: var(--white); padding: 16px 20px; border-radius: var(--radius-soft); border: 1px solid var(--gray-200);">
+                <div contenteditable="true"><span class="blank-input" style="min-width: 40px;"></span> 1. Ten people were on the ship when it left New York.</div>
+            </li>
+            <li style="background: var(--white); padding: 16px 20px; border-radius: var(--radius-soft); border: 1px solid var(--gray-200);">
+                <div contenteditable="true"><span class="blank-input" style="min-width: 40px;"></span> 2. The people on the ship had no food left.</div>
+            </li>
+            <li style="background: var(--white); padding: 16px 20px; border-radius: var(--radius-soft); border: 1px solid var(--gray-200);">
+                <div contenteditable="true"><span class="blank-input" style="min-width: 40px;"></span> 3. The ship was attacked by pirates who stole the money.</div>
+            </li>
+            <li style="background: var(--white); padding: 16px 20px; border-radius: var(--radius-soft); border: 1px solid var(--gray-200);">
+                <div contenteditable="true"><span class="blank-input" style="min-width: 40px;"></span> 4. A small boat was missing from the main ship.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 10: SPEAKING (SOLVE THE MYSTERY) ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 10: Speaking</span>
+        <h2 class="section-title" contenteditable="true">Solve the Mystery</h2>
+        <p class="section-desc" contenteditable="true">You are the detectives. Use <strong>must be, might be,</strong> and <strong>can't be</strong> to discuss what happened to the <em>Mary Celeste</em>.</p>
+
+        <div class="dossier-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="dossier-card" style="border-top-color: var(--accent-red); padding: 24px;">
+                <p contenteditable="true" style="font-size: 1.1rem; font-weight: bold; color: var(--navy); margin-bottom: 12px;">"Did pirates attack the ship?"</p>
+                <p contenteditable="true" style="font-size: 1rem; font-style: italic;">No, it <strong>can't be</strong> pirates, because all the money and jewelry was still on the desk!</p>
+            </div>
+            <div class="dossier-card" style="border-top-color: var(--accent-gold); padding: 24px;">
+                <p contenteditable="true" style="font-size: 1.1rem; font-weight: bold; color: var(--navy); margin-bottom: 12px;">"Did the captain go crazy?"</p>
+                <p contenteditable="true" style="font-size: 1rem; font-style: italic;">He <strong>might be</strong> crazy, or maybe he saw a monster in the water...</p>
+            </div>
+        </div>
+        
+        <p contenteditable="true" style="margin-top: 24px; text-align: center; font-size: 1.2rem; font-weight: bold; color: var(--primary);">What is YOUR theory?</p>
+    </div>
+</section>
+
+<!-- ====== TASK 11: LISTENING 1 (THE SHORT FILM) ====== -->
+<section class="section" id="listening1">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 11: Video Study</span>
+        <h2 class="section-title" contenteditable="true">The Black Hole 🕳️</h2>
+        <p class="section-desc" contenteditable="true">Watch this famous, award-winning short film (3 minutes). It has no speaking! Watch what the man does, and prepare to deduce what happens.</p>
+
+        <div class="listening-station" contenteditable="false">
+            <!-- YouTube Embed -->
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); background-color: #000;">
+                <iframe src="https://www.youtube-nocookie.com/embed/P5_Msrdg3Hk?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="The Black Hole Short Film"></iframe>
+            </div>
+            
+            <div style="text-align: center; margin-top: 16px;">
+                <a href="https://www.youtube.com/watch?v=P5_Msrdg3Hk" target="_blank" rel="noopener noreferrer" style="color: var(--accent-gold); text-decoration: underline; font-size: 0.9rem; font-family: 'Inter', sans-serif;">🔗 Video blocked? Watch on YouTube</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: VIDEO DISCUSSION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 12: Discussion</span>
+        <h2 class="section-title" contenteditable="true">What happened?</h2>
+        <p class="section-desc" contenteditable="true">Discuss the short film with your teacher.</p>
+
+        <div style="background: var(--white); padding: 32px; border-radius: 8px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);">
+            <ul style="list-style: none; padding: 0; margin: 0; line-height: 2.2;" contenteditable="true">
+                <li style="border-bottom: 1px solid var(--gray-200); padding-bottom: 16px; margin-bottom: 16px;"><strong>1.</strong> At the beginning, the man looks very tired. Why? <em>(He must be...)</em></li>
+                <li style="border-bottom: 1px solid var(--gray-200); padding-bottom: 16px; margin-bottom: 16px;"><strong>2.</strong> What did he use the black hole for first? Why was this a bad idea?</li>
+                <li><strong>3.</strong> At the end of the video, where is the man? Will anyone find him? <em>(He might...)</em></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: LISTENING 2 (THE RIDDLE) ====== -->
+<section class="section" id="listening2">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 13: Video Challenge</span>
+        <h2 class="section-title" contenteditable="true">The Bridge Riddle 🌉</h2>
+        <p class="section-desc" contenteditable="true">Put your detective skills to the ultimate test. Watch this TED-Ed riddle. You and your friends are running from zombies. Can you solve the puzzle before the video gives you the answer?</p>
+
+        <div class="listening-station" contenteditable="false" style="background: var(--gray-800); border-bottom-color: var(--accent-red);">
+            <!-- YouTube Embed -->
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); background-color: #000;">
+                <iframe src="https://www.youtube-nocookie.com/embed/7yDmGnA8Hw0?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Can you solve the bridge riddle?"></iframe>
+            </div>
+            
+            <div style="text-align: center; margin-top: 16px;">
+                <a href="https://www.youtube.com/watch?v=7yDmGnA8Hw0" target="_blank" rel="noopener noreferrer" style="color: var(--accent-red-light); text-decoration: underline; font-size: 0.9rem; font-family: 'Inter', sans-serif;">🔗 Video blocked? Watch on YouTube</a>
+            </div>
+        </div>
+        
+        <p contenteditable="true" style="margin-top: 24px; font-size: 1.1rem; color: var(--navy); text-align: center; font-style: italic;">Did you guess the right answer before the timer ran out?</p>
+    </div>
+</section>
+
+<!-- ====== TASK 14: ROLE-PLAY ====== -->
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 14: Speaking</span>
+        <h2 class="section-title" contenteditable="true">The Nosy Neighbors ☕</h2>
+        <p class="section-desc" contenteditable="true">You and your friend are drinking tea by the window. You see strange things happening on the street. Use Modals of Deduction to gossip!</p>
+
+        <div class="chat-flow">
+            <div class="chat-bubble chat-a" contenteditable="true">
+                <strong>You:</strong><br>
+                "Look at Mr. Smith across the street. He is packing a huge suitcase into his car!"
+            </div>
+            
+            <div class="chat-bubble chat-b" contenteditable="true">
+                <strong>Neighbor (Teacher):</strong><br>
+                "Wow! He <em>must be</em> going on a long holiday. Or he <em>might be</em> moving away!"
+            </div>
+            
+            <div class="chat-bubble chat-a" contenteditable="true">
+                <strong>You:</strong><br>
+                "He <em>can't be</em> moving away. His wife is planting new flowers in the garden."
+            </div>
+            
+            <div class="chat-bubble chat-b" contenteditable="true">
+                <strong>Neighbor (Teacher):</strong><br>
+                "Oh, look! Now a police car is stopping in front of their house!"
+            </div>
+            
+            <div class="chat-bubble chat-a" contenteditable="true">
+                <strong>You:</strong><br>
+                <em>[Make a final deduction using MUST or MIGHT!]</em> "Oh my goodness! He..."
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: DEEP DISCUSSION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Task 15: Deep Discussion</span>
+        <h2 class="section-title" contenteditable="true">Real Life Mysteries</h2>
+        <p class="section-desc" contenteditable="true">Discuss these final questions with your teacher.</p>
+
+        <div class="dossier-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="dossier-card" style="border-top-color: var(--primary);">
+                <p contenteditable="true" style="font-size: 1.1rem; line-height: 1.8;">Do you enjoy watching detective shows or reading mystery books (like Agatha Christie)? Who is your favorite detective?</p>
+            </div>
+            <div class="dossier-card" style="border-top-color: var(--accent-gold);">
+                <p contenteditable="true" style="font-size: 1.1rem; line-height: 1.8;">Do you believe in unexplained phenomena (like ghosts, aliens, or the Bermuda Triangle)? Or do you think there <strong>must be</strong> a logical explanation for everything?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== INTERACTIVE WHITEBOARD ====== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="task-label" contenteditable="true">Interactive Space</span>
+        <h2 class="section-title" contenteditable="true">The Detective's Notepad</h2>
+        <p class="section-desc" contenteditable="true">Use the tools below to draw diagrams, write down clues, or take notes.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text (Click canvas)</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                
+                <div style="width: 1px; height: 24px; background: var(--gray-200); margin: 0 10px;"></div>
+                
+                <input type="color" id="wbColor" class="wb-color" value="#2C1E16" title="Change Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; background: var(--accent-red); color: white; border: none;" contenteditable="true">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== SUM UP ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div style="background: var(--primary); color: var(--white); padding: 40px; border-radius: var(--radius-soft); text-align: center; border-top: 6px solid var(--accent-gold);">
+            <h2 class="sans-serif" contenteditable="true" style="color: var(--accent-gold); margin-bottom: 16px;">Case Closed! ✨</h2>
+            <p contenteditable="true"><strong>What we've learned today:</strong></p>
+            <ul style="list-style: none; margin-top: 16px; font-size: 1.1rem; line-height: 1.8; text-align: left; padding: 0 20px;">
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> Hoax, alibi, evidence, suspect, investigate, vanish.</li>
+                <li contenteditable="true">✅ <strong>Grammar (Deduction):</strong> Using MUST BE (100% yes), MIGHT BE (50%), and CAN'T BE (100% no) to guess the truth.</li>
+                <li contenteditable="true">✅ <strong>Listening:</strong> We solved the Bridge Riddle and analyzed the Black Hole short film.</li>
+                <li contenteditable="true">✅ <strong>Speaking Skills:</strong> Gossiping like nosy neighbors and discussing real-life mysteries.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FLOATING ACTIONS (SAVE, RESET & QUIZLET) ====== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Go to Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet">📝</button>
+    <button class="fab-btn save-btn" onclick="window.saveAsPDF()" title="Save as PDF">💾</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background: var(--accent-red);" title="Reset Lesson">🔄</button>
+</div>
+
+<!-- ====== QUIZLET EXPORT MODAL ====== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2 class="sans-serif" style="color: var(--primary);">Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.95rem; color: var(--gray-600); margin-bottom: 24px;">Add English words and their translations. When finished, copy the text and paste it directly into Quizlet's "Import from Word, Excel, Google Docs" tool!</p>
+        
+        <div id="wordList">
+            <div class="word-row">
+                <input type="text" placeholder="English Word" class="q-word">
+                <input type="text" placeholder="Translation (RU/UA)" class="q-trans">
+            </div>
+            <div class="word-row">
+                <input type="text" placeholder="English Word" class="q-word">
+                <input type="text" placeholder="Translation (RU/UA)" class="q-trans">
+            </div>
+            <div class="word-row">
+                <input type="text" placeholder="English Word" class="q-word">
+                <input type="text" placeholder="Translation (RU/UA)" class="q-trans">
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1; text-align: center;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex: 2; text-align: center; background: #4255FF; color: white; border: none;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // --- 1. Text Highlighting Script ---
+    document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); 
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(218, 165, 32, 0.4)'); // Gold highlight
+        }
+    });
+
+    // --- 2. Interactive Whiteboard Script ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resizeCanvas() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500; 
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing = false;
+    let pendingDraw = false;
+    let startX, startY;
+    let currentTool = 'pencil';
+    let currentColor = '#2C1E16'; // Primary Dark Brown
+    let savedImageData;
+
+    const tools = document.querySelectorAll('.wb-btn[data-tool]');
+    const colorPicker = document.getElementById('wbColor');
+    const clearBtn = document.getElementById('wbClear');
+
+    tools.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tools.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    colorPicker.addEventListener('change', (e) => {
+        currentColor = e.target.value;
+    });
+
+    clearBtn.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear();
+    });
+
+    function getMousePos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const pos = getMousePos(e);
+        startX = pos.x;
+        startY = pos.y;
+
+        if (currentTool === 'text') {
+            const text = prompt("Enter text:");
+            if (text) {
+                ctx.font = "20px 'Georgia', serif";
+                ctx.fillStyle = currentColor;
+                ctx.fillText(text, startX, startY);
+                if (window.syncWhiteboardDraw) {
+                    pendingDraw = true;
+                    window.syncWhiteboardDraw();
+                }
+            }
+            return;
+        }
+
+        isDrawing = true;
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor; 
+            ctx.lineWidth = currentTool === 'highlight' ? 15 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        } else {
+            ctx.putImageData(savedImageData, 0, 0);
+            drawShape(pos.x, pos.y);
+        }
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+        if (!isDrawing) return;
+        isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') {
+            const pos = getMousePos(e);
+            drawShape(pos.x, pos.y);
+        }
+        if (window.syncWhiteboardDraw) {
+            pendingDraw = true;
+            window.syncWhiteboardDraw();
+        }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) {
+            isDrawing = false;
+            if (window.syncWhiteboardDraw) {
+                pendingDraw = true;
+                window.syncWhiteboardDraw();
+            }
+        }
+    });
+
+    function drawShape(endX, endY) {
+        ctx.beginPath();
+        ctx.strokeStyle = currentColor;
+        ctx.lineWidth = 2;
+
+        if (currentTool === 'square') {
+            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+        } else if (currentTool === 'circle') {
+            const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+        } else if (currentTool === 'arrow') {
+            const headlen = 15; 
+            const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.stroke();
+        }
+    }
+
+    // --- 3. Drag and Drop for Matching Task ---
+    function setupDragAndDrop(columnId) {
+        const dragColumn = document.getElementById(columnId);
+        if (!dragColumn) return;
+        const dragItems = dragColumn.querySelectorAll('.drag-item');
+
+        dragItems.forEach(item => {
+            item.addEventListener('dragstart', () => { item.classList.add('dragging'); });
+            item.addEventListener('dragend', () => { 
+                item.classList.remove('dragging'); 
+                if (window.syncDragOrder) window.syncDragOrder(columnId); 
+            });
+        });
+
+        dragColumn.addEventListener('dragover', e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(dragColumn, e.clientY);
+            const draggable = document.querySelector('.dragging');
+            if (draggable) {
+                if (afterElement == null) dragColumn.appendChild(draggable);
+                else dragColumn.insertBefore(draggable, afterElement);
+            }
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+                else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    }
+    
+    // Initialize drag boards
+    setupDragAndDrop('mysteryVocab');
+
+    // --- 4. PDF Generation Script ---
+    window.saveAsPDF = function() {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+
+        const element = document.body;
+        const totalHeight = element.scrollHeight;
+        const totalWidth = element.scrollWidth;
+
+        const opt = {
+            margin:       0, 
+            filename:     'Lesson-5-Mysteries-Modals.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, windowWidth: totalWidth, scrollY: 0 },
+            jsPDF:        { unit: 'px', format: [totalWidth, totalHeight], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    }
+
+    // --- 5. Quizlet Modal Scripts ---
+    window.openQuizletModal = function() {
+        document.getElementById('quizletModal').style.display = 'flex';
+    }
+
+    window.closeQuizletModal = function() {
+        document.getElementById('quizletModal').style.display = 'none';
+    }
+
+    window.addWordRow = function() {
+        const row = document.createElement('div');
+        row.className = 'word-row';
+        row.innerHTML = '<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation (RU/UA)" class="q-trans">';
+        document.getElementById('wordList').appendChild(row);
+        const wordList = document.getElementById('wordList');
+        wordList.scrollTop = wordList.scrollHeight;
+    }
+
+    window.copyForQuizlet = function() {
+        const rows = document.querySelectorAll('.word-row');
+        let output = '';
+        
+        rows.forEach(row => {
+            const word = row.querySelector('.q-word').value.trim();
+            const trans = row.querySelector('.q-trans').value.trim();
+            if (word || trans) output += `${word}\t${trans}\n`;
+        });
+
+        if (output) {
+            const textArea = document.createElement("textarea");
+            textArea.value = output;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+
+            const btn = document.getElementById('copyQuizletBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "✅ Copied! Ready to Paste";
+            setTimeout(() => { btn.innerText = originalText; }, 3000);
+        } else {
+            const btn = document.getElementById('copyQuizletBtn');
+            const originalText = btn.innerText;
+            btn.innerText = "⚠️ Add some words first!";
+            setTimeout(() => { btn.innerText = originalText; }, 3000);
+        }
+    }
+    
+    // --- 6. Navigation Link Fix ---
+    document.getElementById('navTabsContainer').addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    const headerOffset = 100;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }
+        }
+    });
+
+    // --- 7. Floating Whiteboard Button Scroll ---
+    window.scrollToWhiteboard = function() {
+        const wbSection = document.getElementById('whiteboard');
+        if (wbSection) {
+            const headerOffset = 100;
+            const elementPosition = wbSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+    }
+</script>
+
+<!-- ====== FIREBASE & ADVANCED SYNC SCRIPT ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac",
+        measurementId: "G-K12KF1N7YS"
+    };
+    
+    // Unique ID for this specific lesson
+    const appId = 'lesson-5-b1-old-general-mysteries-v1';
+
+    const statusText = document.getElementById('syncText');
+    const statusDot = document.getElementById('syncDot');
+    function setStatus(text, color) {
+        if(statusText) statusText.innerText = text;
+        if(statusDot) statusDot.style.background = color;
+    }
+
+    if (!firebaseConfig) {
+        setStatus('Offline Mode', '#94A3B8');
+    } else {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+        let isSyncSetup = false;
+        
+        const myCursorColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        let myCursorName = "Student";
+
+        const editables = document.querySelectorAll('[contenteditable="true"]');
+        const originalStates = {};
+        
+        editables.forEach((el, index) => {
+            el.dataset.syncId = 'edit-' + index;
+            originalStates['edit-' + index] = el.innerHTML;
+        });
+        
+        // Track the original order of the drag items for reset
+        const originalDragOrders = {
+            'mysteryVocab': ['drag-m2', 'drag-m5', 'drag-m1', 'drag-m4', 'drag-m6', 'drag-m3']
+        };
+        let isEditing = null;
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func(...args), wait);
+            };
+        }
+
+        const initAuth = async () => {
+            try {
+                await signInAnonymously(auth);
+            } catch (e) {
+                setStatus('Auth Failed', '#D64550');
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user && !isSyncSetup) {
+                isSyncSetup = true;
+                
+                getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                    myCursorName = "Student " + (snap.size + 1);
+                    setStatus('Live Sync On', '#DAA520'); 
+                    setupRealtimeSync(db, appId);
+                    setupLiveCursors(db, appId);
+                }).catch(err => {
+                    myCursorName = "Student " + (Math.floor(Math.random() * 99) + 1);
+                    setStatus('Live Sync On', '#DAA520'); 
+                    setupRealtimeSync(db, appId);
+                    setupLiveCursors(db, appId);
+                });
+
+            } else if (!user) {
+                setStatus('Disconnected', '#D64550');
+            }
+        });
+
+        initAuth();
+
+        function setupRealtimeSync(db, appId) {
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+            window.saveTextUpdate = (el) => {
+                if (!currentUser) return;
+                setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true });
+            };
+
+            window.attachEditableListeners = (el) => {
+                el.addEventListener('focus', () => { isEditing = el.dataset.syncId; });
+                el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+                el.addEventListener('input', debounce(() => { 
+                    if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); 
+                }, 500));
+            };
+
+            editables.forEach(el => window.attachEditableListeners(el));
+
+            window.addNewTab = (e) => {
+                e.preventDefault();
+                const container = document.getElementById('navTabsContainer');
+                const newLi = document.createElement('li');
+                const newId = 'edit-tab-' + Date.now();
+                newLi.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+                container.appendChild(newLi);
+                
+                const newAnchor = newLi.querySelector('a');
+                window.attachEditableListeners(newAnchor);
+                
+                if (currentUser) {
+                    setDoc(textRef, { 'nav_tabs_structure': container.innerHTML }, { merge: true });
+                }
+            };
+
+            onSnapshot(textRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    for (const [syncId, html] of Object.entries(data)) {
+                        
+                        if (syncId === 'nav_tabs_structure') {
+                            const container = document.getElementById('navTabsContainer');
+                            if (!container.contains(document.activeElement)) {
+                                container.innerHTML = html;
+                                container.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a));
+                            }
+                            continue;
+                        }
+
+                        if (isEditing !== syncId) {
+                            const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                            if (el && el.innerHTML !== html) {
+                                el.innerHTML = html;
+                            }
+                        }
+                    }
+                } else {
+                    Object.entries(originalStates).forEach(([syncId, html]) => {
+                        const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                        if (el && el.innerHTML !== html) el.innerHTML = html;
+                    });
+                }
+            });
+
+            document.addEventListener('paste', function(e) {
+                const target = e.target;
+                if (!target.closest('[contenteditable="true"]')) return;
+
+                const items = (e.clipboardData || window.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        e.preventDefault();
+                        const blob = item.getAsFile();
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = new Image();
+                            img.onload = function() {
+                                const canvas = document.createElement('canvas');
+                                const MAX_WIDTH = 800; 
+                                let width = img.width;
+                                let height = img.height;
+                                if (width > MAX_WIDTH) {
+                                    height *= MAX_WIDTH / width;
+                                    width = MAX_WIDTH;
+                                }
+                                canvas.width = width;
+                                canvas.height = height;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, width, height);
+                                const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                                
+                                const imgWrapper = `<div contenteditable="false" style="margin: 16px 0; text-align: center;"><img src="${dataUrl}" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);"></div><p><br></p>`;
+                                target.focus();
+                                document.execCommand('insertHTML', false, imgWrapper);
+                                target.dispatchEvent(new Event('input', { bubbles: true }));
+                            };
+                            img.src = event.target.result;
+                        };
+                        reader.readAsDataURL(blob);
+                        return; 
+                    }
+                }
+
+                const pasteText = (e.clipboardData || window.clipboardData).getData('text');
+                if (pasteText) {
+                    const ytMatch = pasteText.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                    if (ytMatch && ytMatch[1]) {
+                        e.preventDefault();
+                        const iframeWrapper = `<div contenteditable="false" style="margin: 16px 0; user-select: none; text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; max-width: 100%;"></iframe></div><p><br></p>`;
+                        document.execCommand('insertHTML', false, iframeWrapper);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+
+                    const urlRegex = /^(https?:\/\/[^\s]+)$/i;
+                    if (urlRegex.test(pasteText.trim())) {
+                        e.preventDefault();
+                        const link = `<a href="${pasteText.trim()}" target="_blank" style="color: var(--accent-gold); text-decoration: underline;" contenteditable="false">${pasteText.trim()}</a>`;
+                        document.execCommand('insertHTML', false, link);
+                        target.dispatchEvent(new Event('input', { bubbles: true })); 
+                        return;
+                    }
+                }
+            });
+
+            window.syncDragOrder = (columnId) => {
+                if (!currentUser) return;
+                const dragContainer = document.getElementById(columnId);
+                if(!dragContainer) return;
+                const currentOrder = Array.from(dragContainer.children).map(child => child.id);
+                setDoc(dragRef, { [columnId]: currentOrder }, { merge: true });
+            };
+
+            onSnapshot(dragRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    
+                    Object.keys(originalDragOrders).forEach(columnId => {
+                        const dragContainer = document.getElementById(columnId);
+                        if (!dragContainer) return;
+                        
+                        if (data[columnId]) {
+                            data[columnId].forEach(id => {
+                                const el = document.getElementById(id);
+                                if (el) dragContainer.appendChild(el);
+                            });
+                        }
+                    });
+                } else {
+                    Object.keys(originalDragOrders).forEach(columnId => {
+                        const dragContainer = document.getElementById(columnId);
+                        if (!dragContainer) return;
+                        
+                        originalDragOrders[columnId].forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) dragContainer.appendChild(el);
+                        });
+                    });
+                }
+            });
+
+            window.syncWhiteboardDraw = debounce(() => {
+                if (!currentUser) return;
+                const canvas = document.getElementById('boardCanvas');
+                const dataUrl = canvas.toDataURL('image/png', 0.5);
+                setDoc(wbRef, { image: dataUrl, clearTimestamp: window.lastClear || 0 }, { merge: true });
+                pendingDraw = false;
+            }, 800);
+
+            window.syncWhiteboardClear = () => {
+                if (!currentUser) return;
+                const ts = Date.now();
+                window.lastClear = ts;
+                setDoc(wbRef, { clearTimestamp: ts, image: null }, { merge: true });
+            };
+
+            onSnapshot(wbRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const canvas = document.getElementById('boardCanvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    if (data.clearTimestamp > (window.lastClear || 0)) {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        window.lastClear = data.clearTimestamp;
+                        return;
+                    }
+                    
+                    if (data.image && !pendingDraw) {
+                        const img = new Image();
+                        img.onload = () => {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0);
+                        };
+                        img.src = data.image;
+                    }
+                }
+            });
+        }
+        
+        function setupLiveCursors(db, appId) {
+            const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+            const myCursorRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+            const container = document.getElementById('liveCursorsContainer');
+
+            document.addEventListener('mousemove', debounce((e) => {
+                if (!currentUser) return;
+                const xOffset = e.pageX - (window.innerWidth / 2);
+                setDoc(myCursorRef, {
+                    xOffset: xOffset,
+                    y: e.pageY,
+                    color: myCursorColor,
+                    name: myCursorName,
+                    timestamp: Date.now()
+                });
+            }, 400)); 
+
+            onSnapshot(cursorsCol, (snap) => {
+                snap.docChanges().forEach(change => {
+                    const id = change.doc.id;
+                    if (id === currentUser.uid) return; 
+
+                    if (change.type === 'removed') {
+                        const cursorEl = document.getElementById('cursor-' + id);
+                        if (cursorEl) cursorEl.remove();
+                    } else {
+                        const data = change.doc.data();
+                        
+                        if (Date.now() - data.timestamp > 60000) {
+                            const cursorEl = document.getElementById('cursor-' + id);
+                            if (cursorEl) cursorEl.remove();
+                            return;
+                        }
+
+                        let cursorEl = document.getElementById('cursor-' + id);
+                        if (!cursorEl) {
+                            cursorEl = document.createElement('div');
+                            cursorEl.id = 'cursor-' + id;
+                            cursorEl.className = 'remote-cursor';
+                            cursorEl.innerHTML = `
+                                <svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="remote-cursor-label" style="background: ${data.color}">${data.name}</div>
+                            `;
+                            container.appendChild(cursorEl);
+                        }
+                        
+                        const adjustedX = (window.innerWidth / 2) + data.xOffset;
+                        cursorEl.style.left = adjustedX + 'px';
+                        cursorEl.style.top = data.y + 'px';
+                    }
+                });
+            });
+
+            window.addEventListener('beforeunload', () => {
+                if (currentUser) deleteDoc(myCursorRef);
+            });
+        }
+
+        window.resetLesson = async () => {
+            if (!currentUser) return;
+            if (!confirm("Are you sure you want to reset the lesson? This will clear all text edits, the whiteboard, and rearrange the board for everyone.")) return;
+            
+            setStatus('Resetting...', '#E8A838');
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            
+            await deleteDoc(textRef);
+            await deleteDoc(dragRef);
+            
+            const ts = Date.now();
+            window.lastClear = ts;
+            await setDoc(wbRef, { clearTimestamp: ts, image: null });
+
+            const quizletInputs = document.querySelectorAll('.word-row input');
+            quizletInputs.forEach(input => input.value = '');
+            
+            setTimeout(() => setStatus('Live Sync On', '#DAA520'), 1000);
+        };
+    }
+</script>
+</body>
+</html>
