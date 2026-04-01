@@ -283,19 +283,15 @@
 
         .vocab-card {
             position: relative;
-            background: var(--ink);
             border-radius: var(--r-md);
-            padding: 24px 20px;
+            padding: 0;
             cursor: default;
             overflow: hidden;
-            min-height: 130px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            transition: transform 0.2s;
+            min-height: 150px;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .vocab-card:hover { transform: scale(1.03); }
+        .vocab-card:hover { transform: scale(1.03); box-shadow: var(--shadow-lg); }
 
         .vocab-card:nth-child(1) { background: linear-gradient(135deg, #0F3460, #1A1A2E); }
         .vocab-card:nth-child(2) { background: linear-gradient(135deg, #1e6035, #0a3020); }
@@ -306,29 +302,63 @@
         .vocab-card:nth-child(7) { background: linear-gradient(135deg, #1e3a5f, #0a1a30); }
         .vocab-card:nth-child(8) { background: linear-gradient(135deg, #3d2b00, #1a1200); }
 
+        /* Front face — always visible */
+        .vocab-front {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px 18px;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .vocab-card:hover .vocab-front { opacity: 0; }
+
         .vocab-word {
             font-family: 'Playfair Display', serif;
             font-size: 1.3rem;
             font-weight: 700;
             color: var(--white);
-            z-index: 1;
+            line-height: 1.2;
         }
 
         .vocab-pos {
             font-size: 0.72rem;
             color: rgba(255,255,255,0.5);
             font-style: italic;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
+        /* Hover hint badge */
+        .vocab-hint {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s;
+        }
+
+        .vocab-card:hover .vocab-hint { opacity: 0; }
+
+        /* Back face — definition */
         .vocab-def {
             position: absolute;
             inset: 0;
-            background: rgba(0,0,0,0.88);
-            color: rgba(255,255,255,0.9);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            padding: 18px;
+            background: rgba(0,0,0,0.92);
+            color: rgba(255,255,255,0.92);
+            font-size: 0.86rem;
+            line-height: 1.6;
+            padding: 20px 18px;
             display: flex;
             align-items: center;
             opacity: 0;
@@ -1054,43 +1084,67 @@
 
         <div class="vocab-grid">
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">noun</div>
-                <div class="vocab-word" contenteditable="true">Itinerary</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">noun</div>
+                    <div class="vocab-word" contenteditable="true">Itinerary</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">A detailed plan or route of a journey, including dates, destinations, and scheduled appointments.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">adj.</div>
-                <div class="vocab-word" contenteditable="true">Stringent</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">adj.</div>
+                    <div class="vocab-word" contenteditable="true">Stringent</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">Extremely strict, precise, and demanding in terms of rules, standards, or requirements. Often used for medical regulations.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">noun</div>
-                <div class="vocab-word" contenteditable="true">Accreditation</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">noun</div>
+                    <div class="vocab-word" contenteditable="true">Accreditation</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">Official recognition that a hospital, clinic, or professional meets a required set of national or international standards.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">verb</div>
-                <div class="vocab-word" contenteditable="true">To venture</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">verb</div>
+                    <div class="vocab-word" contenteditable="true">To venture</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">To dare to do something new, dangerous, or unfamiliar; to take a risk on a new experience or destination.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">noun</div>
-                <div class="vocab-word" contenteditable="true">Liability</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">noun</div>
+                    <div class="vocab-word" contenteditable="true">Liability</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">The state of being legally responsible for something, such as a medical complication, injury, or financial loss.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">adj.</div>
-                <div class="vocab-word" contenteditable="true">Immersive</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">adj.</div>
+                    <div class="vocab-word" contenteditable="true">Immersive</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">Providing an experience that deeply engages all the senses, making a person feel completely surrounded by and part of it.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">noun</div>
-                <div class="vocab-word" contenteditable="true">Contingency</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">noun</div>
+                    <div class="vocab-word" contenteditable="true">Contingency</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">A provision for an unforeseen or emergency event; a backup plan that protects against unexpected complications.</div>
             </div>
             <div class="vocab-card">
-                <div class="vocab-pos" contenteditable="true">adj.</div>
-                <div class="vocab-word" contenteditable="true">Substandard</div>
+                <div class="vocab-hint">👁</div>
+                <div class="vocab-front">
+                    <div class="vocab-pos" contenteditable="true">adj.</div>
+                    <div class="vocab-word" contenteditable="true">Substandard</div>
+                </div>
                 <div class="vocab-def" contenteditable="true">Below the standard required or expected; of a quality lower than what is considered acceptable for safe, professional practice.</div>
             </div>
         </div>
@@ -1155,60 +1209,270 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- TASK 7: DRAG & DROP VOCAB MATCH -->
+<!-- TASK 7: VOCABULARY — ERROR SPY GAME -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <section class="section">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 7: Vocabulary Matching</span>
-        <h2 class="section-title" contenteditable="true">Match the Terms</h2>
-        <p class="section-desc" contenteditable="true">Drag the travel and dental expressions on the left to match them with their correct meaning on the right. Note: the order is deliberately shuffled.</p>
+        <span class="section-label" contenteditable="true">Task 7: Vocabulary Game</span>
+        <h2 class="section-title" contenteditable="true">🕵️ Error Spy</h2>
+        <p class="section-desc" contenteditable="true">Each sentence below contains <strong>one wrong vocabulary word</strong> (highlighted in red). Click on the wrong word to remove it, then type the correct word from today's vocabulary in the empty box that appears. Check your answers when you're done!</p>
 
-        <div class="match-board">
-            <ul class="drag-column" id="vocabDragCol">
-                <li class="drag-item" id="dr-e" draggable="true">
-                    <span class="drag-handle">⋮⋮</span>
-                    <span contenteditable="true">to venture abroad</span>
-                </li>
-                <li class="drag-item" id="dr-c" draggable="true">
-                    <span class="drag-handle">⋮⋮</span>
-                    <span contenteditable="true">stringent regulations</span>
-                </li>
-                <li class="drag-item" id="dr-a" draggable="true">
-                    <span class="drag-handle">⋮⋮</span>
-                    <span contenteditable="true">contingency plan</span>
-                </li>
-                <li class="drag-item" id="dr-f" draggable="true">
-                    <span class="drag-handle">⋮⋮</span>
-                    <span contenteditable="true">substandard care</span>
-                </li>
-                <li class="drag-item" id="dr-b" draggable="true">
-                    <span class="drag-handle">⋮⋮</span>
-                    <span contenteditable="true">clinical accreditation</span>
-                </li>
-                <li class="drag-item" id="dr-d" draggable="true">
-                    <span class="drag-handle">⋮⋮</span>
-                    <span contenteditable="true">legal liability</span>
-                </li>
-            </ul>
+        <!-- CSS for the game is inline to keep it self-contained -->
+        <style>
+            .spy-sentence {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: var(--r-md);
+                padding: 20px 24px;
+                margin-bottom: 14px;
+                font-size: 0.97rem;
+                line-height: 1.8;
+                display: flex;
+                align-items: flex-start;
+                gap: 14px;
+                flex-wrap: wrap;
+                transition: border-color 0.3s;
+            }
+            .spy-sentence.correct { border-color: var(--sage); background: rgba(82,183,136,0.06); }
+            .spy-sentence.incorrect { border-color: var(--accent); background: rgba(233,69,96,0.05); animation: shake 0.4s; }
+            @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+            .spy-num { font-weight:800; color:var(--mid); font-size:1rem; min-width:22px; padding-top:1px; }
+            .spy-text { flex:1; min-width:200px; }
+            .wrong-word {
+                background: rgba(233,69,96,0.15);
+                color: var(--accent);
+                font-weight: 700;
+                padding: 2px 8px;
+                border-radius: 4px;
+                border-bottom: 2px solid var(--accent);
+                cursor: pointer;
+                transition: background 0.2s;
+                text-decoration: none;
+                display: inline;
+            }
+            .wrong-word:hover { background: rgba(233,69,96,0.28); }
+            .spy-input-wrap { display:none; align-items:center; gap:8px; margin-top:4px; flex-wrap:wrap; }
+            .spy-input-wrap.visible { display:flex; }
+            .spy-input {
+                border: 2px dashed var(--mid);
+                border-radius: var(--r-sm);
+                padding: 4px 12px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: var(--mid);
+                background: rgba(15,52,96,0.04);
+                min-width: 120px;
+                outline: none;
+            }
+            .spy-input:focus { border-style:solid; background: rgba(15,52,96,0.08); }
+            .spy-check-btn {
+                background: var(--mid);
+                color: white;
+                border: none;
+                padding: 5px 14px;
+                border-radius: var(--r-sm);
+                cursor: pointer;
+                font-size: 0.82rem;
+                font-weight: 700;
+                transition: background 0.2s;
+            }
+            .spy-check-btn:hover { background: var(--ink); }
+            .spy-feedback { font-size:0.82rem; font-weight:700; }
+            .spy-feedback.ok { color: var(--sage); }
+            .spy-feedback.no { color: var(--accent); }
+            .spy-score-bar {
+                background: var(--parchment);
+                border: 2px dashed var(--gold);
+                border-radius: var(--r-md);
+                padding: 20px 28px;
+                margin-top: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+            .spy-score-label { font-weight:700; color:var(--ink); font-family:'Playfair Display',serif; font-size:1.05rem; }
+            .spy-score-display { font-size:2rem; font-weight:900; color:var(--mid); font-family:'Playfair Display',serif; }
+            .spy-reset { background:var(--accent);color:white;border:none;padding:8px 18px;border-radius:50px;cursor:pointer;font-weight:700;font-size:0.85rem;transition:background 0.2s; }
+            .spy-reset:hover { background:#c0364e; }
+        </style>
 
-            <div class="arrows-column">
-                <div class="match-arrow">↔</div>
-                <div class="match-arrow">↔</div>
-                <div class="match-arrow">↔</div>
-                <div class="match-arrow">↔</div>
-                <div class="match-arrow">↔</div>
-                <div class="match-arrow">↔</div>
+        <div id="spyGame">
+            <!-- Sentence 1: wrong = "immersive", correct = "stringent" -->
+            <div class="spy-sentence" id="spy-1">
+                <span class="spy-num" contenteditable="false">1.</span>
+                <div class="spy-text" contenteditable="false">
+                    The clinic held international <span class="wrong-word" onclick="revealInput(1)">itinerary</span> — a formal badge proving their equipment met European safety standards.
+                    <div class="spy-input-wrap" id="wrap-1">
+                        <input class="spy-input" id="input-1" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(1)">
+                        <button class="spy-check-btn" onclick="checkAnswer(1)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-1"></span>
+                    </div>
+                </div>
             </div>
 
-            <ul class="static-column">
-                <li class="static-item" contenteditable="true">a) a backup strategy prepared for unexpected medical complications</li>
-                <li class="static-item" contenteditable="true">b) official recognition that a clinic meets professional quality standards</li>
-                <li class="static-item" contenteditable="true">c) very strict and demanding rules that must be precisely followed</li>
-                <li class="static-item" contenteditable="true">d) being legally responsible for harm caused by medical treatment</li>
-                <li class="static-item" contenteditable="true">e) to take the risk of travelling to an unfamiliar foreign country</li>
-                <li class="static-item" contenteditable="true">f) medical treatment that falls below the required acceptable quality</li>
-            </ul>
+            <!-- Sentence 2: wrong = "liability", correct = "contingency" -->
+            <div class="spy-sentence" id="spy-2">
+                <span class="spy-num" contenteditable="false">2.</span>
+                <div class="spy-text" contenteditable="false">
+                    Before flying to Thailand for her root canal, she wisely arranged a full <span class="wrong-word" onclick="revealInput(2)">liability</span> plan in case complications forced her to stay longer than expected.
+                    <div class="spy-input-wrap" id="wrap-2">
+                        <input class="spy-input" id="input-2" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(2)">
+                        <button class="spy-check-btn" onclick="checkAnswer(2)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-2"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentence 3: wrong = "venture", correct = "substandard" -->
+            <div class="spy-sentence" id="spy-3">
+                <span class="spy-num" contenteditable="false">3.</span>
+                <div class="spy-text" contenteditable="false">
+                    The dental association warned patients to avoid clinics offering <span class="wrong-word" onclick="revealInput(3)">immersive</span> care — procedures that fall below the minimum required safety level.
+                    <div class="spy-input-wrap" id="wrap-3">
+                        <input class="spy-input" id="input-3" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(3)">
+                        <button class="spy-check-btn" onclick="checkAnswer(3)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-3"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentence 4: wrong = "accreditation", correct = "liability" -->
+            <div class="spy-sentence" id="spy-4">
+                <span class="spy-num" contenteditable="false">4.</span>
+                <div class="spy-text" contenteditable="false">
+                    When a foreign clinic performs an implant that later fails, questions of <span class="wrong-word" onclick="revealInput(4)">accreditation</span> — who is legally responsible — become extremely complicated across different legal systems.
+                    <div class="spy-input-wrap" id="wrap-4">
+                        <input class="spy-input" id="input-4" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(4)">
+                        <button class="spy-check-btn" onclick="checkAnswer(4)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-4"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentence 5: wrong = "contingency", correct = "itinerary" -->
+            <div class="spy-sentence" id="spy-5">
+                <span class="spy-num" contenteditable="false">5.</span>
+                <div class="spy-text" contenteditable="false">
+                    His travel agent sent him a detailed <span class="wrong-word" onclick="revealInput(5)">stringent</span> that showed his three appointments in Budapest interleaved with city tours on each recovery day.
+                    <div class="spy-input-wrap" id="wrap-5">
+                        <input class="spy-input" id="input-5" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(5)">
+                        <button class="spy-check-btn" onclick="checkAnswer(5)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-5"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentence 6: wrong = "substandard", correct = "venture" -->
+            <div class="spy-sentence" id="spy-6">
+                <span class="spy-num" contenteditable="false">6.</span>
+                <div class="spy-text" contenteditable="false">
+                    It takes real courage to <span class="wrong-word" onclick="revealInput(6)">substandard</span> thousands of miles from home for a complex medical procedure, especially when you don't speak the local language.
+                    <div class="spy-input-wrap" id="wrap-6">
+                        <input class="spy-input" id="input-6" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(6)">
+                        <button class="spy-check-btn" onclick="checkAnswer(6)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-6"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentence 7: wrong = "stringent", correct = "immersive" -->
+            <div class="spy-sentence" id="spy-7">
+                <span class="spy-num" contenteditable="false">7.</span>
+                <div class="spy-text" contenteditable="false">
+                    Combining dental treatment with travel creates an <span class="wrong-word" onclick="revealInput(7)">contingency</span> cultural experience — patients don't just fix their teeth, they fully engage with a new country's food, history and people.
+                    <div class="spy-input-wrap" id="wrap-7">
+                        <input class="spy-input" id="input-7" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(7)">
+                        <button class="spy-check-btn" onclick="checkAnswer(7)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-7"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sentence 8: wrong = "immersive", correct = "accreditation" / "stringent" -->
+            <div class="spy-sentence" id="spy-8">
+                <span class="spy-num" contenteditable="false">8.</span>
+                <div class="spy-text" contenteditable="false">
+                    The Thai hospital earned JCI <span class="wrong-word" onclick="revealInput(8)">venture</span> — a certification confirming it met the same internationally recognised standards as top clinics in the UK or Germany.
+                    <div class="spy-input-wrap" id="wrap-8">
+                        <input class="spy-input" id="input-8" placeholder="correct word..." onkeydown="if(event.key==='Enter')checkAnswer(8)">
+                        <button class="spy-check-btn" onclick="checkAnswer(8)">Check ✓</button>
+                        <span class="spy-feedback" id="fb-8"></span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="spy-score-bar">
+            <div>
+                <div class="spy-score-label">Your Score</div>
+                <div style="font-size:0.82rem;color:var(--gray-600);">Click each wrong word → type the correct one → Check</div>
+            </div>
+            <div class="spy-score-display"><span id="spyScore">0</span> / 8</div>
+            <button class="spy-reset" onclick="resetSpyGame()">↺ Reset Game</button>
+        </div>
+
+        <script>
+            const answers = {
+                1: 'accreditation',
+                2: 'contingency',
+                3: 'substandard',
+                4: 'liability',
+                5: 'itinerary',
+                6: 'venture',
+                7: 'immersive',
+                8: 'accreditation'
+            };
+            const solved = {};
+
+            function revealInput(n) {
+                const wrap = document.getElementById('wrap-' + n);
+                wrap.classList.add('visible');
+                document.getElementById('input-' + n).focus();
+            }
+
+            function checkAnswer(n) {
+                if (solved[n]) return;
+                const input = document.getElementById('input-' + n).value.trim().toLowerCase();
+                const correct = answers[n];
+                const fb = document.getElementById('fb-' + n);
+                const card = document.getElementById('spy-' + n);
+
+                // Accept both 'accreditation' and 'stringent' for sentence 8
+                const acceptable = n === 8 ? ['accreditation', 'stringent'] : [correct];
+
+                if (acceptable.includes(input)) {
+                    fb.textContent = '✓ Correct!';
+                    fb.className = 'spy-feedback ok';
+                    card.classList.add('correct');
+                    solved[n] = true;
+                    updateScore();
+                } else {
+                    fb.textContent = '✗ Try again';
+                    fb.className = 'spy-feedback no';
+                    card.classList.remove('incorrect');
+                    void card.offsetWidth; // reflow for shake animation
+                    card.classList.add('incorrect');
+                    setTimeout(() => card.classList.remove('incorrect'), 500);
+                }
+            }
+
+            function updateScore() {
+                document.getElementById('spyScore').textContent = Object.keys(solved).length;
+            }
+
+            function resetSpyGame() {
+                for (let n = 1; n <= 8; n++) {
+                    document.getElementById('wrap-' + n).classList.remove('visible');
+                    document.getElementById('input-' + n).value = '';
+                    document.getElementById('fb-' + n).textContent = '';
+                    document.getElementById('spy-' + n).classList.remove('correct', 'incorrect');
+                }
+                Object.keys(solved).forEach(k => delete solved[k]);
+                document.getElementById('spyScore').textContent = '0';
+            }
+        </script>
     </div>
 </section>
 
@@ -1427,36 +1691,185 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- TASK 11: VIDEO STUDY -->
+<!-- TASK 11: VIDEO STUDY — PICO IYER "WHERE IS HOME?" -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <section class="section" id="task-11">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 11: Listening Study</span>
-        <h2 class="section-title" contenteditable="true">Why Do We Travel? 🌍</h2>
-        <p class="section-desc" contenteditable="true">Watch this engaging TED-Ed animation about the psychology behind why human beings have always felt the urge to explore and travel. Listen carefully — you will report the speaker's main claims afterwards.</p>
+        <h2 class="section-title" contenteditable="true">"Where Is Home?" — Pico Iyer 🌍</h2>
+        <p class="section-desc" contenteditable="true">Watch this celebrated TED Talk by travel writer Pico Iyer — a man of Indian blood, raised in England, living in Japan, paying taxes in the USA. He asks: in a world of 220 million global nomads, what does <em>"home"</em> really mean? Watch the full talk (~14 min), then complete the tasks below.</p>
 
         <div class="video-container" contenteditable="false">
-            <iframe src="https://www.youtube.com/embed/0M5KSVR9wHc" title="TED-Ed: Why do we travel?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/3m6dV7Xo3Vc?rel=0&modestbranding=1" title="Pico Iyer: Where is home? | TED Talk" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <a href="https://www.youtube.com/watch?v=0M5KSVR9wHc" target="_blank" class="video-link" contenteditable="true">🔗 Video not loading? Click here to watch on YouTube</a>
+        <a href="https://www.youtube.com/watch?v=3m6dV7Xo3Vc" target="_blank" class="video-link" contenteditable="true">🔗 Video not loading? Click here to watch Pico Iyer on YouTube</a>
     </div>
 </section>
 
 <!-- ══════════════════════════════════════════════════════════ -->
-<!-- TASK 12: VIDEO COMPREHENSION + REPORTED SPEECH -->
+<!-- TASK 12: INTERACTIVE VIDEO COMPREHENSION -->
 <!-- ══════════════════════════════════════════════════════════ -->
 <section class="section">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 12: Video Comprehension & Grammar</span>
-        <h2 class="section-title" contenteditable="true">Reporting the Speaker's Claims</h2>
-        <p class="section-desc" contenteditable="true">Answer these questions about the video, and then practice your Reported Speech by summarising what the narrator stated.</p>
+        <span class="section-label" contenteditable="true">Task 12: Video Comprehension — Interactive</span>
+        <h2 class="section-title" contenteditable="true">True, False, or Not Given?</h2>
+        <p class="section-desc" contenteditable="true">Based on the TED Talk, decide whether each statement is <strong>True</strong>, <strong>False</strong>, or <strong>Not Given</strong> in the video. Click your answer — you'll get immediate feedback. Then discuss <em>why</em> with your partner using Reported Speech: <em>"Iyer claimed that..."</em></p>
 
-        <ul class="practice-list">
-            <li><div contenteditable="true">What evolutionary or psychological explanation does the video give for the human urge to explore? Summarise it using <em>"The narrator explained that..."</em></div></li>
-            <li><div contenteditable="true">What did the video say about the relationship between travel and personal identity? Report the main claim using <em>"The video claimed that..."</em></div></li>
-            <li><div contenteditable="true">The narrator said something about how travel changes our brains or perspectives. Report this in your own words using <em>"The speaker argued that..."</em></div></li>
-            <li><div contenteditable="true">Apply it to dentistry: The Budapest dentist (from Task 5) claimed their work was as good as anywhere in Europe. Now imagine you are telling a colleague about this claim <em>one week later</em>. Report his statement in full, using the correct backshifted tense AND the correct time/place expressions.</div></li>
-        </ul>
+        <style>
+            .tfng-item {
+                background: var(--white);
+                border: 1px solid var(--gray-200);
+                border-radius: var(--r-md);
+                padding: 18px 22px;
+                margin-bottom: 14px;
+                transition: border-color 0.3s;
+            }
+            .tfng-item.t-correct { border-color: var(--sage); background: rgba(82,183,136,0.06); }
+            .tfng-item.t-wrong { border-color: var(--accent); background: rgba(233,69,96,0.05); }
+            .tfng-stmt { font-size:0.97rem; font-weight:500; color:var(--ink); margin-bottom:12px; line-height:1.65; }
+            .tfng-btns { display:flex; gap:10px; flex-wrap:wrap; }
+            .tfng-btn {
+                padding: 6px 18px;
+                border-radius: 50px;
+                border: 2px solid var(--gray-200);
+                background: var(--white);
+                color: var(--gray-600);
+                font-size: 0.82rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .tfng-btn:hover { border-color: var(--mid); color: var(--mid); }
+            .tfng-btn.selected-correct { background: var(--sage); border-color: var(--sage); color: white; }
+            .tfng-btn.selected-wrong { background: var(--accent); border-color: var(--accent); color: white; }
+            .tfng-btn.show-correct { background: var(--sage); border-color: var(--sage); color: white; }
+            .tfng-explain {
+                display: none;
+                margin-top: 10px;
+                font-size: 0.85rem;
+                color: var(--gray-600);
+                padding: 10px 14px;
+                background: var(--gray-100);
+                border-radius: var(--r-sm);
+                border-left: 3px solid var(--gold);
+            }
+            .tfng-explain.visible { display: block; }
+            .tfng-discuss {
+                background: var(--parchment);
+                border: 2px dashed var(--gold);
+                border-radius: var(--r-md);
+                padding: 22px 26px;
+                margin-top: 28px;
+            }
+            .tfng-discuss h4 { font-family:'Playfair Display',serif; color:var(--ink); margin-bottom:12px; font-size:1.05rem; }
+        </style>
+
+        <div id="tfngGame">
+            <div class="tfng-item" id="tfng-1">
+                <div class="tfng-stmt" contenteditable="true">1. Pico Iyer said he has Indian blood and ancestry but has never actually lived in India for a single day of his life.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(1,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(1,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(1,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp-1" contenteditable="true">✓ TRUE. Iyer stated he is "100% Indian in blood and ancestry" but had never lived there, and couldn't speak a single word of India's languages.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng-2">
+                <div class="tfng-stmt" contenteditable="true">2. Iyer believes that the number of people living abroad will eventually reach one billion by 2050.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(2,'T','NG')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(2,'F','NG')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(2,'NG','NG')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp-2" contenteditable="true">✓ NOT GIVEN. Iyer mentioned ~220 million people living abroad and predicted it would be the "fifth largest nation on Earth", but he never stated a specific future figure like one billion.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng-3">
+                <div class="tfng-stmt" contenteditable="true">3. Iyer described travelling as similar to being in love because all your senses are suddenly heightened and "turned on."</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(3,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(3,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(3,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp-3" contenteditable="true">✓ TRUE. He said: "Travel is a little bit like being in love, because suddenly all your senses are at the setting marked 'on.'"</div>
+            </div>
+
+            <div class="tfng-item" id="tfng-4">
+                <div class="tfng-stmt" contenteditable="true">4. After his house in California burned down, Iyer felt devastated and immediately tried to replace all his lost possessions.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(4,'T','F')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(4,'F','F')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(4,'NG','F')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp-4" contenteditable="true">✓ FALSE. Iyer described it as "a terrific liberation." He realised his home would have to be whatever he carried inside himself — he didn't rush to replace anything.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng-5">
+                <div class="tfng-stmt" contenteditable="true">5. Iyer visited a Catholic monastery in California, which he said helped him understand that stillness and movement both require each other to have meaning.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(5,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(5,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(5,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp-5" contenteditable="true">✓ TRUE. Iyer talked about visiting a Benedictine hermitage and concluded that "movement only has meaning if you have a home to go back to."</div>
+            </div>
+
+            <div class="tfng-item" id="tfng-6">
+                <div class="tfng-stmt" contenteditable="true">6. Iyer argued that people who travel extensively tend to earn higher salaries than those who stay in their home countries.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(6,'T','NG')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(6,'F','NG')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(6,'NG','NG')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp-6" contenteditable="true">✓ NOT GIVEN. Iyer spoke about identity and belonging, not income or career outcomes. No mention of salaries was made in the talk.</div>
+            </div>
+        </div>
+
+        <div class="tfng-discuss">
+            <h4 contenteditable="true">🗣 Discussion: Report Iyer's Claims</h4>
+            <p style="font-size:0.94rem;color:var(--gray-600);" contenteditable="true">Now use <strong>Reported Speech</strong> to tell your partner about Iyer's main ideas. Try to use these reporting verbs: <em>claimed, argued, admitted, suggested, stated, explained</em>.</p>
+            <ul class="practice-list" style="margin-top:16px;">
+                <li><div contenteditable="true">Report his main claim about the definition of home: <em>"Iyer argued that home..."</em></div></li>
+                <li><div contenteditable="true">Report what he said about travel feeling like being in love: <em>"He described travel as..."</em></div></li>
+                <li><div contenteditable="true">Report his statement about the fire: <em>"He admitted that when his house burned down, he..."</em></div></li>
+                <li><div contenteditable="true">Connect it to dentistry: Many dental tourists say they discovered their "second home" city during treatment abroad. Report this idea using <em>"Patients have claimed that..."</em></div></li>
+            </ul>
+        </div>
+
+        <script>
+            const tfngAnswers = { 1:'T', 2:'NG', 3:'T', 4:'F', 5:'T', 6:'NG' };
+            const tfngSolved = {};
+
+            function checkTFNG(n, choice, correct) {
+                if (tfngSolved[n]) return;
+                const item = document.getElementById('tfng-' + n);
+                const exp = document.getElementById('exp-' + n);
+                const btns = item.querySelectorAll('.tfng-btn');
+
+                btns.forEach(b => {
+                    const val = b.textContent.trim().split(' ')[0];
+                    if (val === correct || (correct==='NG' && b.textContent.includes('NOT'))) b.classList.add('show-correct');
+                });
+
+                if (choice === correct) {
+                    item.classList.add('t-correct');
+                    // highlight the clicked button
+                    btns.forEach(b => {
+                        const v = b.textContent.split(' ')[0];
+                        if (v === choice || (choice==='NG' && b.textContent.includes('NOT'))) b.classList.add('selected-correct');
+                    });
+                } else {
+                    item.classList.add('t-wrong');
+                    btns.forEach(b => {
+                        const v = b.textContent.split(' ')[0];
+                        if (v === choice || (choice==='NG' && b.textContent.includes('NOT'))) b.classList.add('selected-wrong');
+                    });
+                }
+                exp.classList.add('visible');
+                tfngSolved[n] = true;
+            }
+        </script>
     </div>
 </section>
 
@@ -1762,7 +2175,7 @@
             if (drag) after == null ? col.appendChild(drag) : col.insertBefore(drag, after);
         });
     }
-    setupDrag('vocabDragCol');
+
 
     // ── 4. PDF ──
     window.saveAsPDF = () => {
@@ -1856,7 +2269,7 @@
     const originalStates = {};
     editables.forEach((el, i) => { el.dataset.syncId = 'edit-' + i; originalStates['edit-' + i] = el.innerHTML; });
 
-    const originalDragOrders = { 'vocabDragCol': ['dr-e','dr-c','dr-a','dr-f','dr-b','dr-d'] };
+    const originalDragOrders = {};
     let isEditing = null;
 
     function debounce(fn, wait) {
