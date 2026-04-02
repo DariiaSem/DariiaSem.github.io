@@ -3,312 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>General English A2-B1 Course</title>
+    <title>General English A2-B1 | Course Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        /* Base Styles */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #1A1209;
+            --parchment: #F5EDD8;
+            --parchment-dark: #EAD9B5;
+            --rust: #B84C1C;
+            --rust-light: #D4673A;
+            --gold: #C9933A;
+            --gold-light: #E2B55A;
+            --sage: #3D6B4F;
+            --charcoal: #2E2922;
+            --mist: #8C8070;
+            --cream: #FAF4E8;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 8px rgba(26,18,9,0.08);
+            --shadow-md: 0 6px 24px rgba(26,18,9,0.12);
+            --radius-md: 12px;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.75;
+            overflow-x: hidden;
         }
 
-        h1 {
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: var(--ink);
+            color: var(--white);
+            padding: 100px 24px 80px;
             text-align: center;
-            color: #2c3e50;
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            overflow: hidden;
+            margin-bottom: 60px;
         }
 
-        p.subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 40px;
-            font-size: 1.1em;
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(201,147,58,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 80% 70%, rgba(184,76,28,0.1) 0%, transparent 60%);
         }
 
-        /* Grid Layout */
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(201,147,58,0.15);
+            border: 1px solid rgba(201,147,58,0.35);
+            color: var(--gold-light);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em { color: var(--gold-light); font-style: italic; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--cream);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
         .syllabus-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto;
+            gap: 24px;
         }
 
-        /* Card Styles */
         .lesson-card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 25px;
+            background: var(--white);
+            border: 1px solid var(--parchment-dark);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
             text-decoration: none;
             color: inherit;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-top: 6px solid #3498db; /* Blue accent color */
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-            border-top-color: #2980b9;
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
 
-        .lesson-number {
-            font-size: 0.9em;
+        .card-rust { border-top: 4px solid var(--rust); }
+        .card-gold { border-top: 4px solid var(--gold); }
+        .card-sage { border-top: 4px solid var(--sage); }
+
+        .lesson-num {
+            font-size: 0.75rem;
             font-weight: 700;
-            color: #3498db;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            color: var(--mist);
             margin-bottom: 8px;
         }
 
-        .lesson-topic {
-            font-size: 1.4em;
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .lesson-detail {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .lesson-detail strong {
+            color: var(--ink);
             font-weight: 600;
-            color: #2c3e50;
-            margin: 0 0 15px 0;
         }
 
-        .lesson-details {
-            font-size: 0.95em;
-            color: #555;
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--ink);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1; /* Makes the test span the full width of the grid */
+            margin: 16px 0;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--rust), var(--sage));
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(26,18,9,0.25);
+        }
+
+        .test-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .test-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-light);
             margin-bottom: 8px;
         }
 
-        .lesson-details strong {
-            color: #2c3e50;
+        .test-desc {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            h1 { font-size: 2em; }
-            body { padding: 20px 10px; }
-        }
     </style>
 </head>
 <body>
 
-    <h1>General English A2-B1</h1>
-    <p class="subtitle">Select a lesson below to start learning</p>
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📋 General English · A2–B1</div>
+            <h1>Course <em>Syllabus</em></h1>
+            <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Select a case file below to begin your investigation into grammar, vocabulary, and fluency.</p>
+        </div>
+        <div class="hero-ribbon"></div>
+    </header>
 
-    <div class="syllabus-grid">
+    <main class="container">
+        <div class="syllabus-grid">
 
-        <a href="lesson1.html" class="lesson-card">
-            <div class="lesson-number">Lesson 1</div>
-            <h2 class="lesson-topic">Movies & Cinema</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Comparatives & Superlatives</div>
-            <div class="lesson-details"><strong>Revision:</strong> Verb Patterns</div>
-        </a>
+            <a href="lesson1.html" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 1</div>
+                <h2 class="lesson-title">Movies & Cinema</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Comparatives & Superlatives</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Verb Patterns</div>
+            </a>
 
-        <a href="lesson2.html" class="lesson-card">
-            <div class="lesson-number">Lesson 2</div>
-            <h2 class="lesson-topic">Health & Fitness</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Modals of Advice</div>
-            <div class="lesson-details"><strong>Revision:</strong> Comparatives & Superlatives</div>
-        </a>
+            <a href="lesson2.html" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 2</div>
+                <h2 class="lesson-title">Health & Fitness</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modals of Advice</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Comparatives & Superlatives</div>
+            </a>
 
-        <a href="lesson3.html" class="lesson-card">
-            <div class="lesson-number">Lesson 3</div>
-            <h2 class="lesson-topic">Tech & Gadgets</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Too and Enough</div>
-            <div class="lesson-details"><strong>Revision:</strong> Modals of Advice</div>
-        </a>
+            <a href="lesson3.html" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 3</div>
+                <h2 class="lesson-title">Tech & Gadgets</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Too and Enough</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Modals of Advice</div>
+            </a>
 
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 4</div>
-            <h2 class="lesson-topic">Environment</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Zero & 1st Conditional</div>
-            <div class="lesson-details"><strong>Revision:</strong> Too and Enough</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 5</div>
-            <h2 class="lesson-topic">Jobs & Careers</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Present Perfect (just/already/yet)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Zero & 1st Conditional</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 6</div>
-            <h2 class="lesson-topic">Housing & Homes</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Articles (a, an, the, zero)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Present Perfect</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 7</div>
-            <h2 class="lesson-topic">Relationships</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Indefinite Pronouns</div>
-            <div class="lesson-details"><strong>Revision:</strong> Articles</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 8</div>
-            <h2 class="lesson-topic">Crime & Law</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Passive Voice (Present)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Indefinite Pronouns</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 9</div>
-            <h2 class="lesson-topic">Money & Finance</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Passive Voice (Past)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Passive Voice (Present)</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 10</div>
-            <h2 class="lesson-topic">Sports & Hobbies</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Used to (Habits)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Passive Voice (Past)</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 11</div>
-            <h2 class="lesson-topic">Music & Festivals</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Relative Clauses</div>
-            <div class="lesson-details"><strong>Revision:</strong> Used to</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 12</div>
-            <h2 class="lesson-topic">Social Media</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> So and Such</div>
-            <div class="lesson-details"><strong>Revision:</strong> Relative Clauses</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 13</div>
-            <h2 class="lesson-topic">Fashion & Style</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Order of Adjectives</div>
-            <div class="lesson-details"><strong>Revision:</strong> So and Such</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 14</div>
-            <h2 class="lesson-topic">Personality</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Modals of Deduction (Present)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Order of Adjectives</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 15</div>
-            <h2 class="lesson-topic">Nature & Animals</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> 2nd Conditional</div>
-            <div class="lesson-details"><strong>Revision:</strong> Modals of Deduction</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 16</div>
-            <h2 class="lesson-topic">Science & Space</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Past Perfect</div>
-            <div class="lesson-details"><strong>Revision:</strong> 2nd Conditional</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 17</div>
-            <h2 class="lesson-topic">Culture & Customs</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Reported Speech (Statements)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Past Perfect</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 18</div>
-            <h2 class="lesson-topic">Art & Museums</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Reported Speech (Questions)</div>
-            <div class="lesson-details"><strong>Revision:</strong> Reported Speech (Statements)</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 19</div>
-            <h2 class="lesson-topic">Life Events</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> 3rd Conditional</div>
-            <div class="lesson-details"><strong>Revision:</strong> Reported Speech (Questions)</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 20</div>
-            <h2 class="lesson-topic">Advertising</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Question Tags</div>
-            <div class="lesson-details"><strong>Revision:</strong> 3rd Conditional</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 21</div>
-            <h2 class="lesson-topic">Communication</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Phrasal Verbs</div>
-            <div class="lesson-details"><strong>Revision:</strong> Question Tags</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 22</div>
-            <h2 class="lesson-topic">Daily Routines</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Prepositions of Time</div>
-            <div class="lesson-details"><strong>Revision:</strong> Phrasal Verbs</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 23</div>
-            <h2 class="lesson-topic">Disasters</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Prepositions of Place</div>
-            <div class="lesson-details"><strong>Revision:</strong> Prepositions of Time</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 24</div>
-            <h2 class="lesson-topic">History</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Make vs. Do</div>
-            <div class="lesson-details"><strong>Revision:</strong> Prepositions of Place</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 25</div>
-            <h2 class="lesson-topic">Future & Sci-Fi</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Future Continuous</div>
-            <div class="lesson-details"><strong>Revision:</strong> Make vs. Do</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 26</div>
-            <h2 class="lesson-topic">Volunteering</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Both, Either, Neither</div>
-            <div class="lesson-details"><strong>Revision:</strong> Future Continuous</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 27</div>
-            <h2 class="lesson-topic">Transport 2.0</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Quantifiers</div>
-            <div class="lesson-details"><strong>Revision:</strong> Both, Either, Neither</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 28</div>
-            <h2 class="lesson-topic">Happiness</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> -ed vs. -ing Adjectives</div>
-            <div class="lesson-details"><strong>Revision:</strong> Quantifiers</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 29</div>
-            <h2 class="lesson-topic">Travel Disasters</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Past Perfect Continuous</div>
-            <div class="lesson-details"><strong>Revision:</strong> -ed vs. -ing Adjectives</div>
-        </a>
-
-        <a href="#" class="lesson-card">
-            <div class="lesson-number">Lesson 30</div>
-            <h2 class="lesson-topic">Global Issues</h2>
-            <div class="lesson-details"><strong>Grammar:</strong> Review of Conditionals</div>
-            <div class="lesson-details"><strong>Revision:</strong> Past Perfect Continuous</div>
-        </a>
-
-    </div>
-
-</body>
-</html>
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 4</div>
+                <h2 class="lesson-title">Environment</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Zero & 1st Conditional</div>
+                <div class
