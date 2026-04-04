@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frog Buddy Setup</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+            color: #1f2937;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .bookmarklet-btn {
+            background: #4caf50;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none; /* Disabled until image is uploaded */
+        }
+        .bookmarklet-btn.active {
+            opacity: 1;
+            cursor: grab;
+            pointer-events: auto;
+        }
+        .bookmarklet-btn.active:hover {
+            transform: translateY(-2px);
+            background-color: #43a047;
+            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.3);
+        }
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 20px 0;
+            background: #f8fafc;
+            transition: border-color 0.2s;
+        }
+        .upload-area:hover {
+            border-color: #4caf50;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+        .custom-file-upload:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #2e7d32; margin-top: 0;">🐸 Build Your Frog Buddy</h1>
+        
+        <div style="text-align: left; background: #f0fdf4; padding: 15px; border-radius: 8px; border-left: 4px solid #4caf50; margin-bottom: 20px;">
+            <strong>Step 1:</strong> Upload your exact Frog picture below.<br>
+            <strong>Step 2:</strong> Drag the green button to your Bookmarks Bar!<br><br>
+            <em>Note: The frog will sit in the bottom corner. Click and hold him to pull his stretchy tongue across the screen!</em>
+        </div>
+
+        <!-- Step 1: Upload -->
+        <div class="upload-area">
+            <label class="custom-file-upload">
+                <input type="file" id="image-upload" accept="image/*">
+                Choose Frog Image
+            </label>
+            <p style="font-size: 14px; color: #64748b; margin-top: 15px;">We will compress it and embed it safely inside your bookmarklet.</p>
+            
+            <div id="preview-container" style="display: none; margin-top: 20px;">
+                <p style="font-size: 14px; font-weight: bold; color: #475569; margin-bottom: 5px;">Your Frog Preview:</p>
+                <img id="image-preview" style="width: 120px; height: 120px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+        
+        <!-- Step 2: Drag Button -->
+        <div style="margin-top: 30px;">
+            <a id="bookmarklet" href="#" class="bookmarklet-btn">Upload Image First...</a>
+        </div>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('image-upload');
+        const imagePreview = document.getElementById('image-preview');
+        const previewContainer = document.getElementById('preview-container');
+        const bookmarkletAnchor = document.getElementById('bookmarklet');
+
+        // This function builds the bookmarklet code once we have the image data
+        function generateBookmarklet(base64ImageData) {
+            const buddyCode = `
+                (function() {
+                    /* Clear ALL old instances of widgets and SVG lines */
+                    const oldIds = ['krok-frog-container', 'krok-tongue-svg', 'krok-static-buddy', 'krok-mini-gemini', 'krok-stress-buddy', 'krok-frog-buddy'];
+                    oldIds.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.remove();
+                    });
+
+                    /* --- 1. CREATE THE FROG ANCHOR --- */
+                    const frogContainer = document.createElement('div');
+                    frogContainer.id = 'krok-frog-container';
+
+                    Object.assign(frogContainer.style, {
+                        position: 'fixed',
+                        left: '20px',
+                        bottom: '20px',
+                        width: '140px',
+                        height: '140px',
+                        zIndex: '2147483647',
+                        cursor: 'grab',
+                        userSelect: 'none',
+                        touchAction: 'none',
+                        transition: 'transform 0.1s', /* Small squish reaction */
+                        filter: 'drop-shadow(0 8px 16px rgba(0,0,0,0.25))'
+                    });
+
+                    /* Crops the bottom 28% of the image to hide the static tongue when resting */
+                    const frogCropWrapper = document.createElement('div');
+                    Object.assign(frogCropWrapper.style, {
+                        width: '100%',
+                        height: '100%',
+                        clipPath: 'polygon(0% 0%, 100% 0%, 100% 72%, 0% 72%)',
+                        pointerEvents: 'none'
+                    });
+
+                    /* --- 2. ADD THE CUSTOM IMAGE --- */
+                    const frogImg = document.createElement('img');
+                    frogImg.src = '${base64ImageData}';
+                    
+                    Object.assign(frogImg.style, {
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        pointerEvents: 'none'
+                    });
+
+                    frogCropWrapper.appendChild(frogImg);
+                    frogContainer.appendChild(frogCropWrapper);
+                    document.body.appendChild(frogContainer);
+
+                    /* --- 3. CREATE THE SVG TONGUE LAYER --- */
+                    const svgOverlay = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svgOverlay.id = 'krok-tongue-svg';
+                    Object.assign(svgOverlay.style, {
+                        position: 'fixed',
+                        top: '0',
+                        left: '0',
+                        width: '100%',
+                        height: '100%',
+                        pointerEvents: 'none', /* Lets clicks pass through to the page */
+                        zIndex: '2147483646' /* Placed exactly behind the frog so the tongue emerges from inside */
+                    });
+
+                    /* Base Tongue (Thick Pink) */
+                    const tonguePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    tonguePath.setAttribute('fill', 'none');
+                    tonguePath.setAttribute('stroke', '#ff7675'); /* Soft cartoon pink */
+                    tonguePath.setAttribute('stroke-width', '24');
+                    tonguePath.setAttribute('stroke-linecap', 'round'); /* Perfect round tongue tip */
+
+                    /* Tongue Highlight (Inner Light Pink) */
+                    const tongueHighlight = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    tongueHighlight.setAttribute('fill', 'none');
+                    tongueHighlight.setAttribute('stroke', '#ff9ff3'); /* Highlight color */
+                    tongueHighlight.setAttribute('stroke-width', '8');
+                    tongueHighlight.setAttribute('stroke-linecap', 'round');
+
+                    svgOverlay.appendChild(tonguePath);
+                    svgOverlay.appendChild(tongueHighlight);
+                    document.body.appendChild(svgOverlay);
+
+                    /* --- 4. TONGUE STRETCH AND RETRACT LOGIC --- */
+                    let isDragging = false;
+                    let mouthX = 0, mouthY = 0;
+                    let currentX = 0, currentY = 0;
+                    let animationFrame;
+
+                    const updateMouthPosition = () => {
+                        const rect = frogContainer.getBoundingClientRect();
+                        mouthX = rect.left + rect.width / 2;
+                        /* Put the anchor slightly above the bottom crop line so it emerges seamlessly */
+                        mouthY = rect.top + rect.height * 0.65; 
+                    };
+
+                    const drawTongue = (endX, endY) => {
+                        /* Creates a quadratic curve that droops slightly, mimicking gravity on a heavy tongue */
+                        const cpX = (mouthX + endX) / 2;
+                        const cpY = Math.max(mouthY, endY) + 60;
+                        const d = 'M ' + mouthX + ' ' + mouthY + ' Q ' + cpX + ' ' + cpY + ' ' + endX + ' ' + endY;
+                        
+                        tonguePath.setAttribute('d', d);
+                        tongueHighlight.setAttribute('d', d);
+                    };
+
+                    const startDrag = (e) => {
+                        if (e.button === 2) return; /* Ignore right clicks */
+                        
+                        cancelAnimationFrame(animationFrame); /* Stop any retraction that is currently happening */
+                        isDragging = true;
+                        updateMouthPosition();
+                        
+                        frogContainer.style.cursor = 'grabbing';
+                        frogContainer.style.transform = 'scale(0.95)'; /* Frog squishes down when grabbed */
+                        
+                        currentX = e.clientX ?? e.touches?.[0]?.clientX;
+                        currentY = e.clientY ?? e.touches?.[0]?.clientY;
+                        
+                        drawTongue(currentX, currentY);
+                        e.preventDefault();
+                    };
+
+                    const doDrag = (e) => {
+                        if (!isDragging) return;
+                        e.preventDefault();
+                        
+                        currentX = e.clientX ?? e.touches?.[0]?.clientX;
+                        currentY = e.clientY ?? e.touches?.[0]?.clientY;
+                        
+                        /* Updates the stretchy tongue point to follow the mouse */
+                        drawTongue(currentX, currentY);
+                    };
+
+                    const endDrag = () => {
+                        if (!isDragging) return;
+                        isDragging = false;
+                        
+                        frogContainer.style.cursor = 'grab';
+                        frogContainer.style.transform = 'scale(1)'; /* Un-squish frog */
+
+                        /* --- RETRACTION ANIMATION --- */
+                        const startRetractX = currentX;
+                        const startRetractY = currentY;
+                        const frames = 15; /* Snaps back quickly in 15 frames */
+                        let frame = 0;
+
+                        const animate = () => {
+                            frame++;
+                            const progress = frame / frames;
+                            /* Fast quartic ease-out for a very snappy, elastic recoil */
+                            const ease = 1 - Math.pow(1 - progress, 4);
+                            
+                            const nextX = startRetractX + (mouthX - startRetractX) * ease;
+                            const nextY = startRetractY + (mouthY - startRetractY) * ease;
+                            
+                            drawTongue(nextX, nextY);
+
+                            if (frame < frames) {
+                                animationFrame = requestAnimationFrame(animate);
+                            } else {
+                                /* Fully hidden when retracted */
+                                tonguePath.setAttribute('d', '');
+                                tongueHighlight.setAttribute('d', '');
+                            }
+                        };
+                        animate();
+                    };
+
+                    /* --- 5. ATTACH EVENT LISTENERS --- */
+                    frogContainer.addEventListener('mousedown', startDrag, true);
+                    frogContainer.addEventListener('touchstart', startDrag, { passive: false, capture: true });
+
+                    window.addEventListener('mousemove', doDrag, { passive: false, capture: true });
+                    window.addEventListener('touchmove', doDrag, { passive: false, capture: true });
+
+                    window.addEventListener('mouseup', endDrag, true);
+                    window.addEventListener('touchend', endDrag, true);
+                    
+                    /* Safety catch if the mouse leaves the browser entirely */
+                    window.addEventListener('mouseleave', endDrag, true);
+                    
+                    /* Safety catch if the window resizes so the mouth position recalculates */
+                    window.addEventListener('resize', () => {
+                        if (!isDragging) updateMouthPosition();
+                    });
+
+                })();
+            `;
+
+            // Minify code to fit in a standard URL bookmarklet
+            const minifiedCode = buddyCode.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\n/g, ' ').replace(/\s{2,}/g, ' ').trim();
+            
+            // Activate the button
+            bookmarkletAnchor.href = 'javascript:' + encodeURIComponent(minifiedCode);
+            bookmarkletAnchor.textContent = 'Drag Me to Bookmarks!';
+            bookmarkletAnchor.classList.add('active');
+            
+            bookmarkletAnchor.onclick = (e) => {
+                e.preventDefault();
+                alert("Drag this green button up to your Bookmarks Bar!");
+            };
+        }
+
+        // Process the uploaded image
+        imageUpload.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                // Draw to canvas to resize and compress it (so the bookmarklet isn't too huge for the browser)
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_SIZE = 250; // Keeps file tiny but sharp enough for a 140px widget
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height && width > MAX_SIZE) {
+                        height *= MAX_SIZE / width;
+                        width = MAX_SIZE;
+                    } else if (height > MAX_SIZE) {
+                        width *= MAX_SIZE / height;
+                        height = MAX_SIZE;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Convert to base64 PNG to preserve transparency
+                    const base64Data = canvas.toDataURL('image/png');
+                    
+                    // Show preview
+                    imagePreview.src = base64Data;
+                    previewContainer.style.display = 'block';
+
+                    // Update bookmarklet
+                    generateBookmarklet(base64Data);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Prevent clicking button if it's not ready
+        bookmarkletAnchor.onclick = (e) => {
+            if (!bookmarkletAnchor.classList.contains('active')) {
+                e.preventDefault();
+                alert("Please upload your Frog Image first!");
+            }
+        };
+    </script>
+</body>
+</html>
