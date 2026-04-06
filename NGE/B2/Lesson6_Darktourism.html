@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6: B2/C1 | Dark Tourism & Morbid Curiosity</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #1A1209;
+            --bone: #F5EFE0;
+            --parchment: #EDE4CE;
+            --rust: #9B3922;
+            --rust-light: #C2553A;
+            --amber: #C88B2A;
+            --amber-light: #E8A83A;
+            --sage: #3D5A47;
+            --sage-light: #527A61;
+            --fog: #8A8070;
+            --ash: #D8D0C0;
+            --white: #FDFAF4;
+            --shadow-sm: 0 2px 8px rgba(26,18,9,0.10);
+            --shadow-md: 0 6px 24px rgba(26,18,9,0.14);
+            --shadow-lg: 0 16px 48px rgba(26,18,9,0.18);
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.75;
+            color: var(--ink);
+            background: var(--bone);
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] {
+            outline: none;
+            border-radius: 3px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(155,57,34,0.06); }
+        [contenteditable="true"]:focus { background: rgba(155,57,34,0.09); box-shadow: 0 0 0 2px rgba(155,57,34,0.2); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            background: var(--ink);
+            color: var(--bone);
+            padding: 120px 24px 100px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero-texture {
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(245,239,224,0.03) 39px, rgba(245,239,224,0.03) 40px),
+                repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(245,239,224,0.03) 39px, rgba(245,239,224,0.03) 40px);
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(155,57,34,0.25) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245,239,224,0.08);
+            border: 1px solid rgba(245,239,224,0.15);
+            color: var(--amber-light);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--rust-light);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: rgba(245,239,224,0.65);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: center;
+            opacity: 0.3;
+        }
+        .hero-divider span { width: 60px; height: 1px; background: var(--bone); }
+        .hero-divider .diamond { font-size: 0.6rem; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 70px;
+            background: var(--bone);
+            clip-path: ellipse(52% 100% at 50% 100%);
+        }
+
+        /* ===== NAV ===== */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(245,239,224,0.94);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--ash);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 58px;
+            padding: 0 24px;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--ink);
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--rust); }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            overflow-x: auto;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--fog);
+            font-size: 0.80rem;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 5px;
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a:hover { color: var(--rust); background: rgba(155,57,34,0.07); }
+
+        /* ===== SECTIONS ===== */
+        .section { padding: 90px 24px; }
+        .section:nth-child(even) { background: var(--white); }
+
+        .section-inner { max-width: 920px; margin: 0 auto; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--rust);
+            background: rgba(155,57,34,0.08);
+            padding: 4px 14px;
+            border-radius: 50px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 10px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-desc {
+            color: var(--fog);
+            font-size: 1rem;
+            margin-bottom: 36px;
+            max-width: 660px;
+            font-weight: 400;
+        }
+
+        /* ===== PROMPT LIST ===== */
+        .prompt-list { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+
+        .prompt-item {
+            background: var(--white);
+            border-left: 3px solid var(--rust);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 22px 26px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .prompt-item.amber-border { border-left-color: var(--amber); }
+        .prompt-item.sage-border { border-left-color: var(--sage); }
+
+        .prompt-item strong {
+            display: block;
+            color: var(--ink);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== NEWSPAPER CARD ===== */
+        .newspaper-card {
+            background: var(--parchment);
+            border: 1px solid var(--ash);
+            border-radius: var(--radius-md);
+            padding: 36px 40px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .newspaper-card::before {
+            content: '';
+            position: absolute;
+            top: 12px; left: 12px; right: 12px; bottom: 12px;
+            border: 1px solid rgba(138,128,112,0.2);
+            border-radius: var(--radius-sm);
+            pointer-events: none;
+        }
+
+        .newspaper-drop-cap::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 0.8;
+            float: left;
+            margin-right: 8px;
+            margin-top: 8px;
+            color: var(--rust);
+        }
+
+        .pull-quote {
+            border-left: 4px solid var(--amber);
+            padding: 12px 20px;
+            margin: 20px 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--rust);
+            background: rgba(200,139,42,0.07);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* ===== VOCAB: CRIME SCENE CARDS ===== */
+        .evidence-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .evidence-card {
+            background: var(--ink);
+            color: var(--bone);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+            box-shadow: var(--shadow-md);
+        }
+
+        .evidence-card::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            background: rgba(155,57,34,0.2);
+            border-radius: 50%;
+        }
+
+        .evidence-tag {
+            display: inline-block;
+            background: var(--rust);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 3px;
+            margin-bottom: 12px;
+        }
+
+        .evidence-word {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--amber-light);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .evidence-phonetic {
+            font-size: 0.82rem;
+            color: var(--fog);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .evidence-def {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: rgba(245,239,224,0.80);
+        }
+
+        .evidence-example {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--amber-light);
+            font-style: italic;
+            opacity: 0.85;
+        }
+
+        /* ===== VOCAB FILL-IN ===== */
+        .fill-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 20px;
+            counter-reset: fill-counter;
+        }
+
+        .fill-list li {
+            background: var(--white);
+            padding: 15px 18px 15px 50px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--ash);
+            font-size: 0.98rem;
+            position: relative;
+        }
+
+        .fill-list li::before {
+            counter-increment: fill-counter;
+            content: counter(fill-counter);
+            position: absolute;
+            left: 16px; top: 50%; transform: translateY(-50%);
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--rust);
+            font-size: 1.1rem;
+        }
+
+        .blank-input {
+            display: inline-block;
+            min-width: 80px;
+            border-bottom: 2px dashed var(--ash);
+            color: var(--sage);
+            font-weight: 600;
+            padding: 0 8px;
+            text-align: center;
+            background: rgba(61,90,71,0.05);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .blank-input:focus { outline: none; border-bottom-color: var(--sage); background: rgba(61,90,71,0.1); }
+
+        /* ===== SCENARIO GRID ===== */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 22px;
+            margin-top: 24px;
+        }
+
+        .scenario-card {
+            background: var(--white);
+            border: 1px solid var(--ash);
+            border-radius: var(--radius-lg);
+            padding: 26px;
+            box-shadow: var(--shadow-sm);
+            border-top: 4px solid var(--ink);
+        }
+
+        .scenario-card.rust-top { border-top-color: var(--rust); }
+        .scenario-card.amber-top { border-top-color: var(--amber); }
+        .scenario-card.sage-top { border-top-color: var(--sage); }
+
+        .scenario-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--ink);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        /* ===== GRAMMAR TABLE ===== */
+        .grammar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            font-size: 0.93rem;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--ash);
+        }
+
+        .grammar-table thead th {
+            background: var(--ink);
+            color: var(--bone);
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .grammar-table tbody td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--ash);
+            vertical-align: top;
+            background: var(--white);
+        }
+
+        .grammar-table tbody tr:nth-child(even) td { background: var(--bone); }
+
+        .hl-rust { color: var(--rust); font-weight: 700; }
+        .hl-amber { color: var(--amber); font-weight: 700; }
+        .hl-sage { color: var(--sage); font-weight: 700; }
+
+        /* ===== TIMELINE ===== */
+        .tense-timeline {
+            position: relative;
+            margin: 36px 0;
+            padding: 48px 0 20px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 60px;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rust), var(--amber), var(--sage));
+            border-radius: 3px;
+        }
+
+        .timeline-points {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: relative;
+        }
+
+        .t-point {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .t-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 2px var(--rust);
+            background: var(--rust);
+            position: relative;
+            z-index: 1;
+        }
+
+        .t-dot.amber { background: var(--amber); box-shadow: 0 0 0 2px var(--amber); }
+        .t-dot.sage { background: var(--sage); box-shadow: 0 0 0 2px var(--sage); }
+
+        .t-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--fog);
+            text-transform: uppercase;
+            text-align: center;
+            max-width: 120px;
+        }
+
+        .t-example {
+            background: var(--ink);
+            color: var(--bone);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.83rem;
+            text-align: center;
+            max-width: 160px;
+            line-height: 1.4;
+        }
+
+        .timeline-bottom { margin-top: 20px; }
+
+        /* ===== WARNING BOX ===== */
+        .watch-out {
+            background: rgba(200,139,42,0.10);
+            border-left: 4px solid var(--amber);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        .watch-out strong { color: var(--amber); }
+
+        /* ===== PRACTICE LIST ===== */
+        .practice-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+            counter-reset: practice-counter;
+        }
+
+        .practice-list li {
+            background: var(--white);
+            padding: 16px 18px 16px 50px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--ash);
+            font-size: 0.98rem;
+            position: relative;
+        }
+
+        .practice-list li::before {
+            counter-increment: practice-counter;
+            content: counter(practice-counter) ".";
+            position: absolute;
+            left: 18px; top: 16px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--rust);
+            font-size: 1rem;
+        }
+
+        /* ===== BOARD GAME ===== */
+        .board-game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .board-tile {
+            background: var(--white);
+            border: 2px solid var(--ash);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--ink);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 110px;
+            transition: border-color 0.2s, transform 0.2s;
+            cursor: default;
+        }
+
+        .board-tile:hover { border-color: var(--rust); transform: translateY(-2px); }
+
+        .board-tile span {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--rust);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        /* ===== FLOWCHART ===== */
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin: 28px 0;
+            background: var(--parchment);
+            padding: 36px;
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--amber);
+        }
+
+        .flow-bubble {
+            background: var(--white);
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            color: var(--ink);
+            box-shadow: var(--shadow-sm);
+            border: 2px solid var(--sage);
+            text-align: center;
+            min-width: 260px;
+            font-size: 0.95rem;
+        }
+
+        .flow-bubble.dark {
+            background: var(--ink);
+            border-color: var(--rust);
+            color: var(--bone);
+        }
+
+        .flow-arrow { color: var(--fog); font-size: 1.4rem; line-height: 1; }
+
+        /* ===== PRONUNCIATION ===== */
+        .phono-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 24px;
+        }
+
+        .phono-card {
+            background: var(--ink);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            color: var(--bone);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phono-card::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; right: -20px;
+            width: 80px; height: 80px;
+            background: rgba(200,139,42,0.15);
+            border-radius: 50%;
+        }
+
+        .phono-word {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--amber-light);
+            margin-bottom: 6px;
+        }
+
+        .phono-ipa {
+            font-size: 1rem;
+            color: var(--fog);
+            margin-bottom: 10px;
+        }
+
+        .phono-stressed { color: var(--rust-light); font-weight: 700; font-style: normal; }
+
+        .phono-tip { font-size: 0.85rem; line-height: 1.6; color: rgba(245,239,224,0.75); }
+
+        /* ===== VIDEO CONTAINER ===== */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 24px;
+            background: var(--ink);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
+
+        /* ===== SUM UP ===== */
+        .sum-up-box {
+            background: var(--ink);
+            color: var(--bone);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sum-up-box::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 200px; height: 200px;
+            background: rgba(155,57,34,0.2);
+            border-radius: 50%;
+        }
+
+        .sum-up-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--amber-light);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .sum-up-box ul { list-style: none; margin-top: 16px; font-size: 1rem; line-height: 2; }
+
+        /* ===== WHITEBOARD ===== */
+        .whiteboard-container {
+            border: 2px solid var(--ash);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            overflow: hidden;
+            margin-top: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .wb-toolbar {
+            background: var(--ink);
+            padding: 12px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .wb-btn {
+            background: #2A2010;
+            color: var(--bone);
+            border: 1px solid rgba(245,239,224,0.15);
+            padding: 6px 13px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.83rem;
+            font-weight: 600;
+            transition: background 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .wb-btn:hover, .wb-btn.active { background: var(--rust); border-color: var(--rust-light); }
+
+        .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--bone); cursor: pointer; padding: 0; }
+
+        canvas { display: block; width: 100%; height: 500px; background: var(--white); cursor: crosshair; }
+
+        /* ===== FLOATING ACTIONS ===== */
+        .floating-actions {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            z-index: 1000;
+        }
+
+        .fab-btn {
+            background: var(--ink);
+            color: var(--bone);
+            border: none;
+            width: 54px; height: 54px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-btn:hover { transform: translateY(-3px); background: var(--rust); }
+        .fab-btn.quizlet-btn { background: #4255FF; }
+        .fab-btn.quizlet-btn:hover { background: #2839D0; }
+        .fab-btn.reset-btn { background: var(--rust); }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26,18,9,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 580px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 14px; right: 18px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--fog);
+            transition: color 0.2s;
+        }
+        .close-modal:hover { color: var(--rust); }
+
+        .word-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .word-row input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--ash);
+            border-radius: 6px;
+            font-size: 0.97rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .word-row input:focus { outline: none; border-color: var(--rust); box-shadow: 0 0 0 2px rgba(155,57,34,0.1); }
+        #wordList { max-height: 340px; overflow-y: auto; margin: 18px 0; padding-right: 8px; }
+
+        /* ===== CURSORS ===== */
+        .remote-cursor {
+            position: absolute;
+            pointer-events: none;
+            z-index: 999999;
+            transition: top 0.4s linear, left 0.4s linear;
+            display: flex;
+            align-items: flex-start;
+            opacity: 0;
+            animation: fadeInCursor 0.3s forwards;
+        }
+        @keyframes fadeInCursor { to { opacity: 1; } }
+        .remote-cursor svg { width: 22px; height: 22px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); pointer-events: none; }
+        .remote-cursor-label { color: white; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: -5px; margin-top: 15px; white-space: nowrap; box-shadow: var(--shadow-sm); pointer-events: none; }
+
+        /* ===== MATCHING ===== */
+        .match-board { display: flex; gap: 18px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 11px; list-style: none; }
+        .arrows-column { display: flex; flex-direction: column; gap: 11px; justify-content: space-between; }
+
+        .drag-item {
+            background: var(--white);
+            border: 2px solid var(--sage);
+            border-radius: var(--radius-sm);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            color: var(--ink);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, opacity 0.2s;
+            height: 68px;
+            padding: 0 16px;
+            font-size: 0.92rem;
+        }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.35; border-style: dashed; }
+        .drag-handle { color: var(--sage-light); font-size: 1.3rem; user-select: none; }
+
+        .static-item {
+            background: var(--bone);
+            border: 1px solid var(--ash);
+            border-radius: var(--radius-sm);
+            color: var(--ink);
+            height: 68px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            line-height: 1.4;
+            font-size: 0.90rem;
+        }
+        .match-arrow { color: var(--sage); font-weight: 800; font-size: 1.4rem; height: 68px; display: flex; align-items: center; justify-content: center; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero { padding: 80px 20px 70px; }
+            .section { padding: 60px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 380px; }
+            .match-board { flex-direction: column; }
+            .arrows-column { display: none; }
+            .drag-item, .static-item { height: auto; min-height: 56px; padding: 12px 16px; }
+            .tense-timeline .timeline-points { flex-direction: column; padding: 0; gap: 20px; }
+            .timeline-line { display: none; }
+            .t-example { max-width: 100%; }
+            .floating-actions { bottom: 18px; right: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: rgba(26,18,9,0.88); color: var(--bone); padding: 6px 18px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(6px); border: 1px solid rgba(245,239,224,0.12); font-family: 'DM Sans', sans-serif;">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--amber); border-radius: 50%; box-shadow: 0 0 8px var(--amber);"></span>
+    <span id="syncText">Connecting Classroom...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-texture"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">⚰️ B2 / C1 • General English • Lesson 6</div>
+        <h1 contenteditable="true">Dark Tourism &amp; <em>Morbid Curiosity</em></h1>
+        <p class="hero-subtitle" contenteditable="true">Why do humans pay to visit sites of tragedy? Explore the psychology of disaster tourism, master sophisticated vocabulary for abstract concepts, and conquer the Mixed Conditional.</p>
+        <div class="hero-divider">
+            <span></span>
+            <span class="diamond">◆</span>
+            <span></span>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ===== NAV ===== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">General <span>English</span> B2</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--rust); color: white; padding: 4px 10px; font-weight: 800; border-radius: 50px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#video" contenteditable="true">Video</a></li>
+            <li><a href="#pronunciation" contenteditable="true">Pronunciation</a></li>
+            <li><a href="#roleplay" contenteditable="true">Role-Play</a></li>
+            <li><a href="#whiteboard" contenteditable="true">Whiteboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ===== TASK 1: RECAP ===== -->
+<section class="section" id="recap">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 1 — Grammar Recap</span>
+        <h2 class="section-title" contenteditable="true">The Hunt Continues...</h2>
+        <p class="section-desc" contenteditable="true">Last lesson we dove deep into <strong>Narrative Past Tenses</strong>. Quickly test your memory! Complete each sentence with the correct form: <em>Past Simple, Past Continuous, or Past Perfect</em>.</p>
+
+        <ul class="practice-list">
+            <li contenteditable="true">By the time the detectives <span class="blank-input" contenteditable="true"></span> <em>(arrive)</em> at the crime scene, the main suspect already <span class="blank-input" contenteditable="true"></span> <em>(disappear)</em>.</li>
+            <li contenteditable="true">The curious tourists <span class="blank-input" contenteditable="true"></span> <em>(wander)</em> through the ruins when the guide suddenly <span class="blank-input" contenteditable="true"></span> <em>(stop)</em> and pointed at the wall.</li>
+            <li contenteditable="true">She <span class="blank-input" contenteditable="true"></span> <em>(never / visit)</em> a dark tourism site before, so she <span class="blank-input" contenteditable="true"></span> <em>(feel)</em> strangely nervous.</li>
+            <li contenteditable="true">The town <span class="blank-input" contenteditable="true"></span> <em>(already / become)</em> famous for the disaster long before the documentary <span class="blank-input" contenteditable="true"></span> <em>(air)</em> on television.</li>
+        </ul>
+
+        <div class="watch-out" style="margin-top: 20px;">
+            <strong>🧠 Quick Discussion:</strong> Think back to the Salem Witch Trials text. Can you recall one sentence using the Past Perfect? What had happened <em>before</em> the hysteria began?
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 2: WARM-UP ===== -->
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 2 — Warm-Up Discussion</span>
+        <h2 class="section-title" contenteditable="true">Would You Go?</h2>
+        <p class="section-desc" contenteditable="true">Dark tourism is the practice of visiting sites associated with death, tragedy, or atrocity. Before we dive deeper, discuss these questions with your partner.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true"><span>🏚️ Site 1</span>Chernobyl exclusion zone, Ukraine — a nuclear disaster site open to tourists since 2011.</div>
+            <div class="board-tile" contenteditable="true"><span>⛓️ Site 2</span>Auschwitz-Birkenau, Poland — the former Nazi concentration camp visited by 2 million people per year.</div>
+            <div class="board-tile" contenteditable="true"><span>💣 Site 3</span>Hiroshima Peace Memorial, Japan — ground zero of the first atomic bomb, now a museum.</div>
+            <div class="board-tile" contenteditable="true"><span>🌊 Site 4</span>Pompeii, Italy — the Roman city destroyed and preserved by the eruption of Mount Vesuvius.</div>
+            <div class="board-tile" contenteditable="true"><span>🚢 Site 5</span>Titanic ocean floor — submarine tours to the wreck site are now available for $250,000.</div>
+            <div class="board-tile" contenteditable="true"><span>🩸 Site 6</span>Cambodia's Tuol Sleng Genocide Museum — the former Khmer Rouge prison, now a museum.</div>
+        </div>
+
+        <div class="prompt-list" style="margin-top: 28px;">
+            <div class="prompt-item amber-border">
+                <strong contenteditable="true">The Key Questions</strong>
+                <p contenteditable="true">1. Which of these sites would you visit? Which would feel uncomfortable? Why?</p>
+                <p contenteditable="true">2. Is there a moral difference between visiting Chernobyl for adventure and visiting Auschwitz for education?</p>
+                <p contenteditable="true">3. Do you think dark tourism helps or harms the memory of victims?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 3: VOCABULARY ===== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 3 — Vocabulary: The Evidence Board</span>
+        <h2 class="section-title" contenteditable="true">Case Files: 8 Words to Master</h2>
+        <p class="section-desc" contenteditable="true">Study these C1-level words. Each one appears as a tagged evidence card — learn the word, its pronunciation, and a usage example. You will need them for the reading and writing tasks ahead.</p>
+
+        <div class="evidence-board">
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Noun</span>
+                <span class="evidence-word" contenteditable="true">macabre</span>
+                <div class="evidence-phonetic" contenteditable="true">/məˈkɑːbrə/</div>
+                <div class="evidence-def" contenteditable="true">Disturbing and horrifying due to its connection with death or injury; grotesque.</div>
+                <div class="evidence-example" contenteditable="true">"Visitors were drawn to the macabre displays of human ash at the memorial."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Noun</span>
+                <span class="evidence-word" contenteditable="true">voyeurism</span>
+                <div class="evidence-phonetic" contenteditable="true">/ˈvɔɪ.ər.ɪ.z(ə)m/</div>
+                <div class="evidence-def" contenteditable="true">The practice of deriving pleasure from observing the private suffering or misfortune of others.</div>
+                <div class="evidence-example" contenteditable="true">"Critics argue that dark tourism is little more than glorified voyeurism."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Adjective</span>
+                <span class="evidence-word" contenteditable="true">morbid</span>
+                <div class="evidence-phonetic" contenteditable="true">/ˈmɔː.bɪd/</div>
+                <div class="evidence-def" contenteditable="true">Having an excessive interest in disturbing and unpleasant subjects, especially death.</div>
+                <div class="evidence-example" contenteditable="true">"Her morbid fascination with Victorian funeral rites became an academic specialty."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Noun</span>
+                <span class="evidence-word" contenteditable="true">atrocity</span>
+                <div class="evidence-phonetic" contenteditable="true">/əˈtrɒs.ɪ.ti/</div>
+                <div class="evidence-def" contenteditable="true">An extremely wicked or cruel act, typically involving physical violence or injury on a massive scale.</div>
+                <div class="evidence-example" contenteditable="true">"The museum was built to ensure the world never forgets the atrocities committed there."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Noun</span>
+                <span class="evidence-word" contenteditable="true">commodification</span>
+                <div class="evidence-phonetic" contenteditable="true">/kəˌmɒd.ɪ.fɪˈkeɪ.ʃən/</div>
+                <div class="evidence-def" contenteditable="true">The process of treating something as a commodity — something to be bought, sold, or profited from.</div>
+                <div class="evidence-example" contenteditable="true">"The commodification of tragedy raises profound ethical questions."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Verb</span>
+                <span class="evidence-word" contenteditable="true">grapple</span>
+                <div class="evidence-phonetic" contenteditable="true">/ˈɡræp.əl/</div>
+                <div class="evidence-def" contenteditable="true">To struggle or deal with (a difficult problem or challenge); to try to overcome or understand something complex.</div>
+                <div class="evidence-example" contenteditable="true">"Society continues to grapple with the ethics of filming disasters for social media."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Noun</span>
+                <span class="evidence-word" contenteditable="true">catharsis</span>
+                <div class="evidence-phonetic" contenteditable="true">/kəˈθɑː.sɪs/</div>
+                <div class="evidence-def" contenteditable="true">The process of releasing strong or repressed emotions through a powerful experience; emotional purification.</div>
+                <div class="evidence-example" contenteditable="true">"For many survivors, revisiting the site provided an unexpected catharsis."</div>
+            </div>
+            <div class="evidence-card">
+                <span class="evidence-tag" contenteditable="true">Adjective</span>
+                <span class="evidence-word" contenteditable="true">solemn</span>
+                <div class="evidence-phonetic" contenteditable="true">/ˈsɒl.əm/</div>
+                <div class="evidence-def" contenteditable="true">Formal and dignified; not cheerful or smiling; characterized by deep sincerity and serious intent.</div>
+                <div class="evidence-example" contenteditable="true">"The atmosphere at the memorial was deeply solemn; nobody spoke above a whisper."</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 4: VOCABULARY PRACTICE ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 4 — Vocabulary Practice</span>
+        <h2 class="section-title" contenteditable="true">Odd One Out & Contextual Use</h2>
+        <p class="section-desc" contenteditable="true">Two activities to lock in the new vocabulary. First, identify the odd one out in each group and explain <em>why</em> — there is no single right answer, defend your logic! Then, fill the gaps using the words from Task 3.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card rust-top">
+                <h3 contenteditable="true">🔍 Group A — Circle the Odd One Out</h3>
+                <p contenteditable="true">macabre / morbid / solemn / gruesome</p>
+                <br>
+                <p contenteditable="true" style="font-size: 0.88rem; color: var(--fog);">Your reasoning:</p>
+                <div contenteditable="true" style="margin-top: 8px; min-height: 40px; border-bottom: 1px dashed var(--ash); font-size: 0.9rem;"></div>
+            </div>
+            <div class="scenario-card amber-top">
+                <h3 contenteditable="true">🔍 Group B — Circle the Odd One Out</h3>
+                <p contenteditable="true">catharsis / relief / commodification / liberation</p>
+                <br>
+                <p contenteditable="true" style="font-size: 0.88rem; color: var(--fog);">Your reasoning:</p>
+                <div contenteditable="true" style="margin-top: 8px; min-height: 40px; border-bottom: 1px dashed var(--ash); font-size: 0.9rem;"></div>
+            </div>
+            <div class="scenario-card sage-top">
+                <h3 contenteditable="true">🔍 Group C — Circle the Odd One Out</h3>
+                <p contenteditable="true">grapple / confront / avoid / wrestle</p>
+                <br>
+                <p contenteditable="true" style="font-size: 0.88rem; color: var(--fog);">Your reasoning:</p>
+                <div contenteditable="true" style="margin-top: 8px; min-height: 40px; border-bottom: 1px dashed var(--ash); font-size: 0.9rem;"></div>
+            </div>
+        </div>
+
+        <h3 contenteditable="true" style="margin-top: 36px; margin-bottom: 6px; font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--ink);">Fill in the Gaps</h3>
+        <p contenteditable="true" style="color: var(--fog); font-size: 0.95rem; margin-bottom: 12px;">Words: <em>atrocities, voyeurism, commodification, catharsis, macabre, solemn, morbid, grapple</em></p>
+
+        <ul class="fill-list">
+            <li contenteditable="true">The ceremony at the war memorial was a deeply <span class="blank-input" contenteditable="true"></span> affair — no photographs were permitted.</li>
+            <li contenteditable="true">Philosophers continue to <span class="blank-input" contenteditable="true"></span> with the question of whether photographing suffering is ethically justifiable.</li>
+            <li contenteditable="true">The artist's <span class="blank-input" contenteditable="true"></span> collection featured sculptures made entirely from bones and funeral flowers.</li>
+            <li contenteditable="true">Many psychologists argue that watching horror films provides a form of <span class="blank-input" contenteditable="true"></span>, allowing us to safely process fear.</li>
+            <li contenteditable="true">The <span class="blank-input" contenteditable="true"></span> of grief — selling "authentic trauma tours" — remains highly controversial in academic circles.</li>
+            <li contenteditable="true">The museum was founded to document the <span class="blank-input" contenteditable="true"></span> committed during the occupation, so that history would not be repeated.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== TASK 5 & 6: READING ===== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Tasks 5 & 6 — Reading & Comprehension</span>
+        <h2 class="section-title" contenteditable="true">The Thanatourism Debate</h2>
+        <p class="section-desc" contenteditable="true">Read this adapted academic article about dark tourism (also called "thanatourism"). Notice how the author uses hedging language and sophisticated vocabulary.</p>
+
+        <div class="newspaper-card">
+            <p class="newspaper-drop-cap" contenteditable="true">In the summer of 2019, a queue of over two thousand people stretched along the perimeter fence of the Chernobyl Exclusion Zone. They had come not in spite of the catastrophe that had occurred there, but precisely because of it. This is the paradox at the heart of dark tourism — a multi-billion-dollar industry that scholars have only recently begun to examine with the seriousness it deserves.</p>
+
+            <div class="pull-quote" contenteditable="true">"We are drawn to death because it is the one thing we cannot understand from the inside."</div>
+
+            <p contenteditable="true" style="margin-bottom: 14px;">The academic who coined the term "thanatourism" — the Greek <em>thanatos</em> meaning death — argued that the impulse is neither new nor inherently pathological. Romans flocked to gladiatorial arenas; Victorian Londoners purchased tickets to public executions. The morbid curiosity embedded in human nature appears to predate mass tourism by several millennia.</p>
+
+            <p contenteditable="true" style="margin-bottom: 14px;">What has changed, however, is the scale and the commodification of these experiences. A ticket to tour Auschwitz-Birkenau costs around 80 Polish złoty. Submarine expeditions to the Titanic wreck were marketed at $250,000 per passenger before the ill-fated Titan submersible disaster of 2023. Critics argue that this transformation of atrocity into a product to be purchased is deeply voyeuristic — a form of disaster entertainment that risks trivializing genuine human suffering.</p>
+
+            <p contenteditable="true" style="margin-bottom: 14px;">Defenders, however, argue the opposite. If people had not visited Hiroshima, would the world so viscerally grapple with the moral weight of nuclear weapons? The solemn atmosphere that descends upon visitors to war memorials and genocide museums can produce a genuine catharsis — a reckoning with history that no documentary or textbook can fully replicate. "If dark tourism did not exist," argued one scholar, "we would probably need to invent it."</p>
+
+            <p contenteditable="true">The question, ultimately, may be less about <em>whether</em> people visit these sites and more about <em>how</em> they behave when they do. Selfies in front of gas chambers and souvenir mugs printed with images of nuclear shadows represent a macabre failure of empathy. But a quiet hour of reflection at a memorial wall may represent something altogether more profound — humanity's attempt to look directly at its own capacity for destruction without flinching.</p>
+        </div>
+
+        <div class="prompt-list" style="margin-top: 32px;">
+            <div class="prompt-item">
+                <strong contenteditable="true">Task 6: Comprehension & Discussion</strong>
+                <p contenteditable="true">1. What is "thanatourism" and why does the author suggest the impulse is not new?</p>
+                <p contenteditable="true">2. What does the article identify as the main criticism of modern dark tourism?</p>
+                <p contenteditable="true">3. How do defenders of dark tourism argue its value? Do you agree?</p>
+                <p contenteditable="true">4. Find the phrase "a reckoning with history." What does it mean in context? Can you rephrase it?</p>
+                <p contenteditable="true">5. The author distinguishes between acceptable and unacceptable behavior at dark sites. Where do YOU draw the line?</p>
+            </div>
+            <div class="prompt-item sage-border">
+                <strong contenteditable="true">🔎 True, False, or Not Mentioned?</strong>
+                <p contenteditable="true">a) The term "thanatourism" originates from Latin. <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true">b) Tickets to Auschwitz cost around 80 złoty. <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true">c) The Titan submersible disaster occurred in 2023. <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true">d) The author ultimately concludes that dark tourism is immoral. <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true">e) Roman citizens attended public executions. <span class="blank-input" contenteditable="true"></span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 7: VOCABULARY MATCHING ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 7 — Vocabulary Matching</span>
+        <h2 class="section-title" contenteditable="true">Collocations: How These Words Live</h2>
+        <p class="section-desc" contenteditable="true">Strong vocabulary means knowing which words travel together. Drag the left column to match each collocation with its correct partner on the right. These are taken from the article and academic writing.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="collocCol">
+                <li class="drag-item" id="drag-c4" draggable="true"><span class="drag-handle">⋮⋮</span> <span contenteditable="true">profound catharsis</span></li>
+                <li class="drag-item" id="drag-c1" draggable="true"><span class="drag-handle">⋮⋮</span> <span contenteditable="true">commit atrocities</span></li>
+                <li class="drag-item" id="drag-c6" draggable="true"><span class="drag-handle">⋮⋮</span> <span contenteditable="true">commodification of grief</span></li>
+                <li class="drag-item" id="drag-c2" draggable="true"><span class="drag-handle">⋮⋮</span> <span contenteditable="true">grapple with a dilemma</span></li>
+                <li class="drag-item" id="drag-c5" draggable="true"><span class="drag-handle">⋮⋮</span> <span contenteditable="true">solemn occasion</span></li>
+                <li class="drag-item" id="drag-c3" draggable="true"><span class="drag-handle">⋮⋮</span> <span contenteditable="true">morbid fascination</span></li>
+            </ul>
+
+            <div class="arrows-column">
+                <div class="match-arrow">↔</div>
+                <div class="match-arrow">↔</div>
+                <div class="match-arrow">↔</div>
+                <div class="match-arrow">↔</div>
+                <div class="match-arrow">↔</div>
+                <div class="match-arrow">↔</div>
+            </div>
+
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) an unhealthy, obsessive interest in something disturbing</li>
+                <li class="static-item" contenteditable="true">b) to carry out extreme acts of violence against people</li>
+                <li class="static-item" contenteditable="true">c) to struggle with a morally complex problem</li>
+                <li class="static-item" contenteditable="true">d) turning sorrow and loss into a product to be sold</li>
+                <li class="static-item" contenteditable="true">e) a deep and meaningful emotional release</li>
+                <li class="static-item" contenteditable="true">f) a formal, dignified, and serious event</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 8: GRAMMAR THEORY ===== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 8 — Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">The Mixed Conditional</h2>
+        <p class="section-desc" contenteditable="true">You know the 2nd Conditional (present unreal) and the 3rd Conditional (past regrets). The <strong>Mixed Conditional</strong> combines them — it links a <em>past</em> condition to a <em>present</em> result, or a <em>present</em> condition to a <em>past</em> result.</p>
+
+        <!-- Timeline Visual -->
+        <div class="tense-timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-points">
+                <div class="t-point">
+                    <div class="t-dot"></div>
+                    <div class="t-label" contenteditable="true">PAST CONDITION<br>(if clause)</div>
+                    <div class="t-example" contenteditable="true">"If they hadn't built that memorial..."</div>
+                </div>
+                <div class="t-point">
+                    <div class="t-dot amber"></div>
+                    <div class="t-label" contenteditable="true">NOW ← Crosses time →</div>
+                    <div class="t-example" contenteditable="true">The result affects the PRESENT</div>
+                </div>
+                <div class="t-point">
+                    <div class="t-dot sage"></div>
+                    <div class="t-label" contenteditable="true">PRESENT RESULT<br>(main clause)</div>
+                    <div class="t-example" contenteditable="true">"...we wouldn't understand the atrocities today."</div>
+                </div>
+            </div>
+        </div>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Type</th>
+                    <th contenteditable="true">Structure</th>
+                    <th contenteditable="true">Meaning</th>
+                    <th contenteditable="true">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Mixed Type A</strong><br><span style="font-size:0.82rem; color: var(--fog);">Past → Present</span></td>
+                    <td contenteditable="true"><span class="hl-rust">If + Past Perfect</span>, <span class="hl-sage">would/could + infinitive</span></td>
+                    <td contenteditable="true">If something had (or hadn't) happened in the past, the present situation would be different.</td>
+                    <td contenteditable="true"><em>"If Chernobyl hadn't been opened to tourists, it <strong>would still be</strong> completely unknown to most people."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Mixed Type B</strong><br><span style="font-size:0.82rem; color: var(--fog);">Present → Past</span></td>
+                    <td contenteditable="true"><span class="hl-rust">If + Past Simple</span>, <span class="hl-sage">would have + Past Participle</span></td>
+                    <td contenteditable="true">If someone's current character/situation were different, a past event would have been different.</td>
+                    <td contenteditable="true"><em>"If she weren't so curious about history, she <strong>wouldn't have visited</strong> Auschwitz in the first place."</em></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="watch-out" style="margin-top: 20px;">
+            <strong>⚠️ Key Difference:</strong> In Mixed Type A, the <em>past event is imaginary</em> — it creates a different present. In Mixed Type B, the <em>present state is imaginary</em> — it retroactively changes a past outcome. Look for time adverbs like <em>"now," "still," "today"</em> (Type A) vs <em>"back then," "at the time," "yesterday"</em> (Type B).
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 9: GRAMMAR CONTRAST ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 9 — Grammar: Full Conditionals Revision</span>
+        <h2 class="section-title" contenteditable="true">The Conditional Ladder</h2>
+        <p class="section-desc" contenteditable="true">Let's map all four conditionals together so you can see exactly when to use each one. Study the table and then discuss the examples with your teacher.</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Type</th>
+                    <th contenteditable="true">If-Clause</th>
+                    <th contenteditable="true">Main Clause</th>
+                    <th contenteditable="true">Real or Unreal?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Zero</strong></td>
+                    <td contenteditable="true">If + Present Simple</td>
+                    <td contenteditable="true">Present Simple</td>
+                    <td contenteditable="true">Always true / general facts. <em>"If you visit Pompeii, you see the casts."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>1st</strong></td>
+                    <td contenteditable="true">If + Present Simple</td>
+                    <td contenteditable="true">will + Infinitive</td>
+                    <td contenteditable="true">Real future possibility. <em>"If you go to Chernobyl, you will need a guide."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>2nd</strong></td>
+                    <td contenteditable="true">If + Past Simple</td>
+                    <td contenteditable="true">would + Infinitive</td>
+                    <td contenteditable="true">Unreal present/future. <em>"If I had the money, I would visit Hiroshima."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>3rd</strong></td>
+                    <td contenteditable="true">If + Past Perfect</td>
+                    <td contenteditable="true">would have + V3</td>
+                    <td contenteditable="true">Unreal past. <em>"If she had booked earlier, she would have got a place."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Mixed A</strong></td>
+                    <td contenteditable="true">If + Past Perfect</td>
+                    <td contenteditable="true">would + Infinitive</td>
+                    <td contenteditable="true">Past condition → Present result. <em>"If they hadn't built the museum, we wouldn't know today."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Mixed B</strong></td>
+                    <td contenteditable="true">If + Past Simple</td>
+                    <td contenteditable="true">would have + V3</td>
+                    <td contenteditable="true">Present state → Past result. <em>"If she weren't so brave, she wouldn't have entered."</em></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ===== TASK 10: GRAMMAR PRACTICE ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 10 — Grammar Practice</span>
+        <h2 class="section-title" contenteditable="true">Identify & Complete</h2>
+        <p class="section-desc" contenteditable="true">Two exercises. First, identify what type of conditional each sentence is. Then complete the gaps with the correct verb form.</p>
+
+        <div class="scenario-grid" style="margin-bottom: 32px;">
+            <div class="scenario-card rust-top">
+                <h3 contenteditable="true">Part A: What type is it?</h3>
+                <p contenteditable="true" style="margin-bottom: 10px; font-size: 0.92rem;">Write 2nd, 3rd, Mixed A, or Mixed B next to each sentence.</p>
+                <p contenteditable="true" style="margin-bottom: 8px;">1. "If he weren't so fascinated by history, he wouldn't have studied this period." → <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true" style="margin-bottom: 8px;">2. "If the disaster hadn't happened, Chernobyl would still be just another city." → <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true" style="margin-bottom: 8px;">3. "If I spoke better English, I would travel more independently." → <span class="blank-input" contenteditable="true"></span></p>
+                <p contenteditable="true">4. "If they had read the warnings, they wouldn't have entered without permits." → <span class="blank-input" contenteditable="true"></span></p>
+            </div>
+            <div class="scenario-card amber-top">
+                <h3 contenteditable="true">Part B: Spot the Error</h3>
+                <p contenteditable="true" style="margin-bottom: 10px; font-size: 0.92rem;">Find and correct the mistake in each sentence.</p>
+                <p contenteditable="true" style="margin-bottom: 8px;">1. "If she would have known about the exhibit, she would have visited it." →</p>
+                <div contenteditable="true" style="border-bottom: 1px dashed var(--ash); min-height: 28px; font-size: 0.9rem; margin-bottom: 12px;"></div>
+                <p contenteditable="true" style="margin-bottom: 8px;">2. "If he wasn't so timid, he would have entered the site last year." →</p>
+                <div contenteditable="true" style="border-bottom: 1px dashed var(--ash); min-height: 28px; font-size: 0.9rem; margin-bottom: 12px;"></div>
+                <p contenteditable="true">3. "If they hadn't demolished it, this building would still stands today." →</p>
+                <div contenteditable="true" style="border-bottom: 1px dashed var(--ash); min-height: 28px; font-size: 0.9rem;"></div>
+            </div>
+        </div>
+
+        <h3 contenteditable="true" style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--ink); margin-bottom: 12px;">Part C: Complete the Conditionals</h3>
+        <ul class="practice-list">
+            <li contenteditable="true">If the guide <span class="blank-input" contenteditable="true"></span> <em>(not explain)</em> the historical context, the tourists <span class="blank-input" contenteditable="true"></span> <em>(understand, not)</em> the significance of what they were seeing right now.</li>
+            <li contenteditable="true">If Pompeii <span class="blank-input" contenteditable="true"></span> <em>(not be preserved)</em> so perfectly, archaeologists <span class="blank-input" contenteditable="true"></span> <em>(know, not)</em> nearly as much about Roman daily life today.</li>
+            <li contenteditable="true">If she <span class="blank-input" contenteditable="true"></span> <em>(not be)</em> so empathetic, she <span class="blank-input" contenteditable="true"></span> <em>(not feel)</em> such profound catharsis when she visited the memorial last year.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== TASK 11: VIDEO ===== -->
+<section class="section" id="video">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 11 — Video Study</span>
+        <h2 class="section-title" contenteditable="true">Why Do We Visit Places of Death? 🎬</h2>
+        <p class="section-desc" contenteditable="true">Watch this documentary-style video exploring the psychology of dark tourism and thanatourism. Pay attention to the arguments <em>for</em> and <em>against</em> visiting sites of tragedy.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube-nocookie.com/embed/nMnqMUBOHIo?rel=0&modestbranding=1" title="Dark Tourism Documentary" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="text-align: center; margin-bottom: 32px;">
+            <a href="https://www.youtube.com/watch?v=nMnqMUBOHIo" target="_blank" style="color: var(--rust); font-weight: 600; text-decoration: none;">🔗 Watch directly on YouTube if blocked</a>
+        </p>
+
+        <div class="prompt-list">
+            <div class="prompt-item">
+                <strong contenteditable="true">Task 12 — Video Comprehension</strong>
+                <p contenteditable="true">1. According to the video, what psychological need does dark tourism fulfill for visitors?</p>
+                <p contenteditable="true">2. How does the video distinguish between "educational" and "exploitative" dark tourism?</p>
+                <p contenteditable="true">3. Can you identify a specific example from the video where dark tourism had a positive impact on a community?</p>
+                <p contenteditable="true">4. What was the most surprising statistic or fact mentioned? What does it tell us about human nature?</p>
+            </div>
+            <div class="prompt-item amber-border">
+                <strong contenteditable="true">🎤 Go Further — Use Mixed Conditionals!</strong>
+                <p contenteditable="true">"If the presenter <span class="blank-input" contenteditable="true"></span> (not/mention) the Chernobyl example, I probably <span class="blank-input" contenteditable="true"></span> (not/think) of it as dark tourism."</p>
+                <p contenteditable="true" style="margin-top: 8px;">Now create your own sentence about the video using a Mixed Conditional:</p>
+                <div contenteditable="true" style="border-bottom: 1px dashed var(--ash); min-height: 36px; margin-top: 8px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 13: PRONUNCIATION ===== -->
+<section class="section" id="pronunciation">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 13 — Pronunciation</span>
+        <h2 class="section-title" contenteditable="true">Elision: The Art of Disappearing Sounds</h2>
+        <p class="section-desc" contenteditable="true">Following our study of <em>Catenation</em> in Lesson 4, today we explore <strong>Elision</strong> — when native speakers drop certain sounds entirely in fast, natural speech. This is especially common in conditional structures.</p>
+
+        <div class="phono-grid">
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">would have</div>
+                <div class="phono-ipa" contenteditable="true">Written: /wʊd hæv/</div>
+                <div class="phono-ipa" contenteditable="true">Spoken fast: /<span class="phono-stressed">wʊdəv</span>/ → "wouldah"</div>
+                <div class="phono-tip" contenteditable="true">The 'h' in 'have' is swallowed and the vowel reduces to a schwa. You'll hear: <em>"She wouldah come if she'd known."</em></div>
+            </div>
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">could have</div>
+                <div class="phono-ipa" contenteditable="true">Written: /kʊd hæv/</div>
+                <div class="phono-ipa" contenteditable="true">Spoken fast: /<span class="phono-stressed">kʊdəv</span>/ → "couldah"</div>
+                <div class="phono-tip" contenteditable="true">Identical pattern. Never written "could of" — though many native speakers spell it that way incorrectly!</div>
+            </div>
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">if I had</div>
+                <div class="phono-ipa" contenteditable="true">Written: /ɪf aɪ hæd/</div>
+                <div class="phono-ipa" contenteditable="true">Spoken fast: /<span class="phono-stressed">ɪf aɪd</span>/ → "if I'd"</div>
+                <div class="phono-tip" contenteditable="true">The 'h' and the 'a' of 'had' are both elided. In fast speech: <em>"If I'd gone there, I wouldn't be here now."</em></div>
+            </div>
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">wouldn't have</div>
+                <div class="phono-ipa" contenteditable="true">Written: /ˈwʊdnt hæv/</div>
+                <div class="phono-ipa" contenteditable="true">Spoken fast: /<span class="phono-stressed">ˈwʊdnəv</span>/ → "wouldn't of"</div>
+                <div class="phono-tip" contenteditable="true">The 't' in 'wouldn't' is often glottalized (a small pause/stop in the throat) before elision of the 'h'.</div>
+            </div>
+        </div>
+
+        <div class="watch-out" style="margin-top: 24px;">
+            <strong>🗣️ Drill:</strong> Read the following sentence naturally, applying elision. Record yourself if possible and compare to a native speaker:
+            <br><br>
+            <em>"If I'd <strong>known</strong> it was so moving, I <strong>wouldn't've</strong> gone in so lightheartedly — I <strong>could've</strong> prepared myself emotionally."</em>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 14: ROLE-PLAY ===== -->
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 14 — Speaking: Role-Play</span>
+        <h2 class="section-title" contenteditable="true">The Ethics Tribunal</h2>
+        <p class="section-desc" contenteditable="true">Act out this structured debate. Student A is a passionate defender of dark tourism; Student B is an equally passionate critic. Follow the dialogue map and try to use vocabulary and Mixed Conditionals naturally.</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>CRITIC B:</strong> Accuse dark tourism of being little more than macabre voyeurism. Use the word "commodification."</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble dark" contenteditable="true"><strong>DEFENDER A:</strong> Disagree. Argue that if these sites hadn't been opened, the atrocities would have been forgotten. Use a Mixed Conditional.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>CRITIC B:</strong> Concede one small point, but argue that if tourists weren't so morbid by nature, they would never have created this industry in the first place.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble dark" contenteditable="true"><strong>DEFENDER A:</strong> Counter by referencing catharsis. Explain how visiting these places could help society grapple with its capacity for violence.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>BOTH:</strong> Agree on ONE specific rule or code of conduct that should be mandatory at all dark tourism sites. Present it to the class.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 15: SYNTHESIS ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 15 — Grand Finale Discussion</span>
+        <h2 class="section-title" contenteditable="true">The Morbid Mind Grid</h2>
+        <p class="section-desc" contenteditable="true">Your final task. Choose any tile from the grid and speak for 60–90 seconds on that topic using today's vocabulary and grammar. Your partner will time you and give feedback.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true"><span>🔥 Topic A</span>If social media didn't exist, would dark tourism be as popular as it is today?</div>
+            <div class="board-tile" contenteditable="true"><span>🧠 Topic B</span>Is the human fascination with the macabre a sign of intelligence or a flaw in our psychology?</div>
+            <div class="board-tile" contenteditable="true"><span>💰 Topic C</span>Should all profits from dark tourism sites be directed to victims' families or memorials?</div>
+            <div class="board-tile" contenteditable="true"><span>📸 Topic D</span>"Selfie culture at memorials represents a total failure of empathy." Do you agree?</div>
+            <div class="board-tile" contenteditable="true"><span>🌍 Topic E</span>If you could design a dark tourism experience for a tragedy from Ukrainian history, what would it be?</div>
+            <div class="board-tile" contenteditable="true"><span>⚖️ Topic F</span>Can visiting a site of atrocity ever be a form of catharsis? What conditions are necessary?</div>
+            <div class="board-tile" contenteditable="true"><span>🚢 Topic G</span>The Titan submersible disaster — was it dark tourism that caused it? Who is to blame?</div>
+            <div class="board-tile" contenteditable="true"><span>🎭 Topic H</span>Is watching true crime documentaries on Netflix essentially the same as dark tourism?</div>
+        </div>
+
+        <div class="sum-up-box" style="margin-top: 40px;">
+            <h2 contenteditable="true">Lesson 6 Complete! ⚰️</h2>
+            <p contenteditable="true"><strong>Today's achievements:</strong></p>
+            <ul>
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> macabre, voyeurism, morbid, atrocity, commodification, grapple, catharsis, solemn — + key collocations.</li>
+                <li contenteditable="true">✅ <strong>Grammar Recap:</strong> Narrative Tenses (Past Simple / Continuous / Perfect) from Lesson 5.</li>
+                <li contenteditable="true">✅ <strong>Grammar New:</strong> The Mixed Conditional — linking a past condition to a present result (Type A) and a present state to a past result (Type B).</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Elision of modal perfects in fast speech: would've, could've, if I'd, wouldn't've.</li>
+                <li contenteditable="true">✅ <strong>Reading:</strong> Academic article analysis with hedging language and pull-quote interpretation.</li>
+                <li contenteditable="true">📌 <strong>Next Lesson Preview:</strong> The Psychology of Lying — Modal Verbs for Deduction (must have, can't have, might have).</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ===== WHITEBOARD ===== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Draw conditional timelines, map vocabulary connections, or illustrate grammar rules live.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <div style="width: 1px; height: 22px; background: rgba(245,239,224,0.2); margin: 0 8px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#1A1209" title="Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; background: var(--rust);" contenteditable="true">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FLOATING ACTIONS ===== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Quizlet">📝</button>
+    <button class="fab-btn" onclick="window.saveAsPDF()" title="Save PDF">💾</button>
+    <button class="fab-btn reset-btn" onclick="window.resetLesson()" title="Reset">🔄</button>
+</div>
+
+<!-- ===== QUIZLET MODAL ===== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--ink);">Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.9rem; color: var(--fog);">Add words and translations, then paste directly into Quizlet's import tool.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans"></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 18px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn" style="flex: 2; background: #4255FF; border-color: #4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Highlight shortcut
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(200,139,42,0.35)');
+        }
+    });
+
+    // Whiteboard
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 500; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing = false, pendingDraw = false, startX, startY;
+    let currentTool = 'pencil', currentColor = '#1A1209', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); if (window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const pos = getPos(e); startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const t = prompt("Enter text:"); if (!t) return;
+            ctx.font = "18px 'DM Sans', Arial, sans-serif"; ctx.fillStyle = currentColor;
+            ctx.fillText(t, startX, startY);
+            if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+            return;
+        }
+        isDrawing = true;
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '55' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 16 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData, 0, 0); drawShape(pos.x, pos.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') drawShape(getPos(e).x, getPos(e).y);
+        if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing = false; if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } }
+    });
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 2;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, ex - startX, ey - startY); }
+        else if (currentTool === 'circle') { const r = Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool === 'arrow') {
+            const hl = 15, ang = Math.atan2(ey-startY, ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));
+            ctx.stroke();
+        }
+    }
+
+    // Drag & Drop
+    const collocColEl = document.getElementById('collocCol');
+    if (collocColEl) {
+        collocColEl.querySelectorAll('.drag-item').forEach(item => {
+            item.addEventListener('dragstart', () => item.classList.add('dragging'));
+            item.addEventListener('dragend', () => { item.classList.remove('dragging'); if (window.syncDragOrder) window.syncDragOrder('collocCol'); });
+        });
+        collocColEl.addEventListener('dragover', e => {
+            e.preventDefault();
+            const after = [...collocColEl.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl, ch) => {
+                const box = ch.getBoundingClientRect(), off = e.clientY - box.top - box.height/2;
+                return (off < 0 && off > cl.offset) ? { offset: off, element: ch } : cl;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+            const drag = document.querySelector('.dragging');
+            if (drag) { if (after == null) collocColEl.appendChild(drag); else collocColEl.insertBefore(drag, after); }
+        });
+    }
+
+    // PDF
+    window.saveAsPDF = () => {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const el = document.body;
+        html2pdf().set({ margin: 0, filename: 'Lesson6-DarkTourism.pdf', image: { type: 'jpeg', quality: 0.97 }, html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth, scrollY: 0 }, jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' } }).from(el).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    };
+
+    // Quizlet
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const r = document.createElement('div'); r.className = 'word-row';
+        r.innerHTML = '<input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans">';
+        const wl = document.getElementById('wordList'); wl.appendChild(r); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out = '';
+        document.querySelectorAll('.word-row').forEach(row => {
+            const w = row.querySelector('.q-word').value.trim(), t = row.querySelector('.q-trans').value.trim();
+            if (w || t) out += `${w}\t${t}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if (out) {
+            const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            btn.innerText = '✅ Copied!'; setTimeout(() => btn.innerText = '📋 Copy for Quizlet', 3000);
+        } else { btn.innerText = '⚠️ Add words first!'; setTimeout(() => btn.innerText = '📋 Copy for Quizlet', 3000); }
+    };
+
+    // Nav smooth scroll
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#') && id.length > 1) {
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+            }
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        const wb = document.getElementById('whiteboard');
+        if (wb) window.scrollTo({ top: wb.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+    };
+</script>
+
+<!-- Firebase Sync -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'lesson-6-b2-dark-tourism-mixed-conditionals';
+
+    const statusText = document.getElementById('syncText');
+    const statusDot = document.getElementById('syncDot');
+    function setStatus(t, c) { if(statusText) statusText.innerText = t; if(statusDot) statusDot.style.background = c; }
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null, isSyncSetup = false;
+    const myCursorColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName = "Student";
+
+    const editables = document.querySelectorAll('[contenteditable="true"]');
+    const originalStates = {};
+    editables.forEach((el, i) => { el.dataset.syncId = 'edit-' + i; originalStates['edit-'+i] = el.innerHTML; });
+
+    const originalDragOrders = { collocCol: ['drag-c4','drag-c1','drag-c6','drag-c2','drag-c5','drag-c3'] };
+    let isEditing = null;
+
+    function debounce(fn, wait) {
+        let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+    }
+
+    signInAnonymously(auth).catch(() => setStatus('Auth Failed', '#D64550'));
+
+    onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user && !isSyncSetup) {
+            isSyncSetup = true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap => {
+                myCursorName = "Student " + (snap.size + 1);
+                setStatus('Live Sync On', '#14A3A8');
+                setupSync(db, appId);
+                setupCursors(db, appId);
+            }).catch(() => {
+                myCursorName = "Student " + (Math.floor(Math.random()*99)+1);
+                setStatus('Live Sync On', '#14A3A8');
+                setupSync(db, appId);
+                setupCursors(db, appId);
+            });
+        } else if (!user) setStatus('Disconnected', '#D64550');
+    });
+
+    function setupSync(db, appId) {
+        const textRef = doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dragRef = doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wbRef = doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate = el => { if(!currentUser) return; setDoc(textRef, {[el.dataset.syncId]: el.innerHTML}, {merge:true}); };
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', () => isEditing = el.dataset.syncId);
+            el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+            el.addEventListener('input', debounce(() => { if(isEditing===el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        };
+        editables.forEach(el => window.attachEditableListeners(el));
+
+        window.addNewTab = e => {
+            e.preventDefault();
+            const c = document.getElementById('navTabsContainer');
+            const li = document.createElement('li');
+            const id = 'edit-tab-'+Date.now();
+            li.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${id}">New Tab</a>`;
+            c.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if(currentUser) setDoc(textRef, {nav_tabs_structure: c.innerHTML}, {merge:true});
+        };
+
+        onSnapshot(textRef, snap => {
+            if (snap.exists()) {
+                for (const [sid, html] of Object.entries(snap.data())) {
+                    if (sid === 'nav_tabs_structure') {
+                        const c = document.getElementById('navTabsContainer');
+                        if (!c.contains(document.activeElement)) { c.innerHTML = html; c.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a)); }
+                        continue;
+                    }
+                    if (isEditing !== sid) { const el = document.querySelector(`[data-sync-id="${sid}"]`); if(el && el.innerHTML !== html) el.innerHTML = html; }
+                }
+            } else {
+                Object.entries(originalStates).forEach(([sid,html]) => { const el = document.querySelector(`[data-sync-id="${sid}"]`); if(el && el.innerHTML!==html) el.innerHTML = html; });
+            }
+        });
+
+        // Paste interceptor
+        document.addEventListener('paste', e => {
+            const target = e.target;
+            if (!target.closest('[contenteditable="true"]')) return;
+            const items = (e.clipboardData||window.clipboardData).items;
+            for (let idx in items) {
+                const item = items[idx];
+                if (item.kind==='file' && item.type.startsWith('image/')) {
+                    e.preventDefault();
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        const img = new Image(); img.onload = () => {
+                            const c = document.createElement('canvas'); let w=img.width, h=img.height;
+                            if(w>800){h*=800/w;w=800;} c.width=w;c.height=h;
+                            c.getContext('2d').drawImage(img,0,0,w,h);
+                            document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);
+                            target.dispatchEvent(new Event('input',{bubbles:true}));
+                        }; img.src = ev.target.result;
+                    }; reader.readAsDataURL(item.getAsFile()); return;
+                }
+            }
+            const text = (e.clipboardData||window.clipboardData).getData('text');
+            if (text) {
+                const yt = text.match(/(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                if (yt) { e.preventDefault(); document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%;"></iframe></div><p><br></p>`); target.dispatchEvent(new Event('input',{bubbles:true})); return; }
+                if (/^https?:\/\/\S+$/.test(text.trim())) { e.preventDefault(); document.execCommand('insertHTML',false,`<a href="${text.trim()}" target="_blank" style="color:var(--rust);text-decoration:underline;" contenteditable="false">${text.trim()}</a>`); target.dispatchEvent(new Event('input',{bubbles:true})); }
+            }
+        });
+
+        window.syncDragOrder = cId => {
+            if(!currentUser) return;
+            const c = document.getElementById(cId); if(!c) return;
+            setDoc(dragRef, {[cId]: Array.from(c.children).map(ch=>ch.id)}, {merge:true});
+        };
+
+        onSnapshot(dragRef, snap => {
+            if (snap.exists()) {
+                ['collocCol'].forEach(cId => {
+                    const c = document.getElementById(cId); if(!c) return;
+                    const data = snap.data();
+                    if(data[cId]) data[cId].forEach(id => { const el=document.getElementById(id); if(el) c.appendChild(el); });
+                });
+            } else {
+                ['collocCol'].forEach(cId => {
+                    const c = document.getElementById(cId); if(!c) return;
+                    originalDragOrders[cId].forEach(id => { const el=document.getElementById(id); if(el) c.appendChild(el); });
+                });
+            }
+        });
+
+        window.syncWhiteboardDraw = debounce(() => {
+            if(!currentUser) return;
+            const cv = document.getElementById('boardCanvas');
+            setDoc(wbRef, {image: cv.toDataURL('image/png',0.5), clearTimestamp: window.lastClear||0}, {merge:true});
+            pendingDraw = false;
+        }, 800);
+
+        window.syncWhiteboardClear = () => {
+            if(!currentUser) return;
+            const ts = Date.now(); window.lastClear = ts;
+            setDoc(wbRef, {clearTimestamp: ts, image: null}, {merge:true});
+        };
+
+        onSnapshot(wbRef, snap => {
+            if (snap.exists()) {
+                const data = snap.data();
+                const cv = document.getElementById('boardCanvas'); const cx = cv.getContext('2d');
+                if(data.clearTimestamp > (window.lastClear||0)) { cx.clearRect(0,0,cv.width,cv.height); window.lastClear=data.clearTimestamp; return; }
+                if(data.image && !pendingDraw) { const img=new Image(); img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);}; img.src=data.image; }
+            }
+        });
+    }
+
+    function setupCursors(db, appId) {
+        const cursorsCol = collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef = doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove', debounce(e => {
+            if(!currentUser) return;
+            setDoc(myRef, {xOffset: e.pageX-(window.innerWidth/2), y: e.pageY, color: myCursorColor, name: myCursorName, timestamp: Date.now()});
+        }, 400));
+
+        onSnapshot(cursorsCol, snap => {
+            snap.docChanges().forEach(change => {
+                const id = change.doc.id;
+                if (id === currentUser.uid) return;
+                if (change.type === 'removed') { const el=document.getElementById('cursor-'+id); if(el) el.remove(); return; }
+                const data = change.doc.data();
+                if (Date.now()-data.timestamp > 60000) { const el=document.getElementById('cursor-'+id); if(el) el.remove(); return; }
+                let el = document.getElementById('cursor-'+id);
+                if (!el) {
+                    el = document.createElement('div'); el.id='cursor-'+id; el.className='remote-cursor';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${data.color}">${data.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = ((window.innerWidth/2)+data.xOffset)+'px';
+                el.style.top = data.y+'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if(currentUser) deleteDoc(myRef); });
+    }
+
+    window.resetLesson = async () => {
+        if (!currentUser) return;
+        if (!confirm("Reset the lesson for everyone? This clears all edits, the whiteboard, and drag-drop order.")) return;
+        setStatus('Resetting...', '#C88B2A');
+        const textRef = doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dragRef = doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wbRef = doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        await deleteDoc(textRef); await deleteDoc(dragRef);
+        const ts = Date.now(); window.lastClear = ts;
+        await setDoc(wbRef, {clearTimestamp: ts, image: null});
+        setTimeout(() => setStatus('Live Sync On', '#14A3A8'), 1200);
+    };
+</script>
+</body>
+</html>
