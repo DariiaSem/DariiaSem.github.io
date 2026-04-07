@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 7: B2/C1 | The Art of the Con</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --paper: #F2EEE5;
+            --paper-dark: #E6DFD0;
+            --ink-black: #141414;
+            --ink-dark: #1E1E1E;
+            --red-stamp: #B5200D;
+            --red-light: #D93525;
+            --khaki: #7D6E52;
+            --khaki-light: #A89070;
+            --steel: #3A4A5C;
+            --steel-light: #5A7088;
+            --yellow-hl: rgba(230,190,60,0.38);
+            --ash: #C8C0B0;
+            --fog: #8C8070;
+            --white: #FAFAF6;
+            --shadow-sm: 0 2px 8px rgba(20,20,20,0.10);
+            --shadow-md: 0 6px 24px rgba(20,20,20,0.14);
+            --shadow-lg: 0 16px 48px rgba(20,20,20,0.20);
+            --radius-sm: 4px;
+            --radius-md: 10px;
+            --radius-lg: 18px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Crimson Pro', Georgia, serif;
+            font-size: 17px;
+            line-height: 1.75;
+            color: var(--ink-black);
+            background: var(--paper);
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] { outline: none; border-radius: 2px; transition: background 0.2s; }
+        [contenteditable="true"]:hover { background: rgba(181,32,13,0.06); }
+        [contenteditable="true"]:focus { background: rgba(181,32,13,0.10); box-shadow: 0 0 0 2px rgba(181,32,13,0.18); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            background: var(--ink-dark);
+            color: var(--paper);
+            padding: 0;
+            overflow: hidden;
+            min-height: 580px;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-bg-pattern {
+            position: absolute; inset: 0;
+            background-image: repeating-linear-gradient(
+                45deg,
+                transparent, transparent 20px,
+                rgba(255,255,255,0.012) 20px, rgba(255,255,255,0.012) 21px
+            );
+        }
+
+        .hero-red-bar {
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 6px;
+            background: var(--red-stamp);
+        }
+
+        .hero-stamp {
+            position: absolute;
+            top: 50px; right: 60px;
+            border: 4px solid var(--red-stamp);
+            color: var(--red-stamp);
+            padding: 10px 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transform: rotate(12deg);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .hero-stamp-2 {
+            position: absolute;
+            bottom: 80px; right: 80px;
+            border: 3px solid rgba(245,239,224,0.15);
+            color: rgba(245,239,224,0.15);
+            padding: 6px 14px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transform: rotate(-5deg);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative; z-index: 1;
+            padding: 80px 60px 100px 80px;
+            max-width: 860px;
+        }
+
+        .hero-badge {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--khaki-light);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            display: inline-block;
+            width: 28px; height: 1px;
+            background: var(--red-stamp);
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 7vw, 6.5rem);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            color: var(--paper);
+        }
+
+        .hero h1 .red { color: var(--red-stamp); }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: rgba(242,238,229,0.65);
+            max-width: 580px;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 64px;
+            background: var(--paper);
+            clip-path: ellipse(54% 100% at 50% 100%);
+        }
+
+        /* ===== NAV ===== */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(242,238,229,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--ink-black);
+        }
+
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between;
+            height: 54px; padding: 0 24px;
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem; letter-spacing: 2px;
+            color: var(--ink-black); text-decoration: none;
+        }
+        .nav-logo .red { color: var(--red-stamp); }
+
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--fog);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem; font-weight: 600;
+            letter-spacing: 1px; padding: 5px 11px;
+            border-radius: 3px; transition: color 0.2s, background 0.2s;
+            white-space: nowrap; text-transform: uppercase;
+        }
+        .nav-links a:hover { color: var(--red-stamp); background: rgba(181,32,13,0.07); }
+
+        /* ===== SECTIONS ===== */
+        .section { padding: 90px 24px; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+
+        .section-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem; font-weight: 600;
+            letter-spacing: 2.5px; text-transform: uppercase;
+            color: var(--red-stamp);
+            background: rgba(181,32,13,0.08);
+            padding: 4px 12px; border-radius: 2px;
+            margin-bottom: 14px; display: inline-block;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400; letter-spacing: 1.5px;
+            color: var(--ink-black);
+            margin-bottom: 10px; line-height: 1.05;
+        }
+
+        .section-desc {
+            color: var(--khaki); font-size: 1rem;
+            margin-bottom: 32px; max-width: 660px;
+            font-style: italic;
+        }
+
+        /* ===== DOSSIER CARDS ===== */
+        .dossier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 24px; margin-top: 24px;
+        }
+
+        .dossier-card {
+            background: var(--paper-dark);
+            border: 1px solid var(--ash);
+            border-radius: var(--radius-sm);
+            padding: 0;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .dossier-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--red-stamp);
+        }
+
+        .dossier-header {
+            background: var(--ink-dark);
+            color: var(--paper);
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dossier-id {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem; letter-spacing: 2px;
+            color: var(--khaki-light); text-transform: uppercase;
+        }
+
+        .dossier-classified {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem; letter-spacing: 1.5px;
+            color: var(--red-stamp); text-transform: uppercase;
+            border: 1px solid var(--red-stamp);
+            padding: 2px 8px; border-radius: 2px;
+        }
+
+        .dossier-body { padding: 20px; }
+
+        .dossier-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem; letter-spacing: 1px;
+            color: var(--ink-black);
+            margin-bottom: 8px;
+        }
+
+        .dossier-body p { font-size: 0.95rem; color: var(--ink-black); line-height: 1.6; }
+
+        /* ===== VOCAB: CIPHER BOXES ===== */
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 0;
+            border: 2px solid var(--ink-black);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-top: 24px;
+        }
+
+        .cipher-item {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--ash);
+            border-right: 1px solid var(--ash);
+            background: var(--white);
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .cipher-item:nth-child(even) { background: var(--paper); }
+
+        .cipher-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem; line-height: 1;
+            color: var(--red-stamp); opacity: 0.35;
+            min-width: 36px;
+        }
+
+        .cipher-word {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.3rem; letter-spacing: 1px;
+            color: var(--ink-black);
+            margin-bottom: 2px;
+        }
+
+        .cipher-pos {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.68rem; color: var(--red-stamp);
+            letter-spacing: 1px; text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .cipher-def { font-size: 0.9rem; color: var(--khaki); font-style: italic; line-height: 1.5; }
+
+        .cipher-ex {
+            margin-top: 6px;
+            font-size: 0.88rem;
+            color: var(--steel);
+            border-left: 2px solid var(--steel-light);
+            padding-left: 10px;
+        }
+
+        /* ===== REDACTED FILL ===== */
+        .redacted-list {
+            list-style: none;
+            display: flex; flex-direction: column;
+            gap: 14px; margin-top: 20px;
+            counter-reset: red-counter;
+        }
+
+        .redacted-list li {
+            background: var(--white);
+            padding: 15px 18px 15px 52px;
+            border: 1px solid var(--ash);
+            border-radius: var(--radius-sm);
+            font-size: 0.97rem; position: relative;
+        }
+
+        .redacted-list li::before {
+            counter-increment: red-counter;
+            content: counter(red-counter, upper-alpha);
+            position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600; color: var(--red-stamp); font-size: 0.9rem;
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 90px;
+            border-bottom: 2px dashed var(--ash);
+            color: var(--steel); font-weight: 600;
+            padding: 0 8px; text-align: center;
+            background: rgba(58,74,92,0.06); border-radius: 2px 2px 0 0;
+            font-style: normal;
+        }
+        .blank-input:focus { outline: none; border-bottom-color: var(--steel); background: rgba(58,74,92,0.12); }
+
+        /* ===== NEWSPAPER ===== */
+        .broadsheet {
+            background: var(--paper-dark);
+            border: 1px solid var(--ash);
+            padding: 40px 44px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .broadsheet-rule {
+            border: none; border-top: 3px double var(--ink-black);
+            margin: 0 0 24px;
+        }
+
+        .broadsheet-headline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem; letter-spacing: 1px;
+            color: var(--ink-black);
+            text-align: center; margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .broadsheet-byline {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.72rem; text-align: center;
+            color: var(--fog); letter-spacing: 1px;
+            text-transform: uppercase; margin-bottom: 20px;
+        }
+
+        .broadsheet-body { column-count: 2; column-gap: 32px; }
+        @media (max-width: 700px) { .broadsheet-body { column-count: 1; } }
+
+        .broadsheet-body p { margin-bottom: 14px; font-size: 0.97rem; line-height: 1.75; text-align: justify; }
+
+        .broadsheet-body p:first-child::first-letter {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.6rem; line-height: 0.8;
+            float: left; margin-right: 6px; margin-top: 6px;
+            color: var(--red-stamp);
+        }
+
+        .inline-hl {
+            background: var(--yellow-hl);
+            padding: 1px 3px; border-radius: 2px;
+        }
+
+        /* ===== GRAMMAR TABLE ===== */
+        .grammar-table {
+            width: 100%; border-collapse: collapse;
+            margin-top: 24px; font-size: 0.94rem;
+            border: 2px solid var(--ink-black); border-radius: 0;
+            overflow: hidden;
+        }
+
+        .grammar-table thead th {
+            background: var(--ink-dark);
+            color: var(--paper); padding: 13px 18px;
+            text-align: left; font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.74rem; letter-spacing: 1.5px; text-transform: uppercase;
+        }
+
+        .grammar-table tbody td {
+            padding: 13px 18px; border-bottom: 1px solid var(--ash);
+            vertical-align: top; background: var(--white);
+        }
+
+        .grammar-table tbody tr:nth-child(even) td { background: var(--paper); }
+
+        .hl-red { color: var(--red-stamp); font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+        .hl-steel { color: var(--steel); font-weight: 700; font-family: 'IBM Plex Mono', monospace; }
+        .hl-khaki { color: var(--khaki); font-weight: 600; }
+
+        /* ===== SPLIT RULE ===== */
+        .split-rule {
+            display: flex; align-items: center; gap: 14px;
+            margin: 32px 0;
+        }
+        .split-rule::before, .split-rule::after { content: ''; flex: 1; height: 1px; background: var(--ash); }
+        .split-rule span { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--fog); }
+
+        /* ===== WARNING / INTEL BOX ===== */
+        .intel-box {
+            background: rgba(181,32,13,0.07);
+            border-left: 4px solid var(--red-stamp);
+            padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 20px 0; font-size: 0.95rem;
+        }
+        .intel-box strong { color: var(--red-stamp); font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        .field-box {
+            background: rgba(58,74,92,0.07);
+            border-left: 4px solid var(--steel);
+            padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 20px 0; font-size: 0.95rem;
+        }
+        .field-box strong { color: var(--steel); font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* ===== PRACTICE LIST ===== */
+        .practice-list {
+            list-style: none; display: flex;
+            flex-direction: column; gap: 16px;
+            margin-top: 20px; counter-reset: practice-counter;
+        }
+
+        .practice-list li {
+            background: var(--white); padding: 15px 18px 15px 52px;
+            border: 1px solid var(--ash); border-radius: var(--radius-sm);
+            font-size: 0.97rem; position: relative;
+        }
+
+        .practice-list li::before {
+            counter-increment: practice-counter;
+            content: counter(practice-counter) ".";
+            position: absolute; left: 18px; top: 15px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem; color: var(--red-stamp);
+        }
+
+        /* ===== BOARD TILES ===== */
+        .board-game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px; margin-top: 24px;
+        }
+
+        .board-tile {
+            background: var(--white);
+            border: 1px solid var(--ash);
+            border-top: 3px solid var(--ink-black);
+            padding: 18px; text-align: center;
+            font-size: 0.93rem;
+            color: var(--ink-black);
+            box-shadow: var(--shadow-sm);
+            display: flex; flex-direction: column;
+            justify-content: center; min-height: 110px;
+            transition: border-top-color 0.2s, transform 0.18s;
+            cursor: default;
+        }
+        .board-tile:hover { border-top-color: var(--red-stamp); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .board-tile .tile-num {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.65rem; letter-spacing: 2px;
+            text-transform: uppercase; color: var(--red-stamp);
+            margin-bottom: 8px;
+        }
+
+        /* ===== FLOWCHART ===== */
+        .flowchart {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 10px;
+            background: var(--paper-dark);
+            padding: 36px; border-radius: var(--radius-md);
+            border: 2px dashed var(--ash); margin: 28px 0;
+        }
+
+        .flow-bubble {
+            background: var(--white);
+            padding: 13px 28px; border-radius: 3px;
+            font-weight: 400; color: var(--ink-black);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--ash);
+            border-left: 4px solid var(--steel);
+            text-align: left; min-width: 280px;
+            max-width: 500px; font-size: 0.95rem;
+        }
+
+        .flow-bubble.red-side {
+            border-left-color: var(--red-stamp);
+            background: var(--paper-dark);
+        }
+
+        .flow-arrow { color: var(--ash); font-size: 1.3rem; line-height: 1; }
+
+        /* ===== PHONO ===== */
+        .phono-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px; margin-top: 24px;
+        }
+
+        .phono-card {
+            background: var(--ink-dark);
+            padding: 22px; border-radius: var(--radius-sm);
+            color: var(--paper); position: relative; overflow: hidden;
+        }
+
+        .phono-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 3px; background: var(--red-stamp);
+        }
+
+        .phono-word {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem; letter-spacing: 1px;
+            color: var(--paper); margin-bottom: 4px;
+        }
+
+        .phono-ipa {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.82rem; color: var(--khaki-light);
+            margin-bottom: 10px;
+        }
+
+        .phono-stressed { color: var(--red-stamp); font-weight: 600; }
+        .phono-tip { font-size: 0.87rem; line-height: 1.6; color: rgba(242,238,229,0.72); }
+
+        /* ===== VIDEO ===== */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg); margin-bottom: 20px;
+            background: var(--ink-dark);
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* ===== SUM UP ===== */
+        .sum-up-box {
+            background: var(--ink-dark); color: var(--paper);
+            padding: 40px; border-radius: var(--radius-sm);
+            margin-top: 40px; position: relative; overflow: hidden;
+            border-top: 4px solid var(--red-stamp);
+        }
+        .sum-up-box::after {
+            content: 'MISSION COMPLETE';
+            position: absolute; bottom: 24px; right: 30px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem; letter-spacing: 4px;
+            color: rgba(242,238,229,0.07); pointer-events: none;
+        }
+        .sum-up-box h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 2px; color: var(--paper); margin-bottom: 20px; }
+        .sum-up-box ul { list-style: none; font-size: 0.97rem; line-height: 2; }
+
+        /* ===== WHITEBOARD ===== */
+        .whiteboard-container { border: 2px solid var(--ink-black); border-radius: var(--radius-sm); background: var(--white); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+        .wb-toolbar { background: var(--ink-dark); padding: 12px 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: #2A2A2A; color: var(--paper); border: 1px solid rgba(242,238,229,0.15); padding: 5px 12px; border-radius: 2px; cursor: pointer; font-size: 0.8rem; font-weight: 600; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.5px; transition: background 0.2s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--red-stamp); border-color: var(--red-light); }
+        .wb-color { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--paper); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 500px; background: var(--white); cursor: crosshair; }
+
+        /* ===== FLOATING ===== */
+        .floating-actions { position: fixed; bottom: 28px; right: 28px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab-btn { background: var(--ink-dark); color: var(--paper); border: none; width: 52px; height: 52px; border-radius: 50%; font-size: 1.3rem; cursor: pointer; box-shadow: var(--shadow-lg); transition: transform 0.2s, background 0.2s; display: flex; align-items: center; justify-content: center; }
+        .fab-btn:hover { transform: translateY(-3px); background: var(--red-stamp); }
+        .fab-btn.quizlet-btn { background: #4255FF; }
+        .fab-btn.quizlet-btn:hover { background: #2839D0; }
+
+        /* ===== MODAL ===== */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(20,20,20,0.75); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--white); padding: 32px; border-radius: var(--radius-md); width: 90%; max-width: 560px; box-shadow: var(--shadow-lg); position: relative; border-top: 4px solid var(--red-stamp); }
+        .close-modal { position: absolute; top: 14px; right: 18px; font-size: 1.8rem; cursor: pointer; color: var(--fog); transition: color 0.2s; }
+        .close-modal:hover { color: var(--red-stamp); }
+        .word-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 9px 13px; border: 1px solid var(--ash); border-radius: 3px; font-size: 0.95rem; font-family: 'Crimson Pro', serif; }
+        .word-row input:focus { outline: none; border-color: var(--red-stamp); }
+        #wordList { max-height: 340px; overflow-y: auto; margin: 16px 0; padding-right: 6px; }
+
+        /* ===== MATCH ===== */
+        .match-board { display: flex; gap: 16px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 10px; list-style: none; }
+        .arrows-column { display: flex; flex-direction: column; gap: 10px; justify-content: space-between; }
+        .drag-item { background: var(--white); border: 2px solid var(--steel); border-radius: var(--radius-sm); cursor: grab; display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--ink-black); box-shadow: var(--shadow-sm); transition: opacity 0.2s; height: 64px; padding: 0 16px; font-size: 0.9rem; }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--steel-light); font-size: 1.2rem; user-select: none; }
+        .static-item { background: var(--paper); border: 1px solid var(--ash); border-radius: var(--radius-sm); color: var(--ink-black); height: 64px; display: flex; align-items: center; padding: 0 16px; line-height: 1.35; font-size: 0.88rem; }
+        .match-arrow { color: var(--steel-light); font-weight: 800; font-size: 1.3rem; height: 64px; display: flex; align-items: center; justify-content: center; }
+
+        /* ===== CURSORS ===== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.4s linear, left 0.4s linear; display: flex; align-items: flex-start; opacity: 0; animation: fadeInCursor 0.3s forwards; }
+        @keyframes fadeInCursor { to { opacity: 1; } }
+        .remote-cursor svg { width: 20px; height: 20px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.35)); pointer-events: none; }
+        .remote-cursor-label { color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 3px; margin-left: -4px; margin-top: 14px; white-space: nowrap; font-family: 'IBM Plex Mono', monospace; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .hero-content { padding: 60px 24px 80px; }
+            .hero-stamp { display: none; }
+            .section { padding: 60px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 380px; }
+            .match-board { flex-direction: column; }
+            .arrows-column { display: none; }
+            .drag-item, .static-item { height: auto; min-height: 52px; padding: 10px 14px; }
+            .floating-actions { bottom: 16px; right: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed;top:13px;left:50%;transform:translateX(-50%);background:rgba(20,20,20,0.92);color:#F2EEE5;padding:5px 16px;border-radius:3px;font-size:0.75rem;font-weight:600;z-index:10000;display:flex;align-items:center;gap:8px;backdrop-filter:blur(6px);border:1px solid rgba(242,238,229,0.1);font-family:'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;">
+    <span id="syncDot" style="display:block;width:7px;height:7px;background:var(--khaki-light);border-radius:50%;box-shadow:0 0 7px var(--khaki-light);"></span>
+    <span id="syncText">Connecting...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-red-bar"></div>
+    <div class="hero-stamp" contenteditable="false">TOP SECRET</div>
+    <div class="hero-stamp-2" contenteditable="false">FILE REF: NGE-B2-L7 // AUTHORIZED ACCESS ONLY</div>
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">B2 / C1 · General English · Lesson 7</div>
+        <h1 contenteditable="true">THE <span class="red">ART</span><br>OF THE CON</h1>
+        <p class="hero-subtitle" contenteditable="true">History's greatest deceptions — from the Trojan Horse to Operation Mincemeat. Master the grammar of purpose, attempt, and result: Gerunds & Infinitives at C1 level.</p>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ===== NAV ===== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">NGE <span class="red">//</span> B2</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--red-stamp);color:white;padding:4px 10px;font-weight:800;border-radius:2px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#video" contenteditable="true">Video</a></li>
+            <li><a href="#pronunciation" contenteditable="true">Pronunciation</a></li>
+            <li><a href="#roleplay" contenteditable="true">Role-Play</a></li>
+            <li><a href="#whiteboard" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ===== TASK 1: RECAP ===== -->
+<section class="section" id="recap">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 1 — Grammar Debrief</span>
+        <h2 class="section-title" contenteditable="true">Mixed Conditionals: Debrief</h2>
+        <p class="section-desc" contenteditable="true">Last lesson we tackled the Mixed Conditional — the grammar of consequences that cross time. Quickly identify the type (Mixed A, Mixed B, 2nd, or 3rd) and fix any errors below.</p>
+
+        <ul class="practice-list">
+            <li contenteditable="true">"If Operation Mincemeat <span class="blank-input" contenteditable="true"></span> <em>(not succeed)</em>, the Allied invasion <span class="blank-input" contenteditable="true"></span> (probably fail) at Sicily." — Type: <span class="blank-input" contenteditable="true"></span></li>
+            <li contenteditable="true">"If she <span class="blank-input" contenteditable="true"></span> <em>(not be)</em> such a skilled forger, she wouldn't have passed the documents last year." — Type: <span class="blank-input" contenteditable="true"></span></li>
+            <li contenteditable="true">"If the spy <span class="blank-input" contenteditable="true"></span> <em>(not be captured)</em> in 1943, the entire deception would still be classified today." — Type: <span class="blank-input" contenteditable="true"></span></li>
+        </ul>
+
+        <div class="intel-box" style="margin-top:20px;">
+            <strong>🎯 Quick Drill:</strong> Your teacher will read two sentences aloud. Is it Mixed A (past → present) or Mixed B (present state → past result)? Raise your hand when you know.
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 2: WARM-UP ===== -->
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 2 — Warm-Up: The Case Files</span>
+        <h2 class="section-title" contenteditable="true">Briefing: Four Great Deceptions</h2>
+        <p class="section-desc" contenteditable="true">Read these four brief case files. Which deception do you find most ingenious? Most unethical? Discuss with your partner before we go deeper.</p>
+
+        <div class="dossier-grid">
+            <div class="dossier-card">
+                <div class="dossier-header">
+                    <span class="dossier-id" contenteditable="true">Case File 001 // ~1200 BCE</span>
+                    <span class="dossier-classified" contenteditable="true">Mythological</span>
+                </div>
+                <div class="dossier-body">
+                    <div class="dossier-title" contenteditable="true">The Trojan Horse</div>
+                    <p contenteditable="true">After ten years of failed siege, the Greeks built a giant hollow wooden horse and pretended to sail away, leaving it as an "offering." The Trojans wheeled it inside their walls. That night, Greek soldiers hidden inside emerged and opened the gates. Troy fell in hours. The strategy: <em>weaponise your enemy's pride and curiosity against them.</em></p>
+                </div>
+            </div>
+            <div class="dossier-card">
+                <div class="dossier-header">
+                    <span class="dossier-id" contenteditable="true">Case File 002 // 1943</span>
+                    <span class="dossier-classified" contenteditable="true">WWII Intelligence</span>
+                </div>
+                <div class="dossier-body">
+                    <div class="dossier-title" contenteditable="true">Operation Mincemeat</div>
+                    <p contenteditable="true">British intelligence planted forged military documents on the corpse of a homeless man, dressed as a Royal Marines officer, and floated him off the coast of Spain. The documents deceived the Nazis into believing the Allied invasion would target Greece, not Sicily. It worked perfectly — and is considered one of the most audacious intelligence operations in history.</p>
+                </div>
+            </div>
+            <div class="dossier-card">
+                <div class="dossier-header">
+                    <span class="dossier-id" contenteditable="true">Case File 003 // 1944</span>
+                    <span class="dossier-classified" contenteditable="true">WWII Deception</span>
+                </div>
+                <div class="dossier-body">
+                    <div class="dossier-title" contenteditable="true">Operation Fortitude</div>
+                    <p contenteditable="true">To conceal the D-Day landings at Normandy, the Allies created an entirely fictional army group — "FUSAG" — commanded by General Patton, complete with fake radio traffic, inflatable tanks, and fabricated troop movements. Hitler held his best divisions back, waiting for the "real" invasion at Calais. By the time he realised, it was too late.</p>
+                </div>
+            </div>
+            <div class="dossier-card">
+                <div class="dossier-header">
+                    <span class="dossier-id" contenteditable="true">Case File 004 // 1960s–80s</span>
+                    <span class="dossier-classified" contenteditable="true">Cold War</span>
+                </div>
+                <div class="dossier-body">
+                    <div class="dossier-title" contenteditable="true">Soviet Active Measures</div>
+                    <p contenteditable="true">The KGB ran sophisticated "active measures" (активные мероприятия) — planting fabricated news stories in foreign newspapers, forging US government documents, and funding front organisations to fracture Western alliances. Historians now estimate that the KGB employed more staff in disinformation than in actual espionage. The blueprint for modern information warfare.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="intel-box" style="margin-top:28px;">
+            <strong>🗣️ Discussion:</strong> What makes a deception "work"? What do all four operations have in common psychologically? Which would have been harder to execute, and why?
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 3: VOCABULARY ===== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 3 — Vocabulary: Decrypted</span>
+        <h2 class="section-title" contenteditable="true">Eight Words. Study Them Carefully.</h2>
+        <p class="section-desc" contenteditable="true">These C1-level words appear throughout the lesson. Each entry is your cipher key — word, part of speech, definition, and a field example from the case files.</p>
+
+        <div class="cipher-grid">
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">01</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">audacious</div>
+                    <div class="cipher-pos" contenteditable="true">adj</div>
+                    <div class="cipher-def" contenteditable="true">Showing a willingness to take surprisingly bold risks; daringly original or daring in conception.</div>
+                    <div class="cipher-ex" contenteditable="true">"Floating a corpse off enemy coastline was, by any measure, an audacious gamble."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">02</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">fabricate</div>
+                    <div class="cipher-pos" contenteditable="true">verb</div>
+                    <div class="cipher-def" contenteditable="true">To invent or construct (information or evidence) in order to deceive; to manufacture something false.</div>
+                    <div class="cipher-ex" contenteditable="true">"They fabricated an entire army — fake tanks, fake radio signals, fake orders."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">03</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">plausible</div>
+                    <div class="cipher-pos" contenteditable="true">adj</div>
+                    <div class="cipher-def" contenteditable="true">Seeming reasonable or probable; appearing to be true or genuine, even if it may not be.</div>
+                    <div class="cipher-ex" contenteditable="true">"A good con relies on appearing plausible — close enough to reality to be believed."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">04</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">disinformation</div>
+                    <div class="cipher-pos" contenteditable="true">noun</div>
+                    <div class="cipher-def" contenteditable="true">False information deliberately and often covertly spread in order to influence public opinion or obscure the truth. Distinct from <em>misinformation</em>, which may be accidental.</div>
+                    <div class="cipher-ex" contenteditable="true">"The KGB's disinformation campaigns planted seeds of doubt that lasted for decades."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">05</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">subterfuge</div>
+                    <div class="cipher-pos" contenteditable="true">noun</div>
+                    <div class="cipher-def" contenteditable="true">Deceit used in order to achieve a goal; a trick or stratagem used to avoid or escape a problem, or to conceal one's true intentions.</div>
+                    <div class="cipher-ex" contenteditable="true">"The entire operation depended on subterfuge — every detail had to be meticulously false."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">06</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">credulous</div>
+                    <div class="cipher-pos" contenteditable="true">adj</div>
+                    <div class="cipher-def" contenteditable="true">Having too great a readiness to believe things; overly willing to accept information without sufficient critical scrutiny. (Antonym: <em>sceptical</em>)</div>
+                    <div class="cipher-ex" contenteditable="true">"A credulous enemy is a deceiver's greatest asset."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">07</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">manipulate</div>
+                    <div class="cipher-pos" contenteditable="true">verb</div>
+                    <div class="cipher-def" contenteditable="true">To control or influence (a person or situation) cleverly, unfairly, or unscrupulously; to handle or manage with skill.</div>
+                    <div class="cipher-ex" contenteditable="true">"The operation was designed to manipulate the enemy's own confirmation bias against them."</div>
+                </div>
+            </div>
+            <div class="cipher-item">
+                <div class="cipher-num" contenteditable="true">08</div>
+                <div>
+                    <div class="cipher-word" contenteditable="true">conceal</div>
+                    <div class="cipher-pos" contenteditable="true">verb</div>
+                    <div class="cipher-def" contenteditable="true">To keep something hidden or secret; to prevent (something) from being known or noticed by others.</div>
+                    <div class="cipher-ex" contenteditable="true">"Every successful deception must conceal not just the truth, but the act of concealing itself."</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 4: VOCAB PRACTICE ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 4 — Vocabulary Practice</span>
+        <h2 class="section-title" contenteditable="true">Transmission Errors: Fix the File</h2>
+        <p class="section-desc" contenteditable="true">Two exercises. Part A: fill the gaps. Part B: match each word to a near-synonym. Use the cipher glossary from Task 3.</p>
+
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;color:var(--ink-black);margin-bottom:12px;" contenteditable="true">Part A — Fill the Gaps</h3>
+        <p style="font-style:italic;color:var(--fog);font-size:0.92rem;margin-bottom:14px;" contenteditable="true">Words: <em>audacious, fabricated, plausible, disinformation, subterfuge, credulous, manipulate, conceal</em></p>
+
+        <ul class="redacted-list">
+            <li contenteditable="true">The whole plan relied on creating a <span class="blank-input" contenteditable="true"></span> back-story — one that was close enough to reality that nobody would question it.</li>
+            <li contenteditable="true">State-sponsored <span class="blank-input" contenteditable="true"></span> is not a modern invention; it was refined to a science during the Cold War.</li>
+            <li contenteditable="true">The forgeries were so precise that even handwriting experts failed to <span class="blank-input" contenteditable="true"></span> that the letters were fake.</li>
+            <li contenteditable="true">An <span class="blank-input" contenteditable="true"></span> plan often works precisely because the enemy assumes no sane person would try it.</li>
+            <li contenteditable="true">The evidence presented at the trial had been entirely <span class="blank-input" contenteditable="true"></span> — not a single document was genuine.</li>
+            <li contenteditable="true">A skilled propagandist knows how to <span class="blank-input" contenteditable="true"></span> a population's fears to achieve political goals.</li>
+        </ul>
+
+        <div class="split-rule"><span>Part B — Synonym Match</span></div>
+
+        <div class="match-board">
+            <ul class="drag-column" id="vocabMatch">
+                <li class="drag-item" id="drag-v3" draggable="true"><span class="drag-handle">⋮⋮</span><span contenteditable="true">subterfuge</span></li>
+                <li class="drag-item" id="drag-v1" draggable="true"><span class="drag-handle">⋮⋮</span><span contenteditable="true">credulous</span></li>
+                <li class="drag-item" id="drag-v5" draggable="true"><span class="drag-handle">⋮⋮</span><span contenteditable="true">audacious</span></li>
+                <li class="drag-item" id="drag-v2" draggable="true"><span class="drag-handle">⋮⋮</span><span contenteditable="true">plausible</span></li>
+                <li class="drag-item" id="drag-v4" draggable="true"><span class="drag-handle">⋮⋮</span><span contenteditable="true">fabricate</span></li>
+            </ul>
+            <div class="arrows-column">
+                <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) gullible / naive / easily fooled</li>
+                <li class="static-item" contenteditable="true">b) invent / forge / concoct</li>
+                <li class="static-item" contenteditable="true">c) cunning trick / ruse / stratagem</li>
+                <li class="static-item" contenteditable="true">d) believable / credible / convincing</li>
+                <li class="static-item" contenteditable="true">e) daring / bold / brazen</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 5 & 6: READING ===== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Tasks 5 & 6 — Reading & Comprehension</span>
+        <h2 class="section-title" contenteditable="true">The Operation Mincemeat Dispatch</h2>
+        <p class="section-desc" contenteditable="true">Read this feature article about one of history's most extraordinary intelligence operations. Pay close attention to how verbs are followed — you'll need this for the grammar section.</p>
+
+        <div class="broadsheet">
+            <hr class="broadsheet-rule">
+            <h3 class="broadsheet-headline" contenteditable="true">"The Man Who Never Was": Britain's Most Audacious Wartime Deception</h3>
+            <div class="broadsheet-byline" contenteditable="true">Adapted for B2/C1 Language Study — Original Events: April 1943</div>
+            <hr class="broadsheet-rule">
+            <div class="broadsheet-body">
+                <p contenteditable="true">In the spring of 1943, two British intelligence officers — <span class="inline-hl">Ewen Montagu</span> and <span class="inline-hl">Charles Cholmondeley</span> — proposed doing something that sounded utterly impossible: convincing Adolf Hitler to defend the wrong country. Their plan, eventually known as Operation Mincemeat, involved fabricating an entire human identity and using a corpse to deliver forged military documents directly to the Nazi high command.</p>
+                <p contenteditable="true">They began by managing to obtain the body of Glyndwr Michael, a Welsh vagrant who had died of accidental poisoning. They spent weeks constructing a false identity for him — Major William Martin of the Royal Marines — complete with love letters, receipts, a photograph of a fictional fiancée, and theatre ticket stubs. The goal was to make the Germans stop questioning the documents and start accepting them as genuine intelligence.</p>
+                <p contenteditable="true">On April 30th, 1943, the submarine HMS Seraph surfaced off the coast of Huelva, Spain, and released the body. A Spanish fisherman discovered it. The local pro-Nazi intelligence network managed to photograph the documents before pretending to return them to the British, unaware that the British had secretly wanted them to do exactly that.</p>
+                <p contenteditable="true">It worked beyond anyone's expectations. Hitler personally refused to reconsider his defensive positioning after seeing the documents. He ordered his generals to stop preparing for a Sicilian landing and to reinforce Greece and Sardinia instead. When Allied forces landed in Sicily on July 10th, the German defences were completely unprepared. Historians estimate that the deception saved tens of thousands of lives.</p>
+                <p contenteditable="true">What makes Operation Mincemeat so remarkable is not just its audacity, but its precision. The team understood that avoiding detection required attending to every microscopic detail. They even remembered to include a bus ticket and a key to a non-existent locker in the dead man's pocket. Succeeding at this level of deception meant ceasing to think like intelligence officers and starting to think like the enemy.</p>
+            </div>
+        </div>
+
+        <div class="intel-box" style="margin-top:28px;">
+            <strong>Task 6 — Comprehension Questions</strong>
+        </div>
+        <ul class="practice-list">
+            <li contenteditable="true">Who was Glyndwr Michael, and why was he chosen for the operation?</li>
+            <li contenteditable="true">What items were placed on the body to make the identity plausible? Can you name at least four?</li>
+            <li contenteditable="true">How did the Spanish intelligence network unknowingly cooperate with the deception?</li>
+            <li contenteditable="true">What strategic impact did the operation have on the Allied invasion of Sicily?</li>
+            <li contenteditable="true">The article says the team had to "start thinking like the enemy." What does that mean in practice? Is it ethical to do so?</li>
+            <li contenteditable="true"><strong>Language focus:</strong> Find three examples in the article where a verb is followed by an <em>-ing</em> form, and three where it is followed by a <em>to + infinitive</em>. Write them below.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== TASK 7: GRAMMAR THEORY ===== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 7 — Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">Gerunds vs Infinitives: The Full Dossier</h2>
+        <p class="section-desc" contenteditable="true">At B2/C1 level, choosing between a gerund (<em>-ing</em>) and an infinitive (<em>to + verb</em>) is about understanding the <strong>meaning and intention</strong> behind the main verb. This is not guesswork — it follows logical patterns.</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Pattern</th>
+                    <th contenteditable="true">What it signals</th>
+                    <th contenteditable="true">Key Verbs</th>
+                    <th contenteditable="true">Example from the text</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><span class="hl-red">Verb + -ing</span></td>
+                    <td contenteditable="true">An ongoing activity, a general habit, or something completed and reflected upon.</td>
+                    <td contenteditable="true">enjoy, avoid, deny, suggest, consider, imagine, involve, finish, practise, admit, risk, miss, can't help, recall, resent</td>
+                    <td contenteditable="true"><em>"The plan involved <strong>fabricating</strong> an entire identity."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><span class="hl-steel">Verb + to + inf.</span></td>
+                    <td contenteditable="true">A future-oriented intention, plan, desire, or attempted action.</td>
+                    <td contenteditable="true">want, decide, plan, hope, manage, refuse, agree, promise, expect, fail, arrange, afford, tend, choose, offer</td>
+                    <td contenteditable="true"><em>"Hitler refused <strong>to reconsider</strong> his positioning."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><span class="hl-khaki">Verb + obj + to + inf.</span></td>
+                    <td contenteditable="true">When you cause or want someone else to do something.</td>
+                    <td contenteditable="true">want, expect, ask, tell, order, allow, persuade, convince, force, encourage, remind, warn, invite, get</td>
+                    <td contenteditable="true"><em>"He ordered his generals <strong>to reinforce</strong> Greece."</em></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="split-rule" style="margin:36px 0 20px;"><span>The Critical Exceptions</span></div>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Verb</th>
+                    <th contenteditable="true">With -ing (Gerund)</th>
+                    <th contenteditable="true">With to + inf.</th>
+                    <th contenteditable="true">Meaning Change?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>stop</strong></td>
+                    <td contenteditable="true">He stopped <strong>questioning</strong> the documents.<br><em>(He no longer questioned them.)</em></td>
+                    <td contenteditable="true">He stopped <strong>to question</strong> the documents.<br><em>(He paused in order to question them.)</em></td>
+                    <td contenteditable="true"><span style="color:var(--red-stamp);font-weight:700;">YES — completely different meaning</span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>remember</strong></td>
+                    <td contenteditable="true">She remembered <strong>hiding</strong> the documents.<br><em>(She recalls a past action.)</em></td>
+                    <td contenteditable="true">She remembered <strong>to hide</strong> the documents.<br><em>(She didn't forget — she did it.)</em></td>
+                    <td contenteditable="true"><span style="color:var(--red-stamp);font-weight:700;">YES — past recall vs. future duty</span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>try</strong></td>
+                    <td contenteditable="true">They tried <strong>forging</strong> the signature.<br><em>(They experimented with it — as one option.)</em></td>
+                    <td contenteditable="true">They tried <strong>to forge</strong> the signature.<br><em>(They made an effort, but may have failed.)</em></td>
+                    <td contenteditable="true"><span style="color:var(--red-stamp);font-weight:700;">YES — experiment vs. attempted effort</span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>regret</strong></td>
+                    <td contenteditable="true">I regret <strong>joining</strong> the operation.<br><em>(I'm sorry about a past decision.)</em></td>
+                    <td contenteditable="true">I regret <strong>to inform</strong> you the mission failed.<br><em>(Formal: sorry to say this now.)</em></td>
+                    <td contenteditable="true"><span style="color:var(--red-stamp);font-weight:700;">YES — past regret vs. formal present action</span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>need</strong></td>
+                    <td contenteditable="true">The plan needs <strong>adjusting</strong>.<br><em>(Passive meaning — the plan needs to be adjusted.)</em></td>
+                    <td contenteditable="true">We need <strong>to adjust</strong> the plan.<br><em>(Active — we must do it.)</em></td>
+                    <td contenteditable="true"><span style="color:var(--red-stamp);font-weight:700;">YES — passive vs. active meaning</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="field-box" style="margin-top:20px;">
+            <strong>🧠 The Rule of Thumb:</strong> If the action feels <em>completed, habitual, or enjoyable in itself</em> → use <strong>-ing</strong>. If the action feels <em>intended, planned, or future-oriented</em> → use <strong>to + infinitive</strong>. When in doubt, ask: "Is this looking backwards or forwards in time?"
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 8: GRAMMAR PRACTICE ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 8 — Grammar Practice</span>
+        <h2 class="section-title" contenteditable="true">Field Exercises: Complete the Transmission</h2>
+        <p class="section-desc" contenteditable="true">Three levels of difficulty. Complete each exercise — be ready to explain <em>why</em> you chose gerund or infinitive.</p>
+
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--ink-black);margin-bottom:12px;" contenteditable="true">Level 1 — Fill the Gap (verb given)</h3>
+        <ul class="practice-list">
+            <li contenteditable="true">The intelligence team spent weeks <span class="blank-input" contenteditable="true"></span> <em>(construct)</em> a false identity for the corpse.</li>
+            <li contenteditable="true">The enemy refused <span class="blank-input" contenteditable="true"></span> <em>(accept)</em> that the documents might be forged.</li>
+            <li contenteditable="true">Hitler's generals couldn't imagine <span class="blank-input" contenteditable="true"></span> <em>(use)</em> a dead body as a courier.</li>
+            <li contenteditable="true">The submarine managed <span class="blank-input" contenteditable="true"></span> <em>(release)</em> the body without being detected.</li>
+            <li contenteditable="true">After the war, Montagu admitted <span class="blank-input" contenteditable="true"></span> <em>(feel)</em> deeply uneasy about the ethics of the operation.</li>
+            <li contenteditable="true">They stopped <span class="blank-input" contenteditable="true"></span> <em>(think)</em> like intelligence officers and started thinking like the enemy.</li>
+        </ul>
+
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--ink-black);margin:28px 0 12px;" contenteditable="true">Level 2 — Choose the Correct Form & Explain the Meaning Difference</h3>
+        <ul class="practice-list">
+            <li contenteditable="true">He remembered <strong>[to hide / hiding]</strong> the documents in the lining of the briefcase the night before the operation. <br><span style="font-size:0.88rem;color:var(--fog);">→ Which form, and what does the other one mean?</span> <span class="blank-input" contenteditable="true"></span></li>
+            <li contenteditable="true">The KGB tried <strong>[to recruit / recruiting]</strong> foreign journalists as informants, but most of them refused. <br><span style="font-size:0.88rem;color:var(--fog);">→ Which form, and what would the other one imply?</span> <span class="blank-input" contenteditable="true"></span></li>
+            <li contenteditable="true">I regret <strong>[to inform / informing]</strong> you that your cover has been compromised. Report to base immediately. <br><span style="font-size:0.88rem;color:var(--fog);">→ Which form is correct here, and why?</span> <span class="blank-input" contenteditable="true"></span></li>
+        </ul>
+
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1px;color:var(--ink-black);margin:28px 0 12px;" contenteditable="true">Level 3 — Error Correction</h3>
+        <ul class="practice-list">
+            <li contenteditable="true">"She denied to have passed the classified files to the enemy." → Corrected: <span class="blank-input" style="min-width:160px;" contenteditable="true"></span></li>
+            <li contenteditable="true">"He avoided to make eye contact during the interrogation." → Corrected: <span class="blank-input" style="min-width:160px;" contenteditable="true"></span></li>
+            <li contenteditable="true">"The operation involved to fabricate an entire military unit from scratch." → Corrected: <span class="blank-input" style="min-width:160px;" contenteditable="true"></span></li>
+            <li contenteditable="true">"They persuaded the admiral agreeing to delay the announcement." → Corrected: <span class="blank-input" style="min-width:160px;" contenteditable="true"></span></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== TASK 9: GRAMMAR IN CONTEXT ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 9 — Grammar in Context</span>
+        <h2 class="section-title" contenteditable="true">The Confession Transcript</h2>
+        <p class="section-desc" contenteditable="true">Read this fictional spy's confession. There are <strong>six gerund/infinitive errors</strong> deliberately hidden in the text. Find them, underline them, and write the corrections below.</p>
+
+        <div class="broadsheet" style="column-count:1;padding:30px 36px;">
+            <p contenteditable="true" style="font-style:italic;color:var(--fog);font-size:0.88rem;margin-bottom:16px;">TRANSCRIPT — SUBJECT: AGENT KOVALENKO — SESSION 3</p>
+            <p contenteditable="true" style="line-height:2;">
+                I remember <strong>to meet</strong> my handler for the first time in 1978. He persuaded me <strong>joining</strong> the network by promising that I would never be asked to do anything that involved <strong>to harm</strong> civilians. At first, I avoided <strong>to draw</strong> attention to myself — I pretended being just another university lecturer. I managed <strong>passing</strong> seventeen documents over two years. Eventually, I considered <strong>to defect</strong>, but I was too afraid. I should have stopped <strong>to cooperate</strong> much earlier.
+            </p>
+            <div contenteditable="true" style="margin-top:20px;border-top:1px solid var(--ash);padding-top:16px;font-size:0.9rem;color:var(--fog);">
+                <strong>Corrections:</strong><br>
+                1. ________ → ________<br>
+                2. ________ → ________<br>
+                3. ________ → ________<br>
+                4. ________ → ________<br>
+                5. ________ → ________<br>
+                6. ________ → ________
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 10: VIDEO ===== -->
+<section class="section" id="video">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 10 — Video Briefing</span>
+        <h2 class="section-title" contenteditable="true">Operation Mincemeat: The Full Story 🎬</h2>
+        <p class="section-desc" contenteditable="true">Watch this documentary summary of Operation Mincemeat. Notice the specific vocabulary used to describe deception, planning, and intent — and the verbs that follow each key action.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube-nocookie.com/embed/jHg4h1VzOi0?rel=0&modestbranding=1" title="Operation Mincemeat Documentary" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="text-align:center;margin-bottom:28px;">
+            <a href="https://www.youtube.com/watch?v=jHg4h1VzOi0" target="_blank" style="color:var(--red-stamp);font-weight:600;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:0.82rem;letter-spacing:1px;">🔗 WATCH DIRECTLY ON YOUTUBE IF BLOCKED</a>
+        </p>
+
+        <div class="intel-box">
+            <strong>Task 11 — Comprehension</strong>
+        </div>
+        <ul class="practice-list" style="margin-top:14px;">
+            <li contenteditable="true">How does the video describe the process of <em>fabricating</em> Major William Martin's identity? What details did the team remember to include?</li>
+            <li contenteditable="true">At what point did the British team stop worrying about whether the Germans had seen the documents? Why?</li>
+            <li contenteditable="true">The narrator mentions the deception involved manipulating the Germans' "confirmation bias." Can you explain what this means using a gerund/infinitive construction? <em>(e.g. "The Germans avoided _____ because they preferred _____")</em></li>
+            <li contenteditable="true">What does the operation suggest about the nature of trust? When do we stop questioning information and start accepting it?</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ===== TASK 12: PRONUNCIATION ===== -->
+<section class="section" id="pronunciation">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 12 — Pronunciation Intel</span>
+        <h2 class="section-title" contenteditable="true">Weak Forms: The Hidden Sound of "To"</h2>
+        <p class="section-desc" contenteditable="true">Building on our work with elision (Lesson 6) and catenation (Lesson 4), today we examine <strong>weak forms</strong> — how function words like "to," "of," and "for" are drastically reduced in natural fast speech.</p>
+
+        <div class="phono-grid">
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">"to" — the infinitive marker</div>
+                <div class="phono-ipa" contenteditable="true">Strong: /tuː/ — Weak (natural): /tə/</div>
+                <div class="phono-tip" contenteditable="true">In fast speech, "to" almost always reduces to a brief /tə/ (schwa). Only stressed when used as a destination or for contrast: <em>"I want <span class="phono-stressed">to</span> go" → "I wanna go"</em>. Notice how "want to" becomes <span class="phono-stressed">"wanna"</span> in casual speech entirely.</div>
+            </div>
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">Gerund vs Infinitive in Speech</div>
+                <div class="phono-ipa" contenteditable="true">Notice the rhythm difference</div>
+                <div class="phono-tip" contenteditable="true">Compare these two:<br>
+                "He stopped <span class="phono-stressed">QUES-tion-ing</span>" (3 beats, stress on QUE)<br>
+                "He stopped <span class="phono-stressed">tə QUES-tion</span>" (pause + 2 beats)<br>
+                The gerund flows; the infinitive creates a slight pause before it — use this to distinguish them when listening.</div>
+            </div>
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">Reduction: "supposed to"</div>
+                <div class="phono-ipa" contenteditable="true">/səˈpəʊzd tuː/ → /səˈpəʊstə/</div>
+                <div class="phono-tip" contenteditable="true">The -d and the t- of "to" merge and the vowel disappears: <em>"He was supposed to report back"</em> → <em>"He was <span class="phono-stressed">sposeta</span> report back."</em></div>
+            </div>
+            <div class="phono-card">
+                <div class="phono-word" contenteditable="true">Reduction: "going to"</div>
+                <div class="phono-ipa" contenteditable="true">/ˈɡəʊɪŋ tuː/ → /ˈɡənə/</div>
+                <div class="phono-tip" contenteditable="true">"Going to" (for future intention with gerund/infinitive structures) almost universally becomes <span class="phono-stressed">"gonna"</span> in spoken English. <em>"I'm going to try forging it"</em> → <em>"I'm gonna try forging it."</em></div>
+            </div>
+        </div>
+
+        <div class="intel-box" style="margin-top:20px;">
+            <strong>🗣️ Pronunciation Drill:</strong> Read these sentences naturally, applying weak forms. Your teacher will demonstrate the target rhythm:
+            <br><br>
+            <em>"They managed <strong>tə</strong> convince the Germans <strong>tə</strong> stop <strong>questioni<span class="phono-stressed">ŋ</span></strong> the documents."</em><br>
+            <em>"She was <strong>sposeta</strong> remember <strong>tə</strong> conceal the envelope, but she forgot."</em>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 13: ROLE-PLAY ===== -->
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 13 — Speaking: The Interrogation</span>
+        <h2 class="section-title" contenteditable="true">Scene: Wartime Interrogation Room, 1943</h2>
+        <p class="section-desc" contenteditable="true">Act out this scene. Try to use at least <strong>four gerund/infinitive constructions</strong> naturally in your dialogue. Your teacher will count them.</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>INTERROGATOR:</strong> Accuse the suspect of having fabricated documents. Ask them to admit to being part of the deception.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble red-side" contenteditable="true"><strong>SUSPECT:</strong> Deny being involved. Claim you were forced to pass the documents without knowing their contents. (Use: "I remember being told to..." / "I didn't risk opening...")</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>INTERROGATOR:</strong> Refuse to believe them. Point out that they avoided answering two key questions. Demand that they stop pretending to be a neutral courier.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble red-side" contenteditable="true"><strong>SUSPECT:</strong> Admit to having carried the documents, but deny knowing their contents. Offer to help identify the handler. (Use: "I considered going to the authorities, but..." / "I tried to refuse, however...")</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>INTERROGATOR:</strong> Agree to consider offering a deal, but warn that this requires the suspect to stop concealing information and start cooperating fully.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 14: SPEAKING GRID ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 14 — Speaking: Intelligence Briefing</span>
+        <h2 class="section-title" contenteditable="true">Choose Your Target</h2>
+        <p class="section-desc" contenteditable="true">Pick any tile. Speak for 60–90 seconds. Try to use at least two words from today's vocabulary and one gerund/infinitive construction. Your partner gives feedback using: <em>vocabulary used / grammar correct / natural delivery.</em></p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File A</div>Which of the four case files was most audacious? What made it so risky?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File B</div>Is disinformation always wrong, or can you justify fabricating information to save lives?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File C</div>Describe a situation where you decided to conceal something from someone. Why?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File D</div>What makes a person credulous? Are highly intelligent people easier or harder to manipulate?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File E</div>Are modern governments still involved in operations like these? Can you think of any examples?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File F</div>"Avoiding confrontation is just a form of subterfuge." Do you agree?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File G</div>If you had to fabricate an identity for someone to pass unnoticed in your city — what details would you include?</div>
+            <div class="board-tile" contenteditable="true"><div class="tile-num">File H</div>Modern AI can fabricate voices, faces, and video. Does this make states more or less capable of deception than in 1943?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== TASK 15: SYNTHESIS ===== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 15 — Written Synthesis</span>
+        <h2 class="section-title" contenteditable="true">Debrief Report: 80–120 Words</h2>
+        <p class="section-desc" contenteditable="true">Write a brief intelligence-style assessment of ONE of the four operations from Task 2. Use at least 4 vocabulary words, 2 gerund constructions, and 1 infinitive construction. Your teacher will review it together with you.</p>
+
+        <div class="broadsheet" style="min-height:180px;">
+            <div contenteditable="true" style="min-height:140px;line-height:2;font-size:1rem;color:var(--ink-black);">
+                [ASSESSMENT REPORT — OPERATION: ________________ ]<br><br>
+                Write your 80–120 word analysis here...
+            </div>
+        </div>
+
+        <div class="sum-up-box" style="margin-top:36px;">
+            <h2 contenteditable="true">Lesson 7 — Mission Debriefed ✔</h2>
+            <ul>
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> audacious, fabricate, plausible, disinformation, subterfuge, credulous, manipulate, conceal — + synonym collocations.</li>
+                <li contenteditable="true">✅ <strong>Grammar Recap:</strong> Mixed Conditionals (Types A & B) from Lesson 6.</li>
+                <li contenteditable="true">✅ <strong>Grammar New:</strong> Gerunds vs Infinitives — patterns, meaning-change pairs (stop/remember/try/regret/need), and error correction at C1 level.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Weak forms — reduction of "to," "supposed to" → <em>sposeta</em>, "going to" → <em>gonna</em>; gerund vs infinitive rhythm in speech.</li>
+                <li contenteditable="true">✅ <strong>Reading:</strong> Broadsheet feature analysis — Operation Mincemeat as historical case study.</li>
+                <li contenteditable="true">📌 <strong>Next Lesson (8):</strong> Digital Nomads & Remote Work — Grammar: Passive Voice (all forms, advanced focus on passive reporting structures).</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ===== WHITEBOARD ===== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Live Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Map gerund/infinitive patterns, draw the decision flowchart, annotate examples live.</p>
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil">PENCIL</button>
+                <button class="wb-btn" data-tool="highlight">HIGHLIGHT</button>
+                <button class="wb-btn" data-tool="text">TEXT</button>
+                <button class="wb-btn" data-tool="square">SQUARE</button>
+                <button class="wb-btn" data-tool="circle">CIRCLE</button>
+                <button class="wb-btn" data-tool="arrow">ARROW</button>
+                <div style="width:1px;height:20px;background:rgba(242,238,229,0.15);margin:0 8px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#141414" title="Color">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--red-stamp);">CLEAR</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FLOATING ===== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Quizlet">📝</button>
+    <button class="fab-btn" onclick="window.saveAsPDF()" title="PDF">💾</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background:var(--red-stamp);" title="Reset">🔄</button>
+</div>
+
+<!-- ===== QUIZLET MODAL ===== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2 style="font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:1.8rem;color:var(--ink-black);">Quizlet Export</h2>
+        <p style="margin-top:6px;font-size:0.9rem;color:var(--fog);">Add words + translations, then paste into Quizlet's import tool.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:16px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex:1;">+ ROW</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn" style="flex:2;background:#4255FF;border-color:#4255FF;">📋 COPY FOR QUIZLET</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='h') {
+            e.preventDefault();
+            const s = window.getSelection();
+            if (!s.rangeCount||s.isCollapsed) return;
+            document.execCommand('hiliteColor',false,'rgba(230,190,60,0.38)');
+        }
+    });
+
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 500; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#141414', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active'); currentTool=btn.dataset.tool;
+            canvas.style.cursor = currentTool==='text'?'text':'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor=e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r=canvas.getBoundingClientRect(); return {x:e.clientX-r.left,y:e.clientY-r.top}; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p=getPos(e); startX=p.x; startY=p.y;
+        if (currentTool==='text') { const t=prompt('Enter text:'); if(!t) return; ctx.font="16px 'IBM Plex Mono',monospace"; ctx.fillStyle=currentColor; ctx.fillText(t,startX,startY); if(window.syncWhiteboardDraw){pendingDraw=true;window.syncWhiteboardDraw();} return; }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height); ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if(!isDrawing) return; const p=getPos(e);
+        if(currentTool==='pencil'||currentTool==='highlight') { ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'55':currentColor; ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round'; ctx.lineJoin='round'; ctx.stroke(); }
+        else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if(!isDrawing) return; isDrawing=false;
+        if(currentTool!=='pencil'&&currentTool!=='highlight') drawShape(getPos(e).x,getPos(e).y);
+        if(window.syncWhiteboardDraw){pendingDraw=true;window.syncWhiteboardDraw();}
+    });
+
+    canvas.addEventListener('mouseout', () => { if(isDrawing){isDrawing=false;if(window.syncWhiteboardDraw){pendingDraw=true;window.syncWhiteboardDraw();}} });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if(currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if(currentTool==='circle'){const r=Math.sqrt((ex-startX)**2+(ey-startY)**2);ctx.arc(startX,startY,r,0,2*Math.PI);ctx.stroke();}
+        else if(currentTool==='arrow'){const hl=14,ang=Math.atan2(ey-startY,ex-startX);ctx.moveTo(startX,startY);ctx.lineTo(ex,ey);ctx.stroke();ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));ctx.stroke();}
+    }
+
+    // Drag and drop
+    function setupDrag(colId) {
+        const col = document.getElementById(colId); if(!col) return;
+        col.querySelectorAll('.drag-item').forEach(item => {
+            item.addEventListener('dragstart',()=>item.classList.add('dragging'));
+            item.addEventListener('dragend',()=>{item.classList.remove('dragging');if(window.syncDragOrder)window.syncDragOrder(colId);});
+        });
+        col.addEventListener('dragover', e => {
+            e.preventDefault();
+            const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{const b=ch.getBoundingClientRect(),o=e.clientY-b.top-b.height/2;return(o<0&&o>cl.offset)?{offset:o,element:ch}:cl;},{offset:Number.NEGATIVE_INFINITY}).element;
+            const drag=document.querySelector('.dragging'); if(drag){if(after==null)col.appendChild(drag);else col.insertBefore(drag,after);}
+        });
+    }
+    setupDrag('vocabMatch');
+
+    window.saveAsPDF = () => {
+        document.getElementById('floatingActions').style.display='none';
+        document.getElementById('syncStatus').style.display='none';
+        const el=document.body;
+        html2pdf().set({margin:0,filename:'Lesson7-ArtOfTheCon.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{
+            document.getElementById('floatingActions').style.display='flex';
+            document.getElementById('syncStatus').style.display='flex';
+        });
+    };
+
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display='flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display='none';
+    window.addWordRow = () => {
+        const r=document.createElement('div'); r.className='word-row';
+        r.innerHTML='<input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation (UA/RU)" class="q-trans">';
+        const wl=document.getElementById('wordList'); wl.appendChild(r); wl.scrollTop=wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.word-row').forEach(row=>{const w=row.querySelector('.q-word').value.trim(),t=row.querySelector('.q-trans').value.trim();if(w||t)out+=`${w}\t${t}\n`;});
+        const btn=document.getElementById('copyQuizletBtn');
+        if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.innerText='✅ COPIED';setTimeout(()=>btn.innerText='📋 COPY FOR QUIZLET',3000);}
+        else{btn.innerText='⚠️ ADD WORDS FIRST';setTimeout(()=>btn.innerText='📋 COPY FOR QUIZLET',3000);}
+    };
+
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){
+            e.preventDefault(); const id=e.target.getAttribute('href');
+            if(id&&id.startsWith('#')&&id.length>1){const el=document.querySelector(id);if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});}
+        }
+    });
+
+    window.scrollToWhiteboard = () => { const wb=document.getElementById('whiteboard'); if(wb)window.scrollTo({top:wb.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'}); };
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac" };
+
+    const appId = 'lesson-7-b2-art-of-con-gerunds-infinitives';
+
+    const statusText=document.getElementById('syncText'), statusDot=document.getElementById('syncDot');
+    function setStatus(t,c){if(statusText)statusText.innerText=t;if(statusDot)statusDot.style.background=c;}
+
+    const app=initializeApp(firebaseConfig), auth=getAuth(app), db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName="Student";
+
+    const editables=document.querySelectorAll('[contenteditable="true"]'), originalStates={};
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;originalStates['edit-'+i]=el.innerHTML;});
+    const origDrag={vocabMatch:['drag-v3','drag-v1','drag-v5','drag-v2','drag-v4']};
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#B5200D'));
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{myCursorName="Student "+(snap.size+1);setStatus('LIVE SYNC ON','#14A3A8');setupSync();setupCursors();}).catch(()=>{myCursorName="Student "+(Math.floor(Math.random()*99)+1);setStatus('LIVE SYNC ON','#14A3A8');setupSync();setupCursors();});
+        } else if(!user) setStatus('DISCONNECTED','#B5200D');
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dragRef=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        window.addNewTab=e=>{
+            e.preventDefault();const c=document.getElementById('navTabsContainer');
+            const li=document.createElement('li'),id='edit-tab-'+Date.now();
+            li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${id}">New Tab</a>`;
+            c.appendChild(li);window.attachEditableListeners(li.querySelector('a'));
+            if(currentUser)setDoc(textRef,{nav_tabs_structure:c.innerHTML},{merge:true});
+        };
+
+        onSnapshot(textRef,snap=>{
+            if(snap.exists()){for(const[sid,html]of Object.entries(snap.data())){
+                if(sid==='nav_tabs_structure'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable="true"]').forEach(a=>window.attachEditableListeners(a));}continue;}
+                if(isEditing!==sid){const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }}else{Object.entries(originalStates).forEach(([sid,html])=>{const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;});}
+        });
+
+        document.addEventListener('paste',e=>{
+            const target=e.target;if(!target.closest('[contenteditable="true"]'))return;
+            const items=(e.clipboardData||window.clipboardData).items;
+            for(let idx in items){const item=items[idx];if(item.kind==='file'&&item.type.startsWith('image/')){e.preventDefault();const reader=new FileReader();reader.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;if(w>800){h*=800/w;w=800;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:6px;"></div><p><br></p>`);target.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};reader.readAsDataURL(item.getAsFile());return;}}
+            const text=(e.clipboardData||window.clipboardData).getData('text');
+            if(text){const yt=text.match(/(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:6px;max-width:100%;"></iframe></div><p><br></p>`);target.dispatchEvent(new Event('input',{bubbles:true}));return;}
+            if(/^https?:\/\/\S+$/.test(text.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${text.trim()}" target="_blank" style="color:var(--red-stamp);text-decoration:underline;" contenteditable="false">${text.trim()}</a>`);target.dispatchEvent(new Event('input',{bubbles:true}));}}
+        });
+
+        window.syncDragOrder=cId=>{if(!currentUser)return;const c=document.getElementById(cId);if(!c)return;setDoc(dragRef,{[cId]:Array.from(c.children).map(ch=>ch.id)},{merge:true});};
+        onSnapshot(dragRef,snap=>{if(snap.exists()){['vocabMatch'].forEach(cId=>{const c=document.getElementById(cId);if(!c)return;const data=snap.data();if(data[cId])data[cId].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}else{['vocabMatch'].forEach(cId=>{const c=document.getElementById(cId);if(!c)return;origDrag[cId].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}});
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const cv=document.getElementById('boardCanvas');setDoc(wbRef,{image:cv.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+        onSnapshot(wbRef,snap=>{if(snap.exists()){const data=snap.data(),cv=document.getElementById('boardCanvas'),cx=cv.getContext('2d');if(data.clearTimestamp>(window.lastClear||0)){cx.clearRect(0,0,cv.width,cv.height);window.lastClear=data.clearTimestamp;return;}if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);};img.src=data.image;}}});
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container=document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove',debounce(e=>{if(!currentUser)return;setDoc(myRef,{xOffset:e.pageX-(window.innerWidth/2),y:e.pageY,color:myCursorColor,name:myCursorName,timestamp:Date.now()});},400));
+        onSnapshot(cursorsCol,snap=>{snap.docChanges().forEach(change=>{const id=change.doc.id;if(id===currentUser.uid)return;if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}const data=change.doc.data();if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}let el=document.getElementById('cursor-'+id);if(!el){el=document.createElement('div');el.id='cursor-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${data.color}">${data.name}</div>`;container.appendChild(el);}el.style.left=((window.innerWidth/2)+data.xOffset)+'px';el.style.top=data.y+'px';});});
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+
+    window.resetLesson=async()=>{
+        if(!currentUser)return;
+        if(!confirm("Reset the lesson for everyone? Clears all edits, whiteboard, and drag order."))return;
+        setStatus('RESETTING...','#7D6E52');
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dragRef=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        await deleteDoc(textRef);await deleteDoc(dragRef);
+        const ts=Date.now();window.lastClear=ts;await setDoc(wbRef,{clearTimestamp:ts,image:null});
+        setTimeout(()=>setStatus('LIVE SYNC ON','#14A3A8'),1200);
+    };
+</script>
+</body>
+</html>
