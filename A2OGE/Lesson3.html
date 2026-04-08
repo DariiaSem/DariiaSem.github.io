@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: A2–B1 | Tech & Gadgets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Modern Tech / Cyber Palette */
+            --bg-color: #F8FAFC;
+            --surface: #FFFFFF;
+            --primary: #6366F1; /* Indigo */
+            --primary-light: #EEF2FF;
+            --secondary: #06B6D4; /* Cyan */
+            --secondary-light: #ECFEFF;
+            --tertiary: #8B5CF6; /* Purple */
+            --tertiary-light: #F5F3FF;
+            --danger: #F43F5E; /* Rose */
+            --danger-light: #FFF1F2;
+            --dark-mode: #0F172A; /* Slate 900 */
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            
+            --shadow-soft: 0px 10px 25px rgba(99, 102, 241, 0.08);
+            --shadow-hover: 0px 20px 40px rgba(99, 102, 241, 0.15);
+            --radius-sm: 12px;
+            --radius-md: 24px;
+            --radius-lg: 32px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ── CONTENT EDITABLE ── */
+        [contenteditable="true"] { outline: none; border-radius: 6px; transition: background 0.2s, box-shadow 0.2s; }
+        [contenteditable="true"]:hover { background: rgba(99, 102, 241, 0.1); }
+        [contenteditable="true"]:focus { background: rgba(99, 102, 241, 0.15); box-shadow: 0 0 0 2px var(--primary); }
+
+        /* ── HERO (Dark Tech Vibe) ── */
+        .hero {
+            position: relative;
+            background: var(--dark-mode);
+            color: white;
+            padding: 130px 24px 90px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 50px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
+        }
+
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
+            background-size: cover;
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--secondary);
+            padding: 8px 20px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 800; letter-spacing: 2px;
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 800; line-height: 1.1; margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 em { color: var(--secondary); font-style: normal; }
+
+        .hero-subtitle { font-size: 1.15rem; color: rgba(255,255,255,0.7); max-width: 600px; margin: 0 auto; }
+
+        /* ── NAV (Floating Island) ── */
+        .nav-bar {
+            position: sticky; top: 20px; z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            padding: 0 20px; margin: 0 24px 50px;
+            border-radius: 100px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+        }
+
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+
+        .nav-logo {
+            font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--dark-mode);
+            text-decoration: none; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; padding: 0 10px; }
+        .nav-links::-webkit-scrollbar { display: none; }
+
+        .nav-links a {
+            text-decoration: none; color: var(--text-muted);
+            font-size: 0.9rem; font-weight: 700; padding: 8px 16px; border-radius: 50px;
+            transition: all 0.2s; white-space: nowrap;
+        }
+
+        .nav-links a:hover { color: var(--primary); background: var(--primary-light); }
+
+        /* ── SECTIONS ── */
+        .section { padding: 40px 24px 70px; }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+
+        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .section-icon { 
+            width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; flex-shrink: 0; box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+        }
+        .icon-blue { background: var(--primary-light); color: var(--primary); }
+        .icon-cyan { background: var(--secondary-light); color: var(--secondary); }
+        .icon-purple { background: var(--tertiary-light); color: var(--tertiary); }
+        .icon-red { background: var(--danger-light); color: var(--danger); }
+        .icon-dark { background: var(--dark-mode); color: white; }
+
+        .section-title { font-size: 2rem; font-weight: 800; color: var(--text-main); line-height: 1.2; margin-bottom: 4px; letter-spacing: -0.5px; }
+        .section-label { font-size: 0.8rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+        .section-desc { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 30px; font-weight: 500; }
+
+        /* ── CONCRETE CARDS (Apple-style clean) ── */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .tech-card {
+            background: var(--surface); border-radius: var(--radius-md);
+            padding: 24px; box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tech-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+        
+        .tech-icon { font-size: 2.2rem; margin-bottom: 16px; display: inline-block; }
+        .tech-card h4 { font-size: 1.25rem; color: var(--text-main); margin-bottom: 8px; font-weight: 800; }
+        .tech-card p.def { font-size: 1rem; color: var(--text-main); margin-bottom: 12px; font-weight: 500; }
+        .tech-card p.ex { font-size: 0.95rem; color: var(--text-muted); background: var(--bg-color); padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .blank-input {
+            display: inline-block; min-width: 120px; border-bottom: 2px solid var(--primary);
+            color: var(--primary); font-weight: 800; padding: 2px 8px; text-align: center;
+            background: rgba(99, 102, 241, 0.05); border-radius: 6px 6px 0 0; font-family: 'Outfit';
+        }
+
+        /* ── GRAMMAR FORMULAS (Concrete Math-style) ── */
+        .formula-box {
+            background: var(--dark-mode); color: white; padding: 24px; border-radius: var(--radius-md); margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+        }
+        .formula-title { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 16px; color: var(--secondary); }
+        .formula-row { 
+            display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; 
+            background: rgba(255,255,255,0.1); padding: 12px; border-radius: 12px; font-family: 'Plus Jakarta Sans';
+        }
+        .f-part { padding: 6px 12px; border-radius: 6px; font-weight: 700; background: rgba(255,255,255,0.15); }
+        .f-part.highlight { background: var(--primary); color: white; }
+        .f-plus { color: rgba(255,255,255,0.5); font-weight: 800; }
+        .f-example { font-size: 1rem; color: rgba(255,255,255,0.9); margin-top: 8px; font-weight: 500; }
+
+        /* ── PRACTICE LIST ── */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: ex; }
+        .practice-list li {
+            background: var(--surface); border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); padding: 20px 24px 20px 60px;
+            position: relative; font-size: 1.05rem; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            font-weight: 500;
+        }
+        .practice-list li::before {
+            counter-increment: ex; content: counter(ex);
+            position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+            background: var(--primary-light); color: var(--primary); font-weight: 800; font-family: 'Outfit';
+            width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── iOS-STYLE CHAT UI ── */
+        .chat-container {
+            background: #F0F0F0; border-radius: 30px; padding: 24px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; border: 8px solid #D1D5DB;
+        }
+        .chat-msg {
+            max-width: 75%; padding: 12px 18px; border-radius: 20px; font-size: 1rem; font-weight: 500; line-height: 1.4;
+        }
+        .chat-msg.received { background: #E5E5EA; color: black; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .chat-msg.sent { background: #0A84FF; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 2px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; margin-top: 30px; box-shadow: var(--shadow-soft); background: var(--surface); }
+        .wb-toolbar { background: var(--surface); border-bottom: 1px solid var(--border-color); padding: 14px 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .wb-btn {
+            background: var(--bg-color); color: var(--text-main); border: none;
+            padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 700; transition: all 0.2s; font-family: 'Outfit';
+        }
+        .wb-btn:hover, .wb-btn.active { background: var(--dark-mode); color: white; }
+        .wb-color { width: 32px; height: 32px; border-radius: 50%; border: 3px solid var(--bg-color); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 600px; background: var(--surface); cursor: crosshair; }
+
+        /* ── FLOATING ACTIONS ── */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 16px; z-index: 1000; }
+        .fab-btn {
+            background: var(--dark-mode); color: white; border: none;
+            width: 56px; height: 56px; border-radius: 50%; font-size: 1.4rem; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.3); transition: transform 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .fab-btn:hover { transform: translateY(-4px); background: var(--primary); }
+        .fab-btn.fab-danger { background: var(--danger); }
+
+        /* ── SYNC & MODALS ── */
+        #syncStatus {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--dark-mode); color: white; padding: 8px 20px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 800; z-index: 10000; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.2); font-family: 'Outfit';
+        }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.8); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--surface); padding: 32px; border-radius: var(--radius-lg); width: 90%; max-width: 500px; position: relative; }
+        .close-modal { position: absolute; top: 16px; right: 20px; font-size: 2rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
+        .word-row { display: flex; gap: 10px; margin-bottom: 12px; }
+        .word-row input { flex: 1; padding: 12px; border: 2px solid var(--bg-color); border-radius: 8px; font-family: 'Plus Jakarta Sans'; font-weight: 600; outline: none; background: var(--bg-color); }
+        .word-row input:focus { border-color: var(--primary); background: var(--surface); }
+
+        #liveCursorsContainer { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999; }
+        .remote-cursor { position: absolute; transition: top 0.15s linear, left 0.15s linear; display: flex; align-items: flex-start; }
+        .remote-cursor svg { width: 22px; height: 22px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .remote-cursor-label { color: white; font-size: 0.8rem; padding: 4px 8px; border-radius: 6px; margin-left: -4px; margin-top: 16px; font-weight: 700; font-family: 'Outfit'; background: var(--dark-mode); }
+
+        @media (max-width: 768px) {
+            .hero { padding: 100px 20px 60px; border-radius: 0 0 24px 24px; }
+            .nav-bar { margin: 0 16px 30px; }
+            .section { padding: 30px 16px 50px; }
+            .chat-msg { max-width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span id="syncDot" style="width:10px;height:10px;border-radius:50%;background:var(--secondary);display:block;box-shadow:0 0 10px var(--secondary);"></span>
+    <span id="syncText">System Online…</span>
+</div>
+<div id="liveCursorsContainer"></div>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">📱 General English · A2–B1 · Lesson 3</div>
+        <h1 contenteditable="true">Tech &amp; <em>Gadgets</em></h1>
+        <p class="hero-subtitle" contenteditable="true">Are we addicted to our smartphones? Learn concrete technology vocabulary, clear grammar rules for "too" and "enough", and talk about daily screen time.</p>
+    </div>
+</section>
+
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">⚡ Lesson 3</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--bg-color);color:var(--primary);">+ Tab</a></li>
+            <li><a href="#t1" contenteditable="true">Recap</a></li>
+            <li><a href="#t2" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#t3" contenteditable="true">Vocab</a></li>
+            <li><a href="#t5" contenteditable="true">Reading</a></li>
+            <li><a href="#t7" contenteditable="true">Grammar</a></li>
+            <li><a href="#t10" contenteditable="true">Video</a></li>
+            <li><a href="#t12" contenteditable="true">Chat</a></li>
+            <li><a href="#t15" contenteditable="true">Finale</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section" id="t1">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-cyan">📋</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 1 · Recap</div>
+                <h2 class="section-title" contenteditable="true">Memory Check: Modals of Advice</h2>
+            </div>
+        </div>
+        
+        <ul class="practice-list">
+            <li><div contenteditable="true"><strong>Rule Check:</strong> <em>Should</em> (Good idea) | <em>Ought to</em> (Moral/Right thing) | <em>Had better</em> (Warning!).</div></li>
+            <li><div contenteditable="true">1. Your phone screen is broken. You <span class="blank-input" contenteditable="true"></span> buy a new one. (Good idea)</div></li>
+            <li><div contenteditable="true">2. You <span class="blank-input" contenteditable="true"></span> put the phone in the charger, or it will die! (Warning)</div></li>
+            <li><div contenteditable="true">3. You <span class="blank-input" contenteditable="true"></span> text and drive. It is illegal and dangerous! (Warning - Negative)</div></li>
+            <li><div contenteditable="true">4. If you have a headache from screens, you <span class="blank-input" contenteditable="true"></span> rest your eyes. (Right thing to do)</div></li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="t2">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-purple">🎯</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 2 · Warm-Up</div>
+                <h2 class="section-title" contenteditable="true">Screen Time Check</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Read the question. Give a short, direct answer.</p>
+
+        <div class="card-grid">
+            <div class="tech-card" contenteditable="true">
+                <span class="tech-icon">📱</span>
+                <h4>Question 1</h4>
+                <p class="def">What is the first app you open when you wake up?</p>
+            </div>
+            <div class="tech-card" contenteditable="true">
+                <span class="tech-icon">🔋</span>
+                <h4>Question 2</h4>
+                <p class="def">How often do you charge your phone battery? (Once a day? Twice?)</p>
+            </div>
+            <div class="tech-card" contenteditable="true">
+                <span class="tech-icon">😱</span>
+                <h4>Question 3</h4>
+                <p class="def">Do you panic if you forget your phone at home? Why?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t3">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-blue">📖</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 3 · Vocabulary</div>
+                <h2 class="section-title" contenteditable="true">Digital Words</h2>
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <div class="tech-card">
+                <h4 contenteditable="true">1. Device (Noun)</h4>
+                <p class="def" contenteditable="true">A piece of electronic equipment (like a phone, tablet, or laptop).</p>
+                <p class="ex" contenteditable="true">I bought a new smart <strong>device</strong> today.</p>
+            </div>
+            <div class="tech-card">
+                <h4 contenteditable="true">2. Battery (Noun)</h4>
+                <p class="def" contenteditable="true">The part of the phone that holds electrical power.</p>
+                <p class="ex" contenteditable="true">My phone is dead; the <strong>battery</strong> is at 0%.</p>
+            </div>
+            <div class="tech-card">
+                <h4 contenteditable="true">3. Touch Screen (Noun)</h4>
+                <p class="def" contenteditable="true">A display that you control by touching it with your fingers.</p>
+                <p class="ex" contenteditable="true">Don't drop the phone; the <strong>touch screen</strong> will break.</p>
+            </div>
+            <div class="tech-card">
+                <h4 contenteditable="true">4. Application / App (Noun)</h4>
+                <p class="def" contenteditable="true">A software program you download on your phone (like Instagram or WhatsApp).</p>
+                <p class="ex" contenteditable="true">I downloaded a new fitness <strong>app</strong>.</p>
+            </div>
+            <div class="tech-card">
+                <h4 contenteditable="true">5. Notification (Noun)</h4>
+                <p class="def" contenteditable="true">A message or alert on your screen telling you something happened.</p>
+                <p class="ex" contenteditable="true">I got a <strong>notification</strong> that someone liked my photo.</p>
+            </div>
+            <div class="tech-card">
+                <h4 contenteditable="true">6. Scroll (Verb)</h4>
+                <p class="def" contenteditable="true">To move text or pictures up and down on a screen to see more.</p>
+                <p class="ex" contenteditable="true">I spend an hour trying to <strong>scroll</strong> through TikTok.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t4">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-cyan">✏️</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 4 · Vocabulary in Use</div>
+                <h2 class="section-title" contenteditable="true">A Dead Phone</h2>
+            </div>
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">1. I can't use my phone because the <span class="blank-input" contenteditable="true"></span> is completely empty.</div></li>
+            <li><div contenteditable="true">2. Every time my phone rings with a new <span class="blank-input" contenteditable="true"></span>, I have to look at it.</div></li>
+            <li><div contenteditable="true">3. My grandfather doesn't understand how to use a <span class="blank-input" contenteditable="true"></span>; he prefers buttons.</div></li>
+            <li><div contenteditable="true">4. You shouldn't <span class="blank-input" contenteditable="true"></span> through social media right before you go to sleep.</div></li>
+            <li><div contenteditable="true">5. A smartwatch is a very useful <span class="blank-input" contenteditable="true"></span> for checking your heart rate.</div></li>
+            <li><div contenteditable="true">6. What is your favorite <span class="blank-input" contenteditable="true"></span> for editing photos?</div></li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="t5">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-purple">🗂️</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 5 · Reading</div>
+                <h2 class="section-title" contenteditable="true">The Addiction Test</h2>
+            </div>
+        </div>
+
+        <div class="card-grid" style="grid-template-columns: 1fr;">
+            <div class="tech-card" style="border-top: 6px solid var(--primary);">
+                <p contenteditable="true" style="margin-bottom: 20px; font-size: 1.05rem;">
+                    <strong>Are you addicted to your smartphone? Read these 3 signs:</strong>
+                </p>
+                <p contenteditable="true" style="margin-bottom: 16px; font-size: 1.05rem;">
+                    <strong>1. The Phantom Vibration</strong><br>
+                    Sometimes you feel your phone vibrating in your pocket, but when you check it, there is no notification. Your brain is waiting for a message.
+                </p>
+                <p contenteditable="true" style="margin-bottom: 16px; font-size: 1.05rem;">
+                    <strong>2. The First and Last Thing</strong><br>
+                    You check your device the second you wake up, and you scroll through apps until you fall asleep. The bright touch screen ruins your sleep quality.
+                </p>
+                <p contenteditable="true" style="font-size: 1.05rem;">
+                    <strong>3. Social Isolation</strong><br>
+                    You are sitting at a restaurant with friends, but everyone is looking at their screens. You care more about the digital world than the real people in front of you.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t6">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-red">🔎</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 6 · Comprehension</div>
+                <h2 class="section-title" contenteditable="true">Fact Check</h2>
+            </div>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true">1. What is a "phantom vibration"? <span class="blank-input" contenteditable="true" style="width: 200px;"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">2. Why is looking at a phone before bed bad? <span class="blank-input" contenteditable="true" style="width: 200px;"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">3. According to the text, what do addicted people do at restaurants? <span class="blank-input" contenteditable="true" style="width: 200px;"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">4. Do you have any of these 3 signs? <span class="blank-input" contenteditable="true" style="width: 200px;"></span></div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="t7">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-dark">📐</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 7 · Grammar Theory</div>
+                <h2 class="section-title" contenteditable="true">Rules: Too & Enough</h2>
+            </div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title" contenteditable="true">Formula 1: TOO + Adjective (Negative Meaning)</div>
+            <p contenteditable="true" style="margin-bottom: 12px;">Meaning: More than you want or need. It is a bad thing.</p>
+            <div class="formula-row">
+                <span class="f-part highlight" contenteditable="true">too</span> <span class="f-plus">+</span>
+                <span class="f-part" contenteditable="true">Adjective</span>
+            </div>
+            <div class="f-example" contenteditable="true">✅ "This phone is <strong>too expensive</strong>." (I cannot buy it.)</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title" contenteditable="true">Formula 2: Adjective + ENOUGH (Positive Meaning)</div>
+            <p contenteditable="true" style="margin-bottom: 12px;">Meaning: The right amount. It is exactly what you need.</p>
+            <div class="formula-row">
+                <span class="f-part" contenteditable="true">Adjective</span> <span class="f-plus">+</span>
+                <span class="f-part highlight" contenteditable="true" style="background: var(--secondary);">enough</span>
+            </div>
+            <div class="f-example" contenteditable="true">✅ "The battery is <strong>good enough</strong>." (It works fine.)</div>
+            <div class="f-example" contenteditable="true" style="color: #F87171;">❌ DO NOT SAY: "The battery is enough good."</div>
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title" contenteditable="true">Formula 3: With NOUNS (Things)</div>
+            <div class="formula-row">
+                <span class="f-part highlight" contenteditable="true" style="background: var(--tertiary);">too much / too many</span> <span class="f-plus">+</span>
+                <span class="f-part" contenteditable="true">Noun</span>
+            </div>
+            <div class="f-example" contenteditable="true">✅ "I get <strong>too many notifications</strong>."</div>
+            
+            <div class="formula-row" style="margin-top: 12px;">
+                <span class="f-part highlight" contenteditable="true" style="background: var(--tertiary);">enough</span> <span class="f-plus">+</span>
+                <span class="f-part" contenteditable="true">Noun</span>
+            </div>
+            <div class="f-example" contenteditable="true">✅ "I don't have <strong>enough memory</strong> on my phone."</div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-blue">🖊️</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 8 · Grammar Practice</div>
+                <h2 class="section-title" contenteditable="true">Choose the Right Word</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Fill in the blank with <strong>too</strong> or <strong>enough</strong>.</p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">1. I can't read the screen. The text is <span class="blank-input" contenteditable="true"></span> small!</div></li>
+            <li><div contenteditable="true">2. I don't want to buy a new laptop. My old one is fast <span class="blank-input" contenteditable="true"></span> for me.</div></li>
+            <li><div contenteditable="true">3. Children spend <span class="blank-input" contenteditable="true"></span> much time playing games on devices.</div></li>
+            <li><div contenteditable="true">4. I cannot download this app. I don't have <span class="blank-input" contenteditable="true"></span> space on my phone.</div></li>
+            <li><div contenteditable="true">5. Is the Wi-Fi connection strong <span class="blank-input" contenteditable="true"></span> to watch a movie?</div></li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-purple">🔁</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 9 · Form Practice</div>
+                <h2 class="section-title" contenteditable="true">Rewrite the Sentence</h2>
+            </div>
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">The phone is very expensive. I can't buy it. <strong>[TOO]</strong><br>The phone is <span class="blank-input" contenteditable="true" style="min-width: 250px;"></span> to buy.</div></li>
+            <li><div contenteditable="true">The battery is very small. It doesn't last all day. <strong>[NOT BIG ENOUGH]</strong><br>The battery is <span class="blank-input" contenteditable="true" style="min-width: 250px;"></span> to last all day.</div></li>
+            <li><div contenteditable="true">I have a lot of apps. My phone is slow. <strong>[TOO MANY]</strong><br>I have <span class="blank-input" contenteditable="true" style="min-width: 250px;"></span> apps.</div></li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-red">🎬</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 10 · Video Study</div>
+                <h2 class="section-title" contenteditable="true">TED-Ed: Technology</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Watch this short video. Write down <strong>3 specific facts</strong> you hear.</p>
+
+        <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); margin-bottom:20px; border: 4px solid var(--surface);" contenteditable="false">
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/-T__YWoq45I?rel=0&modestbranding=1"
+                style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                title="TED Ed Tech Video">
+            </iframe>
+        </div>
+        <p style="text-align:center; margin-bottom:32px;">
+            <a href="https://www.youtube.com/watch?v=-T__YWoq45I" target="_blank" style="color:var(--primary); font-weight:800; text-decoration:none;">🔗 Watch directly on YouTube</a>
+        </p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">Fact 1: <span class="blank-input" contenteditable="true" style="min-width: 300px;"></span></div></li>
+            <li><div contenteditable="true">Fact 2: <span class="blank-input" contenteditable="true" style="min-width: 300px;"></span></div></li>
+            <li><div contenteditable="true">Fact 3: <span class="blank-input" contenteditable="true" style="min-width: 300px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-cyan">🎙️</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 11 · Pronunciation</div>
+                <h2 class="section-title" contenteditable="true">Linking Sounds</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">In fast English, words connect. If a word ends in a consonant and the next starts with a vowel, they link. Listen and repeat.</p>
+
+        <div class="card-grid">
+            <div class="tech-card" style="border-top: 5px solid var(--secondary);">
+                <h4 contenteditable="true" style="margin-bottom:8px;">Not + Enough</h4>
+                <p contenteditable="true" style="font-size:1.3rem; font-weight:800; color:var(--secondary); margin-bottom:12px;">"No-te-nough"</p>
+                <p contenteditable="true" style="color:var(--text-muted); font-size: 1.05rem;">"It is <strong>not enough</strong> time."</p>
+            </div>
+            <div class="tech-card" style="border-top: 5px solid var(--tertiary);">
+                <h4 contenteditable="true" style="margin-bottom:8px;">Big + Enough</h4>
+                <p contenteditable="true" style="font-size:1.3rem; font-weight:800; color:var(--tertiary); margin-bottom:12px;">"Bi-ge-nough"</p>
+                <p contenteditable="true" style="color:var(--text-muted); font-size: 1.05rem;">"The screen is <strong>big enough</strong>."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t12">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-blue">💬</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 12 · Role-Play</div>
+                <h2 class="section-title" contenteditable="true">Tech Support Chat</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">You are texting Customer Service. Fill in the blanks with <strong>too</strong> or <strong>enough</strong>, and add your own ideas.</p>
+
+        <div class="chat-container">
+            <div class="chat-msg sent">
+                <div contenteditable="true">Hello. I bought a phone yesterday, but it is <strong>[too / enough]</strong> <span class="blank-input" contenteditable="true" style="border-color:white; color:white; background:rgba(255,255,255,0.2);"></span>!</div>
+            </div>
+            
+            <div class="chat-msg received">
+                <div contenteditable="true">I'm sorry to hear that. Is the battery not good <strong>[too / enough]</strong>?</div>
+            </div>
+            
+            <div class="chat-msg sent">
+                <div contenteditable="true">The battery is fine. But the touch screen is <strong>[too / enough]</strong> <span class="blank-input" contenteditable="true" style="border-color:white; color:white; background:rgba(255,255,255,0.2);"></span>!</div>
+            </div>
+            
+            <div class="chat-msg received">
+                <div contenteditable="true">We can replace it. But you will have to wait 3 weeks.</div>
+            </div>
+            
+            <div class="chat-msg sent">
+                <div contenteditable="true">That is <strong>[too / enough]</strong> <span class="blank-input" contenteditable="true" style="border-color:white; color:white; background:rgba(255,255,255,0.2);"></span> time to wait! I need a device right now!</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t13">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-purple">💬</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 13 · Discussion</div>
+                <h2 class="section-title" contenteditable="true">What Should They Do?</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Read the problem. Give advice using <strong>too</strong> or <strong>enough</strong>.</p>
+
+        <div class="card-grid">
+            <div class="tech-card" contenteditable="true">
+                <span class="tech-icon">📱</span>
+                <h4>Case A</h4>
+                <p class="def"><strong>Problem:</strong> Emma checks her phone 150 times a day. She can't sleep at night.</p>
+                <p class="ex">"Emma looks at her screen <strong>too much</strong>. She should..."</p>
+            </div>
+            <div class="tech-card" contenteditable="true">
+                <span class="tech-icon">💸</span>
+                <h4>Case B</h4>
+                <p class="def"><strong>Problem:</strong> Tom wants to buy the new iPhone 15 Pro, but it costs $1,200. He only has $500.</p>
+                <p class="ex">"The phone is <strong>too...</strong> He ought to..."</p>
+            </div>
+            <div class="tech-card" contenteditable="true">
+                <span class="tech-icon">👶</span>
+                <h4>Case C</h4>
+                <p class="def"><strong>Problem:</strong> A 7-year-old child wants a smartphone for his birthday.</p>
+                <p class="ex">"He is not <strong>old enough</strong> to... His parents had better..."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-blue">✍️</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 14 · Writing</div>
+                <h2 class="section-title" contenteditable="true">The Recommendation</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Your friend texted: <em>"My phone broke! What new device should I buy?"</em> Type a reply using <strong>too</strong> or <strong>enough</strong>.</p>
+
+        <div class="chat-container" style="background: var(--surface); border: 4px solid var(--border-color); box-shadow: var(--shadow-soft);">
+            <div class="chat-msg received" style="background: var(--bg-color);">
+                <div contenteditable="true">My phone broke! What new device should I buy? Help! 🆘</div>
+            </div>
+            
+            <div class="chat-msg sent" style="width: 100%; max-width: 100%;">
+                <div contenteditable="true" style="min-height: 80px;">Hey! You shouldn't buy the new iPhone, it is too...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="t15">
+    <div class="section-inner">
+        <div class="section-header">
+            <div class="section-icon icon-dark">🏆</div>
+            <div>
+                <div class="section-label" contenteditable="true">Task 15 · Grand Finale</div>
+                <h2 class="section-title" contenteditable="true">The 30-Second Speaker</h2>
+            </div>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Choose one. Speak for 30 seconds using grammar from today.</p>
+
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="tech-card" contenteditable="true" style="border-top: 4px solid var(--primary);">Tell us about an app you use <strong>too much</strong>. Why?</div>
+            <div class="tech-card" contenteditable="true" style="border-top: 4px solid var(--secondary);">Do you think the government does <strong>enough</strong> to stop cybercrime?</div>
+            <div class="tech-card" contenteditable="true" style="border-top: 4px solid var(--tertiary);">What is one piece of advice you would give to someone addicted to their screen?</div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="whiteboard" style="background:var(--dark-mode); color:white; padding-top: 60px; padding-bottom: 100px;">
+    <div class="section-inner">
+        <div class="section-header" style="margin-bottom: 24px;">
+            <div class="section-icon" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">🖍️</div>
+            <div>
+                <div class="section-label" contenteditable="true" style="color: rgba(255,255,255,0.7);">Teacher's Space</div>
+                <h2 class="section-title" contenteditable="true" style="color: white;">Digital Whiteboard</h2>
+            </div>
+        </div>
+
+        <div class="wb-container" style="border-color: rgba(255,255,255,0.1);">
+            <div class="wb-toolbar" style="background: #1E293B; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <button class="wb-btn active" data-tool="pencil" style="color: white;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="color: white;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="color: white;">Text</button>
+                <button class="wb-btn" data-tool="square" style="color: white;">Square</button>
+                <button class="wb-btn" data-tool="circle" style="color: white;">Circle</button>
+                <button class="wb-btn" data-tool="arrow" style="color: white;">Arrow</button>
+                <div style="width:2px;height:24px;background:rgba(255,255,255,0.2);margin:0 8px;border-radius:2px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#6366F1" title="Pick color">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--danger);color:white;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab-btn" style="background:var(--secondary);" onclick="openQuizletModal()" title="Quizlet Export">📝</button>
+    <button class="fab-btn" style="background:var(--tertiary);" onclick="window.saveAsPDF()" title="Save PDF">💾</button>
+    <button class="fab-btn fab-danger" onclick="window.resetLesson()" title="Reset">🔄</button>
+</div>
+
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:'Outfit',serif; font-weight: 800; color:var(--text-main); margin-bottom:10px;">Quizlet Exporter</h2>
+        <p style="font-size:1rem;color:var(--text-muted);margin-bottom:24px; font-weight: 500;">Type words and translations, then copy to Quizlet.</p>
+        <div id="wordList" style="max-height: 300px; overflow-y: auto; margin-bottom: 24px; padding-right: 10px;">
+            <div class="word-row"><input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <button onclick="addWordRow()" style="flex:1; padding:16px; border:2px solid var(--bg-color); background:var(--surface); border-radius:12px; cursor:pointer; font-weight:700; font-family:'Outfit'; font-size:1.1rem; color:var(--text-main); transition:all 0.2s;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2; padding:16px; border:none; background:var(--primary); color:white; border-radius:12px; cursor:pointer; font-weight:800; font-family:'Outfit'; font-size:1.1rem; transition:all 0.2s; box-shadow:0 10px 20px rgba(99,102,241,0.2);">📋 Copy Text</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // HIGHLIGHT SHORTCUT
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(99, 102, 241, 0.2)');
+        }
+    });
+
+    // WHITEBOARD
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false, pendingDraw = false, startX, startY, currentTool = 'pencil', currentColor = '#6366F1', savedImg;
+
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 600; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWBClear) window.syncWBClear();
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const pos = getPos(e); startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const t = prompt('Enter text:');
+            if (t) { ctx.font = "600 22px 'Plus Jakarta Sans', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(t, startX, startY); if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } }
+            return;
+        }
+        isDrawing = true; savedImg = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '33' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 24 : 4;
+            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+        } else { ctx.putImageData(savedImg, 0, 0); drawShape(pos.x, pos.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') drawShape(getPos(e).x, getPos(e).y);
+        if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); }
+    });
+    canvas.addEventListener('mouseout', () => { if (isDrawing) { isDrawing = false; if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } } });
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 4;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, ex - startX, ey - startY); }
+        else if (currentTool === 'circle') { const r = Math.sqrt(Math.pow(ex - startX, 2) + Math.pow(ey - startY, 2)); ctx.arc(startX, startY, r, 0, 2 * Math.PI); ctx.stroke(); }
+        else if (currentTool === 'arrow') {
+            const hl = 20, ang = Math.atan2(ey - startY, ex - startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke(); ctx.beginPath();
+            ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang - Math.PI / 6), ey - hl * Math.sin(ang - Math.PI / 6));
+            ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang + Math.PI / 6), ey - hl * Math.sin(ang + Math.PI / 6)); ctx.stroke();
+        }
+    }
+
+    // PASTE INTERCEPTOR
+    document.addEventListener('paste', function(e) {
+        const target = e.target; if (!target.closest('[contenteditable="true"]')) return;
+        const items = (e.clipboardData || window.clipboardData).items;
+        for (let i in items) {
+            const item = items[i];
+            if (item.kind === 'file' && item.type.startsWith('image/')) {
+                e.preventDefault();
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const c2 = document.createElement('canvas'); const mw = 800;
+                        let w = img.width, h = img.height;
+                        if (w > mw) { h *= mw / w; w = mw; }
+                        c2.width = w; c2.height = h;
+                        c2.getContext('2d').drawImage(img, 0, 0, w, h);
+                        const html = `<div contenteditable="false" style="margin:20px 0;text-align:center;"><img src="${c2.toDataURL('image/jpeg',0.85)}" style="max-width:100%;border-radius:20px;box-shadow:var(--shadow-soft);"></div><p><br></p>`;
+                        target.focus(); document.execCommand('insertHTML', false, html);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                    };
+                    img.src = ev.target.result;
+                };
+                reader.readAsDataURL(item.getAsFile()); return;
+            }
+        }
+        const txt = (e.clipboardData || window.clipboardData).getData('text');
+        if (txt) {
+            const ytm = txt.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            if (ytm) {
+                e.preventDefault();
+                const html = `<div contenteditable="false" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:24px;margin:24px 0;box-shadow:var(--shadow-soft); border: 4px solid var(--surface);"><iframe src="https://www.youtube-nocookie.com/embed/${ytm[1]}?rel=0&modestbranding=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div><p style="text-align:center;"><a href="${txt.trim()}" target="_blank" style="color:var(--primary);font-weight:800;font-family:'Outfit';">🔗 Watch directly on YouTube</a></p><p><br></p>`;
+                document.execCommand('insertHTML', false, html); target.dispatchEvent(new Event('input', { bubbles: true })); return;
+            }
+        }
+    });
+
+    // PDF EXPORT
+    window.saveAsPDF = () => {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const el = document.body;
+        html2pdf().set({
+            margin: 0, filename: 'Lesson3-Tech-Gadgets.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' }
+        }).from(el).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    };
+
+    // QUIZLET
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const d = document.createElement('div'); d.className = 'word-row';
+        d.innerHTML = '<input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans">';
+        const wl = document.getElementById('wordList'); wl.appendChild(d); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out = '';
+        document.querySelectorAll('.word-row').forEach(r => { const w = r.querySelector('.q-word').value.trim(), t = r.querySelector('.q-trans').value.trim(); if (w || t) out += `${w}\t${t}\n`; });
+        const btn = document.getElementById('copyQuizletBtn');
+        if (out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); btn.innerText = '✅ Copied!'; setTimeout(() => btn.innerText = '📋 Copy Text', 3000); }
+        else { btn.innerText = '⚠️ Empty!'; setTimeout(() => btn.innerText = '📋 Copy Text', 3000); }
+    };
+
+    // NAV SMOOTH SCROLL
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#')) {
+                const sec = document.querySelector(id);
+                if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+            }
+        }
+    });
+    window.scrollToWB = () => window.scrollTo({ top: document.getElementById('whiteboard').getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // GENERATED UNIQUE APP ID
+    const appId = 'lesson-3-a2b1-tech-gadgets';
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const syncText = document.getElementById('syncText');
+    const syncDot = document.getElementById('syncDot');
+    function setStatus(t, c) { if (syncText) syncText.innerText = t; if (syncDot) syncDot.style.background = c; syncDot.style.boxShadow = `0 0 12px ${c}`; }
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null, isSyncSetup = false;
+    const myCursorColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    let myCursorName = 'User';
+
+    const editables = document.querySelectorAll('[contenteditable="true"]');
+    const originalStates = {};
+    editables.forEach((el, i) => { el.dataset.syncId = 'e' + i; originalStates['e' + i] = el.innerHTML; });
+    let isEditing = null;
+
+    function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+    const initAuth = async () => { try { await signInAnonymously(auth); } catch(e) { setStatus('Auth Failed','var(--danger)'); } };
+
+    onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user && !isSyncSetup) {
+            isSyncSetup = true;
+            getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                myCursorName = 'User ' + (snap.size + 1);
+                setStatus('Live Sync On', 'var(--secondary)');
+                setupSync(); setupCursors();
+            }).catch(() => {
+                myCursorName = 'User ' + (Math.floor(Math.random() * 99) + 1);
+                setStatus('Live Sync On', 'var(--secondary)');
+                setupSync(); setupCursors();
+            });
+        } else if (!user) setStatus('Disconnected', 'var(--danger)');
+    });
+
+    initAuth();
+
+    function setupSync() {
+        const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text');
+        const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+        window.saveTextUpdate = el => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', () => isEditing = el.dataset.syncId);
+            el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+            el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        };
+
+        editables.forEach(el => window.attachEditableListeners(el));
+
+        window.addNewTab = e => {
+            e.preventDefault();
+            const c = document.getElementById('navTabsContainer');
+            const li = document.createElement('li');
+            const newId = 'tab-' + Date.now();
+            li.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+            c.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if (currentUser) setDoc(textRef, { 'nav_tabs': c.innerHTML }, { merge: true });
+        };
+
+        onSnapshot(textRef, snap => {
+            if (!snap.exists()) { Object.entries(originalStates).forEach(([id, html]) => { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }); return; }
+            const data = snap.data();
+            for (const [id, html] of Object.entries(data)) {
+                if (id === 'nav_tabs') {
+                    const c = document.getElementById('navTabsContainer');
+                    if (!c.contains(document.activeElement)) { c.innerHTML = html; c.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a)); }
+                    continue;
+                }
+                if (isEditing !== id) { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }
+            }
+        });
+
+        window.syncWBDraw = debounce(() => {
+            if (!currentUser) return;
+            const c = document.getElementById('boardCanvas');
+            setDoc(wbRef, { image: c.toDataURL('image/png', 0.5), clearTs: window.lastClear || 0 }, { merge: true });
+            pendingDraw = false;
+        }, 800);
+
+        window.syncWBClear = () => { if (!currentUser) return; const ts = Date.now(); window.lastClear = ts; setDoc(wbRef, { clearTs: ts, image: null }, { merge: true }); };
+
+        onSnapshot(wbRef, snap => {
+            if (!snap.exists()) return;
+            const data = snap.data(); const c = document.getElementById('boardCanvas'); const x = c.getContext('2d');
+            if (data.clearTs > (window.lastClear || 0)) { x.clearRect(0, 0, c.width, c.height); window.lastClear = data.clearTs; return; }
+            if (data.image && !pendingDraw) { const img = new Image(); img.onload = () => { x.clearRect(0,0,c.width,c.height); x.drawImage(img,0,0); }; img.src = data.image; }
+        });
+    }
+
+    function setupCursors() {
+        const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+        const myRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+        const container = document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove', debounce(e => {
+            if (!currentUser) return;
+            setDoc(myRef, { xOff: e.pageX - window.innerWidth / 2, y: e.pageY, color: myCursorColor, name: myCursorName, ts: Date.now() });
+        }, 300));
+
+        onSnapshot(cursorsCol, snap => {
+            snap.docChanges().forEach(ch => {
+                const id = ch.doc.id; if (id === currentUser.uid) return;
+                if (ch.type === 'removed') { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                const d = ch.doc.data();
+                if (Date.now() - d.ts > 60000) { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                let el = document.getElementById('cur-' + id);
+                if (!el) {
+                    el = document.createElement('div'); el.id = 'cur-' + id; el.className = 'remote-cursor';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${d.color}">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth / 2 + d.xOff) + 'px';
+                el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myRef); });
+    }
+
+    window.resetLesson = async () => {
+        if (!currentUser) return;
+        if (!confirm('Reset this lesson for everyone? All edits will be cleared.')) return;
+        setStatus('Resetting…', 'var(--tertiary)');
+        const base = (s) => doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', s);
+        await deleteDoc(base('text'));
+        const ts = Date.now(); window.lastClear = ts;
+        await setDoc(base('whiteboard'), { clearTs: ts, image: null });
+        setTimeout(() => setStatus('Live Sync On', 'var(--secondary)'), 1200);
+    };
+</script>
+</body>
+</html>
