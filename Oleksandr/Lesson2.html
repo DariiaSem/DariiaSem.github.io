@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANAG 6001 | Lesson 2: Listening Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600;700;800;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --black: #0A0C0A;
+            --dark: #111811;
+            --panel: #161D16;
+            --signal: #39FF14;
+            --signal-dim: #1A7A09;
+            --signal-muted: rgba(57,255,20,0.12);
+            --amber: #FFB300;
+            --amber-dim: rgba(255,179,0,0.15);
+            --red: #FF3B30;
+            --red-dim: rgba(255,59,48,0.12);
+            --blue: #4FC3F7;
+            --blue-dim: rgba(79,195,247,0.1);
+            --white: #F0F4F0;
+            --gray-text: #8A9E8A;
+            --gray-line: #1E2A1E;
+            --mono: 'Share Tech Mono', monospace;
+            --sans: 'Barlow', sans-serif;
+            --cond: 'Barlow Condensed', sans-serif;
+            --shadow-green: 0 0 20px rgba(57,255,20,0.15);
+            --shadow-amber: 0 0 20px rgba(255,179,0,0.2);
+            --radius: 4px;
+            --radius-md: 8px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--sans);
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        /* Scanline overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        [contenteditable="true"] {
+            outline: none;
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+        [contenteditable="true"]:focus,
+        [contenteditable="true"]:hover {
+            background: rgba(57,255,20,0.06);
+            box-shadow: 0 0 0 1px rgba(57,255,20,0.2);
+        }
+
+        /* ====== HERO ====== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 24px 80px;
+            background: radial-gradient(ellipse at 30% 50%, rgba(57,255,20,0.06) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 20%, rgba(255,179,0,0.05) 0%, transparent 50%),
+                        var(--black);
+            overflow: hidden;
+        }
+
+        /* Radar animation */
+        .radar-bg {
+            position: absolute;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.07;
+            pointer-events: none;
+        }
+        .radar-bg::before, .radar-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid var(--signal);
+        }
+        .radar-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid var(--signal);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            animation: radarPulse 3s ease-out infinite;
+        }
+        .radar-ring:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s; }
+        .radar-ring:nth-child(2) { width: 350px; height: 350px; animation-delay: 0.8s; }
+        .radar-ring:nth-child(3) { width: 500px; height: 500px; animation-delay: 1.6s; }
+        @keyframes radarPulse {
+            0% { opacity: 0.6; transform: translate(-50%,-50%) scale(0.3); }
+            100% { opacity: 0; transform: translate(-50%,-50%) scale(1); }
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--signal);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .hero-eyebrow::before, .hero-eyebrow::after {
+            content: '//';
+            margin: 0 8px;
+            opacity: 0.5;
+        }
+
+        .hero h1 {
+            font-family: var(--cond);
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .hero h1 .line1 { display: block; color: var(--white); }
+        .hero h1 .line2 { display: block; color: var(--signal); text-shadow: 0 0 40px rgba(57,255,20,0.5); }
+        .hero h1 .line3 { display: block; color: var(--amber); font-size: 0.45em; letter-spacing: 4px; }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: var(--gray-text);
+            max-width: 520px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+            font-family: var(--sans);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .meta-item {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--signal-dim);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .meta-item strong {
+            font-size: 1.4rem;
+            color: var(--signal);
+            font-family: var(--mono);
+            display: block;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--gray-text);
+            animation: bounce 2s ease-in-out infinite;
+        }
+        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+        /* ====== NAV ====== */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(10,12,10,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--signal-dim);
+            padding: 0 24px;
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between; height: 50px;
+        }
+        .nav-logo {
+            font-family: var(--mono);
+            font-size: 0.8rem; color: var(--signal);
+            text-decoration: none; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav-logo .blink { animation: blink 1.2s step-end infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--gray-text);
+            font-size: 0.72rem; font-weight: 700;
+            padding: 5px 10px; border-radius: var(--radius);
+            transition: color 0.2s, background 0.2s;
+            white-space: nowrap; letter-spacing: 1px;
+            text-transform: uppercase; font-family: var(--mono);
+        }
+        .nav-links a:hover { color: var(--signal); background: var(--signal-muted); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 80px 24px; }
+        .section.alt { background: var(--panel); }
+        .section-inner { max-width: 920px; margin: 0 auto; }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 0.7rem; color: var(--signal);
+            letter-spacing: 3px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 12px;
+        }
+        .section-label::before { content: '>_'; color: var(--signal-dim); }
+
+        .section-title {
+            font-family: var(--cond);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900; color: var(--white);
+            margin-bottom: 8px; line-height: 1.05;
+            text-transform: uppercase; letter-spacing: -0.5px;
+        }
+        .section-title .accent { color: var(--signal); }
+        .section-title .amber { color: var(--amber); }
+
+        .section-desc {
+            color: var(--gray-text);
+            font-size: 0.95rem; margin-bottom: 36px;
+            max-width: 640px; line-height: 1.65;
+        }
+
+        /* ====== TERMINAL BOX ====== */
+        .terminal {
+            background: var(--dark);
+            border: 1px solid var(--signal-dim);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-green);
+        }
+        .terminal-bar {
+            background: var(--panel);
+            padding: 8px 16px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid var(--signal-dim);
+        }
+        .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal-dot.red { background: var(--red); }
+        .terminal-dot.amber { background: var(--amber); }
+        .terminal-dot.green { background: var(--signal); }
+        .terminal-title { font-family: var(--mono); font-size: 0.72rem; color: var(--gray-text); margin-left: 8px; }
+        .terminal-body { padding: 20px 24px; font-family: var(--mono); font-size: 0.85rem; line-height: 1.7; }
+        .terminal-body .cmd { color: var(--signal); }
+        .terminal-body .comment { color: var(--signal-dim); }
+        .terminal-body .val { color: var(--amber); }
+        .terminal-body .str { color: var(--blue); }
+
+        /* ====== MCQ QUESTIONS ====== */
+        .audio-sim {
+            background: var(--panel);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        .audio-sim::before {
+            content: '🔊 AUDIO';
+            position: absolute;
+            top: -10px; left: 16px;
+            background: var(--signal);
+            color: var(--black);
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 2px;
+            letter-spacing: 2px;
+        }
+        .audio-script {
+            font-style: italic;
+            color: var(--blue);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            border-left: 2px solid var(--blue);
+            padding-left: 14px;
+            margin-top: 8px;
+        }
+        .audio-script .speaker { color: var(--amber); font-style: normal; font-weight: 700; font-family: var(--mono); font-size: 0.75rem; display: block; margin-bottom: 4px; }
+
+        .q-block {
+            background: var(--dark);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--radius-md);
+            margin-bottom: 14px;
+            overflow: hidden;
+        }
+        .q-head {
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--gray-line);
+            padding: 12px 18px;
+            display: flex; gap: 12px; align-items: flex-start;
+        }
+        .q-badge {
+            background: var(--signal);
+            color: var(--black);
+            width: 26px; height: 26px;
+            border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 0.72rem; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .q-text { font-size: 0.93rem; color: var(--white); font-weight: 600; }
+        .options { padding: 12px 18px; display: flex; flex-direction: column; gap: 8px; }
+        .opt {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 9px 14px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-line);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .opt:hover { border-color: var(--signal-dim); background: var(--signal-muted); }
+        .opt.selected { border-color: var(--signal); background: var(--signal-muted); }
+        .opt.correct { border-color: var(--signal); background: rgba(57,255,20,0.12); }
+        .opt.incorrect { border-color: var(--red); background: var(--red-dim); }
+        .opt-key {
+            background: var(--panel);
+            color: var(--amber);
+            width: 22px; height: 22px; border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+            flex-shrink: 0;
+        }
+        .opt-label { font-size: 0.88rem; color: var(--white); }
+
+        /* ====== ANSWER TABLE ====== */
+        .data-table {
+            width: 100%; border-collapse: collapse;
+            margin-top: 24px;
+            font-size: 0.88rem;
+        }
+        .data-table thead th {
+            background: var(--panel);
+            color: var(--signal);
+            padding: 10px 14px;
+            text-align: left;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--signal-dim);
+        }
+        .data-table tbody td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--gray-line);
+            vertical-align: top;
+            color: var(--white);
+        }
+        .data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+        .data-table td strong { color: var(--signal); }
+        .tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 2px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        .tag.green { background: rgba(57,255,20,0.15); color: var(--signal); border: 1px solid var(--signal-dim); }
+        .tag.amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(255,179,0,0.3); }
+        .tag.red { background: var(--red-dim); color: var(--red); border: 1px solid rgba(255,59,48,0.3); }
+        .tag.blue { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(79,195,247,0.3); }
+
+        /* ====== WAVEFORM VISUAL ====== */
+        .waveform-box {
+            background: var(--dark);
+            border: 1px solid var(--signal-dim);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin: 24px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .waveform-label {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--signal);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .wave-grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 12px;
+        }
+        .wave-item-label {
+            font-family: var(--mono);
+            font-size: 0.72rem;
+            color: var(--amber);
+            display: flex;
+            align-items: center;
+        }
+        .wave-bars {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            height: 32px;
+        }
+        .wave-bar {
+            width: 6px;
+            background: var(--signal);
+            border-radius: 2px 2px 0 0;
+            opacity: 0.7;
+        }
+
+        /* ====== VOCAB DRAG ====== */
+        .match-board { display: flex; gap: 14px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .arrows-col { display: flex; flex-direction: column; gap: 8px; justify-content: space-between; }
+        .drag-item {
+            background: var(--dark);
+            border: 1px solid var(--signal-dim);
+            border-radius: var(--radius);
+            cursor: grab;
+            display: flex; align-items: center; gap: 10px;
+            font-family: var(--mono); font-size: 0.82rem; font-weight: 600;
+            color: var(--signal);
+            transition: all 0.15s;
+            height: 56px; padding: 0 14px;
+        }
+        .drag-item:hover { border-color: var(--signal); box-shadow: var(--shadow-green); }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--signal-dim); font-size: 1rem; user-select: none; }
+        .static-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--radius);
+            color: var(--gray-text);
+            height: 56px; display: flex; align-items: center;
+            padding: 0 14px; font-size: 0.83rem;
+        }
+        .match-arrow { color: var(--signal-dim); font-size: 1.2rem; height: 56px; display: flex; align-items: center; justify-content: center; }
+
+        /* ====== PRACTICE EXERCISES ====== */
+        .exercise-list {
+            list-style: none; display: flex; flex-direction: column;
+            gap: 12px; margin-top: 24px; counter-reset: ex;
+        }
+        .exercise-list li {
+            background: var(--dark);
+            border: 1px solid var(--gray-line);
+            padding: 14px 18px 14px 52px;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem; position: relative;
+        }
+        .exercise-list li::before {
+            counter-increment: ex;
+            content: counter(ex, decimal-leading-zero);
+            position: absolute; left: 14px; top: 14px;
+            font-family: var(--mono); font-weight: 700;
+            color: var(--signal); font-size: 0.8rem;
+        }
+        .blank {
+            display: inline-block; min-width: 72px;
+            border-bottom: 1px solid var(--signal-dim);
+            color: var(--signal); font-family: var(--mono);
+            font-size: 0.85rem;
+            padding: 0 8px; text-align: center;
+        }
+        .blank:focus { border-bottom-color: var(--signal); outline: none; }
+
+        /* ====== STRATEGY GRID ====== */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px; margin-top: 24px;
+        }
+        .strat-card {
+            background: var(--dark);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .strat-card:hover { border-color: var(--signal-dim); }
+        .strat-card::before {
+            content: attr(data-num);
+            position: absolute;
+            top: -10px; right: 10px;
+            font-family: var(--cond);
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(57,255,20,0.05);
+            line-height: 1;
+        }
+        .strat-card h4 {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--signal);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .strat-card p { font-size: 0.83rem; color: var(--gray-text); line-height: 1.55; }
+
+        /* ====== FLOWCHART / SPEAKING ====== */
+        .radio-flow {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 12px;
+            margin: 28px 0;
+            background: var(--dark);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--radius-md);
+            padding: 32px;
+        }
+        .rf-bubble {
+            border-radius: 4px; padding: 12px 24px;
+            font-size: 0.9rem; min-width: 280px;
+            text-align: center; line-height: 1.5;
+            max-width: 500px;
+        }
+        .rf-bubble.examiner {
+            background: rgba(79,195,247,0.1);
+            border: 1px solid rgba(79,195,247,0.35);
+            color: var(--blue);
+        }
+        .rf-bubble.student {
+            background: var(--signal-muted);
+            border: 1px solid var(--signal-dim);
+            color: var(--signal);
+        }
+        .rf-bubble.note {
+            background: var(--amber-dim);
+            border: 1px solid rgba(255,179,0,0.3);
+            color: var(--amber);
+            font-family: var(--mono); font-size: 0.8rem;
+            font-style: italic;
+        }
+        .rf-arrow { color: var(--gray-text); font-size: 1.3rem; }
+
+        /* ====== ALERT ====== */
+        .alert {
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            margin: 20px 0;
+            font-size: 0.88rem;
+            display: flex; gap: 12px; align-items: flex-start;
+            line-height: 1.6;
+        }
+        .alert.green { background: var(--signal-muted); border: 1px solid var(--signal-dim); color: var(--signal); }
+        .alert.amber { background: var(--amber-dim); border: 1px solid rgba(255,179,0,0.3); color: var(--amber); }
+        .alert.red { background: var(--red-dim); border: 1px solid rgba(255,59,48,0.3); color: var(--red); }
+        .alert .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+        /* ====== SCENARIO CARDS ====== */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; margin-top: 24px; }
+        .card {
+            background: var(--dark);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--radius-md);
+            padding: 20px;
+        }
+        .card h3 { font-family: var(--mono); font-size: 0.78rem; color: var(--amber); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+        .card p { font-size: 0.87rem; color: var(--gray-text); line-height: 1.6; }
+
+        /* ====== WRITING AREA ====== */
+        .write-zone {
+            background: var(--dark);
+            border: 1px solid var(--signal-dim);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            min-height: 220px;
+            font-size: 0.92rem;
+            color: var(--white);
+            line-height: 1.7;
+        }
+        .write-zone p.placeholder { color: var(--gray-text); font-style: italic; font-family: var(--mono); font-size: 0.8rem; }
+
+        /* ====== WHITEBOARD ====== */
+        .wb-wrap { border: 1px solid var(--signal-dim); border-radius: var(--radius-md); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-green); }
+        .wb-bar { background: var(--panel); padding: 10px 16px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--signal-dim); }
+        .wb-btn { background: var(--dark); color: var(--signal); border: 1px solid var(--signal-dim); padding: 5px 10px; border-radius: var(--radius); cursor: pointer; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; transition: all 0.15s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--signal); color: var(--black); }
+        .wb-color { width: 24px; height: 24px; border-radius: 3px; border: 1px solid var(--signal-dim); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 460px; background: #0D110D; cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .debrief {
+            background: var(--dark);
+            border: 1px solid var(--signal-dim);
+            border-radius: var(--radius-md);
+            padding: 36px;
+            text-align: center;
+            box-shadow: var(--shadow-green);
+            margin-top: 40px;
+        }
+        .debrief h2 { font-family: var(--cond); font-size: 2rem; color: var(--signal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+        .debrief-list { list-style: none; margin-top: 20px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .debrief-list li { padding: 8px 0; border-bottom: 1px solid var(--gray-line); font-size: 0.9rem; color: var(--gray-text); }
+        .debrief-list li strong { color: var(--signal); }
+
+        /* ====== FLOATING ACTIONS ====== */
+        .fab-group { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab {
+            background: var(--dark); color: var(--signal); border: 1px solid var(--signal-dim);
+            width: 48px; height: 48px; border-radius: 4px; font-size: 1.2rem;
+            cursor: pointer; box-shadow: var(--shadow-green);
+            transition: all 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .fab:hover { background: var(--signal); color: var(--black); transform: translateY(-2px); }
+        .fab.qz { background: rgba(66,85,255,0.2); border-color: #4255FF; color: #8899ff; }
+        .fab.qz:hover { background: #4255FF; color: white; }
+        .fab.rst { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+        .fab.rst:hover { background: var(--red); color: white; }
+
+        /* ====== MODAL ====== */
+        .modal-overlay { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: var(--panel); border: 1px solid var(--signal-dim); padding: 28px; border-radius: var(--radius-md); width: 90%; max-width: 560px; position: relative; box-shadow: var(--shadow-green); }
+        .modal-box h2 { font-family: var(--cond); font-size: 1.5rem; color: var(--signal); text-transform: uppercase; margin-bottom: 8px; }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; cursor: pointer; color: var(--gray-text); background: none; border: none; }
+        .modal-close:hover { color: var(--red); }
+        .word-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 8px 12px; background: var(--dark); border: 1px solid var(--gray-line); border-radius: var(--radius); font-size: 0.88rem; color: var(--white); font-family: var(--mono); }
+        .word-row input:focus { outline: none; border-color: var(--signal); }
+        #wordList { max-height: 300px; overflow-y: auto; margin: 16px 0; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 8px; border-radius: var(--radius); cursor: pointer; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; transition: all 0.15s; }
+        .modal-btn.secondary { background: var(--dark); border-color: var(--signal-dim); color: var(--signal); }
+        .modal-btn.primary { background: #4255FF; border-color: #4255FF; color: white; flex: 2; }
+        .modal-btn:hover { opacity: 0.85; }
+
+        /* ====== REMOTE CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.35s linear, left 0.35s linear; display: flex; align-items: flex-start; opacity: 0; animation: fcIn 0.3s forwards; }
+        @keyframes fcIn { to { opacity: 1; } }
+        .remote-cursor svg { width: 18px; height: 18px; transform: rotate(-15deg); pointer-events: none; }
+        .cursor-name { color: var(--black); font-family: var(--mono); font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 2px; margin-left: -3px; margin-top: 12px; white-space: nowrap; }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .hero { min-height: auto; padding: 80px 20px 60px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 360px; }
+            .match-board { flex-direction: column; }
+            .arrows-col { display: none; }
+            .hero h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sync Status -->
+<div id="syncStatus" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:rgba(10,12,10,0.95);color:var(--signal);padding:4px 14px;border-radius:2px;font-family:var(--mono);font-size:0.7rem;font-weight:700;z-index:10000;display:flex;align-items:center;gap:6px;border:1px solid var(--signal-dim);">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--amber);border-radius:50%;"></span>
+    <span id="syncText">CONNECTING...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="radar-bg">
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+    </div>
+    <div class="hero-eyebrow" contenteditable="true">STANAG 6001 — Lesson 02 — Listening</div>
+    <h1>
+        <span class="line1" contenteditable="true">Signal</span>
+        <span class="line2" contenteditable="true">Intercept</span>
+        <span class="line3" contenteditable="true">Mastering the STANAG Listening Test</span>
+    </h1>
+    <p class="hero-sub" contenteditable="true">30 short conversations. Multiple choice. Clock running. Today you learn how to decode every audio signal and never miss a correct answer.</p>
+    <div class="hero-meta">
+        <div class="meta-item"><strong contenteditable="true">30</strong><span contenteditable="true">MCQ Items</span></div>
+        <div class="meta-item"><strong contenteditable="true">×2</strong><span contenteditable="true">Each Played Twice</span></div>
+        <div class="meta-item"><strong contenteditable="true">A/B/C/D</strong><span contenteditable="true">Answer Format</span></div>
+        <div class="meta-item"><strong contenteditable="true">L2+L3</strong><span contenteditable="true">Both Levels Today</span></div>
+    </div>
+    <div class="hero-scroll">▼ BEGIN MISSION</div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="blink">█</span> STANAG-L02</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--signal);border:1px solid var(--signal-dim);padding:4px 10px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#anatomy" contenteditable="true">Format</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#listening1" contenteditable="true">Listen L2</a></li>
+            <li><a href="#strategy" contenteditable="true">Strategy</a></li>
+            <li><a href="#listening2" contenteditable="true">Listen L3</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#writing" contenteditable="true">Writing</a></li>
+            <li><a href="#wb" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: LESSON 1 RECAP ====== -->
+<section class="section alt" id="recap">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 01 — Lesson 1 Recall</div>
+        <h2 class="section-title" contenteditable="true">Debrief: <span class="accent">Last Mission</span></h2>
+        <p class="section-desc" contenteditable="true">Before moving forward, a soldier checks their equipment. Quickly review what was covered in Lesson 1 — Reading & Exam Orientation.</p>
+
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot red"></div><div class="terminal-dot amber"></div><div class="terminal-dot green"></div>
+                <span class="terminal-title">LESSON_1_RECALL.sh</span>
+            </div>
+            <div class="terminal-body" contenteditable="true">
+                <span class="cmd">$ recall --lesson=1</span><br><br>
+                <span class="comment">// Vocabulary check — say the meaning without looking:</span><br>
+                <span class="val">deploy</span> &nbsp;&nbsp;&nbsp;&nbsp;→ <span class="str">_______________________</span><br>
+                <span class="val">ceasefire</span> &nbsp;→ <span class="str">_______________________</span><br>
+                <span class="val">mandate</span> &nbsp;&nbsp;&nbsp;→ <span class="str">_______________________</span><br>
+                <span class="val">withdrawal</span>→ <span class="str">_______________________</span><br><br>
+                <span class="comment">// Reading strategy — name the 4 steps:</span><br>
+                <span class="val">Step 1:</span> <span class="str">_______________________</span><br>
+                <span class="val">Step 2:</span> <span class="str">_______________________</span><br>
+                <span class="val">Step 3:</span> <span class="str">_______________________</span><br>
+                <span class="val">Step 4:</span> <span class="str">_______________________</span><br><br>
+                <span class="comment">// Homework check:</span><br>
+                <span class="val">Letter draft:</span> <span class="str">[ ] submitted &nbsp;[ ] needs review</span><br>
+                <span class="val">News words:</span> &nbsp;<span class="str">_______________________</span><br>
+                <span class="val">Practice Test 1 downloaded:</span> <span class="str">[ ] yes &nbsp;[ ] no</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: LISTENING TEST ANATOMY ====== -->
+<section class="section" id="anatomy">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 02 — Know the Format</div>
+        <h2 class="section-title" contenteditable="true">The <span class="accent">Listening Test</span> — Anatomy</h2>
+        <p class="section-desc" contenteditable="true">Before listening to anything, understand exactly what the enemy looks like. The STANAG Listening test has a very specific structure — knowing it removes 30% of your stress.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Feature</th>
+                    <th contenteditable="true">Level 2</th>
+                    <th contenteditable="true">Level 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Number of items</strong></td>
+                    <td contenteditable="true">~30 short conversations/dialogues</td>
+                    <td contenteditable="true">~30 items — mix of short + longer monologues (reports, news, briefings)</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Audio length</strong></td>
+                    <td contenteditable="true">Each clip: 15–40 seconds</td>
+                    <td contenteditable="true">Short clips + longer passages (2–4 min)</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Played</strong></td>
+                    <td contenteditable="true">Each recording played TWICE</td>
+                    <td contenteditable="true">Each recording played TWICE</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Answer format</strong></td>
+                    <td contenteditable="true">Multiple choice: A / B / C / D</td>
+                    <td contenteditable="true">Multiple choice: A / B / C / D</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Topics</strong></td>
+                    <td contenteditable="true">Daily life, schedules, workplaces, travel, simple instructions</td>
+                    <td contenteditable="true">Military operations, international news, social issues, official reports</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>What is tested</strong></td>
+                    <td contenteditable="true">Main idea, specific facts, who/what/when/where</td>
+                    <td contenteditable="true">Main idea, inference, speaker attitude, cause/effect, specific details in longer texts</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Accents</strong></td>
+                    <td contenteditable="true">Standard British or American English</td>
+                    <td contenteditable="true">May include other native accents (Australian, Irish, South African)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert amber" style="margin-top: 20px;" contenteditable="false">
+            <span class="alert-icon">⚡</span>
+            <div contenteditable="true"><strong>Critical Rule:</strong> In the real exam, you will hear each recording TWICE. On the FIRST listen: identify the topic and eliminate wrong answers. On the SECOND listen: confirm your answer and check details. Never leave a blank — if unsure, always guess. No penalty for wrong answers.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section alt" id="vocab">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 03 — Signal Vocabulary</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary: <span class="amber">News & Report Language</span></h2>
+        <p class="section-desc" contenteditable="true">STANAG Level 3 listening uses the language of official reports and news broadcasts. These 8 words are your listening toolkit — know them by ear, not just by sight.</p>
+
+        <div class="waveform-box">
+            <div class="waveform-label">// ACTIVE VOCABULARY — HEAR · UNDERSTAND · USE</div>
+            <table class="data-table" style="margin-top:0;">
+                <thead>
+                    <tr>
+                        <th contenteditable="true">Word</th>
+                        <th contenteditable="true">Type</th>
+                        <th contenteditable="true">Meaning</th>
+                        <th contenteditable="true">How It Sounds in Audio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">claim responsibility</strong></td>
+                        <td contenteditable="true"><span class="tag green">PHRASE</span></td>
+                        <td contenteditable="true">To officially announce that your group carried out an attack or action</td>
+                        <td contenteditable="true">"A militia group has <em>claimed responsibility</em> for the attack..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">casualty</strong></td>
+                        <td contenteditable="true"><span class="tag amber">NOUN</span></td>
+                        <td contenteditable="true">A person killed or injured in a war or accident (NOT just "killed" — also injured)</td>
+                        <td contenteditable="true">"...resulting in two <em>casualties</em>, both minor injuries..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">perimeter</strong></td>
+                        <td contenteditable="true"><span class="tag amber">NOUN</span></td>
+                        <td contenteditable="true">The outer boundary/edge of a military base or secured area</td>
+                        <td contenteditable="true">"...rockets landed on the base and its <em>perimeter</em>..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">reinforcements</strong></td>
+                        <td contenteditable="true"><span class="tag amber">NOUN</span></td>
+                        <td contenteditable="true">Extra troops or equipment sent to help a military unit</td>
+                        <td contenteditable="true">"...France plans to send <em>reinforcements</em> to the border region..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">preliminary</strong></td>
+                        <td contenteditable="true"><span class="tag blue">ADJ</span></td>
+                        <td contenteditable="true">Initial/first — done before the full/official version; not yet final</td>
+                        <td contenteditable="true">"A <em>preliminary</em> investigation has been launched..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">assessment</strong></td>
+                        <td contenteditable="true"><span class="tag amber">NOUN</span></td>
+                        <td contenteditable="true">An official evaluation or judgment of a situation</td>
+                        <td contenteditable="true">"Damage <em>assessment</em> is still being conducted..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">confirmed</strong></td>
+                        <td contenteditable="true"><span class="tag blue">ADJ/VERB</span></td>
+                        <td contenteditable="true">Officially verified — certain, not just suspected or reported</td>
+                        <td contenteditable="true">"...officials have <em>confirmed</em> that no mechanical defect was found..."</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong style="color:var(--signal)">inoculate / vaccinate</strong></td>
+                        <td contenteditable="true"><span class="tag green">VERB</span></td>
+                        <td contenteditable="true">To give a vaccine injection; to protect against disease</td>
+                        <td contenteditable="true">"...guardsmen are getting shots... explaining why many are not <em>inoculated</em>..."</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: VOCAB DRAG MATCH ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 04 — Decode & Match</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary <span class="accent">Match</span></h2>
+        <p class="section-desc" contenteditable="true">Drag the terms on the left to match the correct definition on the right. In the listening test, you must recognise these words instantly by ear.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="listenVocabCol">
+                <li class="drag-item" id="lv-3" draggable="true"><span class="drag-handle">≡</span> <span contenteditable="true">preliminary</span></li>
+                <li class="drag-item" id="lv-6" draggable="true"><span class="drag-handle">≡</span> <span contenteditable="true">reinforcements</span></li>
+                <li class="drag-item" id="lv-1" draggable="true"><span class="drag-handle">≡</span> <span contenteditable="true">claim responsibility</span></li>
+                <li class="drag-item" id="lv-5" draggable="true"><span class="drag-handle">≡</span> <span contenteditable="true">assessment</span></li>
+                <li class="drag-item" id="lv-4" draggable="true"><span class="drag-handle">≡</span> <span contenteditable="true">perimeter</span></li>
+                <li class="drag-item" id="lv-2" draggable="true"><span class="drag-handle">≡</span> <span contenteditable="true">casualty</span></li>
+            </ul>
+            <div class="arrows-col">
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) a person killed or wounded in a military conflict</li>
+                <li class="static-item" contenteditable="true">b) to officially announce your group carried out an action</li>
+                <li class="static-item" contenteditable="true">c) the outer boundary of a secured military area</li>
+                <li class="static-item" contenteditable="true">d) initial, not yet complete — a first version of</li>
+                <li class="static-item" contenteditable="true">e) an official evaluation or analysis of a situation</li>
+                <li class="static-item" contenteditable="true">f) additional troops sent to support existing forces</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: SIMULATED LISTENING L2 ====== -->
+<section class="section alt" id="listening1">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 05 — Listening Level 2 (Simulated)</div>
+        <h2 class="section-title" contenteditable="true">Level 2 Listening: <span class="accent">Short Conversations</span></h2>
+        <p class="section-desc" contenteditable="true">Read the transcripts aloud with your teacher — your teacher reads the audio, you answer as if it were a real recording. This trains your ear for short-clip rapid MCQ answers.</p>
+
+        <div class="alert green" contenteditable="false">
+            <span class="alert-icon">📡</span>
+            <div contenteditable="true"><strong>How to use this section:</strong> The teacher reads the "AUDIO" script aloud. You listen (do NOT read along), then answer the multiple choice question. This simulates real exam conditions. Then check together.</div>
+        </div>
+
+        <!-- Conversation 1 -->
+        <div class="audio-sim">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ Woman ]</span>
+                "Excuse me, have you seen the new schedule for the conference? The briefing on logistics was supposed to be at 9 AM, but I heard it's been moved."
+                <br><br>
+                <span class="speaker">[ Man ]</span>
+                "Yes, it's been pushed to 11 AM. Apparently the general has a meeting with the visiting delegation first thing in the morning."
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">1</div><p class="q-text" contenteditable="true">What happened to the logistics briefing?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq1','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It was cancelled due to the general's absence</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq1','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It was postponed to later in the morning</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq1','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It was moved to the following day</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq1','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">It starts at 9 AM as originally planned</span></div>
+            </div>
+        </div>
+
+        <!-- Conversation 2 -->
+        <div class="audio-sim" style="margin-top: 24px;">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ Instructor ]</span>
+                "Please remember — all candidates must arrive no later than 15 minutes before the start of the exam. Doors will be closed 5 minutes before. If you're late, you will not be allowed in. Also, ID cards must be on your desk and visible at all times."
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">2</div><p class="q-text" contenteditable="true">What must candidates do with their ID cards?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq2','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Hand them to the examiner at the entrance</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq2','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Keep them in their bag during the exam</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq2','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Place them on their desk so they are visible</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq2','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Show them to the instructor when asked</span></div>
+            </div>
+        </div>
+
+        <!-- Conversation 3 -->
+        <div class="audio-sim" style="margin-top: 24px;">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ News Anchor ]</span>
+                "Organisers of the funfair have confirmed that a preliminary investigation found no mechanical defect in the ride. However, the ride will remain closed while the full investigation continues. Emergency services were called after several people, including children, were injured."
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">3</div><p class="q-text" contenteditable="true">What did the preliminary investigation find about the ride?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq3','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">A serious mechanical problem was discovered</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq3','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">No technical fault was found in the equipment</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq3','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">The ride had been poorly maintained for years</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq3','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">The investigation is still ongoing with no results yet</span></div>
+            </div>
+        </div>
+
+        <!-- Conversation 4 -->
+        <div class="audio-sim" style="margin-top: 24px;">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ Man ]</span>
+                "Are you going on the training exercise this weekend?"
+                <br><br>
+                <span class="speaker">[ Woman ]</span>
+                "No, I can't. I need to prepare for the language test next Tuesday. I've been studying all week but I'm still not confident about the listening section."
+                <br><br>
+                <span class="speaker">[ Man ]</span>
+                "I hear you. That's usually the hardest part. Have you tried listening to the BBC news every morning?"
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">4</div><p class="q-text" contenteditable="true">Why is the woman not going on the training exercise?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq4','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">She has already completed the exercise</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq4','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">She needs to prepare for an upcoming language test</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq4','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">She doesn't know when the exercise takes place</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq4','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">She is not allowed to attend this type of exercise</span></div>
+            </div>
+        </div>
+
+        <!-- Conversation 5 -->
+        <div class="audio-sim" style="margin-top: 24px;">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ Radio Report ]</span>
+                "North Korea's military parade passed without showing any ballistic missiles — a notable departure from previous years. The event was the second major procession in less than twelve months. The Supreme Leader was present throughout the ceremony."
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">5</div><p class="q-text" contenteditable="true">What was unusual about North Korea's military parade?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq5','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">The Supreme Leader did not attend</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq5','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It was the first parade in over two years</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq5','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">No ballistic missiles were displayed</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq5','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">All soldiers were wearing protective face masks</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: LISTENING STRATEGY ====== -->
+<section class="section" id="strategy">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 06 — STANAG Listening Tactics</div>
+        <h2 class="section-title" contenteditable="true">The <span class="accent">4 Listening</span> Tactics</h2>
+        <p class="section-desc" contenteditable="true">Listening exams are won before the audio even starts. These four tactics are the difference between guessing and knowing.</p>
+
+        <div class="strategy-grid">
+            <div class="strat-card" data-num="01">
+                <h4 contenteditable="true">Pre-Read the Question</h4>
+                <p contenteditable="true">During the pause before each recording, read the question AND all four options. You are hunting specific information — not listening to everything equally.</p>
+            </div>
+            <div class="strat-card" data-num="02">
+                <h4 contenteditable="true">Listen for Contrast Words</h4>
+                <p contenteditable="true">The correct answer often comes AFTER words like "but," "however," "actually," "in fact," "although." These signal a correction to what came before.</p>
+            </div>
+            <div class="strat-card" data-num="03">
+                <h4 contenteditable="true">Ignore Distractors</h4>
+                <p contenteditable="true">STANAG always mentions 1–2 wrong options IN the audio. If you hear a word from an option, it doesn't mean that option is correct. The trap is designed to fool you.</p>
+            </div>
+            <div class="strat-card" data-num="04">
+                <h4 contenteditable="true">Use the Second Play</h4>
+                <p contenteditable="true">First play: decide between 2 options. Second play: confirm. If still unsure, choose the more specific answer. Vague options are rarely correct at Level 3.</p>
+            </div>
+        </div>
+
+        <div class="terminal" style="margin-top: 28px;">
+            <div class="terminal-bar">
+                <div class="terminal-dot red"></div><div class="terminal-dot amber"></div><div class="terminal-dot green"></div>
+                <span class="terminal-title">TRAP_TYPES.log</span>
+            </div>
+            <div class="terminal-body" contenteditable="true">
+                <span class="comment">// The 3 STANAG Listening Traps — memorize these patterns:</span><br><br>
+                <span class="val">TRAP_1: </span><span class="str">"True but wrong"</span><br>
+                <span class="comment">// The option is factually mentioned in the audio, but it does NOT answer the question asked.</span><br><br>
+                <span class="val">TRAP_2: </span><span class="str">"Sounds like the answer"</span><br>
+                <span class="comment">// Uses the same words as the audio but changes the meaning slightly.</span><br>
+                <span class="comment">// Audio: "no mechanical defect found" → Wrong option: "the ride had no problems in the past"</span><br><br>
+                <span class="val">TRAP_3: </span><span class="str">"Too extreme"</span><br>
+                <span class="comment">// Uses absolute words: always, never, completely, all, none.</span><br>
+                <span class="comment">// If the audio says "mostly" or "usually," then "always" is WRONG.</span>
+            </div>
+        </div>
+
+        <table class="data-table" style="margin-top: 28px;">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Question Phrase</th>
+                    <th contenteditable="true">What You're Listening For</th>
+                    <th contenteditable="true">Key Words to Catch</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>"According to the report..."</strong></td><td contenteditable="true">Specific stated fact — not inference</td><td contenteditable="true">Numbers, names, actions, locations in the audio</td></tr>
+                <tr><td contenteditable="true"><strong>"What is the speaker's opinion?"</strong></td><td contenteditable="true">Attitude or emotion — how they feel, not just what they say</td><td contenteditable="true">Think, believe, feel, sure, worried, confident, unfortunately</td></tr>
+                <tr><td contenteditable="true"><strong>"Why did X happen?"</strong></td><td contenteditable="true">Cause — what triggered the event</td><td contenteditable="true">because, due to, as a result, following, caused by, led to</td></tr>
+                <tr><td contenteditable="true"><strong>"What is true about...?"</strong></td><td contenteditable="true">You must eliminate 3 incorrect options</td><td contenteditable="true">Check each option against the exact words in the audio</td></tr>
+                <tr><td contenteditable="true"><strong>"What will happen next?"</strong></td><td contenteditable="true">Future plans mentioned in the audio</td><td contenteditable="true">will, is going to, plans to, intends to, expects to</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 7: LEVEL 3 SIMULATED LISTENING ====== -->
+<section class="section alt" id="listening2">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 07 — Listening Level 3 (Simulated)</div>
+        <h2 class="section-title" contenteditable="true">Level 3: <span class="amber">Longer Military Reports</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 listening includes longer, more complex texts — news reports, official statements, military briefings. The teacher reads this aloud at natural speaking speed. You listen and answer.</p>
+
+        <!-- Long audio 1 -->
+        <div class="audio-sim">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ NEWS BROADCAST — Read at natural speaking speed ]</span>
+                "The US National Guard has reported a significantly lower vaccination rate than expected, with only 30% of personnel fully vaccinated as of last week. However, officials note that this figure is likely inaccurate because the Guard has no reliable system to track which of its members have received shots outside of military channels. Many guardsmen are believed to be getting vaccinated at civilian clinics or through the VA — sources that do not report back to the Guard's tracking system. The Guard has offered vaccines at training events, but has been unable to confirm uptake rates. The Pentagon is expected to mandate vaccination once the vaccine receives full FDA approval."
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">6</div><p class="q-text" contenteditable="true">What is the main reason the 30% vaccination figure may not be accurate?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq6','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Guard members are refusing to be vaccinated</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq6','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">The tracking system does not capture vaccinations done outside the military</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq6','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">The FDA has not yet approved the vaccine for military use</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq6','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Civilian clinics are not permitted to vaccinate military personnel</span></div>
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">7</div><p class="q-text" contenteditable="true">When does the Pentagon plan to make vaccination mandatory?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq7','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Immediately — the order has already been issued</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq7','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">After the vaccine gets full approval from the FDA</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq7','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Once all training events have been completed</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq7','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">When 70% of personnel have voluntarily vaccinated</span></div>
+            </div>
+        </div>
+
+        <!-- Long audio 2 -->
+        <div class="audio-sim" style="margin-top: 28px;">
+            <div class="audio-script" contenteditable="true">
+                <span class="speaker">[ MILITARY BRIEFING REPORT — Read at natural speaking speed ]</span>
+                "The berthing barge APL 67 is currently heading from Mississippi to Japan. The vessel serves as floating accommodation for Navy sailors whose warships are temporarily out of service for maintenance. The barge is unarmed and unpowered — it must be towed to its destination. Think of it as a floating hotel. It can seat 56 officers and 228 enlisted personnel simultaneously, and includes washrooms, classrooms, lounges, laundry facilities, offices, a barbershop, a fitness centre, and a medical facility. The Navy benefits because it does not need to arrange hotel rooms for hundreds of crew members during ship maintenance periods."
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">8</div><p class="q-text" contenteditable="true">What is the primary purpose of the barge APL 67?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq8','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">To transport military supplies between naval bases</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq8','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">To provide temporary accommodation for sailors during ship repairs</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq8','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">To serve as an armed patrol vessel near Japanese waters</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq8','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">To function as a permanent Naval command centre</span></div>
+            </div>
+        </div>
+        <div class="q-block">
+            <div class="q-head"><div class="q-badge">9</div><p class="q-text" contenteditable="true">Why does the Navy prefer the barge over hotels?</p></div>
+            <div class="options">
+                <div class="opt" onclick="selectOpt(this,'lq9','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Sailors prefer to remain close to military facilities</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq9','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Hotels near bases are fully booked</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq9','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It avoids the need to find hundreds of individual hotel rooms</span></div>
+                <div class="opt" onclick="selectOpt(this,'lq9','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Hotels do not allow military personnel to stay</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: ANSWER KEY ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 08 — Mission Debrief</div>
+        <h2 class="section-title" contenteditable="true">Answer Key: <span class="accent">Why Each Answer Wins</span></h2>
+        <p class="section-desc" contenteditable="true">Understanding the logic behind each answer is more valuable than simply knowing the letter. Study the trap that each wrong option sets.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Q</th>
+                    <th contenteditable="true">Answer</th>
+                    <th contenteditable="true">Evidence from Audio</th>
+                    <th contenteditable="true">Trap in Wrong Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>1</strong></td><td contenteditable="true"><span class="tag green">B</span></td><td contenteditable="true">"pushed to 11 AM" = postponed to later in the morning</td><td contenteditable="true">A is wrong — general IS there, just busy. C/D contradict the audio.</td></tr>
+                <tr><td contenteditable="true"><strong>2</strong></td><td contenteditable="true"><span class="tag green">C</span></td><td contenteditable="true">"ID cards must be on your desk and visible at all times"</td><td contenteditable="true">A: not stated. B: opposite — must be on desk, not in bag. D: on desk always, not just when asked.</td></tr>
+                <tr><td contenteditable="true"><strong>3</strong></td><td contenteditable="true"><span class="tag green">B</span></td><td contenteditable="true">"no mechanical defect" = "no technical fault found"</td><td contenteditable="true">A is opposite. C: never stated. D: TRAP — investigation IS ongoing but a preliminary result IS given.</td></tr>
+                <tr><td contenteditable="true"><strong>4</strong></td><td contenteditable="true"><span class="tag green">B</span></td><td contenteditable="true">"I need to prepare for the language test next Tuesday"</td><td contenteditable="true">A/C/D not stated. TRAP: the man mentions BBC news — students may pick that as her reason.</td></tr>
+                <tr><td contenteditable="true"><strong>5</strong></td><td contenteditable="true"><span class="tag green">C</span></td><td contenteditable="true">"passed without showing any ballistic missiles"</td><td contenteditable="true">D is a TRAP — from a different STANAG text about COVID parades. A/B contradict the audio.</td></tr>
+                <tr><td contenteditable="true"><strong>6</strong></td><td contenteditable="true"><span class="tag amber">B</span></td><td contenteditable="true">"has no reliable system to track... vaccinated at civilian clinics... do not report back"</td><td contenteditable="true">A: opposite. C: TRAP — FDA is mentioned but not as the reason for low data. D: never stated.</td></tr>
+                <tr><td contenteditable="true"><strong>7</strong></td><td contenteditable="true"><span class="tag amber">B</span></td><td contenteditable="true">"expected to mandate vaccination once the vaccine receives full FDA approval"</td><td contenteditable="true">A: opposite (not yet done). C/D: never stated in the broadcast.</td></tr>
+                <tr><td contenteditable="true"><strong>8</strong></td><td contenteditable="true"><span class="tag amber">B</span></td><td contenteditable="true">"floating accommodation for Navy sailors whose warships are temporarily out of service"</td><td contenteditable="true">A/C/D: not mentioned or contradict "unarmed, unpowered" description.</td></tr>
+                <tr><td contenteditable="true"><strong>9</strong></td><td contenteditable="true"><span class="tag amber">C</span></td><td contenteditable="true">"does not need to arrange hotel rooms for hundreds of crew members"</td><td contenteditable="true">A/B/D: none stated or supported by the audio.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR — REPORTED SPEECH ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 09 — Grammar Module</div>
+        <h2 class="section-title" contenteditable="true">Grammar: <span class="accent">Reported Speech</span></h2>
+        <p class="section-desc" contenteditable="true">Reported speech is essential for both the Writing test (letters, reports) and the Listening test (understanding what was "said," "announced," "confirmed," or "claimed").</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Direct Speech</th>
+                    <th contenteditable="true">Reported Speech (Tense Shift)</th>
+                    <th contenteditable="true">Reporting Verb</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true">"We <strong>are deploying</strong> troops."</td><td contenteditable="true">He said they <strong>were deploying</strong> troops.</td><td contenteditable="true"><span class="tag green">said</span></td></tr>
+                <tr><td contenteditable="true">"NATO <strong>will send</strong> reinforcements."</td><td contenteditable="true">She said NATO <strong>would send</strong> reinforcements.</td><td contenteditable="true"><span class="tag green">said</span></td></tr>
+                <tr><td contenteditable="true">"The ceasefire <strong>has been signed</strong>."</td><td contenteditable="true">Officials announced the ceasefire <strong>had been signed</strong>.</td><td contenteditable="true"><span class="tag amber">announced</span></td></tr>
+                <tr><td contenteditable="true">"We <strong>cannot confirm</strong> the details."</td><td contenteditable="true">The spokesman said they <strong>could not confirm</strong> the details.</td><td contenteditable="true"><span class="tag amber">stated</span></td></tr>
+                <tr><td contenteditable="true">"Our group <strong>carried out</strong> the attack."</td><td contenteditable="true">The militia <strong>claimed</strong> their group <strong>had carried out</strong> the attack.</td><td contenteditable="true"><span class="tag red">claimed</span></td></tr>
+                <tr><td contenteditable="true">"The investigation <strong>is ongoing</strong>."</td><td contenteditable="true">Officials <strong>confirmed</strong> the investigation <strong>was ongoing</strong>.</td><td contenteditable="true"><span class="tag amber">confirmed</span></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert amber" style="margin-top: 20px;" contenteditable="false">
+            <span class="alert-icon">⚡</span>
+            <div contenteditable="true"><strong>Why this matters for Listening:</strong> In STANAG audio, you frequently hear phrases like "officials said," "the report confirmed," "the general announced." You must understand what was claimed vs. what is confirmed fact. The answer often depends on which reporting verb was used.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: GRAMMAR PRACTICE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 10 — Grammar Practice</div>
+        <h2 class="section-title" contenteditable="true">Convert to <span class="accent">Reported Speech</span></h2>
+        <p class="section-desc" contenteditable="true">Transform these military direct quotes into reported speech. Use the correct tense shift and an appropriate reporting verb from the box: <strong>said / announced / confirmed / claimed / stated / warned</strong>.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">"The patrol will return to base by 0200." — The commander <span class="blank" contenteditable="true"></span> that the patrol <span class="blank" contenteditable="true"></span> return to base by 0200.</li>
+            <li contenteditable="true">"We have detected movement near the eastern perimeter." — Intelligence officers <span class="blank" contenteditable="true"></span> that they <span class="blank" contenteditable="true"></span> movement near the eastern perimeter.</li>
+            <li contenteditable="true">"Our forces did not fire first." — The general <span class="blank" contenteditable="true"></span> that their forces <span class="blank" contenteditable="true"></span> not fired first.</li>
+            <li contenteditable="true">"Damage assessment is still ongoing." — The spokesman <span class="blank" contenteditable="true"></span> that the damage assessment <span class="blank" contenteditable="true"></span> still ongoing.</li>
+            <li contenteditable="true">"All personnel must carry their ID cards at all times." — The officer <span class="blank" contenteditable="true"></span> that all personnel <span class="blank" contenteditable="true"></span> carry their ID cards at all times.</li>
+            <li contenteditable="true">"The ceasefire was violated by both parties." — UN observers <span class="blank" contenteditable="true"></span> that the ceasefire <span class="blank" contenteditable="true"></span> violated by both parties.</li>
+        </ul>
+
+        <div class="alert green" style="margin-top: 18px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Guide:</strong> 1. said / would &nbsp;|&nbsp; 2. confirmed / had detected &nbsp;|&nbsp; 3. claimed / had &nbsp;|&nbsp; 4. stated / was &nbsp;|&nbsp; 5. stated/announced / had to / must &nbsp;|&nbsp; 6. confirmed / had been</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: REAL STANAG AUDIO — PRACTICE TEST LINK ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 11 — Real Exam Audio</div>
+        <h2 class="section-title" contenteditable="true">Official STANAG: <span class="amber">Practice Test 1</span></h2>
+        <p class="section-desc" contenteditable="true">Now we use the real STANAG practice test from the official NATO examination centre. This is authentic Level 3 listening material. Listen and answer.</p>
+
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot red"></div><div class="terminal-dot amber"></div><div class="terminal-dot green"></div>
+                <span class="terminal-title">OFFICIAL_PRACTICE_AUDIO.sh</span>
+            </div>
+            <div class="terminal-body" contenteditable="true">
+                <span class="cmd">$ source "Ludovika University — STANAG Practice Test 1"</span><br><br>
+                <span class="comment">// Task 1: Mobile Phones (Topic: Social/Technology)</span><br>
+                <span class="val">Audio URL: </span><span class="str">https://www.uni-nke.hu/other/Mobile%20phones.mp3</span><br><br>
+                <span class="comment">// Task 2: Hot Ground (Topic: Military/Environment)</span><br>
+                <span class="val">Audio URL: </span><span class="str">https://www.uni-nke.hu/other/Hot%20Ground.mp3</span><br><br>
+                <span class="comment">// Test paper and tapescript available at:</span><br>
+                <span class="val">PDF: </span><span class="str">https://ltc.uni-nke.hu/document/ltc-uni-nke-hu/stanag_3_listening_practice_task1.pdf</span>
+            </div>
+        </div>
+
+        <p style="text-align:center;margin:16px 0 24px;">
+            <a href="https://ltc.uni-nke.hu/nato-stanag-6001-language-examination/practice-tasks/stanag-level-3" target="_blank" style="font-family:var(--mono);font-size:0.8rem;color:var(--signal);text-decoration:none;border:1px solid var(--signal-dim);padding:8px 20px;border-radius:var(--radius);display:inline-block;">🔗 OPEN OFFICIAL PRACTICE PAGE →</a>
+        </p>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 contenteditable="true">While Listening</h3>
+                <p contenteditable="true">Use the strategies from Task 6. Pre-read each question. On the first play: eliminate 2 wrong options. On the second play: confirm your answer.</p>
+            </div>
+            <div class="card">
+                <h3 contenteditable="true">After Listening</h3>
+                <p contenteditable="true">Check with the tapescript. For every wrong answer, identify which TRAP type caught you: "True but wrong," "Sounds like," or "Too extreme."</p>
+            </div>
+            <div class="card">
+                <h3 contenteditable="true">Target Score</h3>
+                <p contenteditable="true">STANAG Level 3 requires approximately 70%+ correct. Aim for at least 21/30 in the listening section. Level 2 requires approximately 60%.</p>
+            </div>
+        </div>
+
+        <ul class="exercise-list" style="margin-top: 24px;">
+            <li contenteditable="true">After listening to "Mobile Phones" — what was the main topic being discussed? Summarise in one sentence.</li>
+            <li contenteditable="true">Note 3 new words or phrases you heard and were unsure about. Write them here.</li>
+            <li contenteditable="true">Which question type was hardest for you — main idea, specific detail, or speaker attitude? Why?</li>
+            <li contenteditable="true">Did the audio use any of today's vocabulary (casualty, perimeter, preliminary, etc.)? Which words appeared?</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 12: PRONUNCIATION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 12 — Pronunciation & Fast Speech</div>
+        <h2 class="section-title" contenteditable="true">Pronunciation: <span class="accent">Reductions in Fast Speech</span></h2>
+        <p class="section-desc" contenteditable="true">STANAG audio uses natural, connected speech. Native speakers "swallow" sounds and words. If you don't know these reductions, you'll miss key information in the listening test.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Written Form</th>
+                    <th contenteditable="true">How It Sounds (Fast Speech)</th>
+                    <th contenteditable="true">Example in Audio Context</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>going to</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"gonna"</strong></td><td contenteditable="true">"They're gonna deploy reinforcements next week."</td></tr>
+                <tr><td contenteditable="true"><strong>want to</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"wanna"</strong></td><td contenteditable="true">"Command doesn't wanna escalate the situation."</td></tr>
+                <tr><td contenteditable="true"><strong>have to / has to</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"hafta / hasta"</strong></td><td contenteditable="true">"All personnel hafta carry ID at all times."</td></tr>
+                <tr><td contenteditable="true"><strong>could have</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"coulda"</strong></td><td contenteditable="true">"They coulda handled the situation differently."</td></tr>
+                <tr><td contenteditable="true"><strong>did you</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"didja"</strong></td><td contenteditable="true">"Didja see the assessment report?"</td></tr>
+                <tr><td contenteditable="true"><strong>sort of / kind of</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"sorta / kinda"</strong></td><td contenteditable="true">"The barge is kinda like a floating hotel."</td></tr>
+                <tr><td contenteditable="true"><strong>them</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"'em"</strong></td><td contenteditable="true">"They left without notifying 'em." (= them)</td></tr>
+                <tr><td contenteditable="true"><strong>and</strong></td><td contenteditable="true"><strong style="color:var(--signal)">"'n" or "en"</strong></td><td contenteditable="true">"Officers 'n enlisted personnel — 284 total."</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert red" style="margin-top: 20px;" contenteditable="false">
+            <span class="alert-icon">🎯</span>
+            <div contenteditable="true"><strong>Practice Drill:</strong> Read the following sentence aloud at full natural speed, using all reductions: <em>"I'm gonna hafta tell 'em they coulda reported this yesterday, 'n now I kinda hafta deal with it myself."</em> — Your teacher will correct your rhythm and connected speech.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: SPEAKING — STRUCTURED INTERVIEW PREP ====== -->
+<section class="section alt" id="speaking">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 13 — Speaking Practice</div>
+        <h2 class="section-title" contenteditable="true">Speaking: <span class="accent">Military Topics Drill</span></h2>
+        <p class="section-desc" contenteditable="true">Practice answering these STANAG Level 2 and Level 3 speaking questions. Use the listening vocabulary from today — showing you can USE exam vocabulary in speaking impresses examiners.</p>
+
+        <div class="radio-flow">
+            <div class="rf-bubble examiner" contenteditable="true"><strong>Examiner:</strong> "Soldiers returning from military missions often face difficulties adapting to everyday life. What can be done to make this process easier?"</div>
+            <div class="rf-arrow">↓</div>
+            <div class="rf-bubble note" contenteditable="true">// AIM FOR: 3–4 full sentences. Use: "In my opinion..." / "From my experience..." / "Furthermore..." / "I believe that..."</div>
+            <div class="rf-arrow">↓</div>
+            <div class="rf-bubble student" contenteditable="true"><strong>Oleksandr:</strong> [Give your answer. Try to include: psychological support, transition programs, peer networks, civilian job assistance]</div>
+            <div class="rf-arrow">↓</div>
+            <div class="rf-bubble examiner" contenteditable="true"><strong>Examiner:</strong> "More and more European citizens are turning to extremist or terrorist activity. Look at these possible reasons: Ignorance — Propaganda — Frustration. Which is the most influential? Justify your answer."</div>
+            <div class="rf-arrow">↓</div>
+            <div class="rf-bubble note" contenteditable="true">// This is a REAL Level 3 speaking task from the exam. Pick ONE, defend it, then briefly mention the others. No single answer is "correct" — the examiner evaluates fluency and logic.</div>
+            <div class="rf-arrow">↓</div>
+            <div class="rf-bubble student" contenteditable="true"><strong>Oleksandr:</strong> [Give a structured argument. Structure: "I believe X is the most influential because..." + evidence + "While Y and Z also play a role..."]</div>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 contenteditable="true">Speaking Tip: Filler Strategy</h3>
+                <p contenteditable="true">Don't say "eehhh" or go silent. Use: "That's an interesting point..." / "Let me think about that..." / "From a military perspective..." — These are natural AND buy you 3-5 seconds to organize your answer.</p>
+            </div>
+            <div class="card">
+                <h3 contenteditable="true">What Examiners Score</h3>
+                <p contenteditable="true">1. Fluency (do you speak smoothly?) 2. Vocabulary range (do you use varied words?) 3. Grammar accuracy 4. Task completion (did you actually answer the question?) All four are equally weighted.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: WRITING — LEVEL 3 ESSAY INTRO ====== -->
+<section class="section" id="writing">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 14 — Writing: Level 3 Preview</div>
+        <h2 class="section-title" contenteditable="true">Writing: <span class="amber">Essay Structure</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 Writing requires a 250-word essay on a controversial topic. Today we practice the structure and opening paragraph — full essays come in Lesson 7. The topic: <em>Defense spending vs. social benefits.</em></p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Paragraph</th>
+                    <th contenteditable="true">Purpose</th>
+                    <th contenteditable="true">Key Phrases</th>
+                    <th contenteditable="true">Word Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Introduction</strong></td><td contenteditable="true">Introduce the topic + state both sides exist</td><td contenteditable="true">"It is widely debated whether..." / "In recent years, there has been growing discussion about..."</td><td contenteditable="true">~40 words</td></tr>
+                <tr><td contenteditable="true"><strong>Body 1</strong></td><td contenteditable="true">First argument (with evidence/example)</td><td contenteditable="true">"On one hand..." / "Proponents argue that..." / "For instance, in countries such as..."</td><td contenteditable="true">~60 words</td></tr>
+                <tr><td contenteditable="true"><strong>Body 2</strong></td><td contenteditable="true">Counter-argument (with evidence/example)</td><td contenteditable="true">"On the other hand..." / "Critics of this view suggest..." / "However, it should be noted that..."</td><td contenteditable="true">~60 words</td></tr>
+                <tr><td contenteditable="true"><strong>Conclusion</strong></td><td contenteditable="true">Your opinion + final judgement</td><td contenteditable="true">"In conclusion, I believe that..." / "Taking all factors into consideration..." / "While both views have merit..."</td><td contenteditable="true">~40 words</td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="font-family:var(--mono);font-size:0.8rem;color:var(--signal);letter-spacing:2px;text-transform:uppercase;margin:28px 0 14px;" contenteditable="true">// WRITE YOUR INTRODUCTION PARAGRAPH:</h3>
+        <div class="write-zone" contenteditable="true">
+            <p class="placeholder">Start here: "It is widely debated whether governments should prioritise defence spending over social benefits..." — Write 40 words that introduce BOTH sides of the argument without taking a position yet.</p>
+        </div>
+
+        <div class="alert green" style="margin-top: 16px;" contenteditable="false">
+            <span class="alert-icon">📡</span>
+            <div contenteditable="true"><strong>The Topic from Your Exam Sample:</strong> "A government has a responsibility to its citizens to ensure their safety. Therefore, some people think the government should increase spending on defence but spend less on social benefits. To what extent do you agree?" — This is a real STANAG L3 writing prompt.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: LESSON SYNTHESIS ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Task 15 — Mission Complete</div>
+        <h2 class="section-title" contenteditable="true">Synthesis: <span class="accent">Grand Debrief</span></h2>
+        <p class="section-desc" contenteditable="true">Final discussion — integrate today's listening vocabulary, strategies, and grammar into connected speech. Use as many of today's words as possible.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 contenteditable="true">🎯 Listening Audit</h3>
+                <p contenteditable="true">In today's 9 listening questions, which trap type caught you most? Trap 1 (True but wrong), Trap 2 (Sounds like), or Trap 3 (Too extreme)? How will you defend against it?</p>
+            </div>
+            <div class="card">
+                <h3 contenteditable="true">📡 Vocabulary Recall</h3>
+                <p contenteditable="true">Without looking: say the 8 new words from today's lesson. Use each one in a sentence that could come from a news broadcast about Ukraine or NATO.</p>
+            </div>
+            <div class="card">
+                <h3 contenteditable="true">🔊 Connected Speech</h3>
+                <p contenteditable="true">Describe your morning routine using at least 5 fast-speech reductions (gonna, hafta, wanna, coulda, etc.). Your teacher will time how natural it sounds.</p>
+            </div>
+            <div class="card">
+                <h3 contenteditable="true">📋 Writing Debrief</h3>
+                <p contenteditable="true">Look at your introduction paragraph. Does it: (1) introduce the topic? (2) mention both sides? (3) avoid stating your personal opinion? (4) use formal vocabulary? Fix if not.</p>
+            </div>
+        </div>
+
+        <div class="alert amber" style="margin-top: 28px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework before Lesson 3 (Writing):</strong> (1) Listen to BBC World Service or CNN — write down 5 sentences using reported speech: "The reporter said that...", "Officials confirmed that...". (2) Complete your Level 3 essay introduction (40 words, formal, balanced). (3) Download and complete Practice Test 2 — Listening from the official STANAG site. (4) Learn all 8 vocabulary words — your teacher will test you at the start of Lesson 3.</div>
+        </div>
+
+        <div class="debrief">
+            <h2 contenteditable="true">LESSON 02 — MISSION COMPLETE</h2>
+            <p style="font-family:var(--mono);font-size:0.75rem;color:var(--signal-dim);margin-bottom:20px;" contenteditable="true">// SIGNAL RECEIVED AND DECODED //</p>
+            <ul class="debrief-list">
+                <li contenteditable="true">✅ <strong>Listening Format:</strong> 30 items × 2 plays, A/B/C/D, Level 2 vs Level 3 differences.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary (8 words):</strong> claim responsibility, casualty, perimeter, reinforcements, preliminary, assessment, confirmed, inoculate.</li>
+                <li contenteditable="true">✅ <strong>Listening Strategy:</strong> 4 tactics + 3 trap types identified and practised.</li>
+                <li contenteditable="true">✅ <strong>Level 2 Practice:</strong> 5 short conversations — identified main idea, specific detail, and cause questions.</li>
+                <li contenteditable="true">✅ <strong>Level 3 Practice:</strong> 4 MCQ questions on military/social complex audio texts.</li>
+                <li contenteditable="true">✅ <strong>Grammar — Reported Speech:</strong> Tense shifts, reporting verbs (said/confirmed/claimed/stated).</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> 8 fast-speech reductions in connected speech (gonna, hafta, coulda...).</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> Level 2 & 3 military topic questions + structured argument drill.</li>
+                <li contenteditable="true">✅ <strong>Writing Preview:</strong> Level 3 essay structure + wrote introduction paragraph for defence/social essay.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== WHITEBOARD ====== -->
+<section class="section" id="wb">
+    <div class="section-inner">
+        <div class="section-label" contenteditable="true">Teacher's Board</div>
+        <h2 class="section-title" contenteditable="true">Interactive <span class="accent">Whiteboard</span></h2>
+        <p class="section-desc" contenteditable="true">Draw grammar diagrams, vocabulary maps, or mark up listening strategies.</p>
+        <div class="wb-wrap">
+            <div class="wb-bar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:20px;background:var(--gray-line);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#39FF14">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--red-dim);border-color:var(--red);color:var(--red);">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FLOATING BUTTONS ====== -->
+<div class="fab-group" id="fabGroup">
+    <button class="fab" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab qz" onclick="openModal()" title="Quizlet">📝</button>
+    <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+    <button class="fab rst" onclick="resetLesson()" title="Reset">↺</button>
+</div>
+
+<!-- ====== QUIZLET MODAL ====== -->
+<div id="qModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2>Quizlet Export</h2>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--gray-text);margin-top:6px;">Add today's military vocabulary. Copy → paste into Quizlet Import.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:14px;">
+            <button class="modal-btn secondary" onclick="addRow()">+ Row</button>
+            <button class="modal-btn primary" id="copyBtn" onclick="copyQuizlet()">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // MCQ
+    const chosen = {};
+    function selectOpt(el, id, letter) {
+        el.closest('.options').querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        chosen[id] = letter;
+    }
+
+    // Highlight Ctrl+H
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(57,255,20,0.25)');
+        }
+    });
+
+    // Whiteboard
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 460; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let drawing = false, pendingDraw = false, sx, sy, tool = 'pencil', color = '#39FF14', snap;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b => {
+        b.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(x => x.classList.remove('active'));
+            b.classList.add('active'); tool = b.dataset.tool;
+            canvas.style.cursor = tool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWbClear) window.syncWbClear(); });
+
+    function gp(e) { const r = canvas.getBoundingClientRect(); return {x: e.clientX-r.left, y: e.clientY-r.top}; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = gp(e); sx = p.x; sy = p.y;
+        if (tool === 'text') { const t = prompt('Text:'); if(t){ctx.font="16px 'Share Tech Mono',monospace";ctx.fillStyle=color;ctx.fillText(t,sx,sy);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}} return; }
+        drawing = true; snap = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(sx,sy);
+    });
+    canvas.addEventListener('mousemove', e => {
+        if (!drawing) return;
+        const p = gp(e);
+        if (tool === 'pencil' || tool === 'highlight') {
+            ctx.lineTo(p.x, p.y);
+            ctx.strokeStyle = tool === 'highlight' ? color+'44' : color;
+            ctx.lineWidth = tool === 'highlight' ? 14 : 1.5;
+            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+        } else { ctx.putImageData(snap,0,0); drawShape(p.x,p.y); }
+    });
+    canvas.addEventListener('mouseup', e => {
+        if (!drawing) return; drawing = false;
+        if (tool !== 'pencil' && tool !== 'highlight') drawShape(gp(e).x,gp(e).y);
+        if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}
+    });
+    canvas.addEventListener('mouseout', () => { if(drawing){drawing=false;if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}} });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+        if (tool==='square') ctx.strokeRect(sx,sy,ex-sx,ey-sy);
+        else if (tool==='circle') { ctx.arc(sx,sy,Math.sqrt((ex-sx)**2+(ey-sy)**2),0,2*Math.PI); ctx.stroke(); }
+        else if (tool==='arrow') {
+            const hl=12, ang=Math.atan2(ey-sy,ex-sx);
+            ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));
+            ctx.stroke();
+        }
+    }
+
+    // Drag & Drop
+    function setupDrag(colId) {
+        const col = document.getElementById(colId); if(!col) return;
+        col.querySelectorAll('.drag-item').forEach(item => {
+            item.addEventListener('dragstart', () => item.classList.add('dragging'));
+            item.addEventListener('dragend', () => { item.classList.remove('dragging'); if(window.syncDragOrder) window.syncDragOrder(colId); });
+        });
+        col.addEventListener('dragover', e => {
+            e.preventDefault();
+            const after = [...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch) => {
+                const off = e.clientY - ch.getBoundingClientRect().top - ch.getBoundingClientRect().height/2;
+                return off < 0 && off > cl.offset ? {offset:off, element:ch} : cl;
+            }, {offset: Number.NEGATIVE_INFINITY}).element;
+            const d = document.querySelector('.dragging');
+            if(d) { if(after==null) col.appendChild(d); else col.insertBefore(d,after); }
+        });
+    }
+    setupDrag('listenVocabCol');
+
+    // PDF
+    function savePDF() {
+        document.getElementById('fabGroup').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const el = document.body;
+        html2pdf().set({margin:0,filename:'STANAG-Lesson2-Listening-Mastery.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{document.getElementById('fabGroup').style.display='flex';document.getElementById('syncStatus').style.display='flex';});
+    }
+
+    // Quizlet
+    function openModal() { document.getElementById('qModal').style.display='flex'; }
+    function closeModal() { document.getElementById('qModal').style.display='none'; }
+    function addRow() { const r=document.createElement('div'); r.className='word-row'; r.innerHTML='<input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans">'; document.getElementById('wordList').appendChild(r); }
+    function copyQuizlet() {
+        let out='';
+        document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-word').value.trim();const t=r.querySelector('.q-trans').value.trim();if(w||t)out+=`${w}\t${t}\n`;});
+        if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);const b=document.getElementById('copyBtn');b.innerText='✅ Copied!';setTimeout(()=>b.innerText='📋 Copy for Quizlet',3000);}
+    }
+
+    // Nav
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if(e.target.tagName==='A' && !e.target.hasAttribute('onclick')){
+            e.preventDefault();
+            const id=e.target.getAttribute('href');
+            if(id&&id.startsWith('#')&&id.length>1){const s=document.querySelector(id);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.pageYOffset-60,behavior:'smooth'});}
+        }
+    });
+    function scrollToWB() { const wb=document.getElementById('wb'); if(wb)window.scrollTo({top:wb.getBoundingClientRect().top+window.pageYOffset-60,behavior:'smooth'}); }
+    function resetLesson() { if(window.doReset) window.doReset(); }
+
+    window.savePDF = savePDF;
+    window.openQuizletModal = openModal;
+    window.closeQuizletModal = closeModal;
+    window.addWordRow = addRow;
+    window.scrollToWhiteboard = scrollToWB;
+</script>
+
+<!-- ====== FIREBASE SYNC ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'stanag-oleksandr-lesson-2-listening-signal-v1';
+    const st = document.getElementById('syncText');
+    const sd = document.getElementById('syncDot');
+    const setS = (t,c) => { if(st) st.innerText=t; if(sd) sd.style.background=c; };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let me = null, ready = false;
+    const mc = '#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let mn = 'Oleksandr';
+
+    const eds = document.querySelectorAll('[contenteditable="true"]');
+    const orig = {};
+    eds.forEach((el,i) => { el.dataset.syncId='e-'+i; orig['e-'+i]=el.innerHTML; });
+
+    const deb = (fn,w) => { let t; return (...a) => { clearTimeout(t); t=setTimeout(()=>fn(...a),w); }; };
+
+    signInAnonymously(auth).catch(()=>setS('OFFLINE','#666'));
+
+    onAuthStateChanged(auth, user => {
+        me = user;
+        if(user && !ready) {
+            ready = true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(s=>{
+                mn = s.size===0 ? 'Teacher' : 'Oleksandr';
+                setS('SYNC ON','#39FF14');
+                sync(); cursors();
+            }).catch(()=>{ mn='Oleksandr'; setS('SYNC ON','#39FF14'); sync(); cursors(); });
+        } else if(!user) setS('DISCONNECTED','#FF3B30');
+    });
+
+    function sync() {
+        const tRef = doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dRef = doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wRef = doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        let editing = null;
+
+        window.saveTextUpdate = el => { if(!me) return; setDoc(tRef,{[el.dataset.syncId]:el.innerHTML},{merge:true}); };
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', ()=>editing=el.dataset.syncId);
+            el.addEventListener('blur', ()=>{ editing=null; window.saveTextUpdate(el); });
+            el.addEventListener('input', deb(()=>{ if(editing===el.dataset.syncId) window.saveTextUpdate(el); },500));
+        };
+        eds.forEach(el=>window.attachEditableListeners(el));
+
+        window.addNewTab = e => {
+            e.preventDefault();
+            const c=document.getElementById('navTabsContainer');
+            const li=document.createElement('li');
+            const nid='e-tab-'+Date.now();
+            li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${nid}">New Tab</a>`;
+            c.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if(me) setDoc(tRef,{'nav_tabs_structure':c.innerHTML},{merge:true});
+        };
+
+        onSnapshot(tRef, snap=>{
+            if(snap.exists()){
+                const d=snap.data();
+                for(const [sid,html] of Object.entries(d)){
+                    if(sid==='nav_tabs_structure'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEditableListeners(a));}continue;}
+                    if(editing!==sid){const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+                }
+            }
+        });
+
+        document.addEventListener('paste', e=>{
+            const tgt=e.target; if(!tgt.closest('[contenteditable="true"]')) return;
+            const items=(e.clipboardData||window.clipboardData).items;
+            for(let k in items){const item=items[k];if(item.kind==='file'&&item.type.startsWith('image/')){e.preventDefault();const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=function(){const c=document.createElement('canvas');const M=800;let w=img.width,h=img.height;if(w>M){h*=M/w;w=M;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:6px;"></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};r.readAsDataURL(item.getAsFile());return;}}
+            const pt=(e.clipboardData||window.clipboardData).getData('text');
+            if(pt){const yt=pt.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/)|\S*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%"></iframe></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}if(/^https?:\/\/\S+$/.test(pt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${pt.trim()}" target="_blank" style="color:var(--signal);text-decoration:underline" contenteditable="false">${pt.trim()}</a>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}}
+        });
+
+        window.syncDragOrder = cid => { if(!me) return; const c=document.getElementById(cid); if(!c) return; setDoc(dRef,{[cid]:Array.from(c.children).map(x=>x.id)},{merge:true}); };
+        onSnapshot(dRef, snap=>{
+            if(snap.exists()){const d=snap.data();['listenVocabCol'].forEach(cid=>{const c=document.getElementById(cid);if(!c) return;if(d[cid])d[cid].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}
+        });
+
+        window.syncWbDraw = deb(()=>{ if(!me) return; const url=document.getElementById('boardCanvas').toDataURL('image/png',0.5); setDoc(wRef,{image:url,clearTimestamp:window.lastClear||0},{merge:true}); pendingDraw=false; },800);
+        window.syncWbClear = ()=>{ if(!me) return; const ts=Date.now(); window.lastClear=ts; setDoc(wRef,{clearTimestamp:ts,image:null},{merge:true}); };
+        onSnapshot(wRef, snap=>{
+            if(snap.exists()){const d=snap.data();const cv=document.getElementById('boardCanvas');const cx=cv.getContext('2d');
+            if(d.clearTimestamp>(window.lastClear||0)){cx.clearRect(0,0,cv.width,cv.height);window.lastClear=d.clearTimestamp;return;}
+            if(d.image&&!pendingDraw){const img=new Image();img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);};img.src=d.image;}}
+        });
+
+        window.doReset = async ()=>{
+            if(!me) return;
+            if(!confirm('Reset all content for everyone?')) return;
+            setS('RESETTING...','#FFB300');
+            await deleteDoc(tRef); await deleteDoc(dRef);
+            const ts=Date.now(); window.lastClear=ts;
+            await setDoc(wRef,{clearTimestamp:ts,image:null});
+            setTimeout(()=>setS('SYNC ON','#39FF14'),1000);
+        };
+    }
+
+    function cursors() {
+        const col=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',me.uid);
+        const container=document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove', deb(e=>{ if(!me) return; setDoc(myRef,{xOffset:e.pageX-(window.innerWidth/2),y:e.pageY,color:mc,name:mn,timestamp:Date.now()}); },400));
+        onSnapshot(col, snap=>{
+            snap.docChanges().forEach(ch=>{
+                const id=ch.doc.id; if(id===me.uid) return;
+                if(ch.type==='removed'){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}
+                const d=ch.doc.data();
+                if(Date.now()-d.timestamp>60000){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}
+                let el=document.getElementById('cur-'+id);
+                if(!el){el=document.createElement('div');el.id='cur-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="cursor-name" style="background:${d.color}">${d.name}</div>`;container.appendChild(el);}
+                el.style.left=((window.innerWidth/2)+d.xOffset)+'px'; el.style.top=d.y+'px';
+            });
+        });
+        window.addEventListener('beforeunload',()=>{ if(me) deleteDoc(myRef); });
+    }
+</script>
+
+</body>
+</html>
