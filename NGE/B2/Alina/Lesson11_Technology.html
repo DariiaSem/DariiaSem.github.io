@@ -1,0 +1,1709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11: B2-C1 | Technology & Digital Detox</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --void:       #0A0A12;
+            --dark:       #12121E;
+            --panel:      #1A1A2A;
+            --cyan:       #00D4FF;
+            --cyan-dim:   #0099BB;
+            --cyan-pale:  #D0F8FF;
+            --lime:       #AAFF00;
+            --lime-pale:  #EEFFCC;
+            --red:        #FF3B5C;
+            --red-pale:   #FFE0E6;
+            --amber:      #FFB800;
+            --amber-pale: #FFF3CC;
+            --cream:      #F8F8F0;
+            --white:      #FFFFFF;
+            --gray-100:   #F2F2EC;
+            --gray-200:   #E0E0D8;
+            --gray-400:   #9A9A90;
+            --gray-600:   #606058;
+            --gray-800:   #242420;
+            --shadow-sm:  0 1px 4px rgba(0,212,255,0.06);
+            --shadow-md:  0 6px 24px rgba(0,212,255,0.1);
+            --shadow-lg:  0 16px 48px rgba(0,0,0,0.18);
+            --shadow-xl:  0 24px 64px rgba(0,0,0,0.24);
+            --r-sm: 6px;
+            --r-md: 12px;
+            --r-lg: 20px;
+            --r-xl: 32px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 3px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(0,212,255,0.05); }
+        [contenteditable="true"]:focus { background: rgba(0,212,255,0.09); box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+
+        /* ══ HERO — full bleed terminal aesthetic ══ */
+        .hero {
+            position: relative; min-height: 580px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: left; overflow: hidden;
+            background: var(--void);
+        }
+
+        .hero-scanlines {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,212,255,0.015) 2px,
+                rgba(0,212,255,0.015) 4px
+            );
+        }
+
+        .hero-glow {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 50% 60% at 70% 50%, rgba(0,212,255,0.12) 0%, transparent 65%),
+                radial-gradient(ellipse 35% 40% at 10% 80%, rgba(170,255,0,0.08) 0%, transparent 55%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 900px; padding: 70px 48px;
+            width: 100%;
+        }
+
+        /* Terminal-style prompt */
+        .hero-terminal {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; color: var(--cyan);
+            margin-bottom: 24px; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .hero-terminal .prompt { color: var(--lime); }
+        .hero-terminal .cursor {
+            display: inline-block; width: 10px; height: 18px;
+            background: var(--cyan); animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.6rem, 6vw, 5rem);
+            color: var(--white); line-height: 1.05;
+            letter-spacing: -1px; margin-bottom: 16px;
+        }
+
+        .hero h1 .highlight { color: var(--cyan); font-style: italic; }
+        .hero h1 .dim { color: rgba(255,255,255,0.4); }
+
+        .hero-sub {
+            font-size: 1rem; font-weight: 400;
+            color: rgba(255,255,255,0.55);
+            max-width: 580px; margin-bottom: 36px;
+            font-family: 'JetBrains Mono', monospace; line-height: 1.6;
+        }
+
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .hero-chip {
+            background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);
+            color: var(--cyan); padding: 4px 12px; border-radius: 4px;
+            font-size: 0.72rem; font-weight: 600; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-chip.lime { background: rgba(170,255,0,0.1); border-color: rgba(170,255,0,0.3); color: var(--lime); }
+        .hero-chip.red  { background: rgba(255,59,92,0.1); border-color: rgba(255,59,92,0.3); color: var(--red); }
+
+        .hero-ribbon {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+            background: var(--cream); clip-path: ellipse(54% 100% at 50% 100%);
+        }
+
+        /* ══ NAV ══ */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(248,248,240,0.94); backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--gray-200); padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between; height: 52px;
+        }
+
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem; font-weight: 500;
+            color: var(--dark); text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-logo .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--cyan); animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+        .nav-links {
+            display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 600;
+            padding: 5px 11px; border-radius: var(--r-sm);
+            transition: color 0.2s, background 0.2s; white-space: nowrap;
+        }
+        .nav-links a:hover { color: var(--cyan-dim); background: rgba(0,212,255,0.06); }
+
+        /* ══ SECTIONS ══ */
+        .section { padding: 72px 24px; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 920px; margin: 0 auto; }
+
+        /* Task counter — monospace pill */
+        .task-counter {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 500;
+            background: var(--dark); color: var(--cyan);
+            padding: 4px 14px; border-radius: 50px; margin-bottom: 14px;
+            border: 1px solid rgba(0,212,255,0.25);
+        }
+
+        .task-counter .tc-num { color: var(--lime); font-weight: 700; }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+            font-weight: 400; color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .section-title em { font-style: italic; color: var(--cyan-dim); }
+
+        .section-desc {
+            color: var(--gray-600); font-size: 0.97rem;
+            margin-bottom: 32px; max-width: 660px; font-weight: 400;
+        }
+
+        /* ══ PROVOCATION — Opening bang ══ */
+        .provocation {
+            background: var(--dark); border-radius: var(--r-xl);
+            padding: 40px 44px; position: relative; overflow: hidden;
+            border: 1px solid rgba(0,212,255,0.15);
+        }
+
+        .provocation::before {
+            content: '"';
+            position: absolute; top: -20px; left: 30px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 12rem; color: rgba(0,212,255,0.08);
+            line-height: 1; pointer-events: none;
+        }
+
+        .provocation-text {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: var(--white); line-height: 1.4;
+            position: relative; z-index: 1;
+            margin-bottom: 20px;
+        }
+
+        .provocation-source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; color: rgba(255,255,255,0.4);
+            position: relative; z-index: 1;
+        }
+
+        .react-btns {
+            display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; position: relative; z-index: 1;
+        }
+
+        .react-btn {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.75); padding: 8px 18px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.25s; font-family: 'Space Grotesk', sans-serif;
+        }
+        .react-btn:hover { background: rgba(0,212,255,0.15); border-color: rgba(0,212,255,0.4); color: var(--cyan); }
+        .react-btn.selected-agree  { background: rgba(170,255,0,0.2); border-color: var(--lime); color: var(--lime); }
+        .react-btn.selected-disagree { background: rgba(255,59,92,0.2); border-color: var(--red); color: var(--red); }
+        .react-btn.selected-complex { background: rgba(0,212,255,0.2); border-color: var(--cyan); color: var(--cyan); }
+
+        /* ══ PASSIVE HUNT ARTICLE ══ */
+        .article-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--r-lg); overflow: hidden;
+            box-shadow: var(--shadow-sm); margin-top: 24px;
+        }
+
+        .article-header {
+            background: var(--dark); padding: 14px 22px;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .article-source {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .article-tag {
+            background: rgba(0,212,255,0.2); color: var(--cyan);
+            border: 1px solid rgba(0,212,255,0.35);
+            padding: 2px 8px; border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700;
+        }
+
+        .article-body {
+            padding: 28px 30px; font-size: 0.97rem; line-height: 1.85; color: var(--gray-800);
+        }
+
+        .passive-highlight {
+            background: rgba(0,212,255,0.12);
+            border-bottom: 2px solid var(--cyan);
+            color: var(--cyan-dim); font-weight: 600;
+            padding: 0 3px; border-radius: 2px;
+            cursor: help; position: relative;
+        }
+
+        .passive-highlight::after {
+            content: attr(data-label);
+            position: absolute; bottom: calc(100% + 6px); left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark); color: var(--cyan);
+            font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
+            white-space: nowrap; opacity: 0; transition: opacity 0.2s;
+            pointer-events: none; border: 1px solid rgba(0,212,255,0.3);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .passive-highlight:hover::after { opacity: 1; }
+
+        /* ══ VIDEO ══ */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: var(--r-lg);
+            box-shadow: var(--shadow-lg); margin-bottom: 24px;
+            background: var(--dark); border: 1px solid rgba(0,212,255,0.15);
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        .video-link {
+            display: block; text-align: center; color: var(--cyan-dim);
+            font-weight: 600; text-decoration: none; font-size: 0.9rem; margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .video-link:hover { color: var(--lime); }
+
+        /* ══ VOCAB — contextual cards, no pre-teaching block ══ */
+        .vocab-inline-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px; margin-top: 20px;
+        }
+
+        .vocab-inline-card {
+            background: var(--dark); border-radius: var(--r-md);
+            padding: 18px 20px; border: 1px solid rgba(0,212,255,0.12);
+            position: relative; overflow: hidden; cursor: default;
+            min-height: 110px; transition: transform 0.2s, border-color 0.2s;
+        }
+        .vocab-inline-card:hover { transform: translateY(-2px); border-color: rgba(0,212,255,0.35); }
+
+        /* Front face */
+        .vic-front {
+            position: absolute; inset: 0; padding: 18px 20px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            transition: opacity 0.3s; pointer-events: none;
+        }
+        .vocab-inline-card:hover .vic-front { opacity: 0; }
+
+        .vic-pos { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:rgba(255,255,255,0.35); margin-bottom:4px; }
+        .vic-word { font-family:'Instrument Serif',serif; font-size:1.2rem; color:var(--white); font-weight:400; }
+        .vic-hint { position:absolute; top:12px; right:12px; font-size:0.7rem; color:rgba(255,255,255,0.3); }
+        .vocab-inline-card:hover .vic-hint { opacity:0; }
+
+        /* Back face */
+        .vic-def {
+            position: absolute; inset: 0; padding: 16px 18px;
+            background: rgba(0,0,0,0.9); color: rgba(255,255,255,0.88);
+            font-size: 0.82rem; line-height: 1.55;
+            display: flex; align-items: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md);
+        }
+        .vocab-inline-card:hover .vic-def { opacity: 1; }
+
+        .vic1 { border-color: rgba(0,212,255,0.2); }
+        .vic2 { border-color: rgba(170,255,0,0.15); }
+        .vic3 { border-color: rgba(255,184,0,0.15); }
+        .vic4 { border-color: rgba(255,59,92,0.15); }
+        .vic5 { border-color: rgba(0,212,255,0.2); }
+        .vic6 { border-color: rgba(170,255,0,0.15); }
+        .vic7 { border-color: rgba(255,184,0,0.15); }
+        .vic8 { border-color: rgba(255,59,92,0.15); }
+
+        /* ══ GRAMMAR TABLE ══ */
+        .grammar-table {
+            width: 100%; border-collapse: collapse; margin-top: 24px;
+            font-size: 0.9rem; border-radius: var(--r-md); overflow: hidden;
+            border: 1px solid var(--gray-200); background: var(--white);
+        }
+
+        .grammar-table thead th {
+            background: var(--dark); color: var(--white);
+            padding: 13px 18px; text-align: left;
+            font-weight: 600; font-size: 0.8rem;
+            letter-spacing: 1px; text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .grammar-table tbody td {
+            padding: 13px 18px; border-bottom: 1px solid var(--gray-200); vertical-align: top;
+        }
+
+        .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+        .grammar-table tbody tr:last-child td { border-bottom: none; }
+
+        .pass-tag {
+            display: inline; font-family: 'JetBrains Mono', monospace;
+            background: rgba(0,212,255,0.1); color: var(--cyan-dim);
+            border-radius: 3px; padding: 1px 6px; font-size: 0.85em; font-weight: 600;
+        }
+        .pass-tag.act { background: rgba(170,255,0,0.1); color: #6A9900; }
+        .pass-tag.red { background: rgba(255,59,92,0.1); color: var(--red); }
+
+        /* ══ PASSIVE TRANSFORMER INTERACTIVE ══ */
+        .transformer-grid {
+            display: flex; flex-direction: column; gap: 0;
+            border: 1px solid var(--gray-200); border-radius: var(--r-lg);
+            overflow: hidden; margin-top: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .transform-row {
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            border-bottom: 1px solid var(--gray-200); align-items: stretch;
+        }
+        .transform-row:last-child { border-bottom: none; }
+
+        .tr-cell {
+            padding: 16px 20px; font-size: 0.92rem; line-height: 1.6;
+        }
+        .tr-cell.active  { background: rgba(170,255,0,0.05); }
+        .tr-cell.passive { background: rgba(0,212,255,0.04); }
+
+        .tr-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 5px; display: block;
+        }
+        .tr-label.act  { color: #6A9900; }
+        .tr-label.pass { color: var(--cyan-dim); }
+
+        .tr-arrow { display:flex; align-items:center; justify-content:center; padding:0 14px; background:var(--gray-100); color:var(--amber); font-size:1.2rem; font-weight:800; }
+
+        /* ══ ERROR SPY ══ */
+        .spy-sentence { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--r-md); padding:18px 22px; margin-bottom:12px; font-size:0.97rem; line-height:1.8; display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap; transition:border-color 0.3s; }
+        .spy-sentence.correct  { border-color:var(--lime); background:rgba(170,255,0,0.04); }
+        .spy-sentence.incorrect { border-color:var(--red); background:rgba(255,59,92,0.04); animation:shakeL11 0.4s; }
+        @keyframes shakeL11 { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .spy-num { font-weight:700; color:var(--cyan-dim); font-family:'JetBrains Mono',monospace; font-size:0.9rem; min-width:24px; padding-top:2px; }
+        .spy-text { flex:1; min-width:200px; }
+        .wrong-word { background:rgba(255,59,92,0.12); color:var(--red); font-weight:700; padding:2px 7px; border-radius:3px; border-bottom:2px solid var(--red); cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:0.88em; transition:background 0.2s; }
+        .wrong-word:hover { background:rgba(255,59,92,0.25); }
+        .spy-input-wrap { display:none; align-items:center; gap:8px; margin-top:5px; flex-wrap:wrap; }
+        .spy-input-wrap.visible { display:flex; }
+        .spy-input { border:2px dashed var(--cyan); border-radius:var(--r-sm); padding:4px 10px; font-size:0.88rem; font-weight:600; color:var(--cyan-dim); background:rgba(0,212,255,0.04); min-width:120px; outline:none; font-family:'JetBrains Mono',monospace; }
+        .spy-input:focus { border-style:solid; background:rgba(0,212,255,0.08); }
+        .spy-check-btn { background:var(--cyan-dim); color:white; border:none; padding:5px 12px; border-radius:var(--r-sm); cursor:pointer; font-size:0.8rem; font-weight:700; transition:background 0.2s; font-family:'Space Grotesk',sans-serif; }
+        .spy-check-btn:hover { background:var(--dark); }
+        .spy-feedback { font-size:0.8rem; font-weight:700; font-family:'JetBrains Mono',monospace; }
+        .spy-feedback.ok { color:var(--lime); }
+        .spy-feedback.no { color:var(--red); }
+        .spy-score-bar { background:var(--dark); border:1px solid rgba(0,212,255,0.2); border-radius:var(--r-md); padding:18px 26px; margin-top:22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+        .spy-score-label { font-weight:600; color:rgba(255,255,255,0.7); font-family:'JetBrains Mono',monospace; font-size:0.82rem; }
+        .spy-score-display { font-size:1.8rem; font-weight:700; color:var(--cyan); font-family:'JetBrains Mono',monospace; }
+        .spy-reset { background:var(--red); color:white; border:none; padding:7px 16px; border-radius:50px; cursor:pointer; font-weight:700; font-size:0.82rem; transition:background 0.2s; }
+        .spy-reset:hover { background:#cc2040; }
+
+        /* ══ TFNG ══ */
+        .tfng-item { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--r-md); padding:18px 22px; margin-bottom:12px; transition:border-color 0.3s; }
+        .tfng-item.t-correct { border-color:var(--lime); background:rgba(170,255,0,0.04); }
+        .tfng-item.t-wrong   { border-color:var(--red); background:rgba(255,59,92,0.04); }
+        .tfng-stmt { font-size:0.97rem; font-weight:500; color:var(--gray-800); margin-bottom:12px; line-height:1.65; }
+        .tfng-btns { display:flex; gap:10px; flex-wrap:wrap; }
+        .tfng-btn { padding:6px 16px; border-radius:50px; border:1px solid var(--gray-200); background:var(--white); color:var(--gray-600); font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'Space Grotesk',sans-serif; }
+        .tfng-btn:hover { border-color:var(--cyan-dim); color:var(--cyan-dim); }
+        .tfng-btn.selected-correct { background:var(--lime); border-color:var(--lime); color:var(--dark); }
+        .tfng-btn.selected-wrong   { background:var(--red); border-color:var(--red); color:white; }
+        .tfng-btn.show-correct     { background:var(--lime); border-color:var(--lime); color:var(--dark); }
+        .tfng-explain { display:none; margin-top:10px; font-size:0.84rem; color:var(--gray-600); padding:10px 14px; background:var(--gray-100); border-radius:var(--r-sm); border-left:3px solid var(--cyan); font-family:'JetBrains Mono',monospace; }
+        .tfng-explain.visible { display:block; }
+
+        /* ══ PRACTICE LIST ══ */
+        .practice-list {
+            list-style: none; display: flex; flex-direction: column;
+            gap: 14px; margin-top: 22px; counter-reset: prac;
+        }
+
+        .practice-list li {
+            background: var(--white); padding: 15px 18px 15px 50px;
+            border-radius: var(--r-sm); border: 1px solid var(--gray-200);
+            font-size: 0.97rem; position: relative; line-height: 1.7;
+        }
+
+        .practice-list li::before {
+            counter-increment: prac; content: counter(prac, decimal-leading-zero);
+            position: absolute; left: 16px; top: 15px;
+            font-weight: 700; color: var(--cyan-dim); font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 80px;
+            border-bottom: 2px dashed var(--gray-400);
+            color: var(--cyan-dim); font-weight: 600; padding: 0 6px;
+            text-align: center; background: rgba(0,212,255,0.04);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9em;
+        }
+        .blank-input:focus { border-bottom-color: var(--cyan-dim); outline: none; background: rgba(0,212,255,0.09); }
+
+        /* ══ CALLOUTS ══ */
+        .callout {
+            padding: 14px 18px; border-radius: var(--r-sm); margin: 14px 0;
+            font-size: 0.9rem; line-height: 1.65; border-left: 3px solid;
+        }
+        .callout-cyan  { background: rgba(0,212,255,0.07); border-color: var(--cyan); }
+        .callout-lime  { background: rgba(170,255,0,0.07); border-color: var(--lime); }
+        .callout-red   { background: rgba(255,59,92,0.07); border-color: var(--red); }
+        .callout-amber { background: rgba(255,184,0,0.08); border-color: var(--amber); }
+
+        /* ══ DEBATE TILES ══ */
+        .debate-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px; margin-top: 22px;
+        }
+
+        .debate-card {
+            background: var(--dark); border-radius: var(--r-md);
+            padding: 22px; border: 1px solid rgba(0,212,255,0.12);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .debate-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-2px); }
+        .debate-card:nth-child(2) { border-color: rgba(170,255,0,0.12); }
+        .debate-card:nth-child(2):hover { border-color: rgba(170,255,0,0.35); }
+        .debate-card:nth-child(3) { border-color: rgba(255,59,92,0.12); }
+        .debate-card:nth-child(3):hover { border-color: rgba(255,59,92,0.3); }
+        .debate-card:nth-child(4) { border-color: rgba(255,184,0,0.12); }
+        .debate-card:nth-child(4):hover { border-color: rgba(255,184,0,0.3); }
+
+        .debate-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--cyan); margin-bottom: 8px; display: block;
+        }
+        .debate-card:nth-child(2) .debate-label { color: var(--lime); }
+        .debate-card:nth-child(3) .debate-label { color: var(--red); }
+        .debate-card:nth-child(4) .debate-label { color: var(--amber); }
+
+        .debate-q { color: rgba(255,255,255,0.8); font-size: 0.92rem; line-height: 1.6; }
+
+        /* ══ FLOWCHART ══ */
+        .flowchart {
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            margin: 24px 0; background: var(--dark);
+            padding: 36px 28px; border-radius: var(--r-xl);
+            border: 1px solid rgba(0,212,255,0.12);
+        }
+
+        .flow-bubble {
+            background: rgba(255,255,255,0.06); padding: 13px 26px;
+            border-radius: 50px; font-weight: 600; color: rgba(255,255,255,0.85);
+            border: 1px solid rgba(0,212,255,0.3);
+            text-align: center; max-width: 540px; font-size: 0.93rem;
+        }
+        .flow-bubble.b-lime  { border-color: rgba(170,255,0,0.4); }
+        .flow-bubble.b-amber { border-color: rgba(255,184,0,0.4); background: rgba(255,184,0,0.08); }
+
+        .flow-arrow { color: rgba(255,255,255,0.25); font-size: 1.4rem; line-height: 1; }
+
+        /* ══ PRON ══ */
+        .pron-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px; margin-top: 22px;
+        }
+
+        .pron-box { background:var(--dark); border-radius:var(--r-md); padding:22px; text-align:center; border:1px solid rgba(0,212,255,0.12); }
+        .pron-box h4 { font-family:'JetBrains Mono',monospace; color:var(--cyan); font-size:0.9rem; margin-bottom:12px; font-weight:600; }
+        .pron-example { background:rgba(255,255,255,0.05); border-radius:var(--r-sm); padding:9px 11px; margin:7px 0; font-size:0.85rem; }
+        .pron-example .written { color:rgba(255,255,255,0.4); font-size:0.76rem; }
+        .pron-example .spoken  { color:var(--amber); font-weight:600; font-family:'JetBrains Mono',monospace; }
+
+        /* ══ SUM UP ══ */
+        .sum-up-box {
+            background: var(--dark); color: var(--white);
+            padding: 40px; border-radius: var(--r-xl); text-align: center;
+            margin-top: 40px; border: 1px solid rgba(0,212,255,0.2);
+        }
+        .sum-up-box h2 { font-family:'Instrument Serif',serif; color:var(--cyan); margin-bottom:18px; font-size:2rem; }
+        .sum-up-list { list-style:none; margin-top:16px; font-size:0.97rem; line-height:2; }
+
+        /* ══ WHITEBOARD ══ */
+        .whiteboard-container { border:1px solid var(--gray-200); border-radius:var(--r-lg); background:var(--white); overflow:hidden; margin-top:22px; box-shadow:var(--shadow-md); }
+        .wb-toolbar { background:var(--dark); padding:12px 20px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .wb-btn { background:rgba(255,255,255,0.1); color:var(--white); border:1px solid rgba(255,255,255,0.15); padding:6px 12px; border-radius:var(--r-sm); cursor:pointer; font-size:0.8rem; font-weight:600; transition:background 0.2s; font-family:'Space Grotesk',sans-serif; }
+        .wb-btn:hover, .wb-btn.active { background:var(--cyan-dim); border-color:var(--cyan); color:white; }
+        .wb-color { width:28px; height:28px; border-radius:50%; border:2px solid white; cursor:pointer; padding:0; }
+        canvas { display:block; width:100%; height:500px; background:white; cursor:crosshair; }
+
+        /* ══ FABs ══ */
+        .floating-actions { position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:12px; z-index:1000; }
+        .fab-btn { background:var(--cyan-dim); color:white; border:none; width:52px; height:52px; border-radius:50%; font-size:1.3rem; cursor:pointer; box-shadow:var(--shadow-lg); transition:transform 0.2s,background 0.2s; display:flex; align-items:center; justify-content:center; }
+        .fab-btn:hover { transform:translateY(-3px); background:var(--dark); }
+        .fab-btn.quizlet-btn { background:#4255FF; }
+        .fab-btn.quizlet-btn:hover { background:#2839d0; }
+        .fab-btn.reset-btn { background:var(--red); }
+
+        /* ══ MODAL ══ */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(10,10,18,0.8); backdrop-filter:blur(6px); z-index:2000; justify-content:center; align-items:center; }
+        .modal-content { background:var(--white); padding:32px; border-radius:var(--r-xl); width:90%; max-width:600px; box-shadow:var(--shadow-xl); position:relative; }
+        .close-modal { position:absolute; top:16px; right:20px; font-size:1.8rem; cursor:pointer; color:var(--gray-400); transition:color 0.2s; }
+        .close-modal:hover { color:var(--red); }
+        .word-row { display:flex; gap:10px; margin-bottom:10px; }
+        .word-row input { flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:var(--r-sm); font-size:0.95rem; }
+        .word-row input:focus { outline:none; border-color:var(--cyan-dim); box-shadow:0 0 0 2px rgba(0,212,255,0.1); }
+        #wordList { max-height:350px; overflow-y:auto; margin:18px 0; padding-right:8px; }
+
+        /* ══ SYNC ══ */
+        #syncStatus { position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(10,10,18,0.92); color:white; padding:5px 16px; border-radius:50px; font-size:0.78rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(0,212,255,0.2); font-family:'JetBrains Mono',monospace; }
+
+        /* ══ LIVE CURSORS ══ */
+        .remote-cursor { position:absolute; pointer-events:none; z-index:999999; transition:top 0.4s linear,left 0.4s linear; display:flex; align-items:flex-start; opacity:0; animation:fadeInCursor 0.3s forwards; }
+        @keyframes fadeInCursor { to { opacity:1; } }
+        .remote-cursor svg { width:20px; height:20px; transform:rotate(-15deg); filter:drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); }
+        .remote-cursor-label { color:white; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:4px; margin-left:-4px; margin-top:14px; white-space:nowrap; font-family:'JetBrains Mono',monospace; }
+
+        /* ══ RESPONSIVE ══ */
+        @media (max-width:768px) {
+            .hero { min-height:420px; }
+            .hero-content { padding:48px 24px; }
+            .section { padding:52px 16px; }
+            .nav-links { display:none; }
+            canvas { height:360px; }
+            .transform-row { grid-template-columns:1fr; }
+            .tr-arrow { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--amber);border-radius:50%;"></span>
+    <span id="syncText">// connecting...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+    <div class="hero-scanlines"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-terminal" contenteditable="false">
+            <span class="prompt">~/dental-english $</span>
+            <span>lesson_11 --topic="digital-detox"</span>
+            <span class="cursor"></span>
+        </div>
+        <h1 contenteditable="true">Technology &amp;<br><span class="highlight">Digital Detox</span><br><span class="dim">— a dentist's dilemma</span></h1>
+        <p class="hero-sub" contenteditable="true">// Screens are everywhere. In clinics, on our phones, in our patients' hands.<br>// But what are they doing to us — and how is it being talked about?</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">PASSIVE VOICE present + past</span>
+            <span class="hero-chip lime" contenteditable="true">MODAL DEDUCTION revision</span>
+            <span class="hero-chip red" contenteditable="true">VIDEO → Adam Alter / TED2017</span>
+            <span class="hero-chip" contenteditable="true">C1 vocabulary in context</span>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">// dental.english</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--cyan-dim);color:white;padding:4px 10px;font-weight:800;border-radius:50px;font-family:monospace;">+</a></li>
+            <li><a href="#task-1" contenteditable="true">Provocation</a></li>
+            <li><a href="#task-2" contenteditable="true">Hunt</a></li>
+            <li><a href="#task-3" contenteditable="true">Video</a></li>
+            <li><a href="#task-5" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#task-6" contenteditable="true">Grammar</a></li>
+            <li><a href="#task-9" contenteditable="true">Transform</a></li>
+            <li><a href="#task-12" contenteditable="true">Debate</a></li>
+            <li><a href="#task-14" contenteditable="true">Role-Play</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══════════ TASK 1 — PROVOCATION (no warm-up chitchat) ══════════ -->
+<section class="section" id="task-1">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">01</span> immediate_reaction.exe</div>
+        <h2 class="section-title">Agree, Disagree, or <em>It's complicated?</em></h2>
+        <p class="section-desc" contenteditable="true">No warm-up. No small talk. Read this statement, click your instinctive reaction, and be ready to defend it in 60 seconds.</p>
+
+        <div class="provocation">
+            <div class="provocation-text" contenteditable="true">
+                "Smartphones were designed to be addictive. Our attention is being harvested. And the people who built these devices — they don't let their own children use them."
+            </div>
+            <div class="provocation-source" contenteditable="true">— adapted from Adam Alter, NYU psychologist & author of <em>Irresistible</em> (2017)</div>
+            <div class="react-btns">
+                <button class="react-btn" onclick="selectReaction(this,'agree')">✅ I agree completely</button>
+                <button class="react-btn" onclick="selectReaction(this,'disagree')">❌ That's overstated</button>
+                <button class="react-btn" onclick="selectReaction(this,'complex')">🤔 It's more complex</button>
+            </div>
+        </div>
+
+        <div class="callout callout-cyan" style="margin-top:20px;">
+            <strong>🗣 Now discuss:</strong> Does this statement apply to the dental clinic? Phones are used by patients in waiting rooms and by staff between procedures. Is this a problem? What <em>should be</em> done about it? What <em>can't be</em> ignored?
+        </div>
+
+        <script>
+            function selectReaction(btn, type) {
+                btn.parentElement.querySelectorAll('.react-btn').forEach(b => b.className = 'react-btn');
+                btn.classList.add('selected-' + type);
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ══════════ TASK 2 — PASSIVE HUNT (grammar exposure BEFORE theory) ══════════ -->
+<section class="section" id="task-2">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">02</span> grammar_hunt.detect</div>
+        <h2 class="section-title">Find the <em>Passive</em> — Before We Name It</h2>
+        <p class="section-desc" contenteditable="true">Read this short article. Hover over any phrase highlighted in <span style="color:var(--cyan-dim);font-weight:700;">cyan</span> to see what's happening grammatically. Can you spot the pattern before we formally explain it in Task 6?</p>
+
+        <div class="article-card">
+            <div class="article-header">
+                <span class="article-tag">CLINIC NOTICE</span>
+                <span class="article-source" contenteditable="true">// Digital Wellness Policy — Clinic Aurora, 2024</span>
+            </div>
+            <div class="article-body" contenteditable="false">
+                <p style="margin-bottom:14px;">Following staff feedback, a new digital wellness policy <span class="passive-highlight" data-label="PASSIVE: is + being + set">is being set</span> in place across all clinic departments. Mobile phones <span class="passive-highlight" data-label="PASSIVE: are + required">are required</span> to be stored in lockers during patient contact hours.</p>
+
+                <p style="margin-bottom:14px;">The decision <span class="passive-highlight" data-label="PASSIVE: was made">was made</span> after surveys revealed that 68% of patients felt ignored when clinic staff <span class="passive-highlight" data-label="PASSIVE: were distracted">were distracted</span> by personal devices. Additionally, several complaints <span class="passive-highlight" data-label="PASSIVE: had been filed">had been filed</span> by long-term patients who observed assistants texting during procedures.</p>
+
+                <p style="margin-bottom:14px;">New charging stations <span class="passive-highlight" data-label="PASSIVE: have been installed">have been installed</span> in the staff room. These spaces <span class="passive-highlight" data-label="PASSIVE: are designed">are designed</span> to encourage staff to check personal messages during designated break times only. The policy <span class="passive-highlight" data-label="PASSIVE: will be reviewed">will be reviewed</span> after three months.</p>
+
+                <p>Personal data collected through clinic booking systems <span class="passive-highlight" data-label="PASSIVE: is processed">is processed</span> in accordance with GDPR regulations. Any breaches <span class="passive-highlight" data-label="PASSIVE: must be reported">must be reported</span> to management immediately.</p>
+            </div>
+        </div>
+
+        <div class="callout callout-amber" style="margin-top:18px;">
+            <strong>🔍 Before reading Task 6:</strong> What do all the highlighted phrases have in common structurally? Discuss with your partner and write your hypothesis here: <span class="blank-input" style="min-width:280px;" contenteditable="true"></span>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 3 — VIDEO (early — as the main input) ══════════ -->
+<section class="section" id="task-3">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">03</span> stream.watch --now</div>
+        <h2 class="section-title">Watch First. <em>Analyse Later.</em></h2>
+        <p class="section-desc" contenteditable="true">Watch this 9-minute TED Talk by Adam Alter — psychologist and author of <em>Irresistible</em>. Watch it once without notes. We'll return to it three more times across this lesson. Just absorb it.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube.com/embed/0I4g9JfFzGE?rel=0&modestbranding=1" title="Why our screens make us less happy | Adam Alter | TED2017" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=0I4g9JfFzGE" target="_blank" class="video-link" contenteditable="true">// video not loading? → watch Adam Alter on YouTube</a>
+
+        <div class="callout callout-lime" style="margin-top:18px;">
+            <strong>⚡ Immediate reaction — no notes allowed:</strong> Without looking anything up, tell your partner: What was the most surprising thing Alter said? What <strong>must have surprised</strong> the tech industry about this research? What <strong>can't be</strong> a coincidence about Steve Jobs limiting his children's screen time?
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 4 — INTERACTIVE TFNG (video comprehension) ══════════ -->
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">04</span> comprehension.quiz --interactive</div>
+        <h2 class="section-title">True, False, or <em>Not Given?</em></h2>
+        <p class="section-desc" contenteditable="true">Watch the talk again if needed, then test what you retained. Click your answer for instant feedback. After each question, use a <strong>deductive modal</strong> to explain your reasoning to your partner: <em>"This must mean that..." / "It can't be coincidence that..."</em></p>
+
+        <div id="tfngL11">
+            <div class="tfng-item" id="tfng11-1">
+                <div class="tfng-stmt" contenteditable="true">1. Adam Alter states that Steve Jobs described the iPad as "extraordinary" and "the best browsing experience you've ever had" at its launch.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG11(1,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(1,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(1,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp11-1" contenteditable="true">// TRUE. Alter quotes Jobs almost verbatim from the 2010 iPad launch. He uses this to set up the irony of Jobs then telling a journalist his own children weren't allowed to use it.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng11-2">
+                <div class="tfng-stmt" contenteditable="true">2. According to Alter, the amount of time adults spend in front of screens has doubled since 2007, when the first iPhone was introduced.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG11(2,'T','F')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(2,'F','F')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(2,'NG','F')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp11-2" contenteditable="true">// FALSE. Alter says screen time has increased dramatically since 2007 — but he shows it has more than tripled, not merely doubled. The visual in the talk shows free time being almost entirely consumed.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng11-3">
+                <div class="tfng-stmt" contenteditable="true">3. Alter's research found that apps focused on relaxation, exercise, and education generally make users feel better, while social media and news apps make users less happy.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG11(3,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(3,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(3,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp11-3" contenteditable="true">// TRUE. He presents data showing exactly this divide — "good" apps vs. apps that make people miserable. The catch: people spend THREE TIMES longer on the apps that make them unhappy.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng11-4">
+                <div class="tfng-stmt" contenteditable="true">4. Alter argues that a "stopping cue" is a signal that tells us it is time to stop an activity, and he claims these cues have almost entirely disappeared from modern digital media.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG11(4,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(4,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(4,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp11-4" contenteditable="true">// TRUE. This is one of Alter's central arguments. He contrasts newspapers (which had an end) with infinite scrolling feeds that are specifically engineered to have NO natural stopping point.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng11-5">
+                <div class="tfng-stmt" contenteditable="true">5. Alter recommends that people delete all social media apps from their phones and replace them with books and exercise apps.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG11(5,'T','NG')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(5,'F','NG')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(5,'NG','NG')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp11-5" contenteditable="true">// NOT GIVEN. Alter does not prescribe deleting apps. His solution is more nuanced — creating "stopping cue" moments (like a phone-free dinner table) and being intentional about screen time. He doesn't make specific app recommendations.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng11-6">
+                <div class="tfng-stmt" contenteditable="true">6. Alter mentions a Dutch design firm where desks were designed to physically rise to the ceiling at the end of the workday, forcing employees to disconnect.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG11(6,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(6,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG11(6,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp11-6" contenteditable="true">// TRUE. He describes this Dutch company as a positive example of businesses creating external "stopping cues" so that workers are physically prevented from continuing to work — a structural solution rather than a willpower-based one.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 5 — VOCABULARY (contextual, post-video) ══════════ -->
+<section class="section" id="task-5">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">05</span> vocab.unlock --context</div>
+        <h2 class="section-title">Words You've Just <em>Heard</em></h2>
+        <p class="section-desc" contenteditable="true">These eight words all appeared in Alter's talk or the clinic notice (Task 2). You've already encountered them in context — now hover to lock in their precise C1 definitions. Then find the sentence in the article or talk where each was used.</p>
+
+        <div class="vocab-inline-grid">
+            <div class="vocab-inline-card vic1">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Stopping cue</div></div>
+                <div class="vic-def">A signal — environmental or structural — that naturally indicates an activity has ended and it is time to move on. Alter argues these have been engineered out of modern digital media.</div>
+            </div>
+            <div class="vocab-inline-card vic2">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Dogfooding</div></div>
+                <div class="vic-def">A business practice of using one's own products to demonstrate confidence in them. Alter uses it to highlight the hypocrisy of tech executives who sell addictive devices but ban them at home.</div>
+            </div>
+            <div class="vocab-inline-card vic3">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Screen time</div></div>
+                <div class="vic-def">The total amount of time spent using devices with screens — smartphones, tablets, computers. Alter shows this has expanded to consume almost all of adults' discretionary free time since 2007.</div>
+            </div>
+            <div class="vocab-inline-card vic4">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Discretionary</div></div>
+                <div class="vic-def">Available for personal use or choice; not committed to any fixed obligation. Alter's "white space" — the sliver of time left after work, sleep, and survival — is our discretionary time.</div>
+            </div>
+            <div class="vocab-inline-card vic5">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">verb</div><div class="vic-word">To be harvested</div></div>
+                <div class="vic-def">In the context of data and attention: to be systematically collected and exploited by a third party — usually tech companies — without the individual fully consenting or understanding the process. Passive form used deliberately.</div>
+            </div>
+            <div class="vocab-inline-card vic6">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Compliance</div></div>
+                <div class="vic-def">Here: the extent to which a policy is followed. Used in the clinic notice — "compliance with the new digital wellness policy." Same word as Lesson 8 (patient dietary compliance), different context.</div>
+            </div>
+            <div class="vocab-inline-card vic7">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Behavioural addiction</div></div>
+                <div class="vic-def">An addiction to an activity or behaviour (not a substance) — scrolling, gaming, online shopping — driven by immediate reward and compulsive return despite negative consequences. Alter's central concept.</div>
+            </div>
+            <div class="vocab-inline-card vic8">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Designated</div></div>
+                <div class="vic-def">Officially assigned or set aside for a specific purpose. From the clinic notice: "designated break times." Commonly used in workplace policies and clinical protocols.</div>
+            </div>
+        </div>
+
+        <div class="callout callout-lime" style="margin-top:18px;">
+            <strong>📝 Quick use:</strong> With your partner, use <em>stopping cue</em>, <em>discretionary</em>, and <em>behavioural addiction</em> in three sentences about a dental patient's phone use. Then report what you said to each other using Reported Speech from Lessons 7–8.
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 6 — GRAMMAR THEORY (emerges after exposure) ══════════ -->
+<section class="section" id="task-6">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">06</span> grammar.theory --passive_voice</div>
+        <h2 class="section-title">Now We <em>Name It</em> — The Passive Voice</h2>
+        <p class="section-desc" contenteditable="true">You've already spotted it in Task 2. Now let's formalise the rules. The passive voice shifts the focus from <em>who does</em> something to <em>what happens</em> — essential in clinical writing, formal notices, and academic English.</p>
+
+        <!-- Structure formula -->
+        <div style="background:var(--dark);border-radius:var(--r-lg);padding:28px 32px;margin:24px 0;border:1px solid rgba(0,212,255,0.15);text-align:center;">
+            <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:2px;" contenteditable="true">// PASSIVE FORMULA</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--white);letter-spacing:1px;" contenteditable="true">
+                <span style="color:var(--lime);">Subject</span> + 
+                <span style="color:var(--cyan);">to be (conjugated)</span> + 
+                <span style="color:var(--amber);">past participle (V3)</span> + 
+                <span style="color:rgba(255,255,255,0.4);">[by + agent — optional]</span>
+            </p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:12px;" contenteditable="true">
+                → The phone <span style="color:var(--lime);">was</span> <span style="color:var(--amber);">confiscated</span> [by the dentist].
+            </p>
+        </div>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Tense</th>
+                    <th contenteditable="true">Passive Structure</th>
+                    <th contenteditable="true">Clinic / Tech Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Present Simple</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">is / are + V3</span></td>
+                    <td contenteditable="true">Patient data <strong>is stored</strong> securely on encrypted servers.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Present Continuous</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">is / are being + V3</span></td>
+                    <td contenteditable="true">New booking software <strong>is being installed</strong> this week.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Present Perfect</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">has / have been + V3</span></td>
+                    <td contenteditable="true">The digital wellness policy <strong>has been approved</strong> by management.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Simple</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">was / were + V3</span></td>
+                    <td contenteditable="true">The patient's phone <strong>was confiscated</strong> during surgery.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Continuous</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">was / were being + V3</span></td>
+                    <td contenteditable="true">Complaints <strong>were being filed</strong> every week before the new policy.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Perfect</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">had been + V3</span></td>
+                    <td contenteditable="true">The new scanner <strong>had been ordered</strong> three months before it arrived.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Modal + Passive</strong></td>
+                    <td contenteditable="true"><span class="pass-tag">modal + be + V3</span></td>
+                    <td contenteditable="true">All devices <strong>must be stored</strong> during patient contact hours.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="font-family:'Instrument Serif',serif;color:var(--dark);margin:28px 0 14px;font-size:1.4rem;" contenteditable="true">When do we USE the passive?</h3>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Reason to Use Passive</th>
+                    <th contenteditable="true">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">The agent (doer) is <strong>unknown</strong></td>
+                    <td contenteditable="true">Three complaints <strong>were filed</strong> last week. (We don't know who filed them)</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">The agent is <strong>obvious/unimportant</strong></td>
+                    <td contenteditable="true">The patient <strong>was referred</strong> to a specialist. (obviously, by the dentist)</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Formal, objective, <strong>scientific/clinical writing</strong></td>
+                    <td contenteditable="true">A digital detox policy <strong>has been implemented</strong> across 12 clinics.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">To <strong>emphasise the action/result</strong> over the doer</td>
+                    <td contenteditable="true">Our attention <strong>is being harvested</strong> by tech companies. (Alter's framing)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-red" style="margin-top:16px;">
+            <strong>🔗 Connection to Lesson 10 (revision):</strong> Alter says "our attention is being harvested." What deductive modal would you use if you were a journalist discovering this practice for the first time? <em>"This must be deliberate..." / "Tech executives can't have been unaware..." / "This might have been going on for years..."</em> — Practice one deduction per pair right now.
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 7 — PASSIVE TRANSFORMER (interactive) ══════════ -->
+<section class="section" id="task-7">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">07</span> passive_transformer.build</div>
+        <h2 class="section-title">Active → <em>Passive</em></h2>
+        <p class="section-desc" contenteditable="true">See the transformation pattern clearly. Study these side-by-side pairs from the clinic and tech world — then write your own passive transformations in the blank cells.</p>
+
+        <div class="transformer-grid">
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">The clinic <strong>stores</strong> all patient data on encrypted servers.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Present Simple)</span><p contenteditable="true">All patient data <strong>is stored</strong> on encrypted servers [by the clinic].</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">Tech companies <strong>are designing</strong> apps to eliminate stopping cues.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Present Continuous)</span><p contenteditable="true">Apps <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> to eliminate stopping cues.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">Management <strong>has approved</strong> the new digital wellness policy.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Present Perfect)</span><p contenteditable="true">The new digital wellness policy <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> by management.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">Steve Jobs <strong>limited</strong> his children's access to iPads.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Past Simple)</span><p contenteditable="true">His children's access to iPads <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> by Jobs.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">The hospital <strong>had installed</strong> CCTV before the theft occurred.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Past Perfect)</span><p contenteditable="true">CCTV <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> before the theft occurred.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">Staff <strong>must switch off</strong> all devices during surgical procedures.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Modal)</span><p contenteditable="true">All devices <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> during surgical procedures.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 8 — ERROR SPY (hides grammar + vocab revision) ══════════ -->
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">08</span> error_spy.scan --passive+vocab</div>
+        <h2 class="section-title">🕵️ Error Spy — <em>Grammar & Vocabulary</em></h2>
+        <p class="section-desc" contenteditable="true">Each sentence contains one error — either a <strong>wrongly formed passive</strong> OR a <strong>wrong vocabulary word</strong>. Click the highlighted error, type the correction, then Check. This task also secretly audits modals (L9) and finance vocab (L10) — stay sharp.</p>
+
+        <div id="spyGameL11">
+            <!-- 1: passive error: was gave → was given -->
+            <div class="spy-sentence" id="spy11-1">
+                <span class="spy-num" contenteditable="false">01</span>
+                <div class="spy-text" contenteditable="false">Patients <span class="wrong-word" onclick="revealSpy11(1)">was gave</span> a digital consent form to complete before their appointment, in compliance with the new GDPR-aligned booking system.
+                    <div class="spy-input-wrap" id="wrap11-1"><input class="spy-input" id="input11-1" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(1)"><button class="spy-check-btn" onclick="checkSpy11(1)">Check</button><span class="spy-feedback" id="fb11-1"></span></div>
+                </div>
+            </div>
+            <!-- 2: vocab error: stopping signal → stopping cue -->
+            <div class="spy-sentence" id="spy11-2">
+                <span class="spy-num" contenteditable="false">02</span>
+                <div class="spy-text" contenteditable="false">Alter argued that the <span class="wrong-word" onclick="revealSpy11(2)">stopping signal</span> — the natural prompt to end an activity — has been deliberately removed from social media platforms to maximise engagement time.
+                    <div class="spy-input-wrap" id="wrap11-2"><input class="spy-input" id="input11-2" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(2)"><button class="spy-check-btn" onclick="checkSpy11(2)">Check</button><span class="spy-feedback" id="fb11-2"></span></div>
+                </div>
+            </div>
+            <!-- 3: passive error: have been designed → are being designed / wrong tense -->
+            <div class="spy-sentence" id="spy11-3">
+                <span class="spy-num" contenteditable="false">03</span>
+                <div class="spy-text" contenteditable="false">Right now, according to tech insiders, new algorithms <span class="wrong-word" onclick="revealSpy11(3)">have been designed</span> specifically to exploit users' present bias and override their ability to disconnect voluntarily.
+                    <div class="spy-input-wrap" id="wrap11-3"><input class="spy-input" id="input11-3" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(3)"><button class="spy-check-btn" onclick="checkSpy11(3)">Check</button><span class="spy-feedback" id="fb11-3"></span></div>
+                </div>
+            </div>
+            <!-- 4: modal error: must not → don't have to (no obligation, not prohibition) -->
+            <div class="spy-sentence" id="spy11-4">
+                <span class="spy-num" contenteditable="false">04</span>
+                <div class="spy-text" contenteditable="false">Staff <span class="wrong-word" onclick="revealSpy11(4)">must not</span> keep their phones in their pockets during administrative tasks — there's no rule against it, but management encourages locker use during patient contact hours only.
+                    <div class="spy-input-wrap" id="wrap11-4"><input class="spy-input" id="input11-4" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(4)"><button class="spy-check-btn" onclick="checkSpy11(4)">Check</button><span class="spy-feedback" id="fb11-4"></span></div>
+                </div>
+            </div>
+            <!-- 5: passive error: were installed → have been installed (result still present) -->
+            <div class="spy-sentence" id="spy11-5">
+                <span class="spy-num" contenteditable="false">05</span>
+                <div class="spy-text" contenteditable="false">New charging stations <span class="wrong-word" onclick="revealSpy11(5)">were installed</span> in the staff room last week and they are already in use, which suggests the digital detox policy is beginning to take effect.
+                    <div class="spy-input-wrap" id="wrap11-5"><input class="spy-input" id="input11-5" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(5)"><button class="spy-check-btn" onclick="checkSpy11(5)">Check</button><span class="spy-feedback" id="fb11-5"></span></div>
+                </div>
+            </div>
+            <!-- 6: vocab error: overhead → compliance (financial vocab mixed in) -->
+            <div class="spy-sentence" id="spy11-6">
+                <span class="spy-num" contenteditable="false">06</span>
+                <div class="spy-text" contenteditable="false">Patient <span class="wrong-word" onclick="revealSpy11(6)">overhead</span> with the new pre-appointment digital consent form was surprisingly high — 94% of patients completed it within 30 minutes of receiving the link.
+                    <div class="spy-input-wrap" id="wrap11-6"><input class="spy-input" id="input11-6" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(6)"><button class="spy-check-btn" onclick="checkSpy11(6)">Check</button><span class="spy-feedback" id="fb11-6"></span></div>
+                </div>
+            </div>
+            <!-- 7: passive error: by screen time was affected → was affected by screen time -->
+            <div class="spy-sentence" id="spy11-7">
+                <span class="spy-num" contenteditable="false">07</span>
+                <div class="spy-text" contenteditable="false">The quality of the surgeon's concentration <span class="wrong-word" onclick="revealSpy11(7)">by screen time was affected</span> the previous night — a reminder that digital detox has direct implications for patient safety.
+                    <div class="spy-input-wrap" id="wrap11-7"><input class="spy-input" id="input11-7" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(7)"><button class="spy-check-btn" onclick="checkSpy11(7)">Check</button><span class="spy-feedback" id="fb11-7"></span></div>
+                </div>
+            </div>
+            <!-- 8: deduction error: might be → must be (near-certain based on strong evidence) -->
+            <div class="spy-sentence" id="spy11-8">
+                <span class="spy-num" contenteditable="false">08</span>
+                <div class="spy-text" contenteditable="false">Steve Jobs banned iPads at home, Jony Ive limits his children's screen time, and most Silicon Valley executives send their children to Waldorf schools with no screens. It <span class="wrong-word" onclick="revealSpy11(8)">might be</span> deliberate — these insiders know exactly what their products do.
+                    <div class="spy-input-wrap" id="wrap11-8"><input class="spy-input" id="input11-8" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy11(8)"><button class="spy-check-btn" onclick="checkSpy11(8)">Check</button><span class="spy-feedback" id="fb11-8"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spy-score-bar">
+            <div><div class="spy-score-label">// score.current</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:2px;">passive errors, vocab errors, modal errors</div></div>
+            <div class="spy-score-display"><span id="spyScoreL11">0</span> / 8</div>
+            <button class="spy-reset" onclick="resetSpyL11()">↺ reset</button>
+        </div>
+
+        <script>
+            const answersL11={
+                1:'were given',
+                2:'stopping cue',
+                3:'are being designed',
+                4:"don't have to",
+                5:'have been installed',
+                6:'compliance',
+                7:'was affected by screen time',
+                8:'must be'
+            };
+            const solvedL11={};
+            function revealSpy11(n){document.getElementById('wrap11-'+n).classList.add('visible');document.getElementById('input11-'+n).focus();}
+            function checkSpy11(n){
+                if(solvedL11[n])return;
+                const inp=document.getElementById('input11-'+n).value.trim().toLowerCase();
+                const correct=answersL11[n].toLowerCase();
+                const fb=document.getElementById('fb11-'+n);
+                const card=document.getElementById('spy11-'+n);
+                const acceptable=[correct,"don't have to","do not have to","needn't","needn't"];
+                if(acceptable.some(a=>inp===a)||inp===correct){
+                    fb.textContent='✓ correct'; fb.className='spy-feedback ok';
+                    card.classList.add('correct'); solvedL11[n]=true; updateScoreL11();
+                } else {
+                    fb.textContent='✗ retry'; fb.className='spy-feedback no';
+                    card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect');
+                    setTimeout(()=>card.classList.remove('incorrect'),450);
+                }
+            }
+            function updateScoreL11(){document.getElementById('spyScoreL11').textContent=Object.keys(solvedL11).length;}
+            function resetSpyL11(){for(let n=1;n<=8;n++){document.getElementById('wrap11-'+n).classList.remove('visible');document.getElementById('input11-'+n).value='';document.getElementById('fb11-'+n).textContent='';document.getElementById('spy11-'+n).classList.remove('correct','incorrect');}Object.keys(solvedL11).forEach(k=>delete solvedL11[k]);document.getElementById('spyScoreL11').textContent='0';}
+        </script>
+    </div>
+</section>
+
+<!-- ══════════ TASK 9 — CLINIC NOTICE REWRITE (creative grammar use) ══════════ -->
+<section class="section" id="task-9">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">09</span> rewrite.passive --formal</div>
+        <h2 class="section-title">Write the <em>Clinic Notice</em></h2>
+        <p class="section-desc" contenteditable="true">A clinic manager wrote this notice in an informal, first-person style. Your task: rewrite it entirely in a formal, passive voice style — like the notice in Task 2. Transform ALL verbs into the passive. Work with your partner.</p>
+
+        <div class="article-card">
+            <div class="article-header">
+                <span class="article-tag" style="background:rgba(255,59,92,0.2);color:var(--red);border-color:rgba(255,59,92,0.4);">ORIGINAL — INFORMAL / ACTIVE</span>
+                <span class="article-source" contenteditable="true">// needs rewriting</span>
+            </div>
+            <div class="article-body" contenteditable="true" style="color:var(--gray-800);">
+                "We have made a decision to introduce a digital device policy. We will ban all phones during patient treatment. We have ordered new lockers for the staff room and we will install them next Monday. We store all patient data on our server. We are currently testing the new booking app. Patients must not photograph the clinic or staff without permission. We had already warned staff about this issue last month."
+            </div>
+        </div>
+
+        <div class="article-card" style="margin-top:16px;">
+            <div class="article-header">
+                <span class="article-tag">YOUR REWRITE — FORMAL PASSIVE</span>
+                <span class="article-source" contenteditable="true">// Clinic Aurora — Official Notice</span>
+            </div>
+            <div class="article-body" contenteditable="true" style="min-height:120px;color:var(--gray-600);">
+                [Write your formal passive version here...]
+            </div>
+        </div>
+
+        <div class="callout callout-cyan" style="margin-top:14px;">
+            <strong>💡 Tip:</strong> Not every verb needs to be passivised. Ask: does it sound more formal and objective in passive? Good passive notice → focus on what <em>happens</em>, not who does it. Share your version with another pair and compare choices.
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 10 — PRONUNCIATION ══════════ -->
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">10</span> pronunciation.passive_stress</div>
+        <h2 class="section-title">Where Does <em>Stress Fall</em> in Passive Phrases?</h2>
+        <p class="section-desc" contenteditable="true">Based on Avery & Ehrlich's <em>Teaching American English Pronunciation</em>: in passive constructions, the main stress falls on the <strong>past participle (V3)</strong> — not on the auxiliary verb "be." This is the opposite of how many students instinctively say it.</p>
+
+        <div class="pron-grid">
+            <div class="pron-box">
+                <h4 contenteditable="true">Present Passive — stress on V3</h4>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Written: "It is STORED on the server."</div>
+                    <div class="spoken" contenteditable="true">Spoken: "It is STORED /stɔːrd/ on the server."</div>
+                </div>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Not: "It IS stored..." (unless contrasting tenses)</div>
+                    <div class="spoken" contenteditable="true">"Data IS stored, not WAS stored."</div>
+                </div>
+            </div>
+            <div class="pron-box">
+                <h4 contenteditable="true">Past Passive — was/were unstressed</h4>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Written: "The phone was CONFISCATED."</div>
+                    <div class="spoken" contenteditable="true">Spoken: "/wəz/ kən-FIS-keɪ-tɪd" (was = schwa)</div>
+                </div>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Natural fast speech: "was" reduces to /wəz/</div>
+                    <div class="spoken" contenteditable="true">"It /wəz/ DONE before I arrived."</div>
+                </div>
+            </div>
+            <div class="pron-box">
+                <h4 contenteditable="true">Perfect Passive — "been" reduces</h4>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Written: "It has been APPROVED."</div>
+                    <div class="spoken" contenteditable="true">Spoken: "It /həz bɪn/ ə-PROOVD"</div>
+                </div>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">"has been" → /həzbɪn/ — very fast, unstressed</div>
+                    <div class="spoken" contenteditable="true">"The policy /həzbɪn/ CHANGED." </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout callout-amber" style="margin-top:18px;">
+            <strong>🎤 Rapid-fire drill:</strong> One partner reads the active version. The other must instantly produce the passive with correct stress — no pausing.<br><br>
+            Active: "They stored the data." → Passive: "The data <strong>was STORED</strong>."<br>
+            Active: "Management approved it." → <em>[you say the passive]</em><br>
+            Active: "Alter discovered this pattern." → <em>[passive]</em><br>
+            Active: "Tech companies are harvesting our attention." → <em>[passive]</em>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 11 — VIDEO REVISIT + REPORTED PASSIVE ══════════ -->
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">11</span> video.revisit --reported_passive</div>
+        <h2 class="section-title">Watch Again: <em>Report It In Passive</em></h2>
+        <p class="section-desc" contenteditable="true">Watch the last 3 minutes of Alter's talk (approx 06:00–09:19). This time, your task is to report what he says using <strong>passive + reported speech combined</strong> — the most sophisticated C1 grammar synthesis.</p>
+
+        <div class="callout callout-cyan" style="margin-bottom:20px;">
+            <strong>🎯 The C1 challenge:</strong> Instead of "Alter said that tech companies are harvesting our attention", report it in passive:
+            <em>"Alter argued that our attention <strong>is being harvested</strong> by tech companies."</em> — the passive shifts the focus to what's happening TO us, not who's doing it. This is exactly how critical academic writing works.
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">Alter claims screens have stolen our "white space." Report this using passive: <em>"Our discretionary time <span class="blank-input" style="min-width:200px;"></span> by screens, according to Alter."</em></div></li>
+            <li><div contenteditable="true">He describes how Daimler deletes employees' emails during vacation. Report in passive: <em>"Alter explained that emails <span class="blank-input" style="min-width:200px;"></span> by the company to allow genuine rest."</em></div></li>
+            <li><div contenteditable="true">He says the Dutch firm's desks rise to the ceiling. Report in passive: <em>"Alter stated that in that company, desks <span class="blank-input" style="min-width:200px;"></span> at the end of each workday."</em></div></li>
+            <li><div contenteditable="true">He says apps without stopping cues are <em>designed</em> to keep you engaged. Write the full reported passive sentence yourself: <span class="blank-input" style="min-width:320px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ══════════ TASK 12 — DEBATE (confrontational, not polite Q&A) ══════════ -->
+<section class="section" id="task-12">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">12</span> debate.launch --no_easy_answers</div>
+        <h2 class="section-title">Four Corners <em>Debate</em></h2>
+        <p class="section-desc" contenteditable="true">Each corner represents a radical position. You must defend the one you're assigned — whether you personally agree or not. Use today's vocabulary, passive voice, and deductive modals throughout.</p>
+
+        <div class="debate-grid">
+            <div class="debate-card">
+                <span class="debate-label">// CORNER A — BAN IT</span>
+                <p class="debate-q" contenteditable="true">"Phones <strong>must be banned</strong> from all clinical spaces entirely. Patient data <strong>is compromised</strong> every time a personal device is used near medical systems. No exceptions."</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--lime);">// CORNER B — TECH IS NEUTRAL</span>
+                <p class="debate-q" contenteditable="true">"Technology itself is neutral. The same phones that <strong>are being blamed</strong> for distraction <strong>are used</strong> to save lives via emergency protocols. The problem isn't screens — it's poor self-regulation."</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--red);">// CORNER C — SYSTEMIC PROBLEM</span>
+                <p class="debate-q" contenteditable="true">"These addictive patterns <strong>were deliberately engineered</strong> by tech companies. Individual willpower <strong>can't be expected</strong> to fix a system-level problem. Regulation <strong>must be imposed</strong> on the industry."</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--amber);">// CORNER D — DETOX IS PRIVILEGE</span>
+                <p class="debate-q" contenteditable="true">"Digital detox <strong>is only practiced</strong> by the wealthy. For nurses, dentists, and front-line workers, being reachable <strong>is required</strong> at all hours. The detox conversation <strong>has been dominated</strong> by people who can afford to disconnect."</p>
+            </div>
+        </div>
+
+        <div class="callout callout-lime" style="margin-top:18px;">
+            <strong>📋 Debate rules:</strong> Each person speaks for 90 seconds defending their corner. Others may challenge. Use passive voice at least twice. Use a deductive modal at least once. Report what your opponent said using Reported Speech in your rebuttal.
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 13 — CLINIC POLICY ROLE-PLAY ══════════ -->
+<section class="section" id="task-13">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">13</span> roleplay.meeting --policy_crisis</div>
+        <h2 class="section-title">The Emergency <em>Staff Meeting</em></h2>
+        <p class="section-desc" contenteditable="true">A video has been leaked online showing a dental assistant scrolling TikTok during a patient procedure at Clinic Aurora. Management has called an emergency meeting. Act out the following scenario.</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>Clinic Manager:</strong> Open the meeting. Use passive to report what happened: <em>"A video has been posted online showing..."</em> State that an investigation <em>is being launched</em>.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-lime" contenteditable="true"><strong>Senior Dentist:</strong> Express outrage. Use deduction: <em>"This must have been filmed weeks ago... Staff can't have been unaware of the policy..."</em></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Accused Assistant:</strong> Defend yourself using passive to deflect agency: <em>"I was never properly trained on the policy... The lockers weren't made accessible until..."</em></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-amber" contenteditable="true"><strong>HR Representative:</strong> Intervene. Use formal passive language: <em>"A formal warning will be issued... The policy must be reviewed... All staff will be required to..."</em></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>DEBRIEF (everyone):</strong> Now report the entire meeting to an absent colleague using Reported Speech + Passive: <em>"The manager stated that an investigation had been launched... The assistant claimed she hadn't been trained... HR confirmed that warnings would be issued..."</em></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 14 — GRAND FINALE (synthesis tiles) ══════════ -->
+<section class="section" id="task-14">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">14</span> synthesis.final --60sec</div>
+        <h2 class="section-title">The Last <em>60 Seconds</em></h2>
+        <p class="section-desc" contenteditable="true">Pick a tile. You have 60 seconds to speak fluently — incorporating passive voice, a deductive modal, and at least one piece of vocabulary from today's lesson. Go.</p>
+
+        <div class="debate-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+            <div class="debate-card">
+                <span class="debate-label">// PASSIVE + DEDUCTION</span>
+                <p class="debate-q" contenteditable="true">The clinic notice in Task 2 was written entirely in passive voice. Why <em>must</em> formal clinical writing be written this way? What would <em>be lost</em> if it were written actively?</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--lime);">// TECH + DENTISTRY</span>
+                <p class="debate-q" contenteditable="true">Alter argued that our attention <em>is being harvested</em>. How does this apply specifically to dental patients in the waiting room? What <em>should be done</em> about it by clinics?</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--red);">// ETHICS</span>
+                <p class="debate-q" contenteditable="true">The assistant in Task 13 said she <em>was never properly trained</em>. Does this shift moral responsibility? What <em>should have been</em> communicated to staff before the policy <em>was implemented</em>?</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--amber);">// PERSONAL</span>
+                <p class="debate-q" contenteditable="true">How much of your own discretionary time <em>is being consumed</em> by screens right now? What <em>might be lost</em> because of this? What <em>could be changed</em> — and hasn't been?</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label">// GLOBAL PICTURE</span>
+                <p class="debate-q" contenteditable="true">The Dutch firm's desks <em>were designed</em> to rise at the end of the workday. This solution <em>was created</em> structurally, not through willpower. What structural solutions <em>could be implemented</em> in your clinic or home?</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--lime);">// PROVOCATEUR</span>
+                <p class="debate-q" contenteditable="true">Alter said apps <em>are being designed</em> to be addictive. Does this mean tech executives <em>must be held</em> legally responsible for screen addiction? Or <em>can't responsibility be assigned</em> to a single actor?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ WHITEBOARD ══════════ -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">15</span> whiteboard.open</div>
+        <h2 class="section-title">Teacher's <em>Space</em></h2>
+        <p class="section-desc" contenteditable="true">Draw passive formula diagrams, map the stopping cue concept, or annotate the clinic notice here.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#00D4FF" title="colour">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--red);" contenteditable="true">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ SUM UP ══════════ -->
+<section class="section">
+    <div class="section-inner">
+        <div class="sum-up-box">
+            <h2 contenteditable="true">Lesson 11 Complete. 📱✓</h2>
+            <p style="color:rgba(255,255,255,0.6);font-family:'JetBrains Mono',monospace;font-size:0.82rem;" contenteditable="true">// session_summary.log</p>
+            <ul class="sum-up-list">
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> Stopping cue, dogfooding, screen time, discretionary, to be harvested, compliance, behavioural addiction, designated.</li>
+                <li contenteditable="true">✅ <strong>Grammar Revision:</strong> Deductive modals (must be / can't be / might be + have + V3) woven through debate, comprehension, and error-spy tasks.</li>
+                <li contenteditable="true">✅ <strong>Grammar (New):</strong> Passive Voice — present simple, continuous, perfect; past simple, continuous, perfect; modal passive. When & why to use passive in clinical English.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Stress on V3 in passive phrases; was/were/has been reduced in fast speech.</li>
+                <li contenteditable="true">✅ <strong>C1 Synthesis:</strong> Passive + Reported Speech combined — the most advanced pattern in clinical academic writing.</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> Debating tech ethics, running a clinic crisis meeting, writing formal passive notices.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ FABs ══════════ -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Quizlet">📝</button>
+    <button class="fab-btn" onclick="window.saveAsPDF()" title="Save PDF">💾</button>
+    <button class="fab-btn reset-btn" onclick="window.resetLesson()" title="Reset">🔄</button>
+</div>
+
+<!-- ══════════ QUIZLET MODAL ══════════ -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:'Instrument Serif',serif;color:var(--dark);">Quizlet Exporter</h2>
+        <p style="margin-top:8px;font-size:0.9rem;color:var(--gray-600);">Add words and translations, then copy into Quizlet Import.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:18px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex:1;text-align:center;background:var(--cyan-dim);border-color:var(--cyan-dim);">+ Add</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn" style="flex:2;text-align:center;background:#4255FF;border-color:#4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // Ctrl+H highlight
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(0,212,255,0.35)');
+        }
+    });
+
+    // Whiteboard
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#00D4FF', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear();
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "16px 'Space Grotesk', Arial, sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if (window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        if (currentTool==='pencil'||currentTool==='highlight') {
+            ctx.lineTo(p.x,p.y);
+            ctx.strokeStyle=currentTool==='highlight'?currentColor+'44':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?14:2;
+            ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if (window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing=false; if (window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') { ctx.strokeRect(startX,startY,ex-startX,ey-startY); }
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool==='arrow') {
+            const hl=14,ang=Math.atan2(ey-startY,ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));
+            ctx.stroke();
+        }
+    }
+
+    // TFNG
+    const tfngAnswersL11={1:'T',2:'F',3:'T',4:'T',5:'NG',6:'T'};
+    const tfngSolvedL11={};
+    function checkTFNG11(n,choice,correct) {
+        if(tfngSolvedL11[n])return;
+        const item=document.getElementById('tfng11-'+n);
+        const exp=document.getElementById('exp11-'+n);
+        const btns=item.querySelectorAll('.tfng-btn');
+        btns.forEach(b=>{const v=b.textContent.split(' ')[0];if(v===correct||(correct==='NG'&&b.textContent.includes('NOT')))b.classList.add('show-correct');});
+        if(choice===correct){item.classList.add('t-correct');btns.forEach(b=>{const v=b.textContent.split(' ')[0];if(v===choice||(choice==='NG'&&b.textContent.includes('NOT')))b.classList.add('selected-correct');});}
+        else{item.classList.add('t-wrong');btns.forEach(b=>{const v=b.textContent.split(' ')[0];if(v===choice||(choice==='NG'&&b.textContent.includes('NOT')))b.classList.add('selected-wrong');});}
+        exp.classList.add('visible'); tfngSolvedL11[n]=true;
+    }
+
+    // PDF
+    window.saveAsPDF=()=>{
+        document.getElementById('floatingActions').style.display='none';
+        document.getElementById('syncStatus').style.display='none';
+        const el=document.body;
+        html2pdf().set({
+            margin:0,filename:'Lesson-11-Technology-PassiveVoice.pdf',
+            image:{type:'jpeg',quality:0.97},
+            html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},
+            jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}
+        }).from(el).save().then(()=>{
+            document.getElementById('floatingActions').style.display='flex';
+            document.getElementById('syncStatus').style.display='flex';
+        });
+    };
+
+    // Quizlet
+    window.openQuizletModal=()=>document.getElementById('quizletModal').style.display='flex';
+    window.closeQuizletModal=()=>document.getElementById('quizletModal').style.display='none';
+    window.addWordRow=()=>{
+        const row=document.createElement('div');row.className='word-row';
+        row.innerHTML='<input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans">';
+        const wl=document.getElementById('wordList');wl.appendChild(row);wl.scrollTop=wl.scrollHeight;
+    };
+    window.copyForQuizlet=()=>{
+        let out='';
+        document.querySelectorAll('.word-row').forEach(r=>{
+            const w=r.querySelector('.q-word').value.trim(),t=r.querySelector('.q-trans').value.trim();
+            if(w||t)out+=`${w}\t${t}\n`;
+        });
+        const btn=document.getElementById('copyQuizletBtn');
+        if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.innerText='✓ copied';setTimeout(()=>btn.innerText='📋 Copy for Quizlet',3000);}
+        else{btn.innerText='⚠ add words first';setTimeout(()=>btn.innerText='📋 Copy for Quizlet',3000);}
+    };
+
+    // Nav
+    document.getElementById('navTabsContainer').addEventListener('click',e=>{
+        if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){
+            e.preventDefault();
+            const id=e.target.getAttribute('href');
+            if(id&&id.startsWith('#')&&id.length>1){const el=document.querySelector(id);if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});}
+        }
+    });
+
+    window.scrollToWhiteboard=()=>{
+        const el=document.getElementById('whiteboard');
+        if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});
+    };
+</script>
+
+<!-- ══════════ FIREBASE ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'dental-b2c1-lesson11-tech-passive-v1';
+
+    const statusText=document.getElementById('syncText');
+    const statusDot=document.getElementById('syncDot');
+    function setStatus(t,c){if(statusText)statusText.innerText=t;if(statusDot)statusDot.style.background=c;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null,isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Student';
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    const originalStates={};
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;originalStates['edit-'+i]=el.innerHTML;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('// auth_failed','#FF3B5C'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Student '+(snap.size+1);
+                setStatus('// live_sync.on','#00D4FF');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Student '+(Math.floor(Math.random()*99)+1);
+                setStatus('// live_sync.on','#00D4FF');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('// disconnected','#FF3B5C');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        window.addNewTab=e=>{
+            e.preventDefault();
+            const container=document.getElementById('navTabsContainer');
+            const li=document.createElement('li');
+            const newId='edit-tab-'+Date.now();
+            li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${newId}">// tab</a>`;
+            container.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if(currentUser)setDoc(textRef,{'nav_tabs_structure':container.innerHTML},{merge:true});
+        };
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(syncId==='nav_tabs_structure'){
+                    const c=document.getElementById('navTabsContainer');
+                    if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable="true"]').forEach(a=>window.attachEditableListeners(a));}
+                    continue;
+                }
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        document.addEventListener('paste',e=>{
+            const target=e.target;
+            if(!target.closest('[contenteditable="true"]'))return;
+            const items=(e.clipboardData||window.clipboardData).items;
+            for(let idx in items){
+                const item=items[idx];
+                if(item.kind==='file'&&item.type.startsWith('image/')){
+                    e.preventDefault();
+                    const blob=item.getAsFile(),reader=new FileReader();
+                    reader.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;if(w>800){h*=800/w;w=800;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);const url=c.toDataURL('image/jpeg',0.8);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><img src="${url}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);target.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};
+                    reader.readAsDataURL(blob);return;
+                }
+            }
+            const txt=(e.clipboardData||window.clipboardData).getData('text');
+            if(txt){
+                const yt=txt.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                if(yt&&yt[1]){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:16px;margin:16px 0;"><iframe src="https://www.youtube.com/embed/${yt[1]}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div><p><br></p>`);target.dispatchEvent(new Event('input',{bubbles:true}));return;}
+                const urlRx=/^(https?:\/\/[^\s]+)$/i;
+                if(urlRx.test(txt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${txt.trim()}" target="_blank" style="color:var(--cyan-dim);text-decoration:underline;" contenteditable="false">${txt.trim()}</a>`);target.dispatchEvent(new Event('input',{bubbles:true}));}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container=document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{if(!currentUser)return;setDoc(myRef,{xOffset:e.pageX-window.innerWidth/2,y:e.pageY,color:myCursorColor,name:myCursorName,timestamp:Date.now()});},400));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                let el=document.getElementById('cursor-'+id);
+                if(!el){el=document.createElement('div');el.id='cursor-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${data.color}">${data.name}</div>`;container.appendChild(el);}
+                el.style.left=(window.innerWidth/2+data.xOffset)+'px';
+                el.style.top=data.y+'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+
+    window.resetLesson=async()=>{
+        if(!currentUser)return;
+        if(!confirm('// reset lesson for all users?'))return;
+        setStatus('// resetting...','#FFB800');
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        await deleteDoc(textRef);
+        const ts=Date.now();window.lastClear=ts;
+        await setDoc(wbRef,{clearTimestamp:ts,image:null});
+        document.querySelectorAll('.word-row input').forEach(i=>i.value='');
+        setTimeout(()=>setStatus('// live_sync.on','#00D4FF'),1000);
+    };
+</script>
+</body>
+</html>
