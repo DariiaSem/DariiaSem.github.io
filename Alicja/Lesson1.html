@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1 — Do We Ever Really Change?</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1A1A2E;
+  --ink-soft:#3D3D5C;
+  --muted:#6B6B8A;
+  --rule:#E0DDD8;
+  --page:#FDFCF8;
+  --warm-white:#FAF8F3;
+  --cream:#F5F0E8;
+  --sand:#EDE8DC;
+  --terracotta:#C4714A;
+  --terra-light:#F0D5C5;
+  --terra-pale:#FBF0EA;
+  --sage:#4A7C6F;
+  --sage-light:#D4E8E3;
+  --sage-pale:#EEF6F4;
+  --dusty-blue:#4A6FA5;
+  --blue-light:#D4E1F7;
+  --blue-pale:#EEF3FB;
+  --gold:#B8922A;
+  --gold-light:#F0E0B0;
+  --gold-pale:#FBF5E6;
+  --r-sm:6px;
+  --r-md:12px;
+  --r-lg:20px;
+  --r-xl:28px;
+  --shadow-card:0 2px 12px rgba(26,26,46,0.08);
+  --shadow-float:0 8px 32px rgba(26,26,46,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--page);color:var(--ink);line-height:1.7;overflow-x:hidden}
+[contenteditable="true"]{outline:none;border-radius:3px;transition:background .18s}
+[contenteditable="true"]:focus,[contenteditable="true"]:hover{background:rgba(74,124,111,0.06);box-shadow:0 0 0 1px rgba(74,124,111,0.15)}
+
+/* ── HERO ── */
+.hero{
+  background:var(--warm-white);border-bottom:1px solid var(--rule);
+  padding:80px 24px 64px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-120px;right:-80px;width:500px;height:500px;
+  border-radius:50%;background:radial-gradient(circle,rgba(196,113,74,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;bottom:-100px;left:-60px;width:400px;height:400px;
+  border-radius:50%;background:radial-gradient(circle,rgba(74,124,111,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-inner{position:relative;z-index:1;max-width:780px;margin:0 auto}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.72rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--terracotta);margin-bottom:24px;
+}
+.hero-eyebrow-dot{width:5px;height:5px;background:var(--terracotta);border-radius:50%}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,6vw,4.4rem);
+  line-height:1.12;letter-spacing:-1px;color:var(--ink);
+  margin-bottom:16px;
+}
+.hero h1 em{font-style:italic;color:var(--terracotta)}
+.hero-sub{
+  font-size:1.05rem;color:var(--muted);max-width:540px;
+  margin:0 auto 36px;font-weight:300;line-height:1.8;
+}
+.hero-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.chip{
+  font-size:0.75rem;font-weight:500;padding:5px 14px;border-radius:50px;
+  border:1px solid var(--rule);background:var(--warm-white);color:var(--muted);
+}
+.chip.terra{background:var(--terra-pale);border-color:var(--terra-light);color:var(--terracotta)}
+.chip.sage{background:var(--sage-pale);border-color:var(--sage-light);color:var(--sage)}
+.chip.gold{background:var(--gold-pale);border-color:var(--gold-light);color:var(--gold)}
+
+/* ── NAV ── */
+.nav{position:sticky;top:0;z-index:200;background:rgba(253,252,248,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule);padding:0 24px}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:50px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px}
+.nav-logo-mark{width:8px;height:8px;background:var(--terracotta);border-radius:50%}
+.nav-links{display:flex;gap:3px;list-style:none;overflow-x:auto;align-items:center}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.79rem;font-weight:500;padding:5px 10px;border-radius:5px;transition:all .18s;white-space:nowrap}
+.nav-links a:hover{color:var(--ink);background:var(--cream)}
+
+/* ── SECTION ── */
+.section{padding:72px 24px}
+.section:nth-child(even){background:var(--warm-white)}
+.section-inner{max-width:880px;margin:0 auto}
+.section-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.section-eyebrow.terra{color:var(--terracotta)}
+.section-eyebrow.sage{color:var(--sage)}
+.section-eyebrow.blue{color:var(--dusty-blue)}
+.section-eyebrow.gold{color:var(--gold)}
+.section-eyebrow::before{content:'';display:block;width:18px;height:1.5px;background:currentColor}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,3vw,2.4rem);color:var(--ink);margin-bottom:10px;letter-spacing:-0.3px;line-height:1.25}
+.section-desc{color:var(--muted);font-size:0.98rem;margin-bottom:32px;max-width:620px;font-weight:300;line-height:1.8}
+
+/* ── BIG QUESTION ── */
+.big-q{
+  background:var(--ink);color:#fff;
+  border-radius:var(--r-xl);padding:48px 40px;margin:0 0 32px;
+  position:relative;overflow:hidden;
+}
+.big-q::after{
+  content:'"';position:absolute;right:32px;bottom:-20px;
+  font-family:'Playfair Display',serif;font-size:14rem;color:rgba(255,255,255,0.05);
+  line-height:1;pointer-events:none;
+}
+.big-q-label{font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:16px}
+.big-q-text{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.35;color:#fff;position:relative;z-index:1;margin-bottom:20px}
+.big-q-text em{color:var(--terra-light);font-style:italic}
+.big-q-prompt{font-size:0.9rem;color:rgba(255,255,255,0.6);font-weight:300;position:relative;z-index:1}
+
+/* ── DISCUSSION CARDS ── */
+.disc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:24px}
+.disc-card{
+  background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);
+  padding:26px;box-shadow:var(--shadow-card);
+  border-top:3px solid var(--rule);
+}
+.disc-card.terra{border-top-color:var(--terracotta)}
+.disc-card.sage{border-top-color:var(--sage)}
+.disc-card.blue{border-top-color:var(--dusty-blue)}
+.disc-card.gold{border-top-color:var(--gold)}
+.disc-card-num{font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.disc-card-q{font-size:0.97rem;color:var(--ink);line-height:1.7;font-weight:400}
+.disc-card-q strong{font-weight:600;color:var(--ink)}
+.disc-card-note{margin-top:12px;font-size:0.83rem;color:var(--muted);font-style:italic;border-top:1px solid var(--rule);padding-top:10px}
+
+/* ── READING BOX ── */
+.reading-box{
+  background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:var(--shadow-card);margin-top:8px;
+}
+.reading-label{
+  background:var(--cream);border-bottom:1px solid var(--rule);
+  padding:12px 22px;font-size:0.72rem;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;
+}
+.reading-body{padding:28px 32px;font-size:0.97rem;line-height:1.9;color:var(--ink-soft)}
+.reading-body p{margin-bottom:16px}
+.reading-body p:last-child{margin-bottom:0}
+.reading-highlight{background:var(--gold-pale);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 var(--r-sm) var(--r-sm) 0;margin:18px 0;font-size:0.95rem;color:var(--ink)}
+
+/* ── DISCOVERY TASK ── */
+.discovery{background:var(--terra-pale);border:1px solid var(--terra-light);border-radius:var(--r-lg);padding:28px;margin:24px 0}
+.discovery-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.discovery-icon{width:36px;height:36px;background:var(--terracotta);border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.discovery-title{font-weight:600;color:var(--ink);font-size:1rem}
+.discovery-sub{font-size:0.83rem;color:var(--muted);margin-top:2px}
+.discovery-body{font-size:0.95rem;color:var(--ink-soft);line-height:1.8}
+.discovery-body strong{font-weight:600;color:var(--ink)}
+
+/* ── GRAMMAR BOX ── */
+.gram-box{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;margin-top:16px;box-shadow:var(--shadow-card)}
+.gram-header{background:var(--ink);color:#fff;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+.gram-header-title{font-family:'Playfair Display',serif;font-size:1.15rem}
+.gram-header-tag{font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+.gram-table{width:100%;border-collapse:collapse;font-size:0.91rem}
+.gram-table thead th{background:var(--cream);color:var(--muted);padding:11px 16px;text-align:left;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--rule)}
+.gram-table tbody td{padding:13px 16px;border-bottom:1px solid var(--rule);color:var(--ink-soft);vertical-align:top}
+.gram-table tbody tr:last-child td{border-bottom:none}
+.gram-table tbody tr:hover{background:var(--warm-white)}
+.gram-eg{font-style:italic;color:var(--ink)}
+.gram-note{font-size:0.82rem;color:var(--muted);margin-top:4px}
+.hl-terra{color:var(--terracotta);font-weight:600}
+.hl-sage{color:var(--sage);font-weight:600}
+.hl-blue{color:var(--dusty-blue);font-weight:600}
+
+/* ── PRACTICE LIST ── */
+.prac-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:20px;counter-reset:pc}
+.prac-item{
+  background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);
+  padding:16px 18px 16px 52px;font-size:0.95rem;position:relative;
+  box-shadow:var(--shadow-card);
+}
+.prac-item::before{
+  counter-increment:pc;content:counter(pc);
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;background:var(--cream);
+  color:var(--terracotta);font-weight:700;font-size:0.8rem;
+  display:flex;align-items:center;justify-content:center;border:1px solid var(--terra-light);
+}
+.blank{
+  display:inline-block;min-width:90px;border-bottom:2px solid var(--rule);
+  color:var(--sage);font-weight:600;padding:0 6px;text-align:center;
+  background:var(--sage-pale);border-radius:3px 3px 0 0;
+}
+.blank:focus{outline:none;border-bottom-color:var(--sage);background:var(--sage-light)}
+
+/* ── VOCAB CARDS ── */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-top:20px}
+.vocab-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow-card);transition:box-shadow .18s}
+.vocab-card:hover{box-shadow:var(--shadow-float)}
+.vocab-word{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);margin-bottom:4px}
+.vocab-pos{font-size:0.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.vocab-def{font-size:0.83rem;color:var(--ink-soft);line-height:1.5;border-top:1px solid var(--rule);padding-top:8px}
+
+/* ── ROLEPLAY FLOWCHART ── */
+.flow{display:flex;flex-direction:column;align-items:center;gap:10px;margin:24px 0;padding:36px;background:var(--cream);border-radius:var(--r-xl);border:1px dashed var(--rule)}
+.flow-bubble{background:#fff;padding:14px 24px;border-radius:50px;font-size:0.93rem;font-weight:500;color:var(--ink);border:1px solid var(--rule);text-align:center;min-width:240px;max-width:480px;box-shadow:var(--shadow-card)}
+.flow-bubble.terra{border-color:var(--terra-light);background:var(--terra-pale);color:var(--terracotta)}
+.flow-bubble.sage{border-color:var(--sage-light);background:var(--sage-pale);color:var(--sage)}
+.flow-arrow{color:var(--rule);font-size:1.3rem;line-height:1}
+.flow-row{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+.flow-col{display:flex;flex-direction:column;align-items:center;gap:10px}
+
+/* ── BOARD TILES ── */
+.board-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:20px}
+.board-tile{
+  background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);
+  padding:20px;font-size:0.9rem;color:var(--ink);font-weight:500;
+  min-height:90px;display:flex;flex-direction:column;justify-content:center;
+  box-shadow:var(--shadow-card);transition:border-color .18s;
+}
+.board-tile:hover{border-color:var(--terracotta)}
+.board-tile .tile-num{font-size:0.68rem;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+
+/* ── ALERT / CALLOUT ── */
+.callout{display:flex;gap:14px;align-items:flex-start;border-radius:var(--r-md);padding:16px 18px;margin:18px 0}
+.callout.terra{background:var(--terra-pale);border:1px solid var(--terra-light)}
+.callout.sage{background:var(--sage-pale);border:1px solid var(--sage-light)}
+.callout.gold{background:var(--gold-pale);border:1px solid var(--gold-light)}
+.callout.blue{background:var(--blue-pale);border:1px solid var(--blue-light)}
+.callout-icon{font-size:1.2rem;flex-shrink:0;line-height:1.5}
+.callout-content{font-size:0.93rem;color:var(--ink-soft);line-height:1.7}
+.callout-content strong{font-weight:600;color:var(--ink);display:block;margin-bottom:3px}
+
+/* ── DRAG & DROP ── */
+.match-board{display:flex;gap:16px;margin-top:20px}
+.drag-col,.static-col{flex:1;display:flex;flex-direction:column;gap:10px;list-style:none}
+.arrows-col{display:flex;flex-direction:column;gap:10px;justify-content:space-around}
+.drag-item{
+  background:#fff;border:1.5px solid var(--terracotta);border-radius:var(--r-sm);
+  cursor:grab;display:flex;align-items:center;gap:10px;
+  font-size:0.88rem;font-weight:500;color:var(--ink);padding:12px 14px;
+  min-height:58px;box-shadow:var(--shadow-card);transition:opacity .15s,box-shadow .15s;
+}
+.drag-item:active{cursor:grabbing}
+.drag-item.dragging{opacity:0.35;border-style:dashed;box-shadow:none}
+.drag-handle{color:var(--terra-light);font-size:1.1rem;user-select:none;flex-shrink:0}
+.static-item{
+  background:var(--cream);border:1px solid var(--rule);border-radius:var(--r-sm);
+  min-height:58px;display:flex;align-items:center;padding:12px 14px;
+  font-size:0.88rem;color:var(--ink-soft);line-height:1.4;
+}
+.match-arrow{color:var(--rule);font-size:1.1rem;height:58px;display:flex;align-items:center;justify-content:center}
+
+/* ── PRONUNCIATION ── */
+.phon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:20px}
+.phon-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow-card)}
+.phon-word{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);margin-bottom:4px}
+.phon-ipa{font-size:0.85rem;color:var(--gold);margin-bottom:6px;font-style:italic}
+.phon-tip{font-size:0.8rem;color:var(--muted);line-height:1.5}
+
+/* ── VIDEO ── */
+.vid-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--r-lg);box-shadow:var(--shadow-float);margin-bottom:16px;background:var(--ink)}
+.vid-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:var(--r-lg)}
+.vid-link{display:flex;align-items:center;justify-content:center;gap:7px;color:var(--sage);font-size:0.9rem;font-weight:500;text-decoration:none}
+.vid-link:hover{color:var(--terracotta)}
+
+/* ── SUM UP ── */
+.sumup{background:var(--ink);color:#fff;border-radius:var(--r-xl);padding:40px;margin-top:40px;text-align:center}
+.sumup h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:16px;color:#fff}
+.sumup ul{list-style:none;margin-top:16px;text-align:left;max-width:540px;margin-left:auto;margin-right:auto}
+.sumup li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.95rem;color:rgba(255,255,255,0.75);line-height:1.6}
+.sumup li:last-child{border-bottom:none}
+.sumup li strong{color:#fff;font-weight:600}
+
+/* ── WHITEBOARD ── */
+.wb-wrap{border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;margin-top:20px;box-shadow:var(--shadow-card)}
+.wb-bar{background:var(--ink);padding:10px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.wb-btn{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);border:1px solid rgba(255,255,255,0.15);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:0.79rem;font-weight:600;font-family:inherit;transition:background .15s}
+.wb-btn:hover,.wb-btn.active{background:var(--terracotta);border-color:var(--terra-light);color:#fff}
+.wb-color{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,0.4);cursor:pointer;padding:0}
+canvas{display:block;width:100%;height:460px;background:var(--warm-white);cursor:crosshair}
+
+/* ── FABs ── */
+.fabs{position:fixed;bottom:28px;right:28px;display:flex;flex-direction:column;gap:12px;z-index:999}
+.fab{background:#fff;color:var(--ink-soft);border:1px solid var(--rule);width:50px;height:50px;border-radius:50%;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-float);transition:transform .18s,box-shadow .18s,background .18s;display:flex;align-items:center;justify-content:center}
+.fab:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(26,26,46,0.18);background:var(--terracotta);color:#fff;border-color:var(--terracotta)}
+.fab-q{background:#4255FF;border-color:#5b6cf5;color:#fff}
+.fab-q:hover{background:#2839d0}
+
+/* ── MODAL ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(26,26,46,0.55);backdrop-filter:blur(6px);z-index:2000;justify-content:center;align-items:center}
+.modal{background:#fff;border-radius:var(--r-xl);padding:28px;width:90%;max-width:560px;position:relative;box-shadow:var(--shadow-float);border:1px solid var(--rule)}
+.modal h2{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:6px}
+.modal-close{position:absolute;top:14px;right:18px;font-size:1.5rem;cursor:pointer;color:var(--muted);background:none;border:none;line-height:1;font-family:inherit}
+.modal-close:hover{color:var(--terracotta)}
+.word-row{display:flex;gap:8px;margin-bottom:10px}
+.word-row input{flex:1;padding:9px 12px;border:1px solid var(--rule);border-radius:var(--r-sm);font-size:0.93rem;color:var(--ink);background:#fff;font-family:inherit}
+.word-row input:focus{outline:none;border-color:var(--sage)}
+#wordList{max-height:300px;overflow-y:auto;margin:14px 0}
+.mbtn{padding:8px 16px;border-radius:var(--r-sm);font-weight:600;cursor:pointer;font-size:0.88rem;font-family:inherit;border:1px solid var(--rule);transition:background .15s}
+.mbtn-outline{background:transparent;color:var(--muted)}
+.mbtn-outline:hover{background:var(--cream)}
+.mbtn-prim{background:#4255FF;color:#fff;border-color:#5b6cf5}
+.mbtn-prim:hover{background:#2839d0}
+
+/* ── SYNC ── */
+#sync{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#fff;color:var(--ink-soft);padding:5px 14px;border-radius:20px;font-size:0.78rem;font-weight:600;z-index:9999;display:flex;align-items:center;gap:6px;backdrop-filter:blur(8px);border:1px solid var(--rule);box-shadow:var(--shadow-card)}
+#syncDot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.remote-cursor{position:absolute;pointer-events:none;z-index:999999;display:flex;align-items:flex-start;opacity:0;animation:fadeIn .3s forwards;transition:top .35s linear,left .35s linear}
+@keyframes fadeIn{to{opacity:1}}
+.remote-cursor svg{width:20px;height:20px;transform:rotate(-15deg);filter:drop-shadow(1px 2px 3px rgba(0,0,0,0.2))}
+.remote-cursor-label{color:#fff;font-size:0.68rem;font-weight:700;padding:2px 7px;border-radius:3px;margin-left:-4px;margin-top:14px;white-space:nowrap}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .hero{padding:60px 16px 48px}
+  .section{padding:52px 14px}
+  .nav-links{display:none}
+  .match-board{flex-direction:column}
+  .arrows-col{display:none}
+  .big-q{padding:32px 24px}
+  canvas{height:340px}
+  .fabs{bottom:16px;right:16px}
+  .flow{padding:24px 16px}
+}
+</style>
+</head>
+<body>
+
+<div id="sync"><span id="syncDot"></span><span id="syncText">Connecting...</span></div>
+<div id="cursors" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><span class="hero-eyebrow-dot"></span><span contenteditable="true">Lesson 1 · B2/C1 · Identity & Language</span></div>
+    <h1 contenteditable="true">Do We Ever <em>Really</em> Change?</h1>
+    <p class="hero-sub" contenteditable="true">Identity, habits, and the person you were at 18. A lesson built around one big question — and a quiet grammar discovery hiding inside it.</p>
+    <div class="hero-chips">
+      <span class="chip terra" contenteditable="true">Daily Life Focus</span>
+      <span class="chip sage" contenteditable="true">Grammar: Present Simple vs. Continuous</span>
+      <span class="chip gold" contenteditable="true">TED Talk included</span>
+      <span class="chip" contenteditable="true">15 Tasks</span>
+    </div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><span class="nav-logo-mark"></span><span contenteditable="true">English with Alicja</span></a>
+    <ul class="nav-links" id="navTabsContainer">
+      <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--terracotta);color:#fff;padding:4px 10px;font-weight:700;border-radius:50px">+</a></li>
+      <li><a href="#t1" contenteditable="true">Opening</a></li>
+      <li><a href="#t3" contenteditable="true">Reading</a></li>
+      <li><a href="#t5" contenteditable="true">Grammar</a></li>
+      <li><a href="#t8" contenteditable="true">Vocabulary</a></li>
+      <li><a href="#t10" contenteditable="true">Video</a></li>
+      <li><a href="#t13" contenteditable="true">Pronunciation</a></li>
+      <li><a href="#t14" contenteditable="true">Role-Play</a></li>
+      <li><a href="#wb" contenteditable="true">Whiteboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- TASK 1: BIG QUESTION -->
+<section class="section" id="t1">
+  <div class="section-inner">
+    <div class="section-eyebrow terra">Task 1 — Opening Question</div>
+    <h2 class="section-title" contenteditable="true">The Question That Opens Everything</h2>
+    <p class="section-desc" contenteditable="true">No warm-up small talk today. We go straight to the deep end. Take 30 seconds to think, then speak.</p>
+    <div class="big-q">
+      <div class="big-q-label">Today's Big Question</div>
+      <div class="big-q-text" contenteditable="true">"Are you the same person you were at 18 — or has something <em>fundamentally</em> shifted?"</div>
+      <div class="big-q-prompt" contenteditable="true">Don't answer quickly. Sit with it. What makes you say yes? What makes you hesitate?</div>
+    </div>
+    <div class="disc-grid">
+      <div class="disc-card terra">
+        <div class="disc-card-num">Follow-up 1</div>
+        <div class="disc-card-q" contenteditable="true">If you met your 18-year-old self at a dinner party — would you like her? Would she like <strong>you</strong>?</div>
+        <div class="disc-card-note" contenteditable="true">Take your time. There's no right answer — only your honest one.</div>
+      </div>
+      <div class="disc-card sage">
+        <div class="disc-card-num">Follow-up 2</div>
+        <div class="disc-card-q" contenteditable="true">Think of one habit, belief, or fear you had at 18. Is it still there, hiding somewhere — or is it genuinely gone?</div>
+        <div class="disc-card-note" contenteditable="true">Can habits truly die, or do they just go underground?</div>
+      </div>
+      <div class="disc-card gold">
+        <div class="disc-card-num">Follow-up 3</div>
+        <div class="disc-card-q" contenteditable="true">Do you think people <strong>change</strong> because they want to — or because life <strong>forces</strong> them to?</div>
+        <div class="disc-card-note" contenteditable="true">Think of someone you know who changed dramatically. What caused it?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 2: SPEAKING BOARD -->
+<section class="section" id="t2">
+  <div class="section-inner">
+    <div class="section-eyebrow sage">Task 2 — The Identity Board</div>
+    <h2 class="section-title" contenteditable="true">Who Are You, Really? 🎲</h2>
+    <p class="section-desc" contenteditable="true">Pick any tile. Speak for 60 seconds without stopping. No planning allowed. Your teacher will prompt you if you pause for more than 5 seconds.</p>
+    <div class="board-grid">
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>Describe your personality in 3 adjectives — then challenge one of them.</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>What is one thing people always assume about you that is completely wrong?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>Are you more like your mother or your father? Does that worry or please you?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>What part of your identity did you choose — and what was chosen for you?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>Describe a version of yourself you tried to be for a while that just didn't fit.</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>What would you change about yourself — if you could change anything at all?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>Do you think social media shows who you really are, or who you want people to think you are?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>Is there a moment in your life you look back on and think: "That's when I became myself"?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-num">prompt</div>Have you ever reinvented yourself? Would you like to?</div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 3: READING -->
+<section class="section" id="t3">
+  <div class="section-inner">
+    <div class="section-eyebrow terra">Task 3 — Reading Discovery</div>
+    <h2 class="section-title" contenteditable="true">Read & Notice</h2>
+    <p class="section-desc" contenteditable="true">Read this personal essay. Don't think about grammar yet. Just read. What do you notice? What do you feel? We'll look at the language together afterwards.</p>
+    <div class="reading-box">
+      <div class="reading-label">Personal Essay · Identity</div>
+      <div class="reading-body">
+        <p contenteditable="true">I am <strong>sitting</strong> in a café I used to go to every Sunday at eighteen. The same wooden tables, the same smell of old coffee and radiator heat. But something <strong>is different</strong> today — and it is not the café.</p>
+        <p contenteditable="true">At eighteen, I <strong>believed</strong> that personality was fixed, like bone structure. Some people <strong>are</strong> warm; others <strong>are</strong> cold. You simply <strong>are</strong> what you are, and the world arranges itself around that fact. I had a list — an actual written list — of things I <strong>knew</strong> to be true about myself: <em>I am impatient. I don't cry at films. I hate small talk. I never ask for help.</em></p>
+        <p contenteditable="true">Twenty years later, I <strong>am crying</strong> at a coffee shop, which is embarrassing. I <strong>am asking</strong> my waiter if he is all right, which surprises me. I <strong>am thinking</strong> about my mother, who <strong>is getting</strong> older, which I never used to let myself do.</p>
+        <div class="reading-highlight" contenteditable="true">"The habits <strong>are</strong> still there, of course — I still <strong>talk</strong> too fast, still <strong>forget</strong> to reply to messages, still <strong>want</strong> every room I enter to be quiet. But wanting things to be quiet <strong>is not</strong> the same as being afraid of noise. Something has shifted. I just cannot yet <strong>name</strong> what it is."</div>
+        <p contenteditable="true">Psychologists <strong>argue</strong> — and the evidence increasingly <strong>supports</strong> this — that personality traits <strong>are</strong> not fixed. We <strong>are</strong> all, slowly and mostly without noticing, in the process of <strong>becoming</strong> someone slightly different. The question is not whether we change. It is whether we have the courage to notice when we have.</p>
+      </div>
+    </div>
+    <div class="callout terra" style="margin-top:20px">
+      <span class="callout-icon">💬</span>
+      <div class="callout-content">
+        <strong contenteditable="true">Discussion after reading</strong>
+        <span contenteditable="true">Which line in the essay surprised you most? Which line felt true about your own life? Is there anything in the writer's self-description that you recognise in yourself — or in someone you know?</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 4: VOCABULARY DISCOVERY -->
+<section class="section" id="t4">
+  <div class="section-inner">
+    <div class="section-eyebrow blue">Task 4 — Vocabulary Discovery</div>
+    <h2 class="section-title" contenteditable="true">Words From the Text — No Dictionary Yet</h2>
+    <p class="section-desc" contenteditable="true">These 8 words appear in today's lesson. Before looking anything up, talk through what you think each one means based on how it feels and where you've heard it. Then we'll confirm together.</p>
+    <div class="vocab-grid">
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">disposition</div>
+        <div class="vocab-pos" contenteditable="true">noun</div>
+        <div class="vocab-def" contenteditable="true">Your natural tendency to think or behave in a certain way — the part of personality that feels inborn. "She has a cheerful disposition."</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">introspective</div>
+        <div class="vocab-pos" contenteditable="true">adjective</div>
+        <div class="vocab-def" contenteditable="true">Tending to examine your own feelings and thoughts carefully. "She became more introspective after the loss."</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">reinvent</div>
+        <div class="vocab-pos" contenteditable="true">verb</div>
+        <div class="vocab-def" contenteditable="true">To deliberately change your image, habits, or identity — often after a major life event.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">trait</div>
+        <div class="vocab-pos" contenteditable="true">noun</div>
+        <div class="vocab-def" contenteditable="true">A particular quality or characteristic — usually one that is consistent over time. "Empathy is her most striking trait."</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">evolve</div>
+        <div class="vocab-pos" contenteditable="true">verb</div>
+        <div class="vocab-def" contenteditable="true">To change gradually over time — often used when there is no single dramatic turning point.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">static</div>
+        <div class="vocab-pos" contenteditable="true">adjective</div>
+        <div class="vocab-def" contenteditable="true">Unchanging, fixed, not developing. The opposite of dynamic. "Her view of herself was completely static."</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">perception</div>
+        <div class="vocab-pos" contenteditable="true">noun</div>
+        <div class="vocab-def" contenteditable="true">The way something is understood, seen, or interpreted — by yourself or by others.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">habit</div>
+        <div class="vocab-pos" contenteditable="true">noun</div>
+        <div class="vocab-def" contenteditable="true">A behaviour that has become automatic through repetition — not always easy to separate from personality.</div>
+      </div>
+    </div>
+    <div class="callout gold" style="margin-top:24px">
+      <span class="callout-icon">✍️</span>
+      <div class="callout-content">
+        <strong contenteditable="true">Use them in your own sentences</strong>
+        <span contenteditable="true">Choose any 3 words from the grid. Write one sentence for each — about yourself, not a fictional character. Share them aloud. Your teacher will notice if the grammar is hiding something interesting.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 5: GRAMMAR DISCOVERY -->
+<section class="section" id="t5">
+  <div class="section-inner">
+    <div class="section-eyebrow gold">Task 5 — Grammar Discovery</div>
+    <h2 class="section-title" contenteditable="true">You Already Know This Grammar — Let's Prove It</h2>
+    <p class="section-desc" contenteditable="true">Look back at the essay in Task 3. We have underlined all the verbs. Before I explain anything — can you tell me: why does the author use two different forms? What is the logic?</p>
+    <div class="discovery">
+      <div class="discovery-header">
+        <div class="discovery-icon">🔍</div>
+        <div>
+          <div class="discovery-title" contenteditable="true">Discovery Task: Sort the Verbs</div>
+          <div class="discovery-sub" contenteditable="true">Look at the bolded verbs in the essay. Without any explanation — sort them into two groups. What's the pattern?</div>
+        </div>
+      </div>
+      <div class="discovery-body" contenteditable="true">
+        From the essay: <em>am sitting, believed, is different, are warm, are cold, are, knew, am crying, am asking, is getting, are still there, talk, forget, want, is not, name, argue, supports, are not fixed, are all becoming…</em>
+        <br><br>
+        <strong>Group A (verbs that feel "active right now / temporary"):</strong> Write them here…
+        <br><br>
+        <strong>Group B (verbs that feel "permanent / always true / a state"):</strong> Write them here…
+        <br><br>
+        Now discuss: <strong>what is the difference between "I am sitting" and "I sit"? Between "I am thinking" and "I think"?</strong> Build the rule in your own words before we look at the table.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 6: GRAMMAR TABLE -->
+<section class="section" id="t6">
+  <div class="section-inner">
+    <div class="section-eyebrow gold">Task 6 — Grammar: The Rule You Just Discovered</div>
+    <h2 class="section-title" contenteditable="true">Present Simple vs. Present Continuous</h2>
+    <p class="section-desc" contenteditable="true">Here is the table. Does it match what you worked out in Task 5? What did you get right? What surprised you?</p>
+    <div class="gram-box">
+      <div class="gram-header">
+        <span class="gram-header-title">Present Simple vs. Present Continuous</span>
+        <span class="gram-header-tag">B2 Revision</span>
+      </div>
+      <table class="gram-table">
+        <thead><tr><th contenteditable="true">Structure</th><th contenteditable="true">When to use it</th><th contenteditable="true">Example from the essay</th></tr></thead>
+        <tbody>
+          <tr>
+            <td contenteditable="true"><span class="hl-terra">Present Simple</span><br><span style="font-size:0.8rem;color:var(--muted)">I think / She wants / They argue</span></td>
+            <td contenteditable="true">Permanent truths, habits, facts, states that don't change moment to moment. Also for stative verbs — feelings, senses, possession, mental states.</td>
+            <td contenteditable="true"><span class="gram-eg">"Psychologists <strong>argue</strong> that personality is not fixed."<br>"She <strong>knows</strong> herself well." (stative)</span></td>
+          </tr>
+          <tr>
+            <td contenteditable="true"><span class="hl-sage">Present Continuous</span><br><span style="font-size:0.8rem;color:var(--muted)">I am thinking / She is getting / They are becoming</span></td>
+            <td contenteditable="true">Actions happening right now or around this period. Temporary situations. Changing or developing situations. <em>Also</em>: planned future arrangements.</td>
+            <td contenteditable="true"><span class="gram-eg">"I <strong>am sitting</strong> in a café." (right now)<br>"My mother <strong>is getting</strong> older." (gradual change)</span></td>
+          </tr>
+          <tr>
+            <td contenteditable="true"><span class="hl-blue">⚠️ Stative Verbs</span><br><span style="font-size:0.8rem;color:var(--muted)">know, want, believe, love, hate, see, hear, belong, own, mean, prefer</span></td>
+            <td contenteditable="true"><strong>Almost never</strong> used in continuous form. These verbs describe states, not actions. You cannot "be doing" a state — you simply "have" it.</td>
+            <td contenteditable="true"><span class="gram-eg">✅ "I <strong>want</strong> the room to be quiet."<br>❌ "I <strong>am wanting</strong> the room to be quiet." <br><span class="gram-note">(Except: "I'm loving this" in informal use — but we learn the rule first)</span></span></td>
+          </tr>
+          <tr>
+            <td contenteditable="true"><span class="hl-terra">The Tricky Cases 🤔</span><br><span style="font-size:0.8rem;color:var(--muted)">think, see, taste, have, feel</span></td>
+            <td contenteditable="true">Some verbs can be stative OR active — depending on meaning. The form changes the meaning entirely.</td>
+            <td contenteditable="true"><span class="gram-eg">"I <strong>think</strong> she's right." (opinion — stative)<br>"I <strong>am thinking</strong> about leaving." (active mental process)<br>"She <strong>has</strong> blue eyes." (possession)<br>"She <strong>is having</strong> a breakdown." (experience)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 7: GRAMMAR PRACTICE -->
+<section class="section" id="t7">
+  <div class="section-inner">
+    <div class="section-eyebrow gold">Task 7 — Grammar Practice</div>
+    <h2 class="section-title" contenteditable="true">Fix the Patient — Error Correction ✏️</h2>
+    <p class="section-desc" contenteditable="true">Something is wrong with each sentence below. Find the error, fix it, and explain <em>why</em> it was wrong. There is only one correct answer — but there may be more than one way to explain it.</p>
+    <ul class="prac-list">
+      <li><div contenteditable="true">I <strong>am knowing</strong> exactly who I am. → Correction: <span class="blank" contenteditable="true">I know</span> — "know" is stative; it describes a mental state, not an action in progress.</div></li>
+      <li><div contenteditable="true">She always <strong>is complaining</strong> about her job. → Correction: <span class="blank" contenteditable="true">She always complains</span> — adverbs like "always" signal habit → Present Simple.</div></li>
+      <li><div contenteditable="true">Right now, he <strong>thinks</strong> about changing careers. → Correction: <span class="blank" contenteditable="true">he is thinking</span> — "right now" signals an active, temporary mental process → Continuous.</div></li>
+      <li><div contenteditable="true">This coffee <strong>is tasting</strong> wonderful. → Correction: <span class="blank" contenteditable="true">tastes</span> — when "taste" describes a quality, it is stative.</div></li>
+      <li><div contenteditable="true">Water <strong>is boiling</strong> at 100°C. → Correction: <span class="blank" contenteditable="true">boils</span> — scientific fact → Present Simple. (Unless you mean: "Look! The water is boiling right now!")</div></li>
+      <li><div contenteditable="true">I <strong>am having</strong> two sisters and a brother. → Correction: <span class="blank" contenteditable="true">I have</span> — family possession is stative.</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- TASK 8: VOCABULARY MATCHING -->
+<section class="section" id="t8">
+  <div class="section-inner">
+    <div class="section-eyebrow blue">Task 8 — Vocabulary Matching</div>
+    <h2 class="section-title" contenteditable="true">Drag to Match — Psychology of Self</h2>
+    <p class="section-desc" contenteditable="true">Drag the vocabulary words on the left to match their definitions on the right. The order has been shuffled — nothing aligns on purpose.</p>
+    <div class="match-board">
+      <ul class="drag-col" id="vocabDrag">
+        <li class="drag-item" id="dv1" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">reinvent</span></li>
+        <li class="drag-item" id="dv2" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">static</span></li>
+        <li class="drag-item" id="dv3" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">introspective</span></li>
+        <li class="drag-item" id="dv4" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">trait</span></li>
+        <li class="drag-item" id="dv5" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">disposition</span></li>
+        <li class="drag-item" id="dv6" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">evolve</span></li>
+      </ul>
+      <div class="arrows-col">
+        <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+        <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+      </div>
+      <ul class="static-col">
+        <li class="static-item" contenteditable="true">a) A consistent characteristic or quality in a person's behaviour.</li>
+        <li class="static-item" contenteditable="true">b) To examine your own thoughts and feelings closely.</li>
+        <li class="static-item" contenteditable="true">c) To change gradually — without a single dramatic moment.</li>
+        <li class="static-item" contenteditable="true">d) Fixed, unchanging — not developing or moving forward.</li>
+        <li class="static-item" contenteditable="true">e) To deliberately change your identity, image, or approach.</li>
+        <li class="static-item" contenteditable="true">f) A natural tendency or inclination to act in a certain way.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 9: DISCUSSION ROUND 2 -->
+<section class="section" id="t9">
+  <div class="section-inner">
+    <div class="section-eyebrow terra">Task 9 — Deep Discussion</div>
+    <h2 class="section-title" contenteditable="true">The Change We Don't Choose 💬</h2>
+    <p class="section-desc" contenteditable="true">These questions are harder than they look. Take at least 2 minutes on each before moving on.</p>
+    <div class="disc-grid">
+      <div class="disc-card terra">
+        <div class="disc-card-num">Question A</div>
+        <div class="disc-card-q" contenteditable="true">Medicine changes people — but in which direction? Has becoming a doctor made you more empathetic, or more protected? More curious, or more certain?</div>
+      </div>
+      <div class="disc-card sage">
+        <div class="disc-card-num">Question B</div>
+        <div class="disc-card-q" contenteditable="true">Some people say: "I am exactly who I've always been." Others say: "I barely recognise myself from 10 years ago." Which feels more true — and which do you think is healthier?</div>
+      </div>
+      <div class="disc-card blue">
+        <div class="disc-card-num">Question C</div>
+        <div class="disc-card-q" contenteditable="true">Is there a version of yourself that you deliberately <strong>stopped</strong> being — not because it wasn't real, but because it wasn't safe, or useful, or acceptable?</div>
+      </div>
+      <div class="disc-card gold">
+        <div class="disc-card-num">Question D — Philosophy Corner</div>
+        <div class="disc-card-q" contenteditable="true">"The Ship of Theseus": if every plank is gradually replaced, is it still the same ship? Apply this to yourself. If every belief, habit, and relationship has changed since you were born — are you still <em>you</em>?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 10: VIDEO -->
+<section class="section" id="t10">
+  <div class="section-inner">
+    <div class="section-eyebrow sage">Task 10 — Listening & Video</div>
+    <h2 class="section-title" contenteditable="true">The Research on Personality Change 🎬</h2>
+    <p class="section-desc" contenteditable="true">Before you watch — write one prediction: <em>do you think psychology research says we change, or that we stay the same?</em> Write it down. Then watch. Were you right?</p>
+    <div class="vid-wrap" contenteditable="false">
+      <iframe src="https://www.youtube-nocookie.com/embed/pDzMHKP-4YM?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Can you change your personality? — TED Talk"></iframe>
+    </div>
+    <a class="vid-link" href="https://www.youtube.com/watch?v=pDzMHKP-4YM" target="_blank">🔗 Watch directly on YouTube if embed is unavailable</a>
+    <div class="callout sage" style="margin-top:20px">
+      <span class="callout-icon">📝</span>
+      <div class="callout-content">
+        <strong contenteditable="true">While watching — note down</strong>
+        <span contenteditable="true">One thing the speaker says that surprises you. One thing that confirms what you already believed. One thing you want to challenge or question. Share all three after the video.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 11: POST-VIDEO DISCUSSION -->
+<section class="section" id="t11">
+  <div class="section-inner">
+    <div class="section-eyebrow sage">Task 11 — After the Video</div>
+    <h2 class="section-title" contenteditable="true">Unpacking What You Just Heard</h2>
+    <p class="section-desc" contenteditable="true">Now use the grammar from today to respond. Pay attention to whether each answer is a permanent state or a temporary/changing one.</p>
+    <ul class="prac-list">
+      <li><div contenteditable="true">The speaker argues that personality <span class="blank" contenteditable="true">is not fixed</span> (be not fixed). Do you find this reassuring or unsettling? Why?</div></li>
+      <li><div contenteditable="true">In your own life, right now — what <span class="blank" contenteditable="true">is changing</span> (change)? And what <span class="blank" contenteditable="true">stays</span> (stay) completely the same?</div></li>
+      <li><div contenteditable="true">The research <span class="blank" contenteditable="true">suggests</span> (suggest) that we can deliberately change our personality. Does this make free will more real, or less real?</div></li>
+      <li><div contenteditable="true">Right now, I <span class="blank" contenteditable="true">am thinking</span> (think) about whether I <span class="blank" contenteditable="true">want</span> (want) to change anything about myself. What is your answer?</div></li>
+      <li><div contenteditable="true">The speaker mentions "personality states" vs "personality traits." In your own words — what <span class="blank" contenteditable="true">is the difference</span> (be the difference)?</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- TASK 12: GRAMMAR PRODUCTION -->
+<section class="section" id="t12">
+  <div class="section-inner">
+    <div class="section-eyebrow gold">Task 12 — Grammar in Your Own Words</div>
+    <h2 class="section-title" contenteditable="true">Write It About Yourself ✍️</h2>
+    <p class="section-desc" contenteditable="true">The best way to fix grammar is to use it about something real. Write 6 sentences about yourself — one for each instruction below. Then read them aloud. Your teacher will listen.</p>
+    <div class="disc-grid">
+      <div class="disc-card terra">
+        <div class="disc-card-num">Sentence 1</div>
+        <div class="disc-card-q" contenteditable="true">Use Present Simple to describe a habit you have had for years.</div>
+        <div class="disc-card-note" contenteditable="true">e.g. "I always make tea before I open my emails."</div>
+      </div>
+      <div class="disc-card sage">
+        <div class="disc-card-num">Sentence 2</div>
+        <div class="disc-card-q" contenteditable="true">Use Present Continuous for something that is different about your life right now compared to a year ago.</div>
+        <div class="disc-card-note" contenteditable="true">e.g. "I am reading more this year than I ever have."</div>
+      </div>
+      <div class="disc-card blue">
+        <div class="disc-card-num">Sentence 3</div>
+        <div class="disc-card-q" contenteditable="true">Use a stative verb to describe something you feel or believe deeply.</div>
+        <div class="disc-card-note" contenteditable="true">e.g. "I know that I need silence to think clearly."</div>
+      </div>
+      <div class="disc-card gold">
+        <div class="disc-card-num">Sentence 4</div>
+        <div class="disc-card-q" contenteditable="true">Use Present Continuous to describe a slow change you can see in yourself over the last few years.</div>
+        <div class="disc-card-note" contenteditable="true">e.g. "I am becoming less afraid of asking for help."</div>
+      </div>
+      <div class="disc-card terra">
+        <div class="disc-card-num">Sentence 5</div>
+        <div class="disc-card-q" contenteditable="true">Use "think" correctly — once as a stative verb (opinion) and once as an active verb (ongoing thought).</div>
+        <div class="disc-card-note" contenteditable="true">e.g. "I think she's right" / "I am thinking about changing my schedule".</div>
+      </div>
+      <div class="disc-card sage">
+        <div class="disc-card-num">Sentence 6</div>
+        <div class="disc-card-q" contenteditable="true">Write one sentence that you genuinely believe to be true about your own personality — using the correct tense.</div>
+        <div class="disc-card-note" contenteditable="true">No example for this one. It has to be yours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 13: PRONUNCIATION -->
+<section class="section" id="t13">
+  <div class="section-inner">
+    <div class="section-eyebrow blue">Task 13 — Pronunciation</div>
+    <h2 class="section-title" contenteditable="true">Weak Forms & Contractions in Natural Speech 🎙️</h2>
+    <p class="section-desc" contenteditable="true">In natural spoken English, "am," "is," and "are" almost disappear. Polish speakers often pronounce them too strongly — which sounds overly formal. Practice the weak forms below.</p>
+    <div class="phon-grid">
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">I am changing</div>
+        <div class="phon-ipa" contenteditable="true">→ "I'm changing" /aɪm ˈtʃeɪndʒɪŋ/</div>
+        <div class="phon-tip" contenteditable="true">In fast speech: "am" becomes /əm/ and merges into the contraction. Never stress "am" unless you mean emphasis: "I <em>am</em> changing, I promise!"</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">She is thinking</div>
+        <div class="phon-ipa" contenteditable="true">→ "She's thinking" /ʃiːz ˈθɪŋkɪŋ/</div>
+        <div class="phon-tip" contenteditable="true">The /z/ sound is almost silent in connected speech. Practice: "She's thinking about it" as one smooth phrase, not 4 separate words.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">What are you doing?</div>
+        <div class="phon-ipa" contenteditable="true">→ "Whatcha doing?" /ˈwɒtʃə ˈduːɪŋ/</div>
+        <div class="phon-tip" contenteditable="true">Very informal spoken form. "Are you" blends to /əjə/. You don't need to say this — but you need to understand it when you hear it.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">Things are changing</div>
+        <div class="phon-ipa" contenteditable="true">/ˈθɪŋz ə ˈtʃeɪndʒɪŋ/</div>
+        <div class="phon-tip" contenteditable="true">"Are" weakens to /ə/ — the schwa. This is the most common sound in English and the hardest for Polish speakers to trust. It feels "wrong" because it seems incomplete.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">I don't know</div>
+        <div class="phon-ipa" contenteditable="true">→ "I dunno" /aɪ ˈdʌnəʊ/</div>
+        <div class="phon-tip" contenteditable="true">In natural speech, "don't know" fuses entirely. You will hear this constantly. Say it with confidence — it doesn't mean you're being careless.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">She does want to change</div>
+        <div class="phon-ipa" contenteditable="true">/ʃiː dʌz wɒnt/ (emphatic)</div>
+        <div class="phon-tip" contenteditable="true">Emphatic "does" is fully stressed. This is how English creates emphasis where Polish might use intonation or a particle. Practice the contrast: "She wants" vs. "She DOES want."</div>
+      </div>
+    </div>
+    <div class="callout terra" style="margin-top:20px">
+      <span class="callout-icon">🎯</span>
+      <div class="callout-content">
+        <strong contenteditable="true">Practice drill</strong>
+        <span contenteditable="true">Read these aloud at natural speed: "I'm thinking about whether I'm changing." / "She's not sure what she's becoming." / "Things are getting more complicated, aren't they?" / "I don't know, I just don't know." Record yourself if possible — play it back. Does "am/is/are" disappear into the rhythm?</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 14: ROLE-PLAY -->
+<section class="section" id="t14">
+  <div class="section-inner">
+    <div class="section-eyebrow terra">Task 14 — Role-Play</div>
+    <h2 class="section-title" contenteditable="true">The Interview — 18-Year-Old Meets Present You 🪞</h2>
+    <p class="section-desc" contenteditable="true">One person plays the 18-year-old version of Alicja. One plays the present-day Alicja. The 18-year-old is asking questions — the present-day Alicja must answer honestly, using the grammar from today.</p>
+    <div class="flow">
+      <div class="flow-bubble terra" contenteditable="true"><strong>18-year-old you:</strong> "So... did you become a doctor? Is it everything you thought it would be?"</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-bubble" contenteditable="true"><strong>Present you:</strong> Respond honestly. Use Present Continuous for what is currently changing. Use Present Simple for what has stayed the same.</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-bubble terra" contenteditable="true"><strong>18-year-old you:</strong> "Are you happy? Do you still want the same things? Do you still believe the same things?"</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-bubble" contenteditable="true"><strong>Present you:</strong> Answer with at least one stative verb, one Present Continuous, and one Present Simple.</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-bubble terra" contenteditable="true"><strong>18-year-old you:</strong> "What do you know now that you wish you'd known then? What are you still figuring out?"</div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-bubble sage" contenteditable="true"><strong>Both of you:</strong> Find one thing you still share. Find one thing that has completely changed. Express both without notes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 15: WRITING & WRAP-UP -->
+<section class="section" id="t15">
+  <div class="section-inner">
+    <div class="section-eyebrow sage">Task 15 — Writing Reflection</div>
+    <h2 class="section-title" contenteditable="true">The Diary Entry You'll Never Send ✉️</h2>
+    <p class="section-desc" contenteditable="true">Write a short diary entry (100–150 words) from the perspective of your 18-year-old self — <em>on the day you decided to study medicine</em>. Use a mix of Present Simple and Present Continuous. Include at least two stative verbs and one sentence where a verb could be either form — and choose deliberately.</p>
+    <div class="reading-box" style="margin-top:0">
+      <div class="reading-label">Your writing space — click inside to begin</div>
+      <div class="reading-body" style="min-height:200px" contenteditable="true">
+        <p>Today I have decided. I am going to study medicine. Everyone around me seems surprised — they know I hate blood, they know I am terrified of hospitals. But I want this. I don't exactly understand why yet...</p>
+        <p style="color:var(--rule)">[Continue writing here...]</p>
+      </div>
+    </div>
+    <div class="sumup">
+      <h2 contenteditable="true">Lesson 1 — Complete ✦</h2>
+      <ul>
+        <li contenteditable="true"><strong>Grammar:</strong> Present Simple vs. Present Continuous — including stative verbs and the tricky "think/have/see" cases. Discovered through reading, not presented first.</li>
+        <li contenteditable="true"><strong>Vocabulary (8 words):</strong> disposition, introspective, reinvent, trait, evolve, static, perception, habit — discovered from context.</li>
+        <li contenteditable="true"><strong>Pronunciation:</strong> Weak forms of am/is/are in connected speech — the schwa and natural contractions.</li>
+        <li contenteditable="true"><strong>Skills:</strong> Deep discussion about identity and change · Vocabulary matching · Grammar error correction · Production sentences · Role-play · Diary writing.</li>
+        <li contenteditable="true"><strong>Big question left open:</strong> Are you changing — or becoming more fully yourself?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHITEBOARD -->
+<section class="section" id="wb">
+  <div class="section-inner">
+    <div class="section-eyebrow gold">Teacher's Space</div>
+    <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+    <p class="section-desc" contenteditable="true">Use this space to draw the tense timeline, map out vocabulary, or note errors to address together.</p>
+    <div class="wb-wrap">
+      <div class="wb-bar">
+        <button class="wb-btn active" data-tool="pencil">Pencil</button>
+        <button class="wb-btn" data-tool="highlight">Highlight</button>
+        <button class="wb-btn" data-tool="text">Text</button>
+        <button class="wb-btn" data-tool="square">Box</button>
+        <button class="wb-btn" data-tool="circle">Circle</button>
+        <button class="wb-btn" data-tool="arrow">Arrow</button>
+        <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 8px"></div>
+        <input type="color" id="wbColor" class="wb-color" value="#C4714A">
+        <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(196,113,74,0.5);border-color:var(--terracotta)">Clear</button>
+      </div>
+      <canvas id="wbCanvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- FLOATING ACTIONS -->
+<div class="fabs" id="floatBtns">
+  <button class="fab" onclick="goWB()" title="Go to Whiteboard">🖍️</button>
+  <button class="fab fab-q" onclick="openModal()" title="Export to Quizlet">📝</button>
+  <button class="fab" onclick="savePDF()" title="Save as PDF" style="background:#fff">💾</button>
+  <button class="fab" onclick="resetLesson()" title="Reset" style="background:var(--terra-pale);border-color:var(--terra-light);color:var(--terracotta)">🔄</button>
+</div>
+
+<!-- QUIZLET MODAL -->
+<div id="qModal" class="modal-bg">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2>Quizlet Export</h2>
+    <p style="font-size:0.85rem;color:var(--muted);margin-top:5px">Add words + translations, then copy → paste into Quizlet's import tool.</p>
+    <div id="wordList">
+      <div class="word-row"><input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t"></div>
+      <div class="word-row"><input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t"></div>
+      <div class="word-row"><input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button onclick="addRow()" class="mbtn mbtn-outline" style="flex:1">+ Row</button>
+      <button id="copyBtn" onclick="copyQ()" class="mbtn mbtn-prim" style="flex:2">📋 Copy for Quizlet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Highlight shortcut
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='h'){
+    e.preventDefault();
+    const s=window.getSelection();
+    if(!s.rangeCount||s.isCollapsed)return;
+    document.execCommand('hiliteColor',false,'rgba(184,146,42,0.25)');
+  }
+});
+
+// WHITEBOARD
+const cv=document.getElementById('wbCanvas');
+const cx=cv.getContext('2d');
+function resizeCv(){cv.width=cv.parentElement.clientWidth;cv.height=460}
+window.addEventListener('resize',resizeCv);resizeCv();
+let drawing=false,pendingDraw=false,sx,sy,tool='pencil',wbColor='#C4714A',saved;
+
+document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');tool=b.dataset.tool;
+    cv.style.cursor=tool==='text'?'text':'crosshair';
+  });
+});
+document.getElementById('wbColor').addEventListener('change',e=>wbColor=e.target.value);
+document.getElementById('wbClear').addEventListener('click',()=>{cx.clearRect(0,0,cv.width,cv.height);if(window.syncWBClear)window.syncWBClear()});
+
+function gp(e){const r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+cv.addEventListener('mousedown',e=>{
+  const p=gp(e);sx=p.x;sy=p.y;
+  if(tool==='text'){const t=prompt('Enter text:');if(t){cx.font="17px 'DM Sans',sans-serif";cx.fillStyle=wbColor;cx.fillText(t,sx,sy);if(window.syncWBDraw){pendingDraw=true;window.syncWBDraw()}}return}
+  drawing=true;saved=cx.getImageData(0,0,cv.width,cv.height);cx.beginPath();cx.moveTo(sx,sy);
+});
+cv.addEventListener('mousemove',e=>{
+  if(!drawing)return;const p=gp(e);
+  if(tool==='pencil'||tool==='highlight'){
+    cx.lineTo(p.x,p.y);cx.strokeStyle=tool==='highlight'?wbColor+'44':wbColor;
+    cx.lineWidth=tool==='highlight'?14:2;cx.lineCap='round';cx.lineJoin='round';cx.stroke();
+  }else{cx.putImageData(saved,0,0);drawShape(p.x,p.y)}
+});
+cv.addEventListener('mouseup',e=>{
+  if(!drawing)return;drawing=false;
+  if(tool!=='pencil'&&tool!=='highlight')drawShape(gp(e).x,gp(e).y);
+  if(window.syncWBDraw){pendingDraw=true;window.syncWBDraw()}
+});
+cv.addEventListener('mouseout',()=>{if(drawing){drawing=false;if(window.syncWBDraw){pendingDraw=true;window.syncWBDraw()}}});
+
+function drawShape(ex,ey){
+  cx.beginPath();cx.strokeStyle=wbColor;cx.lineWidth=2;
+  if(tool==='square'){cx.strokeRect(sx,sy,ex-sx,ey-sy)}
+  else if(tool==='circle'){const r=Math.sqrt((ex-sx)**2+(ey-sy)**2);cx.arc(sx,sy,r,0,2*Math.PI);cx.stroke()}
+  else if(tool==='arrow'){
+    const a=Math.atan2(ey-sy,ex-sx),h=14;
+    cx.moveTo(sx,sy);cx.lineTo(ex,ey);cx.stroke();cx.beginPath();
+    cx.moveTo(ex,ey);cx.lineTo(ex-h*Math.cos(a-Math.PI/6),ey-h*Math.sin(a-Math.PI/6));
+    cx.moveTo(ex,ey);cx.lineTo(ex-h*Math.cos(a+Math.PI/6),ey-h*Math.sin(a+Math.PI/6));cx.stroke();
+  }
+}
+
+// Drag & Drop
+function setupDnD(id){
+  const col=document.getElementById(id);if(!col)return;
+  col.querySelectorAll('.drag-item').forEach(it=>{
+    it.addEventListener('dragstart',()=>it.classList.add('dragging'));
+    it.addEventListener('dragend',()=>{it.classList.remove('dragging');if(window.syncDrag)window.syncDrag(id)});
+  });
+  col.addEventListener('dragover',e=>{
+    e.preventDefault();
+    const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{
+      const o=e.clientY-ch.getBoundingClientRect().top-ch.getBoundingClientRect().height/2;
+      return o<0&&o>cl.offset?{offset:o,el:ch}:cl;
+    },{offset:Number.NEGATIVE_INFINITY}).el;
+    const d=document.querySelector('.dragging');
+    if(d){after==null?col.appendChild(d):col.insertBefore(d,after)}
+  });
+}
+setupDnD('vocabDrag');
+
+// PDF
+window.savePDF=function(){
+  document.getElementById('floatBtns').style.display='none';
+  document.getElementById('sync').style.display='none';
+  html2pdf().set({margin:0,filename:'Lesson-01-Do-We-Change.pdf',
+    image:{type:'jpeg',quality:0.97},
+    html2canvas:{scale:2,useCORS:true,windowWidth:document.body.scrollWidth,scrollY:0},
+    jsPDF:{unit:'px',format:[document.body.scrollWidth,document.body.scrollHeight],orientation:'portrait'}
+  }).from(document.body).save().then(()=>{
+    document.getElementById('floatBtns').style.display='flex';
+    document.getElementById('sync').style.display='flex';
+  });
+};
+
+// Quizlet
+window.openModal=()=>{document.getElementById('qModal').style.display='flex'}
+window.closeModal=()=>{document.getElementById('qModal').style.display='none'}
+window.addRow=()=>{
+  const r=document.createElement('div');r.className='word-row';
+  r.innerHTML='<input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t">';
+  document.getElementById('wordList').appendChild(r);
+  document.getElementById('wordList').scrollTop=9999;
+}
+window.copyQ=()=>{
+  let out='';
+  document.querySelectorAll('.word-row').forEach(r=>{
+    const w=r.querySelector('.q-w').value.trim(),t=r.querySelector('.q-t').value.trim();
+    if(w||t)out+=w+'\t'+t+'\n';
+  });
+  if(out){
+    const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    const b=document.getElementById('copyBtn');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy for Quizlet',3e3);
+  }else{const b=document.getElementById('copyBtn');b.textContent='⚠️ Add words first';setTimeout(()=>b.textContent='📋 Copy for Quizlet',3e3)}
+}
+
+window.goWB=()=>{const el=document.getElementById('wb');if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-70,behavior:'smooth'})}
+
+// Nav smooth scroll
+document.getElementById('navTabsContainer').addEventListener('click',e=>{
+  if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){
+    e.preventDefault();const id=e.target.getAttribute('href');
+    if(id&&id.startsWith('#')&&id.length>1){
+      const el=document.querySelector(id);
+      if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-60,behavior:'smooth'});
+    }
+  }
+});
+
+// Paste interceptor
+document.addEventListener('paste',function(e){
+  const tgt=e.target;if(!tgt.closest('[contenteditable="true"]'))return;
+  const items=(e.clipboardData||window.clipboardData).items;
+  for(let k in items){
+    const it=items[k];
+    if(it.kind==='file'&&it.type.startsWith('image/')){
+      e.preventDefault();const blob=it.getAsFile();const rd=new FileReader();
+      rd.onload=ev=>{
+        const img=new Image();img.onload=()=>{
+          const c=document.createElement('canvas');let w=img.width,h=img.height;
+          if(w>800){h*=800/w;w=800}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+          document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;border:1px solid var(--rule)"></div><p><br></p>`);
+          tgt.dispatchEvent(new Event('input',{bubbles:true}));
+        };img.src=ev.target.result;
+      };rd.readAsDataURL(blob);return;
+    }
+  }
+  const txt=(e.clipboardData||window.clipboardData).getData('text');
+  if(txt){
+    const yt=txt.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    if(yt&&yt[1]){
+      e.preventDefault();
+      document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden"><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen></iframe></div><p><br></p>`);
+      tgt.dispatchEvent(new Event('input',{bubbles:true}));return;
+    }
+  }
+});
+</script>
+
+<!-- FIREBASE -->
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import{getFirestore,doc,setDoc,onSnapshot,deleteDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+const LID='alicja-new-lesson-01-identity-change-v1';
+const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+function setSt(t,c){if(st)st.innerText=t;if(sd)sd.style.background=c}
+
+const app=initializeApp(cfg);
+const auth=getAuth(app);const db=getFirestore(app);
+let user=null,ready=false;
+const cc='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+let cn='Student';
+
+const eds=document.querySelectorAll('[contenteditable="true"]');
+const orig={};
+eds.forEach((el,i)=>{el.dataset.sid='e'+i;orig['e'+i]=el.innerHTML});
+
+const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+
+async function initA(){try{await signInAnonymously(auth)}catch{setSt('Offline','#B8922A')}}
+
+onAuthStateChanged(auth,u=>{
+  user=u;
+  if(u&&!ready){
+    ready=true;
+    getDocs(collection(db,'artifacts',LID,'public','data','cursors')).then(s=>{
+      cn='Student '+(s.size+1);setSt('Live ✓','#4A7C6F');setupSync();setupCursors();
+    }).catch(()=>{cn='Student '+(Math.floor(Math.random()*99)+1);setSt('Live ✓','#4A7C6F');setupSync();setupCursors()});
+  }else if(!u)setSt('Disconnected','#C4714A');
+});
+initA();
+
+function setupSync(){
+  const tRef=doc(db,'artifacts',LID,'public','data','ls','texts');
+  const dRef=doc(db,'artifacts',LID,'public','data','ls','drag');
+  const wRef=doc(db,'artifacts',LID,'public','data','ls','wb');
+  let editing=null;
+
+  window.saveText=el=>{if(!user)return;setDoc(tRef,{[el.dataset.sid]:el.innerHTML},{merge:true})};
+  window.attachEdit=el=>{
+    el.addEventListener('focus',()=>editing=el.dataset.sid);
+    el.addEventListener('blur',()=>{editing=null;window.saveText(el)});
+    el.addEventListener('input',deb(()=>{if(editing===el.dataset.sid)window.saveText(el)},500));
+  };
+  eds.forEach(el=>window.attachEdit(el));
+
+  window.addNewTab=e=>{
+    e.preventDefault();const c=document.getElementById('navTabsContainer');
+    const li=document.createElement('li');const id='et'+Date.now();
+    li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${id}">New Tab</a>`;
+    c.appendChild(li);window.attachEdit(li.querySelector('a'));
+    if(user)setDoc(tRef,{nav_html:c.innerHTML},{merge:true});
+  };
+
+  onSnapshot(tRef,snap=>{
+    if(!snap.exists())return;
+    const d=snap.data();
+    for(const[k,v]of Object.entries(d)){
+      if(k==='nav_html'){
+        const c=document.getElementById('navTabsContainer');
+        if(!c.contains(document.activeElement)){c.innerHTML=v;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEdit(a))}
+        continue;
+      }
+      if(editing!==k){const el=document.querySelector(`[data-sid="${k}"]`)||document.querySelector(`[data-sync-id="${k}"]`);if(el&&el.innerHTML!==v)el.innerHTML=v}
+    }
+  });
+
+  window.syncDrag=id=>{
+    if(!user)return;
+    const col=document.getElementById(id);if(!col)return;
+    setDoc(dRef,{[id]:Array.from(col.children).map(c=>c.id)},{merge:true});
+  };
+  onSnapshot(dRef,snap=>{
+    if(!snap.exists())return;const d=snap.data();
+    ['vocabDrag'].forEach(id=>{const col=document.getElementById(id);if(!col||!d[id])return;d[id].forEach(eid=>{const el=document.getElementById(eid);if(el)col.appendChild(el)})});
+  });
+
+  window.syncWBDraw=deb(()=>{
+    if(!user)return;
+    setDoc(wRef,{img:document.getElementById('wbCanvas').toDataURL('image/png',0.5),clr:window._lc||0},{merge:true});
+    pendingDraw=false;
+  },800);
+  window.syncWBClear=()=>{if(!user)return;const ts=Date.now();window._lc=ts;setDoc(wRef,{clr:ts,img:null},{merge:true})};
+  onSnapshot(wRef,snap=>{
+    if(!snap.exists())return;const d=snap.data();
+    const c=document.getElementById('wbCanvas');const x=c.getContext('2d');
+    if(d.clr>(window._lc||0)){x.clearRect(0,0,c.width,c.height);window._lc=d.clr;return}
+    if(d.img&&!pendingDraw){const im=new Image();im.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(im,0,0)};im.src=d.img}
+  });
+
+  window.resetLesson=async()=>{
+    if(!user||!confirm('Reset all content for everyone?'))return;
+    setSt('Resetting...','#B8922A');
+    await deleteDoc(tRef);await deleteDoc(dRef);
+    const ts=Date.now();window._lc=ts;await setDoc(wRef,{clr:ts,img:null});
+    setTimeout(()=>setSt('Live ✓','#4A7C6F'),1200);
+  };
+}
+
+function setupCursors(){
+  const cCol=collection(db,'artifacts',LID,'public','data','cursors');
+  const myRef=doc(db,'artifacts',LID,'public','data','cursors',user.uid);
+  const cont=document.getElementById('cursors');
+  document.addEventListener('mousemove',deb((f=>(...a)=>{clearTimeout(f._t);f._t=setTimeout(()=>f(...a),350)})(e=>{
+    if(!user)return;
+    setDoc(myRef,{x:e.pageX-(window.innerWidth/2),y:e.pageY,color:cc,name:cn,ts:Date.now()});
+  })));
+  onSnapshot(cCol,snap=>{
+    snap.docChanges().forEach(ch=>{
+      const id=ch.doc.id;if(id===user.uid)return;
+      if(ch.type==='removed'){const el=document.getElementById('c-'+id);if(el)el.remove();return}
+      const d=ch.doc.data();
+      if(Date.now()-d.ts>60000){const el=document.getElementById('c-'+id);if(el)el.remove();return}
+      let el=document.getElementById('c-'+id);
+      if(!el){el=document.createElement('div');el.id='c-'+id;el.className='remote-cursor';
+        el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${d.color}">${d.name}</div>`;
+        cont.appendChild(el);}
+      el.style.left=(window.innerWidth/2+d.x)+'px';el.style.top=d.y+'px';
+    });
+  });
+  window.addEventListener('beforeunload',()=>{if(user)deleteDoc(myRef)});
+}
+</script>
+</body>
+</html>
