@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANAG 6001 | Lesson 4: Speaking Mastery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #F2F0EB;
+            --bg-dark: #E8E4DC;
+            --white: #FAFAF8;
+            --ink: #1C1C1A;
+            --ink-light: #3A3A36;
+            --red: #C0392B;
+            --red-pale: rgba(192,57,43,0.08);
+            --red-mid: rgba(192,57,43,0.18);
+            --blue: #1A4D8F;
+            --blue-pale: rgba(26,77,143,0.07);
+            --green: #1B6B3A;
+            --green-pale: rgba(27,107,58,0.08);
+            --gold: #B8860B;
+            --gold-pale: rgba(184,134,11,0.1);
+            --gray: #7A7A72;
+            --gray-line: #D4D0C8;
+            --display: 'Bebas Neue', Impact, sans-serif;
+            --sans: 'DM Sans', system-ui, sans-serif;
+            --mono: 'DM Mono', monospace;
+            --shadow: 0 1px 4px rgba(28,28,26,0.1);
+            --shadow-md: 0 4px 20px rgba(28,28,26,0.12);
+            --shadow-lg: 0 12px 40px rgba(28,28,26,0.15);
+            --r: 6px;
+            --r-lg: 14px;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] { outline: none; border-radius: 3px; transition: background .18s; }
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus {
+            background: rgba(192,57,43,0.06);
+            box-shadow: 0 0 0 1px rgba(192,57,43,0.2);
+        }
+
+        /* ====== HERO — Broadcast Poster Style ====== */
+        .hero {
+            background: var(--ink);
+            color: var(--white);
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 92vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-left {
+            padding: 80px 60px 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 32px; height: 2px;
+            background: var(--red);
+        }
+
+        .hero h1 {
+            font-family: var(--display);
+            font-size: clamp(5rem, 10vw, 9rem);
+            line-height: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+        .hero h1 .word-speak { color: var(--white); display: block; }
+        .hero h1 .word-up { color: var(--red); display: block; }
+        .hero h1 .word-soldier { color: rgba(255,255,255,0.18); display: block; font-size: 0.5em; letter-spacing: 6px; }
+
+        .hero-sub {
+            font-size: 0.95rem;
+            color: rgba(250,250,248,0.6);
+            max-width: 380px;
+            line-height: 1.65;
+            margin-bottom: 36px;
+        }
+
+        .hero-pills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .hero-pill {
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.6);
+        }
+        .hero-pill.active { border-color: var(--red); color: var(--red); }
+
+        /* Right panel — big graphic */
+        .hero-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .hero-right::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 60% 40%, rgba(192,57,43,0.15) 0%, transparent 60%),
+                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.015) 20px, rgba(255,255,255,0.015) 21px);
+        }
+        .hero-mic-graphic {
+            font-size: 14rem;
+            opacity: 0.08;
+            filter: grayscale(1);
+            user-select: none;
+            animation: breathe 4s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%,100% { transform: scale(1); opacity: 0.08; }
+            50% { transform: scale(1.04); opacity: 0.12; }
+        }
+        .hero-score-badge {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+        .score-ring {
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 3px solid rgba(192,57,43,0.3);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            background: rgba(28,28,26,0.6);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 60px rgba(192,57,43,0.2);
+        }
+        .score-ring .big-num {
+            font-family: var(--display);
+            font-size: 4rem;
+            color: var(--red);
+            line-height: 1;
+        }
+        .score-ring .score-label {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-top: 6px;
+        }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 56px;
+            background: var(--bg);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ====== NAV ====== */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: var(--white);
+            border-bottom: 2px solid var(--ink);
+            padding: 0 24px;
+            box-shadow: var(--shadow);
+        }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between; height: 52px;
+        }
+        .nav-logo {
+            font-family: var(--display);
+            font-size: 1.1rem; color: var(--ink);
+            text-decoration: none; letter-spacing: 2px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .nav-logo .dot {
+            width: 10px; height: 10px;
+            background: var(--red); border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:.7} }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--gray);
+            font-size: 0.72rem; font-weight: 600;
+            padding: 5px 10px; border-radius: var(--r);
+            transition: color .18s, background .18s;
+            white-space: nowrap; letter-spacing: .5px;
+            font-family: var(--mono); text-transform: uppercase;
+        }
+        .nav-links a:hover { color: var(--red); background: var(--red-pale); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 80px 24px; }
+        .section.alt { background: var(--bg-dark); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+
+        .section-label {
+            font-family: var(--mono); font-size: 0.68rem;
+            color: var(--red); letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 12px;
+        }
+        .section-label .lnum {
+            background: var(--red); color: var(--white);
+            width: 22px; height: 22px; border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; font-weight: 700;
+        }
+
+        .section-title {
+            font-family: var(--display);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 400; color: var(--ink);
+            margin-bottom: 8px; line-height: 1;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .section-title .red { color: var(--red); }
+        .section-title .blue { color: var(--blue); }
+        .section-title .green { color: var(--green); }
+
+        .section-desc {
+            color: var(--gray); font-size: 0.96rem;
+            margin-bottom: 32px; max-width: 660px;
+            line-height: 1.65;
+        }
+
+        /* ====== DATA TABLE ====== */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.88rem; }
+        .data-table thead th {
+            background: var(--ink); color: var(--white);
+            padding: 10px 16px; text-align: left;
+            font-family: var(--mono); font-size: 0.65rem;
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+        .data-table tbody td { padding: 11px 16px; border-bottom: 1px solid var(--gray-line); vertical-align: top; }
+        .data-table tbody tr:nth-child(even) { background: rgba(28,28,26,0.03); }
+        .data-table tbody tr:hover { background: var(--red-pale); }
+        .data-table td strong { color: var(--red); }
+        .data-table td em { color: var(--blue); font-style: normal; font-weight: 600; }
+
+        /* ====== SCORE CRITERIA GRID ====== */
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px; margin-top: 24px;
+        }
+        .criteria-card {
+            background: var(--white);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .criteria-header {
+            padding: 14px 20px;
+            display: flex; align-items: center;
+            gap: 12px;
+        }
+        .criteria-header.fluency { background: var(--red-pale); border-bottom: 2px solid var(--red); }
+        .criteria-header.vocab { background: var(--blue-pale); border-bottom: 2px solid var(--blue); }
+        .criteria-header.grammar { background: var(--green-pale); border-bottom: 2px solid var(--green); }
+        .criteria-header.task { background: var(--gold-pale); border-bottom: 2px solid var(--gold); }
+        .criteria-icon { font-size: 1.6rem; }
+        .criteria-header h3 { font-family: var(--display); font-size: 1.1rem; letter-spacing: 1px; }
+        .criteria-body { padding: 16px 20px; font-size: 0.86rem; color: var(--ink-light); line-height: 1.6; }
+        .criteria-body .score-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--gray-line); font-size: 0.82rem; }
+        .criteria-body .score-row:last-child { border: none; }
+        .score-badge { font-family: var(--mono); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; }
+        .badge-l3 { background: rgba(27,107,58,0.15); color: var(--green); }
+        .badge-l2 { background: var(--blue-pale); color: var(--blue); }
+        .badge-fail { background: var(--red-pale); color: var(--red); }
+
+        /* ====== SPEAKING CLOCK ====== */
+        .timer-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 14px; margin-top: 24px;
+        }
+        .timer-card {
+            background: var(--white);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--r-lg);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .timer-card::before {
+            content: attr(data-phase);
+            position: absolute;
+            top: -14px; left: 0; right: 0;
+            font-family: var(--display);
+            font-size: 5rem;
+            color: rgba(28,28,26,0.04);
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        .timer-card .phase-name { font-family: var(--display); font-size: 1.2rem; letter-spacing: 1px; color: var(--ink); margin-bottom: 6px; }
+        .timer-card .phase-time { font-family: var(--mono); font-size: 2rem; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 8px; }
+        .timer-card .phase-desc { font-size: 0.8rem; color: var(--gray); line-height: 1.5; }
+        .timer-card.main { border-color: var(--red); border-width: 2px; }
+        .timer-card.main .phase-name { color: var(--red); }
+
+        /* ====== VOCAB CARDS ====== */
+        .vocab-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px; margin-top: 24px;
+        }
+        .vocab-card {
+            background: var(--white);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--r);
+            padding: 16px 18px;
+            box-shadow: var(--shadow);
+            border-left: 3px solid var(--red);
+            transition: transform .15s;
+        }
+        .vocab-card:nth-child(2) { border-left-color: var(--blue); }
+        .vocab-card:nth-child(3) { border-left-color: var(--green); }
+        .vocab-card:nth-child(4) { border-left-color: var(--gold); }
+        .vocab-card:nth-child(5) { border-left-color: var(--red); }
+        .vocab-card:nth-child(6) { border-left-color: var(--blue); }
+        .vocab-card:nth-child(7) { border-left-color: var(--green); }
+        .vocab-card:nth-child(8) { border-left-color: var(--gold); }
+        .vocab-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .vocab-card .word { font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+        .vocab-card .pos { font-family: var(--mono); font-size: 0.62rem; color: var(--red); letter-spacing: 1px; text-transform: uppercase; margin-left: 6px; }
+        .vocab-card .def { font-size: 0.84rem; color: var(--gray); margin-top: 5px; line-height: 1.5; }
+        .vocab-card .example { font-size: 0.82rem; font-style: italic; color: var(--ink); margin-top: 8px; border-top: 1px solid var(--gray-line); padding-top: 7px; }
+
+        /* ====== DRAG & DROP ====== */
+        .match-board { display: flex; gap: 14px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .arrows-col { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+        .drag-item {
+            background: var(--white); border: 1px solid var(--gray-line);
+            border-left: 3px solid var(--red);
+            border-radius: var(--r); cursor: grab;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.86rem; font-weight: 600; color: var(--ink);
+            box-shadow: var(--shadow); transition: all .15s;
+            height: 56px; padding: 0 14px;
+        }
+        .drag-item:hover { border-left-color: var(--blue); box-shadow: var(--shadow-md); }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--gray-line); font-size: 1rem; user-select: none; }
+        .static-item {
+            background: var(--bg-dark); border: 1px solid var(--gray-line);
+            border-radius: var(--r); color: var(--gray);
+            height: 56px; display: flex; align-items: center;
+            padding: 0 14px; font-size: 0.84rem;
+        }
+        .match-arrow { color: var(--gray-line); font-size: 1.2rem; height: 56px; display: flex; align-items: center; justify-content: center; }
+
+        /* ====== SPEAKING SIMULATOR ====== */
+        .speak-stage {
+            background: var(--white);
+            border: 2px solid var(--ink);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            margin-top: 24px;
+        }
+        .stage-header {
+            background: var(--ink);
+            color: var(--white);
+            padding: 14px 24px;
+            display: flex; align-items: center;
+            justify-content: space-between;
+        }
+        .stage-title { font-family: var(--display); font-size: 1rem; letter-spacing: 2px; }
+        .stage-badge { font-family: var(--mono); font-size: 0.65rem; color: var(--red); letter-spacing: 1px; border: 1px solid var(--red); padding: 2px 8px; border-radius: 2px; }
+        .stage-body { padding: 28px 32px; display: flex; flex-direction: column; gap: 12px; }
+
+        .speak-turn {
+            display: flex; gap: 14px; align-items: flex-start;
+        }
+        .speak-turn.examiner { flex-direction: row; }
+        .speak-turn.student { flex-direction: row-reverse; }
+
+        .turn-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; flex-shrink: 0;
+            border: 2px solid var(--gray-line);
+        }
+        .turn-avatar.ex { background: var(--blue-pale); border-color: var(--blue); }
+        .turn-avatar.st { background: var(--red-pale); border-color: var(--red); }
+
+        .turn-bubble {
+            border-radius: var(--r-lg);
+            padding: 14px 18px;
+            max-width: 80%;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .turn-bubble.ex {
+            background: var(--blue-pale);
+            border: 1px solid rgba(26,77,143,0.2);
+            border-top-left-radius: 2px;
+        }
+        .turn-bubble.st {
+            background: var(--red-pale);
+            border: 1px solid rgba(192,57,43,0.2);
+            border-top-right-radius: 2px;
+            text-align: left;
+        }
+        .turn-bubble.hint {
+            background: var(--gold-pale);
+            border: 1px dashed rgba(184,134,11,0.4);
+            font-style: italic; font-size: 0.82rem;
+            color: var(--gray); max-width: 100%;
+            border-radius: var(--r);
+        }
+        .speaker-name { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .speaker-name.ex { color: var(--blue); }
+        .speaker-name.st { color: var(--red); text-align: right; }
+        .turn-divider { height: 1px; background: var(--gray-line); margin: 4px 0; }
+
+        /* ====== COLD SPEAKING CARDS ====== */
+        .question-deck {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px; margin-top: 24px;
+        }
+        .q-card {
+            background: var(--white);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--r-lg);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: all .2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .q-card::before {
+            content: attr(data-num);
+            position: absolute;
+            bottom: -10px; right: 4px;
+            font-family: var(--display);
+            font-size: 5rem;
+            color: rgba(28,28,26,0.04);
+            line-height: 1;
+        }
+        .q-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--red); }
+        .q-card .q-level { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+        .q-card .q-level.l2 { color: var(--blue); }
+        .q-card .q-level.l3 { color: var(--red); }
+        .q-card p { font-size: 0.87rem; color: var(--ink); line-height: 1.55; font-weight: 500; }
+        .q-card .time-hint { font-family: var(--mono); font-size: 0.65rem; color: var(--gray); margin-top: 10px; display: block; }
+
+        /* ====== EXERCISE LIST ====== */
+        .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; counter-reset: ex; }
+        .exercise-list li {
+            background: var(--white); border: 1px solid var(--gray-line);
+            padding: 13px 18px 13px 50px;
+            border-radius: var(--r); font-size: 0.92rem;
+            position: relative; box-shadow: var(--shadow);
+        }
+        .exercise-list li::before {
+            counter-increment: ex;
+            content: counter(ex);
+            position: absolute; left: 16px; top: 13px;
+            width: 22px; height: 22px;
+            background: var(--ink); color: var(--white);
+            border-radius: 3px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+        }
+        .blank { display: inline-block; min-width: 70px; border-bottom: 1px solid var(--gray); color: var(--red); font-weight: 600; padding: 0 8px; text-align: center; }
+        .blank:focus { border-bottom-color: var(--red); outline: none; }
+
+        /* ====== ALERT ====== */
+        .alert { border-radius: var(--r); padding: 14px 18px; margin: 20px 0; font-size: 0.9rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.6; }
+        .alert.red { background: var(--red-pale); border: 1px solid rgba(192,57,43,0.25); border-left: 4px solid var(--red); }
+        .alert.blue { background: var(--blue-pale); border: 1px solid rgba(26,77,143,0.2); border-left: 4px solid var(--blue); }
+        .alert.green { background: var(--green-pale); border: 1px solid rgba(27,107,58,0.2); border-left: 4px solid var(--green); }
+        .alert.gold { background: var(--gold-pale); border: 1px solid rgba(184,134,11,0.2); border-left: 4px solid var(--gold); }
+        .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+        /* ====== PRONUNCIATION RULER ====== */
+        .stress-ruler {
+            background: var(--white);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: var(--shadow);
+        }
+        .stress-ruler h4 { font-family: var(--display); font-size: 1rem; letter-spacing: 1px; margin-bottom: 16px; color: var(--ink); }
+        .stress-row {
+            display: flex; align-items: baseline;
+            gap: 3px; margin-bottom: 18px;
+            font-family: var(--mono); font-size: 0.9rem;
+            padding-bottom: 14px; border-bottom: 1px solid var(--gray-line);
+        }
+        .stress-row:last-child { border: none; margin-bottom: 0; padding-bottom: 0; }
+        .syl { padding: 2px 4px; border-radius: 2px; transition: all .15s; }
+        .syl.stressed {
+            background: var(--red);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 700;
+            padding: 4px 6px;
+        }
+        .syl.unstressed { color: var(--gray); font-size: 0.85em; }
+        .stress-note { font-size: 0.78rem; color: var(--gray); margin-left: 16px; font-family: var(--sans); font-style: italic; }
+
+        /* ====== INTONATION DIAGRAM ====== */
+        .intonation-box {
+            background: var(--white);
+            border: 1px solid var(--gray-line);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            margin-top: 16px;
+            box-shadow: var(--shadow);
+        }
+        .intonation-row {
+            display: flex; align-items: center;
+            gap: 16px; margin-bottom: 20px;
+            padding-bottom: 16px; border-bottom: 1px solid var(--gray-line);
+        }
+        .intonation-row:last-child { border: none; margin-bottom: 0; }
+        .intonation-row .sentence { font-size: 0.9rem; font-weight: 600; min-width: 240px; }
+        .intonation-row .arrow-path {
+            flex: 1; position: relative; height: 40px;
+        }
+        .intonation-row .arrow-path svg { width: 100%; height: 100%; overflow: visible; }
+        .intonation-row .type-label { font-family: var(--mono); font-size: 0.65rem; color: var(--gray); letter-spacing: 1px; white-space: nowrap; }
+
+        /* ====== WHITEBOARD ====== */
+        .wb-wrap { border: 2px solid var(--ink); border-radius: var(--r-lg); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+        .wb-bar { background: var(--ink); padding: 10px 18px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: rgba(255,255,255,0.08); color: var(--white); border: 1px solid rgba(255,255,255,0.18); padding: 5px 10px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; transition: all .15s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--red); border-color: var(--red); }
+        .wb-color { width: 24px; height: 24px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 460px; background: var(--white); cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .debrief-panel {
+            background: var(--ink);
+            color: var(--white);
+            border-radius: var(--r-lg);
+            padding: 40px;
+            margin-top: 40px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .debrief-panel::before {
+            content: 'DEBRIEF';
+            position: absolute;
+            right: -10px; top: 50%; transform: translateY(-50%) rotate(90deg);
+            font-family: var(--display);
+            font-size: 8rem;
+            color: rgba(255,255,255,0.03);
+            letter-spacing: 4px;
+        }
+        .debrief-panel h2 { font-family: var(--display); font-size: 2rem; color: var(--red); letter-spacing: 2px; margin-bottom: 6px; }
+        .debrief-panel .subtitle { font-family: var(--mono); font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+        .debrief-list { list-style: none; }
+        .debrief-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.88rem; color: rgba(255,255,255,0.75); }
+        .debrief-list li strong { color: var(--red); }
+
+        /* ====== FABs ====== */
+        .fab-group { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab { background: var(--ink); color: var(--white); border: 1px solid rgba(255,255,255,0.1); width: 48px; height: 48px; border-radius: var(--r); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); transition: all .2s; display: flex; align-items: center; justify-content: center; }
+        .fab:hover { background: var(--red); transform: translateY(-2px); }
+        .fab.qz { background: rgba(66,85,255,0.9); border-color: transparent; }
+        .fab.qz:hover { background: #4255FF; }
+        .fab.rst { background: rgba(192,57,43,0.15); border-color: var(--red); color: var(--red); }
+        .fab.rst:hover { background: var(--red); color: white; }
+
+        /* ====== MODAL ====== */
+        .modal-overlay { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(28,28,26,0.8); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: var(--white); border: 2px solid var(--ink); padding: 28px; border-radius: var(--r-lg); width: 90%; max-width: 560px; position: relative; box-shadow: var(--shadow-lg); }
+        .modal-box h2 { font-family: var(--display); font-size: 1.5rem; color: var(--ink); letter-spacing: 1px; margin-bottom: 8px; }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; cursor: pointer; color: var(--gray); background: none; border: none; }
+        .modal-close:hover { color: var(--red); }
+        .word-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 8px 12px; background: var(--bg); border: 1px solid var(--gray-line); border-radius: var(--r); font-size: 0.88rem; color: var(--ink); font-family: var(--sans); }
+        .word-row input:focus { outline: none; border-color: var(--red); }
+        #wordList { max-height: 300px; overflow-y: auto; margin: 16px 0; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 9px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; transition: all .15s; }
+        .modal-btn.secondary { background: transparent; border-color: var(--gray-line); color: var(--gray); }
+        .modal-btn.primary { background: #4255FF; border-color: #4255FF; color: white; flex: 2; }
+
+        /* ====== REMOTE CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.35s linear, left 0.35s linear; display: flex; align-items: flex-start; opacity: 0; animation: fcIn .3s forwards; }
+        @keyframes fcIn { to { opacity: 1; } }
+        .remote-cursor svg { width: 20px; height: 20px; transform: rotate(-15deg); pointer-events: none; }
+        .cursor-name { color: white; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 2px; margin-left: -4px; margin-top: 14px; white-space: nowrap; }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-right { display: none; }
+            .hero-left { padding: 80px 28px 60px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 360px; }
+            .match-board { flex-direction: column; }
+            .arrows-col { display: none; }
+            .criteria-grid { grid-template-columns: 1fr; }
+            .timer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sync Status -->
+<div id="syncStatus" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--red);padding:5px 14px;border-radius:3px;font-family:var(--mono);font-size:0.7rem;font-weight:700;z-index:10000;display:flex;align-items:center;gap:8px;border:1px solid rgba(192,57,43,0.3);">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--red);border-radius:50%;"></span>
+    <span id="syncText">CONNECTING...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-left">
+        <p class="hero-eyebrow" contenteditable="true">STANAG 6001 · Lesson 04 · Speaking</p>
+        <h1>
+            <span class="word-speak" contenteditable="true">Speak</span>
+            <span class="word-up" contenteditable="true">Up,</span>
+            <span class="word-soldier" contenteditable="true">Officer</span>
+        </h1>
+        <p class="hero-sub" contenteditable="true">The speaking test is the only part of STANAG where you cannot go back and fix your mistakes. Today you learn to control the room — warm-up, structure, vocabulary, fluency, and military precision.</p>
+        <div class="hero-pills">
+            <div class="hero-pill active" contenteditable="true">~30 min exam</div>
+            <div class="hero-pill" contenteditable="true">2 examiners</div>
+            <div class="hero-pill" contenteditable="true">Warm-up + Interview + Wind-down</div>
+            <div class="hero-pill" contenteditable="true">4 criteria scored</div>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="hero-score-badge">
+            <div class="score-ring">
+                <span class="big-num" contenteditable="true">3</span>
+                <span class="score-label" contenteditable="true">Target SLP</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><div class="dot"></div> STANAG-L04</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--red);border:1px solid rgba(192,57,43,0.3);padding:4px 10px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#format" contenteditable="true">Format</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#interview" contenteditable="true">Interview</a></li>
+            <li><a href="#cold" contenteditable="true">Cold Drill</a></li>
+            <li><a href="#pronunc" contenteditable="true">Pronunc.</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#writing" contenteditable="true">Writing</a></li>
+            <li><a href="#wb" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section alt" id="recap">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">1</div> Lessons 1–3 Recall</div>
+        <h2 class="section-title" contenteditable="true">Cold Start: <span class="red">Vocab Sprint</span></h2>
+        <p class="section-desc" contenteditable="true">Your teacher says a word. You give the English definition and use it in a sentence — no notes, no looking. This is exactly how the speaking exam begins: cold, without preparation.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Word / Phrase</th>
+                    <th contenteditable="true">Lesson</th>
+                    <th contenteditable="true">Definition (say aloud)</th>
+                    <th contenteditable="true">Your sentence (say aloud)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>reconnaissance</strong></td><td contenteditable="true">L1</td><td contenteditable="true"><em>Say it...</em></td><td contenteditable="true"><em>Say it...</em></td></tr>
+                <tr><td contenteditable="true"><strong>preliminary</strong></td><td contenteditable="true">L2</td><td contenteditable="true"><em>Say it...</em></td><td contenteditable="true"><em>Say it...</em></td></tr>
+                <tr><td contenteditable="true"><strong>reinforcements</strong></td><td contenteditable="true">L2</td><td contenteditable="true"><em>Say it...</em></td><td contenteditable="true"><em>Say it...</em></td></tr>
+                <tr><td contenteditable="true"><strong>I would be grateful if</strong></td><td contenteditable="true">L3</td><td contenteditable="true"><em>Say it...</em></td><td contenteditable="true"><em>Say it...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Taking all factors into consideration</strong></td><td contenteditable="true">L3</td><td contenteditable="true"><em>Say it...</em></td><td contenteditable="true"><em>Say it...</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert blue" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework Review:</strong> Present your rewritten Level 2 letter (all 8 checklist corrections applied). Read it aloud — this also practises your speaking. Your teacher will mark: Did you avoid all contractions? Did you address all 3 bullet points? Was your closing correct?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: SPEAKING TEST FORMAT ====== -->
+<section class="section" id="format">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">2</div> Know the Terrain</div>
+        <h2 class="section-title" contenteditable="true">Speaking Test: <span class="red">30-Minute Breakdown</span></h2>
+        <p class="section-desc" contenteditable="true">The STANAG speaking exam has three phases. Each phase tests something different. Knowing exactly when each phase begins — and what is expected — eliminates surprise and reduces nerves.</p>
+
+        <div class="timer-grid">
+            <div class="timer-card" data-phase="WARM">
+                <div class="phase-name" contenteditable="true">Warm-Up</div>
+                <div class="phase-time" contenteditable="true">~3 min</div>
+                <p class="phase-desc" contenteditable="true">Personal intro — name, rank, role, background. Light conversation. Relaxed. The examiner is not scoring heavily yet — but your first impression matters.</p>
+            </div>
+            <div class="timer-card main" data-phase="INTER">
+                <div class="phase-name" contenteditable="true">Structured Interview</div>
+                <div class="phase-time" contenteditable="true">~25 min</div>
+                <p class="phase-desc" contenteditable="true"><strong>This is where your score is decided.</strong> Level 2 & Level 3 questions on military topics, current events, and controversial social issues. You must speak continuously, structure arguments, and use formal vocabulary.</p>
+            </div>
+            <div class="timer-card" data-phase="WIND">
+                <div class="phase-name" contenteditable="true">Wind-Down</div>
+                <div class="phase-time" contenteditable="true">~2 min</div>
+                <p class="phase-desc" contenteditable="true">A closing casual question: "What are you going to do after the test?" Brief, friendly — end on a positive, confident note. Do not trail off or say "I don't know."</p>
+            </div>
+        </div>
+
+        <h3 style="font-family:var(--display);font-size:1.3rem;letter-spacing:1px;color:var(--ink);margin:32px 0 16px;" contenteditable="true">THE 4 SCORING CRITERIA — HOW YOU ARE GRADED</h3>
+
+        <div class="criteria-grid">
+            <div class="criteria-card">
+                <div class="criteria-header fluency">
+                    <span class="criteria-icon">🗣️</span>
+                    <h3 contenteditable="true">Fluency & Delivery</h3>
+                </div>
+                <div class="criteria-body" contenteditable="true">
+                    <p>Can you speak <em>smoothly and continuously</em> without excessive pausing or hesitation?</p>
+                    <div class="score-row"><span>Level 3</span><span class="score-badge badge-l3">Natural rhythm, self-corrects smoothly</span></div>
+                    <div class="score-row"><span>Level 2</span><span class="score-badge badge-l2">Occasional pauses, basic delivery</span></div>
+                    <div class="score-row"><span>Below L2</span><span class="score-badge badge-fail">Long silences, broken speech</span></div>
+                </div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-header vocab">
+                    <span class="criteria-icon">📖</span>
+                    <h3 contenteditable="true">Vocabulary Range</h3>
+                </div>
+                <div class="criteria-body" contenteditable="true">
+                    <p>Do you use <em>precise, varied vocabulary</em> — especially military and formal register?</p>
+                    <div class="score-row"><span>Level 3</span><span class="score-badge badge-l3">Complex lexis, idiomatic, field-specific</span></div>
+                    <div class="score-row"><span>Level 2</span><span class="score-badge badge-l2">Basic vocabulary, some repetition</span></div>
+                    <div class="score-row"><span>Below L2</span><span class="score-badge badge-fail">Very limited, frequent errors</span></div>
+                </div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-header grammar">
+                    <span class="criteria-icon">📐</span>
+                    <h3 contenteditable="true">Grammar Accuracy</h3>
+                </div>
+                <div class="criteria-body" contenteditable="true">
+                    <p>Are your sentences <em>grammatically correct</em>, especially tenses, passive voice, and complex structures?</p>
+                    <div class="score-row"><span>Level 3</span><span class="score-badge badge-l3">Complex structures, rare minor errors</span></div>
+                    <div class="score-row"><span>Level 2</span><span class="score-badge badge-l2">Simple structures, occasional errors</span></div>
+                    <div class="score-row"><span>Below L2</span><span class="score-badge badge-fail">Frequent basic errors, hard to follow</span></div>
+                </div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-header task">
+                    <span class="criteria-icon">🎯</span>
+                    <h3 contenteditable="true">Task Completion</h3>
+                </div>
+                <div class="criteria-body" contenteditable="true">
+                    <p>Did you <em>actually answer the question</em> asked — with a clear, relevant, complete response?</p>
+                    <div class="score-row"><span>Level 3</span><span class="score-badge badge-l3">Fully developed, well-structured argument</span></div>
+                    <div class="score-row"><span>Level 2</span><span class="score-badge badge-l2">Relevant but brief, minimal elaboration</span></div>
+                    <div class="score-row"><span>Below L2</span><span class="score-badge badge-fail">Off-topic or too short to evaluate</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section alt" id="vocab">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">3</div> Speaking Arsenal</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary: <span class="blue">Spoken Discourse Markers</span></h2>
+        <p class="section-desc" contenteditable="true">These phrases do three things: buy you thinking time, structure your argument, and signal sophistication to the examiner. They are the difference between a Level 2 and a Level 3 speaker.</p>
+
+        <div class="vocab-row">
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">That's a thought-provoking question</span><span class="pos" contenteditable="true">OPENER</span>
+                <p class="def" contenteditable="true">Buys 3–4 seconds thinking time while sounding engaged and sophisticated. Never say "I don't know."</p>
+                <p class="example" contenteditable="true"><em>"That's a thought-provoking question. From a military perspective..."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">To put it another way</span><span class="pos" contenteditable="true">CLARIFY</span>
+                <p class="def" contenteditable="true">Use when you want to rephrase your point more clearly or when you sense the examiner didn't follow.</p>
+                <p class="example" contenteditable="true"><em>"To put it another way, without interoperability, NATO cannot function effectively."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">From my experience in the military</span><span class="pos" contenteditable="true">EVIDENCE</span>
+                <p class="def" contenteditable="true">Powerful phrase — connects abstract discussion to your real professional background. Very impressive at Level 3.</p>
+                <p class="example" contenteditable="true"><em>"From my experience in the military, language barriers can significantly delay decision-making."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">It is worth noting that</span><span class="pos" contenteditable="true">EMPHASIS</span>
+                <p class="def" contenteditable="true">Signals that the next point is particularly important. More formal than "also" or "and."</p>
+                <p class="example" contenteditable="true"><em>"It is worth noting that this tendency has accelerated since 2020."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">One could argue that</span><span class="pos" contenteditable="true">HEDGING</span>
+                <p class="def" contenteditable="true">Presents a viewpoint without fully committing — useful for presenting the "other side" in a discussion.</p>
+                <p class="example" contenteditable="true"><em>"One could argue that defence spending should take priority in times of active threat."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">The implications of this are significant</span><span class="pos" contenteditable="true">EXPAND</span>
+                <p class="def" contenteditable="true">Forces you to elaborate beyond the basic answer — prevents short, underdeveloped answers.</p>
+                <p class="example" contenteditable="true"><em>"The implications of this for NATO partners are significant, particularly in terms of..."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">I would contend that</span><span class="pos" contenteditable="true">OPINION</span>
+                <p class="def" contenteditable="true">A strong, formal way to state your own opinion — more sophisticated than "I think."</p>
+                <p class="example" contenteditable="true"><em>"I would contend that a multilateral approach is the only viable long-term solution."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">To sum up my position</span><span class="pos" contenteditable="true">CONCLUDE</span>
+                <p class="def" contenteditable="true">Signals clearly that you are wrapping up. Examiners appreciate structured, deliberate closings.</p>
+                <p class="example" contenteditable="true"><em>"To sum up my position, I believe both security and welfare investment are mutually dependent."</em></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: VOCAB MATCHING ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">4</div> Vocabulary Practice</div>
+        <h2 class="section-title" contenteditable="true">Match: Phrase → <span class="red">Function</span></h2>
+        <p class="section-desc" contenteditable="true">Drag the speaking phrases to match their correct communicative function. You must know these automatically — in the exam, you cannot pause to think "which phrase do I use?"</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="speakVocabCol">
+                <li class="drag-item" id="sv-3" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">I would contend that</span></li>
+                <li class="drag-item" id="sv-6" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">To put it another way</span></li>
+                <li class="drag-item" id="sv-1" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">That's a thought-provoking question</span></li>
+                <li class="drag-item" id="sv-5" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">One could argue that</span></li>
+                <li class="drag-item" id="sv-4" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">It is worth noting that</span></li>
+                <li class="drag-item" id="sv-2" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">To sum up my position</span></li>
+            </ul>
+            <div class="arrows-col">
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) Buy thinking time and signal engagement</li>
+                <li class="static-item" contenteditable="true">b) Signal you are concluding your answer</li>
+                <li class="static-item" contenteditable="true">c) State your personal opinion formally</li>
+                <li class="static-item" contenteditable="true">d) Highlight an important point</li>
+                <li class="static-item" contenteditable="true">e) Present the opposing view without committing</li>
+                <li class="static-item" contenteditable="true">f) Rephrase your point more clearly</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: WARM-UP SIMULATION ====== -->
+<section class="section alt" id="warmup">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">5</div> Phase 1: Warm-Up Drill</div>
+        <h2 class="section-title" contenteditable="true">Warm-Up: <span class="green">Your Self-Introduction</span></h2>
+        <p class="section-desc" contenteditable="true">The warm-up is 3 minutes of personal conversation. It should feel effortless — because you have rehearsed it many times. Study the model interaction below, then do your own version live.</p>
+
+        <div class="speak-stage">
+            <div class="stage-header">
+                <span class="stage-title">SPEAKING SIMULATION — PHASE 1: WARM-UP</span>
+                <span class="stage-badge">~3 MINUTES</span>
+            </div>
+            <div class="stage-body">
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner</span>"Good morning. My name is Major Williams, and this is my colleague, Captain Davies. Please introduce yourself — tell us your name, rank, and current position."</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Model answer uses: full name → rank → unit → current role. Aim for 3–4 sentences. End with something that invites the next question naturally.</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>"Good morning. My name is Oleksandr [Surname]. I currently hold the rank of [Rank] and I am serving with the [Unit Name] of the Ukrainian Armed Forces. In my current position, I am responsible for [brief description of duties]. I have been serving in this role for approximately [X] years."</div>
+                </div>
+                <div class="turn-divider"></div>
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner</span>"Thank you. What motivated you to pursue a military career?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Use: "I was motivated by..." / "From an early age, I..." / "One of the key reasons was..." — Be specific. The examiner wants to hear personality and depth, not a generic answer.</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Practice your own genuine answer here — your teacher will give feedback on fluency and vocabulary use]</div>
+                </div>
+                <div class="turn-divider"></div>
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner</span>"Do you enjoy travelling? Have you visited other countries in a professional capacity?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 This tests whether you can move smoothly from formal to slightly personal topics. Use past tenses correctly — "I visited...", "I was stationed in...", "I participated in..."</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your answer — try to mention a real professional travel experience or training exercise abroad. Use "it was an opportunity to..." / "what struck me most was..."]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: STRUCTURED INTERVIEW — LEVEL 2 ====== -->
+<section class="section" id="interview">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">6</div> Phase 2: Level 2 Questions</div>
+        <h2 class="section-title" contenteditable="true">Interview: <span class="blue">Level 2 Practice</span></h2>
+        <p class="section-desc" contenteditable="true">These are real Level 2 STANAG questions. Your answer should be 4–6 sentences — complete, with a reason and an example. Use at least one discourse marker from Task 3 in each answer.</p>
+
+        <div class="speak-stage">
+            <div class="stage-header">
+                <span class="stage-title">STRUCTURED INTERVIEW — LEVEL 2</span>
+                <span class="stage-badge">4–6 SENTENCES PER ANSWER</span>
+            </div>
+            <div class="stage-body">
+
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner — Q1</span>"If you were travelling around the world, which three destinations would be 'must-sees' for you, and why?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Structure: Name 3 places → give one specific reason for each → link back to something personal or professional. Use: "The first destination I would choose is... because..." / "Furthermore, I would visit... as..." / "Finally, and perhaps most importantly..."</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your answer — speak for at least 40 seconds. Your teacher will time you.]</div>
+                </div>
+
+                <div class="turn-divider"></div>
+
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner — Q2</span>"Have you ever bought branded goods? Do you think buying a more expensive brand means it is much better than a cheaper alternative?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 This tests opinion + justification. Use: "I believe that..." / "One could argue that..." / "However, it is worth noting that..." — present BOTH sides briefly, then give your view.</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your answer]</div>
+                </div>
+
+                <div class="turn-divider"></div>
+
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner — Q3</span>"What are the advantages and disadvantages of learning a foreign language abroad?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Classic "advantages and disadvantages" structure: Intro → Advantage 1 + example → Advantage 2 → Disadvantage 1 → Disadvantage 2 → Your conclusion. Use: "On one hand..." / "On the other hand..." / "I would contend that the benefits outweigh..."</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your answer — aim for 60 seconds, using the advantages/disadvantages structure]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: STRUCTURED INTERVIEW — LEVEL 3 ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">7</div> Phase 2: Level 3 Questions</div>
+        <h2 class="section-title" contenteditable="true">Interview: <span class="red">Level 3 Military Topics</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 questions require extended answers of 60–90 seconds — a structured argument with evidence, not just an opinion. These are real questions from the STANAG exam sample you provided.</p>
+
+        <div class="speak-stage">
+            <div class="stage-header">
+                <span class="stage-title">STRUCTURED INTERVIEW — LEVEL 3</span>
+                <span class="stage-badge">60–90 SECONDS PER ANSWER</span>
+            </div>
+            <div class="stage-body">
+
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner — Q4</span>"As more and more countries adopt the euro as their currency, how does this influence the link between a country's identity and the money its people use?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 This is abstract and requires Level 3 thinking. Start with the concept: "Currency is more than just a medium of exchange — it is a symbol of..." Then give your argument. Use: "The implications of this are significant..." / "From a historical perspective..." / "It is worth noting that..."</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your 60-second answer]</div>
+                </div>
+
+                <div class="turn-divider"></div>
+
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner — Q5</span>"More and more European citizens are turning to terrorist activity. Look at these three reasons: Ignorance — Propaganda — Frustration. Which is the most influential, and which is the least? Justify your answer."</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Real Level 3 task from your exam sample. Rank them, defend your ranking, acknowledge why the others matter too. Structure: "In my view, Propaganda is the most influential factor because..." → "Frustration plays a secondary role as it..." → "Ignorance, while present, is the least influential because..." → "To sum up my position..."</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your ranked argument — aim for 75–90 seconds]</div>
+                </div>
+
+                <div class="turn-divider"></div>
+
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner — Q6</span>"Soldiers returning from military missions face problems adapting to everyday life. What can be done to make this process easier?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Connect this to your professional experience. Use: "From my experience in the military, I have observed that..." — then give 3 concrete solutions with reasons. This question rewards specificity over vague generalities.</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your answer — use "From my experience in the military..." as your opening]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: COLD SPEAKING DRILL ====== -->
+<section class="section" id="cold">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">8</div> Cold Drill — No Preparation</div>
+        <h2 class="section-title" contenteditable="true">The <span class="red">30-Second</span> Cold Draw</h2>
+        <p class="section-desc" contenteditable="true">Your teacher randomly points to a card. You have 30 seconds to think — then 90 seconds to speak. No notes. This is how the real exam feels. Every card is a real STANAG question type.</p>
+
+        <div class="question-deck">
+            <div class="q-card" data-num="01" contenteditable="false">
+                <p class="q-level l2" contenteditable="true">LEVEL 2</p>
+                <p contenteditable="true">Describe your daily routine as an officer. What are the most challenging parts of your job?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · 4–5 sentences</span>
+            </div>
+            <div class="q-card" data-num="02" contenteditable="false">
+                <p class="q-level l3" contenteditable="true">LEVEL 3</p>
+                <p contenteditable="true">Some argue that military service should be mandatory for all citizens. Discuss both views and give your opinion.</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · structured argument</span>
+            </div>
+            <div class="q-card" data-num="03" contenteditable="false">
+                <p class="q-level l2" contenteditable="true">LEVEL 2</p>
+                <p contenteditable="true">What does NATO mean to you personally as a Ukrainian officer? How has your perception of the Alliance changed?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · personal + factual</span>
+            </div>
+            <div class="q-card" data-num="04" contenteditable="false">
+                <p class="q-level l3" contenteditable="true">LEVEL 3</p>
+                <p contenteditable="true">Technology is changing the nature of modern warfare significantly. What are the most important implications for how armies train and operate?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · 3 specific points</span>
+            </div>
+            <div class="q-card" data-num="05" contenteditable="false">
+                <p class="q-level l2" contenteditable="true">LEVEL 2</p>
+                <p contenteditable="true">What is the most useful skill you have learned outside of your formal military training? How did you learn it?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · narrative</span>
+            </div>
+            <div class="q-card" data-num="06" contenteditable="false">
+                <p class="q-level l3" contenteditable="true">LEVEL 3</p>
+                <p contenteditable="true">International military cooperation requires mutual trust between nations with different cultures and values. To what extent is this possible in practice?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · analytical</span>
+            </div>
+            <div class="q-card" data-num="07" contenteditable="false">
+                <p class="q-level l2" contenteditable="true">LEVEL 2</p>
+                <p contenteditable="true">Describe the most significant professional achievement of your military career so far. What made it challenging?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · personal + past tense</span>
+            </div>
+            <div class="q-card" data-num="08" contenteditable="false">
+                <p class="q-level l3" contenteditable="true">LEVEL 3</p>
+                <p contenteditable="true">A government has a responsibility to its citizens to ensure their safety. Therefore, some think it should spend more on defence and less on social benefits. To what extent do you agree?</p>
+                <span class="time-hint" contenteditable="true">⏱ 90 seconds · balanced argument</span>
+            </div>
+        </div>
+
+        <div class="alert red" style="margin-top:24px;" contenteditable="false">
+            <span class="alert-icon">⏱</span>
+            <div contenteditable="true"><strong>Drill Rules:</strong> Teacher points to a card at random. Oleksandr has 30 seconds to think silently (no speaking). Then 90 seconds to answer without stopping. Teacher scores: (1) Did the answer have a clear beginning, middle, and end? (2) Did Oleksandr use at least one discourse marker from Task 3? (3) Was there any significant grammar error in the tense or structure? Do minimum 4 cards in this session.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: PRONUNCIATION — WORD STRESS & INTONATION ====== -->
+<section class="section alt" id="pronunc">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">9</div> Pronunciation Module</div>
+        <h2 class="section-title" contenteditable="true">Pronunciation: <span class="blue">Stress & Intonation</span></h2>
+        <p class="section-desc" contenteditable="true">STANAG examiners are trained to assess pronunciation. Two things cost marks: incorrect word stress on key military vocabulary, and falling intonation on questions (which sounds rude). Master both today.</p>
+
+        <div class="stress-ruler">
+            <h4 contenteditable="true">PART A — WORD STRESS: Military & Formal Vocabulary</h4>
+            <p style="font-size:0.82rem;color:var(--gray);margin-bottom:20px;" contenteditable="true">Red syllable = primary stress. Say each word aloud, then say it in a sentence. The stress pattern is what matters — not a "perfect" accent.</p>
+
+            <div class="stress-row">
+                <span class="syl unstressed">re-</span><span class="syl stressed">CON-</span><span class="syl unstressed">nais-</span><span class="syl unstressed">sance</span>
+                <span class="stress-note" contenteditable="true">re-CON-nuh-sance — NOT re-con-NAIS-sance. 4 syllables total.</span>
+            </div>
+            <div class="stress-row">
+                <span class="syl unstressed">de-</span><span class="syl stressed">PLOY-</span><span class="syl unstressed">ment</span>
+                <span class="stress-note" contenteditable="true">de-PLOY-ment — stress on second syllable.</span>
+            </div>
+            <div class="stress-row">
+                <span class="syl unstressed">op-</span><span class="syl unstressed">er-</span><span class="syl stressed">A-</span><span class="syl unstressed">tion-</span><span class="syl unstressed">al</span>
+                <span class="stress-note" contenteditable="true">op-er-A-tion-al — stress on third syllable. Very common STANAG word.</span>
+            </div>
+            <div class="stress-row">
+                <span class="syl unstressed">pre-</span><span class="syl stressed">LIM-</span><span class="syl unstressed">i-</span><span class="syl unstressed">nar-</span><span class="syl unstressed">y</span>
+                <span class="stress-note" contenteditable="true">pre-LIM-in-ary — stress on second syllable. NOT pre-lim-in-AR-y.</span>
+            </div>
+            <div class="stress-row">
+                <span class="syl stressed">MIL-</span><span class="syl unstressed">i-</span><span class="syl unstressed">tar-</span><span class="syl unstressed">y</span>
+                <span class="stress-note" contenteditable="true">MIL-it-ree (3 syllables in natural speech) — NOT mil-I-tar-y. First syllable stressed.</span>
+            </div>
+            <div class="stress-row">
+                <span class="syl unstressed">in-</span><span class="syl stressed">TER-</span><span class="syl unstressed">op-</span><span class="syl unstressed">er-</span><span class="syl unstressed">a-</span><span class="syl unstressed">bil-</span><span class="syl unstressed">i-</span><span class="syl unstressed">ty</span>
+                <span class="stress-note" contenteditable="true">in-TER-op-er-a-BIL-ity — secondary stress on 6th syllable too. Key NATO vocabulary.</span>
+            </div>
+        </div>
+
+        <div class="intonation-box" style="margin-top:20px;">
+            <h4 style="font-family:var(--display);font-size:1rem;letter-spacing:1px;color:var(--ink);margin-bottom:16px;" contenteditable="true">PART B — INTONATION PATTERNS</h4>
+
+            <div class="intonation-row">
+                <div class="sentence" contenteditable="true">"Are you serving in active duty?"</div>
+                <div class="arrow-path">
+                    <svg viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 30 C50 30 80 10 200 5" stroke="#1A4D8F" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M185 0 L200 5 L187 10" fill="#1A4D8F"/>
+                    </svg>
+                </div>
+                <div class="type-label" contenteditable="true">YES/NO Q → RISING ↗</div>
+            </div>
+            <div class="intonation-row">
+                <div class="sentence" contenteditable="true">"What is your current rank?"</div>
+                <div class="arrow-path">
+                    <svg viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 5 C80 5 120 30 200 35" stroke="#C0392B" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M187 30 L200 35 L188 40" fill="#C0392B"/>
+                    </svg>
+                </div>
+                <div class="type-label" contenteditable="true">WH-Q → FALLING ↘</div>
+            </div>
+            <div class="intonation-row">
+                <div class="sentence" contenteditable="true">"I visited Poland, Germany, and the UK."</div>
+                <div class="arrow-path">
+                    <svg viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20 C40 10 60 25 90 15 C115 5 135 22 165 12 C175 8 185 25 200 32" stroke="#1B6B3A" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M187 27 L200 32 L188 37" fill="#1B6B3A"/>
+                    </svg>
+                </div>
+                <div class="type-label" contenteditable="true">LIST → RISE, RISE, FALL ↗↗↘</div>
+            </div>
+            <div class="intonation-row">
+                <div class="sentence" contenteditable="true">"From my experience in the military, I believe that..."</div>
+                <div class="arrow-path">
+                    <svg viewBox="0 0 200 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 15 C50 12 90 20 130 15 C150 12 170 25 200 28" stroke="#B8860B" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M187 24 L200 28 L188 33" fill="#B8860B"/>
+                    </svg>
+                </div>
+                <div class="type-label" contenteditable="true">CLAUSE + OPINION → LEVEL THEN FALL ↘</div>
+            </div>
+        </div>
+
+        <div class="alert blue" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🎙️</span>
+            <div contenteditable="true"><strong>Pronunciation Drill:</strong> Say each word from Part A five times — slowly first, then at natural speed. Then put it in the sentence: "The reconnaissance mission was preliminary in nature — the full operational assessment will follow." Say it three times until the stress and rhythm feel natural.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: GRAMMAR — MODAL VERBS ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">10</div> Grammar Module</div>
+        <h2 class="section-title" contenteditable="true">Grammar: <span class="green">Modal Verbs for Speaking</span></h2>
+        <p class="section-desc" contenteditable="true">Modals are the engine of spoken English — especially for opinion, obligation, and possibility. In the speaking test, using the right modal instantly signals fluency and sophistication.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Modal</th>
+                    <th contenteditable="true">Function in Speaking</th>
+                    <th contenteditable="true">STANAG Speaking Example</th>
+                    <th contenteditable="true">Register</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>must</strong></td><td contenteditable="true">Strong obligation or logical deduction</td><td contenteditable="true">"Governments <em>must</em> ensure that returning soldiers receive psychological support."</td><td contenteditable="true"><span style="color:var(--red);font-weight:700;">Formal ✓</span></td></tr>
+                <tr><td contenteditable="true"><strong>should</strong></td><td contenteditable="true">Recommendation or moral obligation</td><td contenteditable="true">"In my view, NATO <em>should</em> increase its investment in language training programmes."</td><td contenteditable="true"><span style="color:var(--red);font-weight:700;">Formal ✓</span></td></tr>
+                <tr><td contenteditable="true"><strong>could</strong></td><td contenteditable="true">Possibility or suggestion — softer than "can"</td><td contenteditable="true">"One <em>could</em> argue that propaganda is the most dangerous factor in radicalisation."</td><td contenteditable="true"><span style="color:var(--red);font-weight:700;">Formal ✓</span></td></tr>
+                <tr><td contenteditable="true"><strong>would</strong></td><td contenteditable="true">Hypothetical or polite opinion</td><td contenteditable="true">"I <em>would</em> contend that a balanced approach is more effective than either extreme."</td><td contenteditable="true"><span style="color:var(--red);font-weight:700;">Formal ✓</span></td></tr>
+                <tr><td contenteditable="true"><strong>may / might</strong></td><td contenteditable="true">Hedged possibility — useful for discussing uncertain outcomes</td><td contenteditable="true">"The implications <em>may</em> be more complex than they initially appear."</td><td contenteditable="true"><span style="color:var(--red);font-weight:700;">Formal ✓</span></td></tr>
+                <tr><td contenteditable="true"><strong>need not</strong></td><td contenteditable="true">Absence of necessity — more formal than "don't need to"</td><td contenteditable="true">"A country <em>need not</em> sacrifice social welfare in order to maintain effective defence."</td><td contenteditable="true"><span style="color:var(--red);font-weight:700;">Very Formal ✓✓</span></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 11: GRAMMAR PRACTICE ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">11</div> Grammar Practice</div>
+        <h2 class="section-title" contenteditable="true">Fill the Gap: <span class="red">Choose the Modal</span></h2>
+        <p class="section-desc" contenteditable="true">Complete each speaking-style sentence with the most appropriate modal verb. Then say the complete sentence aloud — the goal is to use it naturally when speaking, not just to write it correctly.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">Governments <span class="blank" contenteditable="true"></span> invest in psychological rehabilitation programmes for veterans — it is a moral obligation, not an option. <em>(strong obligation)</em></li>
+            <li contenteditable="true">In my view, the international community <span class="blank" contenteditable="true"></span> approach this issue with greater caution. <em>(recommendation)</em></li>
+            <li contenteditable="true">One <span class="blank" contenteditable="true"></span> argue that the root cause of radicalisation is, in fact, economic marginalisation. <em>(soft possibility / hedged opinion)</em></li>
+            <li contenteditable="true">The situation <span class="blank" contenteditable="true"></span> deteriorate further if diplomatic channels are not used immediately. <em>(uncertain future possibility)</em></li>
+            <li contenteditable="true">I <span class="blank" contenteditable="true"></span> contend that interoperability is the single most critical factor in modern coalition warfare. <em>(formal hypothetical opinion)</em></li>
+            <li contenteditable="true">A country <span class="blank" contenteditable="true"></span> sacrifice civilian welfare entirely in order to fund its military — there is a balance to be found. <em>(absence of necessity)</em></li>
+        </ul>
+
+        <div class="alert green" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Guide:</strong> 1. must &nbsp;|&nbsp; 2. should &nbsp;|&nbsp; 3. could &nbsp;|&nbsp; 4. may/might &nbsp;|&nbsp; 5. would &nbsp;|&nbsp; 6. need not</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: WIND-DOWN SIMULATION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">12</div> Phase 3: Wind-Down</div>
+        <h2 class="section-title" contenteditable="true">Wind-Down: <span class="green">Exit with Confidence</span></h2>
+        <p class="section-desc" contenteditable="true">Many candidates lose points in the wind-down by giving one-word answers or trailing off. These 2 final minutes are easy marks — if you know what to do.</p>
+
+        <div class="speak-stage">
+            <div class="stage-header">
+                <span class="stage-title">WIND-DOWN SIMULATION — PHASE 3</span>
+                <span class="stage-badge">~2 MINUTES</span>
+            </div>
+            <div class="stage-body">
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner</span>"We're coming to the end of our session today. What are you going to do after the test?"</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 This is your final impression. Answer in 3–4 sentences — casual but still correct. Show personality. Use: "I'm planning to..." / "I intend to..." / "After the test, I'll be..." — Avoid: "I don't know" / "Sleep" / single-word answers.</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr — Model</span>"After the test, I'm planning to meet with a colleague to debrief on today's experience. I'm also intending to review the areas I found most challenging — particularly the Level 3 discussion questions. In the longer term, I'm looking forward to using this certificate to take on more responsibilities in international cooperation with our NATO partners."</div>
+                </div>
+                <div class="turn-divider"></div>
+                <div class="speak-turn examiner">
+                    <div class="turn-avatar ex">🎓</div>
+                    <div class="turn-bubble ex" contenteditable="true"><span class="speaker-name ex">Examiner</span>"Thank you very much for your time today. This is the end of your speaking test. Good luck with your result."</div>
+                </div>
+                <div class="turn-bubble hint" contenteditable="true">💡 Respond warmly and professionally: "Thank you very much. It was a pleasure speaking with you. I look forward to receiving the results." — Smile, make eye contact, and do NOT ask "Did I pass?" (Very common mistake!)</div>
+                <div class="speak-turn student">
+                    <div class="turn-avatar st">🪖</div>
+                    <div class="turn-bubble st" contenteditable="true"><span class="speaker-name st">Oleksandr</span>[Your closing response — practice your exact words. You want this to feel natural and warm.]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: FULL SPEAKING MOCK ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">13</div> Full Simulation</div>
+        <h2 class="section-title" contenteditable="true">Full Mock: <span class="red">30-Minute Speaking Exam</span></h2>
+        <p class="section-desc" contenteditable="true">Now run the complete speaking exam from start to finish without stopping. Your teacher plays both examiners. Timer runs. No notes. No pauses between phases.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Phase</th>
+                    <th contenteditable="true">Time</th>
+                    <th contenteditable="true">Teacher Actions</th>
+                    <th contenteditable="true">Oleksandr Scored On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Warm-Up</strong></td><td contenteditable="true">3 min</td><td contenteditable="true">Greet by name, ask intro questions from Task 5</td><td contenteditable="true">Fluency, delivery, pronunciation</td></tr>
+                <tr><td contenteditable="true"><strong>L2 Questions</strong></td><td contenteditable="true">8 min</td><td contenteditable="true">2–3 questions from the Level 2 bank (Task 6 + Cold Cards L2)</td><td contenteditable="true">Vocabulary range, task completion</td></tr>
+                <tr><td contenteditable="true"><strong>L3 Questions</strong></td><td contenteditable="true">15 min</td><td contenteditable="true">3–4 questions from Level 3 bank (Task 7 + Cold Cards L3)</td><td contenteditable="true">Grammar accuracy, argument structure</td></tr>
+                <tr><td contenteditable="true"><strong>Wind-Down</strong></td><td contenteditable="true">2 min</td><td contenteditable="true">Ask wind-down question from Task 12, close the session</td><td contenteditable="true">Final impression, professional register</td></tr>
+            </tbody>
+        </table>
+
+        <div class="criteria-grid" style="margin-top:24px;">
+            <div class="criteria-card">
+                <div class="criteria-header fluency"><span class="criteria-icon">🗣️</span><h3 contenteditable="true">Fluency Score</h3></div>
+                <div class="criteria-body" contenteditable="true">
+                    Teacher marks: /10<br><br>
+                    <em>Notes:</em><br>
+                    Write feedback here after the mock...
+                </div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-header vocab"><span class="criteria-icon">📖</span><h3 contenteditable="true">Vocabulary Score</h3></div>
+                <div class="criteria-body" contenteditable="true">
+                    Teacher marks: /10<br><br>
+                    <em>Notes:</em><br>
+                    Write feedback here after the mock...
+                </div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-header grammar"><span class="criteria-icon">📐</span><h3 contenteditable="true">Grammar Score</h3></div>
+                <div class="criteria-body" contenteditable="true">
+                    Teacher marks: /10<br><br>
+                    <em>Notes:</em><br>
+                    Write feedback here after the mock...
+                </div>
+            </div>
+            <div class="criteria-card">
+                <div class="criteria-header task"><span class="criteria-icon">🎯</span><h3 contenteditable="true">Task Completion</h3></div>
+                <div class="criteria-body" contenteditable="true">
+                    Teacher marks: /10<br><br>
+                    <em>Notes:</em><br>
+                    Write feedback here after the mock...
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: WRITING — TIMED REVISION ====== -->
+<section class="section" id="writing">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">14</div> Writing Consolidation</div>
+        <h2 class="section-title" contenteditable="true">Writing Check: <span class="blue">Timed Essay Paragraph</span></h2>
+        <p class="section-desc" contenteditable="true">Write ONE body paragraph (60–70 words) for this Level 3 essay question in 10 minutes. Use a modal verb, a discourse marker, and the passive voice. This consolidates all four lessons.</p>
+
+        <div class="alert gold" contenteditable="false">
+            <span class="alert-icon">✏️</span>
+            <div contenteditable="true"><strong>Task:</strong> "Some argue that military service should be mandatory for all citizens. Discuss both views." — Write ONLY the "On one hand..." first body paragraph, arguing FOR mandatory service. Include: modal verb + passive voice + one formal linker. 60–70 words, 10 minutes.</div>
+        </div>
+
+        <div style="background:var(--white);border:1px solid var(--gray-line);border-radius:var(--r-lg);padding:32px;min-height:180px;margin-top:16px;box-shadow:var(--shadow);font-size:0.95rem;line-height:1.85;background-image:repeating-linear-gradient(0deg,transparent,transparent 29px,rgba(192,57,43,0.07) 29px,rgba(192,57,43,0.07) 30px);" contenteditable="true">
+            <p style="color:var(--gray);font-style:italic;font-size:0.85rem;">Start: "On one hand, proponents of mandatory military service argue that..."</p>
+        </div>
+
+        <ul class="exercise-list" style="margin-top:20px;">
+            <li contenteditable="true">After writing: Did you use a modal verb? Which one, and was it appropriate?</li>
+            <li contenteditable="true">Did you include passive voice? Underline it in your paragraph.</li>
+            <li contenteditable="true">Which formal linker did you use? Could you have used a stronger one?</li>
+            <li contenteditable="true">Count your words — are you within 60–70? Did you stay on ONE clear argument?</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 15: SYNTHESIS ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">15</div> Mission Complete</div>
+        <h2 class="section-title" contenteditable="true">Synthesis: <span class="red">Final Assessment</span></h2>
+        <p class="section-desc" contenteditable="true">Reflect, discuss, and plan. The goal of today was not to be perfect — it was to understand the standard and know exactly where you stand.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Question</th>
+                    <th contenteditable="true">Your Honest Answer (write or discuss)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>After the full mock, what is your current estimated speaking level: L2, between L2 and L3, or at L3?</strong></td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Which phase of the speaking exam was hardest — warm-up, Level 2 questions, Level 3 questions, or wind-down?</strong></td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Name the ONE discourse marker you will commit to using in every long answer from now on.</strong></td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Which grammar error did you make most often in the mock? How will you fix it?</strong></td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>On a scale of 1–10, how confident are you now vs. before this lesson?</strong></td><td contenteditable="true"><em>Write here...</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert gold" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework before Lesson 5 (Reading Level 3):</strong> (1) Record yourself answering one cold card question (90 seconds). Listen back — count your hesitations and any grammar errors. Write them down and bring the list. (2) Learn all 8 vocabulary items from today. (3) Read any English news article about a military topic — note 5 new words. (4) Practice your self-introduction 3 times — once in a mirror, aiming to sound natural and confident without notes.</div>
+        </div>
+
+        <div class="debrief-panel">
+            <h2 contenteditable="true">LESSON 04 — SPEAKING CERTIFIED</h2>
+            <p class="subtitle" contenteditable="true">// 30-minute exam · 4 criteria · fully simulated //</p>
+            <ul class="debrief-list">
+                <li contenteditable="true">✅ <strong>Speaking Format:</strong> 3 phases, 4 scoring criteria, timing and examiner behaviour fully mapped.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary (8 discourse markers):</strong> That's a thought-provoking question, To put it another way, From my experience in the military, It is worth noting that, One could argue that, The implications of this are significant, I would contend that, To sum up my position.</li>
+                <li contenteditable="true">✅ <strong>Warm-Up Phase:</strong> Self-introduction, motivation, professional travel — fully rehearsed.</li>
+                <li contenteditable="true">✅ <strong>Level 2 Questions:</strong> Travel, opinion, advantages/disadvantages — structured answers with discourse markers.</li>
+                <li contenteditable="true">✅ <strong>Level 3 Questions:</strong> Currency identity, radicalisation, veteran reintegration — extended arguments with evidence.</li>
+                <li contenteditable="true">✅ <strong>Cold Draw Drill:</strong> 4+ questions answered cold (30 sec prep → 90 sec answer).</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Word stress on key military vocabulary + 4 intonation patterns.</li>
+                <li contenteditable="true">✅ <strong>Grammar — Modals:</strong> must/should/could/would/may/need not in formal speaking context.</li>
+                <li contenteditable="true">✅ <strong>Full 30-Min Mock:</strong> All phases simulated, scored on all 4 criteria.</li>
+                <li contenteditable="true">✅ <strong>Wind-Down:</strong> Professional exit practised — confident, warm, and grammatically correct.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== WHITEBOARD ====== -->
+<section class="section" id="wb">
+    <div class="section-inner">
+        <div class="section-label"><div class="lnum">WB</div> Teacher Space</div>
+        <h2 class="section-title" contenteditable="true">Interactive <span class="red">Whiteboard</span></h2>
+        <p class="section-desc" contenteditable="true">Use for scoring grids, pronunciation diagrams, or live feedback notes during the mock exam.</p>
+        <div class="wb-wrap">
+            <div class="wb-bar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#1C1C1A">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(192,57,43,0.25);border-color:var(--red);color:var(--red);">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FABs ====== -->
+<div class="fab-group" id="fabGroup">
+    <button class="fab" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab qz" onclick="openModal()" title="Quizlet">📝</button>
+    <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+    <button class="fab rst" onclick="resetLesson()" title="Reset">↺</button>
+</div>
+
+<!-- ====== QUIZLET MODAL ====== -->
+<div id="qModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2>Quizlet Export</h2>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--gray);margin-top:6px;">Add today's discourse markers and military vocabulary.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:14px;">
+            <button class="modal-btn secondary" onclick="addRow()">+ Row</button>
+            <button class="modal-btn primary" id="copyBtn" onclick="copyQuizlet()">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='h') {
+            e.preventDefault();
+            const s=window.getSelection();
+            if (!s.rangeCount||s.isCollapsed) return;
+            document.execCommand('hiliteColor',false,'rgba(192,57,43,0.2)');
+        }
+    });
+
+    const canvas=document.getElementById('boardCanvas');
+    const ctx=canvas.getContext('2d');
+    function resizeCanvas(){canvas.width=canvas.parentElement.clientWidth;canvas.height=460;}
+    window.addEventListener('resize',resizeCanvas);
+    resizeCanvas();
+
+    let drawing=false,pendingDraw=false,sx,sy,tool='pencil',color='#1C1C1A',snap;
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>{
+        b.addEventListener('click',()=>{document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tool=b.dataset.tool;canvas.style.cursor=tool==='text'?'text':'crosshair';});
+    });
+    document.getElementById('wbColor').addEventListener('change',e=>color=e.target.value);
+    document.getElementById('wbClear').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);if(window.syncWbClear)window.syncWbClear();});
+
+    function gp(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+    canvas.addEventListener('mousedown',e=>{
+        const p=gp(e);sx=p.x;sy=p.y;
+        if(tool==='text'){const t=prompt('Text:');if(t){ctx.font="16px 'DM Sans',sans-serif";ctx.fillStyle=color;ctx.fillText(t,sx,sy);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}return;}
+        drawing=true;snap=ctx.getImageData(0,0,canvas.width,canvas.height);ctx.beginPath();ctx.moveTo(sx,sy);
+    });
+    canvas.addEventListener('mousemove',e=>{
+        if(!drawing)return;const p=gp(e);
+        if(tool==='pencil'||tool==='highlight'){ctx.lineTo(p.x,p.y);ctx.strokeStyle=tool==='highlight'?color+'44':color;ctx.lineWidth=tool==='highlight'?14:1.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}
+        else{ctx.putImageData(snap,0,0);drawShape(p.x,p.y);}
+    });
+    canvas.addEventListener('mouseup',e=>{if(!drawing)return;drawing=false;if(tool!=='pencil'&&tool!=='highlight')drawShape(gp(e).x,gp(e).y);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}});
+    canvas.addEventListener('mouseout',()=>{if(drawing){drawing=false;if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}});
+    function drawShape(ex,ey){
+        ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=1.5;
+        if(tool==='square')ctx.strokeRect(sx,sy,ex-sx,ey-sy);
+        else if(tool==='circle'){ctx.arc(sx,sy,Math.sqrt((ex-sx)**2+(ey-sy)**2),0,2*Math.PI);ctx.stroke();}
+        else if(tool==='arrow'){const hl=12,ang=Math.atan2(ey-sy,ex-sx);ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.stroke();ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));ctx.stroke();}
+    }
+
+    function setupDrag(colId){
+        const col=document.getElementById(colId);if(!col)return;
+        col.querySelectorAll('.drag-item').forEach(item=>{
+            item.addEventListener('dragstart',()=>item.classList.add('dragging'));
+            item.addEventListener('dragend',()=>{item.classList.remove('dragging');if(window.syncDragOrder)window.syncDragOrder(colId);});
+        });
+        col.addEventListener('dragover',e=>{
+            e.preventDefault();
+            const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{const off=e.clientY-ch.getBoundingClientRect().top-ch.getBoundingClientRect().height/2;return off<0&&off>cl.offset?{offset:off,element:ch}:cl;},{offset:Number.NEGATIVE_INFINITY}).element;
+            const d=document.querySelector('.dragging');if(d){if(after==null)col.appendChild(d);else col.insertBefore(d,after);}
+        });
+    }
+    setupDrag('speakVocabCol');
+
+    function savePDF(){document.getElementById('fabGroup').style.display='none';document.getElementById('syncStatus').style.display='none';const el=document.body;html2pdf().set({margin:0,filename:'STANAG-Lesson4-Speaking-Mastery.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{document.getElementById('fabGroup').style.display='flex';document.getElementById('syncStatus').style.display='flex';});}
+    function openModal(){document.getElementById('qModal').style.display='flex';}
+    function closeModal(){document.getElementById('qModal').style.display='none';}
+    function addRow(){const r=document.createElement('div');r.className='word-row';r.innerHTML='<input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans">';document.getElementById('wordList').appendChild(r);}
+    function copyQuizlet(){let out='';document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-word').value.trim();const t=r.querySelector('.q-trans').value.trim();if(w||t)out+=`${w}\t${t}\n`;});if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);const b=document.getElementById('copyBtn');b.innerText='✅ Copied!';setTimeout(()=>b.innerText='📋 Copy for Quizlet',3000);}}
+
+    document.getElementById('navTabsContainer').addEventListener('click',e=>{if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){e.preventDefault();const id=e.target.getAttribute('href');if(id&&id.startsWith('#')&&id.length>1){const s=document.querySelector(id);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth';})}}});
+    function scrollToWB(){const wb=document.getElementById('wb');if(wb)window.scrollTo({top:wb.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth'});}
+    function resetLesson(){if(window.doReset)window.doReset();}
+
+    window.savePDF=savePDF;window.scrollToWhiteboard=scrollToWB;window.openQuizletModal=openModal;window.closeQuizletModal=closeModal;window.addWordRow=addRow;
+</script>
+
+<!-- ====== FIREBASE ====== -->
+<script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import{getFirestore,doc,setDoc,onSnapshot,deleteDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+    const appId='stanag-oleksandr-lesson-4-speaking-mastery-v1';
+    const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+    const setS=(t,c)=>{if(st)st.innerText=t;if(sd)sd.style.background=c;};
+    const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+    let me=null,ready=false;
+    const mc='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let mn='Oleksandr';
+    const eds=document.querySelectorAll('[contenteditable="true"]');
+    const orig={};
+    eds.forEach((el,i)=>{el.dataset.syncId='e-'+i;orig['e-'+i]=el.innerHTML;});
+    const deb=(fn,w)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),w);};};
+    signInAnonymously(auth).catch(()=>setS('OFFLINE','#999'));
+    onAuthStateChanged(auth,user=>{
+        me=user;
+        if(user&&!ready){ready=true;getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(s=>{mn=s.size===0?'Teacher':'Oleksandr';setS('SYNC ON','#C0392B');sync();cursors();}).catch(()=>{mn='Oleksandr';setS('SYNC ON','#C0392B');sync();cursors();});}
+        else if(!user)setS('DISCONNECTED','#C0392B');
+    });
+    function sync(){
+        const tRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dRef=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        let editing=null;
+        window.saveTextUpdate=el=>{if(!me)return;setDoc(tRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+        window.attachEditableListeners=el=>{el.addEventListener('focus',()=>editing=el.dataset.syncId);el.addEventListener('blur',()=>{editing=null;window.saveTextUpdate(el);});el.addEventListener('input',deb(()=>{if(editing===el.dataset.syncId)window.saveTextUpdate(el);},500));};
+        eds.forEach(el=>window.attachEditableListeners(el));
+        window.addNewTab=e=>{e.preventDefault();const c=document.getElementById('navTabsContainer');const li=document.createElement('li');const nid='e-tab-'+Date.now();li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${nid}">New Tab</a>`;c.appendChild(li);window.attachEditableListeners(li.querySelector('a'));if(me)setDoc(tRef,{'nav_tabs_structure':c.innerHTML},{merge:true});};
+        onSnapshot(tRef,snap=>{if(snap.exists()){const d=snap.data();for(const[sid,html]of Object.entries(d)){if(sid==='nav_tabs_structure'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEditableListeners(a));}continue;}if(editing!==sid){const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}}}});
+        document.addEventListener('paste',e=>{const tgt=e.target;if(!tgt.closest('[contenteditable="true"]'))return;const items=(e.clipboardData||window.clipboardData).items;for(let k in items){const item=items[k];if(item.kind==='file'&&item.type.startsWith('image/')){e.preventDefault();const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=function(){const c=document.createElement('canvas');const M=800;let w=img.width,h=img.height;if(w>M){h*=M/w;w=M;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:6px;"></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};r.readAsDataURL(item.getAsFile());return;}}const pt=(e.clipboardData||window.clipboardData).getData('text');if(pt){const yt=pt.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/)|\S*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%"></iframe></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}if(/^https?:\/\/\S+$/.test(pt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${pt.trim()}" target="_blank" style="color:var(--red);text-decoration:underline" contenteditable="false">${pt.trim()}</a>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}}});
+        window.syncDragOrder=cid=>{if(!me)return;const c=document.getElementById(cid);if(!c)return;setDoc(dRef,{[cid]:Array.from(c.children).map(x=>x.id)},{merge:true});};
+        onSnapshot(dRef,snap=>{if(snap.exists()){const d=snap.data();['speakVocabCol'].forEach(cid=>{const c=document.getElementById(cid);if(!c)return;if(d[cid])d[cid].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}});
+        window.syncWbDraw=deb(()=>{if(!me)return;const url=document.getElementById('boardCanvas').toDataURL('image/png',0.5);setDoc(wRef,{image:url,clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWbClear=()=>{if(!me)return;const ts=Date.now();window.lastClear=ts;setDoc(wRef,{clearTimestamp:ts,image:null},{merge:true});};
+        onSnapshot(wRef,snap=>{if(snap.exists()){const d=snap.data();const cv=document.getElementById('boardCanvas');const cx=cv.getContext('2d');if(d.clearTimestamp>(window.lastClear||0)){cx.clearRect(0,0,cv.width,cv.height);window.lastClear=d.clearTimestamp;return;}if(d.image&&!pendingDraw){const img=new Image();img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);};img.src=d.image;}}});
+        window.doReset=async()=>{if(!me)return;if(!confirm('Reset all content for everyone?'))return;setS('RESETTING...','#B8860B');const tR=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');const dR=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');const wR=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');await deleteDoc(tR);await deleteDoc(dR);const ts=Date.now();window.lastClear=ts;await setDoc(wR,{clearTimestamp:ts,image:null});setTimeout(()=>setS('SYNC ON','#C0392B'),1000);};
+    }
+    function cursors(){
+        const col=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',me.uid);
+        const container=document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove',deb(e=>{if(!me)return;setDoc(myRef,{xOffset:e.pageX-(window.innerWidth/2),y:e.pageY,color:mc,name:mn,timestamp:Date.now()});},400));
+        onSnapshot(col,snap=>{snap.docChanges().forEach(ch=>{const id=ch.doc.id;if(id===me.uid)return;if(ch.type==='removed'){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}const d=ch.doc.data();if(Date.now()-d.timestamp>60000){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}let el=document.getElementById('cur-'+id);if(!el){el=document.createElement('div');el.id='cur-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="cursor-name" style="background:${d.color}">${d.name}</div>`;container.appendChild(el);}el.style.left=((window.innerWidth/2)+d.xOffset)+'px';el.style.top=d.y+'px';});});
+        window.addEventListener('beforeunload',()=>{if(me)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
