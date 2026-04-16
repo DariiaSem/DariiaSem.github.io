@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANAG 6001 | Lesson 5: Level 3 Reading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #F7F5F0;
+            --surface: #FFFFFF;
+            --surface2: #F0EDE6;
+            --ink: #16150F;
+            --ink2: #3D3B32;
+            --accent: #E85D26;
+            --accent2: #F5A623;
+            --blue: #2B5BA8;
+            --teal: #0E7C6E;
+            --purple: #6B3FA0;
+            --gray: #7C7A72;
+            --line: #E2DDD4;
+            --mono: 'Space Mono', monospace;
+            --sans: 'Space Grotesk', system-ui, sans-serif;
+            --display: 'Syne', system-ui, sans-serif;
+            --r: 8px;
+            --r-lg: 16px;
+            --shadow: 0 2px 8px rgba(22,21,15,0.08);
+            --shadow-md: 0 6px 24px rgba(22,21,15,0.1);
+            --shadow-lg: 0 16px 48px rgba(22,21,15,0.14);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+        [contenteditable="true"] { outline: none; border-radius: 3px; transition: background .18s; }
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus {
+            background: rgba(232,93,38,0.06);
+            box-shadow: 0 0 0 1px rgba(232,93,38,0.18);
+        }
+
+        /* ====== HERO — Blueprint / Architectural ====== */
+        .hero {
+            background: var(--ink);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Blueprint grid */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(232,93,38,0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(232,93,38,0.06) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        /* Large background number */
+        .hero-bg-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--display);
+            font-size: 38vw;
+            font-weight: 800;
+            color: rgba(255,255,255,0.02);
+            user-select: none;
+            line-height: 1;
+            pointer-events: none;
+            letter-spacing: -4vw;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 60px 60px 80px;
+            max-width: 1100px;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 28px;
+        }
+        .hero-tag .dash { width: 24px; height: 2px; background: var(--accent); }
+
+        .hero h1 {
+            font-family: var(--display);
+            font-weight: 800;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            line-height: 0.95;
+            letter-spacing: -2px;
+            color: var(--surface);
+            margin-bottom: 32px;
+        }
+        .hero h1 .hl { color: var(--accent); }
+        .hero h1 .sm {
+            display: block;
+            font-size: 0.28em;
+            font-family: var(--mono);
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .hero-bottom {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        .hero-stat { }
+        .hero-stat .n { font-family: var(--display); font-size: 2.4rem; font-weight: 800; color: var(--accent); line-height: 1; }
+        .hero-stat .l { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+        .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: var(--bg); clip-path: ellipse(55% 100% at 50% 100%); }
+
+        /* ====== NAV ====== */
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(247,245,240,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding: 0 24px; }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+        .nav-logo { font-family: var(--mono); font-size: 0.8rem; color: var(--ink); text-decoration: none; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; }
+        .nav-logo .sq { width: 18px; height: 18px; background: var(--accent); border-radius: 2px; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.7rem; font-weight: 600; padding: 5px 10px; border-radius: var(--r); transition: color .18s, background .18s; white-space: nowrap; letter-spacing: .5px; font-family: var(--mono); text-transform: uppercase; }
+        .nav-links a:hover { color: var(--accent); background: rgba(232,93,38,0.07); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 80px 24px; }
+        .section.alt { background: var(--surface2); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+
+        .section-label { font-family: var(--mono); font-size: 0.67rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+        .section-label .tag { background: var(--accent); color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.6rem; }
+
+        .section-title { font-family: var(--display); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.05; letter-spacing: -1px; }
+        .section-title .hl { color: var(--accent); }
+        .section-title .blue { color: var(--blue); }
+        .section-title .teal { color: var(--teal); }
+        .section-title .purple { color: var(--purple); }
+
+        .section-desc { color: var(--gray); font-size: 0.96rem; margin-bottom: 32px; max-width: 640px; line-height: 1.65; }
+
+        /* ====== READING PASSAGE ====== */
+        .passage-wrap {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+        .passage-top {
+            background: var(--ink);
+            color: white;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .passage-top .ptitle { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; }
+        .passage-top .pmeta { font-size: 0.7rem; color: rgba(255,255,255,0.45); font-family: var(--mono); }
+        .passage-ruler {
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--blue));
+        }
+        .passage-body { padding: 32px 36px; font-size: 0.97rem; line-height: 1.85; }
+        .passage-body p { margin-bottom: 14px; }
+        .passage-body .para-num {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 3px;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .passage-body strong { color: var(--ink); }
+
+        /* ====== MCQ ====== */
+        .q-block { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); margin-bottom: 14px; overflow: hidden; box-shadow: var(--shadow); }
+        .q-head { background: var(--surface2); border-bottom: 1px solid var(--line); padding: 13px 20px; display: flex; gap: 12px; align-items: flex-start; }
+        .q-num { background: var(--ink); color: white; width: 28px; height: 28px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .q-text { font-size: 0.93rem; color: var(--ink); font-weight: 600; line-height: 1.5; }
+        .options { padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+        .opt { display: flex; align-items: flex-start; gap: 10px; padding: 9px 14px; border-radius: var(--r); border: 1px solid var(--line); cursor: pointer; transition: all .15s; background: white; }
+        .opt:hover { border-color: var(--accent); background: rgba(232,93,38,0.04); }
+        .opt.selected { border-color: var(--accent); background: rgba(232,93,38,0.07); }
+        .opt.correct { border-color: var(--teal); background: rgba(14,124,110,0.07); }
+        .opt.incorrect { border-color: #E53935; background: rgba(229,57,53,0.07); }
+        .opt-key { background: var(--surface2); color: var(--accent2); width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; }
+        .opt-label { font-size: 0.88rem; color: var(--ink); line-height: 1.5; }
+
+        /* ====== TABLES ====== */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.88rem; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
+        .data-table thead th { background: var(--ink); color: white; padding: 11px 16px; text-align: left; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; }
+        .data-table tbody td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; background: white; }
+        .data-table tbody tr:nth-child(even) td { background: var(--surface2); }
+        .data-table tbody tr:hover td { background: rgba(232,93,38,0.04); }
+        .data-table td strong { color: var(--accent); }
+        .data-table td em { color: var(--teal); font-style: normal; font-weight: 600; }
+
+        /* ====== TAG CHIPS ====== */
+        .chip { display: inline-block; font-family: var(--mono); font-size: 0.62rem; padding: 3px 9px; border-radius: 40px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+        .chip.orange { background: rgba(232,93,38,0.12); color: var(--accent); border: 1px solid rgba(232,93,38,0.25); }
+        .chip.blue { background: rgba(43,91,168,0.1); color: var(--blue); border: 1px solid rgba(43,91,168,0.25); }
+        .chip.teal { background: rgba(14,124,110,0.1); color: var(--teal); border: 1px solid rgba(14,124,110,0.25); }
+        .chip.purple { background: rgba(107,63,160,0.1); color: var(--purple); border: 1px solid rgba(107,63,160,0.25); }
+
+        /* ====== VOCAB ====== */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 12px; margin-top: 24px; }
+        .vocab-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px 20px; box-shadow: var(--shadow); border-top: 3px solid var(--accent); transition: transform .15s; }
+        .vocab-card:nth-child(2) { border-top-color: var(--blue); }
+        .vocab-card:nth-child(3) { border-top-color: var(--teal); }
+        .vocab-card:nth-child(4) { border-top-color: var(--purple); }
+        .vocab-card:nth-child(5) { border-top-color: var(--accent2); }
+        .vocab-card:nth-child(6) { border-top-color: var(--accent); }
+        .vocab-card:nth-child(7) { border-top-color: var(--blue); }
+        .vocab-card:nth-child(8) { border-top-color: var(--teal); }
+        .vocab-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .vocab-card .word { font-weight: 700; font-size: 0.96rem; color: var(--ink); }
+        .vocab-card .pos { font-family: var(--mono); font-size: 0.6rem; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-left: 6px; }
+        .vocab-card .def { font-size: 0.84rem; color: var(--gray); margin-top: 5px; line-height: 1.5; }
+        .vocab-card .example { font-size: 0.82rem; font-style: italic; color: var(--ink2); margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+
+        /* ====== DRAG & DROP ====== */
+        .match-board { display: flex; gap: 14px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .arrows-col { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+        .drag-item { background: white; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: var(--r); cursor: grab; display: flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600; color: var(--ink); box-shadow: var(--shadow); transition: all .15s; height: 56px; padding: 0 14px; }
+        .drag-item:hover { border-left-color: var(--blue); box-shadow: var(--shadow-md); transform: translateX(2px); }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--line); font-size: 1rem; user-select: none; }
+        .static-item { background: var(--surface2); border: 1px solid var(--line); border-radius: var(--r); color: var(--gray); height: 56px; display: flex; align-items: center; padding: 0 14px; font-size: 0.84rem; }
+        .match-arrow { color: var(--line); font-size: 1.2rem; height: 56px; display: flex; align-items: center; justify-content: center; }
+
+        /* ====== STRATEGY CARDS ====== */
+        .strat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 14px; margin-top: 24px; }
+        .strat-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 20px; box-shadow: var(--shadow); overflow: hidden; position: relative; transition: box-shadow .2s; }
+        .strat-card:hover { box-shadow: var(--shadow-md); }
+        .strat-card .sn { font-family: var(--display); font-size: 4rem; font-weight: 800; color: rgba(22,21,15,0.04); position: absolute; top: -8px; right: 8px; line-height: 1; }
+        .strat-card h4 { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; position: relative; }
+        .strat-card p { font-size: 0.84rem; color: var(--ink2); line-height: 1.55; position: relative; }
+
+        /* ====== EXERCISE LIST ====== */
+        .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; counter-reset: ex; }
+        .exercise-list li { background: white; border: 1px solid var(--line); padding: 13px 18px 13px 52px; border-radius: var(--r); font-size: 0.92rem; position: relative; box-shadow: var(--shadow); }
+        .exercise-list li::before { counter-increment: ex; content: counter(ex); position: absolute; left: 16px; top: 13px; width: 24px; height: 24px; background: var(--accent); color: white; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; }
+        .blank { display: inline-block; min-width: 72px; border-bottom: 1.5px solid var(--gray); color: var(--accent); font-weight: 600; padding: 0 8px; text-align: center; }
+        .blank:focus { border-bottom-color: var(--accent); outline: none; background: rgba(232,93,38,0.05); }
+
+        /* ====== ALERT ====== */
+        .alert { border-radius: var(--r); padding: 14px 18px; margin: 20px 0; font-size: 0.9rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.6; }
+        .alert.orange { background: rgba(232,93,38,0.07); border: 1px solid rgba(232,93,38,0.2); border-left: 4px solid var(--accent); }
+        .alert.blue { background: rgba(43,91,168,0.06); border: 1px solid rgba(43,91,168,0.2); border-left: 4px solid var(--blue); }
+        .alert.teal { background: rgba(14,124,110,0.06); border: 1px solid rgba(14,124,110,0.2); border-left: 4px solid var(--teal); }
+        .alert.purple { background: rgba(107,63,160,0.06); border: 1px solid rgba(107,63,160,0.2); border-left: 4px solid var(--purple); }
+        .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+        /* ====== INFERENCE DIAGRAM ====== */
+        .inference-box {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            margin-top: 24px;
+        }
+        .inference-row {
+            display: grid;
+            grid-template-columns: 1fr 40px 1fr;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+        }
+        .inference-row:last-child { border: none; margin-bottom: 0; }
+        .inf-left { background: var(--surface2); border-radius: var(--r); padding: 12px 14px; font-size: 0.85rem; color: var(--ink2); line-height: 1.5; }
+        .inf-arrow { text-align: center; font-size: 1.2rem; color: var(--accent); font-weight: 700; }
+        .inf-right { background: rgba(232,93,38,0.07); border: 1px solid rgba(232,93,38,0.2); border-radius: var(--r); padding: 12px 14px; font-size: 0.85rem; color: var(--ink); line-height: 1.5; font-weight: 600; }
+        .inf-label { font-family: var(--mono); font-size: 0.6rem; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+
+        /* ====== SPEAKING DISPATCH ====== */
+        .speak-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+        .speak-row.right { flex-direction: row-reverse; }
+        .av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .av.ex { background: rgba(43,91,168,0.1); border: 2px solid rgba(43,91,168,0.3); }
+        .av.st { background: rgba(232,93,38,0.1); border: 2px solid rgba(232,93,38,0.3); }
+        .bubble { border-radius: var(--r-lg); padding: 12px 18px; max-width: 78%; font-size: 0.9rem; line-height: 1.6; }
+        .bubble.ex { background: rgba(43,91,168,0.07); border: 1px solid rgba(43,91,168,0.2); border-top-left-radius: 2px; }
+        .bubble.st { background: rgba(232,93,38,0.07); border: 1px solid rgba(232,93,38,0.2); border-top-right-radius: 2px; text-align: left; }
+        .bubble.note { background: rgba(107,63,160,0.07); border: 1px dashed rgba(107,63,160,0.3); font-style: italic; font-size: 0.82rem; color: var(--gray); max-width: 100%; border-radius: var(--r); margin-bottom: 14px; padding: 10px 16px; }
+        .spk-name { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        .spk-name.ex { color: var(--blue); }
+        .spk-name.st { color: var(--accent); text-align: right; }
+
+        /* ====== WRITING AREA ====== */
+        .write-zone { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px; min-height: 200px; box-shadow: var(--shadow); font-size: 0.95rem; line-height: 1.85; }
+        .write-zone .ph { color: var(--gray); font-style: italic; font-size: 0.88rem; }
+
+        /* ====== WHITEBOARD ====== */
+        .wb-wrap { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+        .wb-bar { background: var(--ink); padding: 10px 18px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: rgba(255,255,255,0.07); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 5px 10px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; transition: all .15s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--accent); border-color: var(--accent); }
+        .wb-color { width: 24px; height: 24px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 460px; background: white; cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .end-panel { background: var(--ink); color: white; border-radius: var(--r-lg); padding: 40px; margin-top: 40px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+        .end-panel::after { content: '5'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-family: var(--display); font-size: 16rem; color: rgba(255,255,255,0.03); font-weight: 800; line-height: 1; pointer-events: none; }
+        .end-panel h2 { font-family: var(--display); font-size: 2rem; color: var(--accent); margin-bottom: 6px; }
+        .end-panel .sub { font-family: var(--mono); font-size: 0.68rem; color: rgba(255,255,255,0.35); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 28px; }
+        .end-list { list-style: none; }
+        .end-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.88rem; color: rgba(255,255,255,0.75); }
+        .end-list li strong { color: var(--accent2); }
+
+        /* ====== FABs ====== */
+        .fab-group { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab { background: var(--ink); color: white; border: 1px solid rgba(255,255,255,0.1); width: 48px; height: 48px; border-radius: var(--r); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); transition: all .2s; display: flex; align-items: center; justify-content: center; }
+        .fab:hover { background: var(--accent); transform: translateY(-2px); }
+        .fab.qz { background: rgba(66,85,255,0.9); border-color: transparent; }
+        .fab.qz:hover { background: #4255FF; }
+        .fab.rst { background: rgba(229,57,53,0.15); border-color: #E53935; color: #E53935; }
+        .fab.rst:hover { background: #E53935; color: white; }
+
+        /* ====== MODAL ====== */
+        .modal-overlay { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(22,21,15,0.8); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: var(--surface); border: 1px solid var(--line); padding: 28px; border-radius: var(--r-lg); width: 90%; max-width: 560px; position: relative; box-shadow: var(--shadow-lg); }
+        .modal-box h2 { font-family: var(--display); font-size: 1.5rem; color: var(--ink); margin-bottom: 8px; }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; cursor: pointer; color: var(--gray); background: none; border: none; }
+        .modal-close:hover { color: var(--accent); }
+        .word-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 8px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); font-size: 0.88rem; color: var(--ink); font-family: var(--sans); }
+        .word-row input:focus { outline: none; border-color: var(--accent); }
+        #wordList { max-height: 300px; overflow-y: auto; margin: 16px 0; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 9px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; transition: all .15s; }
+        .modal-btn.secondary { background: transparent; border-color: var(--line); color: var(--gray); }
+        .modal-btn.primary { background: #4255FF; border-color: #4255FF; color: white; flex: 2; }
+
+        /* ====== CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top .35s linear, left .35s linear; display: flex; align-items: flex-start; opacity: 0; animation: fcIn .3s forwards; }
+        @keyframes fcIn { to { opacity: 1; } }
+        .remote-cursor svg { width: 20px; height: 20px; transform: rotate(-15deg); pointer-events: none; }
+        .cursor-name { color: white; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 2px; margin-left: -4px; margin-top: 14px; white-space: nowrap; }
+
+        @media (max-width: 768px) {
+            .hero-content { padding: 60px 28px 80px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 360px; }
+            .match-board { flex-direction: column; }
+            .arrows-col { display: none; }
+            .inference-row { grid-template-columns: 1fr; }
+            .inf-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--accent);padding:5px 14px;border-radius:var(--r);font-family:var(--mono);font-size:0.7rem;font-weight:700;z-index:10000;display:flex;align-items:center;gap:8px;border:1px solid rgba(232,93,38,0.3);">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--accent);border-radius:50%;"></span>
+    <span id="syncText">CONNECTING...</span>
+</div>
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-bg-text" contenteditable="false">L3</div>
+    <div class="hero-content">
+        <div class="hero-tag"><span class="dash"></span><span contenteditable="true">STANAG 6001 · Lesson 05 · Level 3 Reading</span></div>
+        <h1>
+            <span class="sm" contenteditable="true">// Reading Between the Lines</span>
+            Deep<br><span class="hl">Reading</span>
+        </h1>
+        <div class="hero-bottom">
+            <div class="hero-stat"><div class="n" contenteditable="true">30</div><div class="l" contenteditable="true">Complex Texts</div></div>
+            <div class="hero-stat"><div class="n" contenteditable="true">L3</div><div class="l" contenteditable="true">Inference & Deduction</div></div>
+            <div class="hero-stat"><div class="n" contenteditable="true">6</div><div class="l" contenteditable="true">Question Types</div></div>
+            <div class="hero-stat"><div class="n" contenteditable="true">~90</div><div class="l" contenteditable="true">Minutes Exam</div></div>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><div class="sq"></div> STANAG-L05</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--accent);border:1px solid rgba(232,93,38,0.3);padding:4px 10px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#anatomy" contenteditable="true">L3 Format</a></li>
+            <li><a href="#inference" contenteditable="true">Inference</a></li>
+            <li><a href="#text1" contenteditable="true">Text 1</a></li>
+            <li><a href="#text2" contenteditable="true">Text 2</a></li>
+            <li><a href="#text3" contenteditable="true">Text 3</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#writing" contenteditable="true">Writing</a></li>
+            <li><a href="#wb" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section alt" id="recap">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">01</span> Lessons 1–4 Recall</div>
+        <h2 class="section-title" contenteditable="true">Debrief: <span class="hl">Homework Review</span></h2>
+        <p class="section-desc" contenteditable="true">Play back your recorded answer from Lesson 4 homework. Teacher gives live feedback. Then quick vocab sprint before we move into Level 3 Reading.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Homework Check</th>
+                    <th contenteditable="true">Target Standard</th>
+                    <th contenteditable="true">Teacher Feedback</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Recorded speaking answer</strong> (90 sec cold card)</td><td contenteditable="true">Clear structure, 1+ discourse marker, no major grammar errors</td><td contenteditable="true"><em>Write feedback here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>5 news vocabulary words</strong> from English article</td><td contenteditable="true">Can define each word AND use it in a sentence</td><td contenteditable="true"><em>Write feedback here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Self-introduction</strong> — 3× rehearsed</td><td contenteditable="true">Delivered without notes, naturally, within 60 seconds</td><td contenteditable="true"><em>Write feedback here...</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert orange" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🎙️</span>
+            <div contenteditable="true"><strong>Recording Debrief Protocol:</strong> (1) Play the recording. (2) Oleksandr identifies his own errors FIRST — what did he notice? (3) Teacher gives feedback on: fluency rhythm, vocabulary precision, grammar accuracy, answer structure. (4) Oleksandr gives the same answer again LIVE, applying corrections. This is the most powerful speaking improvement technique in language learning.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: LEVEL 3 READING FORMAT ====== -->
+<section class="section" id="anatomy">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">02</span> Level 3 Format Deep Dive</div>
+        <h2 class="section-title" contenteditable="true">Level 3 Reading: <span class="blue">What Changes</span></h2>
+        <p class="section-desc" contenteditable="true">You practised Level 2 reading in Lesson 1. Level 3 is significantly harder — not just in vocabulary, but in the type of thinking required. Study the differences precisely.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Feature</th>
+                    <th contenteditable="true">Level 2</th>
+                    <th contenteditable="true">Level 3</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Text length</strong></td><td contenteditable="true">Short — 50–120 words per text</td><td contenteditable="true">Medium to long — 120–400 words, complex paragraphs</td></tr>
+                <tr><td contenteditable="true"><strong>Text type</strong></td><td contenteditable="true">Notices, emails, short news items, ads, simple instructions</td><td contenteditable="true">News analysis, opinion pieces, international reports, military briefings, long feature articles</td></tr>
+                <tr><td contenteditable="true"><strong>Vocabulary</strong></td><td contenteditable="true">Common, everyday vocabulary with some semi-formal terms</td><td contenteditable="true">C1-level academic and journalistic vocabulary; field-specific terminology</td></tr>
+                <tr><td contenteditable="true"><strong>Thinking level</strong></td><td contenteditable="true">Find stated facts — the answer IS in the text</td><td contenteditable="true">Inference, deduction, implied meaning — the answer is SUGGESTED, not stated</td></tr>
+                <tr><td contenteditable="true"><strong>Question types</strong></td><td contenteditable="true">Who, what, when, where — factual retrieval</td><td contenteditable="true">Why, how, what does this suggest, what is implied, what is the author's purpose</td></tr>
+                <tr><td contenteditable="true"><strong>Trap difficulty</strong></td><td contenteditable="true">Simple distractors — wrong facts</td><td contenteditable="true">Subtle traps — partially correct, or true but irrelevant; overgeneralisation</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert blue" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🔍</span>
+            <div contenteditable="true"><strong>The Core Skill Shift:</strong> At Level 2, the answer is a word or phrase you can find and underline in the text. At Level 3, the answer requires you to read between the lines — to understand what the text implies, what the author's attitude is, or what conclusion logically follows from the evidence given. This is a fundamentally different cognitive skill.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section alt" id="vocab">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">03</span> Vocabulary: Level 3 Texts</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary: <span class="teal">International Affairs & Media</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 texts draw heavily from international journalism and official reporting. These 8 words appear frequently across STANAG Level 3 reading passages — and in today's texts.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">proliferation</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">Rapid spread or increase in number of something — often used for weapons, technology, or ideologies.</p>
+                <p class="example" contenteditable="true"><em>"The proliferation of nuclear weapons remains one of the greatest threats to global security."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">sovereignty</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A state's supreme authority over its own territory and affairs; freedom from external control.</p>
+                <p class="example" contenteditable="true"><em>"The alliance was formed to protect the sovereignty of its member states."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">deterrence</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">The strategy of preventing an enemy action by threatening severe consequences if it occurs.</p>
+                <p class="example" contenteditable="true"><em>"NATO's deterrence posture has been strengthened since the 2022 invasion."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">diplomatic</span><span class="pos" contenteditable="true">adjective</span>
+                <p class="def" contenteditable="true">Relating to managing international relations through negotiation, tact, and formal channels.</p>
+                <p class="example" contenteditable="true"><em>"All diplomatic efforts were exhausted before military options were considered."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">insurgency</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">An organised rebellion against an authority — typically involving guerrilla tactics against a government or occupying force.</p>
+                <p class="example" contenteditable="true"><em>"Counter-insurgency operations require a combination of military and civil approaches."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">escalation</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A rapid increase in the intensity or seriousness of a conflict or situation.</p>
+                <p class="example" contenteditable="true"><em>"There were fears that the border incident could lead to further escalation."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">hegemony</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">Dominance or leadership of one country or group over others, especially in politics, economics, or culture.</p>
+                <p class="example" contenteditable="true"><em>"The post-war period saw American hegemony shape much of the international order."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">asymmetric</span><span class="pos" contenteditable="true">adjective</span>
+                <p class="def" contenteditable="true">Involving sides of very unequal strength; in warfare, often describing unconventional tactics used by weaker forces against stronger ones.</p>
+                <p class="example" contenteditable="true"><em>"Modern conflicts increasingly involve asymmetric threats such as drones and cyber attacks."</em></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: VOCAB DRILL ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">04</span> Vocabulary Drill</div>
+        <h2 class="section-title" contenteditable="true">Drag & Match: <span class="hl">Definition Decode</span></h2>
+        <p class="section-desc" contenteditable="true">These words appear in today's reading passages. Matching them now means you won't slow down when you encounter them in the text — speed is essential at Level 3.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="vocabDrag">
+                <li class="drag-item" id="vd-4" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">hegemony</span></li>
+                <li class="drag-item" id="vd-2" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">deterrence</span></li>
+                <li class="drag-item" id="vd-6" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">asymmetric</span></li>
+                <li class="drag-item" id="vd-1" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">proliferation</span></li>
+                <li class="drag-item" id="vd-5" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">insurgency</span></li>
+                <li class="drag-item" id="vd-3" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">sovereignty</span></li>
+            </ul>
+            <div class="arrows-col">
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) rapid increase or spread of something dangerous</li>
+                <li class="static-item" contenteditable="true">b) supreme authority over one's own territory</li>
+                <li class="static-item" contenteditable="true">c) preventing conflict by threatening severe consequences</li>
+                <li class="static-item" contenteditable="true">d) dominance of one nation or group over others</li>
+                <li class="static-item" contenteditable="true">e) armed rebellion against an authority or government</li>
+                <li class="static-item" contenteditable="true">f) involving very unequal opposing sides or methods</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: INFERENCE SKILLS ====== -->
+<section class="section alt" id="inference">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">05</span> The Core Level 3 Skill</div>
+        <h2 class="section-title" contenteditable="true">Mastering <span class="purple">Inference & Deduction</span></h2>
+        <p class="section-desc" contenteditable="true">At Level 3, the examiner is not testing whether you can find information — they're testing whether you can THINK about what you read. Inference means understanding what is implied but not directly stated.</p>
+
+        <div class="strat-grid">
+            <div class="strat-card">
+                <span class="sn">01</span>
+                <h4 contenteditable="true">Read the Author's Tone</h4>
+                <p contenteditable="true">Positive words (flourishing, vital, key) vs. negative words (alarming, failed, inadequate) tell you the author's attitude. The question may ask: "What is the author's view of X?"</p>
+            </div>
+            <div class="strat-card">
+                <span class="sn">02</span>
+                <h4 contenteditable="true">Cause = Effect Logic</h4>
+                <p contenteditable="true">If the text describes a cause and an effect in the same paragraph, the exam will often ask "why" questions that test whether you can connect them — even if never explicitly linked.</p>
+            </div>
+            <div class="strat-card">
+                <span class="sn">03</span>
+                <h4 contenteditable="true">Implication Questions</h4>
+                <p contenteditable="true">"What does the text suggest about...?" — The answer is a logical conclusion FROM the text, never an opinion. You must choose the option that MUST be true based on the text, not might be true.</p>
+            </div>
+            <div class="strat-card">
+                <span class="sn">04</span>
+                <h4 contenteditable="true">Watch Qualifying Words</h4>
+                <p contenteditable="true">"Some," "many," "most," "often," "rarely" — STANAG traps replace these with "all," "always," "never," "no one." If the text says "many," an option saying "all" is WRONG.</p>
+            </div>
+            <div class="strat-card">
+                <span class="sn">05</span>
+                <h4 contenteditable="true">Author's Purpose</h4>
+                <p contenteditable="true">"The main purpose of this article is to..." — Identify whether the text is informing, arguing, warning, comparing, proposing, or criticising. The title and first/last paragraphs give the clearest signal.</p>
+            </div>
+            <div class="strat-card">
+                <span class="sn">06</span>
+                <h4 contenteditable="true">Referencing Words</h4>
+                <p contenteditable="true">"This," "such," "it," "they," "these policies," "this approach" — Level 3 questions test whether you know WHAT these words refer to. Always trace back to the noun.</p>
+            </div>
+        </div>
+
+        <div class="inference-box">
+            <h4 style="font-family:var(--mono);font-size:0.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;" contenteditable="true">INFERENCE TRAINING — What Does This Text IMPLY?</h4>
+
+            <div class="inference-row">
+                <div>
+                    <div class="inf-label" contenteditable="true">Text says:</div>
+                    <div class="inf-left" contenteditable="true">"Despite years of diplomatic negotiations, the conflict continued to escalate, with civilian casualties reaching record levels."</div>
+                </div>
+                <div class="inf-arrow">→</div>
+                <div>
+                    <div class="inf-label" contenteditable="true">We can infer:</div>
+                    <div class="inf-right" contenteditable="true">Diplomacy alone was insufficient to resolve the conflict — military or other solutions may be necessary.</div>
+                </div>
+            </div>
+            <div class="inference-row">
+                <div>
+                    <div class="inf-label" contenteditable="true">Text says:</div>
+                    <div class="inf-left" contenteditable="true">"The new policy was welcomed by some member states but met with significant opposition from others, particularly those with strong historical ties to the region."</div>
+                </div>
+                <div class="inf-arrow">→</div>
+                <div>
+                    <div class="inf-label" contenteditable="true">We can infer:</div>
+                    <div class="inf-right" contenteditable="true">The policy was divisive within the alliance — a consensus was not reached, and implementation may be challenging.</div>
+                </div>
+            </div>
+            <div class="inference-row">
+                <div>
+                    <div class="inf-label" contenteditable="true">Text says:</div>
+                    <div class="inf-left" contenteditable="true">"While the technology has shown promise in laboratory conditions, its deployment in active conflict zones remains untested."</div>
+                </div>
+                <div class="inf-arrow">→</div>
+                <div>
+                    <div class="inf-label" contenteditable="true">We can infer:</div>
+                    <div class="inf-right" contenteditable="true">The technology's real-world effectiveness is uncertain — caution is required before full adoption by military forces.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: TEXT 1 — NATO EASTERN FLANK ====== -->
+<section class="section" id="text1">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">06</span> Level 3 Reading — Text 1</div>
+        <h2 class="section-title" contenteditable="true">Text 1: <span class="blue">NATO's Eastern Flank</span></h2>
+        <p class="section-desc" contenteditable="true">Read the article carefully. Apply the Level 3 reading strategy: read the questions first, then skim for structure, then scan for answers. Time limit: <strong>8 minutes</strong> for this text.</p>
+
+        <div class="passage-wrap">
+            <div class="passage-top">
+                <span class="ptitle">International Security Analysis</span>
+                <span class="pmeta">Text 1 of 3 · ~290 words · <span class="chip orange">Military / Political</span></span>
+            </div>
+            <div class="passage-ruler"></div>
+            <div class="passage-body" contenteditable="true">
+                <p><span class="para-num">A</span>Since Russia's full-scale invasion of Ukraine in 2022, NATO has fundamentally reassessed its approach to collective defence along its eastern borders. What was previously a relatively thin forward presence has been progressively reinforced, with the alliance deploying additional battle groups to countries including Poland, Hungary, and the Baltic states. This repositioning reflects a broader strategic recognition that the post-Cold War security order in Europe is no longer viable.</p>
+
+                <p><span class="para-num">B</span>The concept of deterrence — long a cornerstone of NATO doctrine — has been both reaffirmed and reimagined in this new environment. Traditional deterrence relied heavily on the threat of escalation to discourage aggression. However, analysts now argue that Russia's actions have demonstrated a willingness to challenge deterrence thresholds that were previously considered inviolable. As a result, there is growing consensus within the alliance that presence, not merely the promise of response, is the most effective deterrent.</p>
+
+                <p><span class="para-num">C</span>Ukraine's application for NATO membership — while not immediately accepted — has nonetheless shifted the political dynamics within the alliance significantly. Several member states that previously maintained cautious positions on eastward expansion have publicly revised their stances. The debate has crystallised around a fundamental tension: between the sovereign right of a nation to seek security alliances and the risk of further escalation that membership might provoke.</p>
+
+                <p><span class="para-num">D</span>Interoperability remains a persistent challenge. Despite shared doctrinal frameworks, differences in equipment, communication systems, and command structures across member states continue to create friction in multinational operations. Addressing these gaps — through standardisation programmes and joint exercises — is increasingly viewed not as an optional enhancement but as a critical operational requirement.</p>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">1</div><p class="q-text" contenteditable="true">What does the article suggest about NATO's previous approach to defending its eastern borders?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q1','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It was based on a large, permanent military presence along the entire border</span></div>
+                <div class="opt" onclick="sel(this,'q1','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It was considered adequate and has not needed to change</span></div>
+                <div class="opt" onclick="sel(this,'q1','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It relied on a limited forward presence that has since been strengthened</span></div>
+                <div class="opt" onclick="sel(this,'q1','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">It was abandoned entirely following Russia's invasion</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">2</div><p class="q-text" contenteditable="true">According to paragraph B, why has NATO's understanding of deterrence changed?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q2','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Russia has demonstrated it is willing to act despite the threat of escalation</span></div>
+                <div class="opt" onclick="sel(this,'q2','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">NATO members agreed that deterrence had always been ineffective</span></div>
+                <div class="opt" onclick="sel(this,'q2','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">The threat of nuclear escalation has been removed from NATO policy</span></div>
+                <div class="opt" onclick="sel(this,'q2','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">The alliance has decided to rely purely on promises of future military action</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">3</div><p class="q-text" contenteditable="true">What tension does paragraph C identify in the debate over Ukraine's NATO membership?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q3','A')"><div class="opt-key">A</div><span class="opt-key">A</div><span class="opt-label" contenteditable="true">Between NATO's financial capacity and the cost of admitting a new member</span></div>
+                <div class="opt" onclick="sel(this,'q3','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Between a nation's right to seek security and the risk of provoking further conflict</span></div>
+                <div class="opt" onclick="sel(this,'q3','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Between eastern and western members' views on Ukraine's military capability</span></div>
+                <div class="opt" onclick="sel(this,'q3','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Between NATO's official position and what individual member states privately believe</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">4</div><p class="q-text" contenteditable="true">What does paragraph D imply about standardisation programmes in NATO?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q4','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">They are useful extras that NATO can pursue when resources allow</span></div>
+                <div class="opt" onclick="sel(this,'q4','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">They have already solved the interoperability problem across all member states</span></div>
+                <div class="opt" onclick="sel(this,'q4','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">They are now considered essential to effective joint military operations</span></div>
+                <div class="opt" onclick="sel(this,'q4','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">They focus primarily on communication systems rather than equipment differences</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: TEXT 2 — CYBER & ASYMMETRIC ====== -->
+<section class="section alt" id="text2">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">07</span> Level 3 Reading — Text 2</div>
+        <h2 class="section-title" contenteditable="true">Text 2: <span class="teal">Asymmetric & Cyber Threats</span></h2>
+        <p class="section-desc" contenteditable="true">A more complex text with denser argument and implied conclusions. Read once for structure, then read again with the questions in mind. Time: <strong>8 minutes</strong>.</p>
+
+        <div class="passage-wrap">
+            <div class="passage-top">
+                <span class="ptitle">Defence Policy Review</span>
+                <span class="pmeta">Text 2 of 3 · ~310 words · <span class="chip teal">Technology / Strategy</span></span>
+            </div>
+            <div class="passage-ruler"></div>
+            <div class="passage-body" contenteditable="true">
+                <p><span class="para-num">A</span>The battlefield of the 21st century increasingly bears little resemblance to the linear front lines familiar to military strategists of previous generations. Modern conflicts, from Ukraine to the Middle East, have demonstrated the transformative impact of asymmetric tactics: smaller, technologically agile forces employing drones, electronic warfare, and cyber operations to challenge adversaries with far greater conventional military power. This shift has profound implications for how armies train, equip, and think.</p>
+
+                <p><span class="para-num">B</span>Cyber operations, in particular, occupy a uniquely destabilising position in the modern threat landscape. Unlike conventional military strikes, cyber attacks can be launched anonymously, deny attribution for extended periods, and target critical civilian infrastructure — power grids, water systems, financial networks — without a single soldier crossing a border. The threshold between war and peace becomes dangerously blurred in such an environment, creating significant challenges for both legal frameworks and military doctrine.</p>
+
+                <p><span class="para-num">C</span>The proliferation of inexpensive drone technology has further democratised warfare in a way that was inconceivable a decade ago. A non-state actor with modest resources can now deploy a fleet of commercially available drones to conduct surveillance, deliver munitions, or disrupt logistics chains. The asymmetric advantage this confers is significant: countering a swarm of cheap drones requires expensive air defence systems, creating a deeply unfavourable cost equation for defending forces.</p>
+
+                <p><span class="para-num">D</span>Military establishments across NATO and beyond have been forced to confront an uncomfortable reality: doctrine, training, and equipment procurement cycles designed for the conflicts of the late 20th century are poorly suited to this new environment. Adaptation is not merely a strategic preference — for many nations, it has become an existential necessity. Those who fail to adapt risk finding their conventional military advantages systematically eroded by adversaries who have embraced the asymmetric playbook.</p>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">5</div><p class="q-text" contenteditable="true">What is the main argument of the article?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q5','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Drone technology is the most significant military development of the 21st century</span></div>
+                <div class="opt" onclick="sel(this,'q5','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Conventional military power is no longer relevant in modern conflicts</span></div>
+                <div class="opt" onclick="sel(this,'q5','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Modern asymmetric and cyber threats have fundamentally changed military requirements</span></div>
+                <div class="opt" onclick="sel(this,'q5','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Non-state actors have replaced nation-states as the primary security threat</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">6</div><p class="q-text" contenteditable="true">According to paragraph B, why are cyber attacks particularly destabilising compared to conventional military action?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q6','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">They cause greater physical damage than traditional weapons</span></div>
+                <div class="opt" onclick="sel(this,'q6','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">They can be launched anonymously and blur the line between peace and war</span></div>
+                <div class="opt" onclick="sel(this,'q6','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">They require large numbers of trained personnel to execute</span></div>
+                <div class="opt" onclick="sel(this,'q6','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">They are primarily used by large nation-states rather than non-state actors</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">7</div><p class="q-text" contenteditable="true">What does paragraph C suggest about the "cost equation" in modern warfare?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q7','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Defending against cheap drone attacks costs far more than launching them</span></div>
+                <div class="opt" onclick="sel(this,'q7','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Modern air defence systems have become cheaper due to mass production</span></div>
+                <div class="opt" onclick="sel(this,'q7','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Non-state actors spend more on warfare than nation-states</span></div>
+                <div class="opt" onclick="sel(this,'q7','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">The cost of drones has increased significantly in recent years</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">8</div><p class="q-text" contenteditable="true">The phrase "existential necessity" in paragraph D most closely implies that:</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q8','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Military adaptation is merely recommended as a long-term strategic goal</span></div>
+                <div class="opt" onclick="sel(this,'q8','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Nations that fail to adapt may face fundamental threats to their military effectiveness or survival</span></div>
+                <div class="opt" onclick="sel(this,'q8','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">All NATO nations have already successfully adapted their doctrine</span></div>
+                <div class="opt" onclick="sel(this,'q8','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Adaptation refers only to equipment procurement, not training or doctrine</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: TEXT 3 — VETERAN REINTEGRATION ====== -->
+<section class="section" id="text3">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">08</span> Level 3 Reading — Text 3</div>
+        <h2 class="section-title" contenteditable="true">Text 3: <span class="purple">Veteran Reintegration</span></h2>
+        <p class="section-desc" contenteditable="true">This text is the longest and most nuanced. It requires understanding the author's implied attitude as well as factual comprehension. Time: <strong>10 minutes</strong>.</p>
+
+        <div class="passage-wrap">
+            <div class="passage-top">
+                <span class="ptitle">Social Policy & Defence</span>
+                <span class="pmeta">Text 3 of 3 · ~340 words · <span class="chip purple">Social / Human Interest</span></span>
+            </div>
+            <div class="passage-ruler"></div>
+            <div class="passage-body" contenteditable="true">
+                <p><span class="para-num">A</span>The transition from military to civilian life is frequently portrayed as a straightforward administrative process — a matter of paperwork, pension arrangements, and a final handshake. The reality, as a growing body of research confirms, is considerably more complex. Veterans who have spent years in a highly structured, mission-driven environment often find civilian life disorienting, not because of what they have experienced in conflict, but because of what they have left behind: purpose, belonging, and a clearly defined identity.</p>
+
+                <p><span class="para-num">B</span>Post-Traumatic Stress Disorder receives the most attention in public discourse around veteran welfare, and rightly so — its consequences can be devastating and long-lasting. However, a focus on clinical pathology can inadvertently obscure the broader reality: that the majority of veterans do not develop PTSD, yet still face significant challenges in reintegration. Unemployment rates among veterans are disproportionately high in many countries; relationship breakdown, social isolation, and a sense of purposelessness are common even among those who show no clinical symptoms.</p>
+
+                <p><span class="para-num">C</span>The institutional response from governments has been uneven. Some nations — the United Kingdom and Canada among them — have developed relatively sophisticated veteran support systems that include mental health services, employment programmes, and peer mentoring networks. Others have relied almost entirely on charitable organisations to fill the gap. The inconsistency is striking: a soldier may risk their life in service of their country, yet find that their country's support infrastructure is insufficiently prepared to receive them back.</p>
+
+                <p><span class="para-num">D</span>The most effective interventions, evidence suggests, are those that address the structural deficit — the loss of identity and community — rather than focusing exclusively on clinical symptoms. Veteran transition programmes that connect former service members with meaningful work, structured communities, and continued social purpose appear to achieve significantly better outcomes than those centred purely on medical treatment. The challenge is one of political will as much as policy design.</p>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">9</div><p class="q-text" contenteditable="true">According to paragraph A, what is the primary source of difficulty for veterans transitioning to civilian life?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q9','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">The traumatic experiences they have had during active military service</span></div>
+                <div class="opt" onclick="sel(this,'q9','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">The loss of structure, purpose, and clear identity that military life provided</span></div>
+                <div class="opt" onclick="sel(this,'q9','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">The complexity of pension and administrative paperwork they must complete</span></div>
+                <div class="opt" onclick="sel(this,'q9','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">The lack of civilian qualifications that military training provides</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">10</div><p class="q-text" contenteditable="true">What concern does the author raise in paragraph B about how PTSD is discussed?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q10','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">That PTSD is overdiagnosed and most veterans do not actually suffer from it</span></div>
+                <div class="opt" onclick="sel(this,'q10','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">That focusing too much on PTSD ignores the wider reintegration challenges faced by all veterans</span></div>
+                <div class="opt" onclick="sel(this,'q10','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">That PTSD is not taken seriously enough in public policy discussions</span></div>
+                <div class="opt" onclick="sel(this,'q10','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">That research into PTSD has produced no effective treatments to date</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">11</div><p class="q-text" contenteditable="true">What is the author's implied attitude towards governments' treatment of veterans, as expressed in paragraph C?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q11','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Broadly positive — most governments have developed good support systems</span></div>
+                <div class="opt" onclick="sel(this,'q11','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Neutral — governments are doing exactly what is expected of them</span></div>
+                <div class="opt" onclick="sel(this,'q11','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Critical — the support offered is inconsistent and often inadequate given the sacrifice made</span></div>
+                <div class="opt" onclick="sel(this,'q11','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Resigned — the author believes governments will never improve their veteran support</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">12</div><p class="q-text" contenteditable="true">What does paragraph D suggest is the most important factor in successful veteran reintegration programmes?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'q12','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Access to specialised medical and psychiatric treatment for all veterans</span></div>
+                <div class="opt" onclick="sel(this,'q12','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Addressing the loss of identity and community through meaningful work and social connection</span></div>
+                <div class="opt" onclick="sel(this,'q12','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Replacing military hierarchies with equivalent civilian organisational structures</span></div>
+                <div class="opt" onclick="sel(this,'q12','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Providing generous financial compensation to all veterans upon discharge</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: ANSWER KEY & ANALYSIS ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">09</span> Answer Key & Debrief</div>
+        <h2 class="section-title" contenteditable="true">Debrief: <span class="hl">Why Each Answer Wins</span></h2>
+        <p class="section-desc" contenteditable="true">For every wrong answer, identify which of the 6 trap types from Task 5 was used. This builds your trap-detection instinct for the real exam.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Q</th>
+                    <th contenteditable="true">Answer</th>
+                    <th contenteditable="true">Evidence / Reasoning</th>
+                    <th contenteditable="true">Trap in Wrong Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>1</strong></td><td contenteditable="true"><span class="chip orange">C</span></td><td contenteditable="true">"relatively thin forward presence has been progressively reinforced" → limited presence, since strengthened</td><td contenteditable="true">A is opposite (thin, not large). B directly contradicts "no longer viable." D: not abandoned, reinforced.</td></tr>
+                <tr><td contenteditable="true"><strong>2</strong></td><td contenteditable="true"><span class="chip orange">A</span></td><td contenteditable="true">"demonstrated a willingness to challenge deterrence thresholds previously considered inviolable"</td><td contenteditable="true">B: "always been ineffective" not stated. C: nuclear not mentioned. D: opposite — presence, not promises.</td></tr>
+                <tr><td contenteditable="true"><strong>3</strong></td><td contenteditable="true"><span class="chip orange">B</span></td><td contenteditable="true">"sovereign right... to seek security alliances" vs "risk of further escalation"</td><td contenteditable="true">A/C/D: not mentioned in paragraph C. Classic: only B matches the exact tension described.</td></tr>
+                <tr><td contenteditable="true"><strong>4</strong></td><td contenteditable="true"><span class="chip orange">C</span></td><td contenteditable="true">"not as an optional enhancement but as a critical operational requirement" → essential, not optional</td><td contenteditable="true">A is the EXACT opposite of "not optional." B: "persistent challenge" means NOT solved. D: partial truth trap — equipment mentioned but not exclusively.</td></tr>
+                <tr><td contenteditable="true"><strong>5</strong></td><td contenteditable="true"><span class="chip teal">C</span></td><td contenteditable="true">All four paragraphs argue that asymmetric/cyber threats have changed military requirements</td><td contenteditable="true">A: drone is one example, not the whole argument. B: "conventional power no longer relevant" — too extreme. D: non-state actors mentioned but not the main point.</td></tr>
+                <tr><td contenteditable="true"><strong>6</strong></td><td contenteditable="true"><span class="chip teal">B</span></td><td contenteditable="true">"launched anonymously" + "threshold between war and peace becomes dangerously blurred"</td><td contenteditable="true">A: opposite — cyber causes less physical damage. C: no personnel count mentioned. D: opposite — anonymous, not nation-state specific.</td></tr>
+                <tr><td contenteditable="true"><strong>7</strong></td><td contenteditable="true"><span class="chip teal">A</span></td><td contenteditable="true">"countering a swarm of cheap drones requires expensive air defence systems, creating a deeply unfavourable cost equation"</td><td contenteditable="true">B: cheaper — opposite of expensive. C/D: not stated. TRAP: "cost equation" language must be read carefully.</td></tr>
+                <tr><td contenteditable="true"><strong>8</strong></td><td contenteditable="true"><span class="chip teal">B</span></td><td contenteditable="true">"existential" = relating to existence/survival; "necessity" = unavoidable. "Risk finding their conventional advantages systematically eroded."</td><td contenteditable="true">A: "merely recommended" contradicts "necessity." C: "forced to confront" implies NOT solved yet. D: "doctrine, training, and equipment" — not just procurement.</td></tr>
+                <tr><td contenteditable="true"><strong>9</strong></td><td contenteditable="true"><span class="chip purple">B</span></td><td contenteditable="true">"not because of what they have experienced in conflict, but because of what they have left behind: purpose, belonging, and identity"</td><td contenteditable="true">A: explicitly contradicted — the text says NOT trauma. C: paperwork mentioned but dismissed as oversimplification. D: not stated.</td></tr>
+                <tr><td contenteditable="true"><strong>10</strong></td><td contenteditable="true"><span class="chip purple">B</span></td><td contenteditable="true">"a focus on clinical pathology can inadvertently obscure the broader reality" — PTSD focus hides wider issues</td><td contenteditable="true">A: overdiagnosis not mentioned. C: opposite — text says PTSD gets most attention. D: treatment effectiveness not discussed.</td></tr>
+                <tr><td contenteditable="true"><strong>11</strong></td><td contenteditable="true"><span class="chip purple">C</span></td><td contenteditable="true">"a soldier may risk their life... yet find that their country's support infrastructure is insufficiently prepared" — implied criticism</td><td contenteditable="true">A: "uneven" and "inconsistency is striking" signal criticism, not praise. B/D: tone is critical, not neutral or resigned.</td></tr>
+                <tr><td contenteditable="true"><strong>12</strong></td><td contenteditable="true"><span class="chip purple">B</span></td><td contenteditable="true">"address the structural deficit — the loss of identity and community... meaningful work, structured communities, continued social purpose"</td><td contenteditable="true">A: "centred purely on medical treatment" described as LESS effective. C/D: not mentioned in the text.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert orange" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📊</span>
+            <div contenteditable="true"><strong>Score Analysis:</strong> 12/12 = Solid L3 reader. 9–11/12 = L3 capable with minor trap vulnerability — review wrong answers. 7–8/12 = Between L2 and L3 — inference skills need more practice. Below 7 = Focus on trap-spotting strategy from Task 5 before attempting more timed reading. Note your score and which trap type caught you most.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: GRAMMAR — COMPLEX NOUN PHRASES ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">10</span> Grammar Module</div>
+        <h2 class="section-title" contenteditable="true">Grammar: <span class="blue">Complex Noun Phrases</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 texts are dense with complex noun phrases — long noun groups that pack information compactly. Understanding and using them is essential for both reading comprehension and writing sophistication.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Simple Version</th>
+                    <th contenteditable="true">Complex Noun Phrase (Level 3)</th>
+                    <th contenteditable="true">Structure Used</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true">the problem of integrating soldiers back into civilian life</td><td contenteditable="true"><em>"the veteran reintegration challenge"</em></td><td contenteditable="true">Noun + noun modifier</td></tr>
+                <tr><td contenteditable="true">NATO's policies for deterring aggression</td><td contenteditable="true"><em>"NATO's deterrence posture"</em></td><td contenteditable="true">Possessive + noun + noun</td></tr>
+                <tr><td contenteditable="true">the fact that drones are cheap has changed warfare</td><td contenteditable="true"><em>"the proliferation of inexpensive drone technology"</em></td><td contenteditable="true">Noun + prepositional phrase</td></tr>
+                <tr><td contenteditable="true">programmes that standardise equipment and systems</td><td contenteditable="true"><em>"standardisation programmes"</em></td><td contenteditable="true">Gerund-based noun modifier</td></tr>
+                <tr><td contenteditable="true">the idea that armies need to prepare for different threats now</td><td contenteditable="true"><em>"an adaptation imperative"</em></td><td contenteditable="true">Abstract noun phrase</td></tr>
+                <tr><td contenteditable="true">the tension between countries with different levels of defence spending</td><td contenteditable="true"><em>"burden-sharing disparities within the alliance"</em></td><td contenteditable="true">Compound noun + prepositional phrase</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert teal" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">💡</span>
+            <div contenteditable="true"><strong>Why This Matters:</strong> In your Level 3 Writing (essay), using complex noun phrases instead of simple clause structures is one of the clearest markers of C1/Level 3 proficiency. Compare: <em>"The fact that veterans lose their sense of purpose is a problem"</em> vs. <em>"The loss of purpose and identity represents a significant structural challenge for veteran reintegration."</em> — The second version uses a complex noun phrase and is typical of B2/C1 academic writing.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: GRAMMAR PRACTICE ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">11</span> Grammar Practice</div>
+        <h2 class="section-title" contenteditable="true">Upgrade to <span class="hl">Level 3 Language</span></h2>
+        <p class="section-desc" contenteditable="true">Rewrite each simple sentence using a complex noun phrase. Use the models from the grammar table above as your guide.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">Simple: "The fact that drones can be used by anyone is worrying." → Level 3: "The <span class="blank" contenteditable="true"></span> of drone technology among non-state actors represents a significant security concern."</li>
+            <li contenteditable="true">Simple: "How countries work together in operations is very important." → Level 3: "Multinational <span class="blank" contenteditable="true"></span> remains a central operational <span class="blank" contenteditable="true"></span> for the alliance."</li>
+            <li contenteditable="true">Simple: "Whether countries can work together in NATO depends on whether they agree." → Level 3: "Alliance <span class="blank" contenteditable="true"></span> ultimately rests on shared strategic objectives among member states."</li>
+            <li contenteditable="true">Simple: "Russia threatened other countries and this stopped working." → Level 3: "The erosion of Russia's <span class="blank" contenteditable="true"></span> posture has necessitated a reassessment of NATO's defensive doctrine."</li>
+            <li contenteditable="true">Simple: "Veterans have problems when they leave the military and go back to normal life." → Level 3: "The <span class="blank" contenteditable="true"></span> challenges faced by former service members extend well beyond the clinical domain."</li>
+        </ul>
+
+        <div class="alert teal" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Guide:</strong> 1. proliferation &nbsp;|&nbsp; 2. interoperability / imperative &nbsp;|&nbsp; 3. cohesion &nbsp;|&nbsp; 4. deterrence &nbsp;|&nbsp; 5. reintegration</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: SPEAKING PRACTICE ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">12</span> Speaking — Text-Based Discussion</div>
+        <h2 class="section-title" contenteditable="true">Speaking: <span class="purple">React to What You Read</span></h2>
+        <p class="section-desc" contenteditable="true">STANAG Level 3 speaking sometimes asks about the same topics as the reading texts. Use today's texts as the basis for structured spoken arguments — this builds both comprehension depth and speaking fluency.</p>
+
+        <div style="background:white;border:1px solid var(--line);border-radius:var(--r-lg);padding:28px 32px;box-shadow:var(--shadow);">
+            <div class="speak-row">
+                <div class="av ex">🎓</div>
+                <div class="bubble ex" contenteditable="true">
+                    <span class="spk-name ex">Examiner</span>
+                    "Based on what you know about modern warfare, would you say that traditional military strength is still the most important factor in a country's security? Or have asymmetric threats fundamentally changed that equation?"
+                </div>
+            </div>
+            <div class="bubble note" contenteditable="true">💡 Use what you read in Text 2 as your evidence base. Structure: "I would contend that... [your position]. The proliferation of asymmetric threats — as demonstrated by... — suggests that..." → give specific example → "However, one could argue that conventional forces still serve as a deterrent because..." → Conclude: "To sum up my position..."</div>
+            <div class="speak-row right">
+                <div class="av st">🪖</div>
+                <div class="bubble st" contenteditable="true">
+                    <span class="spk-name st">Oleksandr — 75–90 seconds</span>
+                    [Your answer — try to incorporate: "asymmetric threats," "deterrence," "proliferation," and at least one discourse marker from Lesson 4]
+                </div>
+            </div>
+            <div style="height:14px;"></div>
+            <div class="speak-row">
+                <div class="av ex">🎓</div>
+                <div class="bubble ex" contenteditable="true">
+                    <span class="spk-name ex">Examiner</span>
+                    "The article on veterans suggests that governments often fail their returning soldiers. In your experience as a Ukrainian officer, do you think this is a problem in Ukraine? What would you recommend?"
+                </div>
+            </div>
+            <div class="bubble note" contenteditable="true">💡 This question asks for personal professional experience + a recommendation. Use: "From my experience in the military..." + specific observation → "The structural deficit described in the article — the loss of identity and purpose — is particularly..." → recommendation with modal verb: "I believe governments should / must..."</div>
+            <div class="speak-row right">
+                <div class="av st">🪖</div>
+                <div class="bubble st" contenteditable="true">
+                    <span class="spk-name st">Oleksandr — 75–90 seconds</span>
+                    [Your answer — connect your professional experience to the article's argument. This is a Level 3 response: evidence + personal insight + recommendation]
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: VOCABULARY IN CONTEXT ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">13</span> Vocabulary in Context</div>
+        <h2 class="section-title" contenteditable="true">Fill the Gaps: <span class="teal">Level 3 Vocabulary</span></h2>
+        <p class="section-desc" contenteditable="true">Use today's vocabulary (proliferation, sovereignty, deterrence, diplomatic, insurgency, escalation, hegemony, asymmetric) to complete these sentences. Some sentences require other forms of the word.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">The alliance's primary concern was preventing any further <span class="blank" contenteditable="true"></span> of the conflict into a wider regional war.</li>
+            <li contenteditable="true">Counter-<span class="blank" contenteditable="true"></span> operations require not only military force but also efforts to address the underlying grievances that fuel the rebellion.</li>
+            <li contenteditable="true">The treaty placed strict limits on the <span class="blank" contenteditable="true"></span> of ballistic missile technology to non-signatory states.</li>
+            <li contenteditable="true">Several ambassadors were recalled as <span class="blank" contenteditable="true"></span> channels between the two nations collapsed entirely.</li>
+            <li contenteditable="true">The nation's refusal to cede territory was rooted in its historic defence of its <span class="blank" contenteditable="true"></span> against foreign interference.</li>
+            <li contenteditable="true">Analysts argued that the attack was part of an <span class="blank" contenteditable="true"></span> campaign designed to exploit the adversary's reliance on conventional force.</li>
+            <li contenteditable="true">Russia's challenge to Western <span class="blank" contenteditable="true"></span> has reshaped the entire post-Cold War security architecture.</li>
+            <li contenteditable="true">The credibility of nuclear <span class="blank" contenteditable="true"></span> depends on the belief that the threat will actually be carried out.</li>
+        </ul>
+
+        <div class="alert teal" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Key:</strong> 1. escalation &nbsp;|&nbsp; 2. insurgency &nbsp;|&nbsp; 3. proliferation &nbsp;|&nbsp; 4. diplomatic &nbsp;|&nbsp; 5. sovereignty &nbsp;|&nbsp; 6. asymmetric &nbsp;|&nbsp; 7. hegemony &nbsp;|&nbsp; 8. deterrence</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: WRITING — BODY PARAGRAPH WITH L3 LANGUAGE ====== -->
+<section class="section" id="writing">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">14</span> Writing Consolidation</div>
+        <h2 class="section-title" contenteditable="true">Writing: Use <span class="hl">What You've Read</span></h2>
+        <p class="section-desc" contenteditable="true">Write a body paragraph (70–80 words) for this essay prompt, drawing on today's reading texts as your evidence. Use at least one complex noun phrase and one vocabulary word from today.</p>
+
+        <div class="alert blue" contenteditable="false">
+            <span class="alert-icon">✏️</span>
+            <div contenteditable="true"><strong>Essay Prompt:</strong> "Modern warfare has fundamentally changed the nature of military threats. To what extent should this change how governments train and equip their armed forces?" — Write the "On one hand, proponents argue..." body paragraph. Cite evidence from today's texts. 70–80 words, 12 minutes.</div>
+        </div>
+
+        <div class="write-zone" contenteditable="true" style="margin-top:16px;">
+            <p class="ph">Start: "On one hand, proponents of fundamental military reform argue that the proliferation of asymmetric threats has rendered traditional doctrine inadequate. As demonstrated by..."</p>
+        </div>
+
+        <div style="background:var(--surface2);border:1px solid var(--line);border-radius:var(--r);padding:10px 16px;margin-top:10px;font-family:var(--mono);font-size:0.7rem;color:var(--gray);display:flex;gap:16px;">
+            <span>🎯 Target: 70–80 words</span>
+            <span>📐 Must include: complex noun phrase</span>
+            <span>📖 Must use: 1+ vocabulary word from today</span>
+            <span>⏱ Time: 12 minutes</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: SYNTHESIS ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">15</span> Mission Complete</div>
+        <h2 class="section-title" contenteditable="true">Synthesis: <span class="hl">Full Debrief</span></h2>
+        <p class="section-desc" contenteditable="true">Final reflection and discussion — connect today's reading to the exam and to your professional experience as a Ukrainian officer.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Discussion Question</th>
+                    <th contenteditable="true">Key Words to Use</th>
+                    <th contenteditable="true">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Which of today's three texts was most difficult for you? Which inference question was hardest?</strong></td><td contenteditable="true">implied, suggested, infer, conclude from</td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>The article on asymmetric warfare — how much does it reflect your experience in the Ukrainian military?</strong></td><td contenteditable="true">asymmetric, deterrence, escalation, from my experience</td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Looking at your score: which trap type caught you most often today? What is your strategy to avoid it next time?</strong></td><td contenteditable="true">qualifying words, too extreme, partially correct</td><td contenteditable="true"><em>Write here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>The veteran reintegration article — did any part of it resonate with what you have observed among fellow officers?</strong></td><td contenteditable="true">structural deficit, identity, reintegration, purposelessness</td><td contenteditable="true"><em>Write here...</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert orange" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework before Lesson 6 (Listening Level 3):</strong> (1) Find and read ONE English article about international security (BBC World Service, Reuters, NATO.int). Extract 5 new vocabulary words — define them and write a sentence for each. (2) Study today's vocabulary list — next lesson starts with a written test, no preparation. (3) Download STANAG Practice Test 2 — Listening from ltc.uni-nke.hu. We use it in full next lesson. (4) Write your complete Level 3 essay body paragraph (Task 14) if you did not finish in class — full paragraph, 70–80 words.</div>
+        </div>
+
+        <div class="end-panel">
+            <h2 contenteditable="true">Lesson 05 — Reading Level 3 Complete</h2>
+            <p class="sub" contenteditable="true">// 12 MCQ questions · 3 complex texts · inference mastery //</p>
+            <ul class="end-list">
+                <li contenteditable="true">✅ <strong>Level 3 vs Level 2:</strong> Key differences in text type, vocabulary, and thinking level fully mapped.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary (8 words):</strong> proliferation, sovereignty, deterrence, diplomatic, insurgency, escalation, hegemony, asymmetric.</li>
+                <li contenteditable="true">✅ <strong>Inference Skills:</strong> 6 Level 3 strategies — author's tone, cause-effect, implication, qualifying words, purpose, referencing.</li>
+                <li contenteditable="true">✅ <strong>Text 1 — NATO Eastern Flank:</strong> 4 MCQ questions on deterrence doctrine and interoperability.</li>
+                <li contenteditable="true">✅ <strong>Text 2 — Asymmetric & Cyber:</strong> 4 MCQ including "existential necessity" phrase-meaning question.</li>
+                <li contenteditable="true">✅ <strong>Text 3 — Veteran Reintegration:</strong> 4 MCQ including author-attitude inference question.</li>
+                <li contenteditable="true">✅ <strong>Full Answer Key:</strong> All 12 answers explained with trap type identified for each wrong option.</li>
+                <li contenteditable="true">✅ <strong>Grammar — Complex Noun Phrases:</strong> How to compress ideas and sound C1 in both reading and writing.</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> Two Level 3 discussion questions using today's texts as evidence base.</li>
+                <li contenteditable="true">✅ <strong>Writing:</strong> Body paragraph with Level 3 vocabulary and complex noun phrases.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== WHITEBOARD ====== -->
+<section class="section" id="wb">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">WB</span> Teacher Space</div>
+        <h2 class="section-title" contenteditable="true">Interactive <span class="hl">Whiteboard</span></h2>
+        <p class="section-desc" contenteditable="true">Use for inference diagrams, text annotation, vocabulary maps, or live feedback on writing.</p>
+        <div class="wb-wrap">
+            <div class="wb-bar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#16150F">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(229,57,53,0.2);border-color:#E53935;color:#E53935;">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FABs ====== -->
+<div class="fab-group" id="fabGroup">
+    <button class="fab" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab qz" onclick="openModal()" title="Quizlet">📝</button>
+    <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+    <button class="fab rst" onclick="resetLesson()" title="Reset">↺</button>
+</div>
+
+<div id="qModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2>Quizlet Export</h2>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--gray);margin-top:6px;">Add today's international affairs vocabulary.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:14px;">
+            <button class="modal-btn secondary" onclick="addRow()">+ Row</button>
+            <button class="modal-btn primary" id="copyBtn" onclick="copyQuizlet()">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chosen = {};
+    function sel(el, id, letter) {
+        el.closest('.options').querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        chosen[id] = letter;
+    }
+
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='h') {
+            e.preventDefault();
+            const s=window.getSelection();
+            if (!s.rangeCount||s.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(232,93,38,0.25)');
+        }
+    });
+
+    const canvas=document.getElementById('boardCanvas');
+    const ctx=canvas.getContext('2d');
+    function resizeCanvas(){canvas.width=canvas.parentElement.clientWidth;canvas.height=460;}
+    window.addEventListener('resize',resizeCanvas);
+    resizeCanvas();
+    let drawing=false,pendingDraw=false,sx,sy,tool='pencil',color='#16150F',snap;
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>{
+        b.addEventListener('click',()=>{document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tool=b.dataset.tool;canvas.style.cursor=tool==='text'?'text':'crosshair';});
+    });
+    document.getElementById('wbColor').addEventListener('change',e=>color=e.target.value);
+    document.getElementById('wbClear').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);if(window.syncWbClear)window.syncWbClear();});
+    function gp(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+    canvas.addEventListener('mousedown',e=>{const p=gp(e);sx=p.x;sy=p.y;if(tool==='text'){const t=prompt('Text:');if(t){ctx.font="16px 'Space Grotesk',sans-serif";ctx.fillStyle=color;ctx.fillText(t,sx,sy);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}return;}drawing=true;snap=ctx.getImageData(0,0,canvas.width,canvas.height);ctx.beginPath();ctx.moveTo(sx,sy);});
+    canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=gp(e);if(tool==='pencil'||tool==='highlight'){ctx.lineTo(p.x,p.y);ctx.strokeStyle=tool==='highlight'?color+'44':color;ctx.lineWidth=tool==='highlight'?14:1.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}else{ctx.putImageData(snap,0,0);drawShape(p.x,p.y);}});
+    canvas.addEventListener('mouseup',e=>{if(!drawing)return;drawing=false;if(tool!=='pencil'&&tool!=='highlight')drawShape(gp(e).x,gp(e).y);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}});
+    canvas.addEventListener('mouseout',()=>{if(drawing){drawing=false;if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}});
+    function drawShape(ex,ey){ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=1.5;if(tool==='square')ctx.strokeRect(sx,sy,ex-sx,ey-sy);else if(tool==='circle'){ctx.arc(sx,sy,Math.sqrt((ex-sx)**2+(ey-sy)**2),0,2*Math.PI);ctx.stroke();}else if(tool==='arrow'){const hl=12,ang=Math.atan2(ey-sy,ex-sx);ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.stroke();ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));ctx.stroke();}}
+
+    function setupDrag(colId){const col=document.getElementById(colId);if(!col)return;col.querySelectorAll('.drag-item').forEach(item=>{item.addEventListener('dragstart',()=>item.classList.add('dragging'));item.addEventListener('dragend',()=>{item.classList.remove('dragging');if(window.syncDragOrder)window.syncDragOrder(colId);});});col.addEventListener('dragover',e=>{e.preventDefault();const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{const off=e.clientY-ch.getBoundingClientRect().top-ch.getBoundingClientRect().height/2;return off<0&&off>cl.offset?{offset:off,element:ch}:cl;},{offset:Number.NEGATIVE_INFINITY}).element;const d=document.querySelector('.dragging');if(d){if(after==null)col.appendChild(d);else col.insertBefore(d,after);}});}
+    setupDrag('vocabDrag');
+
+    function savePDF(){document.getElementById('fabGroup').style.display='none';document.getElementById('syncStatus').style.display='none';const el=document.body;html2pdf().set({margin:0,filename:'STANAG-Lesson5-Level3-Reading.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{document.getElementById('fabGroup').style.display='flex';document.getElementById('syncStatus').style.display='flex';});}
+    function openModal(){document.getElementById('qModal').style.display='flex';}
+    function closeModal(){document.getElementById('qModal').style.display='none';}
+    function addRow(){const r=document.createElement('div');r.className='word-row';r.innerHTML='<input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans">';document.getElementById('wordList').appendChild(r);}
+    function copyQuizlet(){let out='';document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-word').value.trim();const t=r.querySelector('.q-trans').value.trim();if(w||t)out+=`${w}\t${t}\n`;});if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);const b=document.getElementById('copyBtn');b.innerText='✅ Copied!';setTimeout(()=>b.innerText='📋 Copy for Quizlet',3000);}}
+
+    document.getElementById('navTabsContainer').addEventListener('click',e=>{if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){e.preventDefault();const id=e.target.getAttribute('href');if(id&&id.startsWith('#')&&id.length>1){const s=document.querySelector(id);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth';});}}});
+    function scrollToWB(){const wb=document.getElementById('wb');if(wb)window.scrollTo({top:wb.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth'});}
+    function resetLesson(){if(window.doReset)window.doReset();}
+    window.savePDF=savePDF;window.scrollToWhiteboard=scrollToWB;window.openQuizletModal=openModal;window.closeQuizletModal=closeModal;window.addWordRow=addRow;
+</script>
+
+<script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import{getFirestore,doc,setDoc,onSnapshot,deleteDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+    const appId='stanag-oleksandr-lesson-5-reading-level3-v1';
+    const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+    const setS=(t,c)=>{if(st)st.innerText=t;if(sd)sd.style.background=c;};
+    const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+    let me=null,ready=false;
+    const mc='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');let mn='Oleksandr';
+    const eds=document.querySelectorAll('[contenteditable="true"]');const orig={};
+    eds.forEach((el,i)=>{el.dataset.syncId='e-'+i;orig['e-'+i]=el.innerHTML;});
+    const deb=(fn,w)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),w);};};
+    signInAnonymously(auth).catch(()=>setS('OFFLINE','#999'));
+    onAuthStateChanged(auth,user=>{me=user;if(user&&!ready){ready=true;getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(s=>{mn=s.size===0?'Teacher':'Oleksandr';setS('SYNC ON','#E85D26');sync();cursors();}).catch(()=>{mn='Oleksandr';setS('SYNC ON','#E85D26');sync();cursors();});}else if(!user)setS('DISCONNECTED','#E53935');});
+    function sync(){
+        const tRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dRef=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        let editing=null;
+        window.saveTextUpdate=el=>{if(!me)return;setDoc(tRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+        window.attachEditableListeners=el=>{el.addEventListener('focus',()=>editing=el.dataset.syncId);el.addEventListener('blur',()=>{editing=null;window.saveTextUpdate(el);});el.addEventListener('input',deb(()=>{if(editing===el.dataset.syncId)window.saveTextUpdate(el);},500));};
+        eds.forEach(el=>window.attachEditableListeners(el));
+        window.addNewTab=e=>{e.preventDefault();const c=document.getElementById('navTabsContainer');const li=document.createElement('li');const nid='e-tab-'+Date.now();li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${nid}">New Tab</a>`;c.appendChild(li);window.attachEditableListeners(li.querySelector('a'));if(me)setDoc(tRef,{'nav_tabs_structure':c.innerHTML},{merge:true});};
+        onSnapshot(tRef,snap=>{if(snap.exists()){const d=snap.data();for(const[sid,html]of Object.entries(d)){if(sid==='nav_tabs_structure'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEditableListeners(a));}continue;}if(editing!==sid){const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}}}});
+        document.addEventListener('paste',e=>{const tgt=e.target;if(!tgt.closest('[contenteditable="true"]'))return;const items=(e.clipboardData||window.clipboardData).items;for(let k in items){const item=items[k];if(item.kind==='file'&&item.type.startsWith('image/')){e.preventDefault();const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=function(){const c=document.createElement('canvas');const M=800;let w=img.width,h=img.height;if(w>M){h*=M/w;w=M;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};r.readAsDataURL(item.getAsFile());return;}}const pt=(e.clipboardData||window.clipboardData).getData('text');if(pt){const yt=pt.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/)|\S*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%"></iframe></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}if(/^https?:\/\/\S+$/.test(pt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${pt.trim()}" target="_blank" style="color:var(--accent);text-decoration:underline" contenteditable="false">${pt.trim()}</a>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}}});
+        window.syncDragOrder=cid=>{if(!me)return;const c=document.getElementById(cid);if(!c)return;setDoc(dRef,{[cid]:Array.from(c.children).map(x=>x.id)},{merge:true});};
+        onSnapshot(dRef,snap=>{if(snap.exists()){const d=snap.data();['vocabDrag'].forEach(cid=>{const c=document.getElementById(cid);if(!c)return;if(d[cid])d[cid].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}});
+        window.syncWbDraw=deb(()=>{if(!me)return;const url=document.getElementById('boardCanvas').toDataURL('image/png',0.5);setDoc(wRef,{image:url,clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWbClear=()=>{if(!me)return;const ts=Date.now();window.lastClear=ts;setDoc(wRef,{clearTimestamp:ts,image:null},{merge:true});};
+        onSnapshot(wRef,snap=>{if(snap.exists()){const d=snap.data();const cv=document.getElementById('boardCanvas');const cx=cv.getContext('2d');if(d.clearTimestamp>(window.lastClear||0)){cx.clearRect(0,0,cv.width,cv.height);window.lastClear=d.clearTimestamp;return;}if(d.image&&!pendingDraw){const img=new Image();img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);};img.src=d.image;}}});
+        window.doReset=async()=>{if(!me)return;if(!confirm('Reset all content for everyone?'))return;setS('RESETTING...','#F5A623');const tR=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');const dR=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');const wR=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');await deleteDoc(tR);await deleteDoc(dR);const ts=Date.now();window.lastClear=ts;await setDoc(wR,{clearTimestamp:ts,image:null});setTimeout(()=>setS('SYNC ON','#E85D26'),1000);};
+    }
+    function cursors(){
+        const col=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',me.uid);
+        const container=document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove',deb(e=>{if(!me)return;setDoc(myRef,{xOffset:e.pageX-(window.innerWidth/2),y:e.pageY,color:mc,name:mn,timestamp:Date.now()});},400));
+        onSnapshot(col,snap=>{snap.docChanges().forEach(ch=>{const id=ch.doc.id;if(id===me.uid)return;if(ch.type==='removed'){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}const d=ch.doc.data();if(Date.now()-d.timestamp>60000){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}let el=document.getElementById('cur-'+id);if(!el){el=document.createElement('div');el.id='cur-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="cursor-name" style="background:${d.color}">${d.name}</div>`;container.appendChild(el);}el.style.left=((window.innerWidth/2)+d.xOffset)+'px';el.style.top=d.y+'px';});});
+        window.addEventListener('beforeunload',()=>{if(me)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
