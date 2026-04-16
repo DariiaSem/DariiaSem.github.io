@@ -675,7 +675,6 @@
     });
 
     // ── WHITEBOARD LOGIC ──
-    // Whiteboard
     const canvas = document.getElementById('boardCanvas');
     const ctx = canvas.getContext('2d');
     const laserCanvas = document.getElementById('laserCanvas');
@@ -703,10 +702,50 @@
 
     let isDrawing = false, pendingDraw = false, startX, startY;
     let currentTool = 'pencil', currentColor = '#1A1209', savedImageData;
-    let textX, textY;
+    let textX, textY, isTyping = false;
+
+    // --- NEW: Bulletproof Text Committing ---
+    function commitText() {
+        if (wbTextInput.style.display !== 'none' && wbTextInput.value.trim() !== '') {
+            ctx.font = "18px 'DM Sans', Arial, sans-serif"; 
+            ctx.fillStyle = wbTextInput.style.color || currentColor;
+            ctx.textBaseline = "top";
+            const lines = wbTextInput.value.split('\n');
+            lines.forEach((line, i) => {
+                ctx.fillText(line, textX + 6, textY + 6 + (i * 24)); 
+            });
+            if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+        }
+        wbTextInput.style.display = 'none';
+        wbTextInput.value = '';
+        isTyping = false;
+    }
+
+    // Auto-resize textarea & handle Enter key
+    wbTextInput.style.overflow = 'hidden';
+    wbTextInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault(); // Stop newline
+            commitText(); // Stamp to canvas
+            return;
+        }
+        setTimeout(() => {
+            wbTextInput.style.height = 'auto';
+            wbTextInput.style.height = wbTextInput.scrollHeight + 'px';
+        }, 0);
+    });
+
+    wbTextInput.addEventListener('blur', () => {
+        // Slight delay so mousedown on canvas doesn't double-fire
+        setTimeout(() => {
+            if (isTyping && document.activeElement !== wbTextInput) commitText();
+        }, 150);
+    });
+    // ----------------------------------------
 
     document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
         btn.addEventListener('click', () => {
+            if (isTyping) commitText(); // Commit text if they switch tools
             document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentTool = btn.dataset.tool;
@@ -718,24 +757,39 @@
         });
     });
 
-    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
-    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); if (window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+    document.getElementById('wbColor').addEventListener('change', e => {
+        currentColor = e.target.value;
+        if (isTyping) wbTextInput.style.color = currentColor;
+    });
+    
+    document.getElementById('wbClear').addEventListener('click', () => { 
+        if (isTyping) commitText();
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear(); 
+    });
 
     function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
 
     canvas.addEventListener('mousedown', e => {
-        const pos = getPos(e); startX = pos.x; startY = pos.y;
+        const pos = getPos(e); 
+        startX = pos.x; startY = pos.y;
         
         if (currentTool === 'text') {
+            if (isTyping) commitText(); // Stamp previous text if clicking a new spot
+            
             textX = pos.x; textY = pos.y;
             wbTextInput.style.left = textX + 'px';
             wbTextInput.style.top = textY + 'px';
             wbTextInput.style.color = currentColor;
             wbTextInput.value = '';
+            wbTextInput.style.height = '40px'; // Reset height
             wbTextInput.style.display = 'block';
-            setTimeout(() => wbTextInput.focus(), 50); // Small delay ensures focus applies
+            isTyping = true;
+            setTimeout(() => wbTextInput.focus(), 10);
             return;
         }
+        
+        if (isTyping) commitText(); // Commit text if they click canvas with a different tool
         
         isDrawing = true;
         if (currentTool !== 'laser') {
@@ -784,20 +838,9 @@
     });
 
     canvas.addEventListener('mouseout', () => {
-        if (isDrawing) { isDrawing = false; if (currentTool !== 'laser' && window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } }
-    });
-
-    wbTextInput.addEventListener('blur', () => {
-        wbTextInput.style.display = 'none';
-        if (wbTextInput.value.trim() !== '') {
-            ctx.font = "18px 'DM Sans', Arial, sans-serif"; 
-            ctx.fillStyle = currentColor;
-            ctx.textBaseline = "top";
-            const lines = wbTextInput.value.split('\n');
-            lines.forEach((line, i) => {
-                ctx.fillText(line, textX + 6, textY + 6 + (i * 24)); 
-            });
-            if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+        if (isDrawing) { 
+            isDrawing = false; 
+            if (currentTool !== 'laser' && window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } 
         }
     });
 
