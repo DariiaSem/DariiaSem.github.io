@@ -606,22 +606,31 @@
 
 <section class="section" id="whiteboard">
     <div class="section-inner">
-        <span class="section-label" style="border-color:var(--ocean); color:var(--ocean);">Instructor Canvas</span>
-        <h2 class="section-title" contenteditable="true">The Map Room (Whiteboard)</h2>
-        <p class="section-desc" contenteditable="true">Draw grammar timelines, write extra vocabulary, or sketch travel routes.</p>
+        <span class="section-label" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Draw conditional timelines, map vocabulary connections, or illustrate grammar rules live.</p>
 
-        <div class="wb-container">
+        <div class="whiteboard-container">
             <div class="wb-toolbar">
-                <button class="wb-btn active" data-tool="pencil">Pencil</button>
-                <button class="wb-btn" data-tool="highlight">Highlight</button>
-                <button class="wb-btn" data-tool="text">Text</button>
-                <button class="wb-btn" data-tool="square">Square</button>
-                <button class="wb-btn" data-tool="arrow">Arrow</button>
-                <div style="width:1px;height:24px;background:var(--terracotta);margin:0 10px;"></div>
-                <input type="color" id="wbColor" class="wb-color" value="#116466" title="Pick color">
-                <button class="wb-btn" id="wbClear" style="margin-left:auto; border-color: var(--stamp-red); color: var(--stamp-red);">Erase Map</button>
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <button class="wb-btn" data-tool="laser" contenteditable="true">Laser</button>
+                <button class="wb-btn" data-tool="eraser" contenteditable="true">Eraser</button>
+                <div style="width: 1px; height: 22px; background: rgba(245,239,224,0.2); margin: 0 8px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#1A1209" title="Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; background: var(--rust);" contenteditable="true">Clear</button>
             </div>
-            <canvas id="boardCanvas"></canvas>
+            <div id="wbScrollWrapper" style="height: 500px; overflow-y: auto; overflow-x: hidden; position: relative; cursor: crosshair; background: var(--white);">
+                <div id="wbCanvasContainer" style="position: relative; width: 100%; height: 2000px;">
+                    <canvas id="boardCanvas" style="position: absolute; top: 0; left: 0; z-index: 10; background: transparent;"></canvas>
+                    <canvas id="laserCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: 20; background: transparent;"></canvas>
+                    <textarea id="wbTextInput" style="position: absolute; display: none; background: rgba(253,250,244,0.9); border: 2px dashed var(--rust); color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 18px; line-height: 1.4; outline: none; padding: 4px; z-index: 30; border-radius: 4px; resize: none; min-width: 150px; min-height: 40px; box-shadow: var(--shadow-sm);"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -665,110 +674,198 @@
     // ── WHITEBOARD LOGIC ──
     const canvas = document.getElementById('boardCanvas');
     const ctx = canvas.getContext('2d');
-    let isDrawing = false, pendingDraw = false, startX, startY, currentTool = 'pencil', currentColor = '#116466', savedImg;
+    const laserCanvas = document.getElementById('laserCanvas');
+    const lctx = laserCanvas.getContext('2d');
+    const wbTextInput = document.getElementById('wbTextInput');
 
-    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 600; }
-    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    function resizeCanvas() { 
+        const container = document.getElementById('wbCanvasContainer');
+        canvas.width = container.offsetWidth; 
+        canvas.height = 2000; 
+        laserCanvas.width = container.offsetWidth;
+        laserCanvas.height = 2000;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function fadeLaser() {
+        lctx.globalCompositeOperation = 'destination-out';
+        lctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; 
+        lctx.fillRect(0, 0, laserCanvas.width, laserCanvas.height);
+        lctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(fadeLaser);
+    }
+    fadeLaser();
+
+    let isDrawing = false, pendingDraw = false, startX, startY;
+    let currentTool = 'pencil', currentColor = '#1A1209', savedImageData;
+    let textX, textY;
 
     document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentTool = btn.dataset.tool;
-            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+            
+            const scrollWrapper = document.getElementById('wbScrollWrapper');
+            if (currentTool === 'text') scrollWrapper.style.cursor = 'text';
+            else if (currentTool === 'eraser') scrollWrapper.style.cursor = 'cell'; 
+            else scrollWrapper.style.cursor = 'crosshair';
         });
     });
 
     document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
-    document.getElementById('wbClear').addEventListener('click', () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (window.syncWBClear) window.syncWBClear();
-    });
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); if (window.syncWhiteboardClear) window.syncWhiteboardClear(); });
 
     function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
 
     canvas.addEventListener('mousedown', e => {
         const pos = getPos(e); startX = pos.x; startY = pos.y;
+        
         if (currentTool === 'text') {
-            const t = prompt('Enter text:');
-            if (t) { ctx.font = "20px 'Outfit', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(t, startX, startY); if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } }
+            textX = pos.x; textY = pos.y;
+            wbTextInput.style.left = textX + 'px';
+            wbTextInput.style.top = textY + 'px';
+            wbTextInput.style.color = currentColor;
+            wbTextInput.value = '';
+            wbTextInput.style.display = 'block';
+            wbTextInput.focus();
             return;
         }
-        isDrawing = true; savedImg = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        ctx.beginPath(); ctx.moveTo(startX, startY);
+        
+        isDrawing = true;
+        if (currentTool !== 'laser') {
+            savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            ctx.beginPath(); ctx.moveTo(startX, startY);
+        }
     });
 
     canvas.addEventListener('mousemove', e => {
         if (!isDrawing) return;
         const pos = getPos(e);
-        if (currentTool === 'pencil' || currentTool === 'highlight') {
+        
+        if (currentTool === 'laser') {
+            lctx.beginPath();
+            lctx.moveTo(startX, startY);
+            lctx.lineTo(pos.x, pos.y);
+            lctx.strokeStyle = '#FF3333'; 
+            lctx.lineWidth = 6;
+            lctx.lineCap = 'round';
+            lctx.stroke();
+            startX = pos.x; startY = pos.y;
+        } else if (currentTool === 'eraser') {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineTo(pos.x, pos.y);
+            ctx.lineWidth = 24; 
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            ctx.globalCompositeOperation = 'source-over'; 
+        } else if (currentTool === 'pencil' || currentTool === 'highlight') {
             ctx.lineTo(pos.x, pos.y);
             ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '55' : currentColor;
-            ctx.lineWidth = currentTool === 'highlight' ? 20 : 3;
-            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
-        } else { ctx.putImageData(savedImg, 0, 0); drawShape(pos.x, pos.y); }
+            ctx.lineWidth = currentTool === 'highlight' ? 16 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round'; ctx.stroke();
+        } else { 
+            ctx.putImageData(savedImageData, 0, 0); drawShape(pos.x, pos.y); 
+        }
     });
 
     canvas.addEventListener('mouseup', e => {
         if (!isDrawing) return; isDrawing = false;
-        if (currentTool !== 'pencil' && currentTool !== 'highlight') drawShape(getPos(e).x, getPos(e).y);
-        if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); }
+        if (currentTool === 'laser') return; 
+        if (currentTool !== 'pencil' && currentTool !== 'highlight' && currentTool !== 'eraser') drawShape(getPos(e).x, getPos(e).y);
+        if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
     });
 
-    canvas.addEventListener('mouseout', () => { if (isDrawing) { isDrawing = false; if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } } });
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing = false; if (currentTool !== 'laser' && window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } }
+    });
+
+    wbTextInput.addEventListener('blur', () => {
+        wbTextInput.style.display = 'none';
+        if (wbTextInput.value.trim() !== '') {
+            ctx.font = "18px 'DM Sans', Arial, sans-serif"; 
+            ctx.fillStyle = currentColor;
+            ctx.textBaseline = "top";
+            const lines = wbTextInput.value.split('\n');
+            lines.forEach((line, i) => {
+                ctx.fillText(line, textX + 6, textY + 6 + (i * 24)); 
+            });
+            if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+        }
+    });
 
     function drawShape(ex, ey) {
-        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 2;
         if (currentTool === 'square') { ctx.strokeRect(startX, startY, ex - startX, ey - startY); }
+        else if (currentTool === 'circle') { const r = Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
         else if (currentTool === 'arrow') {
-            const hl = 18, ang = Math.atan2(ey - startY, ex - startX);
-            ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke(); ctx.beginPath();
-            ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang - Math.PI / 6), ey - hl * Math.sin(ang - Math.PI / 6));
-            ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang + Math.PI / 6), ey - hl * Math.sin(ang + Math.PI / 6)); ctx.stroke();
+            const hl = 15, ang = Math.atan2(ey-startY, ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));
+            ctx.stroke();
         }
     }
 
     // ── MEDIA PASTE INTERCEPTOR ──
-    document.addEventListener('paste', function(e) {
-        const target = e.target; if (!target.closest('[contenteditable="true"]')) return;
-        const items = (e.clipboardData || window.clipboardData).items;
-        for (let i in items) {
-            const item = items[i];
-            if (item.kind === 'file' && item.type.startsWith('image/')) {
-                e.preventDefault();
-                const reader = new FileReader();
-                reader.onload = ev => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const c2 = document.createElement('canvas'); const mw = 800;
-                        let w = img.width, h = img.height;
-                        if (w > mw) { h *= mw / w; w = mw; }
-                        c2.width = w; c2.height = h;
-                        c2.getContext('2d').drawImage(img, 0, 0, w, h);
-                        const html = `<div contenteditable="false" style="margin:20px 0;text-align:center;"><img src="${c2.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;box-shadow:0 8px 15px rgba(0,0,0,0.1);border:1px solid #eee;"></div><p><br></p>`;
-                        target.focus(); document.execCommand('insertHTML', false, html);
-                        target.dispatchEvent(new Event('input', { bubbles: true }));
-                    };
-                    img.src = ev.target.result;
-                };
-                reader.readAsDataURL(item.getAsFile()); return;
+    document.addEventListener('paste', e => {
+            const target = e.target;
+            
+            if (!target.closest('[contenteditable="true"]') && document.activeElement !== document.getElementById('wbTextInput')) {
+                const items = (e.clipboardData||window.clipboardData).items;
+                for (let idx in items) {
+                    if (items[idx].kind === 'file' && items[idx].type.startsWith('image/')) {
+                        e.preventDefault();
+                        const reader = new FileReader();
+                        reader.onload = ev => {
+                            const img = new Image(); 
+                            img.onload = () => {
+                                const cv = document.getElementById('boardCanvas');
+                                const cx = cv.getContext('2d');
+                                let w = img.width, h = img.height;
+                                const maxW = cv.width - 40, maxH = cv.height - 40;
+                                if (w > maxW) { h *= maxW / w; w = maxW; }
+                                if (h > maxH) { w *= maxH / h; h = maxH; }
+                                cx.drawImage(img, (cv.width - w) / 2, document.getElementById('wbScrollWrapper').scrollTop + 50, w, h);
+                                if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+                            }; 
+                            img.src = ev.target.result;
+                        }; 
+                        reader.readAsDataURL(items[idx].getAsFile());
+                        return; 
+                    }
+                }
             }
-        }
-        const txt = (e.clipboardData || window.clipboardData).getData('text');
-        if (txt) {
-            const ytm = txt.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-            if (ytm) {
-                e.preventDefault();
-                const html = `<div contenteditable="false" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:24px 0;box-shadow:0 8px 15px rgba(0,0,0,0.1);border:1px solid var(--terracotta);"><iframe src="https://www.youtube-nocookie.com/embed/${ytm[1]}?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div><p><br></p>`;
-                document.execCommand('insertHTML', false, html); target.dispatchEvent(new Event('input', { bubbles: true })); return;
+
+            if (!target.closest('[contenteditable="true"]')) return;
+            const items = (e.clipboardData||window.clipboardData).items;
+            for (let idx in items) {
+                const item = items[idx];
+                if (item.kind==='file' && item.type.startsWith('image/')) {
+                    e.preventDefault();
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        const img = new Image(); img.onload = () => {
+                            const c = document.createElement('canvas'); let w=img.width, h=img.height;
+                            if(w>800){h*=800/w;w=800;} c.width=w;c.height=h;
+                            c.getContext('2d').drawImage(img,0,0,w,h);
+                            document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);
+                            target.dispatchEvent(new Event('input',{bubbles:true}));
+                        }; img.src = ev.target.result;
+                    }; reader.readAsDataURL(item.getAsFile()); return;
+                }
             }
-            if (/^(https?:\/\/[^\s]+)$/i.test(txt.trim())) {
-                e.preventDefault();
-                document.execCommand('insertHTML', false, `<a href="${txt.trim()}" target="_blank" style="color:var(--ocean);text-decoration:underline;" contenteditable="false">${txt.trim()}</a>`);
-                target.dispatchEvent(new Event('input', { bubbles: true }));
+            const text = (e.clipboardData||window.clipboardData).getData('text');
+            if (text) {
+                const yt = text.match(/(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                if (yt) { e.preventDefault(); document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%;"></iframe></div><p><br></p>`); target.dispatchEvent(new Event('input',{bubbles:true})); return; }
+                if (/^https?:\/\/\S+$/.test(text.trim())) { e.preventDefault(); document.execCommand('insertHTML',false,`<a href="${text.trim()}" target="_blank" style="color:var(--rust);text-decoration:underline;" contenteditable="false">${text.trim()}</a>`); target.dispatchEvent(new Event('input',{bubbles:true})); }
             }
-        }
-    });
+        });
 
     // ── PDF GENERATION ──
     window.saveAsPDF = () => {
