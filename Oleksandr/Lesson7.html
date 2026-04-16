@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANAG 6001 | Lesson 7: Level 3 Essay Writing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700;9..144,900&family=Outfit:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #F8F6F1;
+            --surface: #FFFFFF;
+            --panel: #F0EDE5;
+            --dark: #111008;
+            --dark2: #2A2618;
+            --ink: #1E1B12;
+            --teal: #0A7C6E;
+            --teal-pale: rgba(10,124,110,0.08);
+            --teal-mid: rgba(10,124,110,0.15);
+            --coral: #D94F2E;
+            --coral-pale: rgba(217,79,46,0.08);
+            --gold: #B07D1A;
+            --gold-pale: rgba(176,125,26,0.1);
+            --purple: #6E3DA8;
+            --purple-pale: rgba(110,61,168,0.08);
+            --gray: #6B6454;
+            --line: #E0D9CC;
+            --sans: 'Outfit', system-ui, sans-serif;
+            --serif: 'Fraunces', Georgia, serif;
+            --mono: 'Fira Code', monospace;
+            --r: 6px;
+            --r-lg: 14px;
+            --shadow: 0 2px 8px rgba(17,16,8,0.08);
+            --shadow-md: 0 6px 24px rgba(17,16,8,0.1);
+            --shadow-lg: 0 16px 48px rgba(17,16,8,0.13);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+        [contenteditable="true"] { outline: none; border-radius: 3px; transition: background .18s; }
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus { background: rgba(10,124,110,0.06); box-shadow: 0 0 0 1px rgba(10,124,110,0.2); }
+
+        /* ====== HERO — Newspaper / Print Magazine ====== */
+        .hero {
+            background: var(--dark);
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Horizontal rule lines like a newspaper */
+        .hero-lines {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            pointer-events: none;
+            opacity: 0.04;
+        }
+        .hero-lines div { height: 1px; background: white; }
+
+        /* Large headline-style column number */
+        .hero-col-marker {
+            position: absolute;
+            top: 32px; right: 40px;
+            font-family: var(--serif);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        .hero-masthead {
+            position: absolute;
+            top: 32px; left: 48px;
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .hero-masthead .sep { width: 40px; height: 1px; background: rgba(255,255,255,0.2); }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 48px 48px 90px;
+            max-width: 1000px;
+        }
+
+        .hero-kicker {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(3.5rem, 8vw, 7.5rem);
+            font-weight: 900;
+            line-height: 0.92;
+            color: white;
+            letter-spacing: -2px;
+            margin-bottom: 28px;
+        }
+        .hero h1 .drop { color: var(--teal); }
+        .hero h1 .italic { font-style: italic; font-weight: 300; }
+
+        .hero-deck {
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.55);
+            max-width: 580px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .hero-byline {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .byline-item {
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .byline-item strong {
+            display: block;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            font-family: var(--serif);
+            font-style: italic;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 600;
+        }
+
+        .hero-rule {
+            position: absolute;
+            bottom: 56px; left: 48px; right: 48px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--teal), rgba(176,125,26,0.6), transparent);
+        }
+
+        .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: var(--bg); clip-path: ellipse(55% 100% at 50% 100%); }
+
+        /* ====== NAV ====== */
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(248,246,241,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding: 0 24px; box-shadow: var(--shadow); }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+        .nav-logo { font-family: var(--serif); font-size: 0.9rem; color: var(--dark); text-decoration: none; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; font-style: italic; font-weight: 700; }
+        .nav-logo .vol { font-family: var(--mono); font-size: 0.6rem; color: var(--gray); letter-spacing: 2px; font-style: normal; font-weight: 400; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.7rem; font-weight: 600; padding: 5px 10px; border-radius: var(--r); transition: color .18s, background .18s; white-space: nowrap; letter-spacing: .5px; font-family: var(--mono); text-transform: uppercase; }
+        .nav-links a:hover { color: var(--teal); background: var(--teal-pale); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 80px 24px; }
+        .section.alt { background: var(--surface); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+
+        .section-label { font-family: var(--mono); font-size: 0.65rem; color: var(--teal); letter-spacing: 3px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+        .section-label .lnum { background: var(--dark); color: white; padding: 2px 9px; border-radius: 3px; font-size: 0.6rem; }
+
+        .section-title { font-family: var(--serif); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; color: var(--dark); margin-bottom: 10px; line-height: 1.1; letter-spacing: -0.5px; }
+        .section-title .teal { color: var(--teal); font-style: italic; }
+        .section-title .coral { color: var(--coral); }
+        .section-title .gold { color: var(--gold); font-style: italic; }
+        .section-title .purple { color: var(--purple); }
+
+        .section-desc { color: var(--gray); font-size: 0.96rem; margin-bottom: 32px; max-width: 640px; line-height: 1.65; }
+
+        /* ====== TABLES ====== */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.88rem; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
+        .data-table thead th { background: var(--dark); color: white; padding: 11px 16px; text-align: left; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; }
+        .data-table tbody td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; background: white; }
+        .data-table tbody tr:nth-child(even) td { background: var(--panel); }
+        .data-table tbody tr:hover td { background: var(--teal-pale); }
+        .data-table td strong { color: var(--teal); }
+        .data-table td em { color: var(--coral); font-style: normal; font-weight: 600; }
+
+        /* ====== CHIP ====== */
+        .chip { display: inline-block; font-family: var(--mono); font-size: 0.6rem; padding: 2px 8px; border-radius: 40px; letter-spacing: 1px; font-weight: 600; text-transform: uppercase; }
+        .chip.teal { background: var(--teal-pale); color: var(--teal); border: 1px solid rgba(10,124,110,0.25); }
+        .chip.coral { background: var(--coral-pale); color: var(--coral); border: 1px solid rgba(217,79,46,0.25); }
+        .chip.gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(176,125,26,0.25); }
+        .chip.purple { background: var(--purple-pale); color: var(--purple); border: 1px solid rgba(110,61,168,0.25); }
+
+        /* ====== VOCAB ====== */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px,1fr)); gap: 12px; margin-top: 24px; }
+        .vocab-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px 18px; box-shadow: var(--shadow); border-top: 3px solid var(--teal); transition: transform .15s; }
+        .vocab-card:nth-child(2) { border-top-color: var(--coral); }
+        .vocab-card:nth-child(3) { border-top-color: var(--gold); }
+        .vocab-card:nth-child(4) { border-top-color: var(--purple); }
+        .vocab-card:nth-child(5) { border-top-color: var(--teal); }
+        .vocab-card:nth-child(6) { border-top-color: var(--coral); }
+        .vocab-card:nth-child(7) { border-top-color: var(--gold); }
+        .vocab-card:nth-child(8) { border-top-color: var(--purple); }
+        .vocab-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .vocab-card .word { font-family: var(--serif); font-weight: 700; font-size: 0.98rem; color: var(--dark); font-style: italic; }
+        .vocab-card .pos { font-family: var(--mono); font-size: 0.6rem; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-left: 6px; font-style: normal; }
+        .vocab-card .def { font-size: 0.84rem; color: var(--gray); margin-top: 5px; line-height: 1.5; }
+        .vocab-card .example { font-size: 0.82rem; font-style: italic; color: var(--dark2); margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+
+        /* ====== DRAG & DROP ====== */
+        .match-board { display: flex; gap: 14px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .arrows-col { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+        .drag-item { background: white; border: 1px solid var(--line); border-left: 3px solid var(--teal); border-radius: var(--r); cursor: grab; display: flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600; color: var(--dark); box-shadow: var(--shadow); transition: all .15s; height: 56px; padding: 0 14px; }
+        .drag-item:hover { border-left-color: var(--coral); box-shadow: var(--shadow-md); }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--line); font-size: 1rem; user-select: none; }
+        .static-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--gray); height: 56px; display: flex; align-items: center; padding: 0 14px; font-size: 0.84rem; }
+        .match-arrow { color: var(--line); font-size: 1.2rem; height: 56px; display: flex; align-items: center; justify-content: center; }
+
+        /* ====== ESSAY ARCHITECTURE VISUAL ====== */
+        .essay-arch {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            margin-top: 24px;
+            position: relative;
+        }
+        .arch-spine {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 24px;
+        }
+        .arch-dot {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--teal);
+            background: white;
+            flex-shrink: 0;
+            z-index: 1;
+            position: relative;
+        }
+        .arch-dot.active { background: var(--teal); }
+        .arch-dot.coral { border-color: var(--coral); }
+        .arch-dot.coral.active { background: var(--coral); }
+        .arch-dot.gold { border-color: var(--gold); }
+        .arch-dot.gold.active { background: var(--gold); }
+        .arch-line {
+            flex: 1;
+            width: 2px;
+            background: var(--line);
+            min-height: 20px;
+        }
+        .arch-blocks {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .arch-block {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow);
+        }
+        .arch-block-header {
+            padding: 13px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .arch-block-header.intro { background: var(--teal-pale); border-bottom: 2px solid var(--teal); }
+        .arch-block-header.body1 { background: var(--coral-pale); border-bottom: 2px solid var(--coral); }
+        .arch-block-header.body2 { background: var(--gold-pale); border-bottom: 2px solid var(--gold); }
+        .arch-block-header.concl { background: var(--purple-pale); border-bottom: 2px solid var(--purple); }
+        .arch-block-header h3 { font-family: var(--serif); font-size: 1rem; font-weight: 700; font-style: italic; }
+        .arch-block-header h3.teal { color: var(--teal); }
+        .arch-block-header h3.coral { color: var(--coral); }
+        .arch-block-header h3.gold { color: var(--gold); }
+        .arch-block-header h3.purple { color: var(--purple); }
+        .arch-block-header .wc { font-family: var(--mono); font-size: 0.62rem; color: var(--gray); }
+        .arch-block-body { padding: 16px 20px; font-size: 0.88rem; line-height: 1.6; color: var(--ink); }
+        .arch-block-body .rule { color: var(--gray); font-style: italic; margin-bottom: 10px; font-size: 0.85rem; }
+        .starters { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+        .starter { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 4px 12px; font-size: 0.81rem; color: var(--dark); cursor: pointer; transition: all .15s; font-family: var(--sans); }
+        .starter:hover { background: var(--teal-mid); border-color: var(--teal); }
+        .dont-list { margin-top: 10px; padding-left: 16px; }
+        .dont-list li { font-size: 0.82rem; color: var(--coral); margin-bottom: 4px; }
+
+        /* ====== MODEL ESSAY ====== */
+        .essay-page {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .essay-header {
+            background: var(--dark);
+            color: white;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .essay-header h3 { font-family: var(--serif); font-size: 0.9rem; font-style: italic; font-weight: 600; }
+        .essay-header .meta { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.45); }
+        .essay-rule { height: 3px; background: linear-gradient(90deg, var(--teal), var(--coral), var(--gold), var(--purple)); }
+        .essay-body { padding: 32px 36px; font-size: 0.97rem; line-height: 1.9; font-family: var(--serif); }
+        .essay-body p { margin-bottom: 16px; }
+        .essay-body .ann { background: rgba(10,124,110,0.15); border-bottom: 2px solid var(--teal); padding: 1px 3px; }
+        .essay-body .ann2 { background: rgba(217,79,46,0.1); border-bottom: 2px solid var(--coral); padding: 1px 3px; }
+        .essay-body .ann3 { background: rgba(176,125,26,0.12); border-bottom: 2px solid var(--gold); padding: 1px 3px; }
+        .essay-body .ann4 { background: rgba(110,61,168,0.1); border-bottom: 2px solid var(--purple); padding: 1px 3px; }
+        .essay-wc { padding: 12px 28px; background: var(--panel); border-top: 1px solid var(--line); font-family: var(--mono); font-size: 0.68rem; color: var(--gray); display: flex; gap: 20px; }
+
+        /* ====== SCORE RUBRIC ====== */
+        .rubric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .rubric-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .rubric-top { padding: 12px 16px; font-family: var(--serif); font-size: 0.9rem; font-weight: 700; font-style: italic; }
+        .rubric-top.t1 { background: var(--teal-pale); color: var(--teal); border-bottom: 2px solid var(--teal); }
+        .rubric-top.t2 { background: var(--coral-pale); color: var(--coral); border-bottom: 2px solid var(--coral); }
+        .rubric-top.t3 { background: var(--gold-pale); color: var(--gold); border-bottom: 2px solid var(--gold); }
+        .rubric-top.t4 { background: var(--purple-pale); color: var(--purple); border-bottom: 2px solid var(--purple); }
+        .rubric-body { padding: 12px 16px; }
+        .rubric-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 0.82rem; }
+        .rubric-row:last-child { border: none; }
+        .rubric-row .lv { font-family: var(--mono); font-size: 0.65rem; font-weight: 700; }
+        .lv.l3 { color: var(--teal); }
+        .lv.l2 { color: var(--gold); }
+        .lv.fail { color: var(--coral); }
+
+        /* ====== EXERCISE LIST ====== */
+        .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; counter-reset: ex; }
+        .exercise-list li { background: white; border: 1px solid var(--line); padding: 13px 18px 13px 52px; border-radius: var(--r); font-size: 0.92rem; position: relative; box-shadow: var(--shadow); }
+        .exercise-list li::before { counter-increment: ex; content: counter(ex); position: absolute; left: 16px; top: 13px; width: 24px; height: 24px; background: var(--dark); color: white; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; }
+        .blank { display: inline-block; min-width: 80px; border-bottom: 1.5px solid var(--gray); color: var(--teal); font-weight: 600; padding: 0 8px; text-align: center; }
+        .blank:focus { border-bottom-color: var(--teal); outline: none; }
+
+        /* ====== ALERT ====== */
+        .alert { border-radius: var(--r); padding: 14px 18px; margin: 20px 0; font-size: 0.9rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.6; }
+        .alert.teal { background: var(--teal-pale); border: 1px solid rgba(10,124,110,0.2); border-left: 4px solid var(--teal); }
+        .alert.coral { background: var(--coral-pale); border: 1px solid rgba(217,79,46,0.2); border-left: 4px solid var(--coral); }
+        .alert.gold { background: var(--gold-pale); border: 1px solid rgba(176,125,26,0.2); border-left: 4px solid var(--gold); }
+        .alert.purple { background: var(--purple-pale); border: 1px solid rgba(110,61,168,0.2); border-left: 4px solid var(--purple); }
+        .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+        /* ====== WRITING PAPER ====== */
+        .writing-paper {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            padding: 36px 40px;
+            min-height: 320px;
+            font-size: 0.97rem;
+            line-height: 1.85;
+            font-family: var(--serif);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 30px,
+                rgba(10,124,110,0.06) 30px,
+                rgba(10,124,110,0.06) 31px
+            );
+        }
+        .writing-paper::before {
+            content: '';
+            position: absolute;
+            left: 64px; top: 0; bottom: 0; width: 1px;
+            background: rgba(217,79,46,0.12);
+        }
+        .writing-paper .ph { color: var(--gray); font-style: italic; font-size: 0.88rem; }
+
+        /* ====== PEER REVIEW ====== */
+        .peer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .peer-card {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .peer-top { padding: 11px 16px; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+        .peer-top.pt1 { background: var(--teal-pale); color: var(--teal); }
+        .peer-top.pt2 { background: var(--coral-pale); color: var(--coral); }
+        .peer-top.pt3 { background: var(--gold-pale); color: var(--gold); }
+        .peer-top.pt4 { background: var(--purple-pale); color: var(--purple); }
+        .peer-body { padding: 14px 16px; font-size: 0.84rem; color: var(--ink); line-height: 1.6; }
+        .peer-body .check-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; cursor: pointer; }
+        .check-box { width: 18px; height: 18px; border: 2px solid var(--line); border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .15s; margin-top: 2px; }
+        .check-box:hover { border-color: var(--teal); }
+        .check-box.checked { background: var(--teal); border-color: var(--teal); color: white; font-size: 0.7rem; }
+
+        /* ====== SPEAKING ====== */
+        .speak-stage { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md); margin-top: 24px; }
+        .stage-head { background: var(--dark); padding: 13px 22px; display: flex; align-items: center; justify-content: space-between; }
+        .stage-head .st { font-family: var(--serif); font-size: 0.9rem; color: white; font-style: italic; font-weight: 600; }
+        .stage-head .sb { font-family: var(--mono); font-size: 0.62rem; color: var(--teal); border: 1px solid rgba(10,124,110,0.4); padding: 2px 8px; border-radius: 2px; }
+        .stage-body-s { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+        .turn { display: flex; gap: 12px; align-items: flex-start; }
+        .turn.right { flex-direction: row-reverse; }
+        .av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .av.ex { background: var(--teal-pale); border: 2px solid rgba(10,124,110,0.3); }
+        .av.st { background: var(--coral-pale); border: 2px solid rgba(217,79,46,0.3); }
+        .bub { border-radius: var(--r-lg); padding: 12px 18px; max-width: 78%; font-size: 0.9rem; line-height: 1.6; }
+        .bub.ex { background: var(--teal-pale); border: 1px solid rgba(10,124,110,0.2); border-top-left-radius: 2px; }
+        .bub.st { background: var(--coral-pale); border: 1px solid rgba(217,79,46,0.2); border-top-right-radius: 2px; }
+        .bub.hint { background: var(--gold-pale); border: 1px dashed rgba(176,125,26,0.35); font-style: italic; font-size: 0.82rem; color: var(--gray); max-width: 100%; border-radius: var(--r); padding: 10px 16px; }
+        .sn { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .sn.ex { color: var(--teal); }
+        .sn.st { color: var(--coral); text-align: right; }
+
+        /* ====== WHITEBOARD ====== */
+        .wb-wrap { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+        .wb-bar { background: var(--dark); padding: 10px 18px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: rgba(255,255,255,0.07); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 5px 10px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; transition: all .15s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--teal); border-color: var(--teal); }
+        .wb-color { width: 24px; height: 24px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 460px; background: white; cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .end-panel { background: var(--dark); color: white; border-radius: var(--r-lg); padding: 40px; margin-top: 40px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+        .end-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal), var(--coral), var(--gold), var(--purple)); }
+        .end-panel h2 { font-family: var(--serif); font-size: 2rem; color: white; font-style: italic; margin-bottom: 6px; font-weight: 700; }
+        .end-panel .sub { font-family: var(--mono); font-size: 0.65rem; color: rgba(255,255,255,0.3); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; }
+        .end-list { list-style: none; }
+        .end-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.87rem; color: rgba(255,255,255,0.7); }
+        .end-list li strong { color: rgba(10,200,180,0.9); }
+
+        /* ====== FABs ====== */
+        .fab-group { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab { background: var(--dark); color: white; border: 1px solid rgba(255,255,255,0.1); width: 48px; height: 48px; border-radius: var(--r); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); transition: all .2s; display: flex; align-items: center; justify-content: center; }
+        .fab:hover { background: var(--teal); transform: translateY(-2px); }
+        .fab.qz { background: rgba(66,85,255,0.85); border-color: transparent; }
+        .fab.qz:hover { background: #4255FF; }
+        .fab.rst { background: rgba(217,79,46,0.15); border-color: var(--coral); color: var(--coral); }
+        .fab.rst:hover { background: var(--coral); color: white; }
+
+        /* ====== MODAL ====== */
+        .modal-overlay { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(17,16,8,0.85); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: var(--surface); border: 1px solid var(--line); padding: 28px; border-radius: var(--r-lg); width: 90%; max-width: 560px; position: relative; box-shadow: var(--shadow-lg); }
+        .modal-box h2 { font-family: var(--serif); font-size: 1.5rem; color: var(--dark); font-style: italic; font-weight: 700; margin-bottom: 8px; }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; cursor: pointer; color: var(--gray); background: none; border: none; }
+        .modal-close:hover { color: var(--coral); }
+        .word-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 8px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); font-size: 0.88rem; color: var(--dark); font-family: var(--sans); }
+        .word-row input:focus { outline: none; border-color: var(--teal); }
+        #wordList { max-height: 300px; overflow-y: auto; margin: 16px 0; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 9px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; transition: all .15s; }
+        .modal-btn.secondary { background: transparent; border-color: var(--line); color: var(--gray); }
+        .modal-btn.primary { background: #4255FF; border-color: #4255FF; color: white; flex: 2; }
+
+        /* ====== CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top .35s linear, left .35s linear; display: flex; align-items: flex-start; opacity: 0; animation: fcIn .3s forwards; }
+        @keyframes fcIn { to { opacity: 1; } }
+        .remote-cursor svg { width: 20px; height: 20px; transform: rotate(-15deg); pointer-events: none; }
+        .cursor-name { color: white; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 2px; margin-left: -4px; margin-top: 14px; white-space: nowrap; }
+
+        @media (max-width: 768px) {
+            .hero-content { padding: 60px 28px 90px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 360px; }
+            .match-board { flex-direction: column; }
+            .arrows-col { display: none; }
+            .essay-arch { grid-template-columns: 1fr; }
+            .arch-spine { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--dark);color:rgba(10,200,180,0.9);padding:5px 14px;border-radius:var(--r);font-family:var(--mono);font-size:0.7rem;font-weight:600;z-index:10000;display:flex;align-items:center;gap:8px;border:1px solid rgba(10,124,110,0.3);">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--teal);border-radius:50%;"></span>
+    <span id="syncText">CONNECTING...</span>
+</div>
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-lines">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+    </div>
+    <div class="hero-masthead" contenteditable="true">
+        STANAG 6001 <span class="sep"></span> Lesson 07 <span class="sep"></span> Level 3 Writing
+    </div>
+    <div class="hero-col-marker" contenteditable="true">Essay Clinic</div>
+    <div class="hero-content">
+        <div class="hero-kicker" contenteditable="true">// The Essay — Your Most Powerful Exam Weapon</div>
+        <h1>
+            <span class="italic">The Art of</span><br>
+            the <span class="drop">Argument</span>
+        </h1>
+        <p class="hero-deck" contenteditable="true">"An essay is not about what you know — it is about how clearly you can argue for what you believe, and how gracefully you can acknowledge what you don't." Today you master Level 3 discursive writing from structure to final sentence.</p>
+        <div class="hero-byline">
+            <div class="byline-item">Target Level<strong>STANAG SLP 3</strong></div>
+            <div class="byline-item">Word Count<strong>250–300 words</strong></div>
+            <div class="byline-item">Time Allowed<strong>40 minutes</strong></div>
+            <div class="byline-item">Topic Areas<strong>Politics · Military · Society · Economy</strong></div>
+        </div>
+    </div>
+    <div class="hero-rule"></div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="vol">VOL. VII</span> The Argument</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--teal);border:1px solid rgba(10,124,110,0.3);padding:4px 10px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#rubric" contenteditable="true">Rubric</a></li>
+            <li><a href="#arch" contenteditable="true">Structure</a></li>
+            <li><a href="#model" contenteditable="true">Model</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#essay1" contenteditable="true">Essay 1</a></li>
+            <li><a href="#peer" contenteditable="true">Peer Review</a></li>
+            <li><a href="#essay2" contenteditable="true">Essay 2</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#wb" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section alt" id="recap">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">01</span> Lessons 1–6 Recall</div>
+        <h2 class="section-title" contenteditable="true">Recall: <span class="teal">Vocab Test & Speaking Cold Start</span></h2>
+        <p class="section-desc" contenteditable="true">Written test — Lesson 6 vocabulary. Then immediately: 30-second cold start speaking drill (no preparation) to warm up your verbal argument muscles before the essay lesson.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Word (L6)</th>
+                    <th contenteditable="true">English Definition</th>
+                    <th contenteditable="true">Score /2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>unprecedented</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>rhetoric</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>multilateral</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>in the wake of</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>oversight</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>sanctions regime</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>ratify</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>mandate</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert teal" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🎙️</span>
+            <div contenteditable="true"><strong>Cold Start Speaking (30 sec prep → 60 sec answer):</strong> "Is societal resilience a more effective defence against modern security threats than increased military spending?" — This is the question from your Lesson 6 homework. Give your structured argument now, without notes. Teacher scores: did you use a contrast structure? Did you give both sides before your conclusion?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: THE SCORING RUBRIC ====== -->
+<section class="section" id="rubric">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">02</span> What the Examiner Scores</div>
+        <h2 class="section-title" contenteditable="true">The Essay <span class="teal">Scoring Rubric</span></h2>
+        <p class="section-desc" contenteditable="true">Before writing a single word, you must understand exactly what earns marks. STANAG essays are scored on four criteria — each worth equal weight. Study the Level 3 descriptors closely.</p>
+
+        <div class="rubric-grid">
+            <div class="rubric-card">
+                <div class="rubric-top t1" contenteditable="true">Task Achievement</div>
+                <div class="rubric-body" contenteditable="true">
+                    <div class="rubric-row"><span>Did you answer the question?</span><span class="lv l3">L3 ✓</span></div>
+                    <div class="rubric-row">Addresses ALL aspects of the prompt</div>
+                    <div class="rubric-row">Opinion clearly stated in conclusion</div>
+                    <div class="rubric-row">250+ words, formal throughout</div>
+                    <div class="rubric-row"><span style="color:var(--coral);font-size:0.8rem;">⚠ Off-topic = automatic fail</span></div>
+                </div>
+            </div>
+            <div class="rubric-card">
+                <div class="rubric-top t2" contenteditable="true">Coherence & Cohesion</div>
+                <div class="rubric-body" contenteditable="true">
+                    <div class="rubric-row"><span>Is the argument logical & connected?</span><span class="lv l3">L3 ✓</span></div>
+                    <div class="rubric-row">Clear 4-paragraph structure</div>
+                    <div class="rubric-row">Varied linkers, not repetitive</div>
+                    <div class="rubric-row">Each paragraph has one clear idea</div>
+                    <div class="rubric-row"><span style="color:var(--coral);font-size:0.8rem;">⚠ No structure = L2 maximum</span></div>
+                </div>
+            </div>
+            <div class="rubric-card">
+                <div class="rubric-top t3" contenteditable="true">Lexical Resource</div>
+                <div class="rubric-body" contenteditable="true">
+                    <div class="rubric-row"><span>Vocabulary range & precision</span><span class="lv l3">L3 ✓</span></div>
+                    <div class="rubric-row">C1 vocabulary — complex noun phrases</div>
+                    <div class="rubric-row">No informal language or contractions</div>
+                    <div class="rubric-row">Field-specific terms used correctly</div>
+                    <div class="rubric-row"><span style="color:var(--coral);font-size:0.8rem;">⚠ "big/lots of/also" = L2</span></div>
+                </div>
+            </div>
+            <div class="rubric-card">
+                <div class="rubric-top t4" contenteditable="true">Grammar Accuracy</div>
+                <div class="rubric-body" contenteditable="true">
+                    <div class="rubric-row"><span>Complex & accurate grammar</span><span class="lv l3">L3 ✓</span></div>
+                    <div class="rubric-row">Complex sentences with subordination</div>
+                    <div class="rubric-row">Passive voice used appropriately</div>
+                    <div class="rubric-row">Modals for hedging & recommendations</div>
+                    <div class="rubric-row"><span style="color:var(--coral);font-size:0.8rem;">⚠ Frequent errors = L2</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section alt" id="vocab">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">03</span> Writing Vocabulary</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary: <span class="teal">Essay Power Phrases</span></h2>
+        <p class="section-desc" contenteditable="true">These 8 phrases are the engine of Level 3 essay writing. They directly raise your Coherence and Lexical Resource scores. Memorise them and deploy them deliberately in today's essays.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">It is widely acknowledged that</span><span class="pos" contenteditable="true">INTRO</span>
+                <p class="def" contenteditable="true">Opens your introduction with a shared truth — positions your essay as engaging with the existing debate.</p>
+                <p class="example" contenteditable="true"><em>"It is widely acknowledged that the proliferation of asymmetric threats has fundamentally altered the security landscape."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">A compelling case can be made for</span><span class="pos" contenteditable="true">BODY 1</span>
+                <p class="def" contenteditable="true">Introduces your first main argument without stating your personal opinion — keeps the tone objective.</p>
+                <p class="example" contenteditable="true"><em>"A compelling case can be made for increasing defence expenditure, particularly in nations facing active threats."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">Conversely / By contrast</span><span class="pos" contenteditable="true">BODY 2</span>
+                <p class="def" contenteditable="true">Introduces the counter-argument with a stronger contrast signal than "however" — signals deliberate structural shift.</p>
+                <p class="example" contenteditable="true"><em>"Conversely, critics argue that investment in education and social infrastructure yields more durable long-term security."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">The evidence suggests that</span><span class="pos" contenteditable="true">EVIDENCE</span>
+                <p class="def" contenteditable="true">Introduces supporting evidence without overstating certainty — appropriately hedged for academic register.</p>
+                <p class="example" contenteditable="true"><em>"The evidence suggests that nations with strong civil institutions are more resistant to hybrid influence operations."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">This view fails to account for</span><span class="pos" contenteditable="true">REFUTATION</span>
+                <p class="def" contenteditable="true">Politely but firmly challenges an opposing argument — signals sophisticated critical thinking.</p>
+                <p class="example" contenteditable="true"><em>"This view, however, fails to account for the immediate security demands faced by nations under active military threat."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">far-reaching implications</span><span class="pos" contenteditable="true">IMPACT</span>
+                <p class="def" contenteditable="true">A powerful noun phrase — emphasises that the issue has significant and wide-ranging consequences.</p>
+                <p class="example" contenteditable="true"><em>"The decision has far-reaching implications not only for defence policy but for the broader social contract."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">Striking a balance between</span><span class="pos" contenteditable="true">CONCLUSION</span>
+                <p class="def" contenteditable="true">Introduces a nuanced conclusion — avoids the simplistic "one side wins" ending that examiners penalise.</p>
+                <p class="example" contenteditable="true"><em>"Striking a balance between security expenditure and social investment is, I would argue, the most defensible position."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">I am of the firm conviction that</span><span class="pos" contenteditable="true">OPINION</span>
+                <p class="def" contenteditable="true">States your conclusion with confidence — stronger than "I think" or "I believe," signals a Level 3 register.</p>
+                <p class="example" contenteditable="true"><em>"I am of the firm conviction that a multilateral approach, while imperfect, remains the most viable long-term solution."</em></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: VOCAB DRILL ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">04</span> Vocabulary Drill</div>
+        <h2 class="section-title" contenteditable="true">Match: Phrase → <span class="coral">Its Job in the Essay</span></h2>
+        <p class="section-desc" contenteditable="true">Each phrase has a precise structural role. Matching them to their function means you deploy them in the right paragraph — not randomly throughout your essay.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="vocabDrag7">
+                <li class="drag-item" id="vd7-3" draggable="true"><span class="drag-handle">❧</span><span contenteditable="true">A compelling case can be made for</span></li>
+                <li class="drag-item" id="vd7-6" draggable="true"><span class="drag-handle">❧</span><span contenteditable="true">This view fails to account for</span></li>
+                <li class="drag-item" id="vd7-1" draggable="true"><span class="drag-handle">❧</span><span contenteditable="true">It is widely acknowledged that</span></li>
+                <li class="drag-item" id="vd7-5" draggable="true"><span class="drag-handle">❧</span><span contenteditable="true">Conversely</span></li>
+                <li class="drag-item" id="vd7-4" draggable="true"><span class="drag-handle">❧</span><span contenteditable="true">Striking a balance between</span></li>
+                <li class="drag-item" id="vd7-2" draggable="true"><span class="drag-handle">❧</span><span contenteditable="true">I am of the firm conviction that</span></li>
+            </ul>
+            <div class="arrows-col">
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) Opens the introduction with a shared premise</li>
+                <li class="static-item" contenteditable="true">b) States your personal opinion formally in the conclusion</li>
+                <li class="static-item" contenteditable="true">c) Introduces the first main argument objectively</li>
+                <li class="static-item" contenteditable="true">d) Introduces a nuanced, balanced conclusion</li>
+                <li class="static-item" contenteditable="true">e) Signals the shift to the counter-argument</li>
+                <li class="static-item" contenteditable="true">f) Challenges an opposing argument with precision</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: ESSAY ARCHITECTURE ====== -->
+<section class="section alt" id="arch">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">05</span> The Blueprint</div>
+        <h2 class="section-title" contenteditable="true">Level 3 Essay <span class="gold">Architecture</span></h2>
+        <p class="section-desc" contenteditable="true">Every Level 3 essay follows the same 4-paragraph blueprint. Deviating from it in an exam costs marks. Internalise this structure until it becomes automatic.</p>
+
+        <div class="essay-arch">
+            <div class="arch-spine">
+                <div class="arch-dot active"></div>
+                <div class="arch-line"></div>
+                <div class="arch-dot coral active"></div>
+                <div class="arch-line"></div>
+                <div class="arch-dot gold active"></div>
+                <div class="arch-line"></div>
+                <div class="arch-dot active" style="border-color:var(--purple);background:var(--purple);"></div>
+            </div>
+            <div class="arch-blocks">
+                <div class="arch-block">
+                    <div class="arch-block-header intro">
+                        <h3 class="teal" contenteditable="true">¶1 — Introduction</h3>
+                        <span class="wc" contenteditable="true">~40 words · NO personal opinion yet</span>
+                    </div>
+                    <div class="arch-block-body">
+                        <p class="rule" contenteditable="true">Set the scene. State the issue. Acknowledge both sides exist. End with a clear thesis — what your essay will argue.</p>
+                        <div class="starters">
+                            <span class="starter" contenteditable="true">It is widely acknowledged that...</span>
+                            <span class="starter" contenteditable="true">The question of whether... is one that has attracted significant debate.</span>
+                            <span class="starter" contenteditable="true">In recent years, growing attention has been paid to...</span>
+                            <span class="starter" contenteditable="true">Few issues in contemporary [security/social/economic] discourse are as contested as...</span>
+                        </div>
+                        <ul class="dont-list" style="margin-top:12px;">
+                            <li contenteditable="true">✗ Do NOT give your opinion in paragraph 1</li>
+                            <li contenteditable="true">✗ Do NOT start with "In my opinion" or "I think"</li>
+                            <li contenteditable="true">✗ Do NOT define terms unless the prompt specifically requires it</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="arch-block">
+                    <div class="arch-block-header body1">
+                        <h3 class="coral" contenteditable="true">¶2 — First Argument (For / Side A)</h3>
+                        <span class="wc" contenteditable="true">~65 words · Strongest argument + evidence/example</span>
+                    </div>
+                    <div class="arch-block-body">
+                        <p class="rule" contenteditable="true">Present the argument supporting ONE side. State it clearly, give one reason why it is valid, then add a concrete example or evidence.</p>
+                        <div class="starters">
+                            <span class="starter" contenteditable="true">A compelling case can be made for...</span>
+                            <span class="starter" contenteditable="true">Proponents of this view argue that...</span>
+                            <span class="starter" contenteditable="true">On one hand, there is considerable evidence to suggest that...</span>
+                            <span class="starter" contenteditable="true">Those in favour of... contend that... For instance,...</span>
+                        </div>
+                        <p style="font-size:0.82rem;color:var(--gray);margin-top:10px;" contenteditable="true">💡 End this paragraph with: "This is particularly evident in the case of [country/event/data]..."</p>
+                    </div>
+                </div>
+
+                <div class="arch-block">
+                    <div class="arch-block-header body2">
+                        <h3 class="gold" contenteditable="true">¶3 — Counter-Argument (Against / Side B)</h3>
+                        <span class="wc" contenteditable="true">~65 words · Present THEN optionally refute</span>
+                    </div>
+                    <div class="arch-block-body">
+                        <p class="rule" contenteditable="true">Acknowledge the opposing view fairly. You may then gently challenge it — this shows critical thinking and is rewarded at Level 3.</p>
+                        <div class="starters">
+                            <span class="starter" contenteditable="true">Conversely, critics argue that...</span>
+                            <span class="starter" contenteditable="true">On the other hand, opponents contend that...</span>
+                            <span class="starter" contenteditable="true">Nevertheless, this view fails to account for...</span>
+                            <span class="starter" contenteditable="true">While this perspective has merit, it overlooks the fact that...</span>
+                        </div>
+                        <p style="font-size:0.82rem;color:var(--gray);margin-top:10px;" contenteditable="true">💡 Optional refutation: "This view, however, fails to account for [weakness or counterexample]..."</p>
+                    </div>
+                </div>
+
+                <div class="arch-block">
+                    <div class="arch-block-header concl">
+                        <h3 class="purple" contenteditable="true">¶4 — Conclusion</h3>
+                        <span class="wc" contenteditable="true">~40 words · YOUR opinion — clearly stated here for the FIRST time</span>
+                    </div>
+                    <div class="arch-block-body">
+                        <p class="rule" contenteditable="true">Summarise the tension. State your opinion firmly. End with a forward-looking or qualifying statement.</p>
+                        <div class="starters">
+                            <span class="starter" contenteditable="true">Taking all factors into consideration, I am of the firm conviction that...</span>
+                            <span class="starter" contenteditable="true">Striking a balance between... I believe that...</span>
+                            <span class="starter" contenteditable="true">In conclusion, while both perspectives have merit, I would argue that...</span>
+                            <span class="starter" contenteditable="true">Ultimately, the evidence points towards... though this must be balanced against...</span>
+                        </div>
+                        <ul class="dont-list" style="margin-top:12px;">
+                            <li contenteditable="true">✗ Do NOT introduce new arguments here</li>
+                            <li contenteditable="true">✗ Do NOT repeat paragraph 2 or 3 word for word</li>
+                            <li contenteditable="true">✗ Do NOT end with "In my personal opinion" — just "In my opinion"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: GRAMMAR — HEDGING LANGUAGE ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">06</span> Grammar Module</div>
+        <h2 class="section-title" contenteditable="true">Grammar: <span class="coral">Hedging & Academic Qualification</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 essays use hedging language to avoid overstating claims. Saying "X is true" is simplistic — saying "X appears to be the case in many contexts, though exceptions exist" is sophisticated. This distinction separates L2 from L3.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Hedging Tool</th>
+                    <th contenteditable="true">Function</th>
+                    <th contenteditable="true">Military / Policy Example</th>
+                    <th contenteditable="true">Register</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>It appears / seems that</strong></td><td contenteditable="true">Soft factual claim — signals based on evidence but not certain</td><td contenteditable="true">"<em>It appears that</em> hybrid tactics have become the preferred method of aggression below the Article 5 threshold."</td><td contenteditable="true"><span class="chip teal">FORMAL</span></td></tr>
+                <tr><td contenteditable="true"><strong>may / might / could</strong></td><td contenteditable="true">Modal hedging — possibility, not certainty</td><td contenteditable="true">"Increased defence spending <em>may</em> deter aggression in the short term, but its long-term effects remain unclear."</td><td contenteditable="true"><span class="chip teal">FORMAL</span></td></tr>
+                <tr><td contenteditable="true"><strong>tends to / is likely to</strong></td><td contenteditable="true">Pattern-based generalisation — more hedged than "always"</td><td contenteditable="true">"Nations facing existential threats <em>tend to</em> prioritise conventional military capability over social investment."</td><td contenteditable="true"><span class="chip teal">FORMAL</span></td></tr>
+                <tr><td contenteditable="true"><strong>to a considerable extent</strong></td><td contenteditable="true">Degrees of agreement — avoids absolute statements</td><td contenteditable="true">"<em>To a considerable extent</em>, the effectiveness of deterrence depends on the credibility of the threat being communicated."</td><td contenteditable="true"><span class="chip teal">FORMAL</span></td></tr>
+                <tr><td contenteditable="true"><strong>in many / most cases</strong></td><td contenteditable="true">Qualified generalisation — acknowledges exceptions</td><td contenteditable="true">"<em>In most cases</em>, diplomatic channels are exhausted before military options are formally considered."</td><td contenteditable="true"><span class="chip teal">FORMAL</span></td></tr>
+                <tr><td contenteditable="true"><strong>one might argue that</strong></td><td contenteditable="true">Presents a position without fully committing — perfect for opposing views</td><td contenteditable="true">"<em>One might argue that</em> the primary obstacle is not financial but political in nature."</td><td contenteditable="true"><span class="chip teal">FORMAL</span></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert teal" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🎯</span>
+            <div contenteditable="true"><strong>The Level 3 Hedging Rule:</strong> Use hedging in every paragraph — at least once in the introduction and once in each body paragraph. Reserve your strong, unhedged opinion for the conclusion only: "I am of the firm conviction that..." The contrast between careful hedging throughout and a confident conclusion at the end is the hallmark of a Level 3 essay.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR PRACTICE ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">07</span> Grammar Practice</div>
+        <h2 class="section-title" contenteditable="true">Upgrade to <span class="teal">Level 3 Hedging</span></h2>
+        <p class="section-desc" contenteditable="true">Rewrite each sentence by adding appropriate hedging language. Some sentences also need to be upgraded to more formal vocabulary. There is often more than one correct answer — discuss the options.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">Overconfident: "More defence spending always makes a country safer." → Hedged L3: "<span class="blank" contenteditable="true"></span>, increased defence expenditure <span class="blank" contenteditable="true"></span> contribute to national security, though the relationship is rarely linear."</li>
+            <li contenteditable="true">Overconfident: "Diplomacy doesn't work against determined aggressors." → Hedged L3: "<span class="blank" contenteditable="true"></span> diplomatic channels are effective against a determined adversary committed to achieving its objectives through force."</li>
+            <li contenteditable="true">Informal + Overconfident: "Everyone knows that social media causes radicalisation." → Formal + Hedged: "<span class="blank" contenteditable="true"></span> that exposure to certain forms of online content <span class="blank" contenteditable="true"></span> play a role in the radicalisation process."</li>
+            <li contenteditable="true">Overconfident: "NATO will certainly survive the next decade." → Hedged: "NATO <span class="blank" contenteditable="true"></span> maintain its relevance over the next decade, provided that member states continue to demonstrate genuine commitment to collective defence."</li>
+            <li contenteditable="true">Informal + Blunt: "Rich countries should just give more money to defence." → Formal + Hedged: "<span class="blank" contenteditable="true"></span> that wealthier member states <span class="blank" contenteditable="true"></span> consider increasing their financial contributions to collective security arrangements."</li>
+        </ul>
+
+        <div class="alert teal" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Possible Answers:</strong> 1. In many cases / may &nbsp;|&nbsp; 2. It is unlikely / one might argue that &nbsp;|&nbsp; 3. It appears / may &nbsp;|&nbsp; 4. is likely to / could &nbsp;|&nbsp; 5. One might argue / should / could — Multiple valid answers; discuss register and precision differences.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: MODEL ESSAY — ANNOTATED ====== -->
+<section class="section" id="model">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">08</span> Model Text</div>
+        <h2 class="section-title" contenteditable="true">Annotated Model: <span class="gold">Salary Inequality</span></h2>
+        <p class="section-desc" contenteditable="true">This is a full model answer for a real STANAG Level 3 prompt from your exam sample. Every annotation shows which rubric criterion is being addressed. Study this before writing your own essay.</p>
+
+        <div class="essay-page">
+            <div class="essay-header">
+                <h3 contenteditable="true">"In some countries, a few people earn extremely high salaries. Some think this is good for a country, while others believe governments should limit the amount people can earn. Discuss both views and give your opinion."</h3>
+                <span class="meta" contenteditable="true">Model Answer · ~270 words · STANAG Level 3</span>
+            </div>
+            <div class="essay-rule"></div>
+            <div class="essay-body" contenteditable="true">
+                <p><span class="ann">It is widely acknowledged that</span> income inequality is one of the defining economic debates of the 21st century. <span class="ann">While both sides of this argument have considerable merit,</span> the question of whether extreme salary gaps benefit or harm society remains deeply contested. <span class="ann3">This essay will examine both perspectives before offering a considered conclusion.</span></p>
+
+                <p><span class="ann2">A compelling case can be made for</span> allowing individuals to earn unrestricted high salaries. Proponents argue that the prospect of significant financial reward drives entrepreneurship, innovation, and risk-taking — activities which, <span class="ann">it tends to be argued,</span> generate broader economic growth and employment. <span class="ann">The evidence suggests that</span> countries with dynamic private sectors frequently exhibit higher levels of innovation than those with heavily regulated wage structures. <span class="ann2">This is particularly evident</span> in the technology and defence industries, where private investment has accelerated capabilities that benefit entire societies.</p>
+
+                <p><span class="ann2">Conversely,</span> critics contend that extreme salary disparities <span class="ann">may</span> undermine social cohesion, erode public trust in institutions, and reduce the incentive for individuals to contribute to public services. <span class="ann2">This view fails to account for,</span> however, the significant tax revenue generated by high earners — revenue which, when effectively redistributed, <span class="ann">can</span> fund the very social programmes that critics argue are being neglected.</p>
+
+                <p><span class="ann4">Striking a balance between</span> rewarding individual achievement and ensuring equitable social outcomes, <span class="ann4">I am of the firm conviction that</span> governments should not impose rigid salary caps but <span class="ann">should</span> instead ensure progressive taxation systems that redistribute wealth effectively. <span class="ann4">Ultimately,</span> the goal should be an economy that incentivises excellence without abandoning those who are most vulnerable.</p>
+            </div>
+            <div class="essay-wc" contenteditable="true">
+                <span>📐 Word count: ~270 words ✓</span>
+                <span>🟢 Teal = Introduction phrases</span>
+                <span>🔴 Red = Argument phrases</span>
+                <span>🟡 Gold = Evidence phrases</span>
+                <span>🟣 Purple = Conclusion phrases</span>
+            </div>
+        </div>
+
+        <div class="alert gold" contenteditable="false">
+            <span class="alert-icon">📌</span>
+            <div contenteditable="true"><strong>What makes this Level 3:</strong> (1) Complex noun phrases ("income inequality," "extreme salary disparities"). (2) Consistent hedging ("tends to be argued," "may undermine," "can fund"). (3) Opinion ONLY in paragraph 4 — clearly signalled. (4) Partial refutation of Side B in ¶3 — demonstrates critical thinking. (5) Passive voice in formal context ("it tends to be argued," "when effectively redistributed"). (6) Conclusion is balanced but clear.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: TIMED ESSAY 1 — GLOBALISATION ====== -->
+<section class="section alt" id="essay1">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">09</span> Timed Essay Practice 1</div>
+        <h2 class="section-title" contenteditable="true">Write It: <span class="coral">Globalisation Essay</span></h2>
+        <p class="section-desc" contenteditable="true">This is a real STANAG Level 3 prompt from your exam sample. You have <strong>40 minutes</strong>. Write a minimum of <strong>250 words</strong>. Use the 4-paragraph structure and at least 3 phrases from today's vocabulary list.</p>
+
+        <div class="alert coral" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Prompt:</strong> "Globalisation has brought about more positive economic impacts than negative ones. Even though globalisation affects the world's economies in a very positive way, its negative side should not be forgotten. What is your view? Discuss. Give reasons for your answer and include any relevant examples from your own knowledge or experience."</div>
+        </div>
+
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-family:var(--mono);font-size:0.68rem;color:var(--gray);display:flex;gap:20px;flex-wrap:wrap;" contenteditable="false">
+            <span>📐 250–300 words</span>
+            <span>⏱ 40 minutes</span>
+            <span>✅ 4 paragraphs</span>
+            <span>📝 3+ vocab phrases from today</span>
+            <span>🔄 2+ contrast structures</span>
+            <span>💭 Hedging in ¶1, ¶2, ¶3</span>
+            <span>🎯 Opinion ONLY in ¶4</span>
+        </div>
+
+        <div class="writing-paper" contenteditable="true">
+            <p class="ph">¶1 — Introduction: Start with "It is widely acknowledged that globalisation has reshaped..." — Do NOT give your opinion yet.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: PEER REVIEW CHECKLIST ====== -->
+<section class="section" id="peer">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">10</span> Peer Review Protocol</div>
+        <h2 class="section-title" contenteditable="true">Review Your <span class="gold">Essay Against the Rubric</span></h2>
+        <p class="section-desc" contenteditable="true">After writing Essay 1, teacher and student review it together against these criteria. Each tick or cross directly maps to a rubric score. Be honest — this is more valuable than inflated praise.</p>
+
+        <div class="peer-grid">
+            <div class="peer-card">
+                <div class="peer-top pt1" contenteditable="true">Task Achievement</div>
+                <div class="peer-body" contenteditable="true">
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Essay addresses the FULL prompt — both sides AND your view?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Opinion is clearly stated in paragraph 4 only?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>250+ words written?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>No informal language or contractions anywhere?</span></div>
+                </div>
+            </div>
+            <div class="peer-card">
+                <div class="peer-top pt2" contenteditable="true">Coherence & Cohesion</div>
+                <div class="peer-body" contenteditable="true">
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Clear 4-paragraph structure?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Each paragraph has ONE clear main idea?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>At least 3 different linkers used?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>¶3 introduces contrasting view (not repeating ¶2)?</span></div>
+                </div>
+            </div>
+            <div class="peer-card">
+                <div class="peer-top pt3" contenteditable="true">Lexical Resource</div>
+                <div class="peer-body" contenteditable="true">
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>At least 3 phrases from today's vocabulary list used?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>At least one complex noun phrase used?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>No basic vocabulary (big / lots of / also)?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Hedging language in at least 2 paragraphs?</span></div>
+                </div>
+            </div>
+            <div class="peer-card">
+                <div class="peer-top pt4" contenteditable="true">Grammar Accuracy</div>
+                <div class="peer-body" contenteditable="true">
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>At least one passive voice construction?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>At least one modal verb for hedging?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Complex sentences with subordinate clauses?</span></div>
+                    <div class="check-item" onclick="togglePeerCheck(this)"><div class="check-box"></div><span>Zero tense consistency errors?</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert gold" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📊</span>
+            <div contenteditable="true"><strong>Scoring Guide:</strong> 15–16 ticks = Strong Level 3. 12–14 ticks = Level 3 with minor weaknesses, likely to pass. 9–11 ticks = Between L2 and L3 — specific areas need focused work. Below 9 = L2 currently — essay structure and vocabulary are the priority. Note exactly which boxes were not ticked — these define today's remaining work.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: TIMED ESSAY 2 — DEFENCE SPENDING ====== -->
+<section class="section alt" id="essay2">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">11</span> Timed Essay Practice 2</div>
+        <h2 class="section-title" contenteditable="true">Write It: <span class="purple">Defence vs. Social Spending</span></h2>
+        <p class="section-desc" contenteditable="true">Second essay — apply the peer review feedback from Essay 1. This time, focus specifically on the criteria you didn't fully meet. You have <strong>40 minutes</strong>.</p>
+
+        <div class="alert purple" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Prompt:</strong> "A government has a responsibility to its citizens to ensure their safety. Therefore, some people think that the government should increase spending on defence but spend less on social benefits. To what extent do you agree?" — This is a real STANAG Level 3 writing prompt from your exam sample.</div>
+        </div>
+
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-family:var(--mono);font-size:0.68rem;color:var(--gray);display:flex;gap:20px;flex-wrap:wrap;" contenteditable="false">
+            <span>📐 250–300 words</span>
+            <span>⏱ 40 minutes</span>
+            <span>🎯 Improvement focus from Essay 1</span>
+            <span>💭 Use: "it is widely acknowledged," "conversely," "far-reaching implications"</span>
+            <span>✅ No contractions anywhere</span>
+        </div>
+
+        <div class="writing-paper" contenteditable="true">
+            <p class="ph">¶1 — Introduction: "It is widely acknowledged that the tension between security expenditure and social welfare is one of the most enduring debates in public policy..." — Present both sides. No opinion yet.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: ERROR TRANSFORMATION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">12</span> Error Transformation</div>
+        <h2 class="section-title" contenteditable="true">Fix It: <span class="coral">10 Essay Errors</span></h2>
+        <p class="section-desc" contenteditable="true">Each sentence contains one or more Level 3 writing errors — informal register, missing hedging, no passive voice, structural error, or contraction. Identify and correct each one.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">"In my personal opinion I really think that defence spending is very important." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"Globalisation is 100% good for the economy with no negative sides at all." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"We can't deny that lots of countries have benefited from free trade." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"The government should cut social spending because it costs too much." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"Also, there is another good reason to increase military budgets." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"In conclusion, I still think my first point is right." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"Everyone knows it's true that richer people pay more tax." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"But on the other hand some people don't agree with this." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"The evidence shows this is always true in every country." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+            <li contenteditable="true">"To sum up, I think the government should do something about inequality." → Corrected: <span class="blank" contenteditable="true" style="min-width:200px;"></span></li>
+        </ul>
+
+        <div class="alert coral" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">🔑</span>
+            <div contenteditable="true"><strong>Sample Corrections:</strong> 1. "I am of the firm conviction that defence expenditure plays a critical role in national security." &nbsp;|&nbsp; 2. "It appears that globalisation, while overwhelmingly beneficial in many contexts, also carries significant risks..." &nbsp;|&nbsp; 3. "It cannot be denied that a considerable number of nations have benefited from liberalised trade." &nbsp;|&nbsp; 4. "One might argue that a reduction in social expenditure could be justified in contexts where..." &nbsp;|&nbsp; 5. "Furthermore, a compelling case can also be made for..." &nbsp;|&nbsp; 6. "Taking all factors into consideration, I am of the firm conviction that..." &nbsp;|&nbsp; 7. "It is widely acknowledged that higher earners typically contribute more substantially to public revenue." &nbsp;|&nbsp; 8. "Conversely, critics contend that..." &nbsp;|&nbsp; 9. "The evidence suggests that this tendency manifests itself in most, though not all, comparable economies." &nbsp;|&nbsp; 10. "Taking all factors into consideration, I would argue that meaningful action on inequality requires a multilateral approach."</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: VOCABULARY IN CONTEXT ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">13</span> Vocabulary in Context</div>
+        <h2 class="section-title" contenteditable="true">Fill the Gaps: <span class="teal">Essay Power Phrases</span></h2>
+        <p class="section-desc" contenteditable="true">Insert the correct vocabulary phrase from today's lesson into each gap. Some require a grammatical change. You must choose the phrase that best fits both the meaning AND the position in the essay.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true"><span class="blank" contenteditable="true" style="min-width:160px;"></span> the growing threat of cyber attacks poses a significant challenge to the security infrastructure of even the most advanced nations. <em>(Introduction opener)</em></li>
+            <li contenteditable="true"><span class="blank" contenteditable="true" style="min-width:160px;"></span> increasing defence budgets: without physical security, social programmes cannot be effectively maintained or protected. <em>(First argument opener)</em></li>
+            <li contenteditable="true"><span class="blank" contenteditable="true" style="min-width:160px;"></span>, advocates of social investment argue that a population suffering from inadequate healthcare and education is ill-equipped to defend itself. <em>(Counter-argument opener)</em></li>
+            <li contenteditable="true">The decision to cut social welfare programmes carries <span class="blank" contenteditable="true" style="min-width:120px;"></span> for social cohesion, political stability, and long-term national resilience. <em>(Impact phrase)</em></li>
+            <li contenteditable="true"><span class="blank" contenteditable="true" style="min-width:220px;"></span> security and welfare spending, I am of the firm conviction that neither can be sacrificed entirely without significant consequences. <em>(Conclusion opener)</em></li>
+        </ul>
+
+        <div class="alert teal" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Key:</strong> 1. It is widely acknowledged that &nbsp;|&nbsp; 2. A compelling case can be made for &nbsp;|&nbsp; 3. Conversely &nbsp;|&nbsp; 4. far-reaching implications &nbsp;|&nbsp; 5. Striking a balance between</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: SPEAKING — VERBAL ESSAYS ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">14</span> Speaking — Essay Argument Orally</div>
+        <h2 class="section-title" contenteditable="true">Speaking: <span class="gold">Argue Without Notes</span></h2>
+        <p class="section-desc" contenteditable="true">The most powerful speaking preparation is giving your written essay argument ORALLY, without notes. This forces your brain to internalise the structure. Teacher gives a new prompt — you have 45 seconds to plan, then speak for 2 minutes.</p>
+
+        <div class="speak-stage">
+            <div class="stage-head">
+                <span class="st">Level 3 Speaking — Verbal Essay Format</span>
+                <span class="sb">45 SEC PLAN → 2 MIN SPEAK</span>
+            </div>
+            <div class="stage-body-s">
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true">
+                        <span class="sn ex">Examiner</span>
+                        "We notice nowadays that in some countries more and more young people think that having a good education and a job is not a priority anymore, and there are various other ways to make a living. Discuss the implications of such a mentality for the individual's development."
+                    </div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 This is a real Level 3 STANAG speaking question from your exam sample. Use the 4-paragraph essay structure verbally: Introduction (10 sec) → Side A (30 sec) → Side B (30 sec, with "Conversely...") → Conclusion (10 sec, with "I am of the firm conviction that..."). Teacher times you.</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true">
+                        <span class="sn st">Oleksandr — 2 minutes</span>
+                        [Plan: ¶1 = introduce the trend | ¶2 = "A compelling case can be made..." for education's value | ¶3 = "Conversely, one might argue..." that alternative paths exist | ¶4 = "I am of the firm conviction that..." — state your position on education and national development]
+                    </div>
+                </div>
+
+                <div style="height:8px;"></div>
+
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true">
+                        <span class="sn ex">Examiner — Second Question</span>
+                        "More and more European citizens are turning to terrorist activity. Look at these three reasons: Ignorance — Propaganda — Frustration. Which is the most influential and which is the least? Justify your opinion."
+                    </div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 This is a ranking question — a distinct speaking task type. Structure: "I would argue that Propaganda is the most influential because..." → "Frustration represents a secondary, enabling factor..." → "While Ignorance plays a role, I would contend it is the least influential because..." → "To sum up my position, a comprehensive counter-radicalisation strategy must..."</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true">
+                        <span class="sn st">Oleksandr — 90 seconds</span>
+                        [Ranked argument — defend your ranking of all three factors with evidence and formal vocabulary]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: SYNTHESIS ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">15</span> Mission Complete</div>
+        <h2 class="section-title" contenteditable="true">Synthesis: <span class="coral">What Did You Actually Learn?</span></h2>
+        <p class="section-desc" contenteditable="true">Honest debrief — compare both essays against each other and against the model. The goal is not to feel good, but to clearly see what changed and what still needs work.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Comparison Area</th>
+                    <th contenteditable="true">Essay 1 (Globalisation)</th>
+                    <th contenteditable="true">Essay 2 (Defence/Social)</th>
+                    <th contenteditable="true">Target to Hit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Word count</strong></td><td contenteditable="true"><em>Write here...</em></td><td contenteditable="true"><em>Write here...</em></td><td contenteditable="true">250–300 words</td></tr>
+                <tr><td contenteditable="true"><strong>Essay power phrases used</strong></td><td contenteditable="true"><em>List them...</em></td><td contenteditable="true"><em>List them...</em></td><td contenteditable="true">Minimum 3</td></tr>
+                <tr><td contenteditable="true"><strong>Hedging language instances</strong></td><td contenteditable="true"><em>Count them...</em></td><td contenteditable="true"><em>Count them...</em></td><td contenteditable="true">At least 3</td></tr>
+                <tr><td contenteditable="true"><strong>Opinion location</strong></td><td contenteditable="true"><em>Only in ¶4?</em></td><td contenteditable="true"><em>Only in ¶4?</em></td><td contenteditable="true">¶4 only</td></tr>
+                <tr><td contenteditable="true"><strong>Any contractions found?</strong></td><td contenteditable="true"><em>Y/N</em></td><td contenteditable="true"><em>Y/N</em></td><td contenteditable="true">Zero contractions</td></tr>
+                <tr><td contenteditable="true"><strong>Did Essay 2 improve on Essay 1?</strong></td><td contenteditable="true" colspan="2"><em>What specifically changed?</em></td><td contenteditable="true">Must show growth</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert teal" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework before Lesson 8 (Speaking Level 3 Deep Dive):</strong> (1) Write a third, clean version of whichever essay (Essay 1 or 2) had the lower peer review score. Apply ALL corrections from today — this is the definitive version. (2) Learn all 8 vocabulary items from today (phrases, not single words — say the whole phrase). (3) Listen to Practice Test 3 — audio "Scots" from ltc.uni-nke.hu if not done from Lesson 6 homework. (4) Prepare: what is your honest current Level 3 essay score? Which rubric criterion is weakest? Bring a clear answer to Lesson 8.</div>
+        </div>
+
+        <div class="end-panel">
+            <h2 contenteditable="true">Lesson 07 — Essay Clinic Complete</h2>
+            <p class="sub" contenteditable="true">// 2 full essays · model annotation · 10-error correction //</p>
+            <ul class="end-list">
+                <li contenteditable="true">✅ <strong>Vocab Test:</strong> L6 vocabulary tested cold — English definitions from memory.</li>
+                <li contenteditable="true">✅ <strong>Scoring Rubric:</strong> All 4 criteria — Task Achievement, Coherence, Lexical Resource, Grammar Accuracy — with L3/L2/Fail descriptors.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary (8 phrases):</strong> It is widely acknowledged that, A compelling case can be made for, Conversely, The evidence suggests that, This view fails to account for, far-reaching implications, Striking a balance between, I am of the firm conviction that.</li>
+                <li contenteditable="true">✅ <strong>Essay Architecture:</strong> 4-paragraph blueprint with starter phrases, word count targets, and strict "don'ts" for each section.</li>
+                <li contenteditable="true">✅ <strong>Grammar — Hedging:</strong> It appears/seems, may/might/could, tends to, to a considerable extent, in many cases, one might argue — with Level 3 hedging rule.</li>
+                <li contenteditable="true">✅ <strong>Model Essay:</strong> Annotated "Salary Inequality" essay — all 4 rubric criteria colour-coded.</li>
+                <li contenteditable="true">✅ <strong>Timed Essay 1:</strong> Globalisation prompt — 40 minutes, 250+ words, peer reviewed against 16-point checklist.</li>
+                <li contenteditable="true">✅ <strong>Timed Essay 2:</strong> Defence vs. Social Spending — applying feedback from Essay 1.</li>
+                <li contenteditable="true">✅ <strong>Error Transformation:</strong> 10 common Level 3 writing errors identified and corrected.</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> Two Level 3 speaking questions — verbal essay structure + ranking argument format.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== WHITEBOARD ====== -->
+<section class="section" id="wb">
+    <div class="section-inner">
+        <div class="section-label"><span class="lnum">WB</span> Teacher Space</div>
+        <h2 class="section-title" contenteditable="true">Interactive <span class="teal">Whiteboard</span></h2>
+        <p class="section-desc" contenteditable="true">Use for essay structure diagrams, marking student writing, vocabulary mapping, or live feedback on hedging language.</p>
+        <div class="wb-wrap">
+            <div class="wb-bar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#111008">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(217,79,46,0.2);border-color:var(--coral);color:var(--coral);">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FABs ====== -->
+<div class="fab-group" id="fabGroup">
+    <button class="fab" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab qz" onclick="openModal()" title="Quizlet">📝</button>
+    <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+    <button class="fab rst" onclick="resetLesson()" title="Reset">↺</button>
+</div>
+
+<div id="qModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2>Quizlet Export</h2>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--gray);margin-top:6px;">Add today's essay power phrases with Ukrainian translations.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:14px;">
+            <button class="modal-btn secondary" onclick="addRow()">+ Row</button>
+            <button class="modal-btn primary" id="copyBtn" onclick="copyQuizlet()">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePeerCheck(el) {
+        const box = el.querySelector('.check-box');
+        box.classList.toggle('checked');
+        box.textContent = box.classList.contains('checked') ? '✓' : '';
+    }
+
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='h') {
+            e.preventDefault();
+            const s=window.getSelection();
+            if (!s.rangeCount||s.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(10,124,110,0.25)');
+        }
+    });
+
+    const canvas=document.getElementById('boardCanvas');
+    const ctx=canvas.getContext('2d');
+    function resizeCanvas(){canvas.width=canvas.parentElement.clientWidth;canvas.height=460;}
+    window.addEventListener('resize',resizeCanvas);resizeCanvas();
+    let drawing=false,pendingDraw=false,sx,sy,tool='pencil',color='#111008',snap;
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tool=b.dataset.tool;canvas.style.cursor=tool==='text'?'text':'crosshair';});});
+    document.getElementById('wbColor').addEventListener('change',e=>color=e.target.value);
+    document.getElementById('wbClear').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);if(window.syncWbClear)window.syncWbClear();});
+    function gp(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+    canvas.addEventListener('mousedown',e=>{const p=gp(e);sx=p.x;sy=p.y;if(tool==='text'){const t=prompt('Text:');if(t){ctx.font="16px 'Outfit',sans-serif";ctx.fillStyle=color;ctx.fillText(t,sx,sy);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}return;}drawing=true;snap=ctx.getImageData(0,0,canvas.width,canvas.height);ctx.beginPath();ctx.moveTo(sx,sy);});
+    canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=gp(e);if(tool==='pencil'||tool==='highlight'){ctx.lineTo(p.x,p.y);ctx.strokeStyle=tool==='highlight'?color+'44':color;ctx.lineWidth=tool==='highlight'?14:1.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}else{ctx.putImageData(snap,0,0);drawShape(p.x,p.y);}});
+    canvas.addEventListener('mouseup',e=>{if(!drawing)return;drawing=false;if(tool!=='pencil'&&tool!=='highlight')drawShape(gp(e).x,gp(e).y);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}});
+    canvas.addEventListener('mouseout',()=>{if(drawing){drawing=false;if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}});
+    function drawShape(ex,ey){ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=1.5;if(tool==='square')ctx.strokeRect(sx,sy,ex-sx,ey-sy);else if(tool==='circle'){ctx.arc(sx,sy,Math.sqrt((ex-sx)**2+(ey-sy)**2),0,2*Math.PI);ctx.stroke();}else if(tool==='arrow'){const hl=12,ang=Math.atan2(ey-sy,ex-sx);ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.stroke();ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));ctx.stroke();}}
+
+    function setupDrag(colId){const col=document.getElementById(colId);if(!col)return;col.querySelectorAll('.drag-item').forEach(item=>{item.addEventListener('dragstart',()=>item.classList.add('dragging'));item.addEventListener('dragend',()=>{item.classList.remove('dragging');if(window.syncDragOrder)window.syncDragOrder(colId);});});col.addEventListener('dragover',e=>{e.preventDefault();const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{const off=e.clientY-ch.getBoundingClientRect().top-ch.getBoundingClientRect().height/2;return off<0&&off>cl.offset?{offset:off,element:ch}:cl;},{offset:Number.NEGATIVE_INFINITY}).element;const d=document.querySelector('.dragging');if(d){if(after==null)col.appendChild(d);else col.insertBefore(d,after);}});}
+    setupDrag('vocabDrag7');
+
+    function savePDF(){document.getElementById('fabGroup').style.display='none';document.getElementById('syncStatus').style.display='none';const el=document.body;html2pdf().set({margin:0,filename:'STANAG-Lesson7-Essay-Writing.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{document.getElementById('fabGroup').style.display='flex';document.getElementById('syncStatus').style.display='flex';});}
+    function openModal(){document.getElementById('qModal').style.display='flex';}
+    function closeModal(){document.getElementById('qModal').style.display='none';}
+    function addRow(){const r=document.createElement('div');r.className='word-row';r.innerHTML='<input type="text" placeholder="English phrase" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans">';document.getElementById('wordList').appendChild(r);}
+    function copyQuizlet(){let out='';document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-word').value.trim();const t=r.querySelector('.q-trans').value.trim();if(w||t)out+=`${w}\t${t}\n`;});if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);const b=document.getElementById('copyBtn');b.innerText='✅ Copied!';setTimeout(()=>b.innerText='📋 Copy for Quizlet',3000);}}
+
+    document.getElementById('navTabsContainer').addEventListener('click',e=>{if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){e.preventDefault();const id=e.target.getAttribute('href');if(id&&id.startsWith('#')&&id.length>1){const s=document.querySelector(id);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth';});}}});
+    function scrollToWB(){const wb=document.getElementById('wb');if(wb)window.scrollTo({top:wb.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth'});}
+    function resetLesson(){if(window.doReset)window.doReset();}
+    window.savePDF=savePDF;window.scrollToWhiteboard=scrollToWB;window.openQuizletModal=openModal;window.closeQuizletModal=closeModal;window.addWordRow=addRow;
+</script>
+
+<script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import{getFirestore,doc,setDoc,onSnapshot,deleteDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+    const appId='stanag-oleksandr-lesson-7-essay-writing-v1';
+    const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+    const setS=(t,c)=>{if(st)st.innerText=t;if(sd)sd.style.background=c;};
+    const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+    let me=null,ready=false;
+    const mc='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');let mn='Oleksandr';
+    const eds=document.querySelectorAll('[contenteditable="true"]');const orig={};
+    eds.forEach((el,i)=>{el.dataset.syncId='e-'+i;orig['e-'+i]=el.innerHTML;});
+    const deb=(fn,w)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),w);};};
+    signInAnonymously(auth).catch(()=>setS('OFFLINE','#999'));
+    onAuthStateChanged(auth,user=>{me=user;if(user&&!ready){ready=true;getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(s=>{mn=s.size===0?'Teacher':'Oleksandr';setS('SYNC ON','#0A7C6E');sync();cursors();}).catch(()=>{mn='Oleksandr';setS('SYNC ON','#0A7C6E');sync();cursors();});}else if(!user)setS('DISCONNECTED','#D94F2E');});
+    function sync(){
+        const tRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dRef=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        let editing=null;
+        window.saveTextUpdate=el=>{if(!me)return;setDoc(tRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+        window.attachEditableListeners=el=>{el.addEventListener('focus',()=>editing=el.dataset.syncId);el.addEventListener('blur',()=>{editing=null;window.saveTextUpdate(el);});el.addEventListener('input',deb(()=>{if(editing===el.dataset.syncId)window.saveTextUpdate(el);},500));};
+        eds.forEach(el=>window.attachEditableListeners(el));
+        window.addNewTab=e=>{e.preventDefault();const c=document.getElementById('navTabsContainer');const li=document.createElement('li');const nid='e-tab-'+Date.now();li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${nid}">New Tab</a>`;c.appendChild(li);window.attachEditableListeners(li.querySelector('a'));if(me)setDoc(tRef,{'nav_tabs_structure':c.innerHTML},{merge:true});};
+        onSnapshot(tRef,snap=>{if(snap.exists()){const d=snap.data();for(const[sid,html]of Object.entries(d)){if(sid==='nav_tabs_structure'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEditableListeners(a));}continue;}if(editing!==sid){const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}}}});
+        document.addEventListener('paste',e=>{const tgt=e.target;if(!tgt.closest('[contenteditable="true"]'))return;const items=(e.clipboardData||window.clipboardData).items;for(let k in items){const item=items[k];if(item.kind==='file'&&item.type.startsWith('image/')){e.preventDefault();const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=function(){const c=document.createElement('canvas');const M=800;let w=img.width,h=img.height;if(w>M){h*=M/w;w=M;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};r.readAsDataURL(item.getAsFile());return;}}const pt=(e.clipboardData||window.clipboardData).getData('text');if(pt){const yt=pt.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/)|\S*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%"></iframe></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}if(/^https?:\/\/\S+$/.test(pt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${pt.trim()}" target="_blank" style="color:var(--teal);text-decoration:underline" contenteditable="false">${pt.trim()}</a>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}}});
+        window.syncDragOrder=cid=>{if(!me)return;const c=document.getElementById(cid);if(!c)return;setDoc(dRef,{[cid]:Array.from(c.children).map(x=>x.id)},{merge:true});};
+        onSnapshot(dRef,snap=>{if(snap.exists()){const d=snap.data();['vocabDrag7'].forEach(cid=>{const c=document.getElementById(cid);if(!c)return;if(d[cid])d[cid].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}});
+        window.syncWbDraw=deb(()=>{if(!me)return;const url=document.getElementById('boardCanvas').toDataURL('image/png',0.5);setDoc(wRef,{image:url,clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWbClear=()=>{if(!me)return;const ts=Date.now();window.lastClear=ts;setDoc(wRef,{clearTimestamp:ts,image:null},{merge:true});};
+        onSnapshot(wRef,snap=>{if(snap.exists()){const d=snap.data();const cv=document.getElementById('boardCanvas');const cx=cv.getContext('2d');if(d.clearTimestamp>(window.lastClear||0)){cx.clearRect(0,0,cv.width,cv.height);window.lastClear=d.clearTimestamp;return;}if(d.image&&!pendingDraw){const img=new Image();img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);};img.src=d.image;}}});
+        window.doReset=async()=>{if(!me)return;if(!confirm('Reset all content for everyone?'))return;setS('RESETTING...','#B07D1A');const tR=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');const dR=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');const wR=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');await deleteDoc(tR);await deleteDoc(dR);const ts=Date.now();window.lastClear=ts;await setDoc(wR,{clearTimestamp:ts,image:null});setTimeout(()=>setS('SYNC ON','#0A7C6E'),1000);};
+    }
+    function cursors(){
+        const col=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',me.uid);
+        const container=document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove',deb(e=>{if(!me)return;setDoc(myRef,{xOffset:e.pageX-(window.innerWidth/2),y:e.pageY,color:mc,name:mn,timestamp:Date.now()});},400));
+        onSnapshot(col,snap=>{snap.docChanges().forEach(ch=>{const id=ch.doc.id;if(id===me.uid)return;if(ch.type==='removed'){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}const d=ch.doc.data();if(Date.now()-d.timestamp>60000){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}let el=document.getElementById('cur-'+id);if(!el){el=document.createElement('div');el.id='cur-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="cursor-name" style="background:${d.color}">${d.name}</div>`;container.appendChild(el);}el.style.left=((window.innerWidth/2)+d.xOffset)+'px';el.style.top=d.y+'px';});});
+        window.addEventListener('beforeunload',()=>{if(me)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
