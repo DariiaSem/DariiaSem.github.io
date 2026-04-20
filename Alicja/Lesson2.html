@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 2 — The Perfect Memory</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1C1C2B;
+  --ink-soft:#40405A;
+  --muted:#7A7A96;
+  --rule:#E4E1DA;
+  --page:#FAFAF7;
+  --off-white:#F4F3EF;
+  --warm:#EDE9E0;
+  --dusty-rose:#B5707A;
+  --rose-light:#F0D5D8;
+  --rose-pale:#FBF0F1;
+  --slate-blue:#5B7FA6;
+  --blue-light:#D0DFF0;
+  --blue-pale:#EEF4FB;
+  --moss:#5C7A5C;
+  --moss-light:#C8DCC8;
+  --moss-pale:#EEF5EE;
+  --ochre:#8A7040;
+  --ochre-light:#DDD0A8;
+  --ochre-pale:#F7F3E8;
+  --shadow-sm:0 1px 6px rgba(28,28,43,0.07);
+  --shadow-md:0 4px 20px rgba(28,28,43,0.1);
+  --shadow-lg:0 12px 40px rgba(28,28,43,0.13);
+  --r-sm:6px;--r-md:12px;--r-lg:20px;--r-xl:28px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--page);color:var(--ink);line-height:1.7;overflow-x:hidden}
+[contenteditable="true"]{outline:none;border-radius:3px;transition:background .18s}
+[contenteditable="true"]:focus,[contenteditable="true"]:hover{background:rgba(91,127,166,0.06);box-shadow:0 0 0 1px rgba(91,127,166,0.15)}
+
+/* HERO */
+.hero{background:var(--off-white);border-bottom:1px solid var(--rule);padding:0 24px;overflow:hidden;position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:480px;align-items:stretch}
+.hero-left{padding:80px 48px 64px 0;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--rule);position:relative;z-index:1}
+.hero-right{display:flex;align-items:center;justify-content:center;padding:48px;position:relative;overflow:hidden}
+.hero-right::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,var(--rule) 39px,var(--rule) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,var(--rule) 39px,var(--rule) 40px);opacity:0.4}
+.hero-photo-frame{position:relative;z-index:1;width:220px;height:280px;background:var(--warm);border:1px solid var(--rule);border-radius:var(--r-md);box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;transform:rotate(-2deg)}
+.hero-photo-frame .photo-label{font-size:0.7rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:8px}
+.hero-photo-inner{font-size:4.5rem;line-height:1}
+.hero-eyebrow{font-size:0.7rem;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--dusty-rose);margin-bottom:18px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';display:block;width:20px;height:1.5px;background:var(--dusty-rose)}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,5vw,4.2rem);line-height:1.1;color:var(--ink);letter-spacing:-0.5px;margin-bottom:18px}
+.hero h1 em{font-style:italic;color:var(--dusty-rose)}
+.hero-sub{font-size:0.95rem;color:var(--muted);font-weight:300;line-height:1.8;max-width:400px;margin-bottom:28px}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:0.72rem;font-weight:500;padding:4px 12px;border-radius:50px;border:1px solid var(--rule);color:var(--muted);background:var(--page)}
+.chip.rose{background:var(--rose-pale);border-color:var(--rose-light);color:var(--dusty-rose)}
+.chip.blue{background:var(--blue-pale);border-color:var(--blue-light);color:var(--slate-blue)}
+.chip.moss{background:var(--moss-pale);border-color:var(--moss-light);color:var(--moss)}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;background:rgba(250,250,247,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--rule)}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:50px;padding:0 24px}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:7px}
+.nav-mark{width:8px;height:8px;background:var(--dusty-rose);border-radius:50%}
+.nav-links{display:flex;gap:3px;list-style:none;overflow-x:auto;align-items:center}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.79rem;font-weight:500;padding:5px 10px;border-radius:5px;transition:all .18s;white-space:nowrap}
+.nav-links a:hover{color:var(--ink);background:var(--warm)}
+
+/* SECTION */
+.section{padding:72px 24px}
+.section:nth-child(even){background:var(--off-white)}
+.section-inner{max-width:880px;margin:0 auto}
+.section-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.section-eyebrow::before{content:'';display:block;width:16px;height:1.5px;background:currentColor}
+.ey-rose{color:var(--dusty-rose)}
+.ey-blue{color:var(--slate-blue)}
+.ey-moss{color:var(--moss)}
+.ey-ochre{color:var(--ochre)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,3.5vw,2.8rem);color:var(--ink);margin-bottom:10px;line-height:1.2;letter-spacing:-0.2px}
+.section-desc{color:var(--muted);font-size:0.95rem;margin-bottom:30px;max-width:620px;font-weight:300;line-height:1.8}
+
+/* OPENER — PHOTO DISCUSSION */
+.photo-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin:24px 0}
+.photo-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:20px;text-align:center;box-shadow:var(--shadow-sm);cursor:pointer;transition:box-shadow .18s,border-color .18s}
+.photo-card:hover{box-shadow:var(--shadow-md);border-color:var(--dusty-rose)}
+.photo-card-img{font-size:3rem;margin-bottom:10px;line-height:1}
+.photo-card-prompt{font-size:0.83rem;color:var(--ink-soft);line-height:1.5}
+.photo-card-num{font-size:0.67rem;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+
+/* READING */
+.reading-wrap{background:#fff;border:1px solid var(--rule);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-md)}
+.reading-top{display:grid;grid-template-columns:3fr 2fr;border-bottom:1px solid var(--rule)}
+.reading-main{padding:32px}
+.reading-sidebar{background:var(--warm);border-left:1px solid var(--rule);padding:28px}
+.reading-label{font-size:0.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.reading-body{font-size:0.95rem;line-height:1.9;color:var(--ink-soft)}
+.reading-body p{margin-bottom:14px}
+.reading-body p:last-child{margin-bottom:0}
+.aside-q{font-size:0.88rem;color:var(--ink);line-height:1.7;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.aside-q:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.aside-q em{color:var(--dusty-rose);font-style:italic}
+.pullquote{background:var(--rose-pale);border-left:3px solid var(--dusty-rose);padding:16px 20px;border-radius:0 var(--r-sm) var(--r-sm) 0;margin:18px 0;font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--ink);font-style:italic;line-height:1.5}
+
+/* DISCOVERY */
+.discovery{background:var(--rose-pale);border:1px solid var(--rose-light);border-radius:var(--r-lg);padding:28px;margin:24px 0}
+.disc-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.disc-icon{width:38px;height:38px;background:var(--dusty-rose);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.disc-title{font-weight:600;color:var(--ink);font-size:0.97rem;margin-bottom:3px}
+.disc-sub{font-size:0.82rem;color:var(--muted)}
+.disc-body{font-size:0.93rem;color:var(--ink-soft);line-height:1.85}
+.disc-body strong{font-weight:600;color:var(--ink)}
+
+/* GRAMMAR */
+.gram-wrap{border:1px solid var(--rule);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-sm)}
+.gram-banner{background:var(--ink);color:#fff;padding:20px 28px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.gram-banner-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem}
+.gram-banner-sub{font-size:0.72rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.gram-body{padding:4px 0}
+.gram-row{display:grid;grid-template-columns:1.8fr 2fr 2fr;border-bottom:1px solid var(--rule);transition:background .15s}
+.gram-row:last-child{border-bottom:none}
+.gram-row:hover{background:var(--off-white)}
+.gram-row.header{background:var(--warm)}
+.gram-cell{padding:14px 20px;font-size:0.88rem;vertical-align:top;color:var(--ink-soft)}
+.gram-row.header .gram-cell{font-size:0.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:10px 20px}
+.hl-rose{color:var(--dusty-rose);font-weight:600}
+.hl-blue{color:var(--slate-blue);font-weight:600}
+.hl-moss{color:var(--moss);font-weight:600}
+.gram-eg{font-style:italic;color:var(--ink);display:block;margin-top:4px}
+.gram-warn{font-size:0.8rem;color:var(--muted);display:block;margin-top:4px}
+
+/* CALLOUT */
+.callout{display:flex;gap:14px;align-items:flex-start;border-radius:var(--r-md);padding:16px 20px;margin:18px 0}
+.callout.rose{background:var(--rose-pale);border:1px solid var(--rose-light)}
+.callout.blue{background:var(--blue-pale);border:1px solid var(--blue-light)}
+.callout.moss{background:var(--moss-pale);border:1px solid var(--moss-light)}
+.callout.ochre{background:var(--ochre-pale);border:1px solid var(--ochre-light)}
+.callout-icon{font-size:1.1rem;flex-shrink:0;line-height:1.6}
+.callout-body{font-size:0.92rem;color:var(--ink-soft);line-height:1.75}
+.callout-body strong{font-weight:600;color:var(--ink);display:block;margin-bottom:3px}
+
+/* PRACTICE LIST */
+.prac-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:20px;counter-reset:pc}
+.prac-item{background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);padding:15px 18px 15px 50px;font-size:0.93rem;position:relative;box-shadow:var(--shadow-sm)}
+.prac-item::before{counter-increment:pc;content:counter(pc);position:absolute;left:14px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:var(--warm);color:var(--dusty-rose);font-weight:700;font-size:0.78rem;display:flex;align-items:center;justify-content:center;border:1px solid var(--rose-light)}
+.blank{display:inline-block;min-width:80px;border-bottom:2px solid var(--rule);color:var(--moss);font-weight:600;padding:0 6px;text-align:center;background:var(--moss-pale);border-radius:3px 3px 0 0}
+.blank:focus{outline:none;border-bottom-color:var(--moss)}
+
+/* TIMELINE VISUAL */
+.timeline{position:relative;padding:32px 0;margin:24px 0}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--rule);transform:translateX(-50%)}
+.tl-items{display:flex;flex-direction:column;gap:28px;position:relative;z-index:1}
+.tl-item{display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:0}
+.tl-item-left{text-align:right;padding-right:28px}
+.tl-item-right{padding-left:28px}
+.tl-dot{width:12px;height:12px;border-radius:50%;background:var(--dusty-rose);border:2px solid #fff;box-shadow:0 0 0 2px var(--dusty-rose);margin:0 auto}
+.tl-dot.blue{background:var(--slate-blue);box-shadow:0 0 0 2px var(--slate-blue)}
+.tl-dot.moss{background:var(--moss);box-shadow:0 0 0 2px var(--moss)}
+.tl-label{font-size:0.78rem;font-weight:600;color:var(--muted);letter-spacing:0.5px;margin-bottom:4px}
+.tl-text{font-size:0.88rem;color:var(--ink-soft);line-height:1.6}
+.tl-text em{font-style:italic;color:var(--ink)}
+
+/* DISC GRID */
+.disc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:16px;margin-top:22px}
+.disc-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow-sm);border-top:3px solid var(--rule)}
+.disc-card.rose{border-top-color:var(--dusty-rose)}
+.disc-card.blue{border-top-color:var(--slate-blue)}
+.disc-card.moss{border-top-color:var(--moss)}
+.disc-card.ochre{border-top-color:var(--ochre)}
+.disc-num{font-size:0.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.disc-q{font-size:0.95rem;color:var(--ink);line-height:1.7}
+.disc-note{margin-top:10px;font-size:0.81rem;color:var(--muted);font-style:italic;border-top:1px solid var(--rule);padding-top:9px}
+
+/* VOCAB GRID */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:13px;margin-top:20px}
+.vocab-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .18s,border-color .18s}
+.vocab-card:hover{box-shadow:var(--shadow-md);border-color:var(--dusty-rose)}
+.vocab-word{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--ink);margin-bottom:3px}
+.vocab-pos{font-size:0.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.vocab-def{font-size:0.81rem;color:var(--ink-soft);line-height:1.5;border-top:1px solid var(--rule);padding-top:7px}
+
+/* DRAG & DROP */
+.match-wrap{display:flex;gap:14px;margin-top:20px}
+.drag-col,.static-col{flex:1;display:flex;flex-direction:column;gap:9px;list-style:none}
+.arrows-col{display:flex;flex-direction:column;gap:9px;justify-content:space-around}
+.drag-item{background:#fff;border:1.5px solid var(--dusty-rose);border-radius:var(--r-sm);cursor:grab;display:flex;align-items:center;gap:10px;font-size:0.86rem;font-weight:500;color:var(--ink);padding:12px 13px;min-height:56px;box-shadow:var(--shadow-sm);transition:opacity .15s}
+.drag-item:active{cursor:grabbing}
+.drag-item.dragging{opacity:0.3;border-style:dashed;box-shadow:none}
+.dh{color:var(--rose-light);font-size:1.1rem;user-select:none;flex-shrink:0}
+.static-item{background:var(--warm);border:1px solid var(--rule);border-radius:var(--r-sm);min-height:56px;display:flex;align-items:center;padding:12px 13px;font-size:0.86rem;color:var(--ink-soft);line-height:1.4}
+.match-arrow{color:var(--rule);font-size:1rem;height:56px;display:flex;align-items:center;justify-content:center}
+
+/* BOARD TILES */
+.board-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin-top:20px}
+.board-tile{background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);padding:18px;font-size:0.88rem;color:var(--ink);font-weight:500;min-height:88px;display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow-sm);transition:border-color .18s,box-shadow .18s}
+.board-tile:hover{border-color:var(--dusty-rose);box-shadow:var(--shadow-md)}
+.tile-tag{font-size:0.65rem;color:var(--muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+
+/* ROLEPLAY */
+.flow{display:flex;flex-direction:column;align-items:center;gap:10px;padding:36px;background:var(--warm);border-radius:var(--r-xl);border:1px solid var(--rule);margin:24px 0}
+.bubble{background:#fff;padding:14px 24px;border-radius:50px;font-size:0.92rem;font-weight:500;color:var(--ink);border:1px solid var(--rule);text-align:center;min-width:260px;max-width:500px;box-shadow:var(--shadow-sm)}
+.bubble.rose{border-color:var(--rose-light);background:var(--rose-pale);color:var(--dusty-rose)}
+.bubble.moss{border-color:var(--moss-light);background:var(--moss-pale);color:var(--moss)}
+.bubble.blue{border-color:var(--blue-light);background:var(--blue-pale);color:var(--slate-blue)}
+.flow-arr{color:var(--rule);font-size:1.2rem;line-height:1}
+
+/* PRONUNCIATION */
+.phon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:13px;margin-top:20px}
+.phon-card{background:#fff;border:1px solid var(--rule);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow-sm)}
+.phon-word{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--ink);margin-bottom:3px}
+.phon-ipa{font-size:0.83rem;color:var(--ochre);font-style:italic;margin-bottom:6px}
+.phon-tip{font-size:0.79rem;color:var(--muted);line-height:1.5}
+
+/* VIDEO */
+.vid-outer{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--r-lg);box-shadow:var(--shadow-lg);margin-bottom:14px;background:var(--ink)}
+.vid-outer iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:var(--r-lg)}
+.vid-link{display:flex;align-items:center;justify-content:center;gap:7px;color:var(--moss);font-size:0.88rem;font-weight:500;text-decoration:none}
+.vid-link:hover{color:var(--dusty-rose)}
+
+/* SUM-UP */
+.sumup{background:var(--ink);color:#fff;border-radius:var(--r-xl);padding:40px;margin-top:40px}
+.sumup h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:#fff;margin-bottom:20px;text-align:center}
+.sumup ul{list-style:none;max-width:560px;margin:0 auto}
+.sumup li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.92rem;color:rgba(255,255,255,0.7);line-height:1.6}
+.sumup li:last-child{border-bottom:none}
+.sumup strong{color:#fff;font-weight:600}
+
+/* WHITEBOARD */
+.wb-wrap{border:1px solid var(--rule);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);margin-top:20px}
+.wb-bar{background:var(--ink);padding:10px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.wb-btn{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.75);border:1px solid rgba(255,255,255,0.15);padding:5px 10px;border-radius:4px;cursor:pointer;font-size:0.78rem;font-weight:600;font-family:inherit;transition:background .15s}
+.wb-btn:hover,.wb-btn.active{background:var(--dusty-rose);border-color:var(--rose-light);color:#fff}
+.wb-color{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);cursor:pointer;padding:0}
+canvas{display:block;width:100%;height:460px;background:var(--page);cursor:crosshair}
+
+/* FABs */
+.fabs{position:fixed;bottom:28px;right:28px;display:flex;flex-direction:column;gap:12px;z-index:999}
+.fab{background:#fff;color:var(--ink-soft);border:1px solid var(--rule);width:50px;height:50px;border-radius:50%;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-lg);transition:transform .18s,background .18s;display:flex;align-items:center;justify-content:center}
+.fab:hover{transform:translateY(-3px);background:var(--dusty-rose);color:#fff;border-color:var(--dusty-rose)}
+.fab-q{background:#4255FF;border-color:#5b6cf5;color:#fff}
+.fab-q:hover{background:#2839d0;border-color:#2839d0}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(28,28,43,0.5);backdrop-filter:blur(6px);z-index:2000;justify-content:center;align-items:center}
+.modal{background:#fff;border-radius:var(--r-xl);padding:28px;width:90%;max-width:540px;position:relative;box-shadow:var(--shadow-lg);border:1px solid var(--rule)}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--ink);margin-bottom:5px}
+.modal-close{position:absolute;top:14px;right:16px;font-size:1.5rem;cursor:pointer;color:var(--muted);background:none;border:none;line-height:1;font-family:inherit}
+.modal-close:hover{color:var(--dusty-rose)}
+.word-row{display:flex;gap:8px;margin-bottom:9px}
+.word-row input{flex:1;padding:8px 12px;border:1px solid var(--rule);border-radius:var(--r-sm);font-size:0.92rem;color:var(--ink);background:#fff;font-family:inherit}
+.word-row input:focus{outline:none;border-color:var(--moss)}
+#wordList{max-height:290px;overflow-y:auto;margin:14px 0}
+.mbtn{padding:8px 16px;border-radius:var(--r-sm);font-weight:600;cursor:pointer;font-size:0.87rem;font-family:inherit;border:1px solid var(--rule);transition:background .15s}
+.mbtn-out{background:transparent;color:var(--muted)}
+.mbtn-out:hover{background:var(--warm)}
+.mbtn-pri{background:#4255FF;color:#fff;border-color:#5b6cf5}
+.mbtn-pri:hover{background:#2839d0}
+
+/* SYNC */
+#sync{position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#fff;color:var(--muted);padding:5px 14px;border-radius:20px;font-size:0.77rem;font-weight:600;z-index:9999;display:flex;align-items:center;gap:6px;border:1px solid var(--rule);box-shadow:var(--shadow-sm)}
+#syncDot{width:7px;height:7px;border-radius:50%;background:var(--ochre)}
+.remote-cursor{position:absolute;pointer-events:none;z-index:999999;display:flex;align-items:flex-start;opacity:0;animation:cFade .3s forwards;transition:top .35s linear,left .35s linear}
+@keyframes cFade{to{opacity:1}}
+.remote-cursor svg{width:20px;height:20px;transform:rotate(-15deg);filter:drop-shadow(1px 2px 3px rgba(0,0,0,0.15))}
+.rc-label{color:#fff;font-size:0.68rem;font-weight:700;padding:2px 7px;border-radius:3px;margin-left:-4px;margin-top:14px;white-space:nowrap}
+
+/* RESPONSIVE */
+@media(max-width:800px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .hero-left{padding:60px 0 48px}
+  .reading-top{grid-template-columns:1fr}
+  .reading-sidebar{border-left:none;border-top:1px solid var(--rule)}
+  .gram-row{grid-template-columns:1fr;gap:0}
+  .gram-row.header{display:none}
+  .gram-cell:first-child{padding-bottom:4px;font-weight:600;color:var(--ink)}
+  .timeline{padding:20px 0}
+  .tl-item{grid-template-columns:1fr 30px 1fr}
+  .match-wrap{flex-direction:column}
+  .arrows-col{display:none}
+  canvas{height:340px}
+}
+</style>
+</head>
+<body>
+
+<div id="sync"><span id="syncDot"></span><span id="syncText">Connecting...</span></div>
+<div id="cursors" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow" contenteditable="true">Lesson 2 · B2/C1 · Memory & Time</div>
+    <h1 contenteditable="true">The Pursuit of the <em>Perfect</em> Memory</h1>
+    <p class="hero-sub" contenteditable="true">Travel, nostalgia, photography, and the grammar hiding inside every story we tell. Does photographing a moment preserve it — or kill it?</p>
+    <div class="hero-chips">
+      <span class="chip rose" contenteditable="true">Daily Life Focus</span>
+      <span class="chip blue" contenteditable="true">Grammar: Past Simple vs. Present Perfect</span>
+      <span class="chip moss" contenteditable="true">Revision: Present Simple / Continuous</span>
+      <span class="chip" contenteditable="true">15 Tasks</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-photo-frame">
+      <div class="hero-photo-inner">📷</div>
+      <div class="photo-label" contenteditable="true">a memory, probably</div>
+    </div>
+  </div>
+</section>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><span class="nav-mark"></span><span contenteditable="true">English with Alicja</span></a>
+    <ul class="nav-links" id="navTabsContainer">
+      <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--dusty-rose);color:#fff;padding:4px 10px;font-weight:700;border-radius:50px">+</a></li>
+      <li><a href="#t1" contenteditable="true">Opener</a></li>
+      <li><a href="#t3" contenteditable="true">Reading</a></li>
+      <li><a href="#t5" contenteditable="true">Grammar</a></li>
+      <li><a href="#t8" contenteditable="true">Vocabulary</a></li>
+      <li><a href="#t10" contenteditable="true">Video</a></li>
+      <li><a href="#t12" contenteditable="true">Discussion</a></li>
+      <li><a href="#t14" contenteditable="true">Role-Play</a></li>
+      <li><a href="#wb" contenteditable="true">Whiteboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- TASK 1: PHOTO OPENER -->
+<section class="section" id="t1">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-rose">Task 1 — Photo Opener</div>
+    <h2 class="section-title" contenteditable="true">One Photo. Tell the Whole Story.</h2>
+    <p class="section-desc" contenteditable="true">Find a photo on your phone — any photo. One that means something. Don't show it immediately. First, close your eyes and describe it from memory. Then look. How accurate were you? What did your memory choose to keep?</p>
+    <div class="photo-strip">
+      <div class="photo-card">
+        <div class="photo-card-num">Prompt A</div>
+        <div class="photo-card-img">🌍</div>
+        <div class="photo-card-prompt" contenteditable="true">A photo from a trip you've taken. What do you remember that the photo doesn't show?</div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-num">Prompt B</div>
+        <div class="photo-card-img">👥</div>
+        <div class="photo-card-prompt" contenteditable="true">A photo of a person. What was happening just before and just after the shutter clicked?</div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-num">Prompt C</div>
+        <div class="photo-card-img">🍽️</div>
+        <div class="photo-card-prompt" contenteditable="true">A food photo. Why did you take it? Did you actually enjoy the meal — or were you busy photographing it?</div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card-num">Prompt D</div>
+        <div class="photo-card-img">🌅</div>
+        <div class="photo-card-prompt" contenteditable="true">The most beautiful thing you've ever photographed. Does the photo do it justice?</div>
+      </div>
+    </div>
+    <div class="callout rose" style="margin-top:8px">
+      <span class="callout-icon">💬</span>
+      <div class="callout-body"><strong contenteditable="true">The question behind the question</strong><span contenteditable="true"> After sharing your photos — ask yourself: do you take photos to remember, or to show? Is there a difference? Would you remember the moment differently if you'd put the phone away?</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 2: GRAMMAR REVISION QUICK CHECK -->
+<section class="section" id="t2">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Task 2 — Quick Revision: Lesson 1 Grammar</div>
+    <h2 class="section-title" contenteditable="true">Still With Us? Present Simple & Continuous ♻️</h2>
+    <p class="section-desc" contenteditable="true">Before we go further — a fast check. No pressure. Spot the error in each sentence and say why it's wrong. Then correct it.</p>
+    <ul class="prac-list">
+      <li><div contenteditable="true">"I <strong>am knowing</strong> this song — it's from the 90s." → Fix: <span class="blank" contenteditable="true">I know</span> — "know" is stative.</div></li>
+      <li><div contenteditable="true">"She <strong>works</strong> on a project about nostalgia right now." → Fix: <span class="blank" contenteditable="true">is working</span> — temporary, ongoing action in this period.</div></li>
+      <li><div contenteditable="true">"The photo <strong>is belonging</strong> to my grandmother." → Fix: <span class="blank" contenteditable="true">belongs</span> — possession is stative.</div></li>
+      <li><div contenteditable="true">"I <strong>think</strong> about changing my travel plans." (right now, actively) → Fix: <span class="blank" contenteditable="true">am thinking</span> — active mental process in this moment.</div></li>
+    </ul>
+    <div class="callout moss" style="margin-top:16px">
+      <span class="callout-icon">✅</span>
+      <div class="callout-body"><strong contenteditable="true">Good. Now — a bigger question</strong><span contenteditable="true"> "I <em>have visited</em> Paris three times" vs. "I <em>visited</em> Paris in 2019." Do these feel different? Why? Don't look ahead — just discuss what you instinctively feel is different about these two sentences.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 3: READING -->
+<section class="section" id="t3">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-rose">Task 3 — Reading</div>
+    <h2 class="section-title" contenteditable="true">The Essay: What a Photo Cannot Hold</h2>
+    <p class="section-desc" contenteditable="true">Read this essay once for pleasure. No grammar hunting yet. Just read and feel. What does it make you think of?</p>
+    <div class="reading-wrap">
+      <div class="reading-top">
+        <div class="reading-main">
+          <div class="reading-label">Essay · Memory & Photography</div>
+          <div class="reading-body">
+            <p contenteditable="true">I <strong>have been to</strong> Lisbon twice. The first time, I was twenty-four and had never heard the word "nostalgia" applied to a place I had never known before. The second time, I was thirty-seven, standing in the same square, trying to photograph what I remembered — and failing completely.</p>
+            <p contenteditable="true">The thing about photographs is that they <strong>have always lied</strong>, just very beautifully. They cut out the smell of the café, the argument you had that morning, the way the light <strong>changed</strong> as you stood there for ten minutes trying to get the shot right. The photo keeps the light. It discards the ten minutes.</p>
+            <div class="pullquote" contenteditable="true">"I have never managed to photograph what I actually felt. I have only managed to photograph what I was standing in front of."</div>
+            <p contenteditable="true">Scientists who study memory — and this <strong>has surprised</strong> even them — now believe that every time we remember something, we <strong>change</strong> it slightly. We <strong>have been rewriting</strong> our own histories since the day we were born. The photograph, paradoxically, might be the only stable version of the story. The problem is that it was never the full story to begin with.</p>
+            <p contenteditable="true">My grandmother <strong>died</strong> in 2014. I <strong>have not stopped</strong> thinking about her since. But the memories I have of her — I cannot tell you now which ones I have actually lived, and which ones I <strong>have constructed</strong> from photographs.</p>
+          </div>
+        </div>
+        <div class="reading-sidebar">
+          <div class="reading-label">Think while you read</div>
+          <div class="aside-q" contenteditable="true">The writer says photos "have always lied." Do you agree — or is a photo just a different kind of truth? <em>What do photos choose to tell?</em></div>
+          <div class="aside-q" contenteditable="true">Notice the bolded verbs. Some feel "finished." Some feel "still connected to now." Can you feel the difference before we talk about it?</div>
+          <div class="aside-q" contenteditable="true">The last paragraph is very personal. Does it remind you of anything in your own life? <em>Which memories are yours, and which came from photographs?</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 4: DISCOVERY -->
+<section class="section" id="t4">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Task 4 — Grammar Discovery</div>
+    <h2 class="section-title" contenteditable="true">Feel the Difference Before You Name It</h2>
+    <p class="section-desc" contenteditable="true">Look at these pairs from the essay. Something feels different about each one. Before I explain anything — can you describe the difference in your own words?</p>
+    <div class="discovery">
+      <div class="disc-head">
+        <div class="disc-icon">🔍</div>
+        <div>
+          <div class="disc-title" contenteditable="true">Sort these sentences into two groups</div>
+          <div class="disc-sub" contenteditable="true">Group 1: "This feels finished — it happened and it's over." Group 2: "This feels connected to now — it still matters."</div>
+        </div>
+      </div>
+      <div class="disc-body" contenteditable="true">
+        <strong>A.</strong> "I <em>visited</em> Paris in 2019."<br>
+        <strong>B.</strong> "I <em>have visited</em> Paris three times."<br>
+        <strong>C.</strong> "She <em>died</em> in 2014."<br>
+        <strong>D.</strong> "I <em>have not stopped</em> thinking about her since."<br>
+        <strong>E.</strong> "Scientists <em>discovered</em> this last year."<br>
+        <strong>F.</strong> "Scientists <em>have discovered</em> something surprising."<br>
+        <strong>G.</strong> "I <em>took</em> that photo on a Tuesday in September."<br>
+        <strong>H.</strong> "I <em>have never managed</em> to photograph what I felt."<br><br>
+        Now ask yourself: <strong>what grammatical choice creates that "still connected" feeling?</strong> Write your answer before we look at the table.
+      </div>
+    </div>
+    <div class="callout rose">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><strong contenteditable="true">What's the real difference?</strong><span contenteditable="true"> Past Simple says: it happened. It's in a box, in the past. Present Perfect says: it happened, and it still echoes. The finished-ness is not the point — the <em>relevance to now</em> is the point. That's why "I have been to Lisbon" and "I went to Lisbon" can both be true, but mean something different in a conversation.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 5: GRAMMAR TABLE -->
+<section class="section" id="t5">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Task 5 — Grammar: The Rule You Just Felt</div>
+    <h2 class="section-title" contenteditable="true">Past Simple vs. Present Perfect</h2>
+    <p class="section-desc" contenteditable="true">Here it is, laid out. Check it against what you discovered. What did you already know intuitively? What is genuinely new?</p>
+    <div class="gram-wrap">
+      <div class="gram-banner">
+        <span class="gram-banner-title">Past Simple vs. Present Perfect</span>
+        <span class="gram-banner-sub">B2 Revision — The Echo Test</span>
+      </div>
+      <div class="gram-body">
+        <div class="gram-row header">
+          <div class="gram-cell">Structure</div>
+          <div class="gram-cell">When to use it</div>
+          <div class="gram-cell">Example — memory & travel</div>
+        </div>
+        <div class="gram-row">
+          <div class="gram-cell" contenteditable="true"><span class="hl-rose">Past Simple</span><br><span style="font-size:0.8rem;color:var(--muted)">I went / She took / They visited</span></div>
+          <div class="gram-cell" contenteditable="true">A finished action at a specific time. The time is mentioned, implied, or understood. The past feels closed. No echo into the present.</div>
+          <div class="gram-cell" contenteditable="true"><span class="gram-eg">"I <strong>went</strong> to Lisbon <strong>in 2019</strong>."<br>"She <strong>took</strong> that photo on a Tuesday."<br>"He <strong>died</strong> in 2014."</span><span class="gram-warn">⚠️ Clues: yesterday, last year, in 2010, ago, when I was young, at that moment</span></div>
+        </div>
+        <div class="gram-row">
+          <div class="gram-cell" contenteditable="true"><span class="hl-blue">Present Perfect</span><br><span style="font-size:0.8rem;color:var(--muted)">I have gone / She has taken / They have visited</span></div>
+          <div class="gram-cell" contenteditable="true">A past action connected to the present. No specific time given. What matters is the result, experience, or relevance <em>now</em>. The echo is still audible.</div>
+          <div class="gram-cell" contenteditable="true"><span class="gram-eg">"I <strong>have been</strong> to Lisbon twice." (life experience — still part of who I am)<br>"I <strong>have not stopped</strong> thinking about her." (started in past, still true now)<br>"Scientists <strong>have discovered</strong> something new." (recent, relevant today)</span><span class="gram-warn">⚠️ Clues: ever, never, just, already, yet, since, for, recently, it's the first time</span></div>
+        </div>
+        <div class="gram-row">
+          <div class="gram-cell" contenteditable="true"><span class="hl-moss">Tricky: The British vs. American split</span><br><span style="font-size:0.8rem;color:var(--muted)">Did you just / Have you just</span></div>
+          <div class="gram-cell" contenteditable="true">British English uses Present Perfect for recent events even without a time marker. American English often uses Past Simple instead. Both are "correct" — but know which register you're in.</div>
+          <div class="gram-cell" contenteditable="true"><span class="gram-eg">🇬🇧 "I <strong>have just</strong> arrived."<br>🇺🇸 "I <strong>just arrived</strong>."<br><br>In medical and professional UK English — always use the British form.</span></div>
+        </div>
+        <div class="gram-row">
+          <div class="gram-cell" contenteditable="true"><span class="hl-rose">The "for / since" Test</span><br><span style="font-size:0.8rem;color:var(--muted)">Both live in Present Perfect</span></div>
+          <div class="gram-cell" contenteditable="true"><strong>For</strong> = a duration. How long something has been true.<br><strong>Since</strong> = a starting point. When it began.</div>
+          <div class="gram-cell" contenteditable="true"><span class="gram-eg">"I <strong>have lived</strong> in Warsaw <strong>for</strong> six years."<br>"I <strong>have lived</strong> in Warsaw <strong>since</strong> 2018."<br>"I <strong>haven't slept</strong> properly <strong>since</strong> medical school."</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 6: GRAMMAR TIMELINE VISUAL -->
+<section class="section" id="t6">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Task 6 — The Timeline Test</div>
+    <h2 class="section-title" contenteditable="true">Draw the Difference ⏳</h2>
+    <p class="section-desc" contenteditable="true">This is a visual test. Each sentence sits differently on a timeline. Look at the pairs below — notice how the arrow changes direction and length. Then use the whiteboard to draw your own timeline for 3 sentences about your life.</p>
+    <div class="timeline">
+      <div class="tl-line"></div>
+      <div class="tl-items">
+        <div class="tl-item">
+          <div class="tl-item-left">
+            <div class="tl-label" contenteditable="true">Past Simple — CLOSED</div>
+            <div class="tl-text" contenteditable="true"><em>"I visited Kraków last summer."</em><br>Specific time. Door closed. ✓</div>
+          </div>
+          <div class="tl-dot"></div>
+          <div class="tl-item-right">
+            <div class="tl-text" contenteditable="true" style="color:var(--muted)">The event sits in the past. No connection forward to now. We're just reporting a fact.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-item-left">
+            <div class="tl-text" contenteditable="true" style="color:var(--muted)">The experience is part of your identity NOW. You carry it. It shapes how you answer questions about yourself today.</div>
+          </div>
+          <div class="tl-dot blue"></div>
+          <div class="tl-item-right">
+            <div class="tl-label" contenteditable="true">Present Perfect — ECHOES</div>
+            <div class="tl-text" contenteditable="true"><em>"I have visited Kraków many times."</em><br>No time given. Connected to now. ✓</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-item-left">
+            <div class="tl-label" contenteditable="true">Since — a starting point</div>
+            <div class="tl-text" contenteditable="true"><em>"I have loved photography since I was twelve."</em><br>Started in 2000 → still true now.</div>
+          </div>
+          <div class="tl-dot moss"></div>
+          <div class="tl-item-right">
+            <div class="tl-text" contenteditable="true" style="color:var(--muted)">The action/state began at a point in the past — and has continued, unbroken, all the way to this moment.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="callout blue">
+      <span class="callout-icon">✍️</span>
+      <div class="callout-body"><strong contenteditable="true">Your turn — 3 sentences</strong><span contenteditable="true"> Write one sentence using Past Simple (something finished from your past). One using Present Perfect with "ever" or "never." One using "since" or "for." Read them aloud. Your teacher will listen for the echo.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 7: ERROR CORRECTION -->
+<section class="section" id="t7">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Task 7 — Error Correction</div>
+    <h2 class="section-title" contenteditable="true">Fix the Traveller's Diary 🧳</h2>
+    <p class="section-desc" contenteditable="true">Someone wrote this travel diary but mixed up Past Simple and Present Perfect throughout. Find every error, fix it, and explain why. There are 7 mistakes hidden below.</p>
+    <div class="reading-wrap" style="margin-top:0">
+      <div class="reading-label" style="padding:12px 28px">Travel Diary — with 7 grammar errors</div>
+      <div class="reading-body" style="padding:24px 32px" contenteditable="true">
+        <p>"I <strong>have arrived</strong> in Lisbon on Friday morning. [FIX: <span class="blank" contenteditable="true">arrived</span> — specific day, past closed]</p>
+        <p>I <strong>never tried</strong> Portuguese food before, so I was nervous about the restaurant. [FIX: <span class="blank" contenteditable="true">had never tried</span> — experience before that past moment] </p>
+        <p>Since I came back, I <strong>felt</strong> different about photographing places. [FIX: <span class="blank" contenteditable="true">have felt</span> — since = ongoing to now]</p>
+        <p>My grandmother <strong>has died</strong> when I was eighteen. [FIX: <span class="blank" contenteditable="true">died</span> — specific life event with implied time]</p>
+        <p>I <strong>have taken</strong> hundreds of photos there last week. [FIX: <span class="blank" contenteditable="true">took</span> — "last week" makes it past simple]</p>
+        <p>She <strong>lived</strong> in Warsaw for forty years. [Could be correct — or wrong, depending on: is she still alive? If yes: <span class="blank" contenteditable="true">has lived</span>]</p>
+        <p>This is the most beautiful city I <strong>ever saw</strong>. [FIX: <span class="blank" contenteditable="true">have ever seen</span> — superlative + ever = Present Perfect]"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 8: VOCABULARY DISCOVERY -->
+<section class="section" id="t8">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-blue">Task 8 — Vocabulary Discovery</div>
+    <h2 class="section-title" contenteditable="true">Words That Live in Memory</h2>
+    <p class="section-desc" contenteditable="true">These 8 words all appeared in or around today's reading. Before looking at definitions — go around the room and say what you <em>think</em> each word means. Then check. How close were you?</p>
+    <div class="vocab-grid">
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">nostalgia</div>
+        <div class="vocab-pos" contenteditable="true">noun</div>
+        <div class="vocab-def" contenteditable="true">A sentimental longing for a past that may never have existed exactly as we remember it. From Greek: "nostos" (return) + "algos" (pain). Literally: the ache of homecoming.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">ephemeral</div>
+        <div class="vocab-pos" contenteditable="true">adjective</div>
+        <div class="vocab-def" contenteditable="true">Lasting for only a very short time. From Greek "ephemeros" — "lasting only a day." A sunset is ephemeral. A photograph pretends it doesn't have to be.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">vivid</div>
+        <div class="vocab-pos" contenteditable="true">adjective</div>
+        <div class="vocab-def" contenteditable="true">Producing powerful, lifelike mental images. A vivid memory feels more real than reality. A vivid dream leaves you confused about what happened when you wake up.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">reminisce</div>
+        <div class="vocab-pos" contenteditable="true">verb</div>
+        <div class="vocab-def" contenteditable="true">To indulge in enjoyable recollections of past events — usually with warmth, sometimes with selective editing of the difficult parts.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">sentimental</div>
+        <div class="vocab-pos" contenteditable="true">adjective</div>
+        <div class="vocab-def" contenteditable="true">Excessively emotional about the past — sometimes used dismissively, but it can also mean: willing to feel things fully. Not the same as "nostalgic," which is specifically about time.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">curate</div>
+        <div class="vocab-pos" contenteditable="true">verb</div>
+        <div class="vocab-def" contenteditable="true">Originally: to care for a museum collection, choosing what matters and how to present it. Now also: to select, organise and present your life — on Instagram, in conversation, in memory.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">fleeting</div>
+        <div class="vocab-pos" contenteditable="true">adjective</div>
+        <div class="vocab-def" contenteditable="true">Passing swiftly; lasting only a moment. A fleeting glance. A fleeting feeling of happiness. The word itself feels quick — it almost disappears as you say it.</div>
+      </div>
+      <div class="vocab-card">
+        <div class="vocab-word" contenteditable="true">document</div>
+        <div class="vocab-pos" contenteditable="true">verb</div>
+        <div class="vocab-def" contenteditable="true">To record in detail — for evidence, memory, or posterity. When a doctor documents, it is clinical and precise. When a photographer documents, it is selective and interpretive. Same word, very different relationship to truth.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 9: VOCABULARY MATCHING -->
+<section class="section" id="t9">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-blue">Task 9 — Vocabulary in Use</div>
+    <h2 class="section-title" contenteditable="true">Drag to Match 🧩</h2>
+    <p class="section-desc" contenteditable="true">Match each word to the sentence where it fits best. The order is shuffled on purpose — nothing aligns. Then use 3 of the words in sentences about your own memories.</p>
+    <div class="match-wrap">
+      <ul class="drag-col" id="vocabDrag">
+        <li class="drag-item" id="dv1" draggable="true"><span class="dh">⠿</span><span contenteditable="true">nostalgia</span></li>
+        <li class="drag-item" id="dv2" draggable="true"><span class="dh">⠿</span><span contenteditable="true">curate</span></li>
+        <li class="drag-item" id="dv3" draggable="true"><span class="dh">⠿</span><span contenteditable="true">ephemeral</span></li>
+        <li class="drag-item" id="dv4" draggable="true"><span class="dh">⠿</span><span contenteditable="true">fleeting</span></li>
+        <li class="drag-item" id="dv5" draggable="true"><span class="dh">⠿</span><span contenteditable="true">vivid</span></li>
+        <li class="drag-item" id="dv6" draggable="true"><span class="dh">⠿</span><span contenteditable="true">reminisce</span></li>
+      </ul>
+      <div class="arrows-col">
+        <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+        <div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div>
+      </div>
+      <ul class="static-col">
+        <li class="static-item" contenteditable="true">a) She used to _____ about her childhood summers by the sea for hours.</li>
+        <li class="static-item" contenteditable="true">b) The cherry blossom is _____ — it blooms for barely two weeks and then it's gone.</li>
+        <li class="static-item" contenteditable="true">c) The memory was so _____ that she could almost smell the bread from the bakery.</li>
+        <li class="static-item" contenteditable="true">d) He felt a pang of _____ looking at photos from his student years in Kraków.</li>
+        <li class="static-item" contenteditable="true">e) She tends to _____ her Instagram to show only the beautiful, composed moments.</li>
+        <li class="static-item" contenteditable="true">f) A _____ feeling of happiness crossed her face and then disappeared.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 10: VIDEO -->
+<section class="section" id="t10">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-moss">Task 10 — Listening & Video</div>
+    <h2 class="section-title" contenteditable="true">What Does Memory Actually Do? 🎬</h2>
+    <p class="section-desc" contenteditable="true">Before you watch — make a prediction. Write it down: <em>"I think memory works by..."</em> Then watch. Come back to your prediction afterwards.</p>
+    <div class="vid-outer" contenteditable="false">
+      <iframe src="https://www.youtube-nocookie.com/embed/5b19MrZGGXY?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="How memories form and how we lose them — TED-Ed"></iframe>
+    </div>
+    <a class="vid-link" href="https://www.youtube.com/watch?v=5b19MrZGGXY" target="_blank">🔗 Watch directly on YouTube if embed is unavailable</a>
+    <div class="callout moss" style="margin-top:18px">
+      <span class="callout-icon">📝</span>
+      <div class="callout-body"><strong contenteditable="true">While watching, note down</strong><span contenteditable="true"> One scientific fact that shocked you. One thing that explains why photographs don't always help us remember. One word from the video you'd like to use in a sentence today.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 11: POST-VIDEO GRAMMAR -->
+<section class="section" id="t11">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-moss">Task 11 — Grammar Meets the Video</div>
+    <h2 class="section-title" contenteditable="true">Talk About the Video Using Today's Grammar ✏️</h2>
+    <p class="section-desc" contenteditable="true">Use the correct tense — Past Simple or Present Perfect — to respond to each prompt. Think before you write: does this feel "closed" or "still echoing"?</p>
+    <ul class="prac-list">
+      <li><div contenteditable="true">The video says that every time we remember something, we change it slightly. In my life, I <span class="blank" contenteditable="true">have noticed</span> (notice) this is true when I think about…</div></li>
+      <li><div contenteditable="true">Scientists <span class="blank" contenteditable="true">have discovered</span> (discover) that memory is reconstructive, not like a recording. This <span class="blank" contenteditable="true">surprised</span> (surprise) me because I always assumed…</div></li>
+      <li><div contenteditable="true">I <span class="blank" contenteditable="true">have never thought</span> (never think) about memory this way before. But in 2019, something <span class="blank" contenteditable="true">happened</span> (happen) that made me question my own memory for the first time.</div></li>
+      <li><div contenteditable="true">Since I watched this video, my relationship with photographs <span class="blank" contenteditable="true">has changed</span> (change) slightly. I now feel…</div></li>
+      <li><div contenteditable="true">The researcher in the video <span class="blank" contenteditable="true">studied</span> (study) memory for decades before arriving at this conclusion. She <span class="blank" contenteditable="true">has published</span> (publish) over 50 papers on the topic.</div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- TASK 12: DEEP DISCUSSION -->
+<section class="section" id="t12">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-rose">Task 12 — Deep Discussion</div>
+    <h2 class="section-title" contenteditable="true">The Questions That Have No Easy Answers 💬</h2>
+    <p class="section-desc" contenteditable="true">Take at least 3 minutes on each. Don't rush to a conclusion. The best discussions end with more questions than they started with.</p>
+    <div class="disc-grid">
+      <div class="disc-card rose">
+        <div class="disc-num">Question A</div>
+        <div class="disc-q" contenteditable="true">Have you ever remembered something from your childhood — vividly, clearly — and then discovered it didn't happen the way you remembered it? What changed?</div>
+        <div class="disc-note" contenteditable="true">Use Present Perfect: "I have always believed…" / "I have never been sure whether…"</div>
+      </div>
+      <div class="disc-card blue">
+        <div class="disc-num">Question B</div>
+        <div class="disc-q" contenteditable="true">Travel, love, grief — which of these creates the most vivid memories? Why do we remember painful things so clearly, and happy days as a general blur?</div>
+      </div>
+      <div class="disc-card moss">
+        <div class="disc-num">Question C — Philosophy Corner</div>
+        <div class="disc-q" contenteditable="true">If a memory has been unconsciously edited every time you have recalled it — is it still your memory? Or has it become a story you tell about yourself?</div>
+        <div class="disc-note" contenteditable="true">This connects to L1's Ship of Theseus. Can we apply the same logic to memories?</div>
+      </div>
+      <div class="disc-card ochre">
+        <div class="disc-num">Question D — Medical angle</div>
+        <div class="disc-q" contenteditable="true">Doctors rely on patient history — what the patient remembers. But if memory is reconstructive, what does that mean for the stories patients tell you? Have you ever caught a clear discrepancy?</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 13: GRAMMAR PRODUCTION -->
+<section class="section" id="t13">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Task 13 — Grammar: Write Your Own</div>
+    <h2 class="section-title" contenteditable="true">The Memory Board — Only True Things ✍️</h2>
+    <p class="section-desc" contenteditable="true">Pick 5 tiles from the board. For each one, speak or write 2–3 sentences using the correct tense. Everything you say must be true. Your teacher will listen for the echo.</p>
+    <div class="board-grid">
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Past Simple</div>A place you visited as a child. Describe what you did there — with a specific time or occasion.</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Present Perfect</div>Something you have never done — but want to. Use "never" and "yet."</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">For / Since</div>Something you have loved or believed for a long time. Use "since I was…" or "for over…years."</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Just / Already</div>Something that has just changed in your life — or something you have already decided about your future.</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Ever / Never</div>The most beautiful place you have ever been. Use a superlative + ever.</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Both tenses</div>A trip you took. Tell it in two ways: once with Past Simple (the facts), once with Present Perfect (what it still means to you).</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Present Perfect</div>Something that has surprised you recently. What happened? What has changed since then?</div>
+      <div class="board-tile" contenteditable="true"><div class="tile-tag">Free choice</div>A memory involving a photograph. Use at least one Past Simple AND one Present Perfect correctly.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 14: ROLEPLAY -->
+<section class="section" id="t14">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-rose">Task 14 — Role-Play</div>
+    <h2 class="section-title" contenteditable="true">An Interview About a Journey 🎙️</h2>
+    <p class="section-desc" contenteditable="true">One person is a journalist. The other is Alicja, being interviewed about a journey that changed her — whether real or invented. The journalist must use Present Perfect for general questions and Past Simple to drill into specifics.</p>
+    <div class="flow">
+      <div class="bubble rose" contenteditable="true"><strong>Journalist:</strong> "You've talked about travel changing you. Where have you been that affected you most?"</div>
+      <div class="flow-arr">↓</div>
+      <div class="bubble" contenteditable="true"><strong>Alicja:</strong> Use Present Perfect to introduce the place. Then switch to Past Simple to tell the story.<br><em>("I've been to… It was… When I arrived, I…")</em></div>
+      <div class="flow-arr">↓</div>
+      <div class="bubble rose" contenteditable="true"><strong>Journalist:</strong> "And how has it changed you since? What have you carried back with you?"</div>
+      <div class="flow-arr">↓</div>
+      <div class="bubble" contenteditable="true"><strong>Alicja:</strong> Use Present Perfect with "since" and "for." What has stayed with you? What has shifted?</div>
+      <div class="flow-arr">↓</div>
+      <div class="bubble blue" contenteditable="true"><strong>Journalist:</strong> "Have you ever regretted going? Or wished you'd taken more photos — or fewer?"</div>
+      <div class="flow-arr">↓</div>
+      <div class="bubble" contenteditable="true"><strong>Both:</strong> Free discussion — swap roles. The new journalist asks 3 original questions. Both speakers must use both tenses naturally before the scene ends.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TASK 15: PRONUNCIATION + WRITING CLOSE -->
+<section class="section" id="t15">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-blue">Task 15 — Pronunciation & Writing</div>
+    <h2 class="section-title" contenteditable="true">The Sound of the Present Perfect 🎙️</h2>
+    <p class="section-desc" contenteditable="true">The auxiliary "have" almost disappears in spoken English. Polish speakers often over-pronounce it — which sounds formal and slightly unnatural in conversation. Listen and repeat.</p>
+    <div class="phon-grid">
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">I have been there</div>
+        <div class="phon-ipa" contenteditable="true">→ "I've been there" /aɪv bɪn ðeə/</div>
+        <div class="phon-tip" contenteditable="true">"Have" collapses into 've. Never say "I HAVE been there" unless you are correcting a false assumption someone has made.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">Have you ever visited?</div>
+        <div class="phon-ipa" contenteditable="true">→ "Have you ever…" /həv juː ˈevə/</div>
+        <div class="phon-tip" contenteditable="true">In questions, "have" stays slightly more audible — but it's still reduced. The stress lands on "ever", not "have."</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">She has just arrived</div>
+        <div class="phon-ipa" contenteditable="true">→ "She's just arrived" /ʃiːz dʒʌst əˈraɪvd/</div>
+        <div class="phon-tip" contenteditable="true">"Has" contracts to 's and merges. In speech, "just" carries the stress — the auxiliary is almost invisible.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">I haven't decided yet</div>
+        <div class="phon-ipa" contenteditable="true">→ /aɪ ˈhævnt dɪˈsaɪdɪd jɛt/</div>
+        <div class="phon-tip" contenteditable="true">The negative "haven't" is always fully pronounced — no reduction here. Stress falls on "haven't." Practice: slow → fast → natural.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">We've never spoken</div>
+        <div class="phon-ipa" contenteditable="true">→ /wiːv ˈnevə ˈspəʊkən/</div>
+        <div class="phon-tip" contenteditable="true">"We have" → "We've." Practice the contraction until it feels natural, not like a mistake. "Never" carries the stress — it's the emotional weight of the sentence.</div>
+      </div>
+      <div class="phon-card">
+        <div class="phon-word" contenteditable="true">How long have you lived here?</div>
+        <div class="phon-ipa" contenteditable="true">→ /haʊ lɒŋ həv juː lɪvd hɪə/</div>
+        <div class="phon-tip" contenteditable="true">"Have" reduces to /həv/. The stress lands on "long" and "lived." Practice as one smooth phrase, not 7 separate words.</div>
+      </div>
+    </div>
+    <div class="callout rose" style="margin-top:20px">
+      <span class="callout-icon">📖</span>
+      <div class="callout-body"><strong contenteditable="true">Closing writing task</strong><span contenteditable="true"> Write 5 sentences about your relationship with travel and memory — using both Past Simple and Present Perfect. At least one sentence must use "for" or "since." Read them aloud using the contractions you've just practised. Share the one that feels most true.</span></div>
+    </div>
+    <div class="sumup">
+      <h2 contenteditable="true">Lesson 2 — Complete ✦</h2>
+      <ul>
+        <li contenteditable="true"><strong>Grammar (new):</strong> Past Simple vs. Present Perfect — the "echo test." For/since. Ever/never/just/already/yet. The British-American register split.</li>
+        <li contenteditable="true"><strong>Grammar (revision):</strong> Present Simple vs. Continuous — stative verbs, the 4 error correction sentences.</li>
+        <li contenteditable="true"><strong>Vocabulary (8 words):</strong> nostalgia, ephemeral, vivid, reminisce, sentimental, curate, fleeting, document.</li>
+        <li contenteditable="true"><strong>Pronunciation:</strong> Weak forms and contractions of "have/has" in spoken Present Perfect.</li>
+        <li contenteditable="true"><strong>Big idea carried forward:</strong> Memory is not a recording — it is a story we keep rewriting. Photography fixes one version. Language creates another.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHITEBOARD -->
+<section class="section" id="wb">
+  <div class="section-inner">
+    <div class="section-eyebrow ey-ochre">Teacher's Space</div>
+    <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+    <p class="section-desc" contenteditable="true">Draw the Past Simple / Present Perfect timeline, annotate the "echo" concept, map vocabulary or note errors live.</p>
+    <div class="wb-wrap">
+      <div class="wb-bar">
+        <button class="wb-btn active" data-tool="pencil">Pencil</button>
+        <button class="wb-btn" data-tool="highlight">Highlight</button>
+        <button class="wb-btn" data-tool="text">Text</button>
+        <button class="wb-btn" data-tool="square">Box</button>
+        <button class="wb-btn" data-tool="circle">Circle</button>
+        <button class="wb-btn" data-tool="arrow">Arrow</button>
+        <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 8px"></div>
+        <input type="color" id="wbColor" class="wb-color" value="#B5707A">
+        <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(181,112,122,0.45);border-color:var(--dusty-rose)">Clear</button>
+      </div>
+      <canvas id="wbCanvas"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- FLOATING ACTIONS -->
+<div class="fabs" id="floatBtns">
+  <button class="fab" onclick="goWB()" title="Whiteboard">🖍️</button>
+  <button class="fab fab-q" onclick="openModal()" title="Quizlet Export">📝</button>
+  <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+  <button class="fab" onclick="resetLesson()" title="Reset" style="background:var(--rose-pale);border-color:var(--rose-light);color:var(--dusty-rose)">🔄</button>
+</div>
+
+<!-- QUIZLET MODAL -->
+<div id="qModal" class="modal-bg">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h2>Quizlet Export</h2>
+    <p style="font-size:0.83rem;color:var(--muted);margin-top:4px">Add words + translations, copy → paste into Quizlet's import tool.</p>
+    <div id="wordList">
+      <div class="word-row"><input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t"></div>
+      <div class="word-row"><input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t"></div>
+      <div class="word-row"><input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button onclick="addRow()" class="mbtn mbtn-out" style="flex:1">+ Row</button>
+      <button id="copyBtn" onclick="copyQ()" class="mbtn mbtn-pri" style="flex:2">📋 Copy for Quizlet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='h'){
+    e.preventDefault();
+    const s=window.getSelection();
+    if(!s.rangeCount||s.isCollapsed)return;
+    document.execCommand('hiliteColor',false,'rgba(138,112,64,0.22)');
+  }
+});
+
+const cv=document.getElementById('wbCanvas'),cx=cv.getContext('2d');
+function rsz(){cv.width=cv.parentElement.clientWidth;cv.height=460}
+window.addEventListener('resize',rsz);rsz();
+let drawing=false,pendingDraw=false,sx,sy,tool='pencil',wbColor='#B5707A',saved;
+document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>{
+  b.addEventListener('click',()=>{document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tool=b.dataset.tool;cv.style.cursor=tool==='text'?'text':'crosshair'});
+});
+document.getElementById('wbColor').addEventListener('change',e=>wbColor=e.target.value);
+document.getElementById('wbClear').addEventListener('click',()=>{cx.clearRect(0,0,cv.width,cv.height);if(window.syncWBClear)window.syncWBClear()});
+function gp(e){const r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+cv.addEventListener('mousedown',e=>{
+  const p=gp(e);sx=p.x;sy=p.y;
+  if(tool==='text'){const t=prompt('Enter text:');if(t){cx.font="16px 'Inter',sans-serif";cx.fillStyle=wbColor;cx.fillText(t,sx,sy);if(window.syncWBDraw){pendingDraw=true;window.syncWBDraw()}}return}
+  drawing=true;saved=cx.getImageData(0,0,cv.width,cv.height);cx.beginPath();cx.moveTo(sx,sy);
+});
+cv.addEventListener('mousemove',e=>{
+  if(!drawing)return;const p=gp(e);
+  if(tool==='pencil'||tool==='highlight'){cx.lineTo(p.x,p.y);cx.strokeStyle=tool==='highlight'?wbColor+'44':wbColor;cx.lineWidth=tool==='highlight'?14:2;cx.lineCap='round';cx.lineJoin='round';cx.stroke()}
+  else{cx.putImageData(saved,0,0);drawShape(p.x,p.y)}
+});
+cv.addEventListener('mouseup',e=>{if(!drawing)return;drawing=false;if(tool!=='pencil'&&tool!=='highlight')drawShape(gp(e).x,gp(e).y);if(window.syncWBDraw){pendingDraw=true;window.syncWBDraw()}});
+cv.addEventListener('mouseout',()=>{if(drawing){drawing=false;if(window.syncWBDraw){pendingDraw=true;window.syncWBDraw()}}});
+function drawShape(ex,ey){
+  cx.beginPath();cx.strokeStyle=wbColor;cx.lineWidth=2;
+  if(tool==='square')cx.strokeRect(sx,sy,ex-sx,ey-sy);
+  else if(tool==='circle'){const r=Math.sqrt((ex-sx)**2+(ey-sy)**2);cx.arc(sx,sy,r,0,2*Math.PI);cx.stroke()}
+  else if(tool==='arrow'){const a=Math.atan2(ey-sy,ex-sx),h=14;cx.moveTo(sx,sy);cx.lineTo(ex,ey);cx.stroke();cx.beginPath();cx.moveTo(ex,ey);cx.lineTo(ex-h*Math.cos(a-Math.PI/6),ey-h*Math.sin(a-Math.PI/6));cx.moveTo(ex,ey);cx.lineTo(ex-h*Math.cos(a+Math.PI/6),ey-h*Math.sin(a+Math.PI/6));cx.stroke()}
+}
+function setupDnD(id){
+  const col=document.getElementById(id);if(!col)return;
+  col.querySelectorAll('.drag-item').forEach(it=>{
+    it.addEventListener('dragstart',()=>it.classList.add('dragging'));
+    it.addEventListener('dragend',()=>{it.classList.remove('dragging');if(window.syncDrag)window.syncDrag(id)});
+  });
+  col.addEventListener('dragover',e=>{
+    e.preventDefault();
+    const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{const o=e.clientY-ch.getBoundingClientRect().top-ch.getBoundingClientRect().height/2;return o<0&&o>cl.offset?{offset:o,el:ch}:cl},{offset:Number.NEGATIVE_INFINITY}).el;
+    const d=document.querySelector('.dragging');if(d){after==null?col.appendChild(d):col.insertBefore(d,after)}
+  });
+}
+setupDnD('vocabDrag');
+window.savePDF=function(){
+  document.getElementById('floatBtns').style.display='none';document.getElementById('sync').style.display='none';
+  html2pdf().set({margin:0,filename:'Lesson-02-Perfect-Memory.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:document.body.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[document.body.scrollWidth,document.body.scrollHeight],orientation:'portrait'}}).from(document.body).save().then(()=>{document.getElementById('floatBtns').style.display='flex';document.getElementById('sync').style.display='flex'});
+};
+window.openModal=()=>document.getElementById('qModal').style.display='flex';
+window.closeModal=()=>document.getElementById('qModal').style.display='none';
+window.addRow=()=>{const r=document.createElement('div');r.className='word-row';r.innerHTML='<input type="text" placeholder="English word" class="q-w"><input type="text" placeholder="Polish / definition" class="q-t">';document.getElementById('wordList').appendChild(r);document.getElementById('wordList').scrollTop=9999};
+window.copyQ=()=>{let out='';document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-w').value.trim(),t=r.querySelector('.q-t').value.trim();if(w||t)out+=w+'\t'+t+'\n'});if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);const b=document.getElementById('copyBtn');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy for Quizlet',3e3)}else{const b=document.getElementById('copyBtn');b.textContent='⚠️ Add words first';setTimeout(()=>b.textContent='📋 Copy for Quizlet',3e3)}};
+window.goWB=()=>{const el=document.getElementById('wb');if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-70,behavior:'smooth'})};
+document.getElementById('navTabsContainer').addEventListener('click',e=>{if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){e.preventDefault();const id=e.target.getAttribute('href');if(id&&id.startsWith('#')&&id.length>1){const el=document.querySelector(id);if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-60,behavior:'smooth'})}}});
+document.addEventListener('paste',function(e){
+  const tgt=e.target;if(!tgt.closest('[contenteditable="true"]'))return;
+  const items=(e.clipboardData||window.clipboardData).items;
+  for(let k in items){const it=items[k];if(it.kind==='file'&&it.type.startsWith('image/')){e.preventDefault();const blob=it.getAsFile();const rd=new FileReader();rd.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;if(w>800){h*=800/w;w=800}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;border:1px solid var(--rule)"></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}))};img.src=ev.target.result};rd.readAsDataURL(blob);return}}
+  const txt=(e.clipboardData||window.clipboardData).getData('text');
+  if(txt){const yt=txt.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt&&yt[1]){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;position:relative;padding-bottom:56.25%;height:0;border-radius:12px;overflow:hidden"><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen></iframe></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return}}
+});
+</script>
+
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import{getFirestore,doc,setDoc,onSnapshot,deleteDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+const LID='alicja-new-lesson-02-memory-photography-v1';
+const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+const setSt=(t,c)=>{if(st)st.innerText=t;if(sd)sd.style.background=c};
+const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+let user=null,ready=false;
+const cc='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');let cn='Student';
+const eds=document.querySelectorAll('[contenteditable="true"]');const orig={};
+eds.forEach((el,i)=>{el.dataset.sid='e'+i;orig['e'+i]=el.innerHTML});
+const deb=(fn,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms)}};
+async function initA(){try{await signInAnonymously(auth)}catch{setSt('Offline','#8A7040')}}
+onAuthStateChanged(auth,u=>{user=u;if(u&&!ready){ready=true;getDocs(collection(db,'artifacts',LID,'public','data','cursors')).then(s=>{cn='Student '+(s.size+1);setSt('Live ✓','#5C7A5C');setupSync();setupCursors()}).catch(()=>{cn='Student '+(Math.floor(Math.random()*99)+1);setSt('Live ✓','#5C7A5C');setupSync();setupCursors()})}else if(!u)setSt('Disconnected','#B5707A')});
+initA();
+function setupSync(){
+  const tRef=doc(db,'artifacts',LID,'public','data','ls','texts');
+  const dRef=doc(db,'artifacts',LID,'public','data','ls','drag');
+  const wRef=doc(db,'artifacts',LID,'public','data','ls','wb');
+  let editing=null;
+  window.saveText=el=>{if(!user)return;setDoc(tRef,{[el.dataset.sid]:el.innerHTML},{merge:true})};
+  window.attachEdit=el=>{el.addEventListener('focus',()=>editing=el.dataset.sid);el.addEventListener('blur',()=>{editing=null;window.saveText(el)});el.addEventListener('input',deb(()=>{if(editing===el.dataset.sid)window.saveText(el)},500))};
+  eds.forEach(el=>window.attachEdit(el));
+  window.addNewTab=e=>{e.preventDefault();const c=document.getElementById('navTabsContainer');const li=document.createElement('li');const id='et'+Date.now();li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${id}">New Tab</a>`;c.appendChild(li);window.attachEdit(li.querySelector('a'));if(user)setDoc(tRef,{nav_html:c.innerHTML},{merge:true})};
+  onSnapshot(tRef,snap=>{if(!snap.exists())return;const d=snap.data();for(const[k,v]of Object.entries(d)){if(k==='nav_html'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=v;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEdit(a))}continue}if(editing!==k){const el=document.querySelector(`[data-sid="${k}"]`)||document.querySelector(`[data-sync-id="${k}"]`);if(el&&el.innerHTML!==v)el.innerHTML=v}}});
+  window.syncDrag=id=>{if(!user)return;const col=document.getElementById(id);if(!col)return;setDoc(dRef,{[id]:Array.from(col.children).map(c=>c.id)},{merge:true})};
+  onSnapshot(dRef,snap=>{if(!snap.exists())return;const d=snap.data();['vocabDrag'].forEach(id=>{const col=document.getElementById(id);if(!col||!d[id])return;d[id].forEach(eid=>{const el=document.getElementById(eid);if(el)col.appendChild(el)})})});
+  window.syncWBDraw=deb(()=>{if(!user)return;setDoc(wRef,{img:document.getElementById('wbCanvas').toDataURL('image/png',0.5),clr:window._lc||0},{merge:true});pendingDraw=false},800);
+  window.syncWBClear=()=>{if(!user)return;const ts=Date.now();window._lc=ts;setDoc(wRef,{clr:ts,img:null},{merge:true})};
+  onSnapshot(wRef,snap=>{if(!snap.exists())return;const d=snap.data();const c=document.getElementById('wbCanvas');const x=c.getContext('2d');if(d.clr>(window._lc||0)){x.clearRect(0,0,c.width,c.height);window._lc=d.clr;return}if(d.img&&!pendingDraw){const im=new Image();im.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(im,0,0)};im.src=d.img}});
+  window.resetLesson=async()=>{if(!user||!confirm('Reset all content for everyone?'))return;setSt('Resetting...','#8A7040');await deleteDoc(tRef);await deleteDoc(dRef);const ts=Date.now();window._lc=ts;await setDoc(wRef,{clr:ts,img:null});setTimeout(()=>setSt('Live ✓','#5C7A5C'),1200)};
+}
+function setupCursors(){
+  const cCol=collection(db,'artifacts',LID,'public','data','cursors');
+  const myRef=doc(db,'artifacts',LID,'public','data','cursors',user.uid);
+  const cont=document.getElementById('cursors');
+  document.addEventListener('mousemove',deb(e=>{if(!user)return;setDoc(myRef,{x:e.pageX-(window.innerWidth/2),y:e.pageY,color:cc,name:cn,ts:Date.now()})},350));
+  onSnapshot(cCol,snap=>{snap.docChanges().forEach(ch=>{const id=ch.doc.id;if(id===user.uid)return;if(ch.type==='removed'){const el=document.getElementById('c-'+id);if(el)el.remove();return}const d=ch.doc.data();if(Date.now()-d.ts>60000){const el=document.getElementById('c-'+id);if(el)el.remove();return}let el=document.getElementById('c-'+id);if(!el){el=document.createElement('div');el.id='c-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="rc-label" style="background:${d.color}">${d.name}</div>`;cont.appendChild(el)}el.style.left=(window.innerWidth/2+d.x)+'px';el.style.top=d.y+'px'})});
+  window.addEventListener('beforeunload',()=>{if(user)deleteDoc(myRef)});
+}
+</script>
+</body>
+</html>
