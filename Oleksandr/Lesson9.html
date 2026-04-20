@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANAG 6001 | Lesson 9: International Relations — Mixed Skills</title>
+    <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Azeret+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #F6F4EF;
+            --surface: #FFFFFF;
+            --panel: #EFECE5;
+            --dark: #141410;
+            --ink: #1E1C18;
+            --mid: #3A3830;
+            --sage: #4A6741;
+            --sage-pale: rgba(74,103,65,0.08);
+            --sage-mid: rgba(74,103,65,0.15);
+            --rust: #B84F2A;
+            --rust-pale: rgba(184,79,42,0.08);
+            --slate: #3B5470;
+            --slate-pale: rgba(59,84,112,0.08);
+            --gold: #A07820;
+            --gold-pale: rgba(160,120,32,0.1);
+            --gray: #6A6760;
+            --line: #E0DDD5;
+            --sans: 'Familjen Grotesk', system-ui, sans-serif;
+            --serif: 'Instrument Serif', Georgia, serif;
+            --mono: 'Azeret Mono', monospace;
+            --r: 8px;
+            --r-lg: 16px;
+            --shadow: 0 2px 8px rgba(20,20,16,0.07);
+            --shadow-md: 0 6px 24px rgba(20,20,16,0.1);
+            --shadow-lg: 0 16px 48px rgba(20,20,16,0.13);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+        [contenteditable="true"] { outline: none; border-radius: 3px; transition: background .18s; }
+        [contenteditable="true"]:hover, [contenteditable="true"]:focus { background: rgba(74,103,65,0.07); box-shadow: 0 0 0 1px rgba(74,103,65,0.2); }
+
+        /* ====== HERO — World Map / Geographic Dispatch ====== */
+        .hero {
+            background: var(--dark);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        /* Topographic contour lines in background */
+        .hero-topo {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.05;
+        }
+
+        /* Large faded text behind content */
+        .hero-watermark {
+            position: absolute;
+            bottom: -40px;
+            right: -20px;
+            font-family: var(--serif);
+            font-size: 22vw;
+            font-style: italic;
+            color: white;
+            opacity: 0.03;
+            user-select: none;
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .hero-inner {
+            position: relative;
+            z-index: 2;
+            padding: 60px 60px 100px;
+            width: 100%;
+        }
+
+        .hero-overline {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .hero-overline .bar { width: 48px; height: 2px; background: var(--sage); }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-style: italic;
+            font-weight: 400;
+            color: white;
+            line-height: 1.0;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .hero-sub-title {
+            font-family: var(--sans);
+            font-size: clamp(1rem, 2.5vw, 1.6rem);
+            font-weight: 600;
+            color: rgba(255,255,255,0.55);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .hero-desc {
+            font-size: 0.94rem;
+            color: rgba(255,255,255,0.45);
+            max-width: 500px;
+            line-height: 1.65;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            gap: 24px;
+            width: fit-content;
+        }
+        .hero-item { }
+        .hero-item .hi-val {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            font-style: italic;
+            color: var(--sage);
+            line-height: 1;
+            display: block;
+        }
+        .hero-item .hi-lbl {
+            font-family: var(--mono);
+            font-size: 0.58rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-top: 3px;
+            display: block;
+        }
+
+        .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: var(--bg); clip-path: ellipse(55% 100% at 50% 100%); }
+
+        /* ====== NAV ====== */
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(246,244,239,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); padding: 0 24px; box-shadow: var(--shadow); }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+        .nav-logo { font-family: var(--serif); font-size: 1rem; font-style: italic; color: var(--dark); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-logo .leaf { color: var(--sage); font-style: normal; font-family: var(--sans); font-size: 0.8rem; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.7rem; font-weight: 600; padding: 5px 10px; border-radius: var(--r); transition: color .18s, background .18s; white-space: nowrap; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links a:hover { color: var(--sage); background: var(--sage-pale); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 80px 24px; }
+        .section.alt { background: var(--surface); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+
+        .section-label { font-family: var(--mono); font-size: 0.63rem; color: var(--sage); letter-spacing: 3px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+        .section-label .num { background: var(--sage); color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.58rem; font-weight: 700; }
+
+        .section-title { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); font-style: italic; color: var(--dark); margin-bottom: 8px; line-height: 1.1; font-weight: 400; letter-spacing: -0.5px; }
+        .section-title .sage { color: var(--sage); }
+        .section-title .rust { color: var(--rust); }
+        .section-title .slate { color: var(--slate); }
+        .section-title .gold { color: var(--gold); font-style: normal; font-family: var(--sans); font-weight: 700; }
+
+        .section-desc { color: var(--gray); font-size: 0.95rem; margin-bottom: 32px; max-width: 640px; line-height: 1.65; }
+
+        /* ====== TABLES ====== */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.88rem; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
+        .data-table thead th { background: var(--dark); color: white; padding: 11px 16px; text-align: left; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; }
+        .data-table tbody td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; background: white; font-size: 0.88rem; }
+        .data-table tbody tr:nth-child(even) td { background: var(--panel); }
+        .data-table tbody tr:hover td { background: var(--sage-pale); }
+        .data-table td strong { color: var(--sage); }
+        .data-table td em { color: var(--rust); font-style: normal; font-weight: 600; }
+
+        /* ====== CHIP ====== */
+        .chip { display: inline-block; font-family: var(--mono); font-size: 0.58rem; padding: 2px 8px; border-radius: 40px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+        .chip.sage { background: var(--sage-pale); color: var(--sage); border: 1px solid rgba(74,103,65,0.25); }
+        .chip.rust { background: var(--rust-pale); color: var(--rust); border: 1px solid rgba(184,79,42,0.25); }
+        .chip.slate { background: var(--slate-pale); color: var(--slate); border: 1px solid rgba(59,84,112,0.25); }
+        .chip.gold { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(160,120,32,0.25); }
+
+        /* ====== READING PASSAGE ====== */
+        .passage-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: 20px; }
+        .passage-top { background: var(--dark); padding: 13px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .passage-top .ptitle { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; color: white; }
+        .passage-top .pmeta { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-family: var(--mono); }
+        .passage-ruler { height: 3px; background: linear-gradient(90deg, var(--sage), var(--slate), var(--rust)); }
+        .passage-body { padding: 28px 32px; font-size: 0.97rem; line-height: 1.88; }
+        .passage-body p { margin-bottom: 14px; }
+        .passage-body .pnum { display: inline-block; background: var(--sage); color: white; font-family: var(--mono); font-size: 0.58rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+
+        /* ====== MCQ ====== */
+        .q-block { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow); }
+        .q-head { background: var(--panel); border-bottom: 1px solid var(--line); padding: 12px 20px; display: flex; gap: 12px; align-items: flex-start; }
+        .q-num { background: var(--dark); color: white; width: 28px; height: 28px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .q-text { font-size: 0.92rem; color: var(--ink); font-weight: 600; line-height: 1.5; }
+        .options { padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+        .opt { display: flex; align-items: flex-start; gap: 10px; padding: 9px 14px; border-radius: var(--r); border: 1px solid var(--line); cursor: pointer; transition: all .15s; background: white; }
+        .opt:hover { border-color: var(--sage); background: var(--sage-pale); }
+        .opt.selected { border-color: var(--sage); background: var(--sage-pale); }
+        .opt.correct { border-color: var(--sage); background: rgba(74,103,65,0.12); }
+        .opt.incorrect { border-color: var(--rust); background: var(--rust-pale); }
+        .opt-key { background: var(--dark); color: rgba(255,255,255,0.8); width: 24px; height: 24px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; }
+        .opt-label { font-size: 0.87rem; color: var(--ink); line-height: 1.5; }
+
+        /* ====== VOCAB ====== */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px,1fr)); gap: 12px; margin-top: 24px; }
+        .vocab-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px 18px; box-shadow: var(--shadow); border-top: 3px solid var(--sage); transition: transform .15s; }
+        .vocab-card:nth-child(2) { border-top-color: var(--rust); }
+        .vocab-card:nth-child(3) { border-top-color: var(--slate); }
+        .vocab-card:nth-child(4) { border-top-color: var(--gold); }
+        .vocab-card:nth-child(5) { border-top-color: var(--sage); }
+        .vocab-card:nth-child(6) { border-top-color: var(--rust); }
+        .vocab-card:nth-child(7) { border-top-color: var(--slate); }
+        .vocab-card:nth-child(8) { border-top-color: var(--gold); }
+        .vocab-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .vocab-card .word { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: 1rem; color: var(--dark); }
+        .vocab-card .pos { font-family: var(--mono); font-size: 0.6rem; color: var(--sage); letter-spacing: 1px; text-transform: uppercase; margin-left: 6px; font-style: normal; }
+        .vocab-card .def { font-size: 0.84rem; color: var(--gray); margin-top: 5px; line-height: 1.5; }
+        .vocab-card .example { font-size: 0.82rem; font-style: italic; color: var(--mid); margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+
+        /* ====== DRAG & DROP ====== */
+        .match-board { display: flex; gap: 14px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .arrows-col { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+        .drag-item { background: white; border: 1px solid var(--line); border-left: 3px solid var(--sage); border-radius: var(--r); cursor: grab; display: flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600; color: var(--dark); box-shadow: var(--shadow); transition: all .15s; height: 56px; padding: 0 14px; }
+        .drag-item:hover { border-left-color: var(--rust); box-shadow: var(--shadow-md); }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--line); font-size: 1rem; user-select: none; }
+        .static-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--gray); height: 56px; display: flex; align-items: center; padding: 0 14px; font-size: 0.84rem; }
+        .match-arrow { color: var(--line); font-size: 1.2rem; height: 56px; display: flex; align-items: center; justify-content: center; }
+
+        /* ====== AUDIO BLOCK ====== */
+        .audio-block { background: var(--dark); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-md); }
+        .audio-top { background: rgba(255,255,255,0.04); padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .rec-dot { width: 9px; height: 9px; background: var(--rust); border-radius: 50%; animation: rb 1.5s ease-in-out infinite; }
+        @keyframes rb { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .track-name { font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.8); letter-spacing: 1px; }
+        .track-type { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.35); margin-left: auto; }
+        .audio-script-body { padding: 20px 24px; color: #A5C8A5; font-size: 0.9rem; line-height: 1.8; font-style: italic; border-left: 2px solid var(--sage); margin: 20px 24px; }
+        .sp-tag { font-family: var(--mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; margin-top: 12px; }
+        .sp-tag:first-child { margin-top: 0; }
+        .sp-tag.sp1 { color: #A5C8A5; }
+        .sp-tag.sp2 { color: #90B8D4; }
+        .sp-tag.sp3 { color: #D4A87A; }
+
+        /* ====== ALERT ====== */
+        .alert { border-radius: var(--r); padding: 14px 18px; margin: 20px 0; font-size: 0.9rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.6; }
+        .alert.sage { background: var(--sage-pale); border: 1px solid rgba(74,103,65,0.2); border-left: 4px solid var(--sage); }
+        .alert.rust { background: var(--rust-pale); border: 1px solid rgba(184,79,42,0.2); border-left: 4px solid var(--rust); }
+        .alert.slate { background: var(--slate-pale); border: 1px solid rgba(59,84,112,0.2); border-left: 4px solid var(--slate); }
+        .alert.gold { background: var(--gold-pale); border: 1px solid rgba(160,120,32,0.2); border-left: 4px solid var(--gold); }
+        .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+        /* ====== EXERCISE LIST ====== */
+        .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; counter-reset: ex; }
+        .exercise-list li { background: white; border: 1px solid var(--line); padding: 13px 18px 13px 52px; border-radius: var(--r); font-size: 0.92rem; position: relative; box-shadow: var(--shadow); }
+        .exercise-list li::before { counter-increment: ex; content: counter(ex); position: absolute; left: 16px; top: 13px; width: 24px; height: 24px; background: var(--dark); color: white; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; }
+        .blank { display: inline-block; min-width: 80px; border-bottom: 1.5px solid var(--gray); color: var(--sage); font-weight: 600; padding: 0 8px; text-align: center; }
+        .blank:focus { border-bottom-color: var(--sage); outline: none; }
+
+        /* ====== SPEAKING STAGE ====== */
+        .speak-stage { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md); margin-top: 24px; }
+        .stage-top { background: var(--dark); padding: 13px 22px; display: flex; align-items: center; justify-content: space-between; }
+        .stage-title { font-family: var(--serif); font-size: 0.9rem; color: white; font-style: italic; font-weight: 400; }
+        .stage-badge { font-family: var(--mono); font-size: 0.62rem; color: var(--sage); border: 1px solid rgba(74,103,65,0.4); padding: 3px 10px; border-radius: 3px; }
+        .stage-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+        .turn { display: flex; gap: 12px; align-items: flex-start; }
+        .turn.right { flex-direction: row-reverse; }
+        .av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .av.ex { background: var(--slate-pale); border: 2px solid rgba(59,84,112,0.3); }
+        .av.st { background: var(--sage-pale); border: 2px solid rgba(74,103,65,0.3); }
+        .bub { border-radius: var(--r-lg); padding: 12px 18px; max-width: 78%; font-size: 0.9rem; line-height: 1.6; }
+        .bub.ex { background: var(--slate-pale); border: 1px solid rgba(59,84,112,0.2); border-top-left-radius: 4px; }
+        .bub.st { background: var(--sage-pale); border: 1px solid rgba(74,103,65,0.2); border-top-right-radius: 4px; }
+        .bub.hint { background: var(--gold-pale); border: 1px dashed rgba(160,120,32,0.35); font-style: italic; font-size: 0.82rem; color: var(--gray); max-width: 100%; border-radius: var(--r); padding: 10px 16px; }
+        .sn { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .sn.ex { color: var(--slate); }
+        .sn.st { color: var(--sage); text-align: right; }
+
+        /* ====== WRITING ZONE ====== */
+        .writing-paper { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px 36px; min-height: 220px; box-shadow: var(--shadow-md); font-size: 0.97rem; line-height: 1.85; font-family: var(--serif); background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(74,103,65,0.07) 31px, rgba(74,103,65,0.07) 32px); position: relative; }
+        .writing-paper::before { content: ''; position: absolute; left: 60px; top: 0; bottom: 0; width: 1px; background: rgba(184,79,42,0.12); }
+        .writing-paper .ph { color: var(--gray); font-style: italic; font-size: 0.88rem; }
+
+        /* ====== WHITEBOARD ====== */
+        .wb-wrap { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+        .wb-bar { background: var(--dark); padding: 10px 18px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: rgba(255,255,255,0.07); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 5px 10px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; transition: all .15s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--sage); border-color: var(--sage); }
+        .wb-color { width: 24px; height: 24px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 460px; background: white; cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .end-panel { background: var(--dark); color: white; border-radius: var(--r-lg); padding: 40px; margin-top: 40px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+        .end-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--sage), var(--slate), var(--rust), var(--gold)); }
+        .end-panel h2 { font-family: var(--serif); font-size: 2rem; color: white; font-style: italic; margin-bottom: 6px; font-weight: 400; }
+        .end-panel .sub { font-family: var(--mono); font-size: 0.63rem; color: rgba(255,255,255,0.28); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; }
+        .end-list { list-style: none; }
+        .end-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.87rem; color: rgba(255,255,255,0.68); }
+        .end-list li strong { color: rgba(180,220,150,0.9); }
+
+        /* ====== FABs ====== */
+        .fab-group { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab { background: var(--dark); color: white; border: 1px solid rgba(255,255,255,0.1); width: 48px; height: 48px; border-radius: var(--r); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); transition: all .2s; display: flex; align-items: center; justify-content: center; }
+        .fab:hover { background: var(--sage); transform: translateY(-2px); }
+        .fab.qz { background: rgba(66,85,255,0.85); border-color: transparent; }
+        .fab.qz:hover { background: #4255FF; }
+        .fab.rst { background: rgba(184,79,42,0.15); border-color: var(--rust); color: var(--rust); }
+        .fab.rst:hover { background: var(--rust); color: white; }
+
+        /* ====== MODAL ====== */
+        .modal-overlay { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(20,20,16,0.85); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: var(--surface); border: 1px solid var(--line); padding: 28px; border-radius: var(--r-lg); width: 90%; max-width: 560px; position: relative; box-shadow: var(--shadow-lg); }
+        .modal-box h2 { font-family: var(--serif); font-size: 1.5rem; font-style: italic; color: var(--dark); margin-bottom: 8px; }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; cursor: pointer; color: var(--gray); background: none; border: none; }
+        .modal-close:hover { color: var(--rust); }
+        .word-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 8px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); font-size: 0.88rem; color: var(--dark); font-family: var(--sans); }
+        .word-row input:focus { outline: none; border-color: var(--sage); }
+        #wordList { max-height: 300px; overflow-y: auto; margin: 16px 0; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 9px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; transition: all .15s; }
+        .modal-btn.secondary { background: transparent; border-color: var(--line); color: var(--gray); }
+        .modal-btn.primary { background: #4255FF; border-color: #4255FF; color: white; flex: 2; }
+
+        /* ====== CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top .35s linear, left .35s linear; display: flex; align-items: flex-start; opacity: 0; animation: fcIn .3s forwards; }
+        @keyframes fcIn { to { opacity: 1; } }
+        .remote-cursor svg { width: 20px; height: 20px; transform: rotate(-15deg); pointer-events: none; }
+        .cursor-name { color: white; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 2px; margin-left: -4px; margin-top: 14px; white-space: nowrap; }
+
+        @media (max-width: 768px) {
+            .hero-inner { padding: 60px 28px 90px; }
+            .hero-grid { grid-template-columns: repeat(2, auto); gap: 20px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 360px; }
+            .match-board { flex-direction: column; }
+            .arrows-col { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--dark);color:var(--sage);padding:5px 14px;border-radius:var(--r);font-family:var(--mono);font-size:0.7rem;font-weight:600;z-index:10000;display:flex;align-items:center;gap:8px;border:1px solid rgba(74,103,65,0.3);">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--sage);border-radius:50%;"></span>
+    <span id="syncText">CONNECTING...</span>
+</div>
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <svg class="hero-topo" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+        <ellipse cx="200" cy="350" rx="400" ry="260" fill="none" stroke="white" stroke-width="0.5"/>
+        <ellipse cx="200" cy="350" rx="320" ry="200" fill="none" stroke="white" stroke-width="0.5"/>
+        <ellipse cx="200" cy="350" rx="240" ry="145" fill="none" stroke="white" stroke-width="0.5"/>
+        <ellipse cx="850" cy="200" rx="350" ry="200" fill="none" stroke="white" stroke-width="0.5"/>
+        <ellipse cx="850" cy="200" rx="260" ry="150" fill="none" stroke="white" stroke-width="0.5"/>
+        <ellipse cx="1100" cy="550" rx="280" ry="180" fill="none" stroke="white" stroke-width="0.5"/>
+    </svg>
+    <div class="hero-watermark" contenteditable="false">L9</div>
+    <div class="hero-inner">
+        <div class="hero-overline"><span class="bar"></span><span contenteditable="true">STANAG 6001 · Lesson 09 · International Relations — Mixed Skills</span></div>
+        <h1 contenteditable="true">Mapping the World</h1>
+        <div class="hero-sub-title" contenteditable="true">Reading · Listening · Grammar · Speaking · Writing</div>
+        <p class="hero-desc" contenteditable="true">Lesson 9 is the pivot point. You have mastered individual skills — now you operate across all four simultaneously on a single complex topic: international relations, NATO, and global security. This is the closest thing to the real exam experience before the first full mock in Lesson 15.</p>
+        <div class="hero-grid">
+            <div class="hero-item"><span class="hi-val" contenteditable="true">5</span><span class="hi-lbl" contenteditable="true">Skills Combined</span></div>
+            <div class="hero-item"><span class="hi-val" contenteditable="true">3</span><span class="hi-lbl" contenteditable="true">Complex Texts</span></div>
+            <div class="hero-item"><span class="hi-val" contenteditable="true">2</span><span class="hi-lbl" contenteditable="true">Audio Segments</span></div>
+            <div class="hero-item"><span class="hi-val" contenteditable="true">40%</span><span class="hi-lbl" contenteditable="true">Course Complete</span></div>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="leaf">↯</span> Dispatch 09</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--sage);border:1px solid rgba(74,103,65,0.3);padding:4px 10px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#strategy" contenteditable="true">Strategy</a></li>
+            <li><a href="#listening" contenteditable="true">Listening</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#writing" contenteditable="true">Writing</a></li>
+            <li><a href="#synthesis" contenteditable="true">Synthesis</a></li>
+            <li><a href="#wb" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section alt" id="recap">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">01</span> Lessons 1–8 Recall</div>
+        <h2 class="section-title" contenteditable="true">Recall: <span class="sage">Vocab Sprint + Article Discussion</span></h2>
+        <p class="section-desc" contenteditable="true">Vocab test (L8), then discuss the news article you brought as homework. This activates your international relations knowledge before we dive into today's texts and audio.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Word (Lesson 8)</th>
+                    <th contenteditable="true">English Definition</th>
+                    <th contenteditable="true">Score /2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>geopolitical</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>reconciliation</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>accountability</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>incumbent upon</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>narrative</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>compel</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>institutional</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>implication</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert sage" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📰</span>
+            <div contenteditable="true"><strong>Article Discussion (5 minutes):</strong> Share the international security article you read for homework. Summarise it in 60 seconds using at least 3 vocabulary words from previous lessons. Teacher asks: What was the main argument? What vocabulary was most challenging? Did it connect to anything from Lessons 5–8?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: VOCABULARY ====== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">02</span> Today's Vocabulary</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary: <span class="sage">International Order & Diplomacy</span></h2>
+        <p class="section-desc" contenteditable="true">These 8 terms appear throughout today's reading and listening tasks. Mastering them before encountering them in context dramatically accelerates comprehension speed — critical under exam time pressure.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">consensus</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">General agreement among all members of a group — especially within an alliance or multilateral body.</p>
+                <p class="example" contenteditable="true"><em>"Achieving consensus among 32 member states on a joint response proved considerably more difficult than expected."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">posture</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A country's or alliance's overall stance or position — military, diplomatic, or strategic.</p>
+                <p class="example" contenteditable="true"><em>"NATO's deterrence posture has been fundamentally reassessed since the 2022 invasion."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">leverage</span><span class="pos" contenteditable="true">noun/verb</span>
+                <p class="def" contenteditable="true">Power or advantage used to influence a situation; to use that power strategically.</p>
+                <p class="example" contenteditable="true"><em>"Economic sanctions were intended to give the alliance additional leverage in diplomatic negotiations."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">normative</span><span class="pos" contenteditable="true">adj</span>
+                <p class="def" contenteditable="true">Relating to establishing or enforcing norms — standards of expected or accepted international behaviour.</p>
+                <p class="example" contenteditable="true"><em>"The international community has a normative interest in upholding the principle of territorial sovereignty."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">fragmentation</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">The breaking apart of something unified into smaller, disconnected pieces — used for political orders, alliances, or institutions.</p>
+                <p class="example" contenteditable="true"><em>"Analysts warned that the fragmentation of the Western alliance could undermine collective deterrence."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">projection</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">The extension of power, influence, or military capability beyond a country's borders.</p>
+                <p class="example" contenteditable="true"><em>"The capacity for force projection has historically defined great power status in the international system."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">interlocutor</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A person who takes part in a dialogue or negotiation, especially as a representative; the interviewer in the STANAG speaking test.</p>
+                <p class="example" contenteditable="true"><em>"Finding a credible interlocutor on the other side proved essential to beginning substantive talks."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">regime</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A system of rules, norms, or governance — not always negative; used in international relations for established frameworks.</p>
+                <p class="example" contenteditable="true"><em>"The non-proliferation regime has faced increasing pressure from states seeking to develop independent nuclear capabilities."</em></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCAB DRILL ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">03</span> Vocabulary Drill</div>
+        <h2 class="section-title" contenteditable="true">Drag & Match: <span class="rust">International Affairs Lexicon</span></h2>
+        <p class="section-desc" contenteditable="true">These words appear in today's texts and audio. Matching them now accelerates your reading and listening comprehension speed under exam conditions.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="vocabDrag9">
+                <li class="drag-item" id="v9-4" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">normative</span></li>
+                <li class="drag-item" id="v9-2" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">leverage</span></li>
+                <li class="drag-item" id="v9-6" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">projection</span></li>
+                <li class="drag-item" id="v9-1" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">consensus</span></li>
+                <li class="drag-item" id="v9-5" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">fragmentation</span></li>
+                <li class="drag-item" id="v9-3" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">posture</span></li>
+            </ul>
+            <div class="arrows-col">
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) general agreement among all parties</li>
+                <li class="static-item" contenteditable="true">b) strategic power advantage used to influence</li>
+                <li class="static-item" contenteditable="true">c) an overall strategic or military stance</li>
+                <li class="static-item" contenteditable="true">d) relating to establishing accepted standards of behaviour</li>
+                <li class="static-item" contenteditable="true">e) breaking apart into disconnected pieces</li>
+                <li class="static-item" contenteditable="true">f) extending power or capability beyond borders</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: READING TEXT 1 — GLOBAL ORDER ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">04</span> Level 3 Reading — Text 1</div>
+        <h2 class="section-title" contenteditable="true">Reading: <span class="slate">The Post-Cold War Order Under Pressure</span></h2>
+        <p class="section-desc" contenteditable="true">Apply the 4-step reading strategy from Lesson 5: read the questions first, underline key terms, skim for structure, then answer. Time: <strong>8 minutes</strong>.</p>
+
+        <div class="passage-card">
+            <div class="passage-top">
+                <span class="ptitle">International Relations Analysis</span>
+                <span class="pmeta">~280 words · <span class="chip slate">Geopolitics / Global Order</span></span>
+            </div>
+            <div class="passage-ruler"></div>
+            <div class="passage-body" contenteditable="true">
+                <p><span class="pnum">A</span>The international order that emerged from the Cold War's end was premised on a set of assumptions that now appear increasingly fragile. Chief among these was the belief that the expansion of liberal democracy, market economies, and multilateral institutions would progressively reduce the incentives for great power conflict. This optimistic vision has been subjected to sustained pressure from multiple directions simultaneously — from authoritarian consolidation within several major states, from the fragmentation of Western unity, and from the outright rejection of core normative principles by revisionist powers.</p>
+
+                <p><span class="pnum">B</span>Russia's invasion of Ukraine in 2022 represented the most direct challenge to this order in decades. The invasion did not simply violate Ukrainian sovereignty — it challenged the foundational premise that territorial borders in Europe were inviolable, and that the threat or use of force to resolve interstate disputes had been permanently delegitimised. The international community's response — unprecedented sanctions, military assistance, and coordinated diplomatic isolation — demonstrated that consensus on the normative framework could, under extreme circumstances, be rapidly mobilised.</p>
+
+                <p><span class="pnum">C</span>Yet the durability of this consensus remains uncertain. Fractures have emerged between member states regarding the scale and pace of support. Some governments, facing domestic political pressures, have proved reluctant to commit to open-ended obligations. Meanwhile, global actors outside the Western sphere — including China, India, and much of the Global South — have declined to join the sanctions regime, choosing instead to maintain economic leverage over both parties. Their calculated neutrality reflects not indifference, but a considered assessment that alignment with either bloc carries greater risks than strategic ambiguity.</p>
+
+                <p><span class="pnum">D</span>What emerges from this landscape is not a return to Cold War bipolarity, but something potentially more unstable: a multipolar order in which the normative frameworks that once constrained great power behaviour are contested rather than accepted, and in which the projection of power is increasingly unencumbered by the institutional architecture that previous generations built with such effort.</p>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">1</div><p class="q-text" contenteditable="true">According to paragraph A, what was the central assumption of the post-Cold War order?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r1','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">That military alliances would be the primary guarantee of global stability</span></div>
+                <div class="opt" onclick="sel(this,'r1','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">That the spread of democracy and open markets would diminish the conditions for major conflict</span></div>
+                <div class="opt" onclick="sel(this,'r1','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">That Russia and China would voluntarily integrate into Western-led institutions</span></div>
+                <div class="opt" onclick="sel(this,'r1','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">That American military superiority would deter any potential challengers indefinitely</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">2</div><p class="q-text" contenteditable="true">The phrase "calculated neutrality" in paragraph C most closely means:</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r2','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">A policy driven by indifference to the conflict's outcome</span></div>
+                <div class="opt" onclick="sel(this,'r2','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">A deliberate choice not to align, based on a careful risk assessment</span></div>
+                <div class="opt" onclick="sel(this,'r2','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">A temporary position pending clarification of the conflict's direction</span></div>
+                <div class="opt" onclick="sel(this,'r2','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">An officially declared neutral stance under international law</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">3</div><p class="q-text" contenteditable="true">What does paragraph D suggest about the emerging international order?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r3','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It will eventually stabilise around a new bipolar structure similar to the Cold War</span></div>
+                <div class="opt" onclick="sel(this,'r3','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It may be more unstable than previous orders because shared norms are no longer accepted</span></div>
+                <div class="opt" onclick="sel(this,'r3','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">The institutional frameworks built after World War II remain fully effective</span></div>
+                <div class="opt" onclick="sel(this,'r3','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Military force has become the only reliable instrument of foreign policy</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">4</div><p class="q-text" contenteditable="true">What is the author's overall attitude towards the durability of the post-2022 international consensus?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r4','A')"><div class="opt-key">A</div><span class="opt-key">A</div><span class="opt-label" contenteditable="true">Optimistic — the rapid consensus shows the order is more resilient than feared</span></div>
+                <div class="opt" onclick="sel(this,'r4','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Cautiously pessimistic — consensus formed quickly but its durability is questioned</span></div>
+                <div class="opt" onclick="sel(this,'r4','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Neutral — the author presents facts without offering any evaluative judgment</span></div>
+                <div class="opt" onclick="sel(this,'r4','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Alarmed — the author believes the international order has already completely collapsed</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: READING STRATEGY CHECK ====== -->
+<section class="section alt" id="strategy">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">05</span> Reading Strategy Debrief</div>
+        <h2 class="section-title" contenteditable="true">Debrief: <span class="rust">Answer Key + Trap Analysis</span></h2>
+        <p class="section-desc" contenteditable="true">Check your answers and identify which trap type was used in the wrong options. Naming the trap builds the instinct to avoid it in the real exam.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Q</th>
+                    <th contenteditable="true">Correct</th>
+                    <th contenteditable="true">Evidence from Text</th>
+                    <th contenteditable="true">Trap in Wrong Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>1</strong></td><td contenteditable="true"><span class="chip sage">B</span></td><td contenteditable="true">"expansion of liberal democracy, market economies... would progressively reduce the incentives for great power conflict"</td><td contenteditable="true">A/C/D not stated. Classic trap: A uses "military alliances" — plausible but not the text's argument. C/D are common assumptions but not what ¶A says.</td></tr>
+                <tr><td contenteditable="true"><strong>2</strong></td><td contenteditable="true"><span class="chip sage">B</span></td><td contenteditable="true">"reflects not indifference, but a considered assessment that alignment... carries greater risks" — explicit author clarification</td><td contenteditable="true">A is explicitly contradicted ("not indifference"). C/D: author's language ("calculated") implies permanent strategy, not temporary or legal.</td></tr>
+                <tr><td contenteditable="true"><strong>3</strong></td><td contenteditable="true"><span class="chip sage">B</span></td><td contenteditable="true">"potentially more unstable... normative frameworks... contested rather than accepted"</td><td contenteditable="true">A: "not a return to Cold War bipolarity" — directly contradicted. C: "institutional architecture... previous generations built" = past tense, implies eroding. D: too extreme — not stated.</td></tr>
+                <tr><td contenteditable="true"><strong>4</strong></td><td contenteditable="true"><span class="chip sage">B</span></td><td contenteditable="true">"durability of this consensus remains uncertain" + "fractures have emerged" → cautious concern, not optimism</td><td contenteditable="true">A: opposite — "uncertain" ≠ "more resilient." C: author clearly takes a pessimistic evaluative stance. D: too extreme — not a complete collapse, but a contested order.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 6: READING TEXT 2 — BURDEN SHARING ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">06</span> Level 3 Reading — Text 2</div>
+        <h2 class="section-title" contenteditable="true">Reading: <span class="gold">NATO Burden-Sharing & The 2% Question</span></h2>
+        <p class="section-desc" contenteditable="true">A text that directly relates to Oleksandr's professional context. Read with the questions first. Time: <strong>8 minutes</strong>.</p>
+
+        <div class="passage-card">
+            <div class="passage-top">
+                <span class="ptitle">Alliance Defence Policy</span>
+                <span class="pmeta">~260 words · <span class="chip gold">Military / Finance</span></span>
+            </div>
+            <div class="passage-ruler"></div>
+            <div class="passage-body" contenteditable="true">
+                <p><span class="pnum">A</span>NATO's commitment to member states spending at least two percent of their gross domestic product on defence has transformed from a guideline into a political fault line. For years, the target was honoured more in rhetoric than in reality; in 2014, only five of the then-28 member states met it. The invasion of Ukraine fundamentally altered the political calculus, and by 2024, a record number of members — over twenty — were meeting or exceeding the threshold, with several committing to significantly higher targets.</p>
+
+                <p><span class="pnum">B</span>The debate over burden-sharing, however, runs deeper than raw percentages. Critics argue that the two percent metric is a crude instrument that measures input rather than output — the amount spent tells us little about the capability, readiness, or strategic coherence of the forces purchased. A nation spending two percent on obsolete equipment and bloated administrative structures contributes less to alliance capability than one spending one point eight percent on highly trained, rapidly deployable units equipped with interoperable systems.</p>
+
+                <p><span class="pnum">C</span>A more fundamental tension underlies these debates: the divergence between members who perceive an existential threat from Russia and those who do not. For the Baltic states, Poland, and most recently Finland, the threat is immediate and viscerally felt. For some Western European members, particularly those further from the eastern flank, the threat feels more abstract and the domestic political cost of large defence budgets remains high. Bridging this perceptual gap — not merely the financial one — is arguably the alliance's most enduring governance challenge.</p>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">5</div><p class="q-text" contenteditable="true">According to paragraph B, what is the main weakness of the 2% spending target as a measure?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r5','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It is set too low to fund meaningful military capability</span></div>
+                <div class="opt" onclick="sel(this,'r5','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It measures how much is spent, not how effectively it is spent</span></div>
+                <div class="opt" onclick="sel(this,'r5','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It does not account for the differing sizes of member state economies</span></div>
+                <div class="opt" onclick="sel(this,'r5','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">It creates perverse incentives for members to increase bureaucratic spending</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">6</div><p class="q-text" contenteditable="true">What does paragraph C suggest is the "most enduring governance challenge" for the alliance?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r6','A')"><div class="opt-key">A</div><span class="opt-key">A</div><span class="opt-label" contenteditable="true">Increasing total defence spending to reach the 2% target across all members</span></div>
+                <div class="opt" onclick="sel(this,'r6','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Closing the gap in how urgently different members perceive the threat from Russia</span></div>
+                <div class="opt" onclick="sel(this,'r6','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Managing the political relationship between Finland and the older NATO members</span></div>
+                <div class="opt" onclick="sel(this,'r6','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Replacing obsolete equipment across the eastern flank countries</span></div>
+            </div>
+        </div>
+
+        <div class="alert sage" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🔑</span>
+            <div contenteditable="true"><strong>Answer Key — T2:</strong> 5. B — "measures input rather than output" directly states this. A: "too low" not argued; C/D: not stated in text. &nbsp;|&nbsp; 6. B — "bridging this perceptual gap — not merely the financial one — is arguably the alliance's most enduring governance challenge." B reflects "perceptual gap." A is about financial gap only. C/D: not stated.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: SIMULATED LISTENING ====== -->
+<section class="section alt" id="listening">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">07</span> Level 3 Listening — Simulated Audio</div>
+        <h2 class="section-title" contenteditable="true">Listening: <span class="slate">The Multipolar World Order</span></h2>
+        <p class="section-desc" contenteditable="true">Teacher reads this at natural speed — no pauses. Use your T-Frame note-taking system. Read questions first. Two plays. Time: approximately 4.5 minutes per play.</p>
+
+        <div class="alert slate" contenteditable="false">
+            <span class="alert-icon">📡</span>
+            <div contenteditable="true"><strong>Protocol:</strong> (1) Read ALL questions below. (2) Set up your T-Frame: left = topic/paragraph summary, right = key detail/number. (3) Teacher reads. (4) Answer MCQ. (5) Second play to verify. This is the exact sequence you use in the real exam.</div>
+        </div>
+
+        <div class="audio-block">
+            <div class="audio-top">
+                <div class="rec-dot"></div>
+                <span class="track-name">TRACK 01 — FOREIGN POLICY PANEL DISCUSSION (Teacher reads)</span>
+                <span class="track-type"><span class="chip sage">DIALOGUE</span> ~4.5 min</span>
+            </div>
+            <div class="audio-script-body" contenteditable="true">
+                <span class="sp-tag sp1">[ HOST ]</span>
+                We're joined today by two analysts to examine the concept of a rules-based international order — what it means, whether it still exists, and what the implications are for countries like Ukraine seeking security guarantees within that framework.
+
+                <span class="sp-tag sp2">[ ANALYST A — International Law ]</span>
+                The rules-based order is, at its core, a normative claim — a proposition that international relations should be governed by agreed rules and institutions rather than by the unilateral projection of power. It's easy to be cynical about this, because great powers have always bent those rules when it suited them. But the alternative isn't a world of no rules — it's a world where the only rule is power. And for smaller and medium-sized states without great power leverage, that's an infinitely worse outcome.
+
+                <span class="sp-tag sp3">[ ANALYST B — Strategic Studies ]</span>
+                I broadly agree, though I think we need to be honest about the fragmentation we're seeing. The rules-based order was never universally accepted — it reflected a particular Western-led consensus that emerged after 1945 and was consolidated after 1991. China has consistently argued that the order is a vehicle for Western hegemony dressed up in normative language. And frankly, they have a point — the United States has frequently invoked the rules-based order selectively, applying it vigorously where it served American interests and quietly setting it aside where it didn't.
+
+                <span class="sp-tag sp2">[ ANALYST A ]</span>
+                That's true, but selective application doesn't delegitimise the framework entirely. There's a difference between a state that periodically violates norms it otherwise upholds and a state that rejects the normative framework altogether. Russia's position isn't that it was treated unfairly within the rules-based order — it's that territorial conquest and sphere-of-influence politics are legitimate instruments of state policy. That's a much more fundamental challenge.
+
+                <span class="sp-tag sp3">[ ANALYST B ]</span>
+                Agreed. And that's precisely why Ukraine's situation is so pivotal. If Russia's invasion is ultimately rewarded — even partially — it sends a signal to every other revisionist actor that the normative framework can be broken with manageable consequences. The interlocutor nations currently sitting on the fence are watching closely. Their assessment of whether the rules-based order still has teeth will shape their choices for the next decade.
+
+                <span class="sp-tag sp2">[ ANALYST A ]</span>
+                Which is why the level of support provided to Ukraine matters beyond the bilateral relationship. Every javelin missile and every round of sanctions is also a statement about the posture of the international community towards norms violations. Whether that statement is credible — whether it actually deters future challengers — is the central question for the next decade of international order.
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">7</div><p class="q-text" contenteditable="true">According to Analyst A, what is the alternative to a rules-based order?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l7','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">A world governed by regional organisations rather than global institutions</span></div>
+                <div class="opt" onclick="sel(this,'l7','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">A world where power alone determines outcomes — particularly damaging for smaller states</span></div>
+                <div class="opt" onclick="sel(this,'l7','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">A return to the Cold War bipolar order between the US and Russia</span></div>
+                <div class="opt" onclick="sel(this,'l7','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">A fully anarchic system with no international institutions at all</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">8</div><p class="q-text" contenteditable="true">What is Analyst B's main criticism of the rules-based order?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l8','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It was never properly codified in international law</span></div>
+                <div class="opt" onclick="sel(this,'l8','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It has been applied selectively by the West to serve its own interests</span></div>
+                <div class="opt" onclick="sel(this,'l8','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It gives too much power to smaller nations at the expense of great powers</span></div>
+                <div class="opt" onclick="sel(this,'l8','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">It was designed exclusively to serve European security interests</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">9</div><p class="q-text" contenteditable="true">According to Analyst B, why is the outcome of Russia's invasion of Ukraine particularly significant for the international order?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l9','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Because it will determine the future military balance between Russia and NATO</span></div>
+                <div class="opt" onclick="sel(this,'l9','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Because a Russian reward from aggression signals other revisionist states that the rules can be broken</span></div>
+                <div class="opt" onclick="sel(this,'l9','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Because Ukraine is the largest country in Europe and its territory is strategically essential</span></div>
+                <div class="opt" onclick="sel(this,'l9','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Because it has created the most severe refugee crisis since World War II</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">10</div><p class="q-text" contenteditable="true">What does Analyst A suggest is the significance of military and economic support for Ukraine?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l10','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It is primarily about maintaining the bilateral security relationship between Ukraine and NATO</span></div>
+                <div class="opt" onclick="sel(this,'l10','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It sends a broader message about whether the international community will defend normative principles</span></div>
+                <div class="opt" onclick="sel(this,'l10','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It is intended primarily to weaken Russia militarily rather than to uphold any principles</span></div>
+                <div class="opt" onclick="sel(this,'l10','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">It demonstrates that NATO has decided to admit Ukraine as a full member</span></div>
+            </div>
+        </div>
+
+        <div class="alert slate" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">🔑</span>
+            <div contenteditable="true"><strong>Answer Key — Listening:</strong> 7. B — "the only rule is power... for smaller states, that's an infinitely worse outcome." 8. B — "US has frequently invoked the rules-based order selectively, applying it where it served American interests." 9. B — "if Russia's invasion is ultimately rewarded... signals to every other revisionist actor that the normative framework can be broken." 10. B — "every javelin missile... is also a statement about the posture of the international community towards norms violations."</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR — PASSIVE STRUCTURES IN FORMAL WRITING ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">08</span> Grammar Module</div>
+        <h2 class="section-title" contenteditable="true">Grammar: <span class="sage">Advanced Passive Constructions</span></h2>
+        <p class="section-desc" contenteditable="true">You know basic passive voice. Level 3 essays and formal reports use advanced passive constructions — double passives, passive with modals, and reporting passives — that are hallmarks of academic and diplomatic register.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Construction</th>
+                    <th contenteditable="true">Structure</th>
+                    <th contenteditable="true">Level 3 Example</th>
+                    <th contenteditable="true">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Reporting passive</strong></td>
+                    <td contenteditable="true">It is widely + <em>reported/believed/argued/acknowledged</em> + that...</td>
+                    <td contenteditable="true"><em>"It is widely argued that the fragmentation of Western unity represents an existential risk."</em></td>
+                    <td contenteditable="true">Presents a view without naming a source — distanced, academic tone</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Impersonal it-passive</strong></td>
+                    <td contenteditable="true">It was + pp + that / It has been + pp + that</td>
+                    <td contenteditable="true"><em>"It has been noted that the perceptual gap between eastern and western members remains significant."</em></td>
+                    <td contenteditable="true">Removes the subject entirely — highly formal, no attribution</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Modal passive</strong></td>
+                    <td contenteditable="true">Modal + be + past participle</td>
+                    <td contenteditable="true"><em>"Alliance coherence can only be maintained if the perceptual gap is bridged."</em></td>
+                    <td contenteditable="true">Combines necessity/possibility with formality</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Perfect passive</strong></td>
+                    <td contenteditable="true">has/have/had + been + past participle</td>
+                    <td contenteditable="true"><em>"The normative frameworks that previous generations built with such effort are being steadily eroded."</em></td>
+                    <td contenteditable="true">Links past construction to present consequence — shows process</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Passive + agent</strong></td>
+                    <td contenteditable="true">past participle + by + agent</td>
+                    <td contenteditable="true"><em>"The invasion was described by analysts as a direct challenge to foundational principles."</em></td>
+                    <td contenteditable="true">Keeps formal passive while specifying who made the claim</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert gold" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">✒️</span>
+            <div contenteditable="true"><strong>Why Today's Texts Use Advanced Passive:</strong> Look back at Text 1 — count how many passive constructions appear. You will find at least 8. This is deliberate: academic and journalistic writing about international relations uses passive to create analytical distance and to focus on events rather than actors. Your Level 3 essays should replicate this register consciously.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR PRACTICE ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">09</span> Grammar Practice</div>
+        <h2 class="section-title" contenteditable="true">Transform to <span class="rust">Academic Passive</span></h2>
+        <p class="section-desc" contenteditable="true">Rewrite each sentence using the most appropriate advanced passive construction. Then check: does the new version sound more like Text 1 or Text 2 from today's reading? It should.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">"Many analysts think that burden-sharing tensions will persist." → Reporting passive: "<span class="blank" contenteditable="true" style="min-width:200px;"></span> that burden-sharing tensions will persist."</li>
+            <li contenteditable="true">"Someone noted that Russia's challenge differs fundamentally from previous norm violations." → Impersonal it-passive: "<span class="blank" contenteditable="true" style="min-width:200px;"></span> that Russia's challenge differs fundamentally from previous norm violations."</li>
+            <li contenteditable="true">"We cannot resolve the perceptual gap through financial measures alone." → Modal passive: "The perceptual gap <span class="blank" contenteditable="true" style="min-width:180px;"></span> through financial measures alone."</li>
+            <li contenteditable="true">"Previous generations built the institutional architecture that now constrains great power behaviour." → Perfect passive: "The institutional architecture that now constrains great power behaviour <span class="blank" contenteditable="true" style="min-width:180px;"></span> by previous generations."</li>
+            <li contenteditable="true">"Scholars describe the current moment as a pivotal juncture in the evolution of international order." → Passive + agent: "The current moment <span class="blank" contenteditable="true" style="min-width:180px;"></span> by scholars <span class="blank" contenteditable="true" style="min-width:160px;"></span> in the evolution of international order."</li>
+        </ul>
+
+        <div class="alert sage" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Key:</strong> 1. It is widely argued &nbsp;|&nbsp; 2. It has been noted &nbsp;|&nbsp; 3. cannot be resolved &nbsp;|&nbsp; 4. was built (or has been built) &nbsp;|&nbsp; 5. is described / as a pivotal juncture</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: SPEAKING — LEVEL 3 DISCUSSION ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">10</span> Speaking — Text-Based Level 3</div>
+        <h2 class="section-title" contenteditable="true">Speaking: <span class="slate">Geopolitics & Professional Experience</span></h2>
+        <p class="section-desc" contenteditable="true">Use today's reading and listening as your evidence base. These are the exact types of questions asked at the Level 3 section of the STANAG speaking exam. Each answer should be 75–90 seconds.</p>
+
+        <div class="speak-stage">
+            <div class="stage-top">
+                <span class="stage-title">Level 3 Structured Interview — International Relations</span>
+                <span class="stage-badge">75–90 SEC EACH</span>
+            </div>
+            <div class="stage-body">
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true"><span class="sn ex">Examiner</span>"The concept of a rules-based international order is often described as a Western invention. Do you think it serves the interests of all countries equally? Should Ukraine's security be guaranteed by such a framework?"</div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 This directly references today's texts. Use: "It is widely argued that..." / "A compelling case can be made for..." / "From my experience in the military..." / "The evidence suggests that..." — Vocabulary: consensus, normative, posture, fragmentation, leverage. Structure: introduce the debate → present both sides → conclude with your professional view.</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true"><span class="sn st">Oleksandr — 80 seconds</span>[Your answer — this is both a policy question AND a personal one. Your experience as a Ukrainian military officer gives you a unique authority. Use "From my experience..." to anchor your argument in professional reality.]</div>
+                </div>
+
+                <div style="height:8px;"></div>
+
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true"><span class="sn ex">Examiner</span>"NATO's 2% GDP spending target has been described as both a milestone and a distraction. What is your view? Should the alliance focus more on capability and readiness than on raw spending figures?"</div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 Text 2 directly addresses this. Quote the argument (in your own words): "It is widely noted that the 2% metric measures input rather than output..." — then give your professional military perspective on what actually determines operational capability. Use: "burden-sharing," "interoperability," "posture," "projection." Conditional grammar: "Were the alliance to adopt a capability-based measure, it would..."</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true"><span class="sn st">Oleksandr — 85 seconds</span>[Your answer — use the conditional: "Were the alliance to..." and the grammar from today's lesson: "It has been argued that..." — This demonstrates both grammar accuracy and intellectual engagement.]</div>
+                </div>
+
+                <div style="height:8px;"></div>
+
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true"><span class="sn ex">Examiner — Level 3 Synthesis</span>"Looking at all the evidence, would you say that the international response to Russia's invasion of Ukraine has strengthened or weakened the rules-based international order? Justify your answer."</div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 This is the hardest type — it requires you to synthesise multiple arguments and arrive at a nuanced conclusion. Structure: "I would contend that the answer is not straightforward..." → "On one hand, the unprecedented consensus demonstrated..." → "Conversely, the fragmentation and selective neutrality of several major powers suggests..." → "To sum up my position, I am of the firm conviction that..."</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true"><span class="sn st">Oleksandr — 90 seconds</span>[Your synthesis — this answer will determine whether your examiner scores you at L2 (presents one side) or L3 (presents both sides then takes a clear, nuanced position). Make sure your conclusion is specific and confident.]</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: VOCAB IN CONTEXT ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">11</span> Vocabulary in Context</div>
+        <h2 class="section-title" contenteditable="true">Fill the Gaps: <span class="sage">International Order Vocabulary</span></h2>
+        <p class="section-desc" contenteditable="true">Use today's vocabulary (consensus, posture, leverage, normative, fragmentation, projection, interlocutor, regime) to complete these sentences. Some require a grammatical change.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">The <span class="blank" contenteditable="true"></span> of the Western alliance on the question of sanctions has concerned analysts who view unity as a prerequisite for credible deterrence.</li>
+            <li contenteditable="true">Reaching <span class="blank" contenteditable="true"></span> among 32 sovereign member states on a joint military response is inherently more complex than unilateral decision-making.</li>
+            <li contenteditable="true">The non-proliferation <span class="blank" contenteditable="true"></span> has been described as both the most significant achievement of post-war arms control and its most significant failure.</li>
+            <li contenteditable="true">Economic dependency gives China considerable <span class="blank" contenteditable="true"></span> in negotiations that purely military relationships cannot replicate.</li>
+            <li contenteditable="true">NATO's revised security <span class="blank" contenteditable="true"></span> along the eastern flank signals a fundamental departure from the assumptions that governed alliance doctrine for three decades.</li>
+            <li contenteditable="true">The <span class="blank" contenteditable="true"></span> argument for upholding territorial sovereignty — that it applies universally — is precisely what makes its selective application so damaging to the framework's credibility.</li>
+            <li contenteditable="true">Finding a credible <span class="blank" contenteditable="true"></span> willing to represent all parties in the peace negotiations proved unexpectedly difficult given the depth of mutual distrust.</li>
+            <li contenteditable="true">A nation's ability to <span class="blank" contenteditable="true"></span> military force beyond its borders has historically been the defining criterion of great power status.</li>
+        </ul>
+
+        <div class="alert sage" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Key:</strong> 1. fragmentation &nbsp;|&nbsp; 2. consensus &nbsp;|&nbsp; 3. regime &nbsp;|&nbsp; 4. leverage &nbsp;|&nbsp; 5. posture &nbsp;|&nbsp; 6. normative &nbsp;|&nbsp; 7. interlocutor &nbsp;|&nbsp; 8. project (verb form)</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: WRITING — TIMED ESSAY ====== -->
+<section class="section" id="writing">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">12</span> Writing — Timed Level 3 Essay</div>
+        <h2 class="section-title" contenteditable="true">Write It: <span class="rust">International Order Essay</span></h2>
+        <p class="section-desc" contenteditable="true">This prompt draws directly from today's reading and listening. You have <strong>40 minutes</strong> and <strong>250 minimum words</strong>. Use advanced passive constructions, today's vocabulary, and the 4-paragraph structure from Lesson 7.</p>
+
+        <div class="alert rust" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Essay Prompt:</strong> "Some people argue that the rules-based international order is a Western construct that serves only the interests of powerful nations. Others believe it is the most effective framework available for protecting smaller states. Discuss both views and give your opinion." — Use today's vocabulary and reading as your evidence base. Demonstrate advanced passive voice at least twice.</div>
+        </div>
+
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;margin-bottom:14px;font-family:var(--mono);font-size:0.68rem;color:var(--gray);display:flex;gap:20px;flex-wrap:wrap;" contenteditable="false">
+            <span>📐 250–300 words</span>
+            <span>⏱ 40 minutes</span>
+            <span>📝 2+ advanced passive constructions</span>
+            <span>📖 3+ vocabulary words from today</span>
+            <span>✅ 4-paragraph structure</span>
+            <span>🎯 Opinion ONLY in paragraph 4</span>
+        </div>
+
+        <div class="writing-paper" contenteditable="true">
+            <p class="ph">¶1 — Introduction: "It is widely argued that the rules-based international order..." — Present BOTH views. No personal opinion yet. Use reporting passive.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: ESSAY PEER REVIEW ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">13</span> Essay Review</div>
+        <h2 class="section-title" contenteditable="true">Review: <span class="gold">Against the Rubric</span></h2>
+        <p class="section-desc" contenteditable="true">After writing, teacher and student review the essay against these focused criteria. Compare to the Lesson 7 essays — is the advanced passive being used correctly? Is the vocabulary more precise?</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Criterion</th>
+                    <th contenteditable="true">Check (✓ / ✗ / △)</th>
+                    <th contenteditable="true">Specific Evidence from Today's Essay</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Uses today's vocabulary (3+ words)</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>Which words? Write them here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Advanced passive used correctly (2+ times)</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>Write the passive sentence here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Both sides presented before paragraph 4</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>Which paragraph has Side A? Which has Side B?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Opinion ONLY in paragraph 4</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>Write the first sentence of paragraph 4 here...</em></td></tr>
+                <tr><td contenteditable="true"><strong>No contractions anywhere</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>If any found, write them here for correction...</em></td></tr>
+                <tr><td contenteditable="true"><strong>Word count target met (250+)</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>Estimated count:</em></td></tr>
+                <tr><td contenteditable="true"><strong>Improved on Lesson 7 in at least one area</strong></td><td contenteditable="true"></td><td contenteditable="true"><em>What specifically improved?</em></td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 14: PRONUNCIATION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">14</span> Pronunciation Module</div>
+        <h2 class="section-title" contenteditable="true">Pronunciation: <span class="slate">International Relations Vocabulary</span></h2>
+        <p class="section-desc" contenteditable="true">These are the words from today's lesson most commonly mispronounced by Ukrainian speakers of English. Correct stress and pronunciation signals native-level academic confidence to the examiner.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Word</th>
+                    <th contenteditable="true">Stressed Syllable (underlined)</th>
+                    <th contenteditable="true">Common Error</th>
+                    <th contenteditable="true">Memory Tip</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>con<u>sen</u>sus</strong></td><td contenteditable="true">con-SEN-sus</td><td contenteditable="true">Stressing "con" or "sus"</td><td contenteditable="true">Think "SENse" — it shares the same stressed syllable</td></tr>
+                <tr><td contenteditable="true"><strong>nor<u>ma</u>tive</strong></td><td contenteditable="true">NOR-ma-tiv</td><td contenteditable="true">nor-MAH-tiv (stressing 2nd syllable)</td><td contenteditable="true">"NORM" is the root — stress stays on the root</td></tr>
+                <tr><td contenteditable="true"><strong>frag-men-<u>ta</u>-tion</strong></td><td contenteditable="true">frag-men-TAY-shun</td><td contenteditable="true">Stressing "frag" — FRAG-men-ta-tion</td><td contenteditable="true">All -tion words: stress falls on the syllable BEFORE -tion</td></tr>
+                <tr><td contenteditable="true"><strong>mul-ti-<u>lat</u>-er-al</strong></td><td contenteditable="true">mul-ti-LAT-er-al</td><td contenteditable="true">MUL-ti-lat-er-al (too many equal stresses)</td><td contenteditable="true">"LAT" — think "lateral" = sideways = middle</td></tr>
+                <tr><td contenteditable="true"><strong>in-ter-<u>loc</u>-u-tor</strong></td><td contenteditable="true">in-ter-LOC-u-tor</td><td contenteditable="true">in-ter-lo-CU-tor</td><td contenteditable="true">"LOCK" — the key syllable holds the conversation together</td></tr>
+                <tr><td contenteditable="true"><strong>le-<u>ver</u>-age</strong></td><td contenteditable="true">LEV-er-ij (British) / LEE-ver-ij (American)</td><td contenteditable="true">le-VER-age (French influence)</td><td contenteditable="true">British = short "e" (LEVER as in tool) · Both acceptable in STANAG</td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert sage" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">🎙️</span>
+            <div contenteditable="true"><strong>Pronunciation Drill Sentence:</strong> Say this three times at natural speed until every stress lands correctly: <em>"A multilateral consensus on normative frameworks requires identifying a credible interlocutor with genuine leverage over the fragmentation process."</em></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: SYNTHESIS ====== -->
+<section class="section alt" id="synthesis">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">15</span> Mission Complete</div>
+        <h2 class="section-title" contenteditable="true">Synthesis: <span class="sage">40% Through — What Have You Built?</span></h2>
+        <p class="section-desc" contenteditable="true">Lesson 9 is the course midpoint reflection. You have now completed the individual skill lessons (1–8). Lessons 9–14 integrate those skills across complex topics. Lessons 15 and 19 are full mock exams. Now is the time for an honest assessment.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Skill Area</th>
+                    <th contenteditable="true">Your Current Level (L2 / L2–3 / L3)</th>
+                    <th contenteditable="true">Strongest Moment This Lesson</th>
+                    <th contenteditable="true">Priority for Next 6 Lessons</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Reading</strong></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>Listening</strong></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>Writing</strong></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>Speaking</strong></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>Vocabulary Range</strong></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>Grammar Accuracy</strong></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert gold" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework before Lesson 10 (Mixed Skills: Writing + Speaking — Current Affairs):</strong> (1) Complete your essay if not finished — add any missing passive constructions. (2) Learn all 8 vocabulary words from today — English definitions. Lesson 10 opens with a written test. (3) Listen to one official NATO press briefing or podcast (nato.int has audio content) — take T-Frame notes and write 3 sentences summarising the main argument. (4) Prepare a 90-second verbal argument on: "Is the rules-based international order still relevant, or has the world already moved to a power-based system?" — This will be the cold-start question at the beginning of Lesson 10.</div>
+        </div>
+
+        <div class="end-panel">
+            <h2 contenteditable="true">Lesson 09 — Mixed Skills Dispatch Complete</h2>
+            <p class="sub" contenteditable="true">// 10 MCQ · 2 texts · 1 audio · 40% course milestone //</p>
+            <ul class="end-list">
+                <li contenteditable="true">✅ <strong>Vocabulary Test:</strong> L8 vocabulary tested cold — English definitions.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary (8 terms):</strong> consensus, posture, leverage, normative, fragmentation, projection, interlocutor, regime.</li>
+                <li contenteditable="true">✅ <strong>Reading Text 1 — Global Order:</strong> 4 MCQ including author's attitude inference + "calculated neutrality" phrase meaning.</li>
+                <li contenteditable="true">✅ <strong>Reading Text 2 — NATO Burden-Sharing:</strong> 2 MCQ on the 2% metric and the perceptual gap challenge.</li>
+                <li contenteditable="true">✅ <strong>Listening — Multipolar World Order:</strong> 4 MCQ on two-analyst panel discussion — main argument, criticism, synthesis questions.</li>
+                <li contenteditable="true">✅ <strong>Answer Keys + Trap Analysis:</strong> All 10 questions fully explained.</li>
+                <li contenteditable="true">✅ <strong>Grammar — Advanced Passive:</strong> Reporting passive, impersonal it-passive, modal passive, perfect passive, passive + agent.</li>
+                <li contenteditable="true">✅ <strong>Grammar Practice:</strong> 5 transformation exercises to academic passive style.</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> 3 Level 3 questions synthesising today's texts — rules-based order, 2% target, and integration of all evidence.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary in Context:</strong> 8 gap-fill sentences with today's terms.</li>
+                <li contenteditable="true">✅ <strong>Timed Essay:</strong> "Rules-based order — Western construct or universal framework?" — 40 min, 250 words, advanced passive, 4-paragraph structure.</li>
+                <li contenteditable="true">✅ <strong>Essay Peer Review:</strong> Against rubric — 7 criteria checked against today's essay.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> 6 high-frequency International Relations words — correct stress + memory tips.</li>
+                <li contenteditable="true">✅ <strong>Course Midpoint Assessment:</strong> All 6 skill areas self-assessed with priorities for Lessons 10–14.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== WHITEBOARD ====== -->
+<section class="section" id="wb">
+    <div class="section-inner">
+        <div class="section-label"><span class="num">WB</span> Teacher Space</div>
+        <h2 class="section-title" contenteditable="true">Interactive <span class="sage">Whiteboard</span></h2>
+        <p class="section-desc" contenteditable="true">Use for vocabulary mapping, argument structure diagrams, passive voice examples, or essay feedback annotations.</p>
+        <div class="wb-wrap">
+            <div class="wb-bar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#141410">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(184,79,42,0.2);border-color:var(--rust);color:var(--rust);">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FABs ====== -->
+<div class="fab-group" id="fabGroup">
+    <button class="fab" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab qz" onclick="openModal()" title="Quizlet">📝</button>
+    <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+    <button class="fab rst" onclick="resetLesson()" title="Reset">↺</button>
+</div>
+
+<div id="qModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2>Quizlet Export</h2>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--gray);margin-top:6px;">Add today's international relations vocabulary with Ukrainian translations.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:14px;">
+            <button class="modal-btn secondary" onclick="addRow()">+ Row</button>
+            <button class="modal-btn primary" id="copyBtn" onclick="copyQuizlet()">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chosen={};
+    function sel(el,id,letter){el.closest('.options').querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));el.classList.add('selected');chosen[id]=letter;}
+
+    document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='h'){e.preventDefault();const s=window.getSelection();if(!s.rangeCount||s.isCollapsed)return;document.execCommand('hiliteColor',false,'rgba(74,103,65,0.25)');}});
+
+    const canvas=document.getElementById('boardCanvas');
+    const ctx=canvas.getContext('2d');
+    function resizeCanvas(){canvas.width=canvas.parentElement.clientWidth;canvas.height=460;}
+    window.addEventListener('resize',resizeCanvas);resizeCanvas();
+    let drawing=false,pendingDraw=false,sx,sy,tool='pencil',color='#141410',snap;
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tool=b.dataset.tool;canvas.style.cursor=tool==='text'?'text':'crosshair';});});
+    document.getElementById('wbColor').addEventListener('change',e=>color=e.target.value);
+    document.getElementById('wbClear').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);if(window.syncWbClear)window.syncWbClear();});
+    function gp(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+    canvas.addEventListener('mousedown',e=>{const p=gp(e);sx=p.x;sy=p.y;if(tool==='text'){const t=prompt('Text:');if(t){ctx.font="16px 'Familjen Grotesk',sans-serif";ctx.fillStyle=color;ctx.fillText(t,sx,sy);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}return;}drawing=true;snap=ctx.getImageData(0,0,canvas.width,canvas.height);ctx.beginPath();ctx.moveTo(sx,sy);});
+    canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=gp(e);if(tool==='pencil'||tool==='highlight'){ctx.lineTo(p.x,p.y);ctx.strokeStyle=tool==='highlight'?color+'44':color;ctx.lineWidth=tool==='highlight'?14:1.5;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}else{ctx.putImageData(snap,0,0);drawShape(p.x,p.y);}});
+    canvas.addEventListener('mouseup',e=>{if(!drawing)return;drawing=false;if(tool!=='pencil'&&tool!=='highlight')drawShape(gp(e).x,gp(e).y);if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}});
+    canvas.addEventListener('mouseout',()=>{if(drawing){drawing=false;if(window.syncWbDraw){pendingDraw=true;window.syncWbDraw();}}});
+    function drawShape(ex,ey){ctx.beginPath();ctx.strokeStyle=color;ctx.lineWidth=1.5;if(tool==='square')ctx.strokeRect(sx,sy,ex-sx,ey-sy);else if(tool==='circle'){ctx.arc(sx,sy,Math.sqrt((ex-sx)**2+(ey-sy)**2),0,2*Math.PI);ctx.stroke();}else if(tool==='arrow'){const hl=12,ang=Math.atan2(ey-sy,ex-sx);ctx.moveTo(sx,sy);ctx.lineTo(ex,ey);ctx.stroke();ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));ctx.stroke();}}
+
+    function setupDrag(colId){const col=document.getElementById(colId);if(!col)return;col.querySelectorAll('.drag-item').forEach(item=>{item.addEventListener('dragstart',()=>item.classList.add('dragging'));item.addEventListener('dragend',()=>{item.classList.remove('dragging');if(window.syncDragOrder)window.syncDragOrder(colId);});});col.addEventListener('dragover',e=>{e.preventDefault();const after=[...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl,ch)=>{const off=e.clientY-ch.getBoundingClientRect().top-ch.getBoundingClientRect().height/2;return off<0&&off>cl.offset?{offset:off,element:ch}:cl;},{offset:Number.NEGATIVE_INFINITY}).element;const d=document.querySelector('.dragging');if(d){if(after==null)col.appendChild(d);else col.insertBefore(d,after);}});}
+    setupDrag('vocabDrag9');
+
+    function savePDF(){document.getElementById('fabGroup').style.display='none';document.getElementById('syncStatus').style.display='none';const el=document.body;html2pdf().set({margin:0,filename:'STANAG-Lesson9-International-Relations.pdf',image:{type:'jpeg',quality:0.97},html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{document.getElementById('fabGroup').style.display='flex';document.getElementById('syncStatus').style.display='flex';});}
+    function openModal(){document.getElementById('qModal').style.display='flex';}
+    function closeModal(){document.getElementById('qModal').style.display='none';}
+    function addRow(){const r=document.createElement('div');r.className='word-row';r.innerHTML='<input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans">';document.getElementById('wordList').appendChild(r);}
+    function copyQuizlet(){let out='';document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-word').value.trim();const t=r.querySelector('.q-trans').value.trim();if(w||t)out+=`${w}\t${t}\n`;});if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);const b=document.getElementById('copyBtn');b.innerText='✅ Copied!';setTimeout(()=>b.innerText='📋 Copy for Quizlet',3000);}}
+
+    document.getElementById('navTabsContainer').addEventListener('click',e=>{if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){e.preventDefault();const id=e.target.getAttribute('href');if(id&&id.startsWith('#')&&id.length>1){const s=document.querySelector(id);if(s)window.scrollTo({top:s.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth';});}}});
+    function scrollToWB(){const wb=document.getElementById('wb');if(wb)window.scrollTo({top:wb.getBoundingClientRect().top+window.pageYOffset-62,behavior:'smooth'});}
+    function resetLesson(){if(window.doReset)window.doReset();}
+    window.savePDF=savePDF;window.scrollToWhiteboard=scrollToWB;window.openQuizletModal=openModal;window.closeQuizletModal=closeModal;window.addWordRow=addRow;
+</script>
+
+<script type="module">
+    import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import{getFirestore,doc,setDoc,onSnapshot,deleteDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+    const appId='stanag-oleksandr-lesson-9-international-relations-v1';
+    const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+    const setS=(t,c)=>{if(st)st.innerText=t;if(sd)sd.style.background=c;};
+    const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+    let me=null,ready=false;
+    const mc='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');let mn='Oleksandr';
+    const eds=document.querySelectorAll('[contenteditable="true"]');const orig={};
+    eds.forEach((el,i)=>{el.dataset.syncId='e-'+i;orig['e-'+i]=el.innerHTML;});
+    const deb=(fn,w)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),w);};};
+    signInAnonymously(auth).catch(()=>setS('OFFLINE','#999'));
+    onAuthStateChanged(auth,user=>{me=user;if(user&&!ready){ready=true;getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(s=>{mn=s.size===0?'Teacher':'Oleksandr';setS('SYNC ON','#4A6741');sync();cursors();}).catch(()=>{mn='Oleksandr';setS('SYNC ON','#4A6741');sync();cursors();});}else if(!user)setS('DISCONNECTED','#B84F2A');});
+    function sync(){
+        const tRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const dRef=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');
+        const wRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        let editing=null;
+        window.saveTextUpdate=el=>{if(!me)return;setDoc(tRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+        window.attachEditableListeners=el=>{el.addEventListener('focus',()=>editing=el.dataset.syncId);el.addEventListener('blur',()=>{editing=null;window.saveTextUpdate(el);});el.addEventListener('input',deb(()=>{if(editing===el.dataset.syncId)window.saveTextUpdate(el);},500));};
+        eds.forEach(el=>window.attachEditableListeners(el));
+        window.addNewTab=e=>{e.preventDefault();const c=document.getElementById('navTabsContainer');const li=document.createElement('li');const nid='e-tab-'+Date.now();li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${nid}">New Tab</a>`;c.appendChild(li);window.attachEditableListeners(li.querySelector('a'));if(me)setDoc(tRef,{'nav_tabs_structure':c.innerHTML},{merge:true});};
+        onSnapshot(tRef,snap=>{if(snap.exists()){const d=snap.data();for(const[sid,html]of Object.entries(d)){if(sid==='nav_tabs_structure'){const c=document.getElementById('navTabsContainer');if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable]').forEach(a=>window.attachEditableListeners(a));}continue;}if(editing!==sid){const el=document.querySelector(`[data-sync-id="${sid}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}}}});
+        document.addEventListener('paste',e=>{const tgt=e.target;if(!tgt.closest('[contenteditable="true"]'))return;const items=(e.clipboardData||window.clipboardData).items;for(let k in items){const item=items[k];if(item.kind==='file'&&item.type.startsWith('image/')){e.preventDefault();const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=function(){const c=document.createElement('canvas');const M=800;let w=img.width,h=img.height;if(w>M){h*=M/w;w=M;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};r.readAsDataURL(item.getAsFile());return;}}const pt=(e.clipboardData||window.clipboardData).getData('text');if(pt){const yt=pt.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/)|\S*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);if(yt){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%"></iframe></div><p><br></p>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}if(/^https?:\/\/\S+$/.test(pt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${pt.trim()}" target="_blank" style="color:var(--sage);text-decoration:underline" contenteditable="false">${pt.trim()}</a>`);tgt.dispatchEvent(new Event('input',{bubbles:true}));return;}}});
+        window.syncDragOrder=cid=>{if(!me)return;const c=document.getElementById(cid);if(!c)return;setDoc(dRef,{[cid]:Array.from(c.children).map(x=>x.id)},{merge:true});};
+        onSnapshot(dRef,snap=>{if(snap.exists()){const d=snap.data();['vocabDrag9'].forEach(cid=>{const c=document.getElementById(cid);if(!c)return;if(d[cid])d[cid].forEach(id=>{const el=document.getElementById(id);if(el)c.appendChild(el);});});}});
+        window.syncWbDraw=deb(()=>{if(!me)return;const url=document.getElementById('boardCanvas').toDataURL('image/png',0.5);setDoc(wRef,{image:url,clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWbClear=()=>{if(!me)return;const ts=Date.now();window.lastClear=ts;setDoc(wRef,{clearTimestamp:ts,image:null},{merge:true});};
+        onSnapshot(wRef,snap=>{if(snap.exists()){const d=snap.data();const cv=document.getElementById('boardCanvas');const cx=cv.getContext('2d');if(d.clearTimestamp>(window.lastClear||0)){cx.clearRect(0,0,cv.width,cv.height);window.lastClear=d.clearTimestamp;return;}if(d.image&&!pendingDraw){const img=new Image();img.onload=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.drawImage(img,0,0);};img.src=d.image;}}});
+        window.doReset=async()=>{if(!me)return;if(!confirm('Reset all content for everyone?'))return;setS('RESETTING...','#A07820');const tR=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');const dR=doc(db,'artifacts',appId,'public','data','lesson_state','drag_order');const wR=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');await deleteDoc(tR);await deleteDoc(dR);const ts=Date.now();window.lastClear=ts;await setDoc(wR,{clearTimestamp:ts,image:null});setTimeout(()=>setS('SYNC ON','#4A6741'),1000);};
+    }
+    function cursors(){
+        const col=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',me.uid);
+        const container=document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove',deb(e=>{if(!me)return;setDoc(myRef,{xOffset:e.pageX-(window.innerWidth/2),y:e.pageY,color:mc,name:mn,timestamp:Date.now()});},400));
+        onSnapshot(col,snap=>{snap.docChanges().forEach(ch=>{const id=ch.doc.id;if(id===me.uid)return;if(ch.type==='removed'){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}const d=ch.doc.data();if(Date.now()-d.timestamp>60000){const el=document.getElementById('cur-'+id);if(el)el.remove();return;}let el=document.getElementById('cur-'+id);if(!el){el=document.createElement('div');el.id='cur-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="cursor-name" style="background:${d.color}">${d.name}</div>`;container.appendChild(el);}el.style.left=((window.innerWidth/2)+d.xOffset)+'px';el.style.top=d.y+'px';});});
+        window.addEventListener('beforeunload',()=>{if(me)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
