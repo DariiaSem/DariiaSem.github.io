@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STANAG 6001 | Lesson 10: Defence Economics & Mock Exam 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #F6F4EF;
+            --surface: #FFFFFF;
+            --panel: #EDEBE4;
+            --dark: #0B0A07;
+            --mid: #252318;
+            --ink: #1A190F;
+            --indigo: #283593;
+            --indigo-pale: rgba(40,53,147,0.07);
+            --indigo-mid: rgba(40,53,147,0.14);
+            --crimson: #B71C1C;
+            --crimson-pale: rgba(183,28,28,0.07);
+            --teal: #00695C;
+            --teal-pale: rgba(0,105,92,0.07);
+            --amber: #E65100;
+            --amber-pale: rgba(230,81,0,0.08);
+            --gold: #C79200;
+            --gold-pale: rgba(199,146,0,0.09);
+            --gray: #64625A;
+            --line: #DDD9CE;
+            --sans: 'Noto Sans', system-ui, sans-serif;
+            --display: 'Rajdhani', system-ui, sans-serif;
+            --mono: 'Noto Sans Mono', monospace;
+            --r: 6px;
+            --r-lg: 14px;
+            --shadow: 0 2px 8px rgba(11,10,7,0.08);
+            --shadow-md: 0 6px 24px rgba(11,10,7,0.1);
+            --shadow-lg: 0 16px 48px rgba(11,10,7,0.13);
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.7; overflow-x: hidden; }
+
+        [contenteditable="true"] { outline: none; border-radius: 3px; transition: background .18s; }
+        [contenteditable="true"]:hover,[contenteditable="true"]:focus { background: rgba(40,53,147,0.06); box-shadow: 0 0 0 1px rgba(40,53,147,0.2); }
+
+        /* ====== HERO — Command Terminal ====== */
+        .hero {
+            background: var(--dark);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-stripe {
+            position: absolute;
+            top: 0; bottom: 0; right: 300px;
+            width: 2px;
+            background: linear-gradient(180deg, transparent 10%, var(--indigo) 50%, transparent 90%);
+            opacity: 0.35;
+            z-index: 2;
+        }
+        .hero-left {
+            grid-column: 1;
+            padding: 64px 56px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-right {
+            grid-column: 2;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-tag {
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--indigo);
+            filter: brightness(1.6);
+            background: rgba(40,53,147,0.15);
+            border: 1px solid rgba(40,53,147,0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            border-radius: 3px;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+        .hero-tag .dot { width: 6px; height: 6px; background: var(--indigo); filter: brightness(1.6); border-radius: 50%; animation: bpulse 2s ease-in-out infinite; }
+        @keyframes bpulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        .hero h1 {
+            font-family: var(--display);
+            font-size: clamp(3rem, 7vw, 5.8rem);
+            font-weight: 700;
+            line-height: 0.9;
+            color: white;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+        .hero h1 .accent { color: var(--indigo); filter: brightness(1.6); display: block; }
+        .hero h1 .muted { font-size: 0.28em; font-family: var(--mono); letter-spacing: 4px; color: rgba(255,255,255,0.2); display: block; margin-bottom: 10px; font-weight: 400; text-transform: uppercase; }
+        .hero-sub { font-size: 0.92rem; color: rgba(255,255,255,0.45); max-width: 420px; line-height: 1.65; margin-bottom: 32px; font-weight: 300; }
+        .hero-badges { display: flex; gap: 10px; flex-wrap: wrap; }
+        .hbadge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 1px; text-transform: uppercase; padding: 5px 12px; border-radius: 3px; }
+        .hbadge.hi { background: var(--crimson); color: white; }
+        .hbadge.ghost { border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.35); }
+        /* Right: mock scorecard */
+        .scorecard { display: flex; flex-direction: column; gap: 9px; }
+        .sc-mini { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: var(--r); padding: 12px 16px; }
+        .sc-mini.accent { background: rgba(183,28,28,0.2); border-color: rgba(183,28,28,0.4); }
+        .sc-mini .scm-lbl { font-family: var(--mono); font-size: 0.57rem; color: rgba(255,255,255,0.28); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+        .sc-mini .scm-val { font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: white; line-height: 1; }
+        .sc-mini.accent .scm-val { color: #ef9a9a; }
+        .sc-mini .scm-sub { font-family: var(--mono); font-size: 0.57rem; color: rgba(255,255,255,0.25); margin-top: 2px; }
+        .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 56px; background: var(--bg); clip-path: ellipse(55% 100% at 50% 100%); z-index: 3; }
+
+        /* ====== NAV ====== */
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(246,244,239,0.97); backdrop-filter: blur(12px); border-bottom: 2px solid var(--indigo); padding: 0 24px; }
+        .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 52px; }
+        .nav-logo { font-family: var(--display); font-size: 0.95rem; font-weight: 700; color: var(--dark); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .nav-logo .badge { background: var(--crimson); color: white; padding: 2px 8px; border-radius: 3px; font-family: var(--mono); font-size: 0.6rem; font-weight: 600; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.7rem; font-weight: 600; padding: 5px 10px; border-radius: var(--r); transition: all .18s; white-space: nowrap; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links a:hover { color: var(--indigo); background: var(--indigo-pale); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 80px 24px; }
+        .section.alt { background: var(--surface); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+        .section-label { font-family: var(--mono); font-size: 0.63rem; color: var(--indigo); letter-spacing: 3px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+        .section-label .tag { background: var(--indigo); color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.58rem; font-weight: 700; }
+        .section-label .tag.cr { background: var(--crimson); }
+        .section-label .tag.te { background: var(--teal); }
+        .section-label .tag.am { background: var(--amber); }
+        .section-title { font-family: var(--display); font-size: clamp(1.9rem, 4.5vw, 3rem); font-weight: 700; color: var(--dark); margin-bottom: 10px; line-height: 1.05; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section-title .in { color: var(--indigo); }
+        .section-title .cr { color: var(--crimson); }
+        .section-title .te { color: var(--teal); }
+        .section-title .am { color: var(--amber); }
+        .section-desc { color: var(--gray); font-size: 0.95rem; margin-bottom: 32px; max-width: 640px; line-height: 1.65; }
+
+        /* ====== DATA TABLE ====== */
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.88rem; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
+        .data-table thead th { background: var(--dark); color: white; padding: 11px 16px; text-align: left; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; }
+        .data-table tbody td { padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top; background: white; }
+        .data-table tbody tr:nth-child(even) td { background: var(--panel); }
+        .data-table tbody tr:hover td { background: var(--indigo-pale); }
+        .data-table td strong { color: var(--indigo); }
+
+        /* ====== CHIP ====== */
+        .chip { display: inline-block; font-family: var(--mono); font-size: 0.6rem; padding: 2px 8px; border-radius: 40px; letter-spacing: 1px; font-weight: 700; text-transform: uppercase; }
+        .chip.in { background: var(--indigo-pale); color: var(--indigo); border: 1px solid rgba(40,53,147,0.25); }
+        .chip.cr { background: var(--crimson-pale); color: var(--crimson); border: 1px solid rgba(183,28,28,0.25); }
+        .chip.te { background: var(--teal-pale); color: var(--teal); border: 1px solid rgba(0,105,92,0.25); }
+        .chip.go { background: var(--gold-pale); color: var(--gold); border: 1px solid rgba(199,146,0,0.25); }
+
+        /* ====== VOCAB CARDS ====== */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px,1fr)); gap: 12px; margin-top: 24px; }
+        .vocab-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px 18px; box-shadow: var(--shadow); border-top: 3px solid var(--indigo); transition: transform .15s; }
+        .vocab-card:nth-child(2){border-top-color:var(--crimson);}
+        .vocab-card:nth-child(3){border-top-color:var(--teal);}
+        .vocab-card:nth-child(4){border-top-color:var(--amber);}
+        .vocab-card:nth-child(5){border-top-color:var(--indigo);}
+        .vocab-card:nth-child(6){border-top-color:var(--crimson);}
+        .vocab-card:nth-child(7){border-top-color:var(--teal);}
+        .vocab-card:nth-child(8){border-top-color:var(--amber);}
+        .vocab-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .vocab-card .word { font-weight: 700; font-size: 0.96rem; color: var(--dark); }
+        .vocab-card .pos { font-family: var(--mono); font-size: 0.6rem; color: var(--indigo); letter-spacing: 1px; text-transform: uppercase; margin-left: 6px; }
+        .vocab-card .def { font-size: 0.84rem; color: var(--gray); margin-top: 5px; line-height: 1.5; }
+        .vocab-card .example { font-size: 0.82rem; font-style: italic; color: var(--mid); margin-top: 8px; border-top: 1px solid var(--line); padding-top: 8px; }
+
+        /* ====== DRAG & DROP ====== */
+        .match-board { display: flex; gap: 14px; align-items: stretch; margin-top: 24px; }
+        .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 8px; list-style: none; }
+        .arrows-col { display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+        .drag-item { background: white; border: 1px solid var(--line); border-left: 3px solid var(--indigo); border-radius: var(--r); cursor: grab; display: flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600; color: var(--dark); box-shadow: var(--shadow); transition: all .15s; height: 56px; padding: 0 14px; }
+        .drag-item:hover { border-left-color: var(--crimson); box-shadow: var(--shadow-md); }
+        .drag-item:active { cursor: grabbing; }
+        .drag-item.dragging { opacity: 0.3; border-style: dashed; }
+        .drag-handle { color: var(--line); font-size: 1rem; user-select: none; }
+        .static-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); color: var(--gray); height: 56px; display: flex; align-items: center; padding: 0 14px; font-size: 0.84rem; }
+        .match-arrow { color: var(--line); font-size: 1.2rem; height: 56px; display: flex; align-items: center; justify-content: center; }
+
+        /* ====== PASSAGE ====== */
+        .passage-wrap { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md); margin-bottom: 20px; }
+        .passage-top { background: var(--dark); color: white; padding: 13px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .passage-top .pt { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; }
+        .passage-top .pm { font-size: 0.68rem; color: rgba(255,255,255,0.4); font-family: var(--mono); }
+        .passage-ruler { height: 3px; background: linear-gradient(90deg, var(--indigo), var(--crimson), var(--teal)); }
+        .passage-body { padding: 30px 34px; font-size: 0.97rem; line-height: 1.85; }
+        .passage-body p { margin-bottom: 14px; }
+        .pnum { display: inline-block; background: var(--indigo); color: white; font-family: var(--mono); font-size: 0.58rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+
+        /* ====== MCQ ====== */
+        .q-block { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow); }
+        .q-head { background: var(--panel); border-bottom: 1px solid var(--line); padding: 12px 20px; display: flex; gap: 12px; align-items: flex-start; }
+        .q-num { width: 28px; height: 28px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.7rem; font-weight: 700; flex-shrink: 0; color: white; background: var(--indigo); }
+        .q-num.cr { background: var(--crimson); }
+        .q-text { font-size: 0.92rem; color: var(--dark); font-weight: 600; line-height: 1.5; }
+        .options { padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; }
+        .opt { display: flex; align-items: flex-start; gap: 10px; padding: 9px 14px; border-radius: var(--r); border: 1px solid var(--line); cursor: pointer; transition: all .15s; background: white; }
+        .opt:hover { border-color: var(--indigo); background: var(--indigo-pale); }
+        .opt.selected { border-color: var(--indigo); background: var(--indigo-pale); }
+        .opt.correct { border-color: var(--teal); background: var(--teal-pale); }
+        .opt.incorrect { border-color: var(--crimson); background: var(--crimson-pale); }
+        .opt-key { background: var(--panel); color: var(--gold); width: 24px; height: 24px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.68rem; font-weight: 700; flex-shrink: 0; }
+        .opt-label { font-size: 0.87rem; color: var(--ink); line-height: 1.5; }
+
+        /* ====== AUDIO BLOCK ====== */
+        .audio-block { background: var(--dark); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 20px; box-shadow: var(--shadow-md); }
+        .audio-hdr { background: var(--mid); padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .rec-dot { width: 10px; height: 10px; background: #E53935; border-radius: 50%; animation: recblink 1.5s ease-in-out infinite; flex-shrink: 0; }
+        @keyframes recblink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .audio-hdr .tn { font-family: var(--mono); font-size: 0.72rem; color: rgba(255,255,255,0.8); letter-spacing: 1px; }
+        .audio-hdr .tt { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.3); margin-left: auto; }
+        .audio-body { padding: 20px 24px; }
+        .audio-script { color: #90CAF9; font-size: 0.9rem; line-height: 1.75; font-style: italic; border-left: 2px solid #5C6BC0; padding-left: 16px; }
+        .spk { font-family: var(--mono); font-size: 0.63rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; margin-top: 12px; }
+        .spk:first-child { margin-top: 0; }
+        .spk.s1 { color: #90CAF9; }
+        .spk.s2 { color: #80DEEA; }
+        .spk.host { color: #CE93D8; }
+
+        /* ====== ALERT ====== */
+        .alert { border-radius: var(--r); padding: 14px 18px; margin: 20px 0; font-size: 0.9rem; display: flex; gap: 12px; align-items: flex-start; line-height: 1.6; }
+        .alert.indigo { background: var(--indigo-pale); border: 1px solid rgba(40,53,147,0.2); border-left: 4px solid var(--indigo); }
+        .alert.crimson { background: var(--crimson-pale); border: 1px solid rgba(183,28,28,0.2); border-left: 4px solid var(--crimson); }
+        .alert.teal { background: var(--teal-pale); border: 1px solid rgba(0,105,92,0.2); border-left: 4px solid var(--teal); }
+        .alert.amber { background: var(--amber-pale); border: 1px solid rgba(230,81,0,0.2); border-left: 4px solid var(--amber); }
+        .alert.gold { background: var(--gold-pale); border: 1px solid rgba(199,146,0,0.2); border-left: 4px solid var(--gold); }
+        .alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+        /* ====== SPEAKING STAGE ====== */
+        .speak-stage { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-md); margin-top: 24px; }
+        .stage-hdr { background: var(--dark); padding: 13px 22px; display: flex; align-items: center; justify-content: space-between; }
+        .stage-hdr .st { font-family: var(--display); font-size: 0.9rem; color: white; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .stage-hdr .sb { font-family: var(--mono); font-size: 0.62rem; color: #90CAF9; border: 1px solid rgba(40,53,147,0.4); padding: 2px 8px; border-radius: 2px; }
+        .stage-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+        .turn { display: flex; gap: 12px; align-items: flex-start; }
+        .turn.right { flex-direction: row-reverse; }
+        .av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .av.ex { background: var(--indigo-pale); border: 2px solid rgba(40,53,147,0.3); }
+        .av.st { background: var(--teal-pale); border: 2px solid rgba(0,105,92,0.3); }
+        .bub { border-radius: var(--r-lg); padding: 12px 18px; max-width: 78%; font-size: 0.9rem; line-height: 1.6; }
+        .bub.ex { background: var(--indigo-pale); border: 1px solid rgba(40,53,147,0.18); border-top-left-radius: 2px; }
+        .bub.st { background: var(--teal-pale); border: 1px solid rgba(0,105,92,0.18); border-top-right-radius: 2px; }
+        .bub.hint { background: var(--gold-pale); border: 1px dashed rgba(199,146,0,0.35); font-style: italic; font-size: 0.82rem; color: var(--gray); max-width: 100%; border-radius: var(--r); padding: 10px 16px; }
+        .sn { font-family: var(--mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .sn.ex { color: var(--indigo); }
+        .sn.st { color: var(--teal); text-align: right; }
+
+        /* ====== EXERCISES ====== */
+        .exercise-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-top: 24px; counter-reset: ex; }
+        .exercise-list li { background: white; border: 1px solid var(--line); padding: 13px 18px 13px 52px; border-radius: var(--r); font-size: 0.92rem; position: relative; box-shadow: var(--shadow); }
+        .exercise-list li::before { counter-increment: ex; content: counter(ex); position: absolute; left: 16px; top: 13px; width: 24px; height: 24px; background: var(--indigo); color: white; border-radius: var(--r); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; }
+        .blank { display: inline-block; min-width: 80px; border-bottom: 1.5px solid var(--gray); color: var(--indigo); font-weight: 600; padding: 0 8px; text-align: center; }
+        .blank:focus { border-bottom-color: var(--indigo); outline: none; }
+
+        /* ====== MOCK EXAM PANEL ====== */
+        .mock-panel { background: var(--dark); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lg); margin-top: 24px; }
+        .mock-header { background: var(--crimson); padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; }
+        .mock-header h3 { font-family: var(--display); font-size: 1.3rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 2px; }
+        .mock-header .mstatus { font-family: var(--mono); font-size: 0.65rem; color: rgba(255,255,255,0.7); letter-spacing: 2px; }
+        .mock-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 12px; }
+        .mock-section { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r); padding: 16px 20px; }
+        .mock-section .ms-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .mock-section .ms-title { font-family: var(--display); font-size: 1rem; color: white; text-transform: uppercase; letter-spacing: 1px; }
+        .mock-section .ms-time { font-family: var(--mono); font-size: 0.7rem; color: #90CAF9; }
+        .mock-section .ms-desc { font-size: 0.84rem; color: rgba(255,255,255,0.45); line-height: 1.55; }
+        .mock-section ul { list-style: none; margin-top: 8px; }
+        .mock-section ul li { font-size: 0.82rem; color: rgba(255,255,255,0.32); padding: 2px 0; font-family: var(--mono); }
+        .mock-section ul li::before { content: '→ '; color: #90CAF9; }
+
+        /* ====== SCORE CARDS ====== */
+        .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
+        .score-card { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); }
+        .score-card .sc-top { padding: 12px 18px; font-family: var(--display); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .sc-top.reading { background: var(--indigo-pale); color: var(--indigo); border-bottom: 2px solid var(--indigo); }
+        .sc-top.listening { background: var(--teal-pale); color: var(--teal); border-bottom: 2px solid var(--teal); }
+        .sc-top.writing { background: var(--crimson-pale); color: var(--crimson); border-bottom: 2px solid var(--crimson); }
+        .sc-top.speaking { background: var(--amber-pale); color: var(--amber); border-bottom: 2px solid var(--amber); }
+        .score-card .sc-body { padding: 14px 18px; font-size: 0.85rem; }
+        .score-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 0.84rem; }
+        .score-row:last-of-type { border: none; }
+        .score-input { width: 64px; text-align: center; border: 1px solid var(--line); border-radius: var(--r); padding: 3px 6px; font-family: var(--mono); font-size: 0.78rem; color: var(--indigo); background: var(--panel); }
+        .score-input:focus { outline: none; border-color: var(--indigo); }
+
+        /* ====== WRITING PAPER ====== */
+        .writing-paper { background: white; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px 36px; min-height: 260px; box-shadow: var(--shadow-md); font-size: 0.97rem; line-height: 1.85; position: relative; background-image: repeating-linear-gradient(transparent, transparent 30px, rgba(40,53,147,0.05) 30px, rgba(40,53,147,0.05) 31px); }
+        .writing-paper::before { content: ''; position: absolute; left: 62px; top: 0; bottom: 0; width: 1px; background: rgba(183,28,28,0.1); }
+        .writing-paper .ph { color: var(--gray); font-style: italic; font-size: 0.88rem; }
+
+        /* ====== WHITEBOARD ====== */
+        .wb-wrap { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+        .wb-bar { background: var(--dark); padding: 10px 18px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: rgba(255,255,255,0.07); color: white; border: 1px solid rgba(255,255,255,0.15); padding: 5px 10px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; transition: all .15s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--indigo); border-color: var(--indigo); }
+        .wb-color { width: 24px; height: 24px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 460px; background: white; cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .end-panel { background: var(--dark); color: white; border-radius: var(--r-lg); padding: 40px; margin-top: 40px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+        .end-panel::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--indigo), var(--crimson), var(--teal), var(--amber)); }
+        .end-panel h2 { font-family: var(--display); font-size: 2rem; color: white; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-weight: 700; }
+        .end-panel .sub { font-family: var(--mono); font-size: 0.63rem; color: rgba(255,255,255,0.3); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; }
+        .end-list { list-style: none; }
+        .end-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.87rem; color: rgba(255,255,255,0.68); }
+        .end-list li strong { color: rgba(130,160,255,0.9); }
+
+        /* ====== FABs ====== */
+        .fab-group { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 10px; z-index: 1000; }
+        .fab { background: var(--dark); color: white; border: 1px solid rgba(255,255,255,0.1); width: 48px; height: 48px; border-radius: var(--r); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); transition: all .2s; display: flex; align-items: center; justify-content: center; }
+        .fab:hover { background: var(--indigo); transform: translateY(-2px); }
+        .fab.qz { background: rgba(66,85,255,0.85); border-color: transparent; }
+        .fab.qz:hover { background: #4255FF; }
+        .fab.rst { background: rgba(183,28,28,0.15); border-color: var(--crimson); color: var(--crimson); }
+        .fab.rst:hover { background: var(--crimson); color: white; }
+
+        /* ====== MODAL ====== */
+        .modal-overlay { display: none; position: fixed; top:0;left:0;width:100%;height:100%; background: rgba(11,10,7,0.85); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-box { background: var(--surface); border: 1px solid var(--line); padding: 28px; border-radius: var(--r-lg); width: 90%; max-width: 560px; position: relative; box-shadow: var(--shadow-lg); }
+        .modal-box h2 { font-family: var(--display); font-size: 1.5rem; font-weight: 700; color: var(--dark); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .modal-close { position: absolute; top: 14px; right: 16px; font-size: 1.6rem; cursor: pointer; color: var(--gray); background: none; border: none; }
+        .modal-close:hover { color: var(--crimson); }
+        .word-row { display: flex; gap: 8px; margin-bottom: 10px; }
+        .word-row input { flex: 1; padding: 8px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); font-size: 0.88rem; color: var(--dark); font-family: var(--sans); }
+        .word-row input:focus { outline: none; border-color: var(--indigo); }
+        #wordList { max-height: 300px; overflow-y: auto; margin: 16px 0; }
+        .modal-actions { display: flex; gap: 8px; }
+        .modal-btn { flex: 1; padding: 9px; border-radius: var(--r); cursor: pointer; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; transition: all .15s; }
+        .modal-btn.secondary { background: transparent; border-color: var(--line); color: var(--gray); }
+        .modal-btn.primary { background: #4255FF; border-color: #4255FF; color: white; flex: 2; }
+
+        /* ====== CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top .35s linear, left .35s linear; display: flex; align-items: flex-start; opacity: 0; animation: fcIn .3s forwards; }
+        @keyframes fcIn { to { opacity: 1; } }
+        .remote-cursor svg { width: 20px; height: 20px; transform: rotate(-15deg); pointer-events: none; }
+        .cursor-name { color: white; font-family: var(--mono); font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 2px; margin-left: -4px; margin-top: 14px; white-space: nowrap; }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-right { display: none; }
+            .hero-left { padding: 60px 28px 80px; }
+            .section { padding: 56px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 360px; }
+            .match-board { flex-direction: column; }
+            .arrows-col { display: none; }
+            .score-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed;top:10px;left:50%;transform:translateX(-50%);background:var(--dark);color:#90CAF9;padding:5px 14px;border-radius:var(--r);font-family:var(--mono);font-size:0.7rem;font-weight:600;z-index:10000;display:flex;align-items:center;gap:8px;border:1px solid rgba(40,53,147,0.35);">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--indigo);border-radius:50%;"></span>
+    <span id="syncText">CONNECTING...</span>
+</div>
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-stripe"></div>
+    <div class="hero-left">
+        <div class="hero-tag"><span class="dot"></span><span contenteditable="true">STANAG 6001 · Lesson 10 · Mixed Skills + Mock Exam 1</span></div>
+        <h1>
+            <span class="muted" contenteditable="true">// Defence Economics & First Full Simulation</span>
+            COMBAT<br><span class="accent">READY</span>
+        </h1>
+        <p class="hero-sub" contenteditable="true">The second mixed-skills lesson covers Defence Economics and Inequality — then concludes with your first complete four-skills mock examination under real exam conditions. This is the halfway point of the course.</p>
+        <div class="hero-badges">
+            <div class="hbadge hi" contenteditable="true">First Full Mock Exam</div>
+            <div class="hbadge ghost" contenteditable="true">Defence Economics</div>
+            <div class="hbadge ghost" contenteditable="true">Inequality & Society</div>
+            <div class="hbadge ghost" contenteditable="true">Complex Sentences</div>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="scorecard">
+            <div style="font-family:var(--mono);font-size:0.57rem;color:rgba(255,255,255,0.25);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;" contenteditable="true">// MOCK EXAM 1 — STRUCTURE</div>
+            <div class="sc-mini accent">
+                <div class="scm-lbl" contenteditable="true">Status</div>
+                <div class="scm-val" contenteditable="true">MOCK 1</div>
+                <div class="scm-sub" contenteditable="true">First full simulation today</div>
+            </div>
+            <div class="sc-mini">
+                <div class="scm-lbl" contenteditable="true">Reading</div>
+                <div class="scm-val" contenteditable="true">Official</div>
+                <div class="scm-sub" contenteditable="true">Practice Test 3 — Generation Next</div>
+            </div>
+            <div class="sc-mini">
+                <div class="scm-lbl" contenteditable="true">Listening</div>
+                <div class="scm-val" contenteditable="true">Official</div>
+                <div class="scm-sub" contenteditable="true">Scots + Hungarian Response</div>
+            </div>
+            <div class="sc-mini">
+                <div class="scm-lbl" contenteditable="true">Writing</div>
+                <div class="scm-val" contenteditable="true">60 min</div>
+                <div class="scm-sub" contenteditable="true">L2 Letter + L3 Salary Essay</div>
+            </div>
+            <div class="sc-mini">
+                <div class="scm-lbl" contenteditable="true">Speaking</div>
+                <div class="scm-val" contenteditable="true">30 min</div>
+                <div class="scm-sub" contenteditable="true">All 3 phases · 4 live criteria</div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="badge">L10</span> Combat Ready</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--indigo);border:1px solid rgba(40,53,147,0.3);padding:4px 10px;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocab</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#listening" contenteditable="true">Listening</a></li>
+            <li><a href="#answerkey" contenteditable="true">Answers</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#premock" contenteditable="true">Pre-Mock</a></li>
+            <li><a href="#mock" contenteditable="true">Mock Exam</a></li>
+            <li><a href="#mockwriting" contenteditable="true">Mock Writing</a></li>
+            <li><a href="#debrief" contenteditable="true">Debrief</a></li>
+            <li><a href="#wb" contenteditable="true">Board</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section alt" id="recap">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">01</span> L9 Vocab Test + Essay Review</div>
+        <h2 class="section-title" contenteditable="true">Recall: <span class="in">Written Test + NATO Essay Debrief</span></h2>
+        <p class="section-desc" contenteditable="true">Eight words, written English definitions from memory. Then review the 250-word NATO essay from homework — this essay uses the same four-paragraph structure and hedging language as the mock writing section later today.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr><th contenteditable="true">Word (L9)</th><th contenteditable="true">English Definition</th><th contenteditable="true">/2</th></tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>alliance</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>burden-sharing</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>collective security</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>deter</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>sovereignty</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>multilateral framework</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>diplomatic channel</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+                <tr><td contenteditable="true"><strong>resolution</strong></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert indigo" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📝</span>
+            <div contenteditable="true"><strong>Essay Review (5 minutes):</strong> Read the NATO essay aloud. Teacher checks: (1) 250 words met? (2) Reported speech verbs varied (argued/contended/acknowledged)? (3) Was the 4-paragraph structure maintained? (4) Hedging present in ¶1–3? (5) Opinion only in ¶4? Score it using today's mock rubric. The same structure goes directly into the mock exam writing section.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: VOCABULARY ====== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag te">02</span> New Vocabulary: Defence Economics</div>
+        <h2 class="section-title" contenteditable="true">Vocabulary: <span class="te">Economics & Inequality</span></h2>
+        <p class="section-desc" contenteditable="true">Today's reading, listening audio, and mock writing prompt all share this vocabulary set. Mastering these 8 terms before the lesson means you encounter them as friends, not strangers, during the mock.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">fiscal</span><span class="pos" contenteditable="true">adj</span>
+                <p class="def" contenteditable="true">Relating to government finances, taxation, and public expenditure — the money management dimension of state policy.</p>
+                <p class="example" contenteditable="true"><em>"Fiscal constraints made a significant increase in defence spending politically difficult without cuts elsewhere."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">disparity</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A great difference or inequality — especially in income, opportunity, or resources between groups or nations.</p>
+                <p class="example" contenteditable="true"><em>"The growing disparity in defence investment levels across NATO members has become a strategic liability."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">expenditure</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">The total amount of money a government spends — specifically on a programme, ministry, or policy area.</p>
+                <p class="example" contenteditable="true"><em>"Defence expenditure as a share of GDP has risen sharply across Eastern European NATO members since 2022."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">inequality</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">An unfair situation where some people have far more wealth, opportunities, or rights than others in the same society.</p>
+                <p class="example" contenteditable="true"><em>"Rising income inequality has been identified as a driver of social unrest and political radicalisation."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">procurement</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">The formal process by which a government or military organisation obtains equipment, goods, or services through contracts.</p>
+                <p class="example" contenteditable="true"><em>"Defence procurement cycles spanning a decade make rapid adaptation to new threats structurally difficult."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">redistribute</span><span class="pos" contenteditable="true">verb</span>
+                <p class="def" contenteditable="true">To reallocate wealth, income, or resources more equally — typically through progressive taxation and public spending programmes.</p>
+                <p class="example" contenteditable="true"><em>"Progressive tax systems are designed to redistribute wealth from higher earners toward essential public services."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">austerity</span><span class="pos" contenteditable="true">noun</span>
+                <p class="def" contenteditable="true">A government economic policy of reducing public spending to cut deficits — typically at the cost of social services and welfare.</p>
+                <p class="example" contenteditable="true"><em>"Years of defence austerity had degraded military readiness before the urgent need for rearmament arose."</em></p>
+            </div>
+            <div class="vocab-card">
+                <span class="word" contenteditable="true">GDP</span><span class="pos" contenteditable="true">abbr · noun</span>
+                <p class="def" contenteditable="true">Gross Domestic Product — the total monetary value of all goods and services produced within a country in a given period; the main measure of economic output.</p>
+                <p class="example" contenteditable="true"><em>"NATO's 2% GDP commitment requires each member to allocate that proportion of national output to defence."</em></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCAB MATCH ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag te">03</span> Vocabulary Drill</div>
+        <h2 class="section-title" contenteditable="true">Match: Economic Term → <span class="am">Definition</span></h2>
+        <p class="section-desc" contenteditable="true">These terms appear in the reading text, the listening audio, and the mock essay prompt. Locking in the matches now means instant recall in each section.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="vocabDrag10">
+                <li class="drag-item" id="v10-4" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">disparity</span></li>
+                <li class="drag-item" id="v10-7" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">austerity</span></li>
+                <li class="drag-item" id="v10-1" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">fiscal</span></li>
+                <li class="drag-item" id="v10-5" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">procurement</span></li>
+                <li class="drag-item" id="v10-3" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">expenditure</span></li>
+                <li class="drag-item" id="v10-6" draggable="true"><span class="drag-handle">⠿</span><span contenteditable="true">redistribute</span></li>
+            </ul>
+            <div class="arrows-col">
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+                <div class="match-arrow">→</div><div class="match-arrow">→</div>
+            </div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) relating to government revenue, tax, and spending</li>
+                <li class="static-item" contenteditable="true">b) the amount of money a government spends on a programme</li>
+                <li class="static-item" contenteditable="true">c) formal process of obtaining military equipment via contract</li>
+                <li class="static-item" contenteditable="true">d) a significant gap or inequality between groups or nations</li>
+                <li class="static-item" contenteditable="true">e) to reallocate wealth more equally through policy</li>
+                <li class="static-item" contenteditable="true">f) policy of cutting public spending to reduce government deficit</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: LEVEL 3 READING ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">04</span> Level 3 Reading: Defence Economics</div>
+        <h2 class="section-title" contenteditable="true">Reading: <span class="in">Guns, Butter & Growth</span></h2>
+        <p class="section-desc" contenteditable="true">Read all questions FIRST. Skim for paragraph structure. Scan for keywords. Time: <strong>8 minutes</strong>. This text directly prepares you for the mock writing prompt — read strategically.</p>
+
+        <div class="passage-wrap">
+            <div class="passage-top">
+                <span class="pt">Economic Policy Analysis</span>
+                <span class="pm">~360 words · <span class="chip in">Level 3</span> · <span class="chip te">Defence Economics</span></span>
+            </div>
+            <div class="passage-ruler"></div>
+            <div class="passage-body" contenteditable="true">
+                <p><span class="pnum">A</span>The relationship between defence expenditure and economic growth remains one of the most contested questions in security economics. Classical economic theory posits a direct trade-off: resources devoted to military capability are resources unavailable for productive investment, education, or healthcare — the so-called "guns versus butter" dilemma. Yet the empirical evidence presents a more nuanced picture. In post-Cold War Europe, prolonged periods of defence austerity — driven by the assumption that major conflict had become impossible — coincided with infrastructure degradation, reduced military readiness, and, paradoxically, increased strategic vulnerability.</p>
+
+                <p><span class="pnum">B</span>The rupture in European security in 2022 forced a fundamental reassessment. Nations that had allowed their defence industrial bases to atrophy over three decades faced acute procurement challenges: insufficient manufacturing capacity, fractured supply chains, and a workforce lacking the specialised skills required for rapid rearmament. The fiscal implications proved substantial. Rebuilding defence capacity is not merely a matter of increasing a budget line; it requires sustained, predictable investment over years — investment that competes directly with social welfare commitments already under pressure from ageing populations and post-pandemic debt levels.</p>
+
+                <p><span class="pnum">C</span>This creates a genuine dilemma for democratic governments. Increasing defence expenditure at the required scale may necessitate difficult choices: cuts to social programmes, higher taxation, or increased borrowing. Each carries political costs. Critics argue that diverting resources from education, healthcare, and poverty reduction risks deepening the very inequalities and social vulnerabilities that fuel extremism and undermine democratic cohesion. Proponents counter that without physical security, no social programme can be reliably delivered.</p>
+
+                <p><span class="pnum">D</span>There is, however, an emerging consensus that the "guns versus butter" framing is increasingly inadequate. Modern security analysts argue for a "resilience economy" model — one in which defence capability, social investment, and technological innovation are understood as complementary rather than competing priorities. In this view, the most capable society is not the one with the largest defence budget, but the one with the most cohesive, educated, and economically secure population.</p>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">1</div><p class="q-text" contenteditable="true">What does paragraph A suggest about post-Cold War European defence austerity?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r1','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It successfully created the conditions for sustained economic growth across the continent</span></div>
+                <div class="opt" onclick="sel(this,'r1','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">It produced unexpected security vulnerabilities alongside reduced military readiness</span></div>
+                <div class="opt" onclick="sel(this,'r1','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">It validated classical economic theory about the benefits of reduced military spending</span></div>
+                <div class="opt" onclick="sel(this,'r1','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">It was universally popular with European populations seeking to reduce military costs</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">2</div><p class="q-text" contenteditable="true">According to paragraph B, why is rebuilding defence capacity more than simply increasing a budget?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r2','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Because defence contractors are unwilling to accept government contracts at current prices</span></div>
+                <div class="opt" onclick="sel(this,'r2','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Because it requires sustained multi-year investment and competes with existing welfare commitments</span></div>
+                <div class="opt" onclick="sel(this,'r2','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Because defence technology has become so advanced that money alone cannot buy readiness</span></div>
+                <div class="opt" onclick="sel(this,'r2','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Because international sanctions prevent the purchase of essential military components</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">3</div><p class="q-text" contenteditable="true">What is the key argument made by critics of increased defence spending mentioned in paragraph C?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r3','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">That military commanders mismanage any additional budget allocated to them</span></div>
+                <div class="opt" onclick="sel(this,'r3','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">That redirecting funds from social programmes could worsen inequalities that already threaten stability</span></div>
+                <div class="opt" onclick="sel(this,'r3','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">That borrowing money for defence is always more damaging than raising taxes</span></div>
+                <div class="opt" onclick="sel(this,'r3','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">That democratic governments have no legitimate authority to increase defence spending</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num">4</div><p class="q-text" contenteditable="true">The "resilience economy" model in paragraph D differs from the "guns versus butter" model primarily because it:</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'r4','A')"><div class="opt-key">A</div><span class="opt-key">A</div><span class="opt-label" contenteditable="true">Prioritises defence spending above all other forms of public investment</span></div>
+                <div class="opt" onclick="sel(this,'r4','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Views security and social investment as complementary rather than competing priorities</span></div>
+                <div class="opt" onclick="sel(this,'r4','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Argues that technology can replace the need for both defence spending and social investment</span></div>
+                <div class="opt" onclick="sel(this,'r4','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Proposes returning to Cold War-era spending levels across NATO member states</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: LEVEL 3 LISTENING ====== -->
+<section class="section alt" id="listening">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag cr">05</span> Level 3 Listening: Inequality & Democracy</div>
+        <h2 class="section-title" contenteditable="true">Listening: <span class="cr">Salary Inequality & Society</span></h2>
+        <p class="section-desc" contenteditable="true">Teacher reads this discussion aloud at natural speed. T-Frame notes required. Read all 4 questions FIRST. This topic is the mock essay prompt — every argument you hear here is an argument you can use in writing. ~3.5 minutes.</p>
+
+        <div class="alert indigo" contenteditable="false">
+            <span class="alert-icon">📡</span>
+            <div contenteditable="true"><strong>Before listening:</strong> Read questions 5–8 below. Underline one key word each. In your T-Frame: left column = each speaker's position, right column = specific evidence or example given. Note "HOWEVER / BUT" moments — they signal the most likely MCQ answers.</div>
+        </div>
+
+        <div class="audio-block">
+            <div class="audio-hdr">
+                <div class="rec-dot"></div>
+                <span class="tn">RADIO DISCUSSION — SALARY INEQUALITY, DEMOCRACY & SOCIAL COHESION</span>
+                <span class="tt"><span class="chip in">2 RESEARCHERS</span> ~3.5 min</span>
+            </div>
+            <div class="audio-body">
+                <div class="audio-script" contenteditable="true">
+                    <span class="spk host">[ HOST ]</span>
+                    Today we are discussing the growing debate around salary inequality — whether extreme income gaps between the highest and lowest earners are good or bad for society and democracy. I'm joined by two researchers with distinct views.
+
+                    <span class="spk s1">[ RESEARCHER A — Social Policy Institute ]</span>
+                    My view is that the evidence is now quite clear: extreme salary inequality is corrosive to democratic institutions and social cohesion. When a small number of individuals accumulate enormous wealth, they inevitably gain disproportionate influence over political processes — through campaign finance, media ownership, and lobbying. The political system begins to serve the interests of the very wealthy rather than the electorate as a whole. The result is a growing sense of disenfranchisement among ordinary citizens, which in turn fuels populist movements and political polarisation. There is also a health dimension — societies with extreme inequality consistently show worse health outcomes across almost every indicator.
+
+                    <span class="spk s2">[ RESEARCHER B — Economic Freedom Institute ]</span>
+                    I would push back on that characterisation. Economic inequality is not inherently problematic — what matters is economic mobility: whether individuals can improve their position through effort, talent, and enterprise. Many of the most innovative economies in the world exhibit significant inequality. The danger of over-regulating or capping salaries is that it reduces the incentives that drive investment, risk-taking, and growth. A more equal society that is economically stagnant provides far fewer real opportunities for its citizens than a dynamic, growing economy with some degree of inequality.
+
+                    <span class="spk s1">[ RESEARCHER A ]</span>
+                    That is a compelling argument in theory, but the empirical data on mobility is increasingly concerning. In many high-inequality countries, intergenerational mobility has actually declined — meaning that your economic position at birth is becoming more predictive of your life outcomes, not less. That is not a meritocracy. And once people believe the system is fundamentally rigged against them, institutional trust collapses. When institutional trust collapses, democratic governance becomes extremely fragile. We have seen this pattern clearly in several European and American contexts over the past decade.
+
+                    <span class="spk s2">[ RESEARCHER B ]</span>
+                    I concur that intergenerational mobility is a genuine concern. However, I would argue the solution is not broad redistributive taxation or salary caps — it is targeted investment in education, skills, and the removal of structural barriers to participation. A highly skilled workforce is simultaneously a more equal and a more productive one. That is a conclusion both sides of this debate can, I think, agree on — even if we differ significantly on the mechanisms for achieving it.
+                </div>
+            </div>
+        </div>
+
+        <div class="q-block" style="margin-top:24px;">
+            <div class="q-head"><div class="q-num cr">5</div><p class="q-text" contenteditable="true">According to Researcher A, how does extreme salary inequality damage democracy?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l1','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">It always leads directly to violent political revolution or regime change</span></div>
+                <div class="opt" onclick="sel(this,'l1','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Wealthy individuals gain disproportionate political influence, making governments serve the rich over the electorate</span></div>
+                <div class="opt" onclick="sel(this,'l1','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Extreme wealth inequality has no measurable impact on democratic decision-making</span></div>
+                <div class="opt" onclick="sel(this,'l1','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">High earners tend to vote less often, reducing democratic participation</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num cr">6</div><p class="q-text" contenteditable="true">What is the central argument of Researcher B's first contribution?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l2','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Salary inequality should be measured by comparing different countries, not within them</span></div>
+                <div class="opt" onclick="sel(this,'l2','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Economic mobility matters more than equality — dynamic economies ultimately generate more opportunity</span></div>
+                <div class="opt" onclick="sel(this,'l2','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">All forms of salary regulation are economically harmful and should be opposed</span></div>
+                <div class="opt" onclick="sel(this,'l2','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Innovation only occurs in societies with very low levels of economic inequality</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num cr">7</div><p class="q-text" contenteditable="true">What specific trend does Researcher A highlight about intergenerational mobility?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l3','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Young people in unequal societies are choosing to emigrate at record rates</span></div>
+                <div class="opt" onclick="sel(this,'l3','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">In high-inequality countries, birth circumstances are increasingly predictive of life outcomes — mobility has declined</span></div>
+                <div class="opt" onclick="sel(this,'l3','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Intergenerational mobility statistics are systematically exaggerated by governments</span></div>
+                <div class="opt" onclick="sel(this,'l3','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Social mobility is equally high in all developed economies regardless of inequality levels</span></div>
+            </div>
+        </div>
+
+        <div class="q-block">
+            <div class="q-head"><div class="q-num cr">8</div><p class="q-text" contenteditable="true">What solution does Researcher B advocate for in his final turn?</p></div>
+            <div class="options">
+                <div class="opt" onclick="sel(this,'l4','A')"><div class="opt-key">A</div><span class="opt-label" contenteditable="true">Government-mandated maximum salary levels across all sectors</span></div>
+                <div class="opt" onclick="sel(this,'l4','B')"><div class="opt-key">B</div><span class="opt-label" contenteditable="true">Targeted investment in education and skills to remove barriers to economic participation</span></div>
+                <div class="opt" onclick="sel(this,'l4','C')"><div class="opt-key">C</div><span class="opt-label" contenteditable="true">Complete elimination of all income taxes to stimulate economic growth</span></div>
+                <div class="opt" onclick="sel(this,'l4','D')"><div class="opt-key">D</div><span class="opt-label" contenteditable="true">Transfer of wage-setting authority from governments to independent international bodies</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: ANSWER KEY ====== -->
+<section class="section" id="answerkey">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">06</span> Full Answer Key — All 8 Questions</div>
+        <h2 class="section-title" contenteditable="true">Debrief: <span class="in">Reading + Listening</span></h2>
+        <p class="section-desc" contenteditable="true">Check and debrief before grammar. Understanding why each answer is correct builds arguments for the mock writing section coming later.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr><th contenteditable="true">Q</th><th contenteditable="true">Type</th><th contenteditable="true">Answer</th><th contenteditable="true">Key Evidence</th><th contenteditable="true">Trap Analysis</th></tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>1</strong></td><td contenteditable="true"><span class="chip in">Reading</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">"coincided with infrastructure degradation, reduced military readiness, and... increased strategic vulnerability"</td><td contenteditable="true">A: Opposite — austerity did not boost growth. C: Opposite — evidence contradicts classical theory. D: Public popularity not mentioned.</td></tr>
+                <tr><td contenteditable="true"><strong>2</strong></td><td contenteditable="true"><span class="chip in">Reading</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">"requires sustained, predictable investment over years — investment that competes directly with social welfare commitments"</td><td contenteditable="true">A/C/D: Not stated. B is directly supported by the text's explanation of the fiscal challenge.</td></tr>
+                <tr><td contenteditable="true"><strong>3</strong></td><td contenteditable="true"><span class="chip in">Reading</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">"diverting resources from education, healthcare... risks deepening the very inequalities... that fuel extremism"</td><td contenteditable="true">A/C/D: Not mentioned. The critics' argument is specifically about the social cost of reallocation.</td></tr>
+                <tr><td contenteditable="true"><strong>4</strong></td><td contenteditable="true"><span class="chip in">Reading</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">"defence capability, social investment, and technological innovation understood as complementary rather than competing"</td><td contenteditable="true">A: Opposite — not about prioritising defence. C/D: Not stated. The key word is "complementary."</td></tr>
+                <tr><td contenteditable="true"><strong>5</strong></td><td contenteditable="true"><span class="chip cr">Listening</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">A: "political system begins to serve the interests of the very wealthy... disenfranchisement... populist movements"</td><td contenteditable="true">A: "violent revolution" never mentioned. C: Opposite. D: Not stated.</td></tr>
+                <tr><td contenteditable="true"><strong>6</strong></td><td contenteditable="true"><span class="chip cr">Listening</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">B: "inequality is not inherently problematic — what matters is economic mobility"</td><td contenteditable="true">A/C/D: Not stated. B's core distinction is mobility vs. equality — this must be in notes.</td></tr>
+                <tr><td contenteditable="true"><strong>7</strong></td><td contenteditable="true"><span class="chip cr">Listening</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">A: "intergenerational mobility has declined — position at birth is becoming more predictive of life outcomes"</td><td contenteditable="true">A/C/D: Not stated. This is a specific factual claim — it must have been in T-Frame notes.</td></tr>
+                <tr><td contenteditable="true"><strong>8</strong></td><td contenteditable="true"><span class="chip cr">Listening</span></td><td contenteditable="true"><span class="chip te">B</span></td><td contenteditable="true">B: "targeted investment in education, skills, and removal of structural barriers" — explicitly NOT "broad redistributive taxation"</td><td contenteditable="true">A/C/D: Opposite or not mentioned. The contrast "not X — instead Y" is the answer.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR ====== -->
+<section class="section alt" id="grammar">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">07</span> Grammar: Complex Sentences for Level 3 Writing</div>
+        <h2 class="section-title" contenteditable="true">Grammar: <span class="in">Subordinate Clauses</span></h2>
+        <p class="section-desc" contenteditable="true">Level 3 essays require complex, multi-clause sentences. This single grammar feature most clearly separates Level 2 from Level 3 writing in the STANAG scoring rubric. Master these five types before the mock.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr><th contenteditable="true">Clause Type</th><th contenteditable="true">Connector</th><th contenteditable="true">Function</th><th contenteditable="true">Essay Example (Economics topic)</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Relative clause</strong></td>
+                    <td contenteditable="true">which / that / who / whose</td>
+                    <td contenteditable="true">Add detail about a noun without a new sentence</td>
+                    <td contenteditable="true">"Austerity policies, <em>which</em> reduced military readiness over three decades, proved costly when security demands re-emerged."</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Concessive clause</strong></td>
+                    <td contenteditable="true">although / even though / while / despite the fact that</td>
+                    <td contenteditable="true">Acknowledge a contrasting point within one sentence</td>
+                    <td contenteditable="true">"<em>Although</em> increased defence expenditure creates short-term fiscal pressure, its long-term strategic value may outweigh the costs."</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Causal clause</strong></td>
+                    <td contenteditable="true">since / given that / owing to the fact that / as</td>
+                    <td contenteditable="true">Explain the reason or cause within the same sentence</td>
+                    <td contenteditable="true">"<em>Given that</em> defence industrial capacity takes years to rebuild, the case for sustained investment is compelling."</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Result clause</strong></td>
+                    <td contenteditable="true">to such an extent that / such that / with the result that</td>
+                    <td contenteditable="true">Show the consequence or outcome of an action</td>
+                    <td contenteditable="true">"Inequality has risen <em>to such an extent that</em> intergenerational mobility has declined across multiple European economies."</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Formal conditional</strong></td>
+                    <td contenteditable="true">provided that / on condition that / were + subject</td>
+                    <td contenteditable="true">State conditions more formally than "if"</td>
+                    <td contenteditable="true">"<em>Provided that</em> social investment is maintained, increased defence expenditure need not deepen inequality."</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="alert indigo" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">✒️</span>
+            <div contenteditable="true"><strong>Mock exam writing goal:</strong> Aim for at least one of each clause type across your four essay paragraphs. A range of subordinating connectors is one of the clearest markers of Level 3 grammatical control. Examiners are trained to identify and reward grammatical variety — and to notice its absence.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR PRACTICE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">08</span> Grammar Practice</div>
+        <h2 class="section-title" contenteditable="true">Combine into <span class="cr">One Complex Sentence</span></h2>
+        <p class="section-desc" contenteditable="true">Merge each pair of simple sentences into one complex sentence using the connector type indicated. Say each sentence aloud — it must sound formal and fluent at natural speaking speed.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">A: "Defence industrial capacity declined over 30 years." B: "It could not be rapidly rebuilt when needed." → RELATIVE: "Defence industrial capacity, <span class="blank" contenteditable="true"></span> had declined over three decades, <span class="blank" contenteditable="true"></span> be rapidly rebuilt when urgent security demands arose."</li>
+            <li contenteditable="true">A: "Increased defence spending creates fiscal pressure." B: "Its strategic benefits may outweigh the costs." → CONCESSIVE: "<span class="blank" contenteditable="true"></span> increased defence spending creates significant fiscal pressure, its long-term strategic benefits <span class="blank" contenteditable="true"></span> outweigh the short-term costs."</li>
+            <li contenteditable="true">A: "Inequality has grown significantly." B: "Intergenerational social mobility has now declined." → RESULT: "Inequality has grown <span class="blank" contenteditable="true"></span> that intergenerational mobility <span class="blank" contenteditable="true"></span> declined across several high-income economies."</li>
+            <li contenteditable="true">A: "Social investment is maintained." B: "Democratic governance remains achievable." → FORMAL CONDITIONAL: "<span class="blank" contenteditable="true"></span> social investment is maintained at adequate levels, effective democratic governance <span class="blank" contenteditable="true"></span> remain achievable even under fiscal pressure."</li>
+            <li contenteditable="true">A: "The peace dividend reduced military investment." B: "Strategic vulnerability increased substantially." → CAUSAL: "<span class="blank" contenteditable="true"></span> the so-called 'peace dividend' significantly reduced military investment, strategic vulnerability <span class="blank" contenteditable="true"></span> increased substantially by the early 2020s."</li>
+        </ul>
+
+        <div class="alert teal" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Guide:</strong> 1. which / could not &nbsp;|&nbsp; 2. Although / may &nbsp;|&nbsp; 3. to such an extent / has &nbsp;|&nbsp; 4. Provided that / can &nbsp;|&nbsp; 5. Given that / had — Multiple valid forms exist. Discuss which sounds most formal and most natural at speaking speed.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: SPEAKING ====== -->
+<section class="section alt" id="speaking">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag am">09</span> Pre-Mock Speaking Warm-Up</div>
+        <h2 class="section-title" contenteditable="true">Speaking: <span class="am">Salary Inequality</span></h2>
+        <p class="section-desc" contenteditable="true">These two questions directly mirror the mock exam speaking section. One warm-up round now activates your fluency and vocabulary before the full simulation. 60–75 seconds each, no notes.</p>
+
+        <div class="speak-stage">
+            <div class="stage-hdr">
+                <span class="st">Pre-Mock Speaking — Activate</span>
+                <span class="sb">60–75 SECONDS EACH</span>
+            </div>
+            <div class="stage-body">
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true">
+                        <span class="sn ex">Examiner</span>
+                        "In some countries, a small number of people earn extremely high salaries while others struggle on minimum wage. Do you think governments should limit the amount people can earn? Why or why not?"
+                    </div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 This is exactly your mock writing prompt spoken. Structure: "A compelling case can be made for high salaries because..." → "Conversely, Researcher A contended that extreme disparity..." → "I am of the firm conviction that..." — Use: inequality, disparity, redistribute, fiscal, GDP. Say the arguments out loud now so writing them in 40 minutes is faster.</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true">
+                        <span class="sn st">Oleksandr — 70 seconds</span>
+                        [Your answer — 4-part structure: frame the issue → side A → side B → your view. Use at least two vocabulary items from today.]
+                    </div>
+                </div>
+
+                <div style="height:6px;"></div>
+
+                <div class="turn">
+                    <div class="av ex">🎓</div>
+                    <div class="bub ex" contenteditable="true">
+                        <span class="sn ex">Examiner</span>
+                        "A government must ensure its citizens' physical security. Does this mean that defence spending should always take priority over social welfare? What is your view as a military professional?"
+                    </div>
+                </div>
+                <div class="bub hint" contenteditable="true">💡 Your military background makes this question uniquely powerful for you. Use: "From my experience in the military, I am acutely aware that..." → reference the "resilience economy" model from today's reading → "I would argue that the most capable society is not necessarily the one with the largest defence budget, but the one with the most cohesive and secure population." End with a strong finish.</div>
+                <div class="turn right">
+                    <div class="av st">🪖</div>
+                    <div class="bub st" contenteditable="true">
+                        <span class="sn st">Oleksandr — 75 seconds</span>
+                        [Your answer — this is where your real experience becomes your strongest exam asset. Authentic professional perspective + L3 vocabulary = Level 3 speaking.]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: PRE-MOCK WRITING SPRINT ====== -->
+<section class="section" id="premock">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">10</span> Pre-Mock Writing Sprint</div>
+        <h2 class="section-title" contenteditable="true">Introduction Sprint: <span class="in">5 Minutes Only</span></h2>
+        <p class="section-desc" contenteditable="true">Write only the introduction paragraph for the mock essay (40 words). This primes your writing engine without exhausting your ideas before the full mock. Clock starts now.</p>
+
+        <div class="alert crimson" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Mock Essay Prompt (preview):</strong> "In some countries, a few people earn extremely high salaries. Some think this is good for a country, while others believe the government should control salaries and limit the amount people can earn. Discuss both views and give your opinion." — Write ONLY the introduction paragraph. No opinion yet. ~40 words. 5 minutes.</div>
+        </div>
+
+        <div class="writing-paper" contenteditable="true" style="margin-top:16px;min-height:120px;">
+            <p class="ph">Start: "It is widely acknowledged that income inequality has become one of the defining economic debates of the 21st century..." — Present the issue and acknowledge both sides exist. End with a thesis sentence about what the essay will examine. No personal opinion.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: FULL MOCK EXAM ====== -->
+<section class="section alt" id="mock">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag cr">11</span> FULL MOCK EXAM — All Four Skills</div>
+        <h2 class="section-title" contenteditable="true">Mock Exam 1: <span class="cr">Complete Simulation</span></h2>
+        <p class="section-desc" contenteditable="true">First full exam-conditions simulation. All four skills. Real timing. Teacher acts as examiner. No assistance during timed sections. Record all scores on the grid below.</p>
+
+        <div class="mock-panel">
+            <div class="mock-header">
+                <h3 contenteditable="true">STANAG 6001 — MOCK EXAMINATION 1</h3>
+                <span class="mstatus" contenteditable="true">SLP TARGET: 3.3.3.3 · ALL FOUR SKILLS</span>
+            </div>
+            <div class="mock-body">
+                <div class="mock-section">
+                    <div class="ms-head">
+                        <span class="ms-title" contenteditable="true">📖 Reading — Official Practice Test 3</span>
+                        <span class="ms-time" contenteditable="true">Compressed · ~25 min</span>
+                    </div>
+                    <p class="ms-desc" contenteditable="true">Use Official Practice Test 3 — "Generation Next" reading paper from the official STANAG examination resource site. Apply the 4-step reading strategy. No teacher help.</p>
+                    <ul>
+                        <li contenteditable="true">PDF: nyvk.uni-nke.hu → Generation Next reading practice task 3</li>
+                        <li contenteditable="true">Read all questions first → skim → scan → eliminate traps</li>
+                        <li contenteditable="true">Record result in scoring grid below</li>
+                    </ul>
+                </div>
+
+                <div class="mock-section">
+                    <div class="ms-head">
+                        <span class="ms-title" contenteditable="true">🎧 Listening — Official Practice Test 3</span>
+                        <span class="ms-time" contenteditable="true">~30 min</span>
+                    </div>
+                    <p class="ms-desc" contenteditable="true">Use the two official audio tracks. T-Frame notes required for each. Two plays each. Exam conditions.</p>
+                    <ul>
+                        <li contenteditable="true">Scots: uni-nke.hu/other/Scots.mp3</li>
+                        <li contenteditable="true">Hungarian Response: uni-nke.hu/other/Hungarian%20Response.mp3</li>
+                        <li contenteditable="true">Tapescript (self-check after): nyvk.uni-nke.hu → T3_Scots_task1.pdf</li>
+                    </ul>
+                </div>
+
+                <div class="mock-section">
+                    <div class="ms-head">
+                        <span class="ms-title" contenteditable="true">✍️ Writing — Two Tasks</span>
+                        <span class="ms-time" contenteditable="true">60 min (20 + 40)</span>
+                    </div>
+                    <p class="ms-desc" contenteditable="true">Complete both writing tasks in sequence in the writing areas below. No revisions to the first task once time moves to the second.</p>
+                    <ul>
+                        <li contenteditable="true">L2 Task (20 min): Formal letter to NATO Language Forum in Riga — transport (8 June, 20:15), accommodation (4 officers, dietary restriction: no pork), presentation topic</li>
+                        <li contenteditable="true">L3 Task (40 min): Salary inequality essay — discuss both views + your opinion. Min. 250 words.</li>
+                    </ul>
+                </div>
+
+                <div class="mock-section">
+                    <div class="ms-head">
+                        <span class="ms-title" contenteditable="true">🎤 Speaking — Full 30-Min Exam</span>
+                        <span class="ms-time" contenteditable="true">~30 min</span>
+                    </div>
+                    <p class="ms-desc" contenteditable="true">Teacher as examiner. All three phases. Full question bank. No notes. Live scoring on all 4 criteria.</p>
+                    <ul>
+                        <li contenteditable="true">Warm-Up (3 min): Introduction + what has changed recently in your professional life</li>
+                        <li contenteditable="true">Structured Interview L2 (8 min): Branded goods, language learning, changing careers</li>
+                        <li contenteditable="true">Structured Interview L3 (17 min): Salary inequality, youth & education, veteran reintegration, NATO accountability</li>
+                        <li contenteditable="true">Wind-Down (2 min): Post-test plans, professional outlook</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: MOCK WRITING AREAS ====== -->
+<section class="section" id="mockwriting">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag cr">12</span> Mock Writing — Timed Areas</div>
+        <h2 class="section-title" contenteditable="true">Write Here: <span class="cr">L2 + L3 Tasks</span></h2>
+        <p class="section-desc" contenteditable="true">Complete L2 first (20 min), then L3 (40 min). No returning to revise. Teacher does not intervene. These are your exam answers.</p>
+
+        <h3 style="font-family:var(--display);font-size:1.1rem;text-transform:uppercase;color:var(--indigo);letter-spacing:1px;margin-bottom:12px;" contenteditable="true">LEVEL 2 WRITING — 20 MINUTES — MIN. 150 WORDS</h3>
+        <div class="alert indigo" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Task:</strong> You are a Ukrainian officer attending the NATO Language Forum in Riga, Latvia. Write a formal letter to the conference secretariat addressing: (1) your transport from Riga Airport (arrival 8 June, 20:15), (2) accommodation for your delegation (4 officers; 2 require no pork meals), (3) a brief description of your delegation's presentation topic: Ukraine's experience in developing English-language military doctrine. Min. 150 words. Formal register. No contractions.</div>
+        </div>
+        <div class="writing-paper" contenteditable="true" style="margin-bottom:40px;">
+            <p class="ph">Begin: "Dear [Sir/Madam / Name]," — Address all three bullet points in separate paragraphs. Formal closing.</p>
+        </div>
+
+        <h3 style="font-family:var(--display);font-size:1.1rem;text-transform:uppercase;color:var(--crimson);letter-spacing:1px;margin-bottom:12px;" contenteditable="true">LEVEL 3 ESSAY — 40 MINUTES — MIN. 250 WORDS</h3>
+        <div class="alert crimson" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Task:</strong> "In some countries, a few people earn extremely high salaries. Some think this is good for a country, while others believe the government should control salaries and limit the amount people can earn. Discuss both views and give your opinion."</div>
+        </div>
+        <div class="writing-paper" contenteditable="true">
+            <p class="ph">Write your full Level 3 essay here. 4 paragraphs: Introduction (no opinion) → Body 1 (case for high salaries) → Body 2 (case for government control) → Conclusion (your opinion — first and only time).</p>
+        </div>
+        <div style="background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px 16px;margin-top:10px;font-family:var(--mono);font-size:0.68rem;color:var(--gray);display:flex;gap:16px;flex-wrap:wrap;" contenteditable="false">
+            <span>📐 250–300 words</span><span>⏱ 40 minutes</span><span>✅ No contractions</span><span>🔄 2+ contrast structures</span><span>💡 Hedge in ¶1–3</span><span>🎯 Opinion in ¶4 only</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: MOCK SCORING GRID ====== -->
+<section class="section alt">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag cr">13</span> Mock Exam Scoring Grid</div>
+        <h2 class="section-title" contenteditable="true">Score It: <span class="in">All Four Skills</span></h2>
+        <p class="section-desc" contenteditable="true">Complete the grid immediately after each section. Honest assessment only — this data shapes the remaining 10 lessons of the course.</p>
+
+        <div class="score-grid">
+            <div class="score-card">
+                <div class="sc-top reading" contenteditable="true">📖 Reading</div>
+                <div class="sc-body" contenteditable="true">
+                    <div class="score-row"><span>Items correct</span><input class="score-input" type="text" placeholder="/30"></div>
+                    <div class="score-row"><span>Estimated level</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>Hardest Q type</span><input class="score-input" type="text" placeholder="e.g. inference"></div>
+                    <div contenteditable="true" style="min-height:48px;font-size:0.82rem;color:var(--gray);margin-top:8px;"><em>Teacher feedback...</em></div>
+                </div>
+            </div>
+            <div class="score-card">
+                <div class="sc-top listening" contenteditable="true">🎧 Listening</div>
+                <div class="sc-body" contenteditable="true">
+                    <div class="score-row"><span>Items correct</span><input class="score-input" type="text" placeholder="/N"></div>
+                    <div class="score-row"><span>Estimated level</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>T-Frame useful?</span><input class="score-input" type="text" placeholder="Y/N"></div>
+                    <div contenteditable="true" style="min-height:48px;font-size:0.82rem;color:var(--gray);margin-top:8px;"><em>Teacher feedback...</em></div>
+                </div>
+            </div>
+            <div class="score-card">
+                <div class="sc-top writing" contenteditable="true">✍️ Writing</div>
+                <div class="sc-body" contenteditable="true">
+                    <div class="score-row"><span>L2 Letter level</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>L3 Essay level</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>Word count met?</span><input class="score-input" type="text" placeholder="Y/N"></div>
+                    <div contenteditable="true" style="min-height:48px;font-size:0.82rem;color:var(--gray);margin-top:8px;"><em>Teacher feedback...</em></div>
+                </div>
+            </div>
+            <div class="score-card">
+                <div class="sc-top speaking" contenteditable="true">🎤 Speaking</div>
+                <div class="sc-body" contenteditable="true">
+                    <div class="score-row"><span>Fluency</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>Vocabulary</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>Grammar</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div class="score-row"><span>Task Completion</span><input class="score-input" type="text" placeholder="L2/L3"></div>
+                    <div contenteditable="true" style="min-height:48px;font-size:0.82rem;color:var(--gray);margin-top:8px;"><em>Overall feedback + best moment...</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: VOCAB IN CONTEXT ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag te">14</span> Vocabulary in Context</div>
+        <h2 class="section-title" contenteditable="true">Fill the Gaps: <span class="te">Economic Vocabulary</span></h2>
+        <p class="section-desc" contenteditable="true">Use today's vocabulary (fiscal, disparity, expenditure, inequality, procurement, redistribute, austerity, GDP) to complete these sentences after the mock exam. Some require grammatical changes.</p>
+
+        <ul class="exercise-list">
+            <li contenteditable="true">The growing <span class="blank" contenteditable="true"></span> in defence investment levels between NATO's wealthiest and poorest members has become a persistent source of political tension within the alliance.</li>
+            <li contenteditable="true">Years of defence <span class="blank" contenteditable="true"></span>, which reduced military readiness across much of Western Europe, proved far costlier in the long run than the short-term savings it produced.</li>
+            <li contenteditable="true">The government's <span class="blank" contenteditable="true"></span> constraints — including post-pandemic debt and growing welfare costs — severely limited its ability to increase defence <span class="blank" contenteditable="true"></span> without difficult political trade-offs.</li>
+            <li contenteditable="true">Progressive taxation systems are designed to <span class="blank" contenteditable="true"></span> wealth from higher earners toward public services, thereby reducing socioeconomic <span class="blank" contenteditable="true"></span>.</li>
+            <li contenteditable="true">Defence <span class="blank" contenteditable="true"></span> cycles, which can span a decade or more, make rapid adaptation to new and emerging threats structurally difficult for most democratic governments.</li>
+            <li contenteditable="true">NATO's 2% <span class="blank" contenteditable="true"></span> target remains both a benchmark for collective commitment and a recurring source of friction between member states at different stages of economic development.</li>
+        </ul>
+
+        <div class="alert teal" style="margin-top:16px;" contenteditable="false">
+            <span class="alert-icon">✔</span>
+            <div contenteditable="true"><strong>Answer Key:</strong> 1. disparity &nbsp;|&nbsp; 2. austerity &nbsp;|&nbsp; 3. fiscal / expenditure &nbsp;|&nbsp; 4. redistribute / inequality &nbsp;|&nbsp; 5. procurement &nbsp;|&nbsp; 6. GDP</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: DEBRIEF + SYNTHESIS ====== -->
+<section class="section alt" id="debrief">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag cr">15</span> Mock Exam Debrief — Halfway Point</div>
+        <h2 class="section-title" contenteditable="true">Debrief: <span class="cr">Mock 1 Results + Course Midpoint</span></h2>
+        <p class="section-desc" contenteditable="true">This is Lesson 10 — the exact halfway point of the 20-lesson course. Use this debrief to set the agenda for Lessons 11–20. Honest scores + specific priorities = the most effective use of the remaining ten lessons.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr><th contenteditable="true">Assessment Area</th><th contenteditable="true">Mock 1 Score / Level</th><th contenteditable="true">Gap to SLP 3</th><th contenteditable="true">Priority for L11–20</th></tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true"><strong>Reading</strong></td><td contenteditable="true"><em>Write score here...</em></td><td contenteditable="true"><em>What is missing?</em></td><td contenteditable="true"><em>What must change?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Listening</strong></td><td contenteditable="true"><em>Write score here...</em></td><td contenteditable="true"><em>Note-taking failure or comprehension failure?</em></td><td contenteditable="true"><em>T-Frame revision? Speed exposure?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Writing — L2 Letter</strong></td><td contenteditable="true"><em>L2/L3?</em></td><td contenteditable="true"><em>Register? Structure? Word count?</em></td><td contenteditable="true"><em>Which letter components need work?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Writing — L3 Essay</strong></td><td contenteditable="true"><em>L2/L3?</em></td><td contenteditable="true"><em>Hedging? Structure? Vocabulary?</em></td><td contenteditable="true"><em>Which rubric criterion is weakest?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Speaking — Fluency</strong></td><td contenteditable="true"><em>L2/L3?</em></td><td contenteditable="true"><em>Hesitation level? Bridge phrases used?</em></td><td contenteditable="true"><em>Specific drill needed?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Speaking — Vocabulary</strong></td><td contenteditable="true"><em>L2/L3?</em></td><td contenteditable="true"><em>Which words were forgotten under pressure?</em></td><td contenteditable="true"><em>Active recall exercises?</em></td></tr>
+                <tr><td contenteditable="true"><strong>Overall SLP estimate</strong></td><td contenteditable="true"><em>e.g. 2.2.2.2 or 3.2.3.2</em></td><td contenteditable="true"><em>Which skill is farthest from target?</em></td><td contenteditable="true"><em>Lessons 11–20 priority order</em></td></tr>
+            </tbody>
+        </table>
+
+        <div class="alert amber" style="margin-top:20px;" contenteditable="false">
+            <span class="alert-icon">📋</span>
+            <div contenteditable="true"><strong>Homework before Lesson 11 (Reading Sprint — Human Interest & Social Topics):</strong> (1) Learn all 8 vocabulary items from today. (2) Check your mock essay against the peer-review checklist from Lesson 7 — count the ticks honestly. (3) Listen to the official Practice Test 3 tapescript and compare your T-Frame notes against it — which details did you miss? Write three specific improvements for your note-taking system. (4) Prepare a 90-second spoken answer to this question: "How has Ukraine's economy been affected by the ongoing conflict, and what are the implications for post-war reconstruction?" — No notes, structured argument, 30 seconds prep.</div>
+        </div>
+
+        <div class="end-panel">
+            <h2 contenteditable="true">LESSON 10 — HALFWAY. COMBAT READY.</h2>
+            <p class="sub" contenteditable="true">// Defence Economics + First Full Mock Exam — 10 of 20 Lessons Complete //</p>
+            <ul class="end-list">
+                <li contenteditable="true">✅ <strong>Vocab Test (L9):</strong> 8 international relations terms tested cold — written English definitions.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary (8 terms):</strong> fiscal, disparity, expenditure, inequality, procurement, redistribute, austerity, GDP — all deployed in both reading and listening today.</li>
+                <li contenteditable="true">✅ <strong>Level 3 Reading:</strong> "Guns, Butter & Growth" — 4 MCQ including inference and model-comparison questions.</li>
+                <li contenteditable="true">✅ <strong>Level 3 Listening:</strong> Salary Inequality & Democracy panel — 4 MCQ including speaker comparison and recommendation questions.</li>
+                <li contenteditable="true">✅ <strong>Full Answer Key:</strong> All 8 Q&As with evidence and trap analysis for reading and listening.</li>
+                <li contenteditable="true">✅ <strong>Grammar — Subordinate Clauses:</strong> Relative, concessive, causal, result, and formal conditional — the 5 clause types that define Level 3 grammatical control.</li>
+                <li contenteditable="true">✅ <strong>Grammar Practice:</strong> 5 sentence-combination exercises, spoken aloud for fluency integration.</li>
+                <li contenteditable="true">✅ <strong>Pre-Mock Speaking:</strong> Two questions directly linked to mock writing prompt — argument activated before writing.</li>
+                <li contenteditable="true">✅ <strong>Pre-Mock Writing Sprint:</strong> Introduction paragraph only (5 min) — engine primed without exhausting essay ideas.</li>
+                <li contenteditable="true">✅ <strong>Full Mock Exam 1:</strong> All four skills — Official Reading Test 3, Official Listening Test 3, L2 Letter + L3 Essay (60 min), Full Speaking Mock (30 min).</li>
+                <li contenteditable="true">✅ <strong>Mock Scoring Grid:</strong> All four skills scored with teacher feedback and specific notes.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary in Context:</strong> 6 gap-fill sentences using today's economic vocabulary.</li>
+                <li contenteditable="true">✅ <strong>Midpoint Debrief:</strong> Full SLP estimate across all four skills with gap analysis and Lessons 11–20 priority agenda.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== WHITEBOARD ====== -->
+<section class="section" id="wb">
+    <div class="section-inner">
+        <div class="section-label"><span class="tag">WB</span> Teacher Space</div>
+        <h2 class="section-title" contenteditable="true">Interactive <span class="in">Whiteboard</span></h2>
+        <p class="section-desc" contenteditable="true">Use for clause-type diagrams, essay structure mapping, mock scoring analysis, or post-mock vocabulary review.</p>
+        <div class="wb-wrap">
+            <div class="wb-bar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#0B0A07">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:rgba(183,28,28,0.2);border-color:var(--crimson);color:var(--crimson);">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FABs ====== -->
+<div class="fab-group" id="fabGroup">
+    <button class="fab" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab qz" onclick="openModal()" title="Quizlet">📝</button>
+    <button class="fab" onclick="savePDF()" title="Save PDF">💾</button>
+    <button class="fab rst" onclick="resetLesson()" title="Reset">↺</button>
+</div>
+
+<div id="qModal" class="modal-overlay">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <h2>Quizlet Export</h2>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--gray);margin-top:6px;">Add today's economics vocabulary with Ukrainian translations.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans"></div>
+        </div>
+        <div class="modal-actions" style="margin-top:14px;">
+            <button class="modal-btn secondary" onclick="addRow()">+ Row</button>
+            <button class="modal-btn primary" id="copyBtn" onclick="copyQuizlet()">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const chosen = {};
+    function sel(el, id, letter) {
+        el.closest('.options').querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        chosen[id] = letter;
+    }
+
+    document.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const s = window.getSelection();
+            if (!s.rangeCount || s.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(40,53,147,0.2)');
+        }
+    });
+
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 460; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+    let drawing = false, pendingDraw = false, sx, sy, tool = 'pencil', color = '#0B0A07', snap;
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b => {
+        b.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(x => x.classList.remove('active'));
+            b.classList.add('active'); tool = b.dataset.tool;
+            canvas.style.cursor = tool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); if (window.syncWbClear) window.syncWbClear(); });
+    function gp(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    canvas.addEventListener('mousedown', e => {
+        const p = gp(e); sx = p.x; sy = p.y;
+        if (tool === 'text') { const t = prompt('Text:'); if (t) { ctx.font = "16px 'Noto Sans',sans-serif"; ctx.fillStyle = color; ctx.fillText(t, sx, sy); if (window.syncWbDraw) { pendingDraw = true; window.syncWbDraw(); } } return; }
+        drawing = true; snap = ctx.getImageData(0, 0, canvas.width, canvas.height); ctx.beginPath(); ctx.moveTo(sx, sy);
+    });
+    canvas.addEventListener('mousemove', e => {
+        if (!drawing) return; const p = gp(e);
+        if (tool === 'pencil' || tool === 'highlight') { ctx.lineTo(p.x, p.y); ctx.strokeStyle = tool === 'highlight' ? color + '44' : color; ctx.lineWidth = tool === 'highlight' ? 14 : 1.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke(); }
+        else { ctx.putImageData(snap, 0, 0); drawShape(p.x, p.y); }
+    });
+    canvas.addEventListener('mouseup', e => { if (!drawing) return; drawing = false; if (tool !== 'pencil' && tool !== 'highlight') drawShape(gp(e).x, gp(e).y); if (window.syncWbDraw) { pendingDraw = true; window.syncWbDraw(); } });
+    canvas.addEventListener('mouseout', () => { if (drawing) { drawing = false; if (window.syncWbDraw) { pendingDraw = true; window.syncWbDraw(); } } });
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 1.5;
+        if (tool === 'square') ctx.strokeRect(sx, sy, ex - sx, ey - sy);
+        else if (tool === 'circle') { ctx.arc(sx, sy, Math.sqrt((ex - sx) ** 2 + (ey - sy) ** 2), 0, 2 * Math.PI); ctx.stroke(); }
+        else if (tool === 'arrow') { const hl = 12, ang = Math.atan2(ey - sy, ex - sx); ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke(); ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang - Math.PI / 6), ey - hl * Math.sin(ang - Math.PI / 6)); ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang + Math.PI / 6), ey - hl * Math.sin(ang + Math.PI / 6)); ctx.stroke(); }
+    }
+
+    function setupDrag(colId) {
+        const col = document.getElementById(colId); if (!col) return;
+        col.querySelectorAll('.drag-item').forEach(item => {
+            item.addEventListener('dragstart', () => item.classList.add('dragging'));
+            item.addEventListener('dragend', () => { item.classList.remove('dragging'); if (window.syncDragOrder) window.syncDragOrder(colId); });
+        });
+        col.addEventListener('dragover', e => {
+            e.preventDefault();
+            const after = [...col.querySelectorAll('.drag-item:not(.dragging)')].reduce((cl, ch) => { const off = e.clientY - ch.getBoundingClientRect().top - ch.getBoundingClientRect().height / 2; return off < 0 && off > cl.offset ? { offset: off, element: ch } : cl; }, { offset: Number.NEGATIVE_INFINITY }).element;
+            const d = document.querySelector('.dragging'); if (d) { if (after == null) col.appendChild(d); else col.insertBefore(d, after); }
+        });
+    }
+    setupDrag('vocabDrag10');
+
+    function savePDF() { document.getElementById('fabGroup').style.display = 'none'; document.getElementById('syncStatus').style.display = 'none'; const el = document.body; html2pdf().set({ margin: 0, filename: 'STANAG-Lesson10-Mock1.pdf', image: { type: 'jpeg', quality: 0.97 }, html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth, scrollY: 0 }, jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' } }).from(el).save().then(() => { document.getElementById('fabGroup').style.display = 'flex'; document.getElementById('syncStatus').style.display = 'flex'; }); }
+    function openModal() { document.getElementById('qModal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('qModal').style.display = 'none'; }
+    function addRow() { const r = document.createElement('div'); r.className = 'word-row'; r.innerHTML = '<input type="text" placeholder="English term" class="q-word"><input type="text" placeholder="Ukrainian" class="q-trans">'; document.getElementById('wordList').appendChild(r); }
+    function copyQuizlet() { let out = ''; document.querySelectorAll('.word-row').forEach(r => { const w = r.querySelector('.q-word').value.trim(); const t = r.querySelector('.q-trans').value.trim(); if (w || t) out += `${w}\t${t}\n`; }); if (out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); const b = document.getElementById('copyBtn'); b.innerText = '✅ Copied!'; setTimeout(() => b.innerText = '📋 Copy for Quizlet', 3000); } }
+
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault(); const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#') && id.length > 1) { const s = document.querySelector(id); if (s) window.scrollTo({ top: s.getBoundingClientRect().top + window.pageYOffset - 62, behavior: 'smooth' }); }
+        }
+    });
+    function scrollToWB() { const wb = document.getElementById('wb'); if (wb) window.scrollTo({ top: wb.getBoundingClientRect().top + window.pageYOffset - 62, behavior: 'smooth' }); }
+    function resetLesson() { if (window.doReset) window.doReset(); }
+    window.savePDF = savePDF; window.scrollToWhiteboard = scrollToWB; window.openQuizletModal = openModal; window.closeQuizletModal = closeModal; window.addWordRow = addRow;
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    const cfg = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", authDomain: "b1-oge-l1.firebaseapp.com", projectId: "b1-oge-l1", storageBucket: "b1-oge-l1.firebasestorage.app", messagingSenderId: "914766471365", appId: "1:914766471365:web:11764d3942bc385f3cd0ac" };
+    const appId = 'stanag-oleksandr-lesson-10-mixed-skills-defence-economics-v1';
+    const st = document.getElementById('syncText'), sd = document.getElementById('syncDot');
+    const setS = (t, c) => { if (st) st.innerText = t; if (sd) sd.style.background = c; };
+    const app = initializeApp(cfg); const auth = getAuth(app); const db = getFirestore(app);
+    let me = null, ready = false;
+    const mc = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'); let mn = 'Oleksandr';
+    const eds = document.querySelectorAll('[contenteditable="true"]'); const orig = {};
+    eds.forEach((el, i) => { el.dataset.syncId = 'e-' + i; orig['e-' + i] = el.innerHTML; });
+    const deb = (fn, w) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), w); }; };
+    signInAnonymously(auth).catch(() => setS('OFFLINE', '#999'));
+    onAuthStateChanged(auth, user => {
+        me = user;
+        if (user && !ready) {
+            ready = true;
+            getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(s => {
+                mn = s.size === 0 ? 'Teacher' : 'Oleksandr';
+                setS('SYNC ON', '#283593'); sync(); cursors();
+            }).catch(() => { mn = 'Oleksandr'; setS('SYNC ON', '#283593'); sync(); cursors(); });
+        } else if (!user) setS('DISCONNECTED', '#B71C1C');
+    });
+
+    function sync() {
+        const tRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+        const dRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+        const wRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+        let editing = null;
+        window.saveTextUpdate = el => { if (!me) return; setDoc(tRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', () => editing = el.dataset.syncId);
+            el.addEventListener('blur', () => { editing = null; window.saveTextUpdate(el); });
+            el.addEventListener('input', deb(() => { if (editing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        };
+        eds.forEach(el => window.attachEditableListeners(el));
+        window.addNewTab = e => {
+            e.preventDefault(); const c = document.getElementById('navTabsContainer');
+            const li = document.createElement('li'); const nid = 'e-tab-' + Date.now();
+            li.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${nid}">New Tab</a>`; c.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if (me) setDoc(tRef, { 'nav_tabs_structure': c.innerHTML }, { merge: true });
+        };
+        onSnapshot(tRef, snap => {
+            if (snap.exists()) {
+                const d = snap.data();
+                for (const [sid, html] of Object.entries(d)) {
+                    if (sid === 'nav_tabs_structure') { const c = document.getElementById('navTabsContainer'); if (!c.contains(document.activeElement)) { c.innerHTML = html; c.querySelectorAll('[contenteditable]').forEach(a => window.attachEditableListeners(a)); } continue; }
+                    if (editing !== sid) { const el = document.querySelector(`[data-sync-id="${sid}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }
+                }
+            }
+        });
+        document.addEventListener('paste', e => {
+            const tgt = e.target; if (!tgt.closest('[contenteditable="true"]')) return;
+            const items = (e.clipboardData || window.clipboardData).items;
+            for (let k in items) { const item = items[k]; if (item.kind === 'file' && item.type.startsWith('image/')) { e.preventDefault(); const r = new FileReader(); r.onload = ev => { const img = new Image(); img.onload = function () { const c = document.createElement('canvas'); const M = 800; let w = img.width, h = img.height; if (w > M) { h *= M / w; w = M; } c.width = w; c.height = h; c.getContext('2d').drawImage(img, 0, 0, w, h); document.execCommand('insertHTML', false, `<div contenteditable="false" style="margin:12px 0;text-align:center"><img src="${c.toDataURL('image/jpeg', 0.8)}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`); tgt.dispatchEvent(new Event('input', { bubbles: true })); }; img.src = ev.target.result; }; r.readAsDataURL(item.getAsFile()); return; } }
+            const pt = (e.clipboardData || window.clipboardData).getData('text');
+            if (pt) {
+                const yt = pt.match(/(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/)|\S*?[?&]v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                if (yt) { e.preventDefault(); document.execCommand('insertHTML', false, `<div contenteditable="false" style="margin:16px 0;text-align:center"><iframe width="560" height="315" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen style="border-radius:8px;max-width:100%"></iframe></div><p><br></p>`); tgt.dispatchEvent(new Event('input', { bubbles: true })); return; }
+                if (/^https?:\/\/\S+$/.test(pt.trim())) { e.preventDefault(); document.execCommand('insertHTML', false, `<a href="${pt.trim()}" target="_blank" style="color:var(--indigo);text-decoration:underline" contenteditable="false">${pt.trim()}</a>`); tgt.dispatchEvent(new Event('input', { bubbles: true })); return; }
+            }
+        });
+        window.syncDragOrder = cid => { if (!me) return; const c = document.getElementById(cid); if (!c) return; setDoc(dRef, { [cid]: Array.from(c.children).map(x => x.id) }, { merge: true }); };
+        onSnapshot(dRef, snap => { if (snap.exists()) { const d = snap.data(); ['vocabDrag10'].forEach(cid => { const c = document.getElementById(cid); if (!c) return; if (d[cid]) d[cid].forEach(id => { const el = document.getElementById(id); if (el) c.appendChild(el); }); }); } });
+        window.syncWbDraw = deb(() => { if (!me) return; const url = document.getElementById('boardCanvas').toDataURL('image/png', 0.5); setDoc(wRef, { image: url, clearTimestamp: window.lastClear || 0 }, { merge: true }); pendingDraw = false; }, 800);
+        window.syncWbClear = () => { if (!me) return; const ts = Date.now(); window.lastClear = ts; setDoc(wRef, { clearTimestamp: ts, image: null }, { merge: true }); };
+        onSnapshot(wRef, snap => { if (snap.exists()) { const d = snap.data(); const cv = document.getElementById('boardCanvas'); const cx = cv.getContext('2d'); if (d.clearTimestamp > (window.lastClear || 0)) { cx.clearRect(0, 0, cv.width, cv.height); window.lastClear = d.clearTimestamp; return; } if (d.image && !pendingDraw) { const img = new Image(); img.onload = () => { cx.clearRect(0, 0, cv.width, cv.height); cx.drawImage(img, 0, 0); }; img.src = d.image; } } });
+        window.doReset = async () => {
+            if (!me) return; if (!confirm('Reset all content for everyone?')) return; setS('RESETTING...', '#E65100');
+            const tR = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dR = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wR = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            await deleteDoc(tR); await deleteDoc(dR);
+            const ts = Date.now(); window.lastClear = ts; await setDoc(wR, { clearTimestamp: ts, image: null });
+            setTimeout(() => setS('SYNC ON', '#283593'), 1000);
+        };
+    }
+
+    function cursors() {
+        const col = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+        const myRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', me.uid);
+        const container = document.getElementById('liveCursorsContainer');
+        document.addEventListener('mousemove', deb(e => { if (!me) return; setDoc(myRef, { xOffset: e.pageX - (window.innerWidth / 2), y: e.pageY, color: mc, name: mn, timestamp: Date.now() }); }, 400));
+        onSnapshot(col, snap => {
+            snap.docChanges().forEach(ch => {
+                const id = ch.doc.id; if (id === me.uid) return;
+                if (ch.type === 'removed') { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                const d = ch.doc.data();
+                if (Date.now() - d.timestamp > 60000) { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                let el = document.getElementById('cur-' + id);
+                if (!el) { el = document.createElement('div'); el.id = 'cur-' + id; el.className = 'remote-cursor'; el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="cursor-name" style="background:${d.color}">${d.name}</div>`; container.appendChild(el); }
+                el.style.left = ((window.innerWidth / 2) + d.xOffset) + 'px'; el.style.top = d.y + 'px';
+            });
+        });
+        window.addEventListener('beforeunload', () => { if (me) deleteDoc(myRef); });
+    }
+</script>
+</body>
+</html>
