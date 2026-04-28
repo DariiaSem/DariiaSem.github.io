@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 16: B1+ | The Travel Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Sophisticated Editorial Theme */
+            --bg-page: #FAF9F6; /* Ivory */
+            --bg-panel: #FFFFFF;
+            --navy: #0A192F;
+            --navy-light: #172A45;
+            --navy-hover: #1E3A5F;
+            --gold: #C5A059;
+            --gold-light: #E3C388;
+            --gold-bg: #FDFBF7;
+            --charcoal: #333333;
+            --gray-text: #666666;
+            --danger: #8B2635;
+            --border-light: #E5E0D8;
+            
+            --font-ui: 'DM Sans', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+            
+            --shadow-sm: 0 2px 10px rgba(10, 25, 47, 0.03);
+            --shadow-md: 0 8px 25px rgba(10, 25, 47, 0.06);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-page);
+            color: var(--charcoal);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif { font-family: var(--font-serif); }
+
+        /* ── CONTENT EDITABLE ── */
+        [contenteditable="true"] { outline: none; border-radius: 2px; transition: background 0.2s, box-shadow 0.2s; }
+        [contenteditable="true"]:hover { background: rgba(197, 160, 89, 0.05); }
+        [contenteditable="true"]:focus { background: rgba(197, 160, 89, 0.1); box-shadow: 0 2px 0 var(--gold); }
+
+        /* ── HERO ── */
+        .hero {
+            background: var(--navy);
+            color: var(--bg-page);
+            padding: 120px 24px 100px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid var(--gold);
+        }
+
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px; pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+            margin-bottom: 24px; border-bottom: 1px solid var(--gold); padding-bottom: 6px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero h1 em { color: var(--gold); font-style: italic; font-weight: 600; }
+        .hero-subtitle { font-size: 1.15rem; color: rgba(250, 249, 246, 0.7); max-width: 650px; margin: 0 auto; font-weight: 300; }
+
+        /* ── NAV ── */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(250, 249, 246, 0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light); padding: 0 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+        .nav-logo { font-family: var(--font-serif); font-weight: 600; font-size: 1.2rem; color: var(--navy); text-decoration: none; display: flex; align-items: center; gap: 8px; font-style: italic; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; padding-bottom: 2px; }
+        .nav-links a { text-decoration: none; color: var(--gray-text); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 4px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; }
+        .nav-links a:hover { color: var(--navy); background: rgba(197, 160, 89, 0.1); }
+
+        /* ── SECTIONS ── */
+        .section { padding: 90px 24px; position: relative; }
+        .section::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 1px; background: var(--gold); }
+        .section-inner { max-width: 850px; margin: 0 auto; }
+        
+        .section-label {
+            display: inline-block; font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+            margin-bottom: 16px;
+        }
+        
+        .section-title { font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 400; color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
+        .section-desc { color: var(--gray-text); font-size: 1.1rem; margin-bottom: 40px; line-height: 1.8; }
+
+        /* ── EDITORIAL ARTICLE (Reading) ── */
+        .editorial-article {
+            background: var(--bg-panel); padding: 50px 60px;
+            box-shadow: var(--shadow-md); position: relative; border-top: 4px solid var(--navy);
+        }
+        .article-meta { font-family: var(--font-ui); color: var(--gray-text); font-weight: 500; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px; }
+        .article-text { font-family: var(--font-serif); font-size: 1.15rem; color: var(--charcoal); line-height: 2; }
+        .article-text p { margin-bottom: 24px; }
+        .article-text .dropcap { float: left; font-size: 4rem; line-height: 0.8; padding-right: 12px; padding-top: 6px; color: var(--gold); font-weight: 600; }
+        .target-word { font-weight: 700; color: var(--navy); border-bottom: 1px dashed var(--gold); cursor: help; }
+
+        /* ── CARDS & GRIDS ── */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-top: 30px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 30px; }
+        
+        .discussion-card {
+            background: var(--bg-panel); padding: 35px; border: 1px solid var(--border-light);
+            border-top: 3px solid var(--gold); transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .discussion-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+        .discussion-card-icon { font-size: 2rem; color: var(--navy); margin-bottom: 16px; font-family: var(--font-serif); font-style: italic; }
+        .discussion-card p { font-size: 1.05rem; line-height: 1.6; color: var(--charcoal); }
+
+        /* ── GRAMMAR TIMELINES & TABLES ── */
+        .theory-box { background: var(--gold-bg); border: 1px solid var(--gold-light); padding: 40px; margin: 30px 0; }
+        .theory-box h3 { color: var(--navy); font-size: 1.3rem; margin-bottom: 12px; font-family: var(--font-ui); font-weight: 500; letter-spacing: -0.5px; }
+        
+        .timeline { position: relative; display: flex; align-items: center; justify-content: space-between; margin: 50px 0 30px; width: 100%; min-width: 600px; }
+        .timeline-line { position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: var(--border-light); z-index: 0; transform: translateY(-50%); }
+        .timeline-event { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+        .timeline-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--navy); background: var(--bg-panel); }
+        .timeline-dot.filled { background: var(--navy); }
+        .timeline-dot.accent { background: var(--gold); border-color: var(--gold); }
+        .timeline-label { font-family: var(--font-ui); font-weight: 700; color: var(--navy); margin-top: 12px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .timeline-desc { font-family: var(--font-serif); font-size: 0.95rem; color: var(--gray-text); margin-top: 8px; font-style: italic; text-align: center; max-width: 140px; line-height: 1.4; }
+
+        .elegant-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); margin-top: 20px; border: 1px solid var(--border-light); }
+        .elegant-table th { background: var(--navy); color: var(--bg-page); padding: 18px 24px; text-align: left; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; }
+        .elegant-table td { padding: 18px 24px; border-bottom: 1px solid var(--border-light); font-family: var(--font-ui); font-size: 1rem; color: var(--charcoal); }
+        .elegant-table tr:last-child td { border-bottom: none; }
+
+        /* ── ADVANCED PRACTICE LISTS ── */
+        .practice-narrative { background: var(--bg-panel); border: 1px solid var(--border-light); padding: 40px; font-family: var(--font-serif); font-size: 1.15rem; line-height: 2.2; color: var(--charcoal); }
+        
+        .blank-input {
+            display: inline-block; min-width: 120px; border-bottom: 1px solid var(--gray-text);
+            color: var(--navy); font-family: var(--font-ui); font-weight: 600; padding: 0 8px; text-align: center;
+            background: rgba(10, 25, 47, 0.03); transition: all 0.2s; margin: 0 4px;
+        }
+        .blank-input:focus { border-bottom-color: var(--gold); background: rgba(197, 160, 89, 0.08); }
+
+        /* ── DIALOGUE / ROLEPLAY ── */
+        .script-container { display: flex; flex-direction: column; gap: 24px; margin: 40px 0; }
+        .script-line { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid transparent; padding-left: 20px; position: relative; }
+        .script-line::before { content: ''; position: absolute; left: -5px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--border-light); }
+        .script-line.char-a { border-left-color: var(--navy); }
+        .script-line.char-a::before { background: var(--navy); }
+        .script-line.char-b { border-left-color: var(--gold); }
+        .script-line.char-b::before { background: var(--gold); }
+        .script-name { font-family: var(--font-ui); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-text); }
+        .script-text { font-family: var(--font-serif); font-size: 1.1rem; color: var(--charcoal); line-height: 1.6; }
+
+        /* ── ALERTS / INFOS ── */
+        .info-box { display: flex; gap: 20px; background: var(--bg-panel); border: 1px solid var(--border-light); padding: 24px; margin: 24px 0; align-items: center; }
+        .info-icon { font-size: 1.8rem; color: var(--gold); font-family: var(--font-serif); font-style: italic; }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 1px solid var(--border-light); background: var(--bg-panel); box-shadow: var(--shadow-md); margin-top: 40px; }
+        .wb-toolbar { background: var(--bg-page); padding: 12px 24px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border-light); }
+        .wb-btn { background: var(--bg-panel); color: var(--charcoal); border: 1px solid var(--border-light); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; font-family: var(--font-ui); transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .wb-btn:hover, .wb-btn.active { background: var(--navy); border-color: var(--navy); color: white; }
+        .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border-light); cursor: pointer; padding: 0; background: transparent; }
+
+        /* ── FABS & MODALS ── */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab-btn { background: var(--navy); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); transition: transform 0.2s, background 0.2s; display: flex; align-items: center; justify-content: center; }
+        .fab-btn:hover { transform: translateY(-4px); background: var(--navy-hover); }
+        .fab-btn.fab-danger { background: var(--danger); }
+        .fab-btn.fab-danger:hover { background: #6b1d28; }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10, 25, 47, 0.9); backdrop-filter: blur(5px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--bg-page); padding: 50px; width: 90%; max-width: 650px; border: 1px solid var(--gold); position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .modal-content h2 { font-family: var(--font-serif); color: var(--navy); margin-bottom: 10px; font-weight: 400; font-size: 2rem; }
+        .close-modal { position: absolute; top: 20px; right: 30px; font-size: 2rem; cursor: pointer; color: var(--gray-text); transition: color 0.2s; line-height: 1; font-family: var(--font-ui); font-weight: 300; }
+        .close-modal:hover { color: var(--danger); }
+        .word-row { display: flex; gap: 16px; margin-bottom: 16px; }
+        .word-row input { flex: 1; padding: 14px 20px; background: var(--bg-panel); border: 1px solid var(--border-light); font-size: 1rem; color: var(--charcoal); font-family: var(--font-ui); }
+        .word-row input:focus { outline: none; border-color: var(--navy); }
+        #wordList { max-height: 350px; overflow-y: auto; margin: 30px 0; padding-right: 10px; }
+        .modal-btn { flex: 1; padding: 16px 0; border: none; cursor: pointer; font-family: var(--font-ui); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; }
+
+        /* Sync Status */
+        #syncStatus { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--bg-panel); color: var(--navy); padding: 10px 24px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; z-index: 10000; display: flex; align-items: center; gap: 12px; border: 1px solid var(--border-light); box-shadow: var(--shadow-md); }
+        #liveCursorsContainer { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999; }
+        .remote-cursor { position: absolute; transition: top 0.2s linear, left 0.2s linear; display: flex; align-items: flex-start; opacity: 0; animation: fadeInCursor 0.3s forwards; }
+        @keyframes fadeInCursor { to { opacity: 1; } }
+        .remote-cursor svg { width: 22px; height: 22px; filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.2)); }
+        .remote-cursor-label { color: white; font-size: 0.7rem; font-weight: 600; padding: 4px 8px; border-radius: 2px; margin-left: -4px; margin-top: 14px; white-space: nowrap; font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .hero { padding: 100px 20px 60px; }
+            .section { padding: 60px 16px; }
+            .editorial-article { padding: 30px 20px; }
+            .timeline { min-width: 100%; flex-direction: column; gap: 40px; align-items: flex-start; padding-left: 30px; margin: 40px 0; }
+            .timeline-line { width: 2px; height: 100%; left: 36px; top: 0; transform: none; }
+            .timeline-event { flex-direction: row; gap: 24px; text-align: left; }
+            .timeline-desc { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span id="syncDot" style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:block;"></span>
+    <span id="syncText">Connecting...</span>
+</div>
+<div id="liveCursorsContainer"></div>
+
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 16 · Global English B1+</div>
+        <h1 contenteditable="true">The <em>Transience</em> of Travel</h1>
+        <p class="hero-subtitle" contenteditable="true">An exploration of overtourism, advanced grammatical timelines, and the profound vocabulary of human movement.</p>
+    </div>
+</header>
+
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">Module XVI</a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--gold);font-weight:700;font-size:1.2rem;">+</a></li>
+            <li><a href="#recap" contenteditable="true">Review</a></li>
+            <li><a href="#warmup" contenteditable="true">Philosophy</a></li>
+            <li><a href="#reading" contenteditable="true">Editorial</a></li>
+            <li><a href="#vocab" contenteditable="true">Lexicon</a></li>
+            <li><a href="#grammar1" contenteditable="true">Tenses (Past)</a></li>
+            <li><a href="#grammar2" contenteditable="true">Tenses (Future)</a></li>
+            <li><a href="#roleplay" contenteditable="true">Discourse</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+
+<section class="section" id="recap">
+    <div class="section-inner">
+        <span class="section-label">01. Review</span>
+        <h2 class="section-title" contenteditable="true">Syntactical Accuracy Check</h2>
+        <p class="section-desc" contenteditable="true">Audit your knowledge from Lesson 15 (Technology & Modifiers). Elevate the sentences below by inserting the appropriate advanced modifiers (e.g., <em>nowhere near, slightly, way, far</em>).</p>
+
+        <div class="practice-narrative">
+            <p contenteditable="true">
+                Although my new smartphone has a <span class="blank-input" contenteditable="true"></span> better camera than the previous model (a very small difference), the overall price is <span class="blank-input" contenteditable="true"></span> more expensive (a massive difference). Personally, I believe the software update is <span class="blank-input" contenteditable="true"></span> as intuitive as they promised in the advertising (not even close). Tech companies really <span class="blank-input" contenteditable="true"></span> to stop overpromising on minor upgrades.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="section-label">02. Pre-Flight Philosophy</span>
+        <h2 class="section-title" contenteditable="true">The Ethics of Exploration</h2>
+        <p class="section-desc" contenteditable="true">Before we analyze the text, discuss these profound questions regarding modern travel. Push yourself to use sophisticated vocabulary.</p>
+
+        <div class="grid-2">
+            <div class="discussion-card">
+                <div class="discussion-card-icon" contenteditable="true">I.</div>
+                <p contenteditable="true"><strong>The Authenticity Paradox:</strong> If a millions of tourists travel to a remote village to experience "authentic" culture, does their presence immediately destroy the authenticity they came to see?</p>
+            </div>
+            <div class="discussion-card">
+                <div class="discussion-card-icon" contenteditable="true">II.</div>
+                <p contenteditable="true"><strong>The Social Media Effect:</strong> Should pristine, hidden natural locations be "gatekept" (kept secret) to protect them from Instagram tourists who might ruin the ecosystem?</p>
+            </div>
+            <div class="discussion-card">
+                <div class="discussion-card-icon" contenteditable="true">III.</div>
+                <p contenteditable="true"><strong>Travel as Status:</strong> Do people travel today for genuine personal growth and cultural immersion, or simply to acquire social currency and status among their peers?</p>
+            </div>
+            <div class="discussion-card">
+                <div class="discussion-card-icon" contenteditable="true">IV.</div>
+                <p contenteditable="true"><strong>The Perfect Itinerary:</strong> Is it better to plan every hour of a trip to maximize efficiency, or to arrive with absolutely zero plans and rely on pure chance?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label">03. Editorial Reading</span>
+        <h2 class="section-title" contenteditable="true">The End of Uncharted Territory</h2>
+        <p class="section-desc" contenteditable="true">Read the following cultural critique. Do not consult a dictionary immediately. Rely on the context to deduce the meaning of the <span class="target-word">highlighted words</span>. Pay close attention to the shifts between past and present perfect tenses.</p>
+
+        <div class="editorial-article">
+            <div class="article-meta" contenteditable="true">By Elena Rostova • Published in The Global Observer</div>
+            <div class="article-text" contenteditable="true">
+                <p>
+                    <span class="dropcap">F</span>or centuries, humans <strong>have traveled</strong> across oceans searching for <span class="target-word">uncharted</span> lands—places absent from any map, untouched by modern civilization. However, in the 21st century, the map is complete. I <strong>realized</strong> this harsh truth in 2023 when I <strong>visited</strong> a supposedly "secret" beach in Thailand, only to find three hundred people queueing to take the exact same photograph.
+                </p>
+                <p>
+                    This phenomenon is known as <span class="target-word">overtourism</span>. Historic European cities, once celebrated for their quiet charm, <strong>have transformed</strong> into crowded theme parks. The influx of short-term rentals has caused severe <span class="target-word">gentrification</span>; local bakers and bookstores are forced out, replaced by overpriced souvenir shops and generic cafes catering solely to tourists.
+                </p>
+                <p>
+                    So, how do we fix this? Perhaps the answer lies in abandoning the rigid itinerary. Instead of treating travel as a checklist of famous monuments, we must embrace <span class="target-word">serendipitous</span> moments—getting lost, missing a train, and unexpectedly discovering a hidden jazz bar.
+                </p>
+                <p>
+                    Furthermore, we must accept the <span class="target-word">transience</span> of the traveler's life. We are only temporary guests. To truly understand a place, one must stay long enough to <span class="target-word">acclimatize</span> to its rhythms, rather than flying in for a 48-hour weekend. I <strong>have spent</strong> the last decade learning this lesson, and tomorrow, as I pack my bags for Lisbon, I <strong>will be leaving</strong> my guidebook behind entirely.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="section-label">04. Lexical Extraction</span>
+        <h2 class="section-title" contenteditable="true">Decoding Context</h2>
+        <p class="section-desc" contenteditable="true">Using the context clues from the editorial above, match the sophisticated vocabulary to its precise definition.</p>
+
+        <table class="elegant-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Definition / Nuance</th>
+                    <th contenteditable="true">Target Word (Extract from text)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">1. Not mapped, explored, or recorded; completely unknown.</td>
+                    <td><span class="blank-input" contenteditable="true"></span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">2. The state of lasting only for a short time; impermanence.</td>
+                    <td><span class="blank-input" contenteditable="true"></span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">3. Occurring or discovered by chance in a happy or beneficial way.</td>
+                    <td><span class="blank-input" contenteditable="true"></span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">4. The process where a poorer urban area is changed by wealthier people moving in, displacing the original inhabitants.</td>
+                    <td><span class="blank-input" contenteditable="true"></span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">5. The situation where too many visitors ruin the quality of life for locals and the environment.</td>
+                    <td><span class="blank-input" contenteditable="true"></span></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">6. To become accustomed to a new climate, culture, or set of conditions.</td>
+                    <td><span class="blank-input" contenteditable="true"></span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="section" id="grammar1">
+    <div class="section-inner">
+        <span class="section-label">05. Grammatical Theory I</span>
+        <h2 class="section-title" contenteditable="true">The Burden of Experience vs. The Finished Event</h2>
+        <p class="section-desc" contenteditable="true">Why does the author say <em>"I <strong>have traveled</strong>..."</em> but later says <em>"I <strong>realized</strong> this in 2023"</em>? The difference lies in the concept of time limits.</p>
+
+        <div class="theory-box">
+            <h3 contenteditable="true">A. Present Perfect (The Unfinished Canvas)</h3>
+            <p contenteditable="true" style="font-family:var(--font-serif); margin-bottom: 24px; color:var(--charcoal);">Use <strong>have/has + V3</strong> to discuss experiences that occurred at an unspecified time in your life. The focus is on the <em>result</em> or the <em>experience</em> held in the present. The time period (your life) is not finished.<br><em>"I have spent the last decade learning this."</em> (And I am still learning it).</p>
+            
+            <h3 contenteditable="true">B. Past Simple (The Closed Chapter)</h3>
+            <p contenteditable="true" style="font-family:var(--font-serif); color:var(--charcoal);">Use <strong>V2</strong> when referring to a completed action at a specific, stated point in the past (e.g., in 2023, yesterday, two years ago). The door to this event is closed.<br><em>"I visited a secret beach in 2023."</em></p>
+
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-event">
+                    <div class="timeline-dot filled"></div>
+                    <div class="timeline-label" contenteditable="true">2023</div>
+                    <div class="timeline-desc" contenteditable="true">"I <strong>visited</strong> Thailand."<br>(Specific & Finished)</div>
+                </div>
+
+                <div class="timeline-event">
+                    <div class="timeline-dot accent"></div>
+                    <div class="timeline-label" contenteditable="true">Unspecified Past ➔</div>
+                    <div class="timeline-desc" contenteditable="true">"Humans <strong>have traveled</strong> across oceans."<br>(Ongoing truth/experience)</div>
+                </div>
+
+                <div class="timeline-event">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label" contenteditable="true">PRESENT NOW</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label">06. Grammatical Application I</span>
+        <h2 class="section-title" contenteditable="true">The Disastrous Itinerary</h2>
+        <p class="section-desc" contenteditable="true">Read the traveler's complaint below. Determine whether the verbs in brackets require the Present Perfect or the Past Simple based on the temporal context.</p>
+
+        <div class="practice-narrative">
+            <p contenteditable="true">
+                I consider myself an expert traveler; I <span class="blank-input" contenteditable="true"></span> (visit) over thirty countries in my lifetime. However, I <span class="blank-input" contenteditable="true"></span> (never / experience) a disaster quite like my trip to Rome. The nightmare <span class="blank-input" contenteditable="true"></span> (begin) last Tuesday when the airline <span class="blank-input" contenteditable="true"></span> (lose) my luggage. Since that moment, I <span class="blank-input" contenteditable="true"></span> (wear) the exact same clothes every day. Yesterday, I <span class="blank-input" contenteditable="true"></span> (try) to visit the Colosseum, but the overtourism was unbearable. I <span class="blank-input" contenteditable="true"></span> (see) enough crowds for one lifetime!
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="grammar2">
+    <div class="section-inner">
+        <span class="section-label">07. Grammatical Theory II</span>
+        <h2 class="section-title" contenteditable="true">The Future Continuous</h2>
+        <p class="section-desc" contenteditable="true">In the final line of the editorial, Elena states: <em>"Tomorrow... I <strong>will be leaving</strong> my guidebook behind."</em></p>
+
+        <div class="theory-box" style="background:var(--bg-panel); border-color:var(--navy);">
+            <p contenteditable="true" style="font-family:var(--font-serif); font-size:1.1rem; color:var(--charcoal);">We construct the Future Continuous using <strong>will be + V-ing</strong>. It is utilized to project ourselves forward in time and visualize an action that will be <em>in progress</em> at a specific future moment. It emphasizes duration and certainty.</p>
+
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-event">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-label" contenteditable="true">NOW (Monday 8AM)</div>
+                    <div class="timeline-desc" contenteditable="true">Packing bags.</div>
+                </div>
+
+                <div class="timeline-event">
+                    <div class="timeline-dot filled"></div>
+                    <div class="timeline-label" contenteditable="true">Tomorrow (Tuesday 12PM)</div>
+                    <div class="timeline-desc" contenteditable="true">Flight is from 10AM to 4PM.<br>At 12PM, I <strong>will be flying</strong> over the Alps.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label">08. Grammatical Application II</span>
+        <h2 class="section-title" contenteditable="true">Projecting Forward</h2>
+        <p class="section-desc" contenteditable="true">Transform the mundane facts into vivid Future Continuous statements visualizing the ongoing action.</p>
+
+        <div class="practice-narrative">
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                1. Fact: My train departs at 09:00 and arrives at 14:00.<br>
+                Visual: Please don't call me at 11:00. I <span class="blank-input" contenteditable="true"></span> (travel) through areas with no signal.
+            </p>
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                2. Fact: The hotel renovation takes place all next month.<br>
+                Visual: We cannot stay there in July. The construction workers <span class="blank-input" contenteditable="true"></span> (drill) all day long, ruining the peace.
+            </p>
+            <p contenteditable="true">
+                3. Fact: It's my goal to live in Tokyo by 2030.<br>
+                Visual: I promise you, this time in four years, I <span class="blank-input" contenteditable="true"></span> (acclimatize) to my new life in Japan.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="video">
+    <div class="section-inner">
+        <span class="section-label">09. Media Analysis</span>
+        <h2 class="section-title" contenteditable="true">The Sustainable Traveler</h2>
+        <p class="section-desc" contenteditable="true">Watch this analysis on travel mistakes and sustainable tourism. Observe how the speaker articulates their experiences.</p>
+
+        <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border: 1px solid var(--border-light); margin-bottom:20px; background:var(--navy);" contenteditable="false">
+            <iframe 
+                src="https://www.youtube-nocookie.com/embed/5Pxyy5h0yvQ?rel=0&modestbranding=1"
+                style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <p style="text-align:center; margin-bottom:32px;">
+            <a href="https://www.youtube.com/watch?v=5Pxyy5h0yvQ" target="_blank" style="color:var(--gold); font-weight:700; text-decoration:none; font-family:var(--font-ui); text-transform:uppercase; font-size:0.8rem; letter-spacing:1px;">🔗 Open Original Broadcast</a>
+        </p>
+
+        <div class="info-box">
+            <span class="info-icon" contenteditable="true">P.</span>
+            <div contenteditable="true">
+                <strong style="font-family:var(--font-ui); color:var(--navy);">Pronunciation Note: The Phantom Auxiliary</strong><br>
+                Native speakers rarely articulate the "have" in Present Perfect. It becomes a rapid contraction.<br>
+                <em>"I have seen it"</em> ➔ <strong>"I've seen it"</strong> (/aɪv sin ɪt/). Practice vocalizing your answers with this fluent reduction.
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label">10. Deep Discourse</span>
+        <h2 class="section-title" contenteditable="true">Interrogating the Media</h2>
+        <p class="section-desc" contenteditable="true">Discuss these advanced concepts with your partner based on the video and your personal history.</p>
+
+        <div class="grid-2">
+            <div class="discussion-card" style="border-top-color:var(--navy);">
+                <p contenteditable="true">Detail a time when you <strong>have made</strong> a catastrophic packing or planning mistake. What were the consequences, and how did you resolve it?</p>
+            </div>
+            <div class="discussion-card" style="border-top-color:var(--navy);">
+                <p contenteditable="true">Considering the video's advice on sustainability, what changes <strong>will you be making</strong> to your travel habits in the future?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="section-label">11. Role-Play Simulation</span>
+        <h2 class="section-title" contenteditable="true">The Town Hall Dispute</h2>
+        <p class="section-desc" contenteditable="true">You are attending a heated town hall meeting in a historic, coastal European village. A massive developer wants to build a 5,000-room mega-resort. Assume your roles and debate.</p>
+
+        <table class="elegant-table" style="margin-bottom: 30px;">
+            <tr>
+                <td style="width:50%; vertical-align:top; border-right:1px solid var(--border-light);">
+                    <strong style="color:var(--navy); font-size:1.1rem;" contenteditable="true">Role A: The Mayor / Developer</strong><br><br>
+                    <span contenteditable="true">You support the mega-resort. Use the <em>Present Perfect</em> to explain how the town's economy <strong>has failed</strong> recently, and use the <em>Future Continuous</em> to paint a positive picture of what the town <strong>will be doing</strong> (making money, thriving) once the resort is built.</span>
+                </td>
+                <td style="vertical-align:top;">
+                    <strong style="color:var(--gold); font-size:1.1rem;" contenteditable="true">Role B: The Outraged Local</strong><br><br>
+                    <span contenteditable="true">You despise the idea. Use advanced vocabulary (<em>overtourism, gentrification, transience</em>). Use the <em>Past Simple</em> to reminisce about how peaceful the town <strong>was</strong> ten years ago, and argue that this resort will destroy the community's soul.</span>
+                </td>
+            </tr>
+        </table>
+
+        <div class="script-container">
+            <div class="script-line char-a">
+                <span class="script-name" contenteditable="true">The Mayor</span>
+                <span class="script-text" contenteditable="true">"Citizens, we must look to the future. Our local industries <strong>have collapsed</strong> over the last decade. If we approve this resort, by next summer, hundreds of our young people <strong>will be working</strong> in high-paying hospitality jobs."</span>
+            </div>
+            <div class="script-line char-b">
+                <span class="script-name" contenteditable="true">The Local</span>
+                <span class="script-text" contenteditable="true">"High-paying jobs? What a joke! This is pure <em>gentrification</em>. I <strong>remembered</strong> this town when it was quiet. Ten years ago, we <strong>knew</strong> all our neighbors. If you build this,..." (Continue your attack using Future Continuous or advanced vocab).</span>
+            </div>
+            <div class="script-line char-a">
+                <span class="script-name" contenteditable="true">The Mayor</span>
+                <span class="script-text" contenteditable="true">(Defend the project. Argue that the town needs the tourists' money to survive. Suggest a compromise).</span>
+            </div>
+            <div class="script-line char-b">
+                <span class="script-name" contenteditable="true">The Local</span>
+                <span class="script-text" contenteditable="true">(Reject the compromise. Warn them about the dangers of <em>overtourism</em>).</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label">12. Creative Synthesis</span>
+        <h2 class="section-title" contenteditable="true">The Future Disconnect</h2>
+        <p class="section-desc" contenteditable="true">Write a brief, sophisticated journal entry imagining you have successfully escaped modern society. Describe exactly what you <strong>will be doing</strong> one year from today.</p>
+
+        <div class="editorial-article" style="border-top: none; border-left: 4px solid var(--gold); padding: 40px;">
+            <p style="font-family:var(--font-ui); font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; color:var(--gray-text); text-align:right;" contenteditable="true">Date: One Year Hence</p>
+            <div contenteditable="true" style="min-height: 120px; font-size: 1.15rem; font-family:var(--font-serif); line-height: 2; color:var(--charcoal);">
+                I have finally left the city behind. This time next year, I will be...
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="border-bottom:none;">
+    <div class="section-inner">
+        <span class="section-label">13. Grand Finale</span>
+        <h2 class="section-title" contenteditable="true">The Monologue Matrix</h2>
+        <p class="section-desc" contenteditable="true">Select a prompt. Deliver a 60-second unscripted monologue demonstrating mastery of the Present Perfect, Past Simple, Future Continuous, and at least two sophisticated vocabulary items.</p>
+
+        <div class="grid-3">
+            <div class="discussion-card" style="border-top-color:var(--navy); padding: 25px;">
+                <p contenteditable="true" style="font-size:0.95rem;">Describe an incredibly <em>serendipitous</em> moment you <strong>have experienced</strong> while traveling. What exactly <strong>happened</strong>?</p>
+            </div>
+            <div class="discussion-card" style="border-top-color:var(--gold); padding: 25px;">
+                <p contenteditable="true" style="font-size:0.95rem;">Is there any truly <em>uncharted</em> territory left on Earth? Where <strong>will explorers be going</strong> in the year 2100?</p>
+            </div>
+            <div class="discussion-card" style="border-top-color:var(--danger); padding: 25px;">
+                <p contenteditable="true" style="font-size:0.95rem;">Have you personally witnessed the effects of <em>gentrification</em> or <em>overtourism</em> in your own city or a city you <strong>visited</strong>? Detail it.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Instructor Operations</span>
+        <h2 class="section-title" contenteditable="true">The Strategy Canvas</h2>
+        <p class="section-desc" contenteditable="true">A collaborative digital environment for mapping complex grammar timelines, lexical networks, or phonetic transcriptions.</p>
+
+        <div class="wb-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <button class="wb-btn" data-tool="laser" contenteditable="true">Laser</button>
+                <button class="wb-btn" data-tool="eraser" contenteditable="true">Eraser</button>
+                <div style="width: 1px; height: 22px; background: var(--border-light); margin: 0 8px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#0A192F" title="Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; color: var(--danger); border-color: var(--danger);" contenteditable="true">Clear Canvas</button>
+            </div>
+            <div id="wbScrollWrapper" style="height: 600px; overflow-y: auto; overflow-x: hidden; position: relative; cursor: crosshair; background: var(--bg-panel);">
+                <div id="wbCanvasContainer" style="position: relative; width: 100%; height: 2000px;">
+                    <canvas id="boardCanvas" style="position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; z-index: 10; background: transparent;"></canvas>
+                    <canvas id="laserCanvas" style="position: absolute; top: 0; left: 0; width: 100% !important; height: 100% !important; pointer-events: none; z-index: 20; background: transparent;"></canvas>
+                    <textarea id="wbTextInput" style="position: absolute; display: none; background: rgba(255,255,255,0.95); border: 2px dashed var(--gold); color: var(--charcoal); font-family: var(--font-ui); font-size: 18px; line-height: 1.5; outline: none; padding: 6px; z-index: 30; border-radius: 4px; resize: none; min-width: 150px; min-height: 40px; box-shadow: var(--shadow-md);"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+</main>
+
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWB()" title="Go to Canvas">🖌️</button>
+    <button class="fab-btn" style="background: var(--gold);" onclick="openQuizletModal()" title="Export Lexicon">📝</button>
+    <button class="fab-btn" onclick="window.saveAsPDF()" title="Export PDF">💾</button>
+    <button class="fab-btn fab-danger" onclick="window.resetLesson()" title="System Purge">🔄</button>
+</div>
+
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2>Lexicon Exporter</h2>
+        <p style="font-size:1rem;color:var(--gray-text);margin-top:6px;margin-bottom:24px;line-height:1.6;">Input target vocabulary and corresponding definitions. Copy the generated data to instantly populate Quizlet sets.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="Target Word" class="q-word"><input type="text" placeholder="Definition / Context" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="Target Word" class="q-word"><input type="text" placeholder="Definition / Context" class="q-trans"></div>
+        </div>
+        <div style="display:flex; gap:16px; margin-top:20px;">
+            <button onclick="addWordRow()" class="modal-btn" style="background:var(--bg-page);color:var(--navy);border:1px solid var(--navy);">+ Append Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="modal-btn" style="background:var(--navy);color:white;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ── HIGHLIGHT COMMAND ──
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(197, 160, 89, 0.4)'); // Gold highlight
+        }
+    });
+
+    // ── ADVANCED WHITEBOARD LOGIC ──
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    const laserCanvas = document.getElementById('laserCanvas');
+    const lctx = laserCanvas.getContext('2d');
+    const wbTextInput = document.getElementById('wbTextInput');
+
+    function resizeCanvas() { 
+        const container = document.getElementById('wbCanvasContainer');
+        canvas.width = container.offsetWidth; 
+        canvas.height = 2000; 
+        laserCanvas.width = container.offsetWidth;
+        laserCanvas.height = 2000;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function fadeLaser() {
+        lctx.globalCompositeOperation = 'destination-out';
+        lctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; 
+        lctx.fillRect(0, 0, laserCanvas.width, laserCanvas.height);
+        lctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(fadeLaser);
+    }
+    fadeLaser();
+
+    let isDrawing = false, pendingDraw = false, startX, startY;
+    let currentTool = 'pencil', currentColor = '#0A192F', savedImageData;
+    let textX, textY, isTyping = false;
+
+    // Bulletproof Text Committing
+    function commitText() {
+        if (wbTextInput.style.display !== 'none' && wbTextInput.value.trim() !== '') {
+            ctx.font = "18px 'DM Sans', Arial, sans-serif"; 
+            ctx.fillStyle = wbTextInput.style.color || currentColor;
+            ctx.textBaseline = "top";
+            const lines = wbTextInput.value.split('\n');
+            lines.forEach((line, i) => {
+                ctx.fillText(line, textX + 6, textY + 6 + (i * 27)); // Adjusted line height spacing
+            });
+            if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); }
+        }
+        wbTextInput.style.display = 'none';
+        wbTextInput.value = '';
+        isTyping = false;
+    }
+
+    wbTextInput.style.overflow = 'hidden';
+    wbTextInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault(); 
+            commitText(); 
+            return;
+        }
+        setTimeout(() => {
+            wbTextInput.style.height = 'auto';
+            wbTextInput.style.height = wbTextInput.scrollHeight + 'px';
+        }, 0);
+    });
+
+    wbTextInput.addEventListener('blur', () => {
+        setTimeout(() => {
+            if (isTyping && document.activeElement !== wbTextInput) commitText();
+        }, 150);
+    });
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (isTyping) commitText(); 
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            
+            const scrollWrapper = document.getElementById('wbScrollWrapper');
+            if (currentTool === 'text') scrollWrapper.style.cursor = 'text';
+            else if (currentTool === 'eraser') scrollWrapper.style.cursor = 'cell'; 
+            else scrollWrapper.style.cursor = 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => {
+        currentColor = e.target.value;
+        if (isTyping) wbTextInput.style.color = currentColor;
+    });
+    
+    document.getElementById('wbClear').addEventListener('click', () => { 
+        if (isTyping) commitText();
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        if (window.syncWBClear) window.syncWBClear(); 
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const pos = getPos(e); 
+        startX = pos.x; startY = pos.y;
+        
+        if (currentTool === 'text') {
+            if (isTyping) commitText(); 
+            
+            textX = pos.x; textY = pos.y;
+            wbTextInput.style.left = textX + 'px';
+            wbTextInput.style.top = textY + 'px';
+            wbTextInput.style.color = currentColor;
+            wbTextInput.value = '';
+            wbTextInput.style.height = '40px'; 
+            wbTextInput.style.display = 'block';
+            isTyping = true;
+            setTimeout(() => wbTextInput.focus(), 10);
+            return;
+        }
+        
+        if (isTyping) commitText(); 
+        
+        isDrawing = true;
+        if (currentTool !== 'laser') {
+            savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            ctx.beginPath(); ctx.moveTo(startX, startY);
+        }
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        
+        if (currentTool === 'laser') {
+            lctx.beginPath();
+            lctx.moveTo(startX, startY);
+            lctx.lineTo(pos.x, pos.y);
+            lctx.strokeStyle = '#D62828'; // Red laser
+            lctx.lineWidth = 6;
+            lctx.lineCap = 'round';
+            lctx.stroke();
+            startX = pos.x; startY = pos.y;
+        } else if (currentTool === 'eraser') {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineTo(pos.x, pos.y);
+            ctx.lineWidth = 30; 
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            ctx.globalCompositeOperation = 'source-over'; 
+        } else if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '55' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 18 : 3;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round'; ctx.stroke();
+        } else { 
+            ctx.putImageData(savedImageData, 0, 0); drawShape(pos.x, pos.y); 
+        }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing = false;
+        if (currentTool === 'laser') return; 
+        if (currentTool !== 'pencil' && currentTool !== 'highlight' && currentTool !== 'eraser') drawShape(getPos(e).x, getPos(e).y);
+        if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { 
+            isDrawing = false; 
+            if (currentTool !== 'laser' && window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } 
+        }
+    });
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 3;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, ex - startX, ey - startY); }
+        else if (currentTool === 'circle') { const r = Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool === 'arrow') {
+            const hl = 18, ang = Math.atan2(ey-startY, ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));
+            ctx.stroke();
+        }
+    }
+
+    // ── MEDIA PASTE INTERCEPTOR ──
+    document.addEventListener('paste', e => {
+        const target = e.target;
+        
+        // Handle paste inside the whiteboard
+        if (!target.closest('[contenteditable="true"]') && document.activeElement !== document.getElementById('wbTextInput')) {
+            const items = (e.clipboardData||window.clipboardData).items;
+            for (let idx in items) {
+                if (items[idx].kind === 'file' && items[idx].type.startsWith('image/')) {
+                    e.preventDefault();
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        const img = new Image(); 
+                        img.onload = () => {
+                            const cv = document.getElementById('boardCanvas');
+                            const cx = cv.getContext('2d');
+                            let w = img.width, h = img.height;
+                            const maxW = cv.width - 60, maxH = cv.height - 60;
+                            if (w > maxW) { h *= maxW / w; w = maxW; }
+                            if (h > maxH) { w *= maxH / h; h = maxH; }
+                            // Paste at current scroll position
+                            cx.drawImage(img, (cv.width - w) / 2, document.getElementById('wbScrollWrapper').scrollTop + 50, w, h);
+                            if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); }
+                        }; 
+                        img.src = ev.target.result;
+                    }; 
+                    reader.readAsDataURL(items[idx].getAsFile());
+                    return; 
+                }
+            }
+        }
+
+        // Handle paste inside contenteditable
+        if (!target.closest('[contenteditable="true"]')) return;
+        const items = (e.clipboardData||window.clipboardData).items;
+        for (let idx in items) {
+            const item = items[idx];
+            if (item.kind==='file' && item.type.startsWith('image/')) {
+                e.preventDefault();
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    const img = new Image(); img.onload = () => {
+                        const c = document.createElement('canvas'); let w=img.width, h=img.height;
+                        if(w>800){h*=800/w;w=800;} c.width=w;c.height=h;
+                        c.getContext('2d').drawImage(img,0,0,w,h);
+                        document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:24px 0;text-align:center;"><img src="${c.toDataURL('image/jpeg',0.8)}" style="max-width:100%;border-radius:4px;box-shadow:0 10px 30px rgba(0,0,0,0.1); border:1px solid #E5E0D8;"></div><p><br></p>`);
+                        target.dispatchEvent(new Event('input',{bubbles:true}));
+                    }; img.src = ev.target.result;
+                }; reader.readAsDataURL(item.getAsFile()); return;
+            }
+        }
+        const text = (e.clipboardData||window.clipboardData).getData('text');
+        if (text) {
+            const yt = text.match(/(?:youtube\.com\/(?:[^\/]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            if (yt) { e.preventDefault(); document.execCommand('insertHTML',false,`<div contenteditable="false" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:4px;margin:24px 0;border:1px solid #E5E0D8;"><iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div><p><br></p>`); target.dispatchEvent(new Event('input',{bubbles:true})); return; }
+            if (/^https?:\/\/\S+$/.test(text.trim())) { e.preventDefault(); document.execCommand('insertHTML',false,`<a href="${text.trim()}" target="_blank" style="color:var(--navy);font-weight:600;text-decoration:underline;" contenteditable="false">${text.trim()}</a>`); target.dispatchEvent(new Event('input',{bubbles:true})); }
+        }
+    });
+
+    // ── PDF GENERATION ──
+    window.saveAsPDF = () => {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const el = document.body;
+        html2pdf().set({
+            margin: 0, filename: 'Lesson-16-Editorial-Travel.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' }
+        }).from(el).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    };
+
+    // ── QUIZLET LOGIC ──
+    window.openQuizletModal = () => { document.getElementById('quizletModal').style.display = 'flex'; };
+    window.closeQuizletModal = () => { document.getElementById('quizletModal').style.display = 'none'; };
+    window.addWordRow = () => {
+        const d = document.createElement('div'); d.className = 'word-row';
+        d.innerHTML = '<input type="text" placeholder="Target Word" class="q-word"><input type="text" placeholder="Definition / Context" class="q-trans">';
+        const wl = document.getElementById('wordList'); wl.appendChild(d); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out = '';
+        document.querySelectorAll('.word-row').forEach(r => { const w = r.querySelector('.q-word').value.trim(), t = r.querySelector('.q-trans').value.trim(); if (w || t) out += `${w}\t${t}\n`; });
+        const btn = document.getElementById('copyQuizletBtn');
+        if (out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); btn.innerText = '✅ Copied to Clipboard!'; setTimeout(() => btn.innerText = '📋 Copy Data', 3000); }
+        else { btn.innerText = '⚠️ No Data Provided!'; setTimeout(() => btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ── UI NAV ──
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#') && id.length > 1) {
+                const sec = document.querySelector(id);
+                if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+            }
+        }
+    });
+    window.scrollToWB = () => { const wb = document.getElementById('whiteboard'); if (wb) window.scrollTo({ top: wb.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' }); };
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    // Unique ID for this specific lesson version to prevent bleeding over into previous versions
+    const appId = 'lesson-16-b1-travel-editorial-v2';
+
+    const syncText = document.getElementById('syncText');
+    const syncDot = document.getElementById('syncDot');
+    function setStatus(t, c) { if (syncText) syncText.innerText = t; if (syncDot) syncDot.style.background = c; }
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null, isSyncSetup = false;
+    const myCursorColor = ['#0A192F', '#C5A059', '#8B2635', '#172A45', '#333333'][Math.floor(Math.random() * 5)];
+    let myCursorName = 'Participant';
+
+    const editables = document.querySelectorAll('[contenteditable="true"]');
+    const originalStates = {};
+    editables.forEach((el, i) => { el.dataset.syncId = 'e' + i; originalStates['e' + i] = el.innerHTML; });
+
+    let isEditing = null;
+
+    function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+    const initAuth = async () => { try { await signInAnonymously(auth); } catch(e) { setStatus('Offline','#8B2635'); } };
+
+    onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user && !isSyncSetup) {
+            isSyncSetup = true;
+            getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                myCursorName = 'Participant ' + (snap.size + 1);
+                setStatus('Network Active', '#C5A059');
+                setupSync(); setupCursors();
+            }).catch(() => {
+                myCursorName = 'Participant ' + (Math.floor(Math.random() * 99) + 1);
+                setStatus('Network Active', '#C5A059');
+                setupSync(); setupCursors();
+            });
+        } else if (!user) { setStatus('Offline', '#8B2635'); }
+    });
+
+    initAuth();
+
+    function setupSync() {
+        const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text');
+        const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+        window.saveTextUpdate = el => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', () => isEditing = el.dataset.syncId);
+            el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+            el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        };
+
+        editables.forEach(el => window.attachEditableListeners(el));
+
+        window.addNewTab = e => {
+            e.preventDefault();
+            const c = document.getElementById('navTabsContainer');
+            const li = document.createElement('li');
+            const newId = 'tab-' + Date.now();
+            li.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+            c.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if (currentUser) setDoc(textRef, { 'nav_tabs': c.innerHTML }, { merge: true });
+        };
+
+        onSnapshot(textRef, snap => {
+            if (!snap.exists()) { Object.entries(originalStates).forEach(([id, html]) => { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }); return; }
+            const data = snap.data();
+            for (const [id, html] of Object.entries(data)) {
+                if (id === 'nav_tabs') {
+                    const c = document.getElementById('navTabsContainer');
+                    if (!c.contains(document.activeElement)) { c.innerHTML = html; c.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a)); }
+                    continue;
+                }
+                if (isEditing !== id) { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }
+            }
+        });
+
+        // Ensure the global functions map to the correct Firebase save calls
+        window.syncWBDraw = debounce(() => {
+            if (!currentUser) return;
+            const c = document.getElementById('boardCanvas');
+            setDoc(wbRef, { image: c.toDataURL('image/png', 0.5), clearTs: window.lastClear || 0 }, { merge: true });
+            pendingDraw = false;
+        }, 800);
+
+        window.syncWBClear = () => { if (!currentUser) return; const ts = Date.now(); window.lastClear = ts; setDoc(wbRef, { clearTs: ts, image: null }, { merge: true }); };
+
+        onSnapshot(wbRef, snap => {
+            if (!snap.exists()) return;
+            const data = snap.data(); const c = document.getElementById('boardCanvas'); const x = c.getContext('2d');
+            if (data.clearTs > (window.lastClear || 0)) { x.clearRect(0, 0, c.width, c.height); window.lastClear = data.clearTs; return; }
+            if (data.image && !pendingDraw) { const img = new Image(); img.onload = () => { x.clearRect(0,0,c.width,c.height); x.drawImage(img,0,0); }; img.src = data.image; }
+        });
+    }
+
+    function setupCursors() {
+        const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+        const myRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+        const container = document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove', debounce(e => {
+            if (!currentUser) return;
+            setDoc(myRef, { xOff: e.pageX - window.innerWidth / 2, y: e.pageY, color: myCursorColor, name: myCursorName, ts: Date.now() });
+        }, 300));
+
+        onSnapshot(cursorsCol, snap => {
+            snap.docChanges().forEach(ch => {
+                const id = ch.doc.id; if (id === currentUser.uid) return;
+                if (ch.type === 'removed') { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                const d = ch.doc.data();
+                if (Date.now() - d.ts > 60000) { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                let el = document.getElementById('cur-' + id);
+                if (!el) {
+                    el = document.createElement('div'); el.id = 'cur-' + id; el.className = 'remote-cursor';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${d.color}">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth / 2 + d.xOff) + 'px';
+                el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myRef); });
+    }
+
+    window.resetLesson = async () => {
+        if (!currentUser) return;
+        if (!confirm('Warning: This will wipe all global system data and canvas drawings for all users. Proceed?')) return;
+        setStatus('Purging...', '#8B2635');
+        const base = (s) => doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', s);
+        await deleteDoc(base('text'));
+        const ts = Date.now(); window.lastClear = ts;
+        await setDoc(base('whiteboard'), { clearTs: ts, image: null });
+        setTimeout(() => setStatus('Network Active', '#C5A059'), 1200);
+    };
+</script>
+</body>
+</html>
