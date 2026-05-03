@@ -18,7 +18,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState } = React;
 
         // Іконки
         const CheckCircle2Icon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
@@ -29,77 +29,97 @@
         const InfoIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>;
         const FlagIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>;
 
-        const rawQuestions = `[cite: 4]`;
-        const rawAnswers = `[cite: 5]`;
-
         function App() {
+            const [inputMode, setInputMode] = useState(true);
+            const [rawQ, setRawQ] = useState("");
+            const [rawA, setRawA] = useState("");
+            const [error, setError] = useState("");
+
             const [questions, setQuestions] = useState([]);
             const [currentIndex, setCurrentIndex] = useState(0);
             const [score, setScore] = useState(0);
-            const [history, setHistory] = useState([]); // Повна історія відповідей
+            const [history, setHistory] = useState([]);
             const [selectedAnswer, setSelectedAnswer] = useState(null);
             const [isCorrect, setIsCorrect] = useState(null);
             const [quizFinished, setQuizFinished] = useState(false);
             const [startQuestionNumber, setStartQuestionNumber] = useState(1);
-            const [isStarted, setIsStarted] = useState(false);
 
-            useEffect(() => {
-                const parsedQuestions = [];
-                const qBlocks = rawQuestions.split(/(?=\n\d+\.\s)/).filter(b => b.trim());
-                const aBlocks = rawAnswers.split(/(?=\n\d+\.\sВідповідь:)/).filter(b => b.trim());
+            const parseData = () => {
+                try {
+                    const parsedQuestions = [];
+                    const qBlocks = rawQ.split(/(?:^|\n)(?=\s*\d+\.\s)/).filter(b => b.trim() && /^\s*\d+\./.test(b));
+                    const aBlocks = rawA.split(/(?:^|\n)(?=\s*\d+\.\sВідповідь:)/).filter(b => b.trim() && /^\s*\d+\./.test(b));
 
-                qBlocks.forEach((block, i) => {
-                    const qMatch = block.match(/^\s*\d+\.\s([\s\S]*?)(?=\n[A-EА-Е]\.)/);
-                    const optMatches = block.match(/^[A-EА-Е]\.\s.*$/gm);
-                    const aBlock = aBlocks[i];
-
-                    if (qMatch && optMatches && aBlock) {
-                        const questionText = qMatch[1].trim();
-                        const options = optMatches.map(o => o.trim());
-                        
-                        const ansMatch = aBlock.match(/Відповідь:\s*([A-EА-Е])\.\s*(.*?)(?=\nПояснення:)/);
-                        const expMatch = aBlock.match(/Пояснення:\s*([\s\S]*)$/);
-
-                        if (ansMatch) {
-                            const correctLetter = ansMatch[1];
-                            const correctText = ansMatch[2].trim();
-                            const explanation = expMatch ? expMatch[1].trim() : "Пояснення відсутнє.";
-                            const correctFullOption = options.find(o => o.startsWith(correctLetter + '.'));
-
-                            parsedQuestions.push({
-                                id: i + 1,
-                                question: questionText,
-                                options: options,
-                                correctAnswer: correctFullOption || `${correctLetter}. ${correctText}`,
-                                explanation: explanation
-                            });
-                        }
+                    if (qBlocks.length === 0 || aBlocks.length === 0) {
+                        throw new Error("Не вдалося знайти тести. Перевір, чи правильно вставлено текст у поля.");
                     }
-                });
-                setQuestions(parsedQuestions);
-            }, []);
 
-            const startQuiz = () => {
-                let startIdx = startQuestionNumber - 1;
-                if (startIdx < 0 || startIdx >= questions.length) startIdx = 0;
-                setCurrentIndex(startIdx);
-                setIsStarted(true);
+                    qBlocks.forEach((block) => {
+                        const qMatch = block.match(/^\s*(\d+)\.\s([\s\S]*?)(?=\n\s*[A-EА-Еa-eа-еДд]\.)/);
+                        const optMatches = block.match(/^[A-EА-Еa-eа-еДд]\.\s.*$/gm);
+                        
+                        if (qMatch && optMatches) {
+                            const questionId = qMatch[1];
+                            const questionText = qMatch[2].trim();
+                            const options = optMatches.map(o => o.trim());
+                            
+                            const aBlock = aBlocks.find(a => a.trim().startsWith(questionId + '.'));
+                            
+                            if (aBlock) {
+                                const ansMatch = aBlock.match(/Відповідь:\s*([A-EА-Еa-eа-еДд])\.\s*(.*?)(?=\nПояснення:|$)/);
+                                const expMatch = aBlock.match(/Пояснення:\s*([\s\S]*)$/);
+
+                                if (ansMatch) {
+                                    const correctLetter = ansMatch[1];
+                                    const correctText = ansMatch[2].trim();
+                                    const explanation = expMatch ? expMatch[1].trim() : "Пояснення відсутнє.";
+                                    
+                                    const normalize = (char) => {
+                                        const map = {'А':'A', 'В':'B', 'С':'C', 'Е':'E', 'Д':'D'};
+                                        return map[char.toUpperCase()] || char.toUpperCase();
+                                    };
+
+                                    const correctFullOption = options.find(o => normalize(o.charAt(0)) === normalize(correctLetter));
+
+                                    parsedQuestions.push({
+                                        id: questionId,
+                                        question: questionText,
+                                        options: options,
+                                        correctAnswer: correctFullOption || `${correctLetter}. ${correctText}`,
+                                        explanation: explanation
+                                    });
+                                }
+                            }
+                        }
+                    });
+
+                    if (parsedQuestions.length === 0) {
+                        throw new Error("Парсер не зміг розпізнати формат. Переконайся, що питання починаються з цифри (наприклад, '1. '), а варіанти з букви (наприклад, 'А. ')");
+                    }
+
+                    setQuestions(parsedQuestions);
+                    setInputMode(false);
+                    
+                    let startIdx = startQuestionNumber - 1;
+                    if (startIdx < 0 || startIdx >= parsedQuestions.length) startIdx = 0;
+                    setCurrentIndex(startIdx);
+                    setError("");
+
+                } catch (err) {
+                    setError(err.message);
+                }
             };
 
             const handleAnswerClick = (option) => {
                 if (selectedAnswer !== null) return;
-                
                 const currentQuestion = questions[currentIndex];
                 const correct = option === currentQuestion.correctAnswer;
                 
                 setSelectedAnswer(option);
                 setIsCorrect(correct);
                 
-                if (correct) {
-                    setScore(prev => prev + 1);
-                }
+                if (correct) setScore(prev => prev + 1);
                 
-                // Додаємо питання до загальної історії
                 setHistory(prev => [...prev, {
                     numId: currentQuestion.id,
                     question: currentQuestion.question,
@@ -121,7 +141,7 @@
             };
 
             const restartQuiz = () => {
-                setIsStarted(false);
+                setInputMode(true);
                 setScore(0);
                 setHistory([]);
                 setSelectedAnswer(null);
@@ -129,28 +149,54 @@
                 setQuizFinished(false);
             };
 
-            if (!isStarted) {
+            if (inputMode) {
                 return (
-                    <div className="min-h-screen flex items-center justify-center p-4">
-                        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
-                            <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <span className="text-blue-600"><BookOpenIcon /></span>
+                    <div className="min-h-screen py-10 px-4 flex items-center justify-center">
+                        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-5xl w-full">
+                            <div className="flex items-center gap-3 mb-6">
+                                <BookOpenIcon />
+                                <h1 className="text-3xl font-bold text-slate-800">Налаштування Крок-Симулятора</h1>
                             </div>
-                            <h1 className="text-2xl font-bold text-slate-800 mb-2">Крок-2 (150 тестів)</h1>
-                            <p className="text-slate-600 mb-6">З вбудованими поясненнями</p>
+                            <p className="text-slate-600 mb-8">Скопіюй текст із файлу з питаннями у перше поле, а текст із відповідями та поясненнями — у друге. Додаток автоматично їх об'єднає!</p>
                             
-                            <div className="mb-8 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                <label className="block text-sm font-semibold text-slate-700 mb-2">Почати з питання №:</label>
-                                <input 
-                                    type="number" min="1" max={questions.length || 150} value={startQuestionNumber}
-                                    onChange={(e) => setStartQuestionNumber(parseInt(e.target.value) || 1)}
-                                    className="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                                />
+                            <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                <div>
+                                    <label className="block font-semibold mb-2 text-slate-700">Текст питань (Буклет):</label>
+                                    <textarea 
+                                        className="w-full h-80 p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none resize-none font-mono text-sm"
+                                        placeholder="Встав сюди текст формату:&#10;1. Пацієнт із хронічним...&#10;А. Тимпанопластика&#10;В. Мобілізація..."
+                                        value={rawQ}
+                                        onChange={e => setRawQ(e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block font-semibold mb-2 text-slate-700">Текст відповідей з поясненнями:</label>
+                                    <textarea 
+                                        className="w-full h-80 p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none resize-none font-mono text-sm"
+                                        placeholder="Встав сюди текст формату:&#10;1. Відповідь: A. Тимпанопластика&#10;Пояснення: Мезотимпаніт — це..."
+                                        value={rawA}
+                                        onChange={e => setRawA(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex items-end gap-6">
+                                <div className="w-48">
+                                    <label className="block font-semibold mb-2 text-slate-700">Почати з питання №:</label>
+                                    <input 
+                                        type="number" min="1" value={startQuestionNumber}
+                                        onChange={e => setStartQuestionNumber(parseInt(e.target.value)||1)}
+                                        className="w-full border border-slate-300 p-3 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+                                    />
+                                </div>
+                                <button onClick={parseData} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl transition-all shadow-md">
+                                    Згенерувати тести
+                                </button>
                             </div>
                             
-                            <button onClick={startQuiz} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all">
-                                Почати тестування
-                            </button>
+                            {error && <div className="mt-6 p-4 bg-red-50 text-red-700 rounded-xl flex items-center gap-3 border border-red-200">
+                                <XCircleIcon /> {error}
+                            </div>}
                         </div>
                     </div>
                 );
@@ -163,7 +209,7 @@
                 return (
                     <div className="min-h-screen py-8 px-4 sm:px-6">
                         <div className="max-w-4xl mx-auto">
-                            <div className="bg-white p-8 rounded-2xl shadow-xl text-center mb-8">
+                            <div className="bg-white p-8 rounded-2xl shadow-xl text-center mb-8 border border-slate-100">
                                 <div className="mb-6 text-6xl">{percentage >= 80 ? '🏆' : percentage >= 60 ? '👍' : '📚'}</div>
                                 <h2 className="text-3xl font-bold text-slate-800 mb-2">Тест завершено!</h2>
                                 <p className="text-slate-600 mb-6">Ваш результат: {score} з {answeredCount} правильних.</p>
@@ -173,12 +219,11 @@
                                 </div>
                                 <div className="text-4xl font-black text-slate-800 mb-8">{percentage}%</div>
 
-                                <button onClick={restartQuiz} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2">
-                                    <RefreshCcwIcon /> Пройти ще раз
+                                <button onClick={restartQuiz} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2 shadow-md">
+                                    <RefreshCcwIcon /> Повернутися до налаштувань
                                 </button>
                             </div>
 
-                            {/* Блок з усіма пройденими питаннями */}
                             {history.length > 0 && (
                                 <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xl border border-slate-100">
                                     <h3 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
@@ -190,29 +235,20 @@
                                                 <p className="font-medium text-slate-800 mb-4 whitespace-pre-wrap"><span className="text-slate-500 mr-2">#{h.numId}</span>{h.question}</p>
                                                 <div className="flex flex-col gap-3 text-sm">
                                                     
-                                                    {/* Відображення відповіді користувача */}
                                                     <div className={`flex items-start gap-3 p-3 rounded-lg border ${h.isCorrect ? 'text-green-800 bg-green-100 border-green-200' : 'text-red-800 bg-red-100 border-red-200'}`}>
                                                         <span className={`mt-0.5 ${h.isCorrect ? 'text-green-600' : 'text-red-600'}`}>
                                                             {h.isCorrect ? <CheckCircle2Icon /> : <XCircleIcon />}
                                                         </span>
-                                                        <div>
-                                                            <strong className="block mb-0.5 opacity-80">Ваша відповідь:</strong> 
-                                                            {h.userAnswer}
-                                                        </div>
+                                                        <div><strong className="block mb-0.5 opacity-80">Ваша відповідь:</strong> {h.userAnswer}</div>
                                                     </div>
 
-                                                    {/* Якщо помилка - показуємо правильну відповідь */}
                                                     {!h.isCorrect && (
                                                         <div className="flex items-start gap-3 text-green-800 bg-green-100 p-3 rounded-lg border border-green-200">
                                                             <span className="mt-0.5 text-green-600"><CheckCircle2Icon /></span>
-                                                            <div>
-                                                                <strong className="block mb-0.5 opacity-80">Правильна відповідь:</strong> 
-                                                                {h.correctAnswer}
-                                                            </div>
+                                                            <div><strong className="block mb-0.5 opacity-80">Правильна відповідь:</strong> {h.correctAnswer}</div>
                                                         </div>
                                                     )}
 
-                                                    {/* Пояснення */}
                                                     <div className="mt-2 p-4 bg-white text-slate-700 rounded-lg text-sm border border-slate-200 shadow-sm">
                                                         <strong className="flex items-center gap-1.5 mb-1 text-slate-800"><InfoIcon /> Пояснення:</strong> 
                                                         {h.explanation}
@@ -236,8 +272,6 @@
             return (
                 <div className="min-h-screen py-8 px-4 sm:px-6">
                     <div className="max-w-3xl mx-auto">
-                        
-                        {/* Верхня панель */}
                         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                             <div className="flex items-center gap-2 text-blue-600">
                                 <BookOpenIcon /> <span className="font-semibold text-slate-700">Крок-2</span>
@@ -249,11 +283,7 @@
                                 <div className="text-sm font-medium text-slate-500 bg-white border border-slate-200 px-4 py-1.5 rounded-full shadow-sm">
                                     Питання {currentIndex + 1} з {questions.length}
                                 </div>
-                                <button 
-                                    onClick={() => setQuizFinished(true)} 
-                                    className="bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 text-sm font-bold py-1.5 px-4 rounded-full transition-colors border border-red-200 flex items-center gap-1"
-                                    title="Завершити тест і подивитись результати"
-                                >
+                                <button onClick={() => setQuizFinished(true)} className="bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 text-sm font-bold py-1.5 px-4 rounded-full transition-colors border border-red-200 flex items-center gap-1 shadow-sm">
                                     <FlagIcon /> Завершити тест
                                 </button>
                             </div>
