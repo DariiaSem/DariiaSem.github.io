@@ -1,360 +1,313 @@
-import React, { useState, useRef } from 'react';
-import { Upload, CheckCircle2, XCircle, ArrowRight, RefreshCcw, BookOpen, AlertCircle } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Крок Симулятор Quizlet</title>
+    
+    <!-- Завантажуємо React -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Завантажуємо Babel для компіляції JSX в браузері -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Завантажуємо Tailwind CSS для стилів -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-export default function App() {
-  const [questions, setQuestions] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [isCorrect, setIsCorrect] = useState(null);
-  const [error, setError] = useState(null);
-  const [quizFinished, setQuizFinished] = useState(false);
-  const [startQuestionNumber, setStartQuestionNumber] = useState(27);
-  const fileInputRef = useRef(null);
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
 
-  // Функція для парсингу файлу та витягування запитань
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+    <script type="text/babel">
+        const { useState, useRef } = React;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const htmlContent = e.target.result;
-        
-        // Знаходимо JSON об'єкт з даними сторінки
-        const match = htmlContent.match(/<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/);
-        if (!match) {
-          throw new Error("Не знайдено дані Quizlet (__NEXT_DATA__) у файлі.");
-        }
+        // Іконки (замість lucide-react, щоб працювало без npm)
+        const UploadIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>;
+        const BookOpenIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>;
+        const AlertCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
+        const CheckCircle2Icon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>;
+        const XCircleIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>;
+        const ArrowRightIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
+        const RefreshCcwIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>;
 
-        const jsonData = JSON.parse(match[1]);
-        let extractedPairs = [];
+        function App() {
+            const [questions, setQuestions] = useState([]);
+            const [currentIndex, setCurrentIndex] = useState(0);
+            const [score, setScore] = useState(0);
+            const [selectedAnswer, setSelectedAnswer] = useState(null);
+            const [isCorrect, setIsCorrect] = useState(null);
+            const [error, setError] = useState(null);
+            const [quizFinished, setQuizFinished] = useState(false);
+            const [startQuestionNumber, setStartQuestionNumber] = useState(27);
+            const fileInputRef = useRef(null);
 
-        // Спроба 1: Витягування з метаданих Learn Mode (як у надісланому тобою фрагменті)
-        try {
-          const types = jsonData.props.pageProps.studyModesCommon.studiableDocumentData.studiableMetadataByType;
-          for (let key in types) {
-            const items = types[key].studiableMetadata;
-            if (Array.isArray(items)) {
-              items.forEach(item => {
-                if (item.prompt && item.options) {
-                  const q = item.prompt.map(p => p.plainText).join('\n');
-                  const correctOpt = item.options.find(o => o.isCorrect);
-                  const a = correctOpt ? correctOpt.media.map(m => m.plainText).join('\n') : null;
-                  
-                  // НОВЕ: Витягуємо оригінальні варіанти відповідей від Quizlet
-                  const allOptions = item.options.map(o => o.media.map(m => m.plainText).join('\n'));
-                  
-                  if (q && a) extractedPairs.push({ q, a, allOptions });
+            const handleFileUpload = (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                try {
+                    const htmlContent = e.target.result;
+                    const match = htmlContent.match(/<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/);
+                    
+                    if (!match) {
+                        throw new Error("Не знайдено дані Quizlet у файлі.");
+                    }
+
+                    const jsonData = JSON.parse(match[1]);
+                    let extractedPairs = [];
+
+                    try {
+                        const types = jsonData.props.pageProps.studyModesCommon.studiableDocumentData.studiableMetadataByType;
+                        for (let key in types) {
+                            const items = types[key].studiableMetadata;
+                            if (Array.isArray(items)) {
+                                items.forEach(item => {
+                                    if (item.prompt && item.options) {
+                                        const q = item.prompt.map(p => p.plainText).join('\n');
+                                        const correctOpt = item.options.find(o => o.isCorrect);
+                                        const a = correctOpt ? correctOpt.media.map(m => m.plainText).join('\n') : null;
+                                        const allOptions = item.options.map(o => o.media.map(m => m.plainText).join('\n'));
+                                        
+                                        if (q && a) extractedPairs.push({ q, a, allOptions });
+                                    }
+                                });
+                            }
+                        }
+                    } catch (err) {
+                        console.log("Метадані Learn Mode не знайдені...");
+                    }
+
+                    if (extractedPairs.length === 0) {
+                        try {
+                            const items = jsonData.props.pageProps.studyModesCommon.studiableData.studiableItems || 
+                                        jsonData.props.pageProps.studiableData.studiableItems;
+                            
+                            items.forEach(item => {
+                            const q = item.cardSides[0].media[0].plainText;
+                            const a = item.cardSides[1].media[0].plainText;
+                            if (q && a) extractedPairs.push({ q, a, allOptions: [] });
+                            });
+                        } catch (err) {
+                            throw new Error("Не вдалося розпізнати структуру запитань.");
+                        }
+                    }
+
+                    if (extractedPairs.length === 0) {
+                        throw new Error("Не знайдено жодного запитання у файлі.");
+                    }
+
+                    const generatedQuiz = extractedPairs.map((pair, index) => {
+                        let options = [];
+                        let cleanQuestion = pair.q;
+                        
+                        const krokRegex = /(?:^|\n)\s*([A-EА-Еa-eа-е][.)])\s*(.+)/g;
+                        let match;
+                        let inlineOptions = [];
+                        
+                        while ((match = krokRegex.exec(pair.q)) !== null) {
+                            inlineOptions.push(match[0].trim());
+                        }
+                        
+                        if (inlineOptions.length >= 3) {
+                            options = inlineOptions;
+                            cleanQuestion = pair.q.replace(krokRegex, '').trim(); 
+                        } else if (pair.allOptions && pair.allOptions.length > 1) {
+                            options = [...pair.allOptions];
+                        } else {
+                            options = [pair.a];
+                            const wrongPool = extractedPairs.filter((_, i) => i !== index).map(p => p.a);
+                            const shuffledWrong = wrongPool.sort(() => 0.5 - Math.random()).slice(0, 4);
+                            options = [...options, ...shuffledWrong];
+                        }
+                        
+                        if (!options.find(opt => opt.trim() === pair.a.trim())) {
+                            options.push(pair.a.trim());
+                        }
+                        
+                        options = Array.from(new Set(options.map(o => o.trim())));
+                        options.sort(() => 0.5 - Math.random());
+                        
+                        return {
+                            question: cleanQuestion,
+                            options: options,
+                            correctAnswer: pair.a.trim()
+                        };
+                    });
+
+                    setQuestions(generatedQuiz);
+                    
+                    let startIdx = startQuestionNumber - 1;
+                    if (startIdx < 0 || startIdx >= generatedQuiz.length) {
+                        startIdx = 0;
+                    }
+                    setCurrentIndex(startIdx);
+                    setError(null);
+                } catch (err) {
+                    setError(err.message);
                 }
-              });
+                };
+                reader.readAsText(file);
+            };
+
+            const handleAnswerClick = (option) => {
+                if (selectedAnswer !== null) return;
+                const currentQuestion = questions[currentIndex];
+                const correct = option === currentQuestion.correctAnswer;
+                setSelectedAnswer(option);
+                setIsCorrect(correct);
+                if (correct) setScore(score + 1);
+            };
+
+            const handleNextQuestion = () => {
+                if (currentIndex + 1 < questions.length) {
+                    setCurrentIndex(currentIndex + 1);
+                    setSelectedAnswer(null);
+                    setIsCorrect(null);
+                } else {
+                    setQuizFinished(true);
+                }
+            };
+
+            const restartQuiz = () => {
+                let startIdx = startQuestionNumber - 1;
+                if (startIdx < 0 || startIdx >= questions.length) startIdx = 0;
+                setCurrentIndex(startIdx);
+                setScore(0);
+                setSelectedAnswer(null);
+                setIsCorrect(null);
+                setQuizFinished(false);
+            };
+
+            if (questions.length === 0) {
+                return (
+                <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+                    <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
+                    <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span className="text-blue-600"><BookOpenIcon /></span>
+                    </div>
+                    <h1 className="text-2xl font-bold text-slate-800 mb-2">Крок Симулятор</h1>
+                    <p className="text-slate-600 mb-6">
+                        Завантажте ваш збережений файл <span className="font-mono bg-slate-100 px-1 py-0.5 rounded text-sm">Learn_ крок _ Quizlet.html</span>
+                    </p>
+                    
+                    <div className="mb-8 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <label className="block text-sm font-semibold text-slate-700 mb-2">Почати з питання №:</label>
+                        <input 
+                            type="number" min="1" value={startQuestionNumber}
+                            onChange={(e) => setStartQuestionNumber(parseInt(e.target.value) || 1)}
+                            className="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                    </div>
+                    
+                    <input type="file" accept=".html" ref={fileInputRef} onChange={handleFileUpload} className="hidden" />
+                    <button onClick={() => fileInputRef.current?.click()} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+                        <UploadIcon /> Обрати HTML файл
+                    </button>
+
+                    {error && (
+                        <div className="mt-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-start gap-3 text-left border border-red-100">
+                        <span className="shrink-0 mt-0.5"><AlertCircleIcon /></span>
+                        <p className="text-sm">{error}</p>
+                        </div>
+                    )}
+                    </div>
+                </div>
+                );
             }
-          }
-        } catch (err) {
-          console.log("Метадані Learn Mode не знайдені, пробуємо інший формат...");
-        }
 
-        // Спроба 2: Стандартний формат карток Quizlet (на випадок, якщо перший не спрацював)
-        if (extractedPairs.length === 0) {
-          try {
-            const items = jsonData.props.pageProps.studyModesCommon.studiableData.studiableItems || 
-                          jsonData.props.pageProps.studiableData.studiableItems;
-            
-            items.forEach(item => {
-              const q = item.cardSides[0].media[0].plainText;
-              const a = item.cardSides[1].media[0].plainText;
-              if (q && a) extractedPairs.push({ q, a, allOptions: [] });
-            });
-          } catch (err) {
-            throw new Error("Не вдалося розпізнати структуру запитань. Можливо файл пошкоджений.");
-          }
-        }
+            if (quizFinished) {
+                const startIdx = startQuestionNumber - 1 >= 0 ? startQuestionNumber - 1 : 0;
+                const answeredCount = questions.length - startIdx;
+                const percentage = Math.round((score / answeredCount) * 100) || 0;
 
-        if (extractedPairs.length === 0) {
-          throw new Error("Не знайдено жодного запитання у файлі.");
-        }
+                return (
+                <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+                    <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+                    <div className="mb-6 text-6xl">{percentage >= 80 ? '🏆' : percentage >= 60 ? '👍' : '📚'}</div>
+                    <h2 className="text-3xl font-bold text-slate-800 mb-2">Тест завершено!</h2>
+                    <p className="text-slate-600 mb-6">Результат: {score} з {answeredCount} правильних.</p>
+                    
+                    <div className="w-full bg-slate-100 rounded-full h-4 mb-8 overflow-hidden">
+                        <div className={`h-4 rounded-full ${percentage >= 60 ? 'bg-green-500' : 'bg-amber-500'}`} style={{ width: `${percentage}%` }}></div>
+                    </div>
+                    <div className="text-4xl font-black text-slate-800 mb-8">{percentage}%</div>
 
-        // Генерація тестів з варіантами відповідей (підмішуємо неправильні варіанти)
-        const generatedQuiz = extractedPairs.map((pair, index) => {
-          let options = [];
-          let cleanQuestion = pair.q;
-          
-          // НОВЕ: Інтелектуальний пошук варіантів прямо в тексті питання (Крок формат)
-          // Шукаємо рядки, що починаються з А., Б., В., Г., Д., Е.
-          const krokRegex = /(?:^|\n)\s*([A-EА-Еa-eа-е][.)])\s*(.+)/g;
-          let match;
-          let inlineOptions = [];
-          
-          while ((match = krokRegex.exec(pair.q)) !== null) {
-              inlineOptions.push(match[0].trim());
-          }
-          
-          if (inlineOptions.length >= 3) {
-              // 1. Якщо варіанти зашиті в самому тексті питання - витягуємо їх!
-              options = inlineOptions;
-              cleanQuestion = pair.q.replace(krokRegex, '').trim(); // Прибираємо їх з питання для краси
-          } else if (pair.allOptions && pair.allOptions.length > 1) {
-              // 2. Якщо Quizlet має збережені оригінальні варіанти
-              options = [...pair.allOptions];
-          } else {
-              // 3. Лише як крайній випадок беремо рандомні
-              options = [pair.a];
-              const wrongPool = extractedPairs.filter((_, i) => i !== index).map(p => p.a);
-              const shuffledWrong = wrongPool.sort(() => 0.5 - Math.random()).slice(0, 4);
-              options = [...options, ...shuffledWrong];
-          }
-          
-          // Гарантуємо, що правильна відповідь є в списку
-          if (!options.find(opt => opt.trim() === pair.a.trim())) {
-              options.push(pair.a.trim());
-          }
-          
-          // Прибираємо дублікати та перемішуємо
-          options = Array.from(new Set(options.map(o => o.trim())));
-          options.sort(() => 0.5 - Math.random());
-          
-          return {
-            question: cleanQuestion,
-            options: options,
-            correctAnswer: pair.a.trim()
-          };
-        });
-
-        // Питання більше не перемішуються, щоб йти по порядку
-        // generatedQuiz.sort(() => 0.5 - Math.random());
-
-        setQuestions(generatedQuiz);
-        
-        // Встановлюємо стартовий індекс (27 питання = індекс 26)
-        let startIdx = startQuestionNumber - 1;
-        if (startIdx < 0 || startIdx >= generatedQuiz.length) {
-          startIdx = 0;
-        }
-        setCurrentIndex(startIdx);
-        
-        setError(null);
-      } catch (err) {
-        setError(err.message);
-      }
-    };
-    reader.readAsText(file);
-  };
-
-  const handleAnswerClick = (option) => {
-    if (selectedAnswer !== null) return; // Запобігання повторному кліку
-
-    const currentQuestion = questions[currentIndex];
-    const correct = option === currentQuestion.correctAnswer;
-    
-    setSelectedAnswer(option);
-    setIsCorrect(correct);
-    if (correct) setScore(score + 1);
-  };
-
-  const handleNextQuestion = () => {
-    if (currentIndex + 1 < questions.length) {
-      setCurrentIndex(currentIndex + 1);
-      setSelectedAnswer(null);
-      setIsCorrect(null);
-    } else {
-      setQuizFinished(true);
-    }
-  };
-
-  const restartQuiz = () => {
-    let startIdx = startQuestionNumber - 1;
-    if (startIdx < 0 || startIdx >= questions.length) startIdx = 0;
-    
-    setCurrentIndex(startIdx);
-    setScore(0);
-    setSelectedAnswer(null);
-    setIsCorrect(null);
-    setQuizFinished(false);
-  };
-
-  // Екран завантаження файлу
-  if (questions.length === 0) {
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-lg w-full text-center">
-          <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <BookOpen className="text-blue-600 w-10 h-10" />
-          </div>
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">Крок Симулятор</h1>
-          <p className="text-slate-600 mb-6">
-            Завантажте ваш збережений файл <span className="font-mono bg-slate-100 px-1 py-0.5 rounded text-sm">Learn_ крок _ Quizlet.html</span>, щоб розпочати тестування по порядку.
-          </p>
-          
-          <div className="mb-8 text-left bg-slate-50 p-4 rounded-xl border border-slate-200">
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Почати з питання №:
-            </label>
-            <input 
-              type="number" 
-              min="1" 
-              value={startQuestionNumber}
-              onChange={(e) => setStartQuestionNumber(parseInt(e.target.value) || 1)}
-              className="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-            />
-          </div>
-          
-          <input 
-            type="file" 
-            accept=".html" 
-            ref={fileInputRef} 
-            onChange={handleFileUpload} 
-            className="hidden" 
-          />
-          
-          <button 
-            onClick={() => fileInputRef.current?.click()}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
-          >
-            <Upload className="w-5 h-5" />
-            Обрати HTML файл
-          </button>
-
-          {error && (
-            <div className="mt-6 p-4 bg-red-50 text-red-700 rounded-lg flex items-start gap-3 text-left border border-red-100">
-              <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-              <p className="text-sm">{error}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // Екран завершення тесту
-  if (quizFinished) {
-    const startIdx = startQuestionNumber - 1 >= 0 ? startQuestionNumber - 1 : 0;
-    const answeredCount = questions.length - startIdx;
-    const percentage = Math.round((score / answeredCount) * 100) || 0;
-
-    return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
-          <div className="mb-6">
-            {percentage >= 80 ? (
-              <div className="text-6xl mb-4">🏆</div>
-            ) : percentage >= 60 ? (
-              <div className="text-6xl mb-4">👍</div>
-            ) : (
-              <div className="text-6xl mb-4">📚</div>
-            )}
-          </div>
-          <h2 className="text-3xl font-bold text-slate-800 mb-2">Тест завершено!</h2>
-          <p className="text-slate-600 mb-6">Ваш результат: {score} з {answeredCount} правильних відповідей.</p>
-          
-          <div className="w-full bg-slate-100 rounded-full h-4 mb-8 overflow-hidden">
-            <div 
-              className={`h-4 rounded-full ${percentage >= 60 ? 'bg-green-500' : 'bg-amber-500'}`}
-              style={{ width: `${percentage}%` }}
-            ></div>
-          </div>
-          <div className="text-4xl font-black text-slate-800 mb-8">{percentage}%</div>
-
-          <button 
-            onClick={restartQuiz}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2"
-          >
-            <RefreshCcw className="w-5 h-5" />
-            Пройти ще раз
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // Головний екран тестування
-  const currentQ = questions[currentIndex];
-
-  return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6">
-      <div className="max-w-3xl mx-auto">
-        
-        {/* Header / Progress */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <BookOpen className="text-blue-600 w-6 h-6" />
-            <span className="font-semibold text-slate-700">Крок-2</span>
-          </div>
-          <div className="text-sm font-medium text-slate-500 bg-white px-4 py-1.5 rounded-full shadow-sm">
-            Питання {currentIndex + 1} з {questions.length}
-          </div>
-        </div>
-
-        <div className="w-full bg-slate-200 rounded-full h-2 mb-8 overflow-hidden">
-          <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
-            style={{ width: `${((currentIndex) / questions.length) * 100}%` }}
-          ></div>
-        </div>
-
-        {/* Question Card */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-6 border border-slate-100">
-          <h2 className="text-lg sm:text-xl text-slate-800 font-medium leading-relaxed whitespace-pre-wrap">
-            {currentQ.question}
-          </h2>
-        </div>
-
-        {/* Options */}
-        <div className="space-y-3 mb-8">
-          {currentQ.options.map((option, idx) => {
-            const isSelected = selectedAnswer === option;
-            const isCorrectAnswer = option === currentQ.correctAnswer;
-            
-            let btnClass = "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 relative overflow-hidden flex justify-between items-center group ";
-            
-            if (selectedAnswer === null) {
-              btnClass += "border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50 text-slate-700 cursor-pointer";
-            } else {
-              // Якщо відповідь вибрана, показуємо правильні та неправильні
-              if (isCorrectAnswer) {
-                btnClass += "border-green-500 bg-green-50 text-green-900";
-              } else if (isSelected && !isCorrectAnswer) {
-                btnClass += "border-red-500 bg-red-50 text-red-900";
-              } else {
-                btnClass += "border-slate-200 bg-slate-50 text-slate-400 opacity-60";
-              }
-              btnClass += " cursor-default";
+                    <button onClick={restartQuiz} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl flex items-center justify-center gap-2">
+                        <RefreshCcwIcon /> Пройти ще раз
+                    </button>
+                    </div>
+                </div>
+                );
             }
+
+            const currentQ = questions[currentIndex];
 
             return (
-              <button
-                key={idx}
-                onClick={() => handleAnswerClick(option)}
-                disabled={selectedAnswer !== null}
-                className={btnClass}
-              >
-                <span className="pr-8">{option}</span>
-                
-                {selectedAnswer !== null && isCorrectAnswer && (
-                  <CheckCircle2 className="w-6 h-6 text-green-600 shrink-0 absolute right-4" />
-                )}
-                {selectedAnswer !== null && isSelected && !isCorrectAnswer && (
-                  <XCircle className="w-6 h-6 text-red-600 shrink-0 absolute right-4" />
-                )}
-              </button>
+                <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6">
+                <div className="max-w-3xl mx-auto">
+                    <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-2 text-blue-600">
+                        <BookOpenIcon /> <span className="font-semibold text-slate-700">Крок-2</span>
+                    </div>
+                    <div className="text-sm font-medium text-slate-500 bg-white px-4 py-1.5 rounded-full shadow-sm">
+                        Питання {currentIndex + 1} з {questions.length}
+                    </div>
+                    </div>
+
+                    <div className="w-full bg-slate-200 rounded-full h-2 mb-8 overflow-hidden">
+                    <div className="bg-blue-600 h-2 rounded-full transition-all duration-300" style={{ width: `${((currentIndex) / questions.length) * 100}%` }}></div>
+                    </div>
+
+                    <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 mb-6 border border-slate-100">
+                    <h2 className="text-lg sm:text-xl text-slate-800 font-medium leading-relaxed whitespace-pre-wrap">{currentQ.question}</h2>
+                    </div>
+
+                    <div className="space-y-3 mb-8">
+                    {currentQ.options.map((option, idx) => {
+                        const isSelected = selectedAnswer === option;
+                        const isCorrectAnswer = option === currentQ.correctAnswer;
+                        
+                        let btnClass = "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 relative overflow-hidden flex justify-between items-center ";
+                        
+                        if (selectedAnswer === null) {
+                            btnClass += "border-slate-200 bg-white hover:border-blue-400 hover:bg-blue-50 text-slate-700 cursor-pointer";
+                        } else {
+                            if (isCorrectAnswer) btnClass += "border-green-500 bg-green-50 text-green-900";
+                            else if (isSelected) btnClass += "border-red-500 bg-red-50 text-red-900";
+                            else btnClass += "border-slate-200 bg-slate-50 text-slate-400 opacity-60";
+                            btnClass += " cursor-default";
+                        }
+
+                        return (
+                        <button key={idx} onClick={() => handleAnswerClick(option)} disabled={selectedAnswer !== null} className={btnClass}>
+                            <span className="pr-8">{option}</span>
+                            {selectedAnswer !== null && isCorrectAnswer && <span className="text-green-600 absolute right-4"><CheckCircle2Icon /></span>}
+                            {selectedAnswer !== null && isSelected && !isCorrectAnswer && <span className="text-red-600 absolute right-4"><XCircleIcon /></span>}
+                        </button>
+                        );
+                    })}
+                    </div>
+
+                    <div className="flex justify-end h-14">
+                    {selectedAnswer !== null && (
+                        <button onClick={handleNextQuestion} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl flex items-center gap-2">
+                        Наступне <ArrowRightIcon />
+                        </button>
+                    )}
+                    </div>
+                </div>
+                </div>
             );
-          })}
-        </div>
+        }
 
-        {/* Next Button Container */}
-        <div className="flex justify-end h-14">
-          {selectedAnswer !== null && (
-            <button
-              onClick={handleNextQuestion}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-all flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2"
-            >
-              Наступне
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          )}
-        </div>
-
-      </div>
-    </div>
-  );
-}
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
