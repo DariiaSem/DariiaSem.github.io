@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 12: B2-C1 | Crime, Justice & Patient Confidentiality</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --void:       #0A0A12;
+            --dark:       #12121E;
+            --panel:      #1A1A2A;
+            --cyan:       #00D4FF;
+            --cyan-dim:   #0099BB;
+            --cyan-pale:  #D0F8FF;
+            --lime:       #AAFF00;
+            --lime-pale:  #EEFFCC;
+            --red:        #FF3B5C;
+            --red-pale:   #FFE0E6;
+            --amber:      #FFB800;
+            --amber-pale: #FFF3CC;
+            --cream:      #F8F8F0;
+            --white:      #FFFFFF;
+            --gray-100:   #F2F2EC;
+            --gray-200:   #E0E0D8;
+            --gray-400:   #9A9A90;
+            --gray-600:   #606058;
+            --gray-800:   #242420;
+            --shadow-sm:  0 1px 4px rgba(0,212,255,0.06);
+            --shadow-md:  0 6px 24px rgba(0,212,255,0.1);
+            --shadow-lg:  0 16px 48px rgba(0,0,0,0.18);
+            --shadow-xl:  0 24px 64px rgba(0,0,0,0.24);
+            --r-sm: 6px;
+            --r-md: 12px;
+            --r-lg: 20px;
+            --r-xl: 32px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 3px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(0,212,255,0.05); }
+        [contenteditable="true"]:focus { background: rgba(0,212,255,0.09); box-shadow: 0 0 0 2px rgba(0,212,255,0.2); }
+
+        /* ══ HERO — full bleed terminal aesthetic ══ */
+        .hero {
+            position: relative; min-height: 580px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: left; overflow: hidden;
+            background: var(--void);
+        }
+
+        .hero-scanlines {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,212,255,0.015) 2px,
+                rgba(0,212,255,0.015) 4px
+            );
+        }
+
+        .hero-glow {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 50% 60% at 70% 50%, rgba(255,59,92,0.12) 0%, transparent 65%),
+                radial-gradient(ellipse 35% 40% at 10% 80%, rgba(0,212,255,0.08) 0%, transparent 55%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 900px; padding: 70px 48px;
+            width: 100%;
+        }
+
+        /* Terminal-style prompt */
+        .hero-terminal {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; color: var(--cyan);
+            margin-bottom: 24px; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .hero-terminal .prompt { color: var(--lime); }
+        .hero-terminal .cursor {
+            display: inline-block; width: 10px; height: 18px;
+            background: var(--cyan); animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.6rem, 6vw, 5rem);
+            color: var(--white); line-height: 1.05;
+            letter-spacing: -1px; margin-bottom: 16px;
+        }
+
+        .hero h1 .highlight { color: var(--red); font-style: italic; }
+        .hero h1 .dim { color: rgba(255,255,255,0.4); }
+
+        .hero-sub {
+            font-size: 1rem; font-weight: 400;
+            color: rgba(255,255,255,0.55);
+            max-width: 580px; margin-bottom: 36px;
+            font-family: 'JetBrains Mono', monospace; line-height: 1.6;
+        }
+
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .hero-chip {
+            background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);
+            color: var(--cyan); padding: 4px 12px; border-radius: 4px;
+            font-size: 0.72rem; font-weight: 600; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-chip.lime { background: rgba(170,255,0,0.1); border-color: rgba(170,255,0,0.3); color: var(--lime); }
+        .hero-chip.red  { background: rgba(255,59,92,0.1); border-color: rgba(255,59,92,0.3); color: var(--red); }
+
+        .hero-ribbon {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+            background: var(--cream); clip-path: ellipse(54% 100% at 50% 100%);
+        }
+
+        /* ══ NAV ══ */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(248,248,240,0.94); backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--gray-200); padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between; height: 52px;
+        }
+
+        .nav-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem; font-weight: 500;
+            color: var(--dark); text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-logo .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--red); animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+        .nav-links {
+            display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 600;
+            padding: 5px 11px; border-radius: var(--r-sm);
+            transition: color 0.2s, background 0.2s; white-space: nowrap;
+        }
+        .nav-links a:hover { color: var(--cyan-dim); background: rgba(0,212,255,0.06); }
+
+        /* ══ SECTIONS ══ */
+        .section { padding: 72px 24px; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 920px; margin: 0 auto; }
+
+        /* Task counter — monospace pill */
+        .task-counter {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem; font-weight: 500;
+            background: var(--dark); color: var(--cyan);
+            padding: 4px 14px; border-radius: 50px; margin-bottom: 14px;
+            border: 1px solid rgba(0,212,255,0.25);
+        }
+
+        .task-counter .tc-num { color: var(--lime); font-weight: 700; }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+            font-weight: 400; color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .section-title em { font-style: italic; color: var(--red); }
+
+        .section-desc {
+            color: var(--gray-600); font-size: 0.97rem;
+            margin-bottom: 32px; max-width: 660px; font-weight: 400;
+        }
+
+        /* ══ PROVOCATION — Opening bang ══ */
+        .provocation {
+            background: var(--dark); border-radius: var(--r-xl);
+            padding: 40px 44px; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,59,92,0.15);
+        }
+
+        .provocation::before {
+            content: '"';
+            position: absolute; top: -20px; left: 30px;
+            font-family: 'Instrument Serif', serif;
+            font-size: 12rem; color: rgba(255,59,92,0.08);
+            line-height: 1; pointer-events: none;
+        }
+
+        .provocation-text {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: var(--white); line-height: 1.4;
+            position: relative; z-index: 1;
+            margin-bottom: 20px;
+        }
+
+        .provocation-source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; color: rgba(255,255,255,0.4);
+            position: relative; z-index: 1;
+        }
+
+        .react-btns {
+            display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; position: relative; z-index: 1;
+        }
+
+        .react-btn {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.75); padding: 8px 18px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer;
+            transition: all 0.25s; font-family: 'Space Grotesk', sans-serif;
+        }
+        .react-btn:hover { background: rgba(0,212,255,0.15); border-color: rgba(0,212,255,0.4); color: var(--cyan); }
+        .react-btn.selected-agree  { background: rgba(170,255,0,0.2); border-color: var(--lime); color: var(--lime); }
+        .react-btn.selected-disagree { background: rgba(255,59,92,0.2); border-color: var(--red); color: var(--red); }
+        .react-btn.selected-complex { background: rgba(255,184,0,0.2); border-color: var(--amber); color: var(--amber); }
+
+        /* ══ PASSIVE HUNT ARTICLE ══ */
+        .article-card {
+            background: var(--white); border: 1px solid var(--gray-200);
+            border-radius: var(--r-lg); overflow: hidden;
+            box-shadow: var(--shadow-sm); margin-top: 24px;
+        }
+
+        .article-header {
+            background: var(--dark); padding: 14px 22px;
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .article-source {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .article-tag {
+            background: rgba(255,59,92,0.2); color: var(--red);
+            border: 1px solid rgba(255,59,92,0.35);
+            padding: 2px 8px; border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700;
+        }
+
+        .article-body {
+            padding: 28px 30px; font-size: 0.97rem; line-height: 1.85; color: var(--gray-800);
+        }
+
+        .passive-highlight {
+            background: rgba(0,212,255,0.12);
+            border-bottom: 2px solid var(--cyan);
+            color: var(--cyan-dim); font-weight: 600;
+            padding: 0 3px; border-radius: 2px;
+            cursor: help; position: relative;
+        }
+
+        .passive-highlight::after {
+            content: attr(data-label);
+            position: absolute; bottom: calc(100% + 6px); left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark); color: var(--cyan);
+            font-size: 0.7rem; padding: 3px 8px; border-radius: 4px;
+            white-space: nowrap; opacity: 0; transition: opacity 0.2s;
+            pointer-events: none; border: 1px solid rgba(0,212,255,0.3);
+            font-family: 'JetBrains Mono', monospace;
+            z-index: 10;
+        }
+
+        .passive-highlight:hover::after { opacity: 1; }
+
+        /* ══ VIDEO ══ */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            overflow: hidden; border-radius: var(--r-lg);
+            box-shadow: var(--shadow-lg); margin-bottom: 24px;
+            background: var(--dark); border: 1px solid rgba(255,59,92,0.15);
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        .video-link {
+            display: block; text-align: center; color: var(--cyan-dim);
+            font-weight: 600; text-decoration: none; font-size: 0.9rem; margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .video-link:hover { color: var(--lime); }
+
+        /* ══ VOCAB — contextual cards, no pre-teaching block ══ */
+        .vocab-inline-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px; margin-top: 20px;
+        }
+
+        .vocab-inline-card {
+            background: var(--dark); border-radius: var(--r-md);
+            padding: 18px 20px; border: 1px solid rgba(0,212,255,0.12);
+            position: relative; overflow: hidden; cursor: default;
+            min-height: 110px; transition: transform 0.2s, border-color 0.2s;
+        }
+        .vocab-inline-card:hover { transform: translateY(-2px); border-color: rgba(255,59,92,0.35); }
+
+        /* Front face */
+        .vic-front {
+            position: absolute; inset: 0; padding: 18px 20px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            transition: opacity 0.3s; pointer-events: none;
+        }
+        .vocab-inline-card:hover .vic-front { opacity: 0; }
+
+        .vic-pos { font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:rgba(255,255,255,0.35); margin-bottom:4px; }
+        .vic-word { font-family:'Instrument Serif',serif; font-size:1.2rem; color:var(--white); font-weight:400; }
+        .vic-hint { position:absolute; top:12px; right:12px; font-size:0.7rem; color:rgba(255,255,255,0.3); }
+        .vocab-inline-card:hover .vic-hint { opacity:0; }
+
+        /* Back face */
+        .vic-def {
+            position: absolute; inset: 0; padding: 16px 18px;
+            background: rgba(0,0,0,0.9); color: rgba(255,255,255,0.88);
+            font-size: 0.82rem; line-height: 1.55;
+            display: flex; align-items: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md);
+        }
+        .vocab-inline-card:hover .vic-def { opacity: 1; }
+
+        .vic1 { border-color: rgba(0,212,255,0.2); }
+        .vic2 { border-color: rgba(170,255,0,0.15); }
+        .vic3 { border-color: rgba(255,184,0,0.15); }
+        .vic4 { border-color: rgba(255,59,92,0.15); }
+        .vic5 { border-color: rgba(0,212,255,0.2); }
+        .vic6 { border-color: rgba(170,255,0,0.15); }
+        .vic7 { border-color: rgba(255,184,0,0.15); }
+        .vic8 { border-color: rgba(255,59,92,0.15); }
+
+        /* ══ GRAMMAR TABLE ══ */
+        .grammar-table {
+            width: 100%; border-collapse: collapse; margin-top: 24px;
+            font-size: 0.9rem; border-radius: var(--r-md); overflow: hidden;
+            border: 1px solid var(--gray-200); background: var(--white);
+        }
+
+        .grammar-table thead th {
+            background: var(--dark); color: var(--white);
+            padding: 13px 18px; text-align: left;
+            font-weight: 600; font-size: 0.8rem;
+            letter-spacing: 1px; text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .grammar-table tbody td {
+            padding: 13px 18px; border-bottom: 1px solid var(--gray-200); vertical-align: top;
+        }
+
+        .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+        .grammar-table tbody tr:last-child td { border-bottom: none; }
+
+        .pass-tag {
+            display: inline; font-family: 'JetBrains Mono', monospace;
+            background: rgba(0,212,255,0.1); color: var(--cyan-dim);
+            border-radius: 3px; padding: 1px 6px; font-size: 0.85em; font-weight: 600;
+        }
+        .pass-tag.act { background: rgba(170,255,0,0.1); color: #6A9900; }
+        .pass-tag.red { background: rgba(255,59,92,0.1); color: var(--red); }
+
+        /* ══ PASSIVE TRANSFORMER INTERACTIVE ══ */
+        .transformer-grid {
+            display: flex; flex-direction: column; gap: 0;
+            border: 1px solid var(--gray-200); border-radius: var(--r-lg);
+            overflow: hidden; margin-top: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .transform-row {
+            display: grid; grid-template-columns: 1fr auto 1fr;
+            border-bottom: 1px solid var(--gray-200); align-items: stretch;
+        }
+        .transform-row:last-child { border-bottom: none; }
+
+        .tr-cell {
+            padding: 16px 20px; font-size: 0.92rem; line-height: 1.6;
+        }
+        .tr-cell.active  { background: rgba(170,255,0,0.05); }
+        .tr-cell.passive { background: rgba(0,212,255,0.04); }
+
+        .tr-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; margin-bottom: 5px; display: block;
+        }
+        .tr-label.act  { color: #6A9900; }
+        .tr-label.pass { color: var(--cyan-dim); }
+
+        .tr-arrow { display:flex; align-items:center; justify-content:center; padding:0 14px; background:var(--gray-100); color:var(--amber); font-size:1.2rem; font-weight:800; }
+
+        /* ══ ERROR SPY ══ */
+        .spy-sentence { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--r-md); padding:18px 22px; margin-bottom:12px; font-size:0.97rem; line-height:1.8; display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap; transition:border-color 0.3s; }
+        .spy-sentence.correct  { border-color:var(--lime); background:rgba(170,255,0,0.04); }
+        .spy-sentence.incorrect { border-color:var(--red); background:rgba(255,59,92,0.04); animation:shakeL12 0.4s; }
+        @keyframes shakeL12 { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .spy-num { font-weight:700; color:var(--cyan-dim); font-family:'JetBrains Mono',monospace; font-size:0.9rem; min-width:24px; padding-top:2px; }
+        .spy-text { flex:1; min-width:200px; }
+        .wrong-word { background:rgba(255,59,92,0.12); color:var(--red); font-weight:700; padding:2px 7px; border-radius:3px; border-bottom:2px solid var(--red); cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:0.88em; transition:background 0.2s; }
+        .wrong-word:hover { background:rgba(255,59,92,0.25); }
+        .spy-input-wrap { display:none; align-items:center; gap:8px; margin-top:5px; flex-wrap:wrap; }
+        .spy-input-wrap.visible { display:flex; }
+        .spy-input { border:2px dashed var(--cyan); border-radius:var(--r-sm); padding:4px 10px; font-size:0.88rem; font-weight:600; color:var(--cyan-dim); background:rgba(0,212,255,0.04); min-width:120px; outline:none; font-family:'JetBrains Mono',monospace; }
+        .spy-input:focus { border-style:solid; background:rgba(0,212,255,0.08); }
+        .spy-check-btn { background:var(--cyan-dim); color:white; border:none; padding:5px 12px; border-radius:var(--r-sm); cursor:pointer; font-size:0.8rem; font-weight:700; transition:background 0.2s; font-family:'Space Grotesk',sans-serif; }
+        .spy-check-btn:hover { background:var(--dark); }
+        .spy-feedback { font-size:0.8rem; font-weight:700; font-family:'JetBrains Mono',monospace; }
+        .spy-feedback.ok { color:var(--lime); }
+        .spy-feedback.no { color:var(--red); }
+        .spy-score-bar { background:var(--dark); border:1px solid rgba(0,212,255,0.2); border-radius:var(--r-md); padding:18px 26px; margin-top:22px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+        .spy-score-label { font-weight:600; color:rgba(255,255,255,0.7); font-family:'JetBrains Mono',monospace; font-size:0.82rem; }
+        .spy-score-display { font-size:1.8rem; font-weight:700; color:var(--cyan); font-family:'JetBrains Mono',monospace; }
+        .spy-reset { background:var(--red); color:white; border:none; padding:7px 16px; border-radius:50px; cursor:pointer; font-weight:700; font-size:0.82rem; transition:background 0.2s; }
+        .spy-reset:hover { background:#cc2040; }
+
+        /* ══ TFNG ══ */
+        .tfng-item { background:var(--white); border:1px solid var(--gray-200); border-radius:var(--r-md); padding:18px 22px; margin-bottom:12px; transition:border-color 0.3s; }
+        .tfng-item.t-correct { border-color:var(--lime); background:rgba(170,255,0,0.04); }
+        .tfng-item.t-wrong   { border-color:var(--red); background:rgba(255,59,92,0.04); }
+        .tfng-stmt { font-size:0.97rem; font-weight:500; color:var(--gray-800); margin-bottom:12px; line-height:1.65; }
+        .tfng-btns { display:flex; gap:10px; flex-wrap:wrap; }
+        .tfng-btn { padding:6px 16px; border-radius:50px; border:1px solid var(--gray-200); background:var(--white); color:var(--gray-600); font-size:0.82rem; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'Space Grotesk',sans-serif; }
+        .tfng-btn:hover { border-color:var(--cyan-dim); color:var(--cyan-dim); }
+        .tfng-btn.selected-correct { background:var(--lime); border-color:var(--lime); color:var(--dark); }
+        .tfng-btn.selected-wrong   { background:var(--red); border-color:var(--red); color:white; }
+        .tfng-btn.show-correct     { background:var(--lime); border-color:var(--lime); color:var(--dark); }
+        .tfng-explain { display:none; margin-top:10px; font-size:0.84rem; color:var(--gray-600); padding:10px 14px; background:var(--gray-100); border-radius:var(--r-sm); border-left:3px solid var(--cyan); font-family:'JetBrains Mono',monospace; }
+        .tfng-explain.visible { display:block; }
+
+        /* ══ PRACTICE LIST ══ */
+        .practice-list {
+            list-style: none; display: flex; flex-direction: column;
+            gap: 14px; margin-top: 22px; counter-reset: prac;
+        }
+
+        .practice-list li {
+            background: var(--white); padding: 15px 18px 15px 50px;
+            border-radius: var(--r-sm); border: 1px solid var(--gray-200);
+            font-size: 0.97rem; position: relative; line-height: 1.7;
+        }
+
+        .practice-list li::before {
+            counter-increment: prac; content: counter(prac, decimal-leading-zero);
+            position: absolute; left: 16px; top: 15px;
+            font-weight: 700; color: var(--cyan-dim); font-size: 0.82rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 80px;
+            border-bottom: 2px dashed var(--gray-400);
+            color: var(--cyan-dim); font-weight: 600; padding: 0 6px;
+            text-align: center; background: rgba(0,212,255,0.04);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9em;
+        }
+        .blank-input:focus { border-bottom-color: var(--cyan-dim); outline: none; background: rgba(0,212,255,0.09); }
+
+        /* ══ CALLOUTS ══ */
+        .callout {
+            padding: 14px 18px; border-radius: var(--r-sm); margin: 14px 0;
+            font-size: 0.9rem; line-height: 1.65; border-left: 3px solid;
+        }
+        .callout-cyan  { background: rgba(0,212,255,0.07); border-color: var(--cyan); }
+        .callout-lime  { background: rgba(170,255,0,0.07); border-color: var(--lime); }
+        .callout-red   { background: rgba(255,59,92,0.07); border-color: var(--red); }
+        .callout-amber { background: rgba(255,184,0,0.08); border-color: var(--amber); }
+
+        /* ══ DEBATE TILES ══ */
+        .debate-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px; margin-top: 22px;
+        }
+
+        .debate-card {
+            background: var(--dark); border-radius: var(--r-md);
+            padding: 22px; border: 1px solid rgba(0,212,255,0.12);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .debate-card:hover { border-color: rgba(0,212,255,0.3); transform: translateY(-2px); }
+        .debate-card:nth-child(2) { border-color: rgba(170,255,0,0.12); }
+        .debate-card:nth-child(2):hover { border-color: rgba(170,255,0,0.35); }
+        .debate-card:nth-child(3) { border-color: rgba(255,59,92,0.12); }
+        .debate-card:nth-child(3):hover { border-color: rgba(255,59,92,0.3); }
+        .debate-card:nth-child(4) { border-color: rgba(255,184,0,0.12); }
+        .debate-card:nth-child(4):hover { border-color: rgba(255,184,0,0.3); }
+
+        .debate-label {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--cyan); margin-bottom: 8px; display: block;
+        }
+        .debate-card:nth-child(2) .debate-label { color: var(--lime); }
+        .debate-card:nth-child(3) .debate-label { color: var(--red); }
+        .debate-card:nth-child(4) .debate-label { color: var(--amber); }
+
+        .debate-q { color: rgba(255,255,255,0.8); font-size: 0.92rem; line-height: 1.6; }
+
+        /* ══ FLOWCHART ══ */
+        .flowchart {
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            margin: 24px 0; background: var(--dark);
+            padding: 36px 28px; border-radius: var(--r-xl);
+            border: 1px solid rgba(0,212,255,0.12);
+        }
+
+        .flow-bubble {
+            background: rgba(255,255,255,0.06); padding: 13px 26px;
+            border-radius: 50px; font-weight: 600; color: rgba(255,255,255,0.85);
+            border: 1px solid rgba(0,212,255,0.3);
+            text-align: center; max-width: 540px; font-size: 0.93rem;
+        }
+        .flow-bubble.b-lime  { border-color: rgba(170,255,0,0.4); }
+        .flow-bubble.b-amber { border-color: rgba(255,184,0,0.4); background: rgba(255,184,0,0.08); }
+
+        .flow-arrow { color: rgba(255,255,255,0.25); font-size: 1.4rem; line-height: 1; }
+
+        /* ══ PRON ══ */
+        .pron-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px; margin-top: 22px;
+        }
+
+        .pron-box { background:var(--dark); border-radius:var(--r-md); padding:22px; text-align:center; border:1px solid rgba(0,212,255,0.12); }
+        .pron-box h4 { font-family:'JetBrains Mono',monospace; color:var(--cyan); font-size:0.9rem; margin-bottom:12px; font-weight:600; }
+        .pron-example { background:rgba(255,255,255,0.05); border-radius:var(--r-sm); padding:9px 11px; margin:7px 0; font-size:0.85rem; }
+        .pron-example .written { color:rgba(255,255,255,0.4); font-size:0.76rem; }
+        .pron-example .spoken  { color:var(--amber); font-weight:600; font-family:'JetBrains Mono',monospace; }
+
+        /* ══ SUM UP ══ */
+        .sum-up-box {
+            background: var(--dark); color: var(--white);
+            padding: 40px; border-radius: var(--r-xl); text-align: center;
+            margin-top: 40px; border: 1px solid rgba(255,59,92,0.2);
+        }
+        .sum-up-box h2 { font-family:'Instrument Serif',serif; color:var(--red); margin-bottom:18px; font-size:2rem; }
+        .sum-up-list { list-style:none; margin-top:16px; font-size:0.97rem; line-height:2; }
+
+        /* ══ WHITEBOARD ══ */
+        .whiteboard-container { border:1px solid var(--gray-200); border-radius:var(--r-lg); background:var(--white); overflow:hidden; margin-top:22px; box-shadow:var(--shadow-md); }
+        .wb-toolbar { background:var(--dark); padding:12px 20px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .wb-btn { background:rgba(255,255,255,0.1); color:var(--white); border:1px solid rgba(255,255,255,0.15); padding:6px 12px; border-radius:var(--r-sm); cursor:pointer; font-size:0.8rem; font-weight:600; transition:background 0.2s; font-family:'Space Grotesk',sans-serif; }
+        .wb-btn:hover, .wb-btn.active { background:var(--cyan-dim); border-color:var(--cyan); color:white; }
+        .wb-color { width:28px; height:28px; border-radius:50%; border:2px solid white; cursor:pointer; padding:0; }
+        canvas { display:block; width:100%; height:500px; background:white; cursor:crosshair; }
+
+        /* ══ FABs ══ */
+        .floating-actions { position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:12px; z-index:1000; }
+        .fab-btn { background:var(--cyan-dim); color:white; border:none; width:52px; height:52px; border-radius:50%; font-size:1.3rem; cursor:pointer; box-shadow:var(--shadow-lg); transition:transform 0.2s,background 0.2s; display:flex; align-items:center; justify-content:center; }
+        .fab-btn:hover { transform:translateY(-3px); background:var(--dark); }
+        .fab-btn.quizlet-btn { background:#4255FF; }
+        .fab-btn.quizlet-btn:hover { background:#2839d0; }
+        .fab-btn.reset-btn { background:var(--red); }
+
+        /* ══ MODAL ══ */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(10,10,18,0.8); backdrop-filter:blur(6px); z-index:2000; justify-content:center; align-items:center; }
+        .modal-content { background:var(--white); padding:32px; border-radius:var(--r-xl); width:90%; max-width:600px; box-shadow:var(--shadow-xl); position:relative; }
+        .close-modal { position:absolute; top:16px; right:20px; font-size:1.8rem; cursor:pointer; color:var(--gray-400); transition:color 0.2s; }
+        .close-modal:hover { color:var(--red); }
+        .word-row { display:flex; gap:10px; margin-bottom:10px; }
+        .word-row input { flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:var(--r-sm); font-size:0.95rem; }
+        .word-row input:focus { outline:none; border-color:var(--cyan-dim); box-shadow:0 0 0 2px rgba(0,212,255,0.1); }
+        #wordList { max-height:350px; overflow-y:auto; margin:18px 0; padding-right:8px; }
+
+        /* ══ SYNC ══ */
+        #syncStatus { position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(10,10,18,0.92); color:white; padding:5px 16px; border-radius:50px; font-size:0.78rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(0,212,255,0.2); font-family:'JetBrains Mono',monospace; }
+
+        /* ══ LIVE CURSORS ══ */
+        .remote-cursor { position:absolute; pointer-events:none; z-index:999999; transition:top 0.4s linear,left 0.4s linear; display:flex; align-items:flex-start; opacity:0; animation:fadeInCursor 0.3s forwards; }
+        @keyframes fadeInCursor { to { opacity:1; } }
+        .remote-cursor svg { width:20px; height:20px; transform:rotate(-15deg); filter:drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); }
+        .remote-cursor-label { color:white; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:4px; margin-left:-4px; margin-top:14px; white-space:nowrap; font-family:'JetBrains Mono',monospace; }
+
+        /* ══ RESPONSIVE ══ */
+        @media (max-width:768px) {
+            .hero { min-height:420px; }
+            .hero-content { padding:48px 24px; }
+            .section { padding:52px 16px; }
+            .nav-links { display:none; }
+            canvas { height:360px; }
+            .transform-row { grid-template-columns:1fr; }
+            .tr-arrow { display:none; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span id="syncDot" style="display:block;width:6px;height:6px;background:var(--amber);border-radius:50%;"></span>
+    <span id="syncText">// connecting...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;"></div>
+
+<section class="hero">
+    <div class="hero-scanlines"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-terminal" contenteditable="false">
+            <span class="prompt">~/dental-english $</span>
+            <span>lesson_12 --topic="confidentiality-and-law"</span>
+            <span class="cursor"></span>
+        </div>
+        <h1 contenteditable="true">Crime &amp;<br><span class="highlight">Confidentiality</span><br><span class="dim">— a dentist's dilemma</span></h1>
+        <p class="hero-sub" contenteditable="true">// When the police show up at the clinic. Where does patient confidentiality end and legal obligation begin?</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">ADVANCED PASSIVE perfect + continuous</span>
+            <span class="hero-chip lime" contenteditable="true">MODAL PASSIVE revision</span>
+            <span class="hero-chip red" contenteditable="true">CRIME & JUSTICE VOCAB</span>
+            <span class="hero-chip" contenteditable="true">C1 ETHICS DEBATE</span>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">// dental.english</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--cyan-dim);color:white;padding:4px 10px;font-weight:800;border-radius:50px;font-family:monospace;">+</a></li>
+            <li><a href="#task-1" contenteditable="true">Provocation</a></li>
+            <li><a href="#task-2" contenteditable="true">Hunt</a></li>
+            <li><a href="#task-3" contenteditable="true">Video</a></li>
+            <li><a href="#task-5" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#task-6" contenteditable="true">Grammar</a></li>
+            <li><a href="#task-7" contenteditable="true">Transform</a></li>
+            <li><a href="#task-12" contenteditable="true">Debate</a></li>
+            <li><a href="#task-13" contenteditable="true">Role-Play</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section" id="task-1">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">01</span> immediate_reaction.exe</div>
+        <h2 class="section-title">Protect, Report, or <em>It's complicated?</em></h2>
+        <p class="section-desc" contenteditable="true">No warm-up. No small talk. Read this scenario, click your instinctive reaction, and be ready to defend it in 60 seconds.</p>
+
+        <div class="provocation">
+            <div class="provocation-text" contenteditable="true">
+                "A patient comes in with a broken jaw and several missing teeth. While under the effects of anesthesia, they groggily confess that they sustained the injuries while committing an armed robbery. An hour later, the police arrive at your clinic looking for a suspect matching their description."
+            </div>
+            <div class="provocation-source" contenteditable="true">— A classic medical ethics dilemma</div>
+            <div class="react-btns">
+                <button class="react-btn" onclick="selectReaction(this,'agree')">🔒 Protect the patient (Confidentiality)</button>
+                <button class="react-btn" onclick="selectReaction(this,'disagree')">🚨 Turn them in (Justice)</button>
+                <button class="react-btn" onclick="selectReaction(this,'complex')">🤔 It depends on the law</button>
+            </div>
+        </div>
+
+        <div class="callout callout-cyan" style="margin-top:20px;">
+            <strong>🗣 Now discuss:</strong> What are you legally obliged to do in your country? Does the severity of the crime change your ethical responsibility? What <em>could happen</em> to your license if you make the wrong choice?
+        </div>
+
+        <script>
+            function selectReaction(btn, type) {
+                btn.parentElement.querySelectorAll('.react-btn').forEach(b => b.className = 'react-btn');
+                btn.classList.add('selected-' + type);
+            }
+        </script>
+    </div>
+</section>
+
+<section class="section" id="task-2">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">02</span> grammar_hunt.detect</div>
+        <h2 class="section-title">Find the <em>Advanced Passive</em></h2>
+        <p class="section-desc" contenteditable="true">Read this formal legal notice. Hover over any phrase highlighted in <span style="color:var(--cyan-dim);font-weight:700;">cyan</span> to see the advanced passive structure. Notice how formal legal documents avoid blaming individuals directly.</p>
+
+        <div class="article-card">
+            <div class="article-header">
+                <span class="article-tag">LEGAL SUBPOENA</span>
+                <span class="article-source" contenteditable="true">// Office of the District Attorney — Case File #492-B</span>
+            </div>
+            <div class="article-body" contenteditable="false">
+                <p style="margin-bottom:14px;">Notice to Clinic Administration: It has come to our attention that a severe breach of protocol <span class="passive-highlight" data-label="PRESENT PERFECT PASSIVE: has + been + V3">has been committed</span> at your facility. Currently, the source of the leak <span class="passive-highlight" data-label="PRESENT CONTINUOUS PASSIVE: is + being + V3">is being investigated</span> by federal authorities.</p>
+
+                <p style="margin-bottom:14px;">We believe that key forensic evidence <span class="passive-highlight" data-label="MODAL PERFECT PASSIVE: could + have been + V3">could have been preserved</span> if the authorities had been notified immediately. Because this did not occur, several digital records <span class="passive-highlight" data-label="PAST PERFECT PASSIVE: had + been + V3">had been deleted</span> before our detectives arrived.</p>
+
+                <p style="margin-bottom:14px;">Consequently, all physical patient files relating to the suspect <span class="passive-highlight" data-label="MODAL PASSIVE: must + be + V3">must be surrendered</span> to the court by Friday. The attending dentist <span class="passive-highlight" data-label="MODAL PASSIVE: will + be + V3">will be summoned</span> to provide expert testimony.</p>
+
+                <p>If these documents are withheld, your clinic <span class="passive-highlight" data-label="MODAL PASSIVE: may + be + V3">may be indicted</span> for obstruction of justice, and professional liability <span class="passive-highlight" data-label="MODAL PERFECT PASSIVE: will + have been + V3">will have been established</span>.</p>
+            </div>
+        </div>
+
+        <div class="callout callout-amber" style="margin-top:18px;">
+            <strong>🔍 Before reading Task 6:</strong> Look at "is being investigated" and "could have been preserved." How do these structures differ from the simple passives we learned in Lesson 11? Discuss with your partner: <span class="blank-input" style="min-width:280px;" contenteditable="true"></span>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-3">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">03</span> stream.watch --now</div>
+        <h2 class="section-title">Confidentiality & <em>The Law</em></h2>
+        <p class="section-desc" contenteditable="true">Watch this excerpt discussing medical ethics, liability, and forensic science. Pay attention to how often the speakers use passive voice to describe actions where the "doer" is the abstract concept of 'the law' or 'the system'.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube.com/embed/N-0_y6k4Bkw?rel=0&modestbranding=1" title="Medical Confidentiality and Legal Limits" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <a href="https://www.youtube.com/watch?v=N-0_y6k4Bkw" target="_blank" class="video-link" contenteditable="true">// video not loading? → watch documentary excerpt on YouTube</a>
+
+        <div class="callout callout-lime" style="margin-top:18px;">
+            <strong>⚡ Immediate reaction:</strong> What is the absolute limit of confidentiality mentioned in the video? When <strong>must</strong> a doctor break their silence? When <strong>should they have</strong> spoken up but didn't?
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">04</span> comprehension.quiz --interactive</div>
+        <h2 class="section-title">True, False, or <em>Not Given?</em></h2>
+        <p class="section-desc" contenteditable="true">Test your understanding of the legal concepts discussed. Click your answer for instant feedback. Explain your reasoning using an <strong>advanced passive</strong>: <em>"The files must have been requested because..."</em></p>
+
+        <div id="tfngL12">
+            <div class="tfng-item" id="tfng12-1">
+                <div class="tfng-stmt" contenteditable="true">1. A subpoena legally compels a medical professional to hand over patient records, overriding standard confidentiality agreements.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG12(1,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(1,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(1,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp12-1" contenteditable="true">// TRUE. A court-issued subpoena is a direct legal order. If ignored, the professional can be held in contempt of court.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng12-2">
+                <div class="tfng-stmt" contenteditable="true">2. Dentists are frequently indicted for malpractice if they accidentally destroy forensic evidence before police arrive.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG12(2,'T','F')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(2,'F','F')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(2,'NG','F')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp12-2" contenteditable="true">// FALSE. While they can face penalties, the text/video emphasizes that an indictment requires intent to obstruct justice, not merely an accident.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng12-3">
+                <div class="tfng-stmt" contenteditable="true">3. Forensic odontology has been used to secure convictions in over 500 murder trials in the last decade.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG12(3,'T','NG')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(3,'F','NG')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(3,'NG','NG')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp12-3" contenteditable="true">// NOT GIVEN. The importance of forensic dentistry is discussed, but specific statistics like "500 murder trials" are not provided.</div>
+            </div>
+
+            <div class="tfng-item" id="tfng12-4">
+                <div class="tfng-stmt" contenteditable="true">4. If a patient implies they might harm someone in the future, the doctor's duty to warn the public supersedes patient confidentiality.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG12(4,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(4,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG12(4,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="exp12-4" contenteditable="true">// TRUE. This is known as the "duty to warn" or the Tarasoff rule, which states that imminent threat to public safety breaks confidentiality.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-5">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">05</span> vocab.unlock --context</div>
+        <h2 class="section-title">Legal & Forensic <em>Vocabulary</em></h2>
+        <p class="section-desc" contenteditable="true">These C1 legal terms are essential when interacting with law enforcement or regulatory bodies. Hover to reveal their definitions.</p>
+
+        <div class="vocab-inline-grid">
+            <div class="vocab-inline-card vic1">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Subpoena</div></div>
+                <div class="vic-def">A writ ordering a person to attend a court or produce documents. Pronounced: /səˈpiː.nə/. "The clinic received a subpoena for the patient's x-rays."</div>
+            </div>
+            <div class="vocab-inline-card vic2">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun/verb</div><div class="vic-word">Breach</div></div>
+                <div class="vic-def">An act of breaking a law, agreement, or code of conduct. "Sharing the file without a warrant is a breach of confidentiality."</div>
+            </div>
+            <div class="vocab-inline-card vic3">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Forensic</div></div>
+                <div class="vic-def">Relating to the application of scientific methods to investigate crime. "Forensic dentistry (odontology) uses bite marks to identify suspects."</div>
+            </div>
+            <div class="vocab-inline-card vic4">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">verb (passive)</div><div class="vic-word">To be indicted</div></div>
+                <div class="vic-def">To be formally accused of or charged with a serious crime. Pronounced: /ɪnˈdaɪ.tɪd/. "The doctor was indicted for insurance fraud."</div>
+            </div>
+            <div class="vocab-inline-card vic5">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Testimony</div></div>
+                <div class="vic-def">A formal written or spoken statement given in a court of law. "The expert testimony provided by the dentist secured the conviction."</div>
+            </div>
+            <div class="vocab-inline-card vic6">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">verb (passive)</div><div class="vic-word">To be summoned</div></div>
+                <div class="vic-def">To be officially ordered to appear before a judge or magistrate. "You have been summoned to appear as a witness next Tuesday."</div>
+            </div>
+            <div class="vocab-inline-card vic7">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Malpractice</div></div>
+                <div class="vic-def">Improper, illegal, or negligent professional behavior. "Failing to report suspected abuse can be considered medical malpractice."</div>
+            </div>
+            <div class="vocab-inline-card vic8">
+                <div class="vic-hint">👁</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Liability</div></div>
+                <div class="vic-def">The state of being legally responsible for something. "To avoid liability, the clinic requested a formal warrant before handing over the data."</div>
+            </div>
+        </div>
+
+        <div class="callout callout-lime" style="margin-top:18px;">
+            <strong>📝 Quick use:</strong> With your partner, create a dramatic mini-story (3 sentences) using <em>subpoena</em>, <em>forensic</em>, and <em>to be indicted</em>.
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-6">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">06</span> grammar.theory --advanced_passive</div>
+        <h2 class="section-title">The <em>Advanced</em> Passive Voice</h2>
+        <p class="section-desc" contenteditable="true">We covered simple passives in Lesson 11. Now let's tackle Continuous, Perfect, and Modal Perfect passives. These are crucial for discussing ongoing investigations, past legal errors, and hypothetical forensic scenarios.</p>
+
+        <div style="background:var(--dark);border-radius:var(--r-lg);padding:28px 32px;margin:24px 0;border:1px solid rgba(0,212,255,0.15);text-align:center;">
+            <p style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:12px;letter-spacing:2px;" contenteditable="true">// MODAL PERFECT PASSIVE FORMULA</p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:1.1rem;color:var(--white);letter-spacing:1px;" contenteditable="true">
+                <span style="color:var(--lime);">Subject</span> + 
+                <span style="color:var(--cyan);">modal + have been</span> + 
+                <span style="color:var(--amber);">past participle (V3)</span>
+            </p>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:12px;" contenteditable="true">
+                → The data <span style="color:var(--cyan);">should have been</span> <span style="color:var(--amber);">protected</span>.
+            </p>
+        </div>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Tense / Structure</th>
+                    <th contenteditable="true">Form</th>
+                    <th contenteditable="true">Legal / Clinic Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Present Continuous Passive</strong><br><span style="font-size:0.8em;color:var(--gray-600);">Action happening right now</span></td>
+                    <td contenteditable="true"><span class="pass-tag">is/are being + V3</span></td>
+                    <td contenteditable="true">The suspect <strong>is being investigated</strong> by the police.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Continuous Passive</strong><br><span style="font-size:0.8em;color:var(--gray-600);">Action happening at a specific time in the past</span></td>
+                    <td contenteditable="true"><span class="pass-tag">was/were being + V3</span></td>
+                    <td contenteditable="true">The files <strong>were being copied</strong> when the manager walked in.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Perfect Passive</strong><br><span style="font-size:0.8em;color:var(--gray-600);">Action completed before another action in the past</span></td>
+                    <td contenteditable="true"><span class="pass-tag">had been + V3</span></td>
+                    <td contenteditable="true">The records <strong>had been deleted</strong> before the subpoena arrived.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Modal Perfect Passive</strong><br><span style="font-size:0.8em;color:var(--gray-600);">Regrets, past deductions, missed opportunities</span></td>
+                    <td contenteditable="true"><span class="pass-tag">modal + have been + V3</span></td>
+                    <td contenteditable="true">The breach <strong>should have been reported</strong> immediately.<br>The suspect <strong>could have been identified</strong> earlier.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Future Perfect Passive</strong><br><span style="font-size:0.8em;color:var(--gray-600);">Action will be completed before a future time</span></td>
+                    <td contenteditable="true"><span class="pass-tag">will have been + V3</span></td>
+                    <td contenteditable="true">By tomorrow, the testimony <strong>will have been recorded</strong>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout callout-red" style="margin-top:16px;">
+            <strong>⚠️ Watch out:</strong> The biggest mistake C1 students make is dropping the "been" in Modal Perfect Passives. <br>
+            ❌ <em>"The files should have protected."</em> (Active meaning: The files themselves should have protected something).<br>
+            ✅ <em>"The files should have <strong>been</strong> protected."</em> (Passive meaning: Someone should have protected the files).
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-7">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">07</span> passive_transformer.build</div>
+        <h2 class="section-title">Active → <em>Advanced Passive</em></h2>
+        <p class="section-desc" contenteditable="true">Transform these active sentences into advanced passives. Pay close attention to tenses and modals.</p>
+
+        <div class="transformer-grid">
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">The detectives <strong>are interrogating</strong> the dentist right now.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Continuous)</span><p contenteditable="true">The dentist <strong>is being interrogated</strong> [by the detectives].</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">They <strong>were reviewing</strong> the security footage when the power went out.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Past Continuous)</span><p contenteditable="true">The security footage <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> when the power went out.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">Someone <strong>had accessed</strong> the forensic data before the trial.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Past Perfect)</span><p contenteditable="true">The forensic data <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> before the trial.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">The clinic <strong>should have reported</strong> the malpractice sooner.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Modal Perfect)</span><p contenteditable="true">The malpractice <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> sooner.</p></div>
+            </div>
+            <div class="transform-row">
+                <div class="tr-cell active"><span class="tr-label act">ACTIVE</span><p contenteditable="true">The jury <strong>might have misunderstood</strong> the expert testimony.</p></div>
+                <div class="tr-arrow">→</div>
+                <div class="tr-cell passive"><span class="tr-label pass">PASSIVE (Modal Perfect)</span><p contenteditable="true">The expert testimony <span class="blank-input" style="min-width:200px;" contenteditable="true"></span> [by the jury].</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">08</span> error_spy.scan --advanced</div>
+        <h2 class="section-title">🕵️ Error Spy — <em>Legal Briefs</em></h2>
+        <p class="section-desc" contenteditable="true">Each sentence contains one error — either a <strong>wrongly formed advanced passive</strong> OR a <strong>wrong vocabulary word</strong>. Click the highlighted error, type the correction, then Check.</p>
+
+        <div id="spyGameL12">
+            <div class="spy-sentence" id="spy12-1">
+                <span class="spy-num" contenteditable="false">01</span>
+                <div class="spy-text" contenteditable="false">When the lawyers arrived, the medical files <span class="wrong-word" onclick="revealSpy12(1)">was being copied</span> by the detectives without a warrant.
+                    <div class="spy-input-wrap" id="wrap12-1"><input class="spy-input" id="input12-1" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(1)"><button class="spy-check-btn" onclick="checkSpy12(1)">Check</button><span class="spy-feedback" id="fb12-1"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-2">
+                <span class="spy-num" contenteditable="false">02</span>
+                <div class="spy-text" contenteditable="false">Based on the evidence, the clinic <span class="wrong-word" onclick="revealSpy12(2)">must have be</span> targeted by hackers to steal the forensic data.
+                    <div class="spy-input-wrap" id="wrap12-2"><input class="spy-input" id="input12-2" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(2)"><button class="spy-check-btn" onclick="checkSpy12(2)">Check</button><span class="spy-feedback" id="fb12-2"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-3">
+                <span class="spy-num" contenteditable="false">03</span>
+                <div class="spy-text" contenteditable="false">The dentist received a formal <span class="wrong-word" onclick="revealSpy12(3)">liability</span> ordering him to produce the x-rays in court next Monday.
+                    <div class="spy-input-wrap" id="wrap12-3"><input class="spy-input" id="input12-3" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(3)"><button class="spy-check-btn" onclick="checkSpy12(3)">Check</button><span class="spy-feedback" id="fb12-3"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-4">
+                <span class="spy-num" contenteditable="false">04</span>
+                <div class="spy-text" contenteditable="false">Long before the trial began, crucial forensic evidence <span class="wrong-word" onclick="revealSpy12(4)">has been</span> destroyed by the suspect.
+                    <div class="spy-input-wrap" id="wrap12-4"><input class="spy-input" id="input12-4" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(4)"><button class="spy-check-btn" onclick="checkSpy12(4)">Check</button><span class="spy-feedback" id="fb12-4"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-5">
+                <span class="spy-num" contenteditable="false">05</span>
+                <div class="spy-text" contenteditable="false">The forensic odontologist <span class="wrong-word" onclick="revealSpy12(5)">is being summoning</span> to give expert testimony regarding the bite marks.
+                    <div class="spy-input-wrap" id="wrap12-5"><input class="spy-input" id="input12-5" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(5)"><button class="spy-check-btn" onclick="checkSpy12(5)">Check</button><span class="spy-feedback" id="fb12-5"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-6">
+                <span class="spy-num" contenteditable="false">06</span>
+                <div class="spy-text" contenteditable="false">To avoid legal <span class="wrong-word" onclick="revealSpy12(6)">testimony</span>, the clinic immediately updated its patient data security protocols.
+                    <div class="spy-input-wrap" id="wrap12-6"><input class="spy-input" id="input12-6" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(6)"><button class="spy-check-btn" onclick="checkSpy12(6)">Check</button><span class="spy-feedback" id="fb12-6"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-7">
+                <span class="spy-num" contenteditable="false">07</span>
+                <div class="spy-text" contenteditable="false">If the system hadn't crashed, the suspect <span class="wrong-word" onclick="revealSpy12(7)">could been</span> identified through dental records hours earlier.
+                    <div class="spy-input-wrap" id="wrap12-7"><input class="spy-input" id="input12-7" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(7)"><button class="spy-check-btn" onclick="checkSpy12(7)">Check</button><span class="spy-feedback" id="fb12-7"></span></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy12-8">
+                <span class="spy-num" contenteditable="false">08</span>
+                <div class="spy-text" contenteditable="false">Following the investigation, the manager was formally <span class="wrong-word" onclick="revealSpy12(8)">subpoenaed</span> with a felony for obstruction of justice.
+                    <div class="spy-input-wrap" id="wrap12-8"><input class="spy-input" id="input12-8" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy12(8)"><button class="spy-check-btn" onclick="checkSpy12(8)">Check</button><span class="spy-feedback" id="fb12-8"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spy-score-bar">
+            <div><div class="spy-score-label">// score.current</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:2px;">advanced passive & vocab errors</div></div>
+            <div class="spy-score-display"><span id="spyScoreL12">0</span> / 8</div>
+            <button class="spy-reset" onclick="resetSpyL12()">↺ reset</button>
+        </div>
+
+        <script>
+            const answersL12={
+                1:'were being copied',
+                2:'must have been',
+                3:'subpoena',
+                4:'had been',
+                5:'is being summoned',
+                6:'liability',
+                7:'could have been',
+                8:'indicted'
+            };
+            const solvedL12={};
+            function revealSpy12(n){document.getElementById('wrap12-'+n).classList.add('visible');document.getElementById('input12-'+n).focus();}
+            function checkSpy12(n){
+                if(solvedL12[n])return;
+                const inp=document.getElementById('input12-'+n).value.trim().toLowerCase();
+                const correct=answersL12[n].toLowerCase();
+                const fb=document.getElementById('fb12-'+n);
+                const card=document.getElementById('spy12-'+n);
+                if(inp===correct){
+                    fb.textContent='✓ correct'; fb.className='spy-feedback ok';
+                    card.classList.add('correct'); solvedL12[n]=true; updateScoreL12();
+                } else {
+                    fb.textContent='✗ retry'; fb.className='spy-feedback no';
+                    card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect');
+                    setTimeout(()=>card.classList.remove('incorrect'),450);
+                }
+            }
+            function updateScoreL12(){document.getElementById('spyScoreL12').textContent=Object.keys(solvedL12).length;}
+            function resetSpyL12(){for(let n=1;n<=8;n++){document.getElementById('wrap12-'+n).classList.remove('visible');document.getElementById('input12-'+n).value='';document.getElementById('fb12-'+n).textContent='';document.getElementById('spy12-'+n).classList.remove('correct','incorrect');}Object.keys(solvedL12).forEach(k=>delete solvedL12[k]);document.getElementById('spyScoreL12').textContent='0';}
+        </script>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">10</span> pronunciation.modal_perfect</div>
+        <h2 class="section-title">The "Schwa" in <em>Modal Perfects</em></h2>
+        <p class="section-desc" contenteditable="true">In fast, natural spoken English, the auxiliary words in modal perfect passives ("have been") reduce drastically. Mastering this makes your English sound much more fluent and less robotic.</p>
+
+        <div class="pron-grid">
+            <div class="pron-box">
+                <h4 contenteditable="true">Should have been</h4>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Written: "It should have been reported."</div>
+                    <div class="spoken" contenteditable="true">Spoken: "It /ʃʊdəvbɪn/ re-POR-ted."</div>
+                </div>
+            </div>
+            <div class="pron-box">
+                <h4 contenteditable="true">Could have been</h4>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Written: "He could have been indicted."</div>
+                    <div class="spoken" contenteditable="true">Spoken: "He /kʊdəvbɪn/ in-DIE-ted."</div>
+                </div>
+            </div>
+            <div class="pron-box">
+                <h4 contenteditable="true">Must have been</h4>
+                <div class="pron-example">
+                    <div class="written" contenteditable="true">Written: "Data must have been stolen."</div>
+                    <div class="spoken" contenteditable="true">Spoken: "Data /mʌstəvbɪn/ STO-len."</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout callout-amber" style="margin-top:18px;">
+            <strong>🎤 Rapid-fire drill:</strong> One partner reads an active regret/deduction. The other instantly produces the passive with reduced pronunciation.<br><br>
+            Active: "They should have protected the data." → Passive: "The data /ʃʊdəvbɪn/ protected."<br>
+            Active: "Someone must have deleted the file." → <em>[you say the passive]</em><br>
+            Active: "They could have saved the evidence." → <em>[passive]</em>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-12">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">12</span> debate.launch --ethics</div>
+        <h2 class="section-title">Four Corners <em>Debate</em></h2>
+        <p class="section-desc" contenteditable="true">Where do you draw the line? Defend the corner you are assigned, using advanced passives and legal vocabulary.</p>
+
+        <div class="debate-grid">
+            <div class="debate-card">
+                <span class="debate-label">// CORNER A — ABSOLUTE SECRECY</span>
+                <p class="debate-q" contenteditable="true">"Patient confidentiality <strong>must never be breached</strong>, regardless of the crime. If patients fear they <strong>will be indicted</strong>, they won't seek medical help. Doctors are healers, not police."</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--lime);">// CORNER B — MANDATORY REPORTING</span>
+                <p class="debate-q" contenteditable="true">"Any suspicion of violent crime <strong>should be reported</strong> immediately. If a doctor stays silent and the criminal hurts someone else, that injury <strong>could have been prevented</strong>. The doctor shares the liability."</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--red);">// CORNER C — LAW OVER ETHICS</span>
+                <p class="debate-q" contenteditable="true">"The rule is simple: wait for a subpoena. Patient files <strong>are being protected</strong> by law until a judge says otherwise. We shouldn't play hero; we just follow legal procedure."</p>
+            </div>
+            <div class="debate-card">
+                <span class="debate-label" style="color:var(--amber);">// CORNER D — PUBLIC INTEREST ONLY</span>
+                <p class="debate-q" contenteditable="true">"Confidentiality <strong>should only be broken</strong> if there is a direct, ongoing threat to public safety. Past crimes (like a theft that <strong>has already been committed</strong>) are not the clinic's business."</p>
+            </div>
+        </div>
+
+        <div class="callout callout-lime" style="margin-top:18px;">
+            <strong>📋 Debate rules:</strong> 90 seconds per person. You must use "should have been", "could have been", and at least one vocabulary word (e.g., liability, breach).
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-13">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">13</span> roleplay.meeting --police_raid</div>
+        <h2 class="section-title">The <em>Police Visit</em></h2>
+        <p class="section-desc" contenteditable="true">Two detectives walk into the clinic reception. They demand to see the records of a patient who was treated for a broken jaw yesterday. Act out the scenario.</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>Detective:</strong> Demand the records aggressively. Use Present Continuous Passive: <em>"A major crime is being investigated..."</em></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-lime" contenteditable="true"><strong>Clinic Manager:</strong> Refuse politely but firmly. Demand a subpoena. Use Modal Passive: <em>"These records cannot be released without..."</em></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Detective:</strong> Threaten liability. Use Modal Perfect Passive: <em>"If evidence is destroyed, you could be indicted... It should have been reported yesterday..."</em></div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-amber" contenteditable="true"><strong>Clinic Owner (Dentist):</strong> Intervene. Defuse the situation. Use formal passive: <em>"We understand that a crime has been committed. Once a subpoena has been issued, we will comply fully."</em></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <div class="task-counter"><span class="tc-num">14</span> whiteboard.open</div>
+        <h2 class="section-title">Teacher's <em>Space</em></h2>
+        <p class="section-desc" contenteditable="true">Draw passive formula diagrams or map out the legal scenarios here.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <div style="width:1px;height:20px;background:rgba(255,255,255,0.15);margin:0 6px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#00D4FF" title="colour">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--red);" contenteditable="true">Clear</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-inner">
+        <div class="sum-up-box">
+            <h2 contenteditable="true">Lesson 12 Complete. ⚖️✓</h2>
+            <p style="color:rgba(255,255,255,0.6);font-family:'JetBrains Mono',monospace;font-size:0.82rem;" contenteditable="true">// session_summary.log</p>
+            <ul class="sum-up-list">
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> Subpoena, breach, forensic, to be indicted, testimony, to be summoned, malpractice, liability.</li>
+                <li contenteditable="true">✅ <strong>Grammar:</strong> Advanced Passive Voice — continuous, perfect, and modal perfect forms.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Reducing "have been" to /əvbɪn/ in modal perfect structures.</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> Debating medical ethics and navigating high-pressure legal scenarios in a clinical setting.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Quizlet">📝</button>
+    <button class="fab-btn" onclick="window.saveAsPDF()" title="Save PDF">💾</button>
+    <button class="fab-btn reset-btn" onclick="window.resetLesson()" title="Reset">🔄</button>
+</div>
+
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:'Instrument Serif',serif;color:var(--dark);">Quizlet Exporter</h2>
+        <p style="margin-top:8px;font-size:0.9rem;color:var(--gray-600);">Add words and translations, then copy into Quizlet Import.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:18px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex:1;text-align:center;background:var(--cyan-dim);border-color:var(--cyan-dim);">+ Add</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn" style="flex:2;text-align:center;background:#4255FF;border-color:#4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Ctrl+H highlight
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(0,212,255,0.35)');
+        }
+    });
+
+    // Whiteboard
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#00D4FF', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear();
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "16px 'Space Grotesk', Arial, sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if (window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        if (currentTool==='pencil'||currentTool==='highlight') {
+            ctx.lineTo(p.x,p.y);
+            ctx.strokeStyle=currentTool==='highlight'?currentColor+'44':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?14:2;
+            ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if (window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing=false; if (window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') { ctx.strokeRect(startX,startY,ex-startX,ey-startY); }
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool==='arrow') {
+            const hl=14,ang=Math.atan2(ey-startY,ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6));
+            ctx.stroke();
+        }
+    }
+
+    // TFNG
+    const tfngAnswersL12={1:'T',2:'F',3:'NG',4:'T'};
+    const tfngSolvedL12={};
+    function checkTFNG12(n,choice,correct) {
+        if(tfngSolvedL12[n])return;
+        const item=document.getElementById('tfng12-'+n);
+        const exp=document.getElementById('exp12-'+n);
+        const btns=item.querySelectorAll('.tfng-btn');
+        btns.forEach(b=>{const v=b.textContent.split(' ')[0];if(v===correct||(correct==='NG'&&b.textContent.includes('NOT')))b.classList.add('show-correct');});
+        if(choice===correct){item.classList.add('t-correct');btns.forEach(b=>{const v=b.textContent.split(' ')[0];if(v===choice||(choice==='NG'&&b.textContent.includes('NOT')))b.classList.add('selected-correct');});}
+        else{item.classList.add('t-wrong');btns.forEach(b=>{const v=b.textContent.split(' ')[0];if(v===choice||(choice==='NG'&&b.textContent.includes('NOT')))b.classList.add('selected-wrong');});}
+        exp.classList.add('visible'); tfngSolvedL12[n]=true;
+    }
+
+    // PDF
+    window.saveAsPDF=()=>{
+        document.getElementById('floatingActions').style.display='none';
+        document.getElementById('syncStatus').style.display='none';
+        const el=document.body;
+        html2pdf().set({
+            margin:0,filename:'Lesson-12-Crime-And-Confidentiality.pdf',
+            image:{type:'jpeg',quality:0.97},
+            html2canvas:{scale:2,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},
+            jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}
+        }).from(el).save().then(()=>{
+            document.getElementById('floatingActions').style.display='flex';
+            document.getElementById('syncStatus').style.display='flex';
+        });
+    };
+
+    // Quizlet
+    window.openQuizletModal=()=>document.getElementById('quizletModal').style.display='flex';
+    window.closeQuizletModal=()=>document.getElementById('quizletModal').style.display='none';
+    window.addWordRow=()=>{
+        const row=document.createElement('div');row.className='word-row';
+        row.innerHTML='<input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans">';
+        const wl=document.getElementById('wordList');wl.appendChild(row);wl.scrollTop=wl.scrollHeight;
+    };
+    window.copyForQuizlet=()=>{
+        let out='';
+        document.querySelectorAll('.word-row').forEach(r=>{
+            const w=r.querySelector('.q-word').value.trim(),t=r.querySelector('.q-trans').value.trim();
+            if(w||t)out+=`${w}\t${t}\n`;
+        });
+        const btn=document.getElementById('copyQuizletBtn');
+        if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);btn.innerText='✓ copied';setTimeout(()=>btn.innerText='📋 Copy for Quizlet',3000);}
+        else{btn.innerText='⚠ add words first';setTimeout(()=>btn.innerText='📋 Copy for Quizlet',3000);}
+    };
+
+    // Nav
+    document.getElementById('navTabsContainer').addEventListener('click',e=>{
+        if(e.target.tagName==='A'&&!e.target.hasAttribute('onclick')){
+            e.preventDefault();
+            const id=e.target.getAttribute('href');
+            if(id&&id.startsWith('#')&&id.length>1){const el=document.querySelector(id);if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});}
+        }
+    });
+
+    window.scrollToWhiteboard=()=>{
+        const el=document.getElementById('whiteboard');
+        if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});
+    };
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'dental-b2c1-lesson12-crime-passive-v1';
+
+    const statusText=document.getElementById('syncText');
+    const statusDot=document.getElementById('syncDot');
+    function setStatus(t,c){if(statusText)statusText.innerText=t;if(statusDot)statusDot.style.background=c;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null,isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Student';
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    const originalStates={};
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;originalStates['edit-'+i]=el.innerHTML;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('// auth_failed','#FF3B5C'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Student '+(snap.size+1);
+                setStatus('// live_sync.on','#00D4FF');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Student '+(Math.floor(Math.random()*99)+1);
+                setStatus('// live_sync.on','#00D4FF');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('// disconnected','#FF3B5C');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        window.addNewTab=e=>{
+            e.preventDefault();
+            const container=document.getElementById('navTabsContainer');
+            const li=document.createElement('li');
+            const newId='edit-tab-'+Date.now();
+            li.innerHTML=`<a href="#" contenteditable="true" data-sync-id="${newId}">// tab</a>`;
+            container.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if(currentUser)setDoc(textRef,{'nav_tabs_structure':container.innerHTML},{merge:true});
+        };
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(syncId==='nav_tabs_structure'){
+                    const c=document.getElementById('navTabsContainer');
+                    if(!c.contains(document.activeElement)){c.innerHTML=html;c.querySelectorAll('[contenteditable="true"]').forEach(a=>window.attachEditableListeners(a));}
+                    continue;
+                }
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        document.addEventListener('paste',e=>{
+            const target=e.target;
+            if(!target.closest('[contenteditable="true"]'))return;
+            const items=(e.clipboardData||window.clipboardData).items;
+            for(let idx in items){
+                const item=items[idx];
+                if(item.kind==='file'&&item.type.startsWith('image/')){
+                    e.preventDefault();
+                    const blob=item.getAsFile(),reader=new FileReader();
+                    reader.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;if(w>800){h*=800/w;w=800;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);const url=c.toDataURL('image/jpeg',0.8);document.execCommand('insertHTML',false,`<div contenteditable="false" style="margin:16px 0;text-align:center;"><img src="${url}" style="max-width:100%;border-radius:8px;"></div><p><br></p>`);target.dispatchEvent(new Event('input',{bubbles:true}));};img.src=ev.target.result;};
+                    reader.readAsDataURL(blob);return;
+                }
+            }
+            const txt=(e.clipboardData||window.clipboardData).getData('text');
+            if(txt){
+                const yt=txt.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                if(yt&&yt[1]){e.preventDefault();document.execCommand('insertHTML',false,`<div contenteditable="false" style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:16px;margin:16px 0;"><iframe src="https://www.youtube.com/embed/${yt[1]}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div><p><br></p>`);target.dispatchEvent(new Event('input',{bubbles:true}));return;}
+                const urlRx=/^(https?:\/\/[^\s]+)$/i;
+                if(urlRx.test(txt.trim())){e.preventDefault();document.execCommand('insertHTML',false,`<a href="${txt.trim()}" target="_blank" style="color:var(--cyan-dim);text-decoration:underline;" contenteditable="false">${txt.trim()}</a>`);target.dispatchEvent(new Event('input',{bubbles:true}));}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container=document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{if(!currentUser)return;setDoc(myRef,{xOffset:e.pageX-window.innerWidth/2,y:e.pageY,color:myCursorColor,name:myCursorName,timestamp:Date.now()});},400));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                let el=document.getElementById('cursor-'+id);
+                if(!el){el=document.createElement('div');el.id='cursor-'+id;el.className='remote-cursor';el.innerHTML=`<svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${data.color}">${data.name}</div>`;container.appendChild(el);}
+                el.style.left=(window.innerWidth/2+data.xOffset)+'px';
+                el.style.top=data.y+'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+
+    window.resetLesson=async()=>{
+        if(!currentUser)return;
+        if(!confirm('// reset lesson for all users?'))return;
+        setStatus('// resetting...','#FFB800');
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+        await deleteDoc(textRef);
+        const ts=Date.now();window.lastClear=ts;
+        await setDoc(wbRef,{clearTimestamp:ts,image:null});
+        document.querySelectorAll('.word-row input').forEach(i=>i.value='');
+        setTimeout(()=>setStatus('// live_sync.on','#00D4FF'),1000);
+    };
+</script>
+</body>
+</html>
