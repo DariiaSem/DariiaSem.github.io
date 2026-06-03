@@ -529,29 +529,46 @@
    function downloadPDF() {
         const element = document.getElementById('pdf-content');
         
-        // Temporarily add some padding so the text doesn't touch the edges of the PDF
+        // 1. CRITICAL BUG FIX: Scroll to the absolute top. 
+        // If you are scrolled down, html2canvas slices the bottom off.
+        window.scrollTo(0, 0);
+        
+        // 2. Temporarily remove CSS restrictions that choke the canvas renderer
+        const originalOverflow = document.body.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        
+        // 3. Style the output
         element.style.padding = "40px";
         element.style.background = "var(--bg-page)";
         
-        // Dynamically calculate the exact width and height of the entire results content
+        // 4. Calculate exact pixel dimensions
         const contentWidth = element.scrollWidth;
-        const contentHeight = element.scrollHeight;
+        const contentHeight = element.scrollHeight + 50; // +50px buffer so the bottom border isn't clipped
         
         const opt = {
             margin:       0,
             filename:     `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, windowWidth: contentWidth, scrollY: 0 },
-            // Force jsPDF to use the exact pixel dimensions of the content for a single page
-            jsPDF:        { unit: 'px', format: [contentWidth, contentHeight], orientation: 'portrait' }
+            html2canvas:  { 
+                scale: 2, 
+                useCORS: true, 
+                scrollY: 0, 
+                windowWidth: contentWidth,
+                windowHeight: contentHeight // Force the canvas to look at the entire height
+            },
+            jsPDF:        { 
+                unit: 'px', 
+                format: [contentWidth, contentHeight], 
+                orientation: 'portrait' 
+            }
         };
         
         html2pdf().set(opt).from(element).save().then(() => {
-            // Revert the padding back to normal after the PDF generates
+            // 5. Clean up and revert styles after the PDF is safely downloaded
             element.style.padding = "0";
+            document.body.style.overflowX = originalOverflow;
         });
     }
-
     // --- DATA STORAGE & DASHBOARD ---
     function saveResult(name, finalScore, totalAsked, level, status) {
         const results = JSON.parse(localStorage.getItem('englishPlacementAdaptiveData')) || [];
