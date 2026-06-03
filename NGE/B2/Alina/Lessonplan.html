@@ -3,276 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced English Lesson Plan</title>
+    <title>Dental English B2-C1 | Course Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         :root {
-            --primary-color: #0d9488; /* Dental Teal */
-            --primary-light: #ccfbf1;
-            --text-dark: #1f2937;
-            --text-light: #6b7280;
-            --bg-color: #f3f4f6;
+            /* Updated Color Palette: Clinical Teals, Blues, and Slates */
+            --ink: #0f172a;        /* Dark slate background */
+            --parchment: #f0fdfa;  /* Very light teal background */
+            --parchment-dark: #ccfbf1; /* Border color */
+            
+            --rust: #0d9488;       /* Primary Teal */
+            --rust-light: #14b8a6; /* Light Teal */
+            --gold: #0284c7;       /* Clinical Sky Blue */
+            --gold-light: #38bdf8; /* Light Blue */
+            --sage: #475569;       /* Slate Grey Accent */
+            
+            --charcoal: #1e293b;   /* Main text */
+            --mist: #64748b;       /* Muted text */
+            --cream: #f8fafc;      /* Page background */
             --white: #ffffff;
-            --border-color: #e5e7eb;
+            
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.12);
+            --radius-md: 12px;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.75;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: var(--white);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-        }
-
-        .header {
-            background-color: var(--primary-color);
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: var(--ink);
             color: var(--white);
-            padding: 30px 40px;
+            padding: 100px 24px 80px;
             text-align: center;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 80% 70%, rgba(2, 132, 199, 0.15) 0%, transparent 60%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(13, 148, 136, 0.2);
+            border: 1px solid rgba(13, 148, 136, 0.4);
+            color: var(--gold-light);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em { color: var(--gold-light); font-style: italic; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--cream);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--white);
+            border: 1px solid var(--parchment-dark);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
             position: relative;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 600;
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
         }
 
-        .header p {
-            margin: 10px 0 0;
-            opacity: 0.9;
-            font-size: 16px;
-        }
-
-        /* Subtle tooth icon in the header */
-        .header svg {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 15px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .table-wrapper {
-            padding: 20px 40px 40px;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        thead {
-            background-color: var(--primary-light);
-            color: var(--primary-color);
-        }
-
-        th {
-            padding: 16px;
-            font-weight: 600;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-            vertical-align: top;
-        }
-
-        tr:hover {
-            background-color: #f9fafb;
-            transition: background-color 0.2s ease;
-        }
+        .card-rust { border-top: 4px solid var(--rust); }
+        .card-gold { border-top: 4px solid var(--gold); }
+        .card-sage { border-top: 4px solid var(--sage); }
 
         .lesson-num {
-            font-weight: bold;
-            color: var(--primary-color);
-            width: 5%;
-        }
-
-        .topic {
-            font-weight: 600;
-            color: var(--text-dark);
-            width: 35%;
-        }
-
-        .grammar {
-            color: #4b5563;
-            width: 40%;
-        }
-
-        .review {
-            color: var(--text-light);
-            font-size: 0.95em;
-            width: 20%;
-        }
-
-        .review-row td {
-            background-color: var(--primary-light);
-            text-align: center;
-            font-weight: bold;
-            color: var(--primary-color);
+            font-size: 0.75rem;
+            font-weight: 700;
             letter-spacing: 2px;
-            padding: 12px;
-            border-bottom: 2px solid var(--primary-color);
-            border-top: 2px solid var(--primary-color);
+            text-transform: uppercase;
+            color: var(--mist);
+            margin-bottom: 8px;
         }
 
-        @media (max-width: 768px) {
-            .table-wrapper {
-                padding: 20px;
-            }
-            th, td {
-                padding: 12px 8px;
-            }
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            line-height: 1.2;
         }
+
+        .lesson-detail {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .lesson-detail strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--ink);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1; 
+            margin: 16px 0;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--rust), var(--sage));
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+        }
+
+        .test-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .test-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+        }
+
+        .test-desc {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+        }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <svg viewBox="0 0 24 24">
-            <path d="M12 2C9 2 7 4 7 7c0 3 2 5 2 7 0 2-2 4-2 6 0 1 1 2 2 2h10c1 0 2-1 2-2 0-2-2-4-2-6 0-2 2-4 2-7 0-3-2-5-5-5z"></path>
-            <path d="M12 14v8"></path>
-        </svg>
-        <h1>Advanced English Course Plan</h1>
-        <p>Customized Curriculum for Dental Professionals</p>
-    </div>
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📋 Professional English · B2–C1</div>
+            <h1>Dental <em>Curriculum</em></h1>
+            <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">Select a module below to begin your advanced clinical and communicative training.</p>
+        </div>
+        <div class="hero-ribbon"></div>
+    </header>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Topic & Context</th>
-                    <th>Grammar Focus</th>
-                    <th>Review Topic</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="lesson-num">12</td>
-                    <td class="topic">Crime, Justice & Patient Confidentiality</td>
-                    <td class="grammar">Passive Voice (Advanced: Perfect, Modal, Continuous)</td>
-                    <td class="review">Passive (Intro)</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">13</td>
-                    <td class="topic">Sleep Science & Recovery</td>
-                    <td class="grammar">Relative Clauses (Defining & Non-Defining)</td>
-                    <td class="review">Passive (Advanced)</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">14</td>
-                    <td class="topic">The Art of Persuasion & Patient Communication</td>
-                    <td class="grammar">Relative Clauses (Advanced: which, whom, whose, prepositions)</td>
-                    <td class="review">Relative Clauses</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">15</td>
-                    <td class="topic">Climate Change & Environmental Clinic Practices</td>
-                    <td class="grammar">Gerunds vs. Infinitives (Part 1: Verbs that change meaning)</td>
-                    <td class="review">Relative Clauses</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">16</td>
-                    <td class="topic">Social Media, Influence & Personal Branding</td>
-                    <td class="grammar">Gerunds vs. Infinitives (Part 2: Patterns & phrases)</td>
-                    <td class="review">Gerunds/Infinitives 1</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">17</td>
-                    <td class="topic">Relationships, Boundaries & Work-Life Balance</td>
-                    <td class="grammar">Articles (a/an/the/zero — advanced rules)</td>
-                    <td class="review">Gerunds/Infinitives 2</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">18</td>
-                    <td class="topic">The Science of Happiness</td>
-                    <td class="grammar">Quantifiers (all, every, each, both, neither — C1 nuances)</td>
-                    <td class="review">Articles</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">19</td>
-                    <td class="topic">Minimalism, Consumerism & the Dental Industry</td>
-                    <td class="grammar">Inversion (Negative adverbials: Never have I...)</td>
-                    <td class="review">Quantifiers</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">20</td>
-                    <td class="topic">Body Language & Non-Verbal Communication</td>
-                    <td class="grammar">Emphasis & Cleft Sentences (It is... that / What I need...)</td>
-                    <td class="review">Inversion</td>
-                </tr>
-                
-                <tr class="review-row">
-                    <td colspan="4">REVIEW PHASE</td>
-                </tr>
+    <main class="container">
+        <div class="syllabus-grid">
 
-                <tr>
-                    <td class="lesson-num">21</td>
-                    <td class="topic">Cultural Differences & Working Abroad</td>
-                    <td class="grammar">Noun Clauses & Reported Thought (seem/appear/tend to)</td>
-                    <td class="review">Cleft Sentences</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">22</td>
-                    <td class="topic">Conflict Resolution & Difficult Conversations</td>
-                    <td class="grammar">Hedging Language (I would argue / It could be said)</td>
-                    <td class="review">Reported Thought</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">23</td>
-                    <td class="topic">The Gut-Brain Connection & Holistic Health</td>
-                    <td class="grammar">Discourse Markers (Contrast, Concession, Result)</td>
-                    <td class="review">Hedging</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">24</td>
-                    <td class="topic">Leadership & Management Styles</td>
-                    <td class="grammar">Subjunctive Mood (suggest that he be / it is vital that)</td>
-                    <td class="review">Discourse Markers</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">25</td>
-                    <td class="topic">Personal Finance & Investing</td>
-                    <td class="grammar">Mixed Verb Patterns (wish/if only/it's time)</td>
-                    <td class="review">Subjunctive</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">26</td>
-                    <td class="topic">History of Medicine & Dentistry</td>
-                    <td class="grammar">Review: Tenses in Narrative Writing</td>
-                    <td class="review">Wish/If Only</td>
-                </tr>
-                <tr>
-                    <td class="lesson-num">27</td>
-                    <td class="topic">Ageing, Longevity & Preventive Care</td>
-                    <td class="grammar">Fronting & Formal Register (C1 Writing strategies)</td>
-                    <td class="review">Narrative Tenses</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+            <a href="https://dariiasem.github.io/NGE/B2/Alina/Lesson1Alina.html" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 1</div>
+                <h2 class="lesson-title">Clinic Dynamics & Delegation</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Workplace vocabulary & team structure</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> The 4 Present Tenses</div>
+            </a>
+
+            <a href="https://dariiasem.github.io/NGE/B2/Alina/Lesson2_Stress.html" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 2</div>
+                <h2 class="lesson-title">Clinic Workflows</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> General vs. Technical Vocabulary</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Nuances of all 4 Present Tenses</div>
+            </a>
+
+            <a href="https://dariiasem.github.io/NGE/B2/Alina/Lesson3_PastnEmergencies.html" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 3</div>
+                <h2 class="lesson-title">Crisis Management</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Advanced vocabulary via tooltips</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> All 4 Narrative Past Tenses</div>
+            </a>
+
+            <a href="https://dariiasem.github.io/NGE/B2/Alina/Lesson4_Futureplans.html" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 4</div>
+                <h2 class="lesson-title">Career Trajectories</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Technological paradigm shifts in medicine</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> All 6 Future Forms</div>
+            </a>
+
+            <a href="https://dariiasem.github.io/NGE/B2/Alina/Lesson5_MixedC.html" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 5</div>
+                <h2 class="lesson-title">Diagnosing Burnout</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Escaping the clinic & alternate realities</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Mixed Conditionals</div>
+            </a>
+
+            <a href="https://dariiasem.github.io/NGE/B2/Alina/Lesson6_beauty.html" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 6</div>
+                <h2 class="lesson-title">The "Perfect" Smile</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Psychology of first impressions & the Halo Effect</div>
+                <div class="lesson-detail"><strong>Context:</strong> Social Media Standards</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 7</div>
+                <h2 class="lesson-title">Travel & Dental Tourism</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reported Speech (Statements)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Mixed Conditionals</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 8</div>
+                <h2 class="lesson-title">Food, Nutrition & Patient Advice</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reported Speech (Questions & Commands)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Reported Statements</div>
+            </a>
+
+            <a href="" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 9</div>
+                <h2 class="lesson-title">Psychology of Habits & Addictions</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modal Verbs (Ability, Possibility, Obligation)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Reported Speech</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 10</div>
+                <h2 class="lesson-title">Money, Budgeting & Clinic Finance</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modal Verbs (Deduction & Probability)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Modals (Core)</div>
+            </a>
+
+            <a href="" class="test-card">
+                <div class="test-icon">📊</div>
+                <h2 class="test-title">Progress Assessment 1</h2>
+                <div class="test-desc">Comprehensive review of Modules 1 – 10</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 12</div>
+                <h2 class="lesson-title">Crime, Justice & Patient Confidentiality</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Passive Voice (Perfect, Modal, Continuous)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Passive (Intro)</div>
+            </a>
+
+            <a href="" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 13</div>
+                <h2 class="lesson-title">Sleep Science & Recovery</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Relative Clauses (Defining & Non-Defining)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Passive (Advanced)</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 14</div>
+                <h2 class="lesson-title">The Art of Persuasion & Patient Communication</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Relative Clauses (Advanced)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Relative Clauses</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 15</div>
+                <h2 class="lesson-title">Climate Change & Environmental Clinic Practices</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Gerunds vs. Infinitives (Part 1)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Relative Clauses</div>
+            </a>
+
+            <a href="" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 16</div>
+                <h2 class="lesson-title">Social Media, Influence & Personal Branding</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Gerunds vs. Infinitives (Part 2)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Gerunds/Infinitives 1</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 17</div>
+                <h2 class="lesson-title">Relationships, Boundaries & Work-Life Balance</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Articles (Advanced rules)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Gerunds/Infinitives 2</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 18</div>
+                <h2 class="lesson-title">The Science of Happiness</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Quantifiers (C1 nuances)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Articles</div>
+            </a>
+
+            <a href="" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 19</div>
+                <h2 class="lesson-title">Minimalism & the Dental Industry</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Inversion (Negative adverbials)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Quantifiers</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 20</div>
+                <h2 class="lesson-title">Body Language & Non-Verbal Communication</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Emphasis & Cleft Sentences</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Inversion</div>
+            </a>
+
+            <a href="" class="test-card">
+                <div class="test-icon">⚖️</div>
+                <h2 class="test-title">Progress Assessment 2</h2>
+                <div class="test-desc">Comprehensive review of Modules 12 – 20</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 21</div>
+                <h2 class="lesson-title">Cultural Differences & Working Abroad</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Noun Clauses & Reported Thought</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Cleft Sentences</div>
+            </a>
+
+            <a href="" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 22</div>
+                <h2 class="lesson-title">Conflict Resolution & Difficult Conversations</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Hedging Language</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Reported Thought</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 23</div>
+                <h2 class="lesson-title">The Gut-Brain Connection & Holistic Health</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Discourse Markers</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Hedging</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 24</div>
+                <h2 class="lesson-title">Leadership & Management Styles</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Subjunctive Mood</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Discourse Markers</div>
+            </a>
+
+            <a href="" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 25</div>
+                <h2 class="lesson-title">Personal Finance & Investing</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Mixed Verb Patterns</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Subjunctive</div>
+            </a>
+
+            <a href="" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 26</div>
+                <h2 class="lesson-title">History of Medicine & Dentistry</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Review: Tenses in Narrative Writing</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Wish/If Only</div>
+            </a>
+
+            <a href="" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 27</div>
+                <h2 class="lesson-title">Ageing, Longevity & Preventive Care</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Fronting & Formal Register</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Narrative Tenses</div>
+            </a>
+
+        </div>
+    </main>
 
 </body>
 </html>
