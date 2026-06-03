@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced English C1 | Course Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Updated C1 Modern Palette */
+            --bg-main: #F8FAFC;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --hero-bg: #0B1120;
+            --hero-text: #F8FAFC;
+            --ocean: #0EA5E9;
+            --ocean-light: #38BDF8;
+            --violet: #8B5CF6;
+            --violet-light: #A78BFA;
+            --rose: #F43F5E;
+            --rose-light: #FB7185;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-md: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: var(--hero-bg);
+            color: var(--hero-text);
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(circle at 20% 150%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% -50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--ocean-light);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em { color: var(--violet-light); font-style: italic; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--bg-main);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: transparent;
+        }
+
+        .card-ocean { border-top: 4px solid var(--ocean); }
+        .card-violet { border-top: 4px solid var(--violet); }
+        .card-rose { border-top: 4px solid var(--rose); }
+
+        .lesson-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .lesson-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .lesson-detail {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            background: var(--bg-main);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: auto;
+        }
+
+        .lesson-detail strong {
+            color: var(--ocean);
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--hero-bg);
+            color: var(--hero-text);
+            border-radius: var(--radius-md);
+            padding: 40px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1;
+            margin: 24px 0;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ocean), var(--violet), var(--rose));
+        }
+
+        .test-card:hover {
+            transform: scale(1.01);
+        }
+
+        .test-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .test-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--hero-text);
+            margin-bottom: 8px;
+        }
+
+        .test-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">C1 Advanced · Masterclass</div>
+            <h1>Course <em>Syllabus</em></h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Select a module below to begin exploring advanced grammar, cultural nuances, and native-level fluency.</p>
+        </div>
+        <div class="hero-ribbon"></div>
+    </header>
+
+    <main class="container">
+        <div class="syllabus-grid">
+
+            <!-- LESSON 1-10 -->
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 1</div>
+                <h2 class="lesson-title">Course Intro</h2>
+                <div class="lesson-desc">Introduction to C1 expectations, needs analysis, and goal setting for advanced fluency.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Diagnostic & Review</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 2</div>
+                <h2 class="lesson-title">Spontaneity & Planning</h2>
+                <div class="lesson-desc">Exploring consequences and the delicate balance between living in the moment and planning for tomorrow.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Conditionals (2nd & 3rd Intro)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 3</div>
+                <h2 class="lesson-title">Hospitality & Ethics</h2>
+                <div class="lesson-desc">Explore cultural shifts in the hospitality industry and debate the ethics of gratuity.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Reporting Structures</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 4</div>
+                <h2 class="lesson-title">The Philosophy of Coziness</h2>
+                <div class="lesson-desc">Dive into the Danish concept of 'Hygge' and master advanced descriptive vocabulary.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Connected Speech & Pronunciation</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 5</div>
+                <h2 class="lesson-title">Salem Witch Trials</h2>
+                <div class="lesson-desc">Explore historical hysteria and learn advanced vocabulary for tracking fugitives.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Past Narrative Tenses Timeline</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 6</div>
+                <h2 class="lesson-title">Dark Tourism</h2>
+                <div class="lesson-desc">Analyzing morbid curiosity and the ethics behind visiting sites of historical tragedy.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Mixed Conditionals</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 7</div>
+                <h2 class="lesson-title">The Psychology of Lying</h2>
+                <div class="lesson-desc">Deconstruct deception, body language, and why humans bend the truth.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modals for Deduction</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 8</div>
+                <h2 class="lesson-title">Digital Nomads</h2>
+                <div class="lesson-desc">The reality of remote work, borderless living, and the modern global economy.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Gerunds vs Infinitives</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 9</div>
+                <h2 class="lesson-title">True Crime</h2>
+                <div class="lesson-desc">A deep dive into criminal psychology and society's fascination with true crime media.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Passive Voice (All Forms)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 10</div>
+                <h2 class="lesson-title">The Science of Habits</h2>
+                <div class="lesson-desc">Understanding neuroplasticity and how to build or break daily routines.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Future Perfect & Continuous</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">🧠</div>
+                <h2 class="test-title">Progress Test 1</h2>
+                <div class="test-desc">Comprehensive review of C1 Lessons 1 – 10</div>
+            </a>
+
+            <!-- LESSON 11-20 -->
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 11</div>
+                <h2 class="lesson-title">Conspiracy Theories</h2>
+                <div class="lesson-desc">Analyzing extreme beliefs, echo chambers, and the psychology of conspiracy.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Relative Clauses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 12</div>
+                <h2 class="lesson-title">The Art of Negotiation</h2>
+                <div class="lesson-desc">High-stakes communication, compromise, and securing the best outcomes.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Wishes & Regrets (wish/if only)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 13</div>
+                <h2 class="lesson-title">Minimalism</h2>
+                <div class="lesson-desc">Decluttering physical and mental spaces as a modern lifestyle choice.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Causative Have/Get</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 14</div>
+                <h2 class="lesson-title">Language & Identity</h2>
+                <div class="lesson-desc">How the words we speak shape our thoughts, culture, and personal identity.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Inversion for Emphasis</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 15</div>
+                <h2 class="lesson-title">Sleep Science & Dreams</h2>
+                <div class="lesson-desc">The biological imperative of rest and the mysterious world of the subconscious.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Articles (Advanced Use)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 16</div>
+                <h2 class="lesson-title">Moral Dilemmas</h2>
+                <div class="lesson-desc">Navigating complex ethical situations and justifying difficult choices.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Intensifiers & Hedging</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 17</div>
+                <h2 class="lesson-title">The Gig Economy</h2>
+                <div class="lesson-desc">Freelancing, side hustles, and the paradigm shift in modern employment.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Participle Clauses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 18</div>
+                <h2 class="lesson-title">Memory & Nostalgia</h2>
+                <div class="lesson-desc">How we remember, why we forget, and the powerful pull of the past.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Narrative Tenses & Pluperfect</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 19</div>
+                <h2 class="lesson-title">Food & Globalization</h2>
+                <div class="lesson-desc">The intersection of culinary traditions and global interconnectedness.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Concession Clauses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 20</div>
+                <h2 class="lesson-title">Urban Legends</h2>
+                <div class="lesson-desc">Modern folklore, viral myths, and stories that refuse to die.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Quantifiers (Advanced)</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">⚖️</div>
+                <h2 class="test-title">Progress Test 2</h2>
+                <div class="test-desc">Comprehensive review of C1 Lessons 11 – 20</div>
+            </a>
+
+            <!-- LESSON 21-30 -->
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 21</div>
+                <h2 class="lesson-title">Philosophy of Success</h2>
+                <div class="lesson-desc">Redefining achievement beyond wealth and societal expectations.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Cleft Sentences</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 22</div>
+                <h2 class="lesson-title">Social Media & Mental Health</h2>
+                <div class="lesson-desc">The psychological impact of hyper-connectivity and curated realities.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reported Questions</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 23</div>
+                <h2 class="lesson-title">The Ethics of AI</h2>
+                <div class="lesson-desc">Navigating the moral landscape of artificial intelligence and automation.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Subjunctive Mood</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 24</div>
+                <h2 class="lesson-title">Travel & Culture Shock</h2>
+                <div class="lesson-desc">The psychological stages of adapting to entirely new cultural environments.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Prepositions (Advanced Collocations)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 25</div>
+                <h2 class="lesson-title">The Power of Silence</h2>
+                <div class="lesson-desc">Communication without words and the cultural significance of pauses.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Ellipsis & Substitution</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 26</div>
+                <h2 class="lesson-title">Addiction & Willpower</h2>
+                <div class="lesson-desc">The science of dopamine, dependency, and taking back control.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Complex Noun Phrases</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 27</div>
+                <h2 class="lesson-title">Architecture & Spaces</h2>
+                <div class="lesson-desc">How the physical design of our cities impacts human psychology.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Conditionals Revision (All Types)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 28</div>
+                <h2 class="lesson-title">The Trolley Problem</h2>
+                <div class="lesson-desc">Classic philosophical thought experiments and utilitarian ethics.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Discourse Markers</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 29</div>
+                <h2 class="lesson-title">Loneliness & Connection</h2>
+                <div class="lesson-desc">The modern epidemic of isolation and strategies for deep connection.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reporting Verbs (Complex Patterns)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 30</div>
+                <h2 class="lesson-title">The Future of Work</h2>
+                <div class="lesson-desc">Predicting the evolution of careers, skills, and industry landscapes.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Mixed Revision (B2→C1 Synthesis)</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">🎓</div>
+                <h2 class="test-title">Final Course Exam</h2>
+                <div class="test-desc">Ultimate assessment of C1 mastery, grammar, and fluency</div>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
