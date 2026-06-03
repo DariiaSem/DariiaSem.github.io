@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>German A2 | Lesson 1: City Navigation</title>
+    <title>German A2 | Lektion 1: Stadtnavigation & Klinik</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,8 +46,47 @@
             overflow-x: hidden;
         }
 
-        /* ── TYPOGRAPHY ── */
         h1, h2, h3, .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+        /* ── HOVER TRANSLATION (THE NEW STANDARD) ── */
+        .de-en-hover {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dashed var(--transit-yellow);
+            color: inherit;
+            transition: color 0.2s;
+        }
+        .de-en-hover:hover { color: var(--transit-yellow); }
+        .de-en-hover::after {
+            content: attr(data-en);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: var(--bg-card);
+            color: var(--text-main);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            white-space: normal;
+            width: max-content;
+            max-width: 280px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 1000;
+            line-height: 1.4;
+        }
+        .de-en-hover:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
 
         /* ── SOLO LEARNING BADGE ── */
         #soloStatus {
@@ -74,11 +113,7 @@
             overflow: hidden;
         }
         
-        /* Subway map lines background */
-        .hero-bg-lines {
-            position: absolute; inset: 0; opacity: 0.1; pointer-events: none;
-        }
-        
+        .hero-bg-lines { position: absolute; inset: 0; opacity: 0.1; pointer-events: none; }
         .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
         
         .hero-badge {
@@ -107,7 +142,7 @@
             border-bottom: 1px solid var(--border-color); padding: 0 24px;
         }
         .nav-inner {
-            max-width: 1000px; margin: 0 auto; display: flex; align-items: center;
+            max-width: 1100px; margin: 0 auto; display: flex; align-items: center;
             justify-content: space-between; height: 60px;
         }
         .nav-logo {
@@ -126,7 +161,7 @@
         /* ── SECTIONS ── */
         .section { padding: 80px 24px; }
         .section:nth-child(even) { background: var(--bg-panel); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
-        .section-inner { max-width: 900px; margin: 0 auto; }
+        .section-inner { max-width: 1000px; margin: 0 auto; }
 
         .section-label {
             display: inline-block; font-family: 'Space Grotesk', sans-serif;
@@ -134,12 +169,12 @@
             letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
         }
         .section-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 16px; color: var(--text-main); }
-        .section-desc { color: var(--text-muted); font-size: 1.05rem; margin-bottom: 40px; line-height: 1.8; }
+        .section-desc { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; line-height: 1.8; }
 
         /* ── INTERACTIVE VOCAB FLIP CARDS ── */
-        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
         
-        .flip-card { background: transparent; height: 220px; perspective: 1000px; cursor: pointer; }
+        .flip-card { background: transparent; height: 180px; perspective: 1000px; cursor: pointer; }
         .flip-card-inner {
             position: relative; width: 100%; height: 100%; text-align: center;
             transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d;
@@ -149,24 +184,23 @@
         .flip-card-front, .flip-card-back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             border-radius: var(--radius-md); display: flex; flex-direction: column;
-            justify-content: center; align-items: center; padding: 20px;
+            justify-content: center; align-items: center; padding: 16px;
             border: 1px solid var(--border-color);
         }
         
         .flip-card-front { background: var(--bg-card); box-shadow: var(--shadow-sm); }
-        .flip-card-front .icon { font-size: 2.5rem; margin-bottom: 12px; }
-        .flip-card-front h3 { font-size: 1.2rem; font-weight: 600; color: var(--transit-yellow); }
-        .flip-card-front .hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px;}
+        .flip-card-front .icon { font-size: 2rem; margin-bottom: 8px; }
+        .flip-card-front h3 { font-size: 1.1rem; font-weight: 600; color: var(--transit-yellow); line-height: 1.2; }
         
         .flip-card-back {
             background: var(--transit-yellow); color: var(--bg-base);
             transform: rotateY(180deg);
         }
-        .flip-card-back h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
-        .flip-card-back p { font-size: 0.9rem; font-weight: 500; }
-        .flip-card-back .article { font-family: 'Space Grotesk'; font-size: 0.8rem; background: var(--bg-base); color: var(--text-main); padding: 2px 8px; border-radius: 4px; margin-bottom: 10px;}
+        .flip-card-back h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 6px; line-height: 1.2;}
+        .flip-card-back p { font-size: 0.85rem; font-weight: 600; }
+        .flip-card-back .article { font-family: 'Space Grotesk'; font-size: 0.75rem; background: var(--bg-base); color: var(--text-main); padding: 2px 8px; border-radius: 4px; margin-bottom: 8px;}
 
-        /* ── GRAMMAR MATRIX (Structured as f***) ── */
+        /* ── GRAMMAR MATRIX ── */
         .grammar-box {
             background: var(--bg-card); border: 2px solid var(--border-color);
             border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-md);
@@ -212,13 +246,13 @@
         .quiz-row.error { border-color: var(--transit-red); animation: shake 0.4s; }
         
         .quiz-text { font-size: 1.1rem; color: var(--text-main); }
-        .quiz-hint { font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+        .quiz-hint { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-top: 4px; }
         
         .quiz-input {
             background: var(--bg-base); border: 2px solid var(--border-color);
             color: var(--transit-yellow); font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem; font-weight: 700; padding: 8px 16px; border-radius: 8px;
-            width: 120px; text-align: center; outline: none; transition: all 0.2s;
+            font-size: 1.1rem; font-weight: 700; padding: 6px 12px; border-radius: 8px;
+            width: 100px; text-align: center; outline: none; transition: all 0.2s; margin: 0 4px;
         }
         .quiz-input:focus { border-color: var(--transit-yellow); box-shadow: var(--shadow-glow); }
         .quiz-input:disabled { background: transparent; border-color: transparent; color: var(--transit-green); }
@@ -226,7 +260,7 @@
         .quiz-btn {
             background: var(--transit-blue); color: #fff; border: none;
             padding: 10px 20px; border-radius: 8px; font-weight: 700; font-family: 'Inter';
-            cursor: pointer; transition: background 0.2s;
+            cursor: pointer; transition: background 0.2s; margin-left: auto;
         }
         .quiz-btn:hover { background: #2280B8; }
         .quiz-btn:disabled { background: var(--transit-green); cursor: default; }
@@ -293,8 +327,8 @@
             .section { padding: 60px 16px; }
             .nav-links { display: none; }
             .quiz-row { flex-direction: column; align-items: flex-start; }
-            .quiz-input { width: 100%; }
-            .quiz-btn { width: 100%; }
+            .quiz-input { width: 100%; margin: 8px 0; }
+            .quiz-btn { width: 100%; margin-left: 0; }
         }
     </style>
 </head>
@@ -305,6 +339,7 @@
     <span>Solo Learning Mode Active</span>
 </div>
 
+<!-- ── HERO ── -->
 <header class="hero">
     <svg class="hero-bg-lines" viewBox="0 0 1000 500" preserveAspectRatio="none">
         <path d="M-100,250 C 200,250 300,100 600,100 L 1200,100" fill="none" stroke="#EB5757" stroke-width="12" stroke-linecap="round"/>
@@ -318,141 +353,91 @@
     <div class="hero-content">
         <div class="hero-badge">A2 Intensive · Foundation</div>
         <h1>City <em>Navigation</em></h1>
-        <p class="hero-subtitle">Welcome to Germany. Today, you learn how to master the public transport system and the Dative prepositions necessary to get to the clinic on time.</p>
+        <p class="hero-subtitle">
+            <span class="de-en-hover" data-en="Welcome to Germany. Today, you learn how to master the public transport system and the Dative prepositions necessary to get to the clinic on time.">
+                Willkommen in Deutschland. Heute lernen Sie, wie man das öffentliche Verkehrsnetz nutzt und die Dativpräpositionen beherrscht, um pünktlich in der Klinik zu sein.
+            </span>
+        </p>
     </div>
 </header>
 
+<!-- ── NAV ── -->
 <nav class="nav-bar">
     <div class="nav-inner">
-        <a href="#" class="nav-logo">Module <span>1</span></a>
+        <a href="#" class="nav-logo">Modul <span>1</span></a>
         <ul class="nav-links">
-            <li><a href="#vocab">Vocab</a></li>
-            <li><a href="#grammar">Grammar</a></li>
-            <li><a href="#practice">Practice</a></li>
+            <li><a href="#vocab">Wortschatz</a></li>
+            <li><a href="#grammar">Grammatik</a></li>
+            <li><a href="#practice">Übung 1</a></li>
+            <li><a href="#practice2">Übung 2</a></li>
             <li><a href="#video">Video</a></li>
-            <li><a href="#reading">Reading</a></li>
+            <li><a href="#reading">Lesen</a></li>
         </ul>
     </div>
 </nav>
 
 <main>
 
+<!-- ── SECTION: VOCABULARY ── -->
 <section class="section" id="vocab">
     <div class="section-inner">
-        <span class="section-label">01. Lexicon</span>
-        <h2 class="section-title">The Urban Journey</h2>
-        <p class="section-desc">Click the cards to reveal the English meaning and the crucial German article (der/die/das). In German, the article is just as important as the word itself!</p>
+        <span class="section-label">01. Wortschatz</span>
+        <h2 class="section-title">Die Reise durch die Stadt</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="Click the cards to reveal the English meaning and the crucial German article (der/die/das). In German, the article is just as important as the word itself!">
+                Klicken Sie auf die Karten, um die englische Bedeutung und den wichtigen deutschen Artikel (der/die/das) anzuzeigen. Im Deutschen ist der Artikel genauso wichtig wie das Wort selbst!
+            </span>
+        </p>
 
         <div class="vocab-grid">
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon">🚉</div>
-                        <h3>Hauptbahnhof</h3>
-                        <div class="hint">Click to flip</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <span class="article">der</span>
-                        <h3>Hauptbahnhof</h3>
-                        <p>Central Train Station (Hbf)</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon">🛤️</div>
-                        <h3>Gleis</h3>
-                        <div class="hint">Click to flip</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <span class="article">das</span>
-                        <h3>Gleis</h3>
-                        <p>Track / Platform</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon">🎫</div>
-                        <h3>Fahrkarte</h3>
-                        <div class="hint">Click to flip</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <span class="article">die</span>
-                        <h3>Fahrkarte</h3>
-                        <p>Ticket</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon">🔄</div>
-                        <h3>umsteigen</h3>
-                        <div class="hint">Click to flip</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <span class="article">Verb</span>
-                        <h3>umsteigen</h3>
-                        <p>to transfer / change trains</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon">⏱️</div>
-                        <h3>Verspätung</h3>
-                        <div class="hint">Click to flip</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <span class="article">die</span>
-                        <h3>Verspätung</h3>
-                        <p>Delay</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flip-card">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
-                        <div class="icon">🏥</div>
-                        <h3>Notaufnahme</h3>
-                        <div class="hint">Click to flip</div>
-                    </div>
-                    <div class="flip-card-back">
-                        <span class="article">die</span>
-                        <h3>Notaufnahme</h3>
-                        <p>Emergency Room (ER)</p>
-                    </div>
-                </div>
-            </div>
+            <!-- Words 1-20 -->
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚉</div><h3>Hauptbahnhof</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Hauptbahnhof</h3><p>Central Station</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🛤️</div><h3>Gleis</h3></div><div class="flip-card-back"><span class="article">das</span><h3>Gleis</h3><p>Track / Platform</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🎫</div><h3>Fahrkarte</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Fahrkarte</h3><p>Ticket</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🔄</div><h3>umsteigen</h3></div><div class="flip-card-back"><span class="article">Verb</span><h3>umsteigen</h3><p>to transfer (trains)</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">⏱️</div><h3>Verspätung</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Verspätung</h3><p>Delay</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚏</div><h3>Haltestelle</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Haltestelle</h3><p>Stop / Station</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">📅</div><h3>Fahrplan</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Fahrplan</h3><p>Timetable</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🧭</div><h3>Richtung</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Richtung</h3><p>Direction</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚪</div><h3>Ausgang</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Ausgang</h3><p>Exit</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚶</div><h3>Eingang</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Eingang</h3><p>Entrance</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚦</div><h3>Ampel</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Ampel</h3><p>Traffic Light</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">❌</div><h3>Kreuzung</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Kreuzung</h3><p>Intersection</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚇</div><h3>U-Bahn</h3></div><div class="flip-card-back"><span class="article">die</span><h3>U-Bahn</h3><p>Subway</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚊</div><h3>S-Bahn</h3></div><div class="flip-card-back"><span class="article">die</span><h3>S-Bahn</h3><p>City Train</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">📌</div><h3>entwerten</h3></div><div class="flip-card-back"><span class="article">Verb</span><h3>entwerten</h3><p>to validate (a ticket)</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">👨‍⚕️</div><h3>Arzt</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Arzt</h3><p>Doctor (male)</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🏥</div><h3>Notaufnahme</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Notaufnahme</h3><p>Emergency Room</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🦽</div><h3>Rollstuhl</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Rollstuhl</h3><p>Wheelchair</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">📝</div><h3>Überweisung</h3></div><div class="flip-card-back"><span class="article">die</span><h3>Überweisung</h3><p>Medical Referral</p></div></div></div>
+            <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><div class="icon">🚑</div><h3>Krankenwagen</h3></div><div class="flip-card-back"><span class="article">der</span><h3>Krankenwagen</h3><p>Ambulance</p></div></div></div>
         </div>
     </div>
 </section>
 
+<!-- ── SECTION: GRAMMAR THEORY ── -->
 <section class="section" id="grammar">
     <div class="section-inner">
-        <span class="section-label">02. Grammar Matrix</span>
-        <h2 class="section-title">The Dative Prepositions</h2>
-        <p class="section-desc">You already know Ukrainian cases. German is similar, but heavily relies on <strong>Prepositions</strong>. The following prepositions are the "Blue-Collar Workers" of German: they do one job, and they do it every time. They <strong>always</strong> force the next noun into the Dative case.</p>
+        <span class="section-label">02. Grammatik</span>
+        <h2 class="section-title">Die Dativpräpositionen</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="These prepositions are the 'Blue-Collar Workers' of German. They do one job, and they do it every time. They always force the next noun into the Dative case.">
+                Diese Präpositionen sind die „Arbeiter“ der deutschen Sprache. Sie machen einen Job, und das jedes Mal. Sie erzwingen immer den Dativ für das folgende Nomen.
+            </span>
+        </p>
 
         <div class="grammar-box">
-            <div class="rule-pill">Rule: Always Dative (Wo?)</div>
+            <div class="rule-pill">Regel: Immer mit Dativ (Wo?)</div>
             <h3 style="margin-bottom: 16px;">aus, außer, bei, mit, nach, seit, von, zu</h3>
-            <p style="color: var(--text-muted); font-size: 0.95rem;">(Memorize this list like a song. "Mit" means with, "zu" means to, "von" means from, "bei" means at/near).</p>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">
+                <span class="de-en-hover" data-en="Memorize this list like a song.">Lernen Sie diese Liste wie ein Lied auswendig.</span>
+            </p>
             
             <table class="grammar-table">
                 <tr>
-                    <th>Original Article</th>
-                    <th>Dative Change</th>
-                    <th>Example (mit = with / by)</th>
+                    <th>Original (Nominativ)</th>
+                    <th>Dativ Form</th>
+                    <th>Beispiel (mit / zu)</th>
                 </tr>
                 <tr>
                     <td><strong>der</strong> (Zug)</td>
@@ -460,9 +445,9 @@
                     <td>Ich fahre mit <span class="highlight-dative">dem</span> Zug.</td>
                 </tr>
                 <tr>
-                    <td><strong>das</strong> (Auto)</td>
+                    <td><strong>das</strong> (Gleis)</td>
                     <td><span class="highlight-dative">dem</span></td>
-                    <td>Ich fahre mit <span class="highlight-dative">dem</span> Auto.</td>
+                    <td>Ich gehe zu <span class="highlight-dative">dem</span> Gleis.</td>
                 </tr>
                 <tr>
                     <td><strong>die</strong> (U-Bahn)</td>
@@ -476,104 +461,180 @@
                 </tr>
             </table>
 
-            <h4 style="margin: 32px 0 16px; font-family: 'Space Grotesk';">The Essential Contractions</h4>
-            <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 0.95rem;">Germans speak fast. They combine the preposition and the article.</p>
+            <h4 style="margin: 32px 0 16px; font-family: 'Space Grotesk';">Wichtige Kontraktionen (Contractions)</h4>
+            <p style="color: var(--text-muted); margin-bottom: 16px; font-size: 0.95rem;">
+                <span class="de-en-hover" data-en="Germans speak fast. They combine the preposition and the article.">
+                    Deutsche sprechen schnell. Sie verbinden die Präposition und den Artikel.
+                </span>
+            </p>
 
             <div class="equation">
                 <span>zu + dem Arzt</span>
                 <span>=</span>
-                <span class="result">zum Arzt (to the doctor)</span>
+                <span class="result">zum Arzt</span>
             </div>
             <div class="equation">
                 <span>zu + der Klinik</span>
                 <span>=</span>
-                <span class="result">zur Klinik (to the clinic)</span>
+                <span class="result">zur Klinik</span>
             </div>
             <div class="equation">
                 <span>bei + dem Hauptbahnhof</span>
                 <span>=</span>
-                <span class="result">beim Hauptbahnhof (at the station)</span>
+                <span class="result">beim Hauptbahnhof</span>
             </div>
             <div class="equation">
                 <span>von + dem Arzt</span>
                 <span>=</span>
-                <span class="result">vom Arzt (from the doctor)</span>
+                <span class="result">vom Arzt</span>
             </div>
 
         </div>
     </div>
 </section>
 
+<!-- ── SECTION: INTERACTIVE PRACTICE 1 ── -->
 <section class="section" id="practice">
     <div class="section-inner">
-        <span class="section-label">03. Application</span>
-        <h2 class="section-title">The Click Clack Quiz</h2>
-        <p class="section-desc">Test your logic. Look at the gender hint in brackets. Type the correct <strong>Dative Article or Contraction</strong> in the box and hit Check.</p>
+        <span class="section-label">03. Übung 1</span>
+        <h2 class="section-title">Das Klick-Klack Quiz</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="Test your logic. Look at the gender hint in brackets. Type the correct Dative Article or Contraction in the box and hit Check.">
+                Testen Sie Ihre Logik. Schauen Sie sich den Hinweis zum Geschlecht in Klammern an. Tippen Sie den richtigen Dativartikel oder die Kontraktion in das Feld ein und klicken Sie auf Prüfen.
+            </span>
+        </p>
 
         <div class="quiz-container">
-            
             <div class="quiz-row" id="qr1">
                 <div style="flex: 1;">
                     <div class="quiz-text">Ich fahre heute mit <input type="text" class="quiz-input" id="q1"> Bus.</div>
-                    <div class="quiz-hint">Hint: Bus is masculine (der)</div>
+                    <div class="quiz-hint">Tipp: Bus ist maskulin (der)</div>
                 </div>
-                <button class="quiz-btn" onclick="checkQuiz('q1', 'qr1', 'dem', this)">Check</button>
+                <button class="quiz-btn" onclick="checkQuiz('q1', 'qr1', 'dem', this)">Prüfen</button>
             </div>
 
             <div class="quiz-row" id="qr2">
                 <div style="flex: 1;">
                     <div class="quiz-text">Wir gehen jetzt <input type="text" class="quiz-input" id="q2"> Apotheke.</div>
-                    <div class="quiz-hint">Hint: Apotheke is feminine (die). We want to say "to the" (contraction).</div>
+                    <div class="quiz-hint">Tipp: Apotheke ist feminin (die). Wir brauchen "to the" (Kontraktion).</div>
                 </div>
-                <button class="quiz-btn" onclick="checkQuiz('q2', 'qr2', 'zur', this)">Check</button>
+                <button class="quiz-btn" onclick="checkQuiz('q2', 'qr2', 'zur', this)">Prüfen</button>
             </div>
 
             <div class="quiz-row" id="qr3">
                 <div style="flex: 1;">
                     <div class="quiz-text">Der Patient kommt gerade <input type="text" class="quiz-input" id="q3"> Arzt.</div>
-                    <div class="quiz-hint">Hint: Arzt is masculine (der). We want to say "from the" (contraction).</div>
+                    <div class="quiz-hint">Tipp: Arzt ist maskulin (der). Wir brauchen "from the" (Kontraktion).</div>
                 </div>
-                <button class="quiz-btn" onclick="checkQuiz('q3', 'qr3', 'vom', this)">Check</button>
+                <button class="quiz-btn" onclick="checkQuiz('q3', 'qr3', 'vom', this)">Prüfen</button>
             </div>
 
             <div class="quiz-row" id="qr4">
                 <div style="flex: 1;">
                     <div class="quiz-text">Sie arbeitet bei <input type="text" class="quiz-input" id="q4"> Notaufnahme.</div>
-                    <div class="quiz-hint">Hint: Notaufnahme is feminine (die).</div>
+                    <div class="quiz-hint">Tipp: Notaufnahme ist feminin (die). (Keine Kontraktion möglich).</div>
                 </div>
-                <button class="quiz-btn" onclick="checkQuiz('q4', 'qr4', 'der', this)">Check</button>
+                <button class="quiz-btn" onclick="checkQuiz('q4', 'qr4', 'der', this)">Prüfen</button>
             </div>
 
+            <div class="quiz-row" id="qr5">
+                <div style="flex: 1;">
+                    <div class="quiz-text">Der Krankenwagen fährt schnell <input type="text" class="quiz-input" id="q5"> Kreuzung.</div>
+                    <div class="quiz-hint">Tipp: Kreuzung ist feminin (die). Kontraktion für "to the".</div>
+                </div>
+                <button class="quiz-btn" onclick="checkQuiz('q5', 'qr5', 'zur', this)">Prüfen</button>
+            </div>
+
+            <div class="quiz-row" id="qr6">
+                <div style="flex: 1;">
+                    <div class="quiz-text">Nach <input type="text" class="quiz-input" id="q6"> Operation muss der Patient ruhen.</div>
+                    <div class="quiz-hint">Tipp: Operation ist feminin (die).</div>
+                </div>
+                <button class="quiz-btn" onclick="checkQuiz('q6', 'qr6', 'der', this)">Prüfen</button>
+            </div>
+
+            <div class="quiz-row" id="qr7">
+                <div style="flex: 1;">
+                    <div class="quiz-text">Er kommt aus <input type="text" class="quiz-input" id="q7"> Hauptbahnhof.</div>
+                    <div class="quiz-hint">Tipp: Hauptbahnhof ist maskulin (der).</div>
+                </div>
+                <button class="quiz-btn" onclick="checkQuiz('q7', 'qr7', 'dem', this)">Prüfen</button>
+            </div>
+
+            <div class="quiz-row" id="qr8">
+                <div style="flex: 1;">
+                    <div class="quiz-text">Seit <input type="text" class="quiz-input" id="q8"> Unfall sitzt er im Rollstuhl.</div>
+                    <div class="quiz-hint">Tipp: Unfall ist maskulin (der).</div>
+                </div>
+                <button class="quiz-btn" onclick="checkQuiz('q8', 'qr8', 'dem', this)">Prüfen</button>
+            </div>
         </div>
     </div>
 </section>
 
+<!-- ── SECTION: INTERACTIVE PRACTICE 2 ── -->
+<section class="section" id="practice2">
+    <div class="section-inner">
+        <span class="section-label">04. Übung 2</span>
+        <h2 class="section-title">Lückentext: Der Weg zur Arbeit</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="Read the text and fill in the missing Dative articles or contractions.">
+                Lesen Sie den Text und füllen Sie die fehlenden Dativartikel oder Kontraktionen ein.
+            </span>
+        </p>
+
+        <div class="grammar-box" style="line-height: 2.2; font-size: 1.1rem;">
+            Jeden Morgen fahre ich mit <input type="text" class="quiz-input" id="g1" onkeydown="if(event.key==='Enter') checkGap('g1', 'dem')"> (der Zug) zur Klinik. 
+            Ich steige am Hauptbahnhof aus und gehe zu <input type="text" class="quiz-input" id="g2" onkeydown="if(event.key==='Enter') checkGap('g2', 'fuß')"> (Foot/Fuß - special phrase!). 
+            Gestern gab es eine Verspätung, also bin ich mit <input type="text" class="quiz-input" id="g3" onkeydown="if(event.key==='Enter') checkGap('g3', 'dem')"> (das Taxi) gefahren. 
+            Der Fahrer hat mich direkt <input type="text" class="quiz-input" id="g4" onkeydown="if(event.key==='Enter') checkGap('g4', 'zur')"> (zu + die) Notaufnahme gebracht.
+            Ich arbeite sehr gerne mit <input type="text" class="quiz-input" id="g5" onkeydown="if(event.key==='Enter') checkGap('g5', 'dem')"> (der Arzt) Dr. Müller zusammen.
+        </div>
+        <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-muted);">
+            <span class="de-en-hover" data-en="Press 'Enter' inside the box to check your answer.">
+                Drücken Sie 'Enter' im Eingabefeld, um Ihre Antwort zu prüfen.
+            </span>
+        </p>
+    </div>
+</section>
+
+<!-- ── SECTION: VIDEO ── -->
 <section class="section" id="video">
     <div class="section-inner">
-        <span class="section-label">04. Auditory Input</span>
-        <h2 class="section-title">Asking for Directions</h2>
-        <p class="section-desc">Watch this authentic street interview in Germany. Pay attention to how locals use "zur" and "zum" when giving directions.</p>
+        <span class="section-label">05. Hören</span>
+        <h2 class="section-title">Nach dem Weg fragen</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="Watch this foundational lesson on navigating the city and public transport. Pay careful attention to the prepositions used when explaining routes.">
+                Schauen Sie sich diese grundlegende Lektion zur Navigation in der Stadt und im öffentlichen Nahverkehr an. Achten Sie genau auf die Präpositionen, die bei Wegbeschreibungen verwendet werden.
+            </span>
+        </p>
 
         <div class="video-wrapper">
-            <iframe src="https://www.youtube-nocookie.com/embed/n4fCq_ZqF3o?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- Embedding DW Learn German / Standard Navigation Video -->
+            <iframe src="https://www.youtube-nocookie.com/embed/L1cKnj_qH1Y?rel=0&modestbranding=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
 
         <div class="grammar-box" style="padding: 24px; border-color: var(--transit-red);">
-            <h4 style="color: var(--text-main); margin-bottom: 10px;">Self-Reflection Prompts:</h4>
+            <h4 style="color: var(--text-main); margin-bottom: 10px;">Fragen zur Selbstreflexion:</h4>
             <ul style="color: var(--text-muted); padding-left: 20px;">
-                <li>Did you hear the word <em>Gleis</em>? What track were they looking for?</li>
-                <li>How do they say "Excuse me" before asking a stranger for help? (<em>Entschuldigung...</em>)</li>
-                <li>Notice the speed of contractions. "Zum Bahnhof" sounds like one single word.</li>
+                <li><span class="de-en-hover" data-en="Can you spot when they use 'zur' vs. 'zum' depending on the destination's gender?">Können Sie erkennen, wann 'zur' und wann 'zum' abhängig vom Geschlecht des Ziels verwendet wird?</span></li>
+                <li><span class="de-en-hover" data-en="How do they politely get a stranger's attention?">Wie machen sie höflich einen Fremden auf sich aufmerksam? (Entschuldigung...)</span></li>
+                <li><span class="de-en-hover" data-en="Notice how fast the prepositions are spoken in natural flow. Try to mimic the rhythm.">Beachten Sie, wie schnell die Präpositionen im natürlichen Redefluss gesprochen werden. Versuchen Sie, den Rhythmus nachzuahmen.</span></li>
             </ul>
         </div>
     </div>
 </section>
 
+<!-- ── SECTION: READING (CHAT) ── -->
 <section class="section" id="reading">
     <div class="section-inner">
-        <span class="section-label">05. Real World Reading</span>
-        <h2 class="section-title">The First Day Panic</h2>
-        <p class="section-desc">You are running late for your first orientation day at the Charité clinic. You text your German colleague, Lukas, for help. Read the chat.</p>
+        <span class="section-label">06. Lesen im Alltag</span>
+        <h2 class="section-title">Panik am ersten Tag</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="You are running late for your first orientation day at the clinic. You text your German colleague, Lukas, for help. Read the chat.">
+                Sie kommen an Ihrem ersten Orientierungstag in der Klinik zu spät. Sie schreiben Ihrem deutschen Kollegen Lukas eine Nachricht und bitten um Hilfe. Lesen Sie den Chat.
+            </span>
+        </p>
 
         <div class="phone-wrapper">
             <div class="chat-screen">
@@ -586,7 +647,7 @@
                     <div class="msg-time">08:13</div>
                 </div>
                 <div class="chat-msg msg-me">
-                    Ich stehe bei <strong>dem</strong> Ticketautomaten. Wie komme ich <strong>zur</strong> Charité? Muss ich mit <strong>dem</strong> Bus fahren?
+                    Ich stehe bei <strong>dem</strong> Ticketautomaten. Wie komme ich <strong>zur</strong> Klinik? Muss ich mit <strong>dem</strong> Bus fahren?
                     <div class="msg-time">08:14</div>
                 </div>
                 <div class="chat-msg msg-them">
@@ -594,7 +655,7 @@
                     <div class="msg-time">08:15</div>
                 </div>
                 <div class="chat-msg msg-them">
-                    Du musst an der Station "Friedrichstraße" umsteigen. Von dort ist es nur 5 Minuten zu Fuß.
+                    Du musst an der Station "Friedrichstraße" umsteigen. Von dort ist es nur 5 Minuten zu Fuß zur Notaufnahme.
                     <div class="msg-time">08:16</div>
                 </div>
                 <div class="chat-msg msg-me">
@@ -606,20 +667,25 @@
     </div>
 </section>
 
+<!-- ── SECTION: WHITEBOARD ── -->
 <section class="section">
     <div class="section-inner">
-        <span class="section-label">06. Scratchpad</span>
-        <h2 class="section-title">Draw Your Route</h2>
-        <p class="section-desc">Use this digital scratchpad to draw out the grammar rules, or map a route from your own house to the nearest train station. (Data saves to your PDF export).</p>
+        <span class="section-label">07. Notizblock</span>
+        <h2 class="section-title">Zeichnen Sie Ihre Route</h2>
+        <p class="section-desc">
+            <span class="de-en-hover" data-en="Use this digital scratchpad to draw out the grammar rules, or map a route from your own house to the nearest train station. (Data saves to your PDF export).">
+                Nutzen Sie diesen digitalen Notizblock, um die Grammatikregeln zu zeichnen oder eine Route von Ihrem Haus zum nächsten Bahnhof zu planen. (Die Daten werden in Ihrem PDF-Export gespeichert).
+            </span>
+        </p>
 
         <div class="wb-container">
             <div class="wb-toolbar">
-                <button class="wb-btn active" data-tool="pencil">✏️ Pencil</button>
+                <button class="wb-btn active" data-tool="pencil">✏️ Stift</button>
                 <button class="wb-btn" data-tool="text">T Text</button>
-                <button class="wb-btn" data-tool="arrow">↗️ Arrow</button>
+                <button class="wb-btn" data-tool="arrow">↗️ Pfeil</button>
                 <div style="width:1px; height:20px; background:var(--border-color); margin: 0 10px;"></div>
                 <input type="color" id="wbColor" class="wb-color" value="#F2C94C">
-                <button class="wb-btn" id="wbClear" style="margin-left:auto; border-color:var(--transit-red); color:var(--transit-red);">🗑️ Clear</button>
+                <button class="wb-btn" id="wbClear" style="margin-left:auto; border-color:var(--transit-red); color:var(--transit-red);">🗑️ Löschen</button>
             </div>
             <canvas id="boardCanvas"></canvas>
         </div>
@@ -628,44 +694,46 @@
 
 </main>
 
+<!-- ── FLOATING ACTIONS ── -->
 <div class="floating-actions" id="floatingActions">
-    <button class="fab-btn" onclick="window.scrollTo({top: document.querySelector('.wb-container').offsetTop - 100, behavior: 'smooth'})" title="Whiteboard">🖍️</button>
-    <button class="fab-btn" onclick="openQuizletModal()" title="Quizlet Export">🗂️</button>
-    <button class="fab-btn" onclick="window.saveAsPDF()" title="Save PDF">📥</button>
+    <button class="fab-btn" onclick="window.scrollTo({top: document.querySelector('.wb-container').offsetTop - 100, behavior: 'smooth'})" title="Notizblock (Whiteboard)">🖍️</button>
+    <button class="fab-btn" onclick="openQuizletModal()" title="Vokabeln exportieren">🗂️</button>
+    <button class="fab-btn" onclick="window.saveAsPDF()" title="Als PDF speichern">📥</button>
 </div>
 
+<!-- ── QUIZLET MODAL ── -->
 <div id="quizletModal" class="modal-overlay">
     <div class="modal-content">
         <span class="close-modal" onclick="closeQuizletModal()">×</span>
-        <h2 style="font-family:'Space Grotesk'; font-size: 1.8rem; margin-bottom: 10px;">Flashcard Exporter</h2>
-        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">Type your new words here. Click copy, and paste directly into Quizlet or Anki.</p>
+        <h2 style="font-family:'Space Grotesk'; font-size: 1.8rem; margin-bottom: 10px;">Vokabelkarten Export</h2>
+        <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">Geben Sie hier Ihre neuen Wörter ein. Klicken Sie auf Kopieren und fügen Sie sie direkt in Quizlet oder Anki ein.</p>
         
         <div id="wordList" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px; padding-right: 10px;">
             <div class="word-row">
-                <input type="text" placeholder="German (e.g. das Gleis)" class="q-word">
-                <input type="text" placeholder="English/Ukrainian" class="q-trans">
+                <input type="text" placeholder="Deutsch (z.B. das Gleis)" class="q-word">
+                <input type="text" placeholder="Englisch/Ukrainisch" class="q-trans">
             </div>
             <div class="word-row">
-                <input type="text" placeholder="German (e.g. die Verspätung)" class="q-word">
-                <input type="text" placeholder="English/Ukrainian" class="q-trans">
+                <input type="text" placeholder="Deutsch (z.B. die Verspätung)" class="q-word">
+                <input type="text" placeholder="Englisch/Ukrainisch" class="q-trans">
             </div>
         </div>
         
         <div style="display: flex; gap: 16px;">
-            <button onclick="addWordRow()" style="flex:1; padding:14px; border:1px solid var(--transit-yellow); background:transparent; color:var(--transit-yellow); border-radius:8px; cursor:pointer; font-weight:700; font-family:'Inter'; transition:all 0.2s;">+ Add Row</button>
-            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2; padding:14px; border:none; background:var(--transit-yellow); color:var(--bg-base); border-radius:8px; cursor:pointer; font-weight:800; font-family:'Inter'; transition:all 0.2s;">📋 Copy Text</button>
+            <button onclick="addWordRow()" style="flex:1; padding:14px; border:1px solid var(--transit-yellow); background:transparent; color:var(--transit-yellow); border-radius:8px; cursor:pointer; font-weight:700; font-family:'Inter'; transition:all 0.2s;">+ Zeile hinzufügen</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2; padding:14px; border:none; background:var(--transit-yellow); color:var(--bg-base); border-radius:8px; cursor:pointer; font-weight:800; font-family:'Inter'; transition:all 0.2s;">📋 Text kopieren</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ── INTERACTIVE QUIZ LOGIC ──
+    // ── INTERACTIVE QUIZ LOGIC (Click Clack) ──
     function checkQuiz(inputId, rowId, correctAnswer, btnElement) {
         const input = document.getElementById(inputId);
         const row = document.getElementById(rowId);
         const val = input.value.trim().toLowerCase();
 
-        if(val === correctAnswer) {
+        if(val === correctAnswer.toLowerCase()) {
             row.classList.remove('error');
             row.classList.add('success');
             input.disabled = true;
@@ -678,7 +746,21 @@
             void row.offsetWidth;
             row.classList.add('error');
             input.value = "";
-            input.placeholder = "Try again!";
+            input.placeholder = "Nochmal!";
+        }
+    }
+
+    function checkGap(inputId, correctAnswer) {
+        const input = document.getElementById(inputId);
+        const val = input.value.trim().toLowerCase();
+        if(val === correctAnswer.toLowerCase() || (correctAnswer === 'fuß' && val === 'fuss')) {
+            input.style.borderColor = "var(--transit-green)";
+            input.style.color = "var(--transit-green)";
+            input.disabled = true;
+        } else {
+            input.style.borderColor = "var(--transit-red)";
+            input.value = "";
+            input.placeholder = "Nein!";
         }
     }
 
@@ -715,7 +797,7 @@
     canvas.addEventListener('mousedown', e => {
         const pos = getPos(e); startX = pos.x; startY = pos.y;
         if (currentTool === 'text') {
-            const t = prompt('Enter text:');
+            const t = prompt('Text eingeben:');
             if (t) { ctx.font = "600 20px 'Inter', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(t, startX, startY); }
             return;
         }
@@ -773,7 +855,7 @@
     window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
     window.addWordRow = () => {
         const d = document.createElement('div'); d.className = 'word-row';
-        d.innerHTML = '<input type="text" placeholder="German" class="q-word"><input type="text" placeholder="English/Ukrainian" class="q-trans">';
+        d.innerHTML = '<input type="text" placeholder="Deutsch" class="q-word"><input type="text" placeholder="Englisch/Ukrainisch" class="q-trans">';
         const wl = document.getElementById('wordList'); wl.appendChild(d); wl.scrollTop = wl.scrollHeight;
     };
     window.copyForQuizlet = () => {
@@ -786,9 +868,9 @@
         if (out) { 
             const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); 
             ta.select(); document.execCommand('copy'); document.body.removeChild(ta); 
-            btn.innerText = '✅ Copied!'; setTimeout(() => btn.innerText = '📋 Copy Text', 3000); 
+            btn.innerText = '✅ Kopiert!'; setTimeout(() => btn.innerText = '📋 Text kopieren', 3000); 
         } else { 
-            btn.innerText = '⚠️ Add words first!'; setTimeout(() => btn.innerText = '📋 Copy Text', 3000); 
+            btn.innerText = '⚠️ Bitte Wörter hinzufügen!'; setTimeout(() => btn.innerText = '📋 Text kopieren', 3000); 
         }
     };
 </script>
