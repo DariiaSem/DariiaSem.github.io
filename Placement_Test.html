@@ -496,39 +496,46 @@
         });
     }
 
-    // --- BULLETPROOF PDF EXPORT ---
+    // --- BULLETPROOF PDF EXPORT: THE CLONE METHOD ---
     function downloadPDF() {
-        const element = document.getElementById('pdf-content');
-        const container = document.getElementById('results-container');
+        const originalElement = document.getElementById('pdf-content');
         
-        // 1. Scroll to top to prevent vertical cutoff
+        // 1. Create a temporary, completely isolated wrapper
+        const printWrapper = document.createElement('div');
+        printWrapper.style.position = 'absolute';
+        printWrapper.style.top = '0';
+        printWrapper.style.left = '0';
+        printWrapper.style.width = '800px'; 
+        printWrapper.style.background = 'var(--bg-page)';
+        printWrapper.style.zIndex = '99999'; // Force it to the very top
+        
+        // 2. Clone your content perfectly
+        const clonedElement = originalElement.cloneNode(true);
+        clonedElement.style.padding = '40px';
+        clonedElement.style.boxSizing = 'border-box';
+        clonedElement.style.width = '100%';
+        
+        // 3. Attach it to the absolute top of the webpage
+        printWrapper.appendChild(clonedElement);
+        document.body.appendChild(printWrapper);
+        
+        // 4. Scroll to absolute top (0,0) to ensure the canvas doesn't crop
         window.scrollTo(0, 0);
-
-        // 2. Save original layout parameters
-        const origMargin = container.style.margin;
-        const origOverflow = document.body.style.overflowX;
-
-        // 3. THE FIX: Remove margin: 0 auto from the container. 
-        // Auto-margins push the div to the right, pushing the right-half off the 800px canvas!
-        container.style.margin = '0';
-        document.body.style.overflowX = 'visible';
         
-        element.style.width = '800px'; 
-        element.style.padding = '40px';
-        element.style.background = 'var(--bg-page)';
-
-        // 4. Measure exact height of the newly structured element
-        const targetHeight = element.scrollHeight + 50;
-
+        // 5. Measure the precise height of the clone
+        const targetHeight = printWrapper.scrollHeight;
+        
         const opt = {
             margin: 0,
             filename: `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
+            image: { type: 'jpeg', quality: 1.0 },
             html2canvas: {
                 scale: 2,
                 useCORS: true,
                 scrollY: 0,
                 scrollX: 0,
+                width: 800,
+                height: targetHeight,
                 windowWidth: 800,
                 windowHeight: targetHeight
             },
@@ -538,13 +545,10 @@
                 orientation: 'portrait'
             }
         };
-
-        // 5. Generate PDF and instantly restore the website layout
-        html2pdf().set(opt).from(element).save().then(() => {
-            container.style.margin = origMargin;
-            document.body.style.overflowX = origOverflow;
-            element.style.width = '';
-            element.style.padding = '0';
+        
+        // 6. Generate the PDF and immediately destroy the clone
+        html2pdf().set(opt).from(printWrapper).save().then(() => {
+            document.body.removeChild(printWrapper);
         });
     }
 
