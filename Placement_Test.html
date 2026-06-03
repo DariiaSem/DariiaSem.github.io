@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Placement Assessment</title>
+    <title>English Placement Assessment | Adaptive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- html2pdf for PDF generation[cite: 1] -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* Base Styles & Editorial Theme[cite: 1] */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -22,6 +24,7 @@
             --charcoal: #333333;
             --gray-text: #666666;
             --danger: #8B2635;
+            --success: #2e664e;
             --border-light: #E5E0D8;
             
             --font-ui: 'DM Sans', sans-serif;
@@ -43,33 +46,27 @@
 
         /* Hero[cite: 1] */
         .hero {
-            background: var(--navy);
-            color: var(--bg-page);
-            padding: 80px 24px 60px;
-            text-align: center;
-            position: relative;
-            border-bottom: 4px solid var(--gold);
+            background: var(--navy); color: var(--bg-page);
+            padding: 80px 24px 60px; text-align: center;
+            position: relative; border-bottom: 4px solid var(--gold);
         }
-
         .hero::before {
             content: ''; position: absolute; inset: 0;
             background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 40px 40px; pointer-events: none;
         }
-
         .hero-badge {
             display: inline-block; font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700;
             letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
             margin-bottom: 16px; border-bottom: 1px solid var(--gold); padding-bottom: 6px;
         }
-
         .hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 16px; }
         .hero h1 em { color: var(--gold); font-style: italic; font-weight: 600; }
 
         /* Sections & Layout[cite: 1] */
         .section { padding: 60px 24px; position: relative; display: none; }
         .section.active { display: block; animation: fadeIn 0.4s ease-in; }
-        .section-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+        .section-inner { max-width: 800px; margin: 0 auto; text-align: center; }
         
         .section-label { display: inline-block; font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
         .section-title { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 400; color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
@@ -84,17 +81,36 @@
 
         .btn-primary { background: var(--navy); color: white; border: none; padding: 16px 32px; font-size: 1rem; font-family: var(--font-ui); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
         .btn-primary:hover { background: var(--navy-hover); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
         .btn-skip { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 12px 24px; font-size: 0.9rem; font-family: var(--font-ui); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; cursor: pointer; transition: all 0.2s; margin-top: 20px; }
         .btn-skip:hover { background: var(--danger); color: white; }
+        
+        .btn-outline { background: transparent; color: var(--navy); border: 1px solid var(--navy); padding: 12px 24px; font-size: 0.9rem; font-family: var(--font-ui); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .btn-outline:hover { background: var(--navy); color: white; }
 
         /* Quiz UI */
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .timer-box { font-family: var(--font-ui); font-weight: 700; font-size: 1.2rem; color: var(--danger); background: #fce8eb; padding: 8px 16px; border-radius: 4px; border: 1px solid #f5c2c7; display: flex; align-items: center; gap: 8px;}
+        .progress-bar { width: 100%; height: 6px; background: var(--border-light); margin-bottom: 30px; border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s ease; }
+
         .question-box { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border-light); border-top: 3px solid var(--gold); box-shadow: var(--shadow-md); text-align: left; margin-bottom: 30px; }
         .question-text { font-family: var(--font-serif); font-size: 1.4rem; color: var(--navy); margin-bottom: 30px; line-height: 1.5; }
         .options-grid { display: grid; gap: 16px; }
         .option-btn { background: var(--bg-page); border: 1px solid var(--border-light); padding: 18px 24px; text-align: left; font-family: var(--font-ui); font-size: 1.1rem; color: var(--charcoal); cursor: pointer; transition: all 0.2s; border-radius: 4px; }
         .option-btn:hover { background: var(--gold-bg); border-color: var(--gold); transform: translateX(5px); }
-        .progress-bar { width: 100%; height: 4px; background: var(--border-light); margin-bottom: 30px; border-radius: 2px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s ease; }
+
+        /* Results & Review */
+        .results-card { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border-light); border-top: 4px solid var(--navy); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; }
+        .level-badge { display: inline-block; background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; font-size: 2rem; font-family: var(--font-serif); font-weight: 700; margin: 20px 0; border-radius: 4px; }
+        
+        .review-grid { display: grid; gap: 20px; text-align: left; margin-top: 30px; }
+        .review-item { padding: 20px; border: 1px solid var(--border-light); border-left: 4px solid var(--border-light); background: var(--bg-panel); border-radius: 4px; }
+        .review-item.correct { border-left-color: var(--success); background: #f2f9f6; }
+        .review-item.incorrect { border-left-color: var(--danger); background: #fdf5f6; }
+        .review-q { font-family: var(--font-serif); font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; font-weight: 600; }
+        .review-ans { font-size: 0.95rem; margin-bottom: 4px; }
+        .review-ans span { font-weight: 600; }
 
         /* Tables & Modals[cite: 1] */
         .elegant-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); margin-top: 20px; border: 1px solid var(--border-light); text-align: left; }
@@ -110,8 +126,7 @@
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--gray-text); transition: color 0.2s; line-height: 1; }
         .close-modal:hover { color: var(--danger); }
         
-        .results-card { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border-light); border-top: 4px solid var(--navy); box-shadow: var(--shadow-md); margin-top: 30px; }
-        .level-badge { display: inline-block; background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; font-size: 2rem; font-family: var(--font-serif); font-weight: 700; margin: 20px 0; border-radius: 4px; }
+        #pdf-content { padding: 20px; background: var(--bg-page); }
     </style>
 </head>
 <body>
@@ -119,7 +134,7 @@
 <header class="hero">
     <div class="hero-badge">Diagnostic Tool</div>
     <h1>English <em>Placement</em> Assessment</h1>
-    <p style="font-size: 1.15rem; color: rgba(250, 249, 246, 0.7); max-width: 650px; margin: 0 auto; font-weight: 300;">An adaptive test to determine your precise CEFR proficiency level.</p>
+    <p style="font-size: 1.15rem; color: rgba(250, 249, 246, 0.7); max-width: 650px; margin: 0 auto; font-weight: 300;">An adaptive test assessing vocabulary and grammar from A1 to C1.</p>
 </header>
 
 <main>
@@ -128,28 +143,34 @@
         <div class="section-inner">
             <span class="section-label">Step 01</span>
             <h2 class="section-title">Candidate Registration</h2>
-            <p class="section-desc">Please enter your full name to begin the assessment. The test adapts to your level; if you do not know an answer, it is better to skip than to guess.</p>
+            <p class="section-desc">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 20 adaptive questions. 
+                <br><br><span style="color: var(--danger); font-weight: 700;">Anti-Cheat Enabled:</span> Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate and submit your test.
+            </p>
             
             <div class="input-group">
                 <input type="text" id="studentName" class="name-input" placeholder="Enter your full name..." autocomplete="off">
             </div>
-            <button class="btn-primary" onclick="startQuiz()">Begin Assessment</button>
+            <button class="btn-primary" onclick="startQuiz()">Accept Rules & Begin</button>
         </div>
     </section>
 
     <!-- Quiz Screen -->
     <section id="quiz-screen" class="section">
         <div class="section-inner" style="max-width: 800px;">
+            <div class="quiz-header">
+                <span class="section-label" id="questionCounter" style="margin: 0;">Question 1 / 20</span>
+                <div class="timer-box">
+                    ⏱️ <span id="timerDisplay">15:00</span>
+                </div>
+            </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
-            <span class="section-label" id="questionCounter">Question 1 / 15</span>
             
             <div class="question-box">
                 <h3 class="question-text" id="questionText">Loading question...</h3>
-                <div class="options-grid" id="optionsGrid">
-                    <!-- Options injected via JS -->
-                </div>
+                <div class="options-grid" id="optionsGrid"></div>
             </div>
             
             <button class="btn-skip" onclick="skipQuestion()">I don't know (Skip)</button>
@@ -158,22 +179,35 @@
 
     <!-- Results Screen -->
     <section id="results-screen" class="section">
-        <div class="section-inner">
-            <span class="section-label">Assessment Complete</span>
-            <h2 class="section-title">Your Results</h2>
-            <p class="section-desc" id="resultsMessage"></p>
+        <div class="section-inner" style="max-width: 850px;">
+            <div id="pdf-content">
+                <span class="section-label">Assessment Complete</span>
+                <h2 class="section-title">Official Results</h2>
+                <p class="section-desc" id="resultsMessage"></p>
 
-            <div class="results-card">
-                <h3 style="font-family: var(--font-ui); color: var(--gray-text); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Assessed Level</h3>
-                <div class="level-badge" id="levelResult">A1</div>
-                <p style="font-family: var(--font-serif); font-size: 1.2rem; color: var(--navy);" id="scoreDetail"></p>
+                <div class="results-card">
+                    <h3 style="font-family: var(--font-ui); color: var(--gray-text); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Assessed Level</h3>
+                    <div class="level-badge" id="levelResult">A1</div>
+                    <p style="font-family: var(--font-serif); font-size: 1.2rem; color: var(--navy);" id="scoreDetail"></p>
+                    <p style="font-family: var(--font-ui); font-size: 0.9rem; color: var(--gray-text); margin-top: 10px;" id="terminationReason"></p>
+                </div>
+
+                <h3 style="font-family: var(--font-serif); color: var(--navy); text-align: left; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">Question Review</h3>
+                <div class="review-grid" id="reviewGrid">
+                    <!-- Review items injected via JS -->
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button class="btn-primary" onclick="downloadPDF()">Download PDF Report</button>
+                <button class="btn-outline" onclick="location.reload()">Return Home</button>
             </div>
         </div>
     </section>
 </main>
 
 <!-- Floating Admin Button -->
-<div class="floating-actions">
+<div class="floating-actions" id="adminFab">
     <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard">📋</button>
 </div>
 
@@ -192,7 +226,7 @@
                         <th>Student Name</th>
                         <th>Score</th>
                         <th>CEFR Level</th>
-                        <th>Exited Early?</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody id="adminTableBody">
@@ -205,32 +239,113 @@
 </div>
 
 <script>
-    // --- QUIZ DATA (A1 to C1 Progressive) ---
-    const questions = [
-        { level: 'A1', text: "She ___ to the supermarket every Saturday.", options: ["go", "goes", "going", "is go"], correct: 1 },
-        { level: 'A1', text: "I don't have ___ money left in my wallet.", options: ["any", "some", "no", "many"], correct: 0 },
-        { level: 'A2', text: "He is the ___ student in the entire school.", options: ["taller", "most tall", "tallest", "more tall"], correct: 2 },
-        { level: 'A2', text: "I ___ a fantastic documentary on TV yesterday.", options: ["see", "saw", "have seen", "was seeing"], correct: 1 },
-        { level: 'B1', text: "If it rains tomorrow, we ___ at home.", options: ["will stay", "stay", "would stay", "stayed"], correct: 0 },
-        { level: 'B1', text: "I have been living in this city ___ five years.", options: ["since", "during", "for", "while"], correct: 2 },
-        { level: 'B2', text: "You ___ have seen John yesterday; he is currently in Japan!", options: ["mustn't", "shouldn't", "mightn't", "couldn't"], correct: 3 },
-        { level: 'B2', text: "By this time next year, she ___ her master's degree.", options: ["will finish", "will have finished", "is finishing", "finishes"], correct: 1 },
-        { level: 'B2', text: "The doctor suggested ___ more water during the day.", options: ["to drink", "drink", "drinking", "drank"], correct: 2 },
-        { level: 'C1', text: "Not only ___ the exam, but he also achieved the highest score.", options: ["he passed", "did he pass", "he did pass", "passed he"], correct: 1 },
-        { level: 'C1', text: "It's high time you ___ applying for university.", options: ["start", "started", "will start", "have started"], correct: 1 },
-        { level: 'C1', text: "Had I known about the terrible traffic, I ___ much earlier.", options: ["would leave", "had left", "would have left", "left"], correct: 2 },
-        { level: 'C1', text: "Scarcely ___ the building when the fire alarm started ringing.", options: ["we had entered", "had we entered", "we entered", "did we enter"], correct: 1 },
-        { level: 'C1', text: "He is absolutely bound ___ the truth sooner or later.", options: ["finding out", "to find out", "find out", "to finding out"], correct: 1 },
-        { level: 'C1', text: "The candidate was thoroughly ___ by the complexity of the technical questions.", options: ["baffled", "intrigued", "fascinated", "hindered"], correct: 0 }
+    // --- EXPANDED QUESTION BANK (Vocab & Grammar Focus) ---
+    // Levels: 0=A1, 1=A2, 2=B1, 3=B2, 4=C1
+    const questionBank = [
+        // A1 (Level 0)
+        { level: 0, text: "My brother ___ very tall.", options: ["am", "is", "are", "be"], correct: 1 },
+        { level: 0, text: "I always have ___ at 8:00 AM.", options: ["breakfast", "dinner", "lunch", "supper"], correct: 0 },
+        { level: 0, text: "She ___ to the supermarket every Saturday.", options: ["go", "goes", "going", "is go"], correct: 1 },
+        { level: 0, text: "Can you give me ___ apple, please?", options: ["a", "an", "the", "some"], correct: 1 },
+        { level: 0, text: "They don't have ___ pets in their house.", options: ["some", "any", "no", "a"], correct: 1 },
+        { level: 0, text: "What ___ your favorite color?", options: ["is", "are", "do", "does"], correct: 0 },
+        { level: 0, text: "I wear a warm ___ in the winter.", options: ["t-shirt", "shorts", "coat", "sandals"], correct: 2 },
+        { level: 0, text: "___ is the train station? It's down the street.", options: ["Who", "When", "Where", "Why"], correct: 2 },
+
+        // A2 (Level 1)
+        { level: 1, text: "This book is ___ than the one I read last week.", options: ["more good", "better", "best", "gooder"], correct: 1 },
+        { level: 1, text: "I ___ a fantastic documentary on TV yesterday.", options: ["see", "saw", "have seen", "was seeing"], correct: 1 },
+        { level: 1, text: "We need to ___ the bus at the next stop.", options: ["get on", "get off", "take off", "go out"], correct: 1 },
+        { level: 1, text: "There are too ___ people in this small room.", options: ["much", "many", "some", "a lot"], correct: 1 },
+        { level: 1, text: "She is very ___ ; she always helps her friends.", options: ["lazy", "selfish", "kind", "angry"], correct: 2 },
+        { level: 1, text: "I have known him ___ 2015.", options: ["for", "since", "in", "at"], correct: 1 },
+        { level: 1, text: "You must ___ your shoes before entering the house.", options: ["put on", "take off", "turn off", "look for"], correct: 1 },
+        { level: 1, text: "They ___ playing football when it started to rain.", options: ["are", "was", "were", "been"], correct: 2 },
+
+        // B1 (Level 2)
+        { level: 2, text: "If it rains tomorrow, we ___ at home.", options: ["will stay", "stay", "would stay", "stayed"], correct: 0 },
+        { level: 2, text: "The task was quite ___, just an ordinary daily chore.", options: ["eccentric", "mundane", "fascinating", "bizarre"], correct: 1 },
+        { level: 2, text: "I ___ my keys. I can't find them anywhere!", options: ["lost", "have lost", "was losing", "had lost"], correct: 1 },
+        { level: 2, text: "He is interested ___ learning foreign languages.", options: ["on", "at", "in", "about"], correct: 2 },
+        { level: 2, text: "The museum ___ we visited yesterday was amazing.", options: ["who", "where", "which", "whose"], correct: 2 },
+        { level: 2, text: "She was heavily ___ by the amount of work she had to do.", options: ["relaxed", "overwhelmed", "excited", "amused"], correct: 1 },
+        { level: 2, text: "I look forward to ___ you next week.", options: ["see", "seeing", "saw", "be seen"], correct: 1 },
+        { level: 2, text: "You don't need to shout, I can hear you ___.", options: ["clear", "clearness", "clearly", "clearing"], correct: 2 },
+
+        // B2 (Level 3)
+        { level: 3, text: "You ___ have seen John yesterday; he is currently in Japan!", options: ["mustn't", "shouldn't", "mightn't", "couldn't"], correct: 3 },
+        { level: 3, text: "By this time next year, she ___ her master's degree.", options: ["will finish", "will have finished", "is finishing", "finishes"], correct: 1 },
+        { level: 3, text: "The doctor strongly advised ___ more water during the day.", options: ["to drink", "drink", "drinking", "drank"], correct: 2 },
+        { level: 3, text: "Despite the bad weather, they decided to ___ with the hike.", options: ["go ahead", "give up", "put off", "call off"], correct: 0 },
+        { level: 3, text: "His explanation was highly ___, leaving everyone confused.", options: ["lucid", "ambiguous", "transparent", "precise"], correct: 1 },
+        { level: 3, text: "I wish I ___ harder when I was at university.", options: ["studied", "have studied", "had studied", "would study"], correct: 2 },
+        { level: 3, text: "It's essential that she ___ the documents by Friday.", options: ["submits", "submit", "submitted", "submitting"], correct: 1 },
+        { level: 3, text: "The company is on the ___ of bankruptcy.", options: ["edge", "verge", "border", "margin"], correct: 1 },
+
+        // C1 (Level 4)
+        { level: 4, text: "Not only ___ the exam, but he also achieved the highest score.", options: ["he passed", "did he pass", "he did pass", "passed he"], correct: 1 },
+        { level: 4, text: "Had I known about the terrible traffic, I ___ much earlier.", options: ["would leave", "had left", "would have left", "left"], correct: 2 },
+        { level: 4, text: "Scarcely ___ the building when the fire alarm started ringing.", options: ["we had entered", "had we entered", "we entered", "did we enter"], correct: 1 },
+        { level: 4, text: "The candidate was thoroughly ___ by the complexity of the technical questions.", options: ["baffled", "intrigued", "fascinated", "hindered"], correct: 0 },
+        { level: 4, text: "Smartphone usage has become completely ___ in modern society.", options: ["scarce", "ubiquitous", "obsolete", "transient"], correct: 1 },
+        { level: 4, text: "He is absolutely bound ___ the truth sooner or later.", options: ["finding out", "to find out", "find out", "to finding out"], correct: 1 },
+        { level: 4, text: "Her argument was full of ___, making it hard to take seriously.", options: ["fallacies", "epiphanies", "anecdotes", "paradigms"], correct: 0 },
+        { level: 4, text: "We need to ___ this problem in the bud before it gets worse.", options: ["cut", "nip", "snip", "bite"], correct: 1 }
     ];
 
     // --- STATE VARIABLES ---
     let currentStudent = "";
-    let currentIndex = 0;
+    let questionHistory = []; // Stores { q: Object, userAns: String, correctAns: String, isCorrect: Boolean }
+    let askedIndices = new Set();
+    
+    const TOTAL_QUESTIONS = 20;
+    let questionsAskedCount = 0;
     let score = 0;
-    let difficultWrongs = 0; // Tracks consecutive wrongs on B1+ questions
+    let currentEstLevel = 2; // Start at B1
+    
+    // Timer & Anti-Cheat
+    let timeLeft = 15 * 60; // 15 minutes in seconds
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+    let terminationStatus = "Completed";
 
-    // --- UI FUNCTIONS ---
+    // --- ANTI-CHEAT (PAGE VISIBILITY) ---
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window to look up answers. If you do this again, your test will instantly end.");
+            }
+        }
+    });
+
+    // --- TIMER FUNCTION ---
+    function startTimer() {
+        document.getElementById('timerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${m}:${s}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.timer-box').style.background = "var(--danger)";
+                document.querySelector('.timer-box').style.color = "white";
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will now be submitted.");
+                endQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    // --- UI & TEST FLOW ---
     function showSection(id) {
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -238,34 +353,60 @@
 
     function startQuiz() {
         const nameInput = document.getElementById('studentName').value.trim();
-        if (!nameInput) {
-            alert("Please enter your name to continue.");
-            return;
-        }
+        if (!nameInput) { alert("Please enter your name to continue."); return; }
+        
         currentStudent = nameInput;
-        currentIndex = 0;
+        questionsAskedCount = 0;
         score = 0;
-        difficultWrongs = 0;
+        currentEstLevel = 2; // B1 Start
+        questionHistory = [];
+        askedIndices.clear();
+        cheatWarnings = 0;
+        timeLeft = 15 * 60;
+        terminationStatus = "Completed";
+        isTestActive = true;
+
+        document.getElementById('adminFab').style.display = 'none'; // Hide admin btn during test
         
         showSection('quiz-screen');
-        renderQuestion();
+        startTimer();
+        renderNextQuestion();
     }
 
-    function renderQuestion() {
-        if (currentIndex >= questions.length) {
-            endQuiz(false);
+    function getNextQuestion() {
+        // Find questions matching current estimated level
+        let available = questionBank.map((q, i) => ({q, i})).filter(item => item.q.level === currentEstLevel && !askedIndices.has(item.i));
+        
+        // Fallback if we run out of questions at this level
+        if (available.length === 0) {
+            available = questionBank.map((q, i) => ({q, i})).filter(item => !askedIndices.has(item.i));
+        }
+        
+        // Pick random from available
+        const randIndex = Math.floor(Math.random() * available.length);
+        const selected = available[randIndex];
+        askedIndices.add(selected.i);
+        return selected.q;
+    }
+
+    let currentQuestionObj = null;
+
+    function renderNextQuestion() {
+        if (questionsAskedCount >= TOTAL_QUESTIONS) {
+            endQuiz(false, "Completed successfully");
             return;
         }
 
-        const q = questions[currentIndex];
-        document.getElementById('questionCounter').innerText = `Question ${currentIndex + 1} / ${questions.length}`;
-        document.getElementById('progressFill').style.width = `${((currentIndex) / questions.length) * 100}%`;
-        document.getElementById('questionText').innerText = q.text;
+        currentQuestionObj = getNextQuestion();
+        
+        document.getElementById('questionCounter').innerText = `Question ${questionsAskedCount + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('progressFill').style.width = `${(questionsAskedCount / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('questionText').innerText = currentQuestionObj.text;
 
         const grid = document.getElementById('optionsGrid');
         grid.innerHTML = "";
         
-        q.options.forEach((opt, index) => {
+        currentQuestionObj.options.forEach((opt, index) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.innerText = opt;
@@ -275,92 +416,144 @@
     }
 
     function handleAnswer(selectedIndex) {
-        const q = questions[currentIndex];
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
         
-        if (selectedIndex === q.correct) {
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
+
+        // Log history
+        questionHistory.push({
+            text: currentQuestionObj.text,
+            level: currentQuestionObj.level,
+            userAns: userAnsText,
+            correctAns: correctAnsText,
+            isCorrect: isCorrect
+        });
+
+        // Adaptive Logic
+        if (isCorrect) {
             score++;
-            difficultWrongs = 0; // Reset counter if they get it right
+            // Move up a level if possible
+            if (currentEstLevel < 4) currentEstLevel++; 
         } else {
-            // If question is B1 or above, increment difficult wrongs
-            if (q.level !== 'A1' && q.level !== 'A2') {
-                difficultWrongs++;
-            }
+            // Drop a level if wrong
+            if (currentEstLevel > 0) currentEstLevel--;
         }
 
-        // Adaptive Exit: If 4 difficult questions wrong, stop test
-        if (difficultWrongs >= 4) {
-            endQuiz(true);
-            return;
-        }
-
-        currentIndex++;
-        renderQuestion();
+        questionsAskedCount++;
+        renderNextQuestion();
     }
 
     function skipQuestion() {
-        // Treat skip as a wrong answer
         handleAnswer(-1); 
     }
 
-    function calculateLevel(finalScore) {
-        if (finalScore <= 3) return 'A1 (Beginner)';
-        if (finalScore <= 6) return 'A2 (Elementary)';
-        if (finalScore <= 9) return 'B1 (Intermediate)';
-        if (finalScore <= 12) return 'B2 (Upper Intermediate)';
+    function calculateFinalLevel() {
+        // Average the levels of the last 5 questions asked to get a solid CEFR estimate
+        if (questionHistory.length === 0) return 'A1 (Beginner)';
+        
+        const recentHistory = questionHistory.slice(-5);
+        const avgLevel = recentHistory.reduce((sum, item) => sum + item.level, 0) / recentHistory.length;
+        
+        if (avgLevel < 0.8) return 'A1 (Beginner)';
+        if (avgLevel < 1.8) return 'A2 (Elementary)';
+        if (avgLevel < 2.8) return 'B1 (Intermediate)';
+        if (avgLevel < 3.8) return 'B2 (Upper Intermediate)';
         return 'C1 (Advanced)';
     }
 
-    function endQuiz(exitedEarly) {
+    function endQuiz(forcedExit, statusMsg) {
+        isTestActive = false;
+        clearInterval(timerInterval);
         document.getElementById('progressFill').style.width = '100%';
-        const finalLevel = calculateLevel(score);
+        document.getElementById('adminFab').style.display = 'flex';
         
-        document.getElementById('resultsMessage').innerText = `Thank you, ${currentStudent}. Your assessment is complete.`;
-        document.getElementById('levelResult').innerText = finalLevel.split(' ')[0]; // Just the CEFR code
-        document.getElementById('scoreDetail').innerText = `Total Score: ${score} / ${questions.length}`;
+        terminationStatus = statusMsg;
+        const finalLevel = calculateFinalLevel();
+        
+        document.getElementById('resultsMessage').innerText = `Thank you, ${currentStudent}. Your assessment is finalized.`;
+        document.getElementById('levelResult').innerText = finalLevel.split(' ')[0];
+        document.getElementById('scoreDetail').innerText = `Total Correct: ${score} / ${questionsAskedCount}`;
+        
+        const termEl = document.getElementById('terminationReason');
+        if (forcedExit) {
+            termEl.innerHTML = `<span style="color:var(--danger); font-weight:bold;">Alert:</span> ${statusMsg}`;
+        } else {
+            termEl.innerText = "";
+        }
 
+        buildReviewGrid();
         showSection('results-screen');
-
-        // Save to LocalStorage for Teacher Dashboard
-        saveResult(currentStudent, score, finalLevel, exitedEarly);
+        saveResult(currentStudent, score, questionsAskedCount, finalLevel, statusMsg);
     }
 
-    // --- DATA STORAGE ---
-    function saveResult(name, finalScore, level, exitedEarly) {
-        const results = JSON.parse(localStorage.getItem('englishPlacementResults')) || [];
+    function buildReviewGrid() {
+        const grid = document.getElementById('reviewGrid');
+        grid.innerHTML = "";
+
+        const levelNames = ["A1", "A2", "B1", "B2", "C1"];
+
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
+            
+            div.innerHTML = `
+                <div class="review-q">${index + 1}. ${item.text} <span style="font-size:0.8rem; color:var(--gray-text); font-weight:normal;">[${levelNames[item.level]}]</span></div>
+                <div class="review-ans">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div class="review-ans">Correct answer: <span style="color: var(--success)">${item.correctAns}</span></div>` : ''}
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    // --- PDF EXPORT[cite: 1] ---
+    function downloadPDF() {
+        const element = document.getElementById('pdf-content');
+        const opt = {
+            margin:       0.5,
+            filename:     `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    // --- DATA STORAGE & DASHBOARD ---
+    function saveResult(name, finalScore, totalAsked, level, status) {
+        const results = JSON.parse(localStorage.getItem('englishPlacementAdaptiveData')) || [];
         results.push({
-            date: new Date().toLocaleDateString(),
+            date: new Date().toLocaleString(),
             name: name,
             score: finalScore,
-            total: questions.length,
+            total: totalAsked,
             level: level,
-            exitedEarly: exitedEarly ? "Yes" : "No"
+            status: status
         });
-        localStorage.setItem('englishPlacementResults', JSON.stringify(results));
+        localStorage.setItem('englishPlacementAdaptiveData', JSON.stringify(results));
     }
 
-    // --- TEACHER DASHBOARD LOGIC ---
     function openAdmin() {
-        const results = JSON.parse(localStorage.getItem('englishPlacementResults')) || [];
+        const results = JSON.parse(localStorage.getItem('englishPlacementAdaptiveData')) || [];
         const tbody = document.getElementById('adminTableBody');
         tbody.innerHTML = "";
 
         if (results.length === 0) {
             tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;'>No student data available yet.</td></tr>";
         } else {
-            // Reverse so newest is at the top
             results.reverse().forEach(r => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${r.date}</td>
+                    <td style="font-size:0.85rem;">${r.date}</td>
                     <td style="font-weight: 600; color: var(--navy);">${r.name}</td>
                     <td>${r.score} / ${r.total}</td>
                     <td style="color: var(--gold); font-weight: 700;">${r.level}</td>
-                    <td>${r.exitedEarly}</td>
+                    <td style="font-size:0.85rem; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td>
                 `;
                 tbody.appendChild(tr);
             });
         }
-        
         document.getElementById('adminModal').style.display = 'flex';
     }
 
@@ -370,8 +563,8 @@
 
     function clearData() {
         if(confirm("Are you sure you want to delete all student records? This cannot be undone.")) {
-            localStorage.removeItem('englishPlacementResults');
-            openAdmin(); // Refresh table
+            localStorage.removeItem('englishPlacementAdaptiveData');
+            openAdmin(); 
         }
     }
 </script>
