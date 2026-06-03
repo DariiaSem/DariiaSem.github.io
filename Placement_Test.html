@@ -529,22 +529,25 @@
    function downloadPDF() {
         const element = document.getElementById('pdf-content');
         
+        // Temporarily add some padding so the text doesn't touch the edges of the PDF
+        element.style.padding = "40px";
+        element.style.background = "var(--bg-page)";
+        
+        // Dynamically calculate the exact width and height of the entire results content
+        const contentWidth = element.scrollWidth;
+        const contentHeight = element.scrollHeight;
+        
         const opt = {
-            margin:       [0.5, 0.5, 0.5, 0.5], // Top, Left, Bottom, Right margins
+            margin:       0,
             filename:     `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
-            // This is the magic line that prevents slicing elements in half:
-            pagebreak:    { mode: ['css', 'legacy'] } 
+            html2canvas:  { scale: 2, useCORS: true, windowWidth: contentWidth, scrollY: 0 },
+            // Force jsPDF to use the exact pixel dimensions of the content for a single page
+            jsPDF:        { unit: 'px', format: [contentWidth, contentHeight], orientation: 'portrait' }
         };
         
-        // Temporarily change background so the PDF doesn't have weird dark borders
-        element.style.background = "#FAF9F6";
-        element.style.padding = "20px";
-        
         html2pdf().set(opt).from(element).save().then(() => {
-            // Revert styles after downloading
+            // Revert the padding back to normal after the PDF generates
             element.style.padding = "0";
         });
     }
