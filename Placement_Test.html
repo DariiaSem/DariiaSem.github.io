@@ -124,6 +124,7 @@
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--gray-text); transition: color 0.2s; line-height: 1; }
         .close-modal:hover { color: var(--danger); }
         
+        /* Ensure the export wrapper doesn't do anything weird in standard view */
         #pdf-content { background: var(--bg-page); box-sizing: border-box; }
     </style>
 </head>
@@ -233,7 +234,6 @@
 
 <script>
     // --- EXPANDED QUESTION BANK (Vocab & Grammar Focus) ---
-    // Levels: 0=A1, 1=A2, 2=B1, 3=B2, 4=C1
     const questionBank = [
         // A1 (Level 0)
         { level: 0, text: "My brother ___ very tall.", options: ["am", "is", "are", "be"], correct: 1 },
@@ -286,7 +286,6 @@
         { level: 4, text: "We need to ___ this problem in the bud before it gets worse.", options: ["cut", "nip", "snip", "bite"], correct: 1 }
     ];
 
-    // --- STATE VARIABLES ---
     let currentStudent = "";
     let questionHistory = []; 
     let askedIndices = new Set();
@@ -302,7 +301,6 @@
     let isTestActive = false;
     let terminationStatus = "Completed";
 
-    // --- ANTI-CHEAT ---
     document.addEventListener("visibilitychange", () => {
         if (isTestActive && document.hidden) {
             cheatWarnings++;
@@ -336,7 +334,6 @@
         }, 1000);
     }
 
-    // --- UI & TEST FLOW ---
     function showSection(id) {
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -349,7 +346,7 @@
         currentStudent = nameInput;
         questionsAskedCount = 0;
         score = 0;
-        currentEstLevel = 2; // B1 Start
+        currentEstLevel = 2; 
         questionHistory = [];
         askedIndices.clear();
         cheatWarnings = 0;
@@ -367,7 +364,6 @@
     function getNextQuestion() {
         let available = questionBank.map((q, i) => ({q, i})).filter(item => item.q.level === currentEstLevel && !askedIndices.has(item.i));
         
-        // Adaptive Fallback: If we run out of questions at current level, branch out to closest levels
         if (available.length === 0) {
             let offset = 1;
             while (available.length === 0 && offset <= 4) {
@@ -441,7 +437,6 @@
     function skipQuestion() { handleAnswer(-1); }
 
     function calculateFinalLevel() {
-        // Base the level entirely on the average difficulty of all correctly answered questions
         const correctAnswers = questionHistory.filter(q => q.isCorrect);
         if (correctAnswers.length === 0) return 'A1 (Beginner)';
         
@@ -496,59 +491,74 @@
         });
     }
 
-    // --- BULLETPROOF PDF EXPORT: THE CLONE METHOD ---
+    // --- THE ULTIMATE PDF FIX ---
     function downloadPDF() {
-        const originalElement = document.getElementById('pdf-content');
-        
-        // 1. Create a temporary, completely isolated wrapper
-        const printWrapper = document.createElement('div');
-        printWrapper.style.position = 'absolute';
-        printWrapper.style.top = '0';
-        printWrapper.style.left = '0';
-        printWrapper.style.width = '800px'; 
-        printWrapper.style.background = 'var(--bg-page)';
-        printWrapper.style.zIndex = '99999'; // Force it to the very top
-        
-        // 2. Clone your content perfectly
-        const clonedElement = originalElement.cloneNode(true);
-        clonedElement.style.padding = '40px';
-        clonedElement.style.boxSizing = 'border-box';
-        clonedElement.style.width = '100%';
-        
-        // 3. Attach it to the absolute top of the webpage
-        printWrapper.appendChild(clonedElement);
-        document.body.appendChild(printWrapper);
-        
-        // 4. Scroll to absolute top (0,0) to ensure the canvas doesn't crop
+        const element = document.getElementById('pdf-content');
+        const parent = element.parentNode;
+        const sibling = element.nextSibling;
+
+        // 1. Strip ALL body and HTML constraints that hide overflowing content
+        const origBodyOverflowX = document.body.style.overflowX;
+        const origHtmlOverflowX = document.documentElement.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        document.documentElement.style.overflowX = 'visible';
+
+        // 2. Rip the element completely out of the centered layout and attach it directly to the body
+        document.body.appendChild(element);
+
+        // 3. Force it to exactly 800px wide, anchored to the absolute top-left
+        const origCss = element.style.cssText;
+        element.style.cssText = `
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 800px !important;
+            margin: 0 !important;
+            padding: 40px !important;
+            background: #FAF9F6 !important;
+            z-index: 999999 !important;
+            display: block !important;
+        `;
+
+        // 4. Scroll browser to top left so the "camera" starts precisely at 0,0
         window.scrollTo(0, 0);
-        
-        // 5. Measure the precise height of the clone
-        const targetHeight = printWrapper.scrollHeight;
-        
+
+        const w = 800;
+        const h = element.scrollHeight;
+
         const opt = {
             margin: 0,
             filename: `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
-            image: { type: 'jpeg', quality: 1.0 },
+            image: { type: 'jpeg', quality: 1 },
             html2canvas: {
                 scale: 2,
                 useCORS: true,
-                scrollY: 0,
+                x: 0,
+                y: 0,
+                width: w,
+                height: h,
+                windowWidth: w,
+                windowHeight: h,
                 scrollX: 0,
-                width: 800,
-                height: targetHeight,
-                windowWidth: 800,
-                windowHeight: targetHeight
+                scrollY: 0
             },
             jsPDF: {
                 unit: 'px',
-                format: [800, targetHeight],
+                format: [w, h],
                 orientation: 'portrait'
             }
         };
-        
-        // 6. Generate the PDF and immediately destroy the clone
-        html2pdf().set(opt).from(printWrapper).save().then(() => {
-            document.body.removeChild(printWrapper);
+
+        // 5. Generate PDF and put everything exactly back to normal
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.cssText = origCss;
+            if (sibling) {
+                parent.insertBefore(element, sibling);
+            } else {
+                parent.appendChild(element);
+            }
+            document.body.style.overflowX = origBodyOverflowX;
+            document.documentElement.style.overflowX = origHtmlOverflowX;
         });
     }
 
