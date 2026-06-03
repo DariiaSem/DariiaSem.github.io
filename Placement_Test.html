@@ -174,7 +174,7 @@
     </section>
 
     <section id="results-screen" class="section">
-        <div class="section-inner" style="max-width: 850px;">
+        <div class="section-inner" style="max-width: 850px;" id="results-container">
             <div id="pdf-content">
                 <div style="text-align: center;">
                     <span class="section-label">Assessment Complete</span>
@@ -499,23 +499,25 @@
     // --- BULLETPROOF PDF EXPORT ---
     function downloadPDF() {
         const element = document.getElementById('pdf-content');
+        const container = document.getElementById('results-container');
         
-        // 1. Scroll to top to prevent canvas clipping
+        // 1. Scroll to top to prevent vertical cutoff
         window.scrollTo(0, 0);
 
-        // 2. Store original styles so we can restore them
-        const originalBodyOverflow = document.body.style.overflow;
-        const originalWidth = element.style.width;
-        const originalMaxWidth = element.style.maxWidth;
+        // 2. Save original layout parameters
+        const origMargin = container.style.margin;
+        const origOverflow = document.body.style.overflowX;
 
-        // 3. FORCE exact width and layout parameters that cannot be clipped
-        document.body.style.overflow = 'visible';
+        // 3. THE FIX: Remove margin: 0 auto from the container. 
+        // Auto-margins push the div to the right, pushing the right-half off the 800px canvas!
+        container.style.margin = '0';
+        document.body.style.overflowX = 'visible';
+        
         element.style.width = '800px'; 
-        element.style.maxWidth = '800px';
         element.style.padding = '40px';
         element.style.background = 'var(--bg-page)';
 
-        // 4. Measure the exact height now that the width is strictly defined
+        // 4. Measure exact height of the newly structured element
         const targetHeight = element.scrollHeight + 50;
 
         const opt = {
@@ -527,21 +529,21 @@
                 useCORS: true,
                 scrollY: 0,
                 scrollX: 0,
-                windowWidth: 800,   // Lock canvas width
-                windowHeight: targetHeight // Lock canvas height
+                windowWidth: 800,
+                windowHeight: targetHeight
             },
             jsPDF: {
                 unit: 'px',
-                format: [800, targetHeight], // Lock PDF to exact pixel dimensions
+                format: [800, targetHeight],
                 orientation: 'portrait'
             }
         };
 
-        // 5. Generate PDF and then immediately restore the website's original design
+        // 5. Generate PDF and instantly restore the website layout
         html2pdf().set(opt).from(element).save().then(() => {
-            document.body.style.overflow = originalBodyOverflow;
-            element.style.width = originalWidth;
-            element.style.maxWidth = originalMaxWidth;
+            container.style.margin = origMargin;
+            document.body.style.overflowX = origOverflow;
+            element.style.width = '';
             element.style.padding = '0';
         });
     }
