@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intensive German A2 | Medical Focus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            var(--bg-main): #F8FAFC;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --hero-bg: #0B1120;
+            --hero-text: #F8FAFC;
+            --ocean: #0EA5E9;
+            --ocean-light: #38BDF8;
+            --violet: #8B5CF6;
+            --violet-light: #A78BFA;
+            --rose: #F43F5E;
+            --rose-light: #FB7185;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-md: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── NAVIGATION ── */
+        .level-nav {
+            background: rgba(11, 17, 32, 0.95);
+            padding: 15px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .level-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .level-nav a:hover {
+            color: var(--hero-text);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .level-nav a.active {
+            color: var(--hero-text);
+            background: var(--ocean);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: var(--hero-bg);
+            color: var(--hero-text);
+            padding: 80px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(circle at 20% 150%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% -50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--ocean-light);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em { color: var(--violet-light); font-style: italic; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--bg-main);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .module-header {
+            grid-column: 1 / -1;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--hero-bg);
+            margin: 40px 0 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: transparent;
+        }
+
+        .card-ocean { border-top: 4px solid var(--ocean); }
+        .card-violet { border-top: 4px solid var(--violet); }
+        .card-rose { border-top: 4px solid var(--rose); }
+
+        .lesson-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .lesson-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .lesson-detail {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            background: var(--bg-main);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-top: auto;
+        }
+
+        .lesson-detail strong {
+            color: var(--ocean);
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--hero-bg);
+            color: var(--hero-text);
+            border-radius: var(--radius-md);
+            padding: 40px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1;
+            margin: 24px 0;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ocean), var(--violet), var(--rose));
+        }
+
+        .test-card:hover {
+            transform: scale(1.01);
+        }
+
+        .test-icon { font-size: 2.5rem; margin-bottom: 16px; }
+        .test-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--hero-text); margin-bottom: 8px; }
+        .test-desc { font-size: 1rem; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <nav class="level-nav">
+        <a href="#a2" class="active">A2 Foundation</a>
+        <a href="#b1">B1 Intermediate</a>
+        <a href="#b2">B2 Upper Intermediate</a>
+        <a href="#c1">C1 Medical Mastery</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">German A2 · Intensive</div>
+            <h1>Course <em>Syllabus</em></h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Select a module below to begin building your foundation in German grammar and essential clinical vocabulary.</p>
+        </div>
+        <div class="hero-ribbon"></div>
+    </header>
+
+    <main class="container">
+        <div class="syllabus-grid">
+
+            <h2 class="module-header">Module 1: Foundations & Daily Clinic Life</h2>
+            <!-- LESSON 1-10 -->
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 1</div>
+                <h2 class="lesson-title">Greetings & Introductions</h2>
+                <div class="lesson-desc">Master formal vs. informal greetings in both daily life and professional clinical settings.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Present Tense Review & Pronouns</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 2</div>
+                <h2 class="lesson-title">The Human Body</h2>
+                <div class="lesson-desc">Learn essential anatomical terms and their definite articles (der/die/das).</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Basic Anatomy & Plurals</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 3</div>
+                <h2 class="lesson-title">Patient Intake Forms</h2>
+                <div class="lesson-desc">Navigate basic hospital registration, personal data, and filling out standard forms.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Questions (W-Fragen & Ja/Nein)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 4</div>
+                <h2 class="lesson-title">Dative Prepositions</h2>
+                <div class="lesson-desc">Understand how location and movement dictate cases using 'aus', 'bei', and 'mit'.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Dative Case Essentials</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 5</div>
+                <h2 class="lesson-title">Accusative Prepositions</h2>
+                <div class="lesson-desc">Expressing direction and targets using 'für', 'ohne', and 'durch'.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Accusative Case Essentials</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 6</div>
+                <h2 class="lesson-title">Describing Pain</h2>
+                <div class="lesson-desc">Communicate symptoms accurately. ("Mein Kopf tut weh" vs "Ich habe Kopfschmerzen").</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Symptoms & Sensations</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 7</div>
+                <h2 class="lesson-title">Reflexive Actions</h2>
+                <div class="lesson-desc">Discussing daily hygiene and how patients feel using reflexive pronouns.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reflexive Verbs (sich waschen)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 8</div>
+                <h2 class="lesson-title">Making Appointments</h2>
+                <div class="lesson-desc">Scheduling, changing, and canceling medical appointments over the phone.</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Time, Days, & Dates</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 9</div>
+                <h2 class="lesson-title">The Doctor's Office</h2>
+                <div class="lesson-desc">Vocabulary for the waiting room, examination room, and medical equipment.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Two-Way Prepositions Intro</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 10</div>
+                <h2 class="lesson-title">Module 1 Synthesis</h2>
+                <div class="lesson-desc">Review of cases, prepositions, and basic medical vocabulary through roleplay.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Speaking & Pronunciation</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">🩺</div>
+                <h2 class="test-title">Progress Test 1</h2>
+                <div class="test-desc">Comprehensive review of Foundations & Dative/Accusative rules</div>
+            </a>
+
+            <h2 class="module-header">Module 2: The Past & Medical History</h2>
+            <!-- LESSON 11-20 -->
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 11</div>
+                <h2 class="lesson-title">Introduction to Perfekt</h2>
+                <div class="lesson-desc">Forming the spoken past tense using standard regular verbs.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Perfekt with 'haben'</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 12</div>
+                <h2 class="lesson-title">Motion in the Past</h2>
+                <div class="lesson-desc">Describing travel and changes of state in the past tense.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Perfekt with 'sein'</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 13</div>
+                <h2 class="lesson-title">To Be and To Have</h2>
+                <div class="lesson-desc">Using the written past tense for the two most critical verbs.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Präteritum (war / hatte)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 14</div>
+                <h2 class="lesson-title">The Anamnesis</h2>
+                <div class="lesson-desc">Taking a basic patient history using past tense structures.</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Medical History & Conditions</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 15</div>
+                <h2 class="lesson-title">Childhood Illnesses</h2>
+                <div class="lesson-desc">Discussing past medical events, allergies, and family history.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Irregular Participles (ge- -en)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 16</div>
+                <h2 class="lesson-title">Chronology of Events</h2>
+                <div class="lesson-desc">Explaining the timeline of symptoms (yesterday, last week, earlier).</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Past Time Expressions</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 17</div>
+                <h2 class="lesson-title">Hospital Navigation</h2>
+                <div class="lesson-desc">Giving and understanding directions within the wards and departments.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Imperative Form</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 18</div>
+                <h2 class="lesson-title">Explaining Accidents</h2>
+                <div class="lesson-desc">Describing how an injury occurred using the Perfekt tense.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Roleplay (Emergency Room)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 19</div>
+                <h2 class="lesson-title">Writing a Short Report</h2>
+                <div class="lesson-desc">Structuring a basic handover note or patient summary.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Sentence Structure (TEKAMOLO)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 20</div>
+                <h2 class="lesson-title">Module 2 Synthesis</h2>
+                <div class="lesson-desc">Mastering the switch between present actions and past medical histories.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Tense Fluency</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">📋</div>
+                <h2 class="test-title">Progress Test 2</h2>
+                <div class="test-desc">Assessment of the Perfekt tense and basic patient histories</div>
+            </a>
+
+            <h2 class="module-header">Module 3: Connections & Subordinate Clauses</h2>
+            <!-- LESSON 21-30 -->
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 21</div>
+                <h2 class="lesson-title">Expressing Facts</h2>
+                <div class="lesson-desc">Connecting thoughts: "I think that the patient has a fever."</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Subordinate Clause (dass)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 22</div>
+                <h2 class="lesson-title">Giving Reasons</h2>
+                <div class="lesson-desc">Explaining the 'why' behind treatments and diagnoses.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Subordinate Clause (weil)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 23</div>
+                <h2 class="lesson-title">Conditions & 'If'</h2>
+                <div class="lesson-desc">Explaining outcomes: "If you take this medication, you will feel better."</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Subordinate Clause (wenn)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 24</div>
+                <h2 class="lesson-title">Cause and Effect</h2>
+                <div class="lesson-desc">Linking lifestyle choices to health outcomes using complex sentences.</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Diet, Exercise & Habits</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 25</div>
+                <h2 class="lesson-title">Conjunctions Review</h2>
+                <div class="lesson-desc">Mastering the difference between 'aber', 'und', 'oder', and subordinate linkers.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Conjunction Word Order</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 26</div>
+                <h2 class="lesson-title">Giving Advice</h2>
+                <div class="lesson-desc">Providing gentle recommendations to patients.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modal Verb (sollen)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 27</div>
+                <h2 class="lesson-title">Mental Health</h2>
+                <div class="lesson-desc">Vocabulary for describing stress, fatigue, and psychological well-being.</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Emotions & States of Mind</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 28</div>
+                <h2 class="lesson-title">The Pharmacy</h2>
+                <div class="lesson-desc">Guiding patients to the Apotheke and explaining simple prescriptions.</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Medications & Remedies</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 29</div>
+                <h2 class="lesson-title">Comparative Health</h2>
+                <div class="lesson-desc">Comparing symptoms from yesterday to today (better, worse, higher).</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Comparatives & Superlatives</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 30</div>
+                <h2 class="lesson-title">Module 3 Synthesis</h2>
+                <div class="lesson-desc">Tying sentences together to build coherent medical explanations.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Clause Combinations</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">🔗</div>
+                <h2 class="test-title">Progress Test 3</h2>
+                <div class="test-desc">Mastery of verb placement and subordinate clauses</div>
+            </a>
+
+            <h2 class="module-header">Module 4: Details & B1 Transition</h2>
+            <!-- LESSON 31-40 -->
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 31</div>
+                <h2 class="lesson-title">Adjective Endings I</h2>
+                <div class="lesson-desc">Describing objects and conditions clearly in the Nominative case.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Adjective Declension (Nom)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 32</div>
+                <h2 class="lesson-title">Adjective Endings II</h2>
+                <div class="lesson-desc">Applying descriptive words to direct objects in the Accusative case.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Adjective Declension (Akk)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 33</div>
+                <h2 class="lesson-title">Obligation & Permission</h2>
+                <div class="lesson-desc">Explaining hospital rules and what patients must or may not do.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modal Verbs (müssen, dürfen)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 34</div>
+                <h2 class="lesson-title">Ability & Desire</h2>
+                <div class="lesson-desc">Discussing patient mobility, capabilities, and wishes.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modal Verbs (können, wollen)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 35</div>
+                <h2 class="lesson-title">Understanding Dosages</h2>
+                <div class="lesson-desc">Reading basic package inserts and explaining frequency (twice a day).</div>
+                <div class="lesson-detail"><strong>Vocab:</strong> Measurements & Frequency</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 36</div>
+                <h2 class="lesson-title">Clinical Routines</h2>
+                <div class="lesson-desc">Describing the daily schedule on a ward using separable prefixes.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Trennbare Verben (Separable Verbs)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 37</div>
+                <h2 class="lesson-title">Medical Articles</h2>
+                <div class="lesson-desc">Reading and analyzing a simplified German medical text or brochure.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Reading Comprehension</div>
+            </a>
+
+            <a href="#" class="lesson-card card-violet">
+                <div class="lesson-num">Lesson 38</div>
+                <h2 class="lesson-title">Listening: The Handover</h2>
+                <div class="lesson-desc">Practicing dictation and understanding a nurse-to-nurse shift handover.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Auditory Processing</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rose">
+                <div class="lesson-num">Lesson 39</div>
+                <h2 class="lesson-title">The B1 Bridge</h2>
+                <div class="lesson-desc">Introduction to more complex sentence structures required for intermediate fluency.</div>
+                <div class="lesson-detail"><strong>Grammar:</strong> Preview of Genitive & Passive</div>
+            </a>
+
+            <a href="#" class="lesson-card card-ocean">
+                <div class="lesson-num">Lesson 40</div>
+                <h2 class="lesson-title">Course Review</h2>
+                <div class="lesson-desc">Final holistic review of A2 grammar, vocabulary, and medical roleplays.</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Exam Preparation</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">🎓</div>
+                <h2 class="test-title">Final A2 Exam</h2>
+                <div class="test-desc">Ultimate assessment of A2 mastery, preparing for the B1 level</div>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
