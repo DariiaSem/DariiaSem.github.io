@@ -6,10 +6,9 @@
     <title>English Placement Assessment | Adaptive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- html2pdf for PDF generation[cite: 1] -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        /* Base Styles & Editorial Theme[cite: 1] */
+        /* Base Styles & Editorial Theme */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
@@ -44,7 +43,7 @@
 
         h1, h2, h3, .serif { font-family: var(--font-serif); }
 
-        /* Hero[cite: 1] */
+        /* Hero */
         .hero {
             background: var(--navy); color: var(--bg-page);
             padding: 80px 24px 60px; text-align: center;
@@ -63,7 +62,7 @@
         .hero h1 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400; line-height: 1.1; margin-bottom: 16px; }
         .hero h1 em { color: var(--gold); font-style: italic; font-weight: 600; }
 
-        /* Sections & Layout[cite: 1] */
+        /* Sections & Layout */
         .section { padding: 60px 24px; position: relative; display: none; }
         .section.active { display: block; animation: fadeIn 0.4s ease-in; }
         .section-inner { max-width: 800px; margin: 0 auto; text-align: center; }
@@ -101,27 +100,17 @@
         .option-btn:hover { background: var(--gold-bg); border-color: var(--gold); transform: translateX(5px); }
 
         /* Results & Review */
-        .results-card, .review-item {
-            page-break-inside: avoid !important;
-            break-inside: avoid !important;
-            display: block; 
-            margin-bottom: 20px;
-        }
-        #pdf-content {
-            background: var(--bg-page);
-        }
         .results-card { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border-light); border-top: 4px solid var(--navy); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; }
         .level-badge { display: inline-block; background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; font-size: 2rem; font-family: var(--font-serif); font-weight: 700; margin: 20px 0; border-radius: 4px; }
         
-        .review-grid { display: grid; gap: 20px; text-align: left; margin-top: 30px; }
+        .review-grid { display: flex; flex-direction: column; gap: 20px; text-align: left; margin-top: 30px; }
         .review-item { padding: 20px; border: 1px solid var(--border-light); border-left: 4px solid var(--border-light); background: var(--bg-panel); border-radius: 4px; }
         .review-item.correct { border-left-color: var(--success); background: #f2f9f6; }
         .review-item.incorrect { border-left-color: var(--danger); background: #fdf5f6; }
         .review-q { font-family: var(--font-serif); font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; font-weight: 600; }
         .review-ans { font-size: 0.95rem; margin-bottom: 4px; }
-        .review-ans span { font-weight: 600; }
 
-        /* Tables & Modals[cite: 1] */
+        /* Tables & Modals */
         .elegant-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); margin-top: 20px; border: 1px solid var(--border-light); text-align: left; }
         .elegant-table th { background: var(--navy); color: var(--bg-page); padding: 15px 20px; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 2px; }
         .elegant-table td { padding: 15px 20px; border-bottom: 1px solid var(--border-light); font-family: var(--font-ui); font-size: 1rem; color: var(--charcoal); }
@@ -135,7 +124,7 @@
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; color: var(--gray-text); transition: color 0.2s; line-height: 1; }
         .close-modal:hover { color: var(--danger); }
         
-        #pdf-content { padding: 20px; background: var(--bg-page); }
+        #pdf-content { background: var(--bg-page); box-sizing: border-box; }
     </style>
 </head>
 <body>
@@ -147,7 +136,6 @@
 </header>
 
 <main>
-    <!-- Welcome Screen -->
     <section id="welcome-screen" class="section active">
         <div class="section-inner">
             <span class="section-label">Step 01</span>
@@ -164,7 +152,6 @@
         </div>
     </section>
 
-    <!-- Quiz Screen -->
     <section id="quiz-screen" class="section">
         <div class="section-inner" style="max-width: 800px;">
             <div class="quiz-header">
@@ -186,15 +173,16 @@
         </div>
     </section>
 
-    <!-- Results Screen -->
     <section id="results-screen" class="section">
         <div class="section-inner" style="max-width: 850px;">
             <div id="pdf-content">
-                <span class="section-label">Assessment Complete</span>
-                <h2 class="section-title">Official Results</h2>
-                <p class="section-desc" id="resultsMessage"></p>
+                <div style="text-align: center;">
+                    <span class="section-label">Assessment Complete</span>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="resultsMessage"></p>
+                </div>
 
-                <div class="results-card">
+                <div class="results-card" style="text-align: center;">
                     <h3 style="font-family: var(--font-ui); color: var(--gray-text); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Assessed Level</h3>
                     <div class="level-badge" id="levelResult">A1</div>
                     <p style="font-family: var(--font-serif); font-size: 1.2rem; color: var(--navy);" id="scoreDetail"></p>
@@ -203,8 +191,7 @@
 
                 <h3 style="font-family: var(--font-serif); color: var(--navy); text-align: left; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">Question Review</h3>
                 <div class="review-grid" id="reviewGrid">
-                    <!-- Review items injected via JS -->
-                </div>
+                    </div>
             </div>
             
             <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
@@ -215,12 +202,10 @@
     </section>
 </main>
 
-<!-- Floating Admin Button -->
 <div class="floating-actions" id="adminFab">
     <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard">📋</button>
 </div>
 
-<!-- Teacher Dashboard Modal -->
 <div id="adminModal" class="modal-overlay">
     <div class="modal-content">
         <span class="close-modal" onclick="closeAdmin()">×</span>
@@ -239,8 +224,7 @@
                     </tr>
                 </thead>
                 <tbody id="adminTableBody">
-                    <!-- Data injected via JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
         <button class="btn-skip" style="margin-top: 20px;" onclick="clearData()">Clear All Data</button>
@@ -304,7 +288,7 @@
 
     // --- STATE VARIABLES ---
     let currentStudent = "";
-    let questionHistory = []; // Stores { q: Object, userAns: String, correctAns: String, isCorrect: Boolean }
+    let questionHistory = []; 
     let askedIndices = new Set();
     
     const TOTAL_QUESTIONS = 20;
@@ -312,14 +296,13 @@
     let score = 0;
     let currentEstLevel = 2; // Start at B1
     
-    // Timer & Anti-Cheat
-    let timeLeft = 15 * 60; // 15 minutes in seconds
+    let timeLeft = 15 * 60; // 15 minutes
     let timerInterval;
     let cheatWarnings = 0;
     let isTestActive = false;
     let terminationStatus = "Completed";
 
-    // --- ANTI-CHEAT (PAGE VISIBILITY) ---
+    // --- ANTI-CHEAT ---
     document.addEventListener("visibilitychange", () => {
         if (isTestActive && document.hidden) {
             cheatWarnings++;
@@ -332,7 +315,6 @@
         }
     });
 
-    // --- TIMER FUNCTION ---
     function startTimer() {
         document.getElementById('timerDisplay').innerText = "15:00";
         timerInterval = setInterval(() => {
@@ -375,7 +357,7 @@
         terminationStatus = "Completed";
         isTestActive = true;
 
-        document.getElementById('adminFab').style.display = 'none'; // Hide admin btn during test
+        document.getElementById('adminFab').style.display = 'none';
         
         showSection('quiz-screen');
         startTimer();
@@ -385,7 +367,7 @@
     function getNextQuestion() {
         let available = questionBank.map((q, i) => ({q, i})).filter(item => item.q.level === currentEstLevel && !askedIndices.has(item.i));
         
-        // Fix: If we run out of questions at the current level, find the closest available level
+        // Adaptive Fallback: If we run out of questions at current level, branch out to closest levels
         if (available.length === 0) {
             let offset = 1;
             while (available.length === 0 && offset <= 4) {
@@ -394,7 +376,6 @@
                 );
                 offset++;
             }
-            // Absolute fallback if everything fails
             if (available.length === 0) {
                 available = questionBank.map((q, i) => ({q, i})).filter(item => !askedIndices.has(item.i));
             }
@@ -435,11 +416,9 @@
     function handleAnswer(selectedIndex) {
         const isSkip = selectedIndex === -1;
         const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
-        
         const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
         const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
 
-        // Log history
         questionHistory.push({
             text: currentQuestionObj.text,
             level: currentQuestionObj.level,
@@ -448,13 +427,10 @@
             isCorrect: isCorrect
         });
 
-        // Adaptive Logic
         if (isCorrect) {
             score++;
-            // Move up a level if possible
             if (currentEstLevel < 4) currentEstLevel++; 
         } else {
-            // Drop a level if wrong
             if (currentEstLevel > 0) currentEstLevel--;
         }
 
@@ -462,14 +438,11 @@
         renderNextQuestion();
     }
 
-    function skipQuestion() {
-        handleAnswer(-1); 
-    }
+    function skipQuestion() { handleAnswer(-1); }
 
-   function calculateFinalLevel() {
-        // Fix: Base the level on the average difficulty of ALL questions they got CORRECT.
+    function calculateFinalLevel() {
+        // Base the level entirely on the average difficulty of all correctly answered questions
         const correctAnswers = questionHistory.filter(q => q.isCorrect);
-        
         if (correctAnswers.length === 0) return 'A1 (Beginner)';
         
         const avgLevel = correctAnswers.reduce((sum, item) => sum + item.level, 0) / correctAnswers.length;
@@ -509,13 +482,11 @@
     function buildReviewGrid() {
         const grid = document.getElementById('reviewGrid');
         grid.innerHTML = "";
-
         const levelNames = ["A1", "A2", "B1", "B2", "C1"];
 
         questionHistory.forEach((item, index) => {
             const div = document.createElement('div');
             div.className = `review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
-            
             div.innerHTML = `
                 <div class="review-q">${index + 1}. ${item.text} <span style="font-size:0.8rem; color:var(--gray-text); font-weight:normal;">[${levelNames[item.level]}]</span></div>
                 <div class="review-ans">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}">${item.userAns}</span></div>
@@ -525,50 +496,56 @@
         });
     }
 
-    // --- PDF EXPORT[cite: 1] ---
-   function downloadPDF() {
+    // --- BULLETPROOF PDF EXPORT ---
+    function downloadPDF() {
         const element = document.getElementById('pdf-content');
         
-        // 1. CRITICAL BUG FIX: Scroll to the absolute top. 
-        // If you are scrolled down, html2canvas slices the bottom off.
+        // 1. Scroll to top to prevent canvas clipping
         window.scrollTo(0, 0);
-        
-        // 2. Temporarily remove CSS restrictions that choke the canvas renderer
-        const originalOverflow = document.body.style.overflowX;
-        document.body.style.overflowX = 'visible';
-        
-        // 3. Style the output
-        element.style.padding = "40px";
-        element.style.background = "var(--bg-page)";
-        
-        // 4. Calculate exact pixel dimensions
-        const contentWidth = element.scrollWidth;
-        const contentHeight = element.scrollHeight + 50; // +50px buffer so the bottom border isn't clipped
-        
+
+        // 2. Store original styles so we can restore them
+        const originalBodyOverflow = document.body.style.overflow;
+        const originalWidth = element.style.width;
+        const originalMaxWidth = element.style.maxWidth;
+
+        // 3. FORCE exact width and layout parameters that cannot be clipped
+        document.body.style.overflow = 'visible';
+        element.style.width = '800px'; 
+        element.style.maxWidth = '800px';
+        element.style.padding = '40px';
+        element.style.background = 'var(--bg-page)';
+
+        // 4. Measure the exact height now that the width is strictly defined
+        const targetHeight = element.scrollHeight + 50;
+
         const opt = {
-            margin:       0,
-            filename:     `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { 
-                scale: 2, 
-                useCORS: true, 
-                scrollY: 0, 
-                windowWidth: contentWidth,
-                windowHeight: contentHeight // Force the canvas to look at the entire height
+            margin: 0,
+            filename: `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                scrollY: 0,
+                scrollX: 0,
+                windowWidth: 800,   // Lock canvas width
+                windowHeight: targetHeight // Lock canvas height
             },
-            jsPDF:        { 
-                unit: 'px', 
-                format: [contentWidth, contentHeight], 
-                orientation: 'portrait' 
+            jsPDF: {
+                unit: 'px',
+                format: [800, targetHeight], // Lock PDF to exact pixel dimensions
+                orientation: 'portrait'
             }
         };
-        
+
+        // 5. Generate PDF and then immediately restore the website's original design
         html2pdf().set(opt).from(element).save().then(() => {
-            // 5. Clean up and revert styles after the PDF is safely downloaded
-            element.style.padding = "0";
-            document.body.style.overflowX = originalOverflow;
+            document.body.style.overflow = originalBodyOverflow;
+            element.style.width = originalWidth;
+            element.style.maxWidth = originalMaxWidth;
+            element.style.padding = '0';
         });
     }
+
     // --- DATA STORAGE & DASHBOARD ---
     function saveResult(name, finalScore, totalAsked, level, status) {
         const results = JSON.parse(localStorage.getItem('englishPlacementAdaptiveData')) || [];
@@ -606,10 +583,7 @@
         document.getElementById('adminModal').style.display = 'flex';
     }
 
-    function closeAdmin() {
-        document.getElementById('adminModal').style.display = 'none';
-    }
-
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
     function clearData() {
         if(confirm("Are you sure you want to delete all student records? This cannot be undone.")) {
             localStorage.removeItem('englishPlacementAdaptiveData');
