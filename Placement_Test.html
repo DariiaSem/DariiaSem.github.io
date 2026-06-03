@@ -101,6 +101,15 @@
         .option-btn:hover { background: var(--gold-bg); border-color: var(--gold); transform: translateX(5px); }
 
         /* Results & Review */
+        .results-card, .review-item {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            display: block; 
+            margin-bottom: 20px;
+        }
+        #pdf-content {
+            background: var(--bg-page);
+        }
         .results-card { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border-light); border-top: 4px solid var(--navy); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; }
         .level-badge { display: inline-block; background: var(--gold-bg); color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; font-size: 2rem; font-family: var(--font-serif); font-weight: 700; margin: 20px 0; border-radius: 4px; }
         
@@ -374,15 +383,23 @@
     }
 
     function getNextQuestion() {
-        // Find questions matching current estimated level
         let available = questionBank.map((q, i) => ({q, i})).filter(item => item.q.level === currentEstLevel && !askedIndices.has(item.i));
         
-        // Fallback if we run out of questions at this level
+        // Fix: If we run out of questions at the current level, find the closest available level
         if (available.length === 0) {
-            available = questionBank.map((q, i) => ({q, i})).filter(item => !askedIndices.has(item.i));
+            let offset = 1;
+            while (available.length === 0 && offset <= 4) {
+                available = questionBank.map((q, i) => ({q, i})).filter(item => 
+                    (item.q.level === currentEstLevel - offset || item.q.level === currentEstLevel + offset) && !askedIndices.has(item.i)
+                );
+                offset++;
+            }
+            // Absolute fallback if everything fails
+            if (available.length === 0) {
+                available = questionBank.map((q, i) => ({q, i})).filter(item => !askedIndices.has(item.i));
+            }
         }
         
-        // Pick random from available
         const randIndex = Math.floor(Math.random() * available.length);
         const selected = available[randIndex];
         askedIndices.add(selected.i);
@@ -449,17 +466,18 @@
         handleAnswer(-1); 
     }
 
-    function calculateFinalLevel() {
-        // Average the levels of the last 5 questions asked to get a solid CEFR estimate
-        if (questionHistory.length === 0) return 'A1 (Beginner)';
+   function calculateFinalLevel() {
+        // Fix: Base the level on the average difficulty of ALL questions they got CORRECT.
+        const correctAnswers = questionHistory.filter(q => q.isCorrect);
         
-        const recentHistory = questionHistory.slice(-5);
-        const avgLevel = recentHistory.reduce((sum, item) => sum + item.level, 0) / recentHistory.length;
+        if (correctAnswers.length === 0) return 'A1 (Beginner)';
+        
+        const avgLevel = correctAnswers.reduce((sum, item) => sum + item.level, 0) / correctAnswers.length;
         
         if (avgLevel < 0.8) return 'A1 (Beginner)';
         if (avgLevel < 1.8) return 'A2 (Elementary)';
         if (avgLevel < 2.8) return 'B1 (Intermediate)';
-        if (avgLevel < 3.8) return 'B2 (Upper Intermediate)';
+        if (avgLevel < 3.5) return 'B2 (Upper Intermediate)';
         return 'C1 (Advanced)';
     }
 
@@ -508,16 +526,27 @@
     }
 
     // --- PDF EXPORT[cite: 1] ---
-    function downloadPDF() {
+   function downloadPDF() {
         const element = document.getElementById('pdf-content');
+        
         const opt = {
-            margin:       0.5,
+            margin:       [0.5, 0.5, 0.5, 0.5], // Top, Left, Bottom, Right margins
             filename:     `${currentStudent.replace(/\s+/g, '_')}_English_Placement.pdf`,
             image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' },
+            // This is the magic line that prevents slicing elements in half:
+            pagebreak:    { mode: ['css', 'legacy'] } 
         };
-        html2pdf().set(opt).from(element).save();
+        
+        // Temporarily change background so the PDF doesn't have weird dark borders
+        element.style.background = "#FAF9F6";
+        element.style.padding = "20px";
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Revert styles after downloading
+            element.style.padding = "0";
+        });
     }
 
     // --- DATA STORAGE & DASHBOARD ---
