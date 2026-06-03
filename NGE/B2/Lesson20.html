@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 20: C1 | Urban Legends & Folklore</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Theme: The Witching Hour / X-Files Vibe */
+            --void:       #050505;
+            --dark:       #121212;
+            --panel:      #1a1a1a;
+            --blood:      #e11d48;
+            --blood-dim:  #9f1239;
+            --blood-pale: #ffe4e6;
+            --emerald:    #10b981;
+            --amber:      #f59e0b;
+            --bone:       #f3f4f6;
+            --mist:       #9ca3af;
+            --charcoal:   #27272a;
+            --shadow-sm:  0 2px 10px rgba(0,0,0,0.5);
+            --shadow-md:  0 8px 25px rgba(225, 29, 72, 0.15);
+            --shadow-lg:  0 16px 40px rgba(225, 29, 72, 0.25);
+            --r-sm: 4px;
+            --r-md: 8px;
+            --r-lg: 16px;
+            --r-xl: 24px;
+            
+            --font-head: 'Cinzel', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.7;
+            color: var(--bone);
+            background: var(--void);
+            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 2px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(255,255,255,0.05); }
+        [contenteditable="true"]:focus { background: rgba(225, 29, 72, 0.1); box-shadow: 0 0 0 2px rgba(225, 29, 72, 0.3); }
+
+        /* ══ HERO ══ */
+        .hero {
+            position: relative; min-height: 600px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; overflow: hidden;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100" height="100" filter="url(%23noise)" opacity="0.05"/></svg>'), var(--void);
+        }
+
+        .hero-glow {
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(225, 29, 72, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 900px; padding: 80px 40px;
+        }
+
+        .hero-top-tag {
+            font-family: var(--font-mono); font-size: 0.75rem;
+            color: var(--blood); letter-spacing: 4px;
+            text-transform: uppercase; margin-bottom: 24px;
+            display: inline-block; border-bottom: 1px solid var(--blood);
+            padding-bottom: 4px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-head);
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            color: var(--bone); line-height: 1.1;
+            font-weight: 800; margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(225,29,72,0.4);
+        }
+
+        .hero h1 em { color: var(--blood); font-style: normal; }
+
+        .hero-sub {
+            font-size: 1.1rem; color: var(--mist);
+            max-width: 600px; margin: 0 auto 40px; font-weight: 300;
+        }
+
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+        .hero-chip {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: var(--bone); padding: 6px 16px; border-radius: 50px;
+            font-size: 0.75rem; font-family: var(--font-mono); letter-spacing: 1px;
+        }
+
+        /* ══ NAV ══ */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(5,5,5,0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center;
+            justify-content: space-between; height: 60px;
+        }
+
+        .nav-logo {
+            font-family: var(--font-head); font-size: 1.1rem; font-weight: 700;
+            color: var(--bone); text-decoration: none; letter-spacing: 2px;
+        }
+        .nav-logo span { color: var(--blood); }
+
+        .nav-links { display: flex; gap: 6px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--mist); font-size: 0.8rem;
+            font-family: var(--font-mono); padding: 6px 12px; border-radius: var(--r-sm);
+            transition: all 0.2s; text-transform: uppercase;
+        }
+        .nav-links a:hover { color: var(--bone); background: rgba(255,255,255,0.1); }
+
+        /* ══ SECTIONS ══ */
+        .section { padding: 90px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .section:nth-child(even) { background: var(--dark); }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+
+        .task-counter {
+            display: inline-block; font-family: var(--font-mono);
+            font-size: 0.75rem; color: var(--blood);
+            border: 1px solid var(--blood); padding: 4px 12px;
+            border-radius: 2px; margin-bottom: 20px; letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--bone); margin-bottom: 16px; font-weight: 600;
+        }
+        .section-title em { color: var(--blood); font-style: normal; }
+
+        .section-desc { color: var(--mist); font-size: 1.05rem; margin-bottom: 40px; max-width: 700px; }
+
+        /* ══ INTERACTIVE: CAMPFIRE CARDS ══ */
+        .campfire-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
+        }
+
+        .myth-card {
+            background: var(--panel); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--r-md); padding: 30px 24px; text-align: center;
+            cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .myth-card::before {
+            content: ''; position: absolute; inset: 0; background: var(--blood);
+            opacity: 0; transition: opacity 0.3s ease; z-index: 0;
+        }
+        .myth-card:hover { transform: translateY(-5px); border-color: var(--blood); box-shadow: var(--shadow-md); }
+        .myth-card:hover::before { opacity: 0.05; }
+        
+        .myth-icon { font-size: 2.5rem; margin-bottom: 16px; position: relative; z-index: 1; filter: grayscale(100%); transition: filter 0.3s; }
+        .myth-card:hover .myth-icon { filter: grayscale(0%); }
+        .myth-title { font-family: var(--font-head); font-size: 1.2rem; color: var(--bone); position: relative; z-index: 1; margin-bottom: 10px; }
+        .myth-hidden { font-size: 0.85rem; color: var(--mist); position: relative; z-index: 1; opacity: 0; transform: translateY(10px); transition: all 0.3s; }
+        .myth-card:hover .myth-hidden { opacity: 1; transform: translateY(0); }
+
+        /* ══ REDACTED VOCAB (C1) ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        
+        .vocab-card {
+            background: var(--dark); border-left: 3px solid var(--blood);
+            padding: 20px; position: relative;
+        }
+        .v-word { font-family: var(--font-head); font-size: 1.4rem; color: var(--bone); margin-bottom: 4px; }
+        .v-pos { font-family: var(--font-mono); font-size: 0.7rem; color: var(--mist); margin-bottom: 12px; }
+        
+        .redacted-text {
+            background: var(--charcoal); color: transparent;
+            border-radius: 2px; transition: all 0.3s; cursor: crosshair;
+            padding: 2px 4px; display: inline;
+        }
+        .vocab-card:hover .redacted-text { background: transparent; color: var(--bone); }
+        .v-example { font-style: italic; color: var(--mist); font-size: 0.9rem; margin-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
+
+        /* ══ EDITORIAL READING ══ */
+        .editorial {
+            background: var(--bone); color: var(--dark);
+            padding: 50px 60px; border-radius: var(--r-md);
+            font-family: 'Georgia', serif; font-size: 1.15rem; line-height: 1.9;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative;
+        }
+        .editorial::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--blood), var(--dark));
+        }
+        .ed-meta { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; color: var(--blood-dim); margin-bottom: 30px; letter-spacing: 1px; }
+        .ed-title { font-family: var(--font-head); font-size: 2.2rem; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+        .ed-dropcap { float: left; font-size: 4rem; line-height: 0.8; padding-right: 12px; font-family: var(--font-head); color: var(--blood-dim); }
+        .q-highlight { background: rgba(225, 29, 72, 0.15); border-bottom: 2px solid var(--blood-dim); font-weight: 600; padding: 0 4px; border-radius: 2px; }
+
+        /* ══ GRAMMAR TABLES (Structured as f*ck) ══ */
+        .grammar-box {
+            background: var(--panel); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--r-lg); overflow: hidden; margin-top: 30px;
+        }
+        .g-header { background: var(--dark); padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
+        .g-header h3 { font-family: var(--font-mono); font-size: 1rem; color: var(--bone); }
+        
+        .g-table { width: 100%; border-collapse: collapse; }
+        .g-table th { text-align: left; padding: 14px 24px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--mist); text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .g-table td { padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; }
+        .g-table tr:last-child td { border-bottom: none; }
+        .g-table tr:hover { background: rgba(255,255,255,0.02); }
+        .g-syntax { font-family: var(--font-mono); color: var(--emerald); font-weight: 700; font-size: 0.9rem; }
+        .g-syntax.neg { color: var(--blood); }
+        .g-syntax.neutral { color: var(--amber); }
+
+        /* ══ ERROR SPY (Quantifiers) ══ */
+        .spy-sentence {
+            background: var(--panel); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--r-md); padding: 20px 24px; margin-bottom: 12px;
+            font-size: 1.05rem; display: flex; align-items: flex-start; gap: 16px;
+            transition: all 0.3s;
+        }
+        .spy-sentence.correct { border-color: var(--emerald); background: rgba(16, 185, 129, 0.05); }
+        .spy-sentence.incorrect { border-color: var(--blood); animation: shake 0.4s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        
+        .spy-num { font-family: var(--font-mono); font-weight: 700; color: var(--blood); font-size: 0.9rem; margin-top: 3px; }
+        .spy-text { flex: 1; }
+        .wrong-word {
+            background: rgba(225, 29, 72, 0.15); color: #fda4af; font-weight: 600;
+            padding: 2px 6px; border-radius: 3px; border-bottom: 2px solid var(--blood);
+            cursor: pointer; transition: background 0.2s;
+        }
+        .wrong-word:hover { background: rgba(225, 29, 72, 0.3); }
+        
+        .spy-input-wrap { display: none; align-items: center; gap: 10px; margin-top: 12px; }
+        .spy-input-wrap.visible { display: flex; }
+        .spy-input {
+            background: var(--dark); border: 1px solid var(--blood); color: var(--bone);
+            padding: 8px 12px; border-radius: var(--r-sm); font-family: var(--font-mono);
+            font-size: 0.9rem; min-width: 200px;
+        }
+        .spy-check-btn {
+            background: var(--blood); color: white; border: none; padding: 8px 16px;
+            border-radius: var(--r-sm); font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .spy-check-btn:hover { background: var(--blood-dim); }
+        .spy-feedback { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; }
+        .spy-feedback.ok { color: var(--emerald); }
+        .spy-feedback.no { color: var(--blood); }
+
+        /* ══ VIDEO & TFNG ══ */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0;
+            border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255,255,255,0.1); background: #000; margin-bottom: 30px;
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        .tfng-item {
+            background: var(--panel); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--r-md); padding: 20px; margin-bottom: 12px;
+        }
+        .tfng-item.t-correct { border-color: var(--emerald); }
+        .tfng-item.t-wrong { border-color: var(--blood); }
+        .tfng-stmt { font-size: 1rem; margin-bottom: 16px; color: var(--bone); }
+        .tfng-btns { display: flex; gap: 10px; }
+        .tfng-btn {
+            background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--bone);
+            padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;
+        }
+        .tfng-btn:hover { background: rgba(255,255,255,0.1); }
+        .tfng-btn.selected-correct { background: var(--emerald); border-color: var(--emerald); color: var(--dark); font-weight: 600; }
+        .tfng-btn.selected-wrong { background: var(--blood); border-color: var(--blood); font-weight: 600; }
+        .tfng-btn.show-correct { background: var(--emerald); border-color: var(--emerald); color: var(--dark); font-weight: 600; }
+        .tfng-explain { display: none; margin-top: 16px; font-size: 0.9rem; color: var(--mist); font-family: var(--font-mono); padding-top: 16px; border-top: 1px dashed rgba(255,255,255,0.1); }
+        .tfng-explain.visible { display: block; }
+
+        /* ══ CREATIVE SPEAKING ══ */
+        .spinner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+        .spin-item {
+            background: var(--dark); border: 1px dashed rgba(255,255,255,0.2);
+            padding: 24px; text-align: center; border-radius: var(--r-md);
+            font-family: var(--font-head); font-size: 1.2rem; transition: all 0.3s;
+        }
+        .spin-item:hover { border-color: var(--blood); color: var(--blood); background: rgba(225,29,72,0.05); }
+
+        /* ══ CALLOUTS ══ */
+        .callout {
+            padding: 16px 20px; border-radius: var(--r-sm); margin: 24px 0;
+            border-left: 4px solid; background: rgba(255,255,255,0.03);
+        }
+        .c-blood { border-color: var(--blood); }
+        .c-amber { border-color: var(--amber); }
+
+        /* ══ WHITEBOARD ══ */
+        .wb-container { border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-lg); overflow: hidden; background: #fff; margin-top: 30px; }
+        .wb-toolbar { background: var(--dark); padding: 12px 20px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .wb-btn { background: var(--panel); color: var(--bone); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: var(--r-sm); cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; }
+        .wb-btn:hover, .wb-btn.active { background: var(--blood); border-color: var(--blood); }
+        .wb-color { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--panel); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 500px; cursor: crosshair; }
+
+        /* ══ FABs & MODALS ══ */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--charcoal); color: var(--bone); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-sm); transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+        .fab-btn:hover { background: var(--blood); transform: translateY(-3px); }
+        
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--panel); padding: 32px; border-radius: var(--r-lg); width: 90%; max-width: 600px; border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .close-modal { position: absolute; top: 16px; right: 20px; color: var(--mist); cursor: pointer; font-size: 1.5rem; }
+        .close-modal:hover { color: var(--blood); }
+        
+        #syncStatus { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.8); padding: 6px 16px; border-radius: 50px; font-family: var(--font-mono); font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 8px; z-index: 10000; }
+        #syncDot { width: 8px; height: 8px; border-radius: 50%; background: var(--blood); box-shadow: 0 0 8px var(--blood); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        
+        #liveCursorsContainer { position: absolute; inset: 0; pointer-events: none; z-index: 999999; }
+        .remote-cursor { position: absolute; transition: top 0.2s, left 0.2s; opacity: 0; animation: fadeIn 0.3s forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .hero { min-height: 400px; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .editorial { padding: 30px 20px; }
+            .g-table th, .g-table td { padding: 12px 10px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span id="syncDot"></span>
+    <span id="syncText">CLASSIFIED COMM LINK ESTABLISHED</span>
+</div>
+<div id="liveCursorsContainer"></div>
+
+<header class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-top-tag" contenteditable="true">File #20 // General English C1</div>
+        <h1 contenteditable="true">Urban Legends &<br><em>Modern Folklore</em></h1>
+        <p class="hero-sub" contenteditable="true">The stories we whisper, the myths we share, and the advanced quantifiers we use to measure the unknown.</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">ADVANCED QUANTIFIERS</span>
+            <span class="hero-chip" contenteditable="true">C1 LEXICON</span>
+            <span class="hero-chip" contenteditable="true">MYTH-BUSTING</span>
+        </div>
+    </div>
+</header>
+
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">NGE <span>// L20</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--blood); font-weight: bold;">+</a></li>
+            <li><a href="#warmup" contenteditable="true">Campfire</a></li>
+            <li><a href="#vocab" contenteditable="true">Lexicon</a></li>
+            <li><a href="#reading" contenteditable="true">Evidence</a></li>
+            <li><a href="#grammar" contenteditable="true">Quantifiers</a></li>
+            <li><a href="#practice" contenteditable="true">Debunk</a></li>
+            <li><a href="#video" contenteditable="true">Footage</a></li>
+            <li><a href="#speaking" contenteditable="true">Spin</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <section class="section" id="warmup">
+        <div class="section-inner">
+            <div class="task-counter">01. ICEBREAKER</div>
+            <h2 class="section-title">The Campfire <em>Confessions</em></h2>
+            <p class="section-desc" contenteditable="true">Hover over the classified files below. Did you believe any of these when you were younger? Why do these specific stories survive across generations and borders?</p>
+            
+            <div class="campfire-grid">
+                <div class="myth-card">
+                    <div class="myth-icon">🪞</div>
+                    <div class="myth-title" contenteditable="true">Bloody Mary</div>
+                    <div class="myth-hidden" contenteditable="true">Chant her name three times in a dark bathroom mirror, and she appears. A classic test of childhood bravery.</div>
+                </div>
+                <div class="myth-card">
+                    <div class="myth-icon">🪝</div>
+                    <div class="myth-title" contenteditable="true">The Hookman</div>
+                    <div class="myth-hidden" contenteditable="true">A couple parked in the woods hears a scratch on the car door. They flee, only to find a bloody hook hanging from the handle.</div>
+                </div>
+                <div class="myth-card">
+                    <div class="myth-icon">🕴️</div>
+                    <div class="myth-title" contenteditable="true">Slenderman</div>
+                    <div class="myth-hidden" contenteditable="true">A tall, faceless entity in a suit that stalks children in the woods. Born on the internet in 2009, treated as real by many.</div>
+                </div>
+                <div class="myth-card">
+                    <div class="myth-icon">🚗</div>
+                    <div class="myth-title" contenteditable="true">The Phantom Hitchhiker</div>
+                    <div class="myth-hidden" contenteditable="true">You pick up a silent girl on a rainy night. When you arrive at her address, she has vanished from the backseat.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="vocab">
+        <div class="section-inner">
+            <div class="task-counter">02. C1 LEXICON</div>
+            <h2 class="section-title">Words of the <em>Unknown</em></h2>
+            <p class="section-desc" contenteditable="true">These advanced terms are crucial for discussing myths, psychology, and internet culture. Hover over the redacted blocks to reveal their meanings.</p>
+
+            <div class="vocab-grid">
+                <div class="vocab-card">
+                    <div class="v-word" contenteditable="true">Apocryphal</div>
+                    <div class="v-pos" contenteditable="true">adjective</div>
+                    <div class="v-def">Of doubtful authenticity, although widely circulated as being <span class="redacted-text">true or factual.</span></div>
+                    <div class="v-example" contenteditable="true">"The story about the alligators in the sewers is entirely apocryphal."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-word" contenteditable="true">Credulity</div>
+                    <div class="v-pos" contenteditable="true">noun</div>
+                    <div class="v-def">A tendency to be too ready to <span class="redacted-text">believe that something is real or true.</span></div>
+                    <div class="v-example" contenteditable="true">"Scammers rely on the credulity of people on the internet."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-word" contenteditable="true">Ubiquitous</div>
+                    <div class="v-pos" contenteditable="true">adjective</div>
+                    <div class="v-def">Present, appearing, or found <span class="redacted-text">everywhere at the same time.</span></div>
+                    <div class="v-example" contenteditable="true">"The Slenderman myth became ubiquitous across forums in 2011."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-word" contenteditable="true">To debunk</div>
+                    <div class="v-pos" contenteditable="true">verb</div>
+                    <div class="v-def">To expose the falseness or <span class="redacted-text">hollowness of a myth, idea, or belief.</span></div>
+                    <div class="v-example" contenteditable="true">"Snopes was created specifically to debunk internet folklore."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-word" contenteditable="true">Macabre</div>
+                    <div class="v-pos" contenteditable="true">adjective</div>
+                    <div class="v-def">Disturbing and horrifying because of involvement with or depiction of <span class="redacted-text">death and injury.</span></div>
+                    <div class="v-example" contenteditable="true">"Urban legends often feature macabre details to make them memorable."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-word" contenteditable="true">To propagate</div>
+                    <div class="v-pos" contenteditable="true">verb</div>
+                    <div class="v-def">To spread and promote <span class="redacted-text">an idea, theory, or piece of information widely.</span></div>
+                    <div class="v-example" contenteditable="true">"Social media algorithms propagate fear-based myths faster than facts."</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="reading">
+        <div class="section-inner">
+            <div class="task-counter">03. EVIDENCE FILE</div>
+            <h2 class="section-title">From Campfires to <em>Creepypastas</em></h2>
+            <p class="section-desc" contenteditable="true">Read the editorial. Observe the highlighted phrases—these are advanced quantifiers we use to express precise volumes or amounts.</p>
+
+            <div class="editorial">
+                <div class="ed-meta" contenteditable="true">The Digital Folklore Archive // Vol. 4</div>
+                <div class="ed-title" contenteditable="true">The Mutation of Myth</div>
+                <div contenteditable="true">
+                    <span class="ed-dropcap">F</span>or centuries, human beings required <span class="q-highlight">a great deal of</span> time and physical proximity to propagate a myth. A cautionary tale about walking alone in the woods would take generations to spread across a continent. Today, that timeline has been reduced to <span class="q-highlight">a fraction of</span> what it once was.
+                    <br><br>
+                    In the modern era, <span class="q-highlight">scores of</span> terrifying stories—now known as "creepypastas"—are generated daily on forums like Reddit. <span class="q-highlight">The vast majority of</span> these stories are forgotten instantly. However, <span class="q-highlight">a handful of</span> them strike a visceral nerve, tapping into our collective anxieties. Slenderman, for instance, started as a single Photoshop contest entry. Within months, there was <span class="q-highlight">scarcely any</span> corner of the internet that hadn't encountered him.
+                    <br><br>
+                    Interestingly, despite having access to limitless information, modern society shows <span class="q-highlight">a negligible amount of</span> skepticism when faced with a compelling narrative. We possess <span class="q-highlight">masses of</span> data, yet <span class="q-highlight">very little</span> immunity to a well-crafted, macabre lie. It seems that no matter the technology, our credulity remains beautifully, terrifyingly intact.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="grammar">
+        <div class="section-inner">
+            <div class="task-counter">04. SYSTEM RULES</div>
+            <h2 class="section-title">Advanced <em>Quantifiers</em></h2>
+            <p class="section-desc" contenteditable="true">In C1 English, we move beyond <em>"a lot of"</em> and <em>"some"</em>. We use precise quantifiers that collocate strictly with Countable (C) or Uncountable (U) nouns, or both (B).</p>
+
+            <div class="grammar-box">
+                <div class="g-header"><h3>I. Expressing Large Amounts</h3></div>
+                <table class="g-table">
+                    <tr>
+                        <th contenteditable="true">Quantifier</th>
+                        <th contenteditable="true">Rule (C / U / B)</th>
+                        <th contenteditable="true">Example & Nuance</th>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>A great deal of</strong></td>
+                        <td class="g-syntax" contenteditable="true">Uncountable only</td>
+                        <td contenteditable="true">"It takes <em>a great deal of</em> <strong>courage</strong> to debunk a myth." (Formal)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>Scores of</strong></td>
+                        <td class="g-syntax" contenteditable="true">Countable (Plural)</td>
+                        <td contenteditable="true">"<em>Scores of</em> <strong>teenagers</strong> believed the story." (Means 'large numbers of')</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>Masses of / Loads of</strong></td>
+                        <td class="g-syntax neutral" contenteditable="true">Both</td>
+                        <td contenteditable="true">"We found <em>masses of</em> <strong>evidence/files</strong>." (Informal, overwhelming amount)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>The vast majority of</strong></td>
+                        <td class="g-syntax neutral" contenteditable="true">Both</td>
+                        <td contenteditable="true">"<em>The vast majority of</em> <strong>the internet / people</strong> ignored it." (Almost all)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="grammar-box">
+                <div class="g-header"><h3>II. Expressing Small or Zero Amounts</h3></div>
+                <table class="g-table">
+                    <tr>
+                        <th contenteditable="true">Quantifier</th>
+                        <th contenteditable="true">Rule (C / U / B)</th>
+                        <th contenteditable="true">Example & Nuance</th>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>A negligible amount of</strong></td>
+                        <td class="g-syntax" contenteditable="true">Uncountable only</td>
+                        <td contenteditable="true">"There is <em>a negligible amount of</em> <strong>truth</strong> in it." (So small it doesn't matter)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>A handful of</strong></td>
+                        <td class="g-syntax" contenteditable="true">Countable (Plural)</td>
+                        <td contenteditable="true">"Only <em>a handful of</em> <strong>people</strong> saw the creature." (A very small number)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true"><strong>Scarcely any / Hardly any</strong></td>
+                        <td class="g-syntax neutral" contenteditable="true">Both</td>
+                        <td contenteditable="true">"There is <em>scarcely any</em> <strong>doubt / witnesses</strong>." (Almost none. *Never use with double negative*)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="callout c-blood">
+                <strong contenteditable="true">⚠️ The Classic Trap: Few vs. A Few / Little vs. A Little</strong><br>
+                <span contenteditable="true">
+                <strong>"A few / A little"</strong> = Positive meaning (Some). "I have <em>a few</em> clues." (That's good!)<br>
+                <strong>"Few / Little"</strong> = Negative meaning (Not enough). "I have <em>few</em> clues." (That's bad!)
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="practice">
+        <div class="section-inner">
+            <div class="task-counter">05. DEBUNK THE GRAMMAR</div>
+            <h2 class="section-title">The Snopes <em>Editor</em></h2>
+            <p class="section-desc" contenteditable="true">You are an editor for a myth-busting website. These draft sentences contain <strong>one major quantifier error</strong> each. Click the red text, type the correction, and hit Check.</p>
+
+            <div id="spyGameL20">
+                <div class="spy-sentence" id="spy-1">
+                    <span class="spy-num">01</span>
+                    <div class="spy-text">
+                        A <span class="wrong-word" onclick="revealSpy(1)">great deal of teenagers</span> actually believed that the Slenderman was a historical entity, proving the power of digital folklore.
+                        <div class="spy-input-wrap" id="wrap-1"><input class="spy-input" id="input-1" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(1)">Debunk</button><span class="spy-feedback" id="fb-1"></span></div>
+                    </div>
+                </div>
+                <div class="spy-sentence" id="spy-2">
+                    <span class="spy-num">02</span>
+                    <div class="spy-text">
+                        Despite exhaustive searches in the Scottish Highlands, there is <span class="wrong-word" onclick="revealSpy(2)">scarcely no evidence</span> to support the existence of the Loch Ness Monster.
+                        <div class="spy-input-wrap" id="wrap-2"><input class="spy-input" id="input-2" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(2)">Debunk</button><span class="spy-feedback" id="fb-2"></span></div>
+                    </div>
+                </div>
+                <div class="spy-sentence" id="spy-3">
+                    <span class="spy-num">03</span>
+                    <div class="spy-text">
+                        While a few conspiracy theorists propagate the myth online, <span class="wrong-word" onclick="revealSpy(3)">vast majority of</span> the scientific community dismisses it entirely.
+                        <div class="spy-input-wrap" id="wrap-3"><input class="spy-input" id="input-3" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(3)">Debunk</button><span class="spy-feedback" id="fb-3"></span></div>
+                    </div>
+                </div>
+                <div class="spy-sentence" id="spy-4">
+                    <span class="spy-num">04</span>
+                    <div class="spy-text">
+                        It is fascinating how <span class="wrong-word" onclick="revealSpy(4)">every of</span> these ancient apocryphal stories shares identical macabre details across different continents.
+                        <div class="spy-input-wrap" id="wrap-4"><input class="spy-input" id="input-4" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(4)">Debunk</button><span class="spy-feedback" id="fb-4"></span></div>
+                    </div>
+                </div>
+                <div class="spy-sentence" id="spy-5">
+                    <span class="spy-num">05</span>
+                    <div class="spy-text">
+                        The police had <span class="wrong-word" onclick="revealSpy(5)">very little clues</span> left at the scene, which is exactly why the local population invented a supernatural explanation.
+                        <div class="spy-input-wrap" id="wrap-5"><input class="spy-input" id="input-5" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(5)">Debunk</button><span class="spy-feedback" id="fb-5"></span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <script>
+                const ans = {
+                    1: ['great number of teenagers', 'large number of teenagers', 'scores of teenagers', 'many teenagers'],
+                    2: ['scarcely any evidence', 'hardly any evidence', 'almost no evidence'],
+                    3: ['the vast majority of'],
+                    4: ['every one of', 'each of', 'all of'],
+                    5: ['very few clues', 'few clues', 'scarcely any clues']
+                };
+                let solved = {};
+
+                function revealSpy(n) { document.getElementById('wrap-'+n).classList.add('visible'); document.getElementById('input-'+n).focus(); }
+                function checkSpy(n) {
+                    if (solved[n]) return;
+                    let val = document.getElementById('input-'+n).value.trim().toLowerCase();
+                    let fb = document.getElementById('fb-'+n);
+                    let card = document.getElementById('spy-'+n);
+                    
+                    if (ans[n].some(a => val.includes(a))) {
+                        fb.textContent = "✓ Verified"; fb.className = "spy-feedback ok";
+                        card.classList.add('correct'); solved[n] = true;
+                    } else {
+                        fb.textContent = "✗ False"; fb.className = "spy-feedback no";
+                        card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect');
+                        setTimeout(() => card.classList.remove('incorrect'), 400);
+                    }
+                }
+            </script>
+        </div>
+    </section>
+
+    <section class="section" id="video">
+        <div class="section-inner">
+            <div class="task-counter">06. SURVEILLANCE FOOTAGE</div>
+            <h2 class="section-title">Why we believe <em>Urban Legends</em></h2>
+            <p class="section-desc" contenteditable="true">Watch this analysis of how myths hack our psychology. Then, test your credulity with the True / False / Not Given statements below.</p>
+
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/8X82ZgHh1yY?rel=0" allowfullscreen></iframe>
+            </div>
+
+            <div id="tfngBlock">
+                <div class="tfng-item" id="t-1">
+                    <div class="tfng-stmt" contenteditable="true">1. The primary reason urban legends propagate is because they stimulate a visceral emotional response, typically disgust or fear.</div>
+                    <div class="tfng-btns">
+                        <button class="tfng-btn" onclick="checkTFNG(1,'T','T')">TRUE</button>
+                        <button class="tfng-btn" onclick="checkTFNG(1,'F','T')">FALSE</button>
+                        <button class="tfng-btn" onclick="checkTFNG(1,'NG','T')">NOT GIVEN</button>
+                    </div>
+                    <div class="tfng-explain" id="e-1">Correct. Studies show that narratives evoking high-arousal emotions (like fear/disgust) are shared significantly faster.</div>
+                </div>
+                <div class="tfng-item" id="t-2">
+                    <div class="tfng-stmt" contenteditable="true">2. The internet has caused a negligible amount of change to the actual core structure of folklore.</div>
+                    <div class="tfng-btns">
+                        <button class="tfng-btn" onclick="checkTFNG(2,'T','F')">TRUE</button>
+                        <button class="tfng-btn" onclick="checkTFNG(2,'F','F')">FALSE</button>
+                        <button class="tfng-btn" onclick="checkTFNG(2,'NG','F')">NOT GIVEN</button>
+                    </div>
+                    <div class="tfng-explain" id="e-2">False. The medium has changed the structure—digital myths often rely on crowd-sourced worldbuilding rather than a single linear narrative.</div>
+                </div>
+                <div class="tfng-item" id="t-3">
+                    <div class="tfng-stmt" contenteditable="true">3. The vast majority of teenagers today can easily distinguish between a creepypasta and a real news event.</div>
+                    <div class="tfng-btns">
+                        <button class="tfng-btn" onclick="checkTFNG(3,'T','NG')">TRUE</button>
+                        <button class="tfng-btn" onclick="checkTFNG(3,'F','NG')">FALSE</button>
+                        <button class="tfng-btn" onclick="checkTFNG(3,'NG','NG')">NOT GIVEN</button>
+                    </div>
+                    <div class="tfng-explain" id="e-3">Not Given. The video discusses human psychology and credulity generally, but provides no specific demographic data on teenagers' media literacy.</div>
+                </div>
+            </div>
+
+            <script>
+                let tfngSol = {};
+                function checkTFNG(n, choice, correct) {
+                    if (tfngSol[n]) return;
+                    let item = document.getElementById('t-'+n);
+                    let exp = document.getElementById('e-'+n);
+                    let btns = item.querySelectorAll('.tfng-btn');
+                    
+                    btns.forEach(b => {
+                        if (b.innerText.charAt(0) === correct.charAt(0)) b.classList.add('show-correct');
+                    });
+
+                    if (choice === correct) {
+                        item.classList.add('t-correct');
+                        btns.forEach(b => { if (b.innerText.charAt(0) === choice.charAt(0)) b.classList.add('selected-correct'); });
+                    } else {
+                        item.classList.add('t-wrong');
+                        btns.forEach(b => { if (b.innerText.charAt(0) === choice.charAt(0)) b.classList.add('selected-wrong'); });
+                    }
+                    exp.classList.add('visible'); tfngSol[n] = true;
+                }
+            </script>
+        </div>
+    </section>
+
+    <section class="section" id="speaking">
+        <div class="section-inner">
+            <div class="task-counter">07. CREATIVE SYNTHESIS</div>
+            <h2 class="section-title">The Myth <em>Spinners</em></h2>
+            <p class="section-desc" contenteditable="true">You have 60 seconds. Pick a mundane object from the grid below. Invent a macabre, apocryphal urban legend about it. <strong>Constraint:</strong> You must use at least THREE advanced quantifiers and TWO words from the C1 Lexicon.</p>
+
+            <div class="spinner-grid">
+                <div class="spin-item" contenteditable="true">An old USB Drive</div>
+                <div class="spin-item" contenteditable="true">A hotel coffee maker</div>
+                <div class="spin-item" contenteditable="true">An ATM at 3 AM</div>
+                <div class="spin-item" contenteditable="true">A Bluetooth speaker</div>
+                <div class="spin-item" contenteditable="true">A subway ticket</div>
+                <div class="spin-item" contenteditable="true">A smart fridge</div>
+            </div>
+
+            <div class="callout c-amber">
+                <strong contenteditable="true">Partner Challenge:</strong> Listen to their myth. When they finish, you must <strong>debunk</strong> it using a quantifier. <em>("There is a negligible amount of truth in that because...")</em>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-inner">
+            <div class="task-counter">08. INVESTIGATION BOARD</div>
+            <h2 class="section-title">Red String <em>Theory</em></h2>
+            <p class="section-desc" contenteditable="true">Map out a local myth, sketch the structure of a creepypasta, or draw grammar timelines.</p>
+
+            <div class="wb-container">
+                <div class="wb-toolbar">
+                    <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                    <button class="wb-btn" data-tool="highlight">Highlight</button>
+                    <button class="wb-btn" data-tool="text">Text</button>
+                    <button class="wb-btn" data-tool="arrow">String (Arrow)</button>
+                    <input type="color" id="wbColor" class="wb-color" value="#e11d48" title="Color">
+                    <button class="wb-btn" id="wbClear" style="margin-left:auto; border-color:var(--blood); color:var(--blood);">Clear Evidence</button>
+                </div>
+                <canvas id="boardCanvas"></canvas>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollTo({top: document.querySelector('.wb-container').offsetTop - 100, behavior: 'smooth'})" title="Board">🖍️</button>
+    <button class="fab-btn" style="background:#2563eb;" onclick="document.getElementById('quizletModal').style.display='flex'" title="Quizlet">📝</button>
+    <button class="fab-btn" onclick="saveAsPDF()" title="PDF">💾</button>
+    <button class="fab-btn" style="background:var(--blood);" onclick="resetLesson()" title="Reset">🔄</button>
+</div>
+
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('quizletModal').style.display='none'">×</span>
+        <h2 style="font-family:var(--font-head); color:var(--bone); margin-bottom:10px;">Extract Lexicon</h2>
+        <p style="color:var(--mist); font-size:0.9rem; margin-bottom:20px;">Input data to export directly to Quizlet.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="Apocryphal" class="q-word"><input type="text" placeholder="Translation / Def" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="To debunk" class="q-word"><input type="text" placeholder="Translation / Def" class="q-trans"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex:1;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" class="wb-btn" style="flex:2; background:#2563eb; border-color:#2563eb;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // PDF Export
+    function saveAsPDF() {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        html2pdf().set({
+            margin: 0, filename: 'Lesson-20-Urban-Legends-C1.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'px', format: [document.body.scrollWidth, document.body.scrollHeight], orientation: 'portrait' }
+        }).from(document.body).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    }
+
+    // Quizlet Scripts
+    function addWordRow() {
+        const r = document.createElement('div'); r.className = 'word-row';
+        r.innerHTML = '<input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Def" class="q-trans">';
+        document.getElementById('wordList').appendChild(r);
+    }
+    function copyForQuizlet() {
+        let out = '';
+        document.querySelectorAll('.word-row').forEach(r => {
+            const w = r.querySelector('.q-word').value.trim(), t = r.querySelector('.q-trans').value.trim();
+            if (w || t) out += `${w}\t${t}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if (out) {
+            navigator.clipboard.writeText(out);
+            btn.innerText = '✓ Copied'; setTimeout(() => btn.innerText = '📋 Copy Data', 3000);
+        }
+    }
+
+    // Whiteboard Scripts
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    function initCanvas() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    }
+    window.addEventListener('resize', initCanvas); initCanvas();
+
+    let isDrawing = false, currentTool = 'pencil', color = '#e11d48', startX, startY, savedImg;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b => {
+        b.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(x => x.classList.remove('active'));
+            b.classList.add('active'); currentTool = b.dataset.tool;
+        });
+    });
+    document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        if (window.syncWbClear) window.syncWbClear();
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const t = prompt('Enter text:');
+            if (t) { ctx.font = "18px 'Inter', sans-serif"; ctx.fillStyle = color; ctx.fillText(t, startX, startY); if(window.syncWbDraw) window.syncWbDraw(); }
+            return;
+        }
+        isDrawing = true; savedImg = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(p.x, p.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? color + '40' : color;
+            ctx.lineWidth = currentTool === 'highlight' ? 16 : 2;
+            ctx.stroke();
+        } else {
+            ctx.putImageData(savedImg, 0, 0); drawShape(p.x, p.y);
+        }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing = false;
+        if (['square','circle','arrow'].includes(currentTool)) drawShape(getPos(e).x, getPos(e).y);
+        if (window.syncWbDraw) window.syncWbDraw();
+    });
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+        if (currentTool === 'arrow') {
+            const hl = 15, ang = Math.atan2(ey-startY, ex-startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - hl * Math.cos(ang - Math.PI/6), ey - hl * Math.sin(ang - Math.PI/6));
+            ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - hl * Math.cos(ang + Math.PI/6), ey - hl * Math.sin(ang + Math.PI/6));
+            ctx.stroke();
+        }
+    }
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1"
+    };
+
+    const appId = 'lesson-20-urban-legends-c1';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let user = null, isSync = false;
+
+    signInAnonymously(auth).catch(console.error);
+
+    onAuthStateChanged(auth, u => {
+        user = u;
+        if (user && !isSync) {
+            isSync = true;
+            setupSync(); setupCursors();
+        }
+    });
+
+    function debounce(f, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; }
+
+    function setupSync() {
+        const txtRef = doc(db, 'artifacts', appId, 'data', 'text');
+        const wbRef = doc(db, 'artifacts', appId, 'data', 'wb');
+        let editing = null;
+
+        document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
+            el.dataset.sid = 'e' + i;
+            el.addEventListener('focus', () => editing = el.dataset.sid);
+            el.addEventListener('blur', () => { editing = null; setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); });
+            el.addEventListener('input', debounce(() => { if (editing === el.dataset.sid) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); }, 500));
+        });
+
+        onSnapshot(txtRef, snap => {
+            if (!snap.exists()) return;
+            for (const [id, html] of Object.entries(snap.data())) {
+                if (editing !== id) {
+                    const el = document.querySelector(`[data-sid="${id}"]`);
+                    if (el && el.innerHTML !== html) el.innerHTML = html;
+                }
+            }
+        });
+
+        window.syncWbDraw = debounce(() => {
+            if(!user) return;
+            setDoc(wbRef, { img: document.getElementById('boardCanvas').toDataURL(), ts: Date.now() }, { merge:true });
+        }, 800);
+        
+        window.syncWbClear = () => { if(user) setDoc(wbRef, { clearTs: Date.now(), img: null }, { merge:true }); };
+
+        let lastClear = 0;
+        onSnapshot(wbRef, snap => {
+            if(!snap.exists()) return;
+            const d = snap.data(), cv = document.getElementById('boardCanvas'), cx = cv.getContext('2d');
+            if(d.clearTs > lastClear) { cx.clearRect(0,0,cv.width,cv.height); lastClear = d.clearTs; }
+            if(d.img) { const i = new Image(); i.onload = () => { cx.clearRect(0,0,cv.width,cv.height); cx.drawImage(i,0,0); }; i.src = d.img; }
+        });
+    }
+
+    function setupCursors() {
+        const curRef = collection(db, 'artifacts', appId, 'cursors');
+        const myDoc = doc(curRef, user.uid);
+        const container = document.getElementById('liveCursorsContainer');
+        const color = ['#e11d48','#10b981','#f59e0b','#3b82f6'][Math.floor(Math.random()*4)];
+        
+        document.addEventListener('mousemove', debounce(e => {
+            setDoc(myDoc, { x: e.pageX - window.innerWidth/2, y: e.pageY, color, ts: Date.now() });
+        }, 300));
+
+        onSnapshot(curRef, snap => {
+            snap.docChanges().forEach(ch => {
+                if(ch.doc.id === user.uid) return;
+                const d = ch.doc.data();
+                let el = document.getElementById('c-'+ch.doc.id);
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
+                if(!el) {
+                    el = document.createElement('div'); el.id = 'c-'+ch.doc.id; el.className = 'remote-cursor';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z"/></svg>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth/2 + d.x) + 'px';
+                el.style.top = d.y + 'px';
+            });
+        });
+        window.addEventListener('beforeunload', () => deleteDoc(myDoc));
+    }
+
+    window.resetLesson = async () => {
+        if(!confirm('Purge all data?')) return;
+        await deleteDoc(doc(db, 'artifacts', appId, 'data', 'text'));
+        await setDoc(doc(db, 'artifacts', appId, 'data', 'wb'), { clearTs: Date.now(), img: null });
+        location.reload();
+    };
+</script>
+</body>
+</html>
