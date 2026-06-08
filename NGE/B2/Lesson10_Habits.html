@@ -6,7 +6,6 @@
     <title>Lesson 10: C1 | The Science of Habits</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,7 +20,6 @@
             --indigo-pale:#E0E7FF;
             --cyan:       #0EA5E9;
             --cyan-dim:   #0284C7;
-            --cyan-glow:  rgba(14, 165, 233, 0.15);
             --emerald:    #10B981;
             --rose:       #F43F5E;
             --bone:       #F8FAFC;
@@ -34,75 +32,29 @@
             --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.3);
             --shadow-md: 0 10px 25px -5px rgba(14, 165, 233, 0.15);
             --shadow-lg: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
-            
-            --r-sm: 8px;
-            --r-md: 16px;
-            --r-lg: 24px;
+            --r-sm: 8px; --r-md: 16px; --r-lg: 24px;
         }
 
         html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--font-ui); line-height: 1.7;
-            color: var(--bone); background: var(--void);
-            overflow-x: hidden;
-        }
+        body { font-family: var(--font-ui); line-height: 1.7; color: var(--bone); background: var(--void); overflow-x: hidden; }
 
         [contenteditable="true"] { outline: none; border-radius: 4px; transition: background 0.2s; }
         [contenteditable="true"]:hover { background: rgba(99, 102, 241, 0.1); }
         [contenteditable="true"]:focus { background: rgba(99, 102, 241, 0.15); box-shadow: 0 0 0 2px var(--indigo); }
 
         /* ── HERO ── */
-        .hero {
-            position: relative; min-height: 600px;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; overflow: hidden;
-            background: linear-gradient(135deg, var(--void) 0%, #111222 100%);
-        }
-
-        .hero-nodes {
-            position: absolute; inset: 0; pointer-events: none; opacity: 0.4;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.2) 0%, transparent 40%);
-        }
-
+        .hero { position: relative; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: linear-gradient(135deg, var(--void) 0%, #111222 100%); }
+        .hero-nodes { position: absolute; inset: 0; pointer-events: none; opacity: 0.4; background-image: radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.2) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(99, 102, 241, 0.2) 0%, transparent 40%); }
         .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 80px 40px; }
-
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4);
-            color: var(--indigo-pale); padding: 8px 24px; border-radius: 50px;
-            font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
-            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-size: clamp(3rem, 6vw, 5rem); font-weight: 800;
-            line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px;
-            text-shadow: 0 0 30px rgba(14, 165, 233, 0.3);
-        }
-
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4); color: var(--indigo-pale); padding: 8px 24px; border-radius: 50px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+        .hero h1 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; text-shadow: 0 0 30px rgba(14, 165, 233, 0.3); }
         .hero h1 em { color: var(--cyan); font-style: normal; }
-
-        .hero-sub {
-            font-size: 1.15rem; color: var(--mist); max-width: 650px;
-            margin: 0 auto 36px; font-weight: 300;
-        }
-
+        .hero-sub { font-size: 1.15rem; color: var(--mist); max-width: 650px; margin: 0 auto 36px; font-weight: 300; }
         .hero-chips { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-        .hero-chip {
-            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            padding: 6px 18px; border-radius: 50px; font-size: 0.85rem;
-            font-family: var(--font-mono); color: var(--bone);
-        }
+        .hero-chip { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-family: var(--font-mono); color: var(--bone); }
 
         /* ── NAV ── */
-        .nav-bar {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(6, 6, 10, 0.85); backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--slate); padding: 0 24px;
-        }
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(6, 6, 10, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--slate); padding: 0 24px; }
         .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
         .nav-logo { font-weight: 800; font-size: 1.2rem; color: var(--bone); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .nav-logo span { color: var(--cyan); }
@@ -112,105 +64,89 @@
         .nav-links .hw-tab { color: var(--cyan); border: 1px solid rgba(14, 165, 233, 0.4); background: rgba(14, 165, 233, 0.1); }
 
         /* ── SECTIONS ── */
-        .section { padding: 90px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .section { padding: 80px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
         .section:nth-child(even) { background: var(--dark); }
         .section-inner { max-width: 960px; margin: 0 auto; }
-        
-        .task-counter {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan);
-            background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2);
-            padding: 6px 16px; border-radius: 50px; margin-bottom: 20px;
-            letter-spacing: 1px; text-transform: uppercase;
-        }
-
+        .task-counter { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); padding: 6px 16px; border-radius: 50px; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
         .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 700; color: var(--bone); margin-bottom: 16px; line-height: 1.2; }
         .section-title em { color: var(--indigo); font-style: normal; }
         .section-desc { color: var(--mist); font-size: 1.1rem; margin-bottom: 40px; max-width: 700px; font-weight: 300; }
 
         /* ── CARDS & GRIDS ── */
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 24px; }
-        
-        .concept-card {
-            background: var(--panel); padding: 30px; border-radius: var(--r-md);
-            border: 1px solid var(--slate); transition: transform 0.3s, border-color 0.3s;
-            position: relative; overflow: hidden;
-        }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .concept-card { background: var(--panel); padding: 30px; border-radius: var(--r-md); border: 1px solid var(--slate); transition: transform 0.3s; position: relative; overflow: hidden; }
         .concept-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--cyan); }
         .concept-card:hover { transform: translateY(-5px); border-color: var(--cyan); box-shadow: var(--shadow-md); }
-        .concept-card h3 { color: var(--bone); font-size: 1.3rem; margin-bottom: 12px; }
-        .concept-card p { color: var(--mist); font-size: 0.95rem; }
-
-        /* ── VOCABULARY (Interactive) ── */
-        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-        .vocab-card {
-            background: var(--panel); border: 1px solid var(--slate); border-left: 4px solid var(--indigo);
-            padding: 24px; border-radius: var(--r-sm); position: relative; cursor: pointer; transition: all 0.3s;
-            min-height: 140px; display: flex; flex-direction: column; justify-content: center;
-        }
-        .vocab-card:hover { background: var(--dark); border-color: var(--indigo); }
         
+        /* ── VOCABULARY FLIP CARDS ── */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .vocab-card { background: var(--panel); border: 1px solid var(--slate); border-left: 4px solid var(--indigo); padding: 24px; border-radius: var(--r-sm); position: relative; cursor: pointer; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; }
+        .vocab-card:hover { background: var(--dark); border-color: var(--indigo); }
         .v-front { transition: opacity 0.3s; }
         .vocab-card:hover .v-front { opacity: 0; }
         .v-word { font-size: 1.4rem; font-weight: 700; color: var(--bone); margin-bottom: 4px; }
         .v-pos { font-family: var(--font-mono); font-size: 0.75rem; color: var(--cyan); }
-        
-        .v-back {
-            position: absolute; inset: 0; padding: 24px; background: var(--indigo); color: var(--bone);
-            opacity: 0; transition: opacity 0.3s; border-radius: 0 var(--r-sm) var(--r-sm) 0;
-            display: flex; align-items: center; font-size: 0.9rem; line-height: 1.5; font-weight: 500;
-        }
+        .v-back { position: absolute; inset: 0; padding: 24px; background: var(--indigo); color: var(--bone); opacity: 0; transition: opacity 0.3s; border-radius: 0 var(--r-sm) var(--r-sm) 0; display: flex; align-items: center; font-size: 0.9rem; line-height: 1.5; font-weight: 500; }
         .vocab-card:hover .v-back { opacity: 1; }
 
+        /* ── DRAG & DROP MECHANICS ── */
+        .dnd-container { background: var(--panel); border: 1px solid var(--slate); padding: 30px; border-radius: var(--r-md); }
+        .dnd-sentence { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8; color: var(--bone); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .drop-zone { min-width: 150px; height: 40px; border: 2px dashed var(--indigo); border-radius: var(--r-sm); background: rgba(99, 102, 241, 0.05); display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; vertical-align: middle; }
+        .drop-zone.drag-over { border-color: var(--cyan); background: rgba(14, 165, 233, 0.2); transform: scale(1.05); }
+        .drop-zone.filled { border: 2px solid var(--emerald); background: rgba(16, 185, 129, 0.1); }
+        .draggable-bank { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--slate); min-height: 60px; }
+        .draggable-word { background: var(--dark); border: 1px solid var(--slate); color: var(--cyan); padding: 8px 18px; border-radius: 50px; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600; cursor: grab; transition: transform 0.2s, box-shadow 0.2s; }
+        .draggable-word:active { cursor: grabbing; transform: scale(0.95); }
+        .draggable-word.dragging { opacity: 0.5; box-shadow: var(--shadow-md); }
+
         /* ── GRAMMAR TABLES ── */
-        .grammar-box { background: var(--panel); border: 1px solid var(--slate); border-radius: var(--r-md); overflow: hidden; margin-top: 30px; }
+        .grammar-box { background: var(--panel); border: 1px solid var(--slate); border-radius: var(--r-md); overflow: hidden; margin-top: 20px; }
         .g-header { background: rgba(0,0,0,0.2); padding: 20px 30px; border-bottom: 1px solid var(--slate); display: flex; align-items: center; justify-content: space-between; }
         .g-header h3 { font-family: var(--font-mono); font-size: 1.1rem; color: var(--cyan); text-transform: uppercase; }
-        
         .g-content { padding: 30px; }
-        .g-formula { font-size: 1.6rem; font-weight: 700; color: var(--bone); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-        .g-formula span { color: var(--mist); font-size: 1rem; font-weight: 400; }
-        .g-timeline { margin: 30px 0; position: relative; padding: 20px 0; border-top: 2px dashed var(--slate); }
+        .g-formula { font-size: 1.6rem; font-weight: 700; color: var(--bone); margin-bottom: 16px; }
+        .g-formula span { color: var(--mist); font-size: 1rem; font-weight: 400; margin-left:12px; }
         .g-example { background: var(--dark); border-left: 3px solid var(--emerald); padding: 16px 20px; border-radius: 4px; margin-top: 16px; font-size: 1.05rem; }
-        .g-example em { color: var(--emerald); font-style: normal; font-weight: 700; }
 
         /* ── ERROR SPY ── */
-        .spy-sentence { background: var(--panel); border: 1px solid var(--slate); border-radius: var(--r-md); padding: 20px 24px; margin-bottom: 12px; font-size: 1.05rem; display: flex; align-items: flex-start; gap: 16px; transition: all 0.3s; }
+        .spy-sentence { background: var(--panel); border: 1px solid var(--slate); border-radius: var(--r-md); padding: 20px 24px; margin-bottom: 12px; font-size: 1.05rem; display: flex; align-items: flex-start; gap: 16px; }
         .spy-sentence.correct { border-color: var(--emerald); background: rgba(16, 185, 129, 0.05); }
         .spy-sentence.incorrect { border-color: var(--rose); animation: shake 0.4s; }
         @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
         .spy-num { font-family: var(--font-mono); font-weight: 700; color: var(--cyan); font-size: 0.9rem; margin-top: 3px; }
-        .spy-text { flex: 1; line-height: 1.6; }
-        .wrong-word { background: rgba(244, 63, 94, 0.15); color: #FDA4AF; font-weight: 600; padding: 2px 6px; border-radius: 3px; border-bottom: 2px solid var(--rose); cursor: pointer; transition: background 0.2s; }
-        .wrong-word:hover { background: rgba(244, 63, 94, 0.3); }
+        .wrong-word { background: rgba(244, 63, 94, 0.15); color: #FDA4AF; font-weight: 600; padding: 2px 6px; border-radius: 3px; border-bottom: 2px solid var(--rose); cursor: pointer; }
         .spy-input-wrap { display: none; align-items: center; gap: 10px; margin-top: 12px; }
         .spy-input-wrap.visible { display: flex; }
-        .spy-input { background: var(--dark); border: 1px solid var(--cyan); color: var(--bone); padding: 8px 12px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9rem; min-width: 250px; outline: none; }
-        .spy-check-btn { background: var(--cyan); color: white; border: none; padding: 8px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .spy-check-btn:hover { background: var(--cyan-dim); }
-        .spy-feedback { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; }
+        .spy-input { background: var(--dark); border: 1px solid var(--cyan); color: var(--bone); padding: 8px 12px; border-radius: 4px; font-family: var(--font-mono); outline: none; }
+        .spy-check-btn { background: var(--cyan); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
 
-        /* ── INTERACTIVE GAP FILL (Click Clack) ── */
-        .gap-fill-box { background: var(--panel); border: 1px solid var(--slate); padding: 30px; border-radius: var(--r-md); margin-top: 20px; }
-        .gf-sentence { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8; color: var(--bone); }
-        .gf-blank { display: inline-block; min-width: 140px; height: 34px; border-bottom: 2px dashed var(--indigo); margin: 0 8px; vertical-align: middle; text-align: center; color: var(--cyan); font-weight: 600; font-family: var(--font-mono); cursor: pointer; transition: all 0.2s; background: rgba(99, 102, 241, 0.05); }
-        .gf-blank:hover { background: rgba(99, 102, 241, 0.15); }
-        .gf-blank.filled { border-bottom-style: solid; border-color: var(--emerald); color: var(--emerald); background: rgba(16, 185, 129, 0.1); cursor: default; }
-        .gf-word-bank { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--slate); }
-        .gf-word { background: var(--dark); border: 1px solid var(--slate); color: var(--bone); padding: 8px 18px; border-radius: 50px; font-family: var(--font-mono); font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
-        .gf-word:hover { background: var(--indigo); border-color: var(--indigo); }
-        .gf-word.selected { background: var(--emerald); border-color: var(--emerald); color: var(--void); opacity: 0.5; pointer-events: none; }
-        .gf-active-blank { border-color: var(--cyan) !important; background: rgba(14, 165, 233, 0.2) !important; box-shadow: 0 0 10px rgba(14, 165, 233, 0.3); }
-
-        /* ── CALLOUTS ── */
-        .callout { padding: 20px 24px; border-radius: var(--r-sm); margin: 24px 0; border-left: 4px solid; background: rgba(255,255,255,0.02); font-size: 1rem; line-height: 1.6; }
-        .c-indigo { border-color: var(--indigo); }
-        .c-cyan { border-color: var(--cyan); }
-        .c-emerald { border-color: var(--emerald); }
-
-        /* ── VIDEO ── */
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--slate); background: #000; margin-bottom: 20px; }
+        /* ── VIDEO & TFNG ── */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--slate); background: #000; margin-bottom: 20px; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .tfng-item { background: var(--panel); border: 1px solid var(--slate); border-radius: var(--r-md); padding: 20px; margin-bottom: 12px; }
+        .tfng-item.t-correct { border-color: var(--emerald); }
+        .tfng-item.t-wrong { border-color: var(--rose); }
+        .tfng-btns { display: flex; gap: 10px; margin-top:12px; }
+        .tfng-btn { background: transparent; border: 1px solid var(--slate); color: var(--bone); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; cursor: pointer; }
+        .tfng-btn.selected-correct { background: var(--emerald); border-color: var(--emerald); color: var(--dark); font-weight: 600; }
+        .tfng-btn.selected-wrong { background: var(--rose); border-color: var(--rose); font-weight: 600; }
+        .tfng-explain { display: none; margin-top: 16px; font-size: 0.9rem; color: var(--mist); font-family: var(--font-mono); padding-top: 16px; border-top: 1px dashed var(--slate); }
+
+        /* ── CALLOUTS & SPINNERS ── */
+        .callout { padding: 20px 24px; border-radius: var(--r-sm); margin: 24px 0; border-left: 4px solid; background: rgba(255,255,255,0.02); font-size: 1rem; }
+        .c-indigo { border-color: var(--indigo); }
+        .c-emerald { border-color: var(--emerald); }
+        .spinner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .spin-item { background: var(--dark); border: 1px dashed var(--slate); padding: 24px; text-align: center; border-radius: var(--r-md); font-weight: 700; transition: all 0.3s; }
+        .spin-item:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(14, 165, 233, 0.05); }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 1px solid var(--slate); border-radius: var(--r-lg); overflow: hidden; background: #fff; margin-top: 20px; }
+        .wb-toolbar { background: var(--dark); padding: 12px 20px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--slate); }
+        .wb-btn { background: var(--panel); color: var(--bone); border: 1px solid var(--slate); padding: 6px 12px; border-radius: var(--r-sm); cursor: pointer; font-family: var(--font-mono); font-size: 0.8rem; }
+        .wb-btn:hover, .wb-btn.active { background: var(--cyan); border-color: var(--cyan); color: var(--dark); font-weight: 700; }
+        canvas { display: block; width: 100%; height: 500px; cursor: crosshair; }
 
         /* ── HOMEWORK UI (Hidden by default) ── */
         .hw-exclusive { display: none; background: var(--dark); min-height: 100vh; padding: 40px 20px 80px; }
@@ -218,35 +154,22 @@
         .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
         .hw-screen.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .hw-input { width: 100%; max-width: 400px; padding: 15px 20px; font-size: 1.1rem; font-family: var(--font-ui); border: 1px solid var(--slate); border-radius: 8px; background: var(--panel); color: var(--bone); transition: border-color 0.2s; margin-bottom: 24px; outline: none; }
-        .hw-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.2); }
-        
-        .hw-btn-primary { background: var(--indigo); color: white; border: none; padding: 16px 36px; font-size: 1.05rem; font-family: var(--font-ui); font-weight: 700; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
-        .hw-btn-primary:hover { background: var(--indigo-dim); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-        .hw-btn-skip { background: transparent; color: var(--mist); border: 1px solid var(--slate); padding: 10px 24px; font-size: 0.9rem; font-family: var(--font-ui); font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.2s; margin-top: 24px; }
-        .hw-btn-skip:hover { background: rgba(255,255,255,0.05); color: var(--bone); }
-        
+        .hw-btn-primary { background: var(--indigo); color: white; border: none; padding: 16px 36px; font-size: 1.05rem; font-weight: 700; border-radius: 50px; cursor: pointer; }
         .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-        .hw-timer { font-family: var(--font-mono); font-weight: 700; font-size: 1.2rem; color: var(--cyan); background: rgba(14, 165, 233, 0.1); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(14, 165, 233, 0.2); display: flex; align-items: center; gap: 8px; }
+        .hw-timer { font-family: var(--font-mono); font-weight: 700; font-size: 1.2rem; color: var(--cyan); background: rgba(14, 165, 233, 0.1); padding: 10px 20px; border-radius: 8px; border: 1px solid rgba(14, 165, 233, 0.2); }
         .hw-progress { width: 100%; height: 6px; background: var(--panel); margin-bottom: 40px; border-radius: 4px; overflow: hidden; }
         .hw-progress-fill { height: 100%; background: var(--cyan); width: 0%; transition: width 0.3s ease; }
-        
-        .hw-qbox { background: var(--panel); padding: 40px; border: 1px solid var(--slate); border-top: 4px solid var(--indigo); border-radius: 12px; box-shadow: var(--shadow-md); text-align: left; }
-        .hw-qtext { font-size: 1.4rem; color: var(--bone); margin-bottom: 30px; line-height: 1.6; font-weight: 500; }
+        .hw-qbox { background: var(--panel); padding: 40px; border: 1px solid var(--slate); border-top: 4px solid var(--indigo); border-radius: 12px; text-align: left; }
+        .hw-qtext { font-size: 1.4rem; color: var(--bone); margin-bottom: 30px; font-weight: 500; }
         .hw-options { display: grid; gap: 12px; }
-        .hw-opt-btn { background: var(--dark); border: 1px solid var(--slate); padding: 18px 24px; text-align: left; font-family: var(--font-ui); font-size: 1.1rem; font-weight: 500; color: var(--bone); cursor: pointer; transition: all 0.2s; border-radius: 8px; }
-        .hw-opt-btn:hover { background: rgba(14, 165, 233, 0.1); border-color: var(--cyan); transform: translateX(5px); }
+        .hw-opt-btn { background: var(--dark); border: 1px solid var(--slate); padding: 18px 24px; text-align: left; font-size: 1.1rem; color: var(--bone); cursor: pointer; border-radius: 8px; }
+        .hw-opt-btn:hover { background: rgba(14, 165, 233, 0.1); border-color: var(--cyan); }
         
-        .hw-results-card { background: var(--panel); padding: 40px; border: 1px solid var(--slate); border-radius: 12px; border-top: 4px solid var(--emerald); box-shadow: var(--shadow-lg); margin: 30px auto 40px; text-align: center; max-width: 800px; }
-        .hw-score { font-size: 4rem; font-weight: 800; color: var(--bone); margin: 10px 0; font-family: var(--font-mono); }
-        .hw-review-grid { display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 40px; }
-        .hw-review-item { padding: 24px; border: 1px solid var(--slate); border-left: 4px solid var(--slate); background: var(--dark); border-radius: 8px; }
-        .hw-review-item.correct { border-left-color: var(--emerald); background: rgba(16, 185, 129, 0.05); }
-        .hw-review-item.incorrect { border-left-color: var(--rose); background: rgba(244, 63, 94, 0.05); }
-        .hw-review-q { font-size: 1.1rem; color: var(--bone); margin-bottom: 12px; font-weight: 500; }
-        .hw-review-ans { font-size: 0.95rem; margin-bottom: 4px; color: var(--mist); }
-
+        /* FABs & MODALS */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--panel); color: var(--bone); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-sm); border:1px solid var(--slate); }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--panel); padding: 32px; border-radius: var(--r-lg); width: 90%; max-width: 600px; border: 1px solid var(--slate); position: relative; }
     </style>
 </head>
 <body>
@@ -255,7 +178,6 @@
     <span id="syncDot" style="width:8px; height:8px; border-radius:50%; background:var(--cyan); box-shadow:0 0 8px var(--cyan); display:block;"></span>
     <span id="syncText">NETWORK SECURE</span>
 </div>
-<div id="liveCursorsContainer" style="position:absolute; inset:0; pointer-events:none; z-index:999999;"></div>
 
 <header class="hero">
     <div class="hero-nodes"></div>
@@ -266,7 +188,7 @@
         <div class="hero-chips">
             <span class="hero-chip" contenteditable="true">FUTURE PERFECT</span>
             <span class="hero-chip" contenteditable="true">FUTURE CONTINUOUS</span>
-            <span class="hero-chip" contenteditable="true">C1 NEURO-LEXICON</span>
+            <span class="hero-chip" contenteditable="true">NEURO-LEXICON</span>
         </div>
     </div>
 </header>
@@ -275,36 +197,38 @@
     <div class="nav-inner">
         <a href="#" class="nav-logo">NGE <span>// L10</span></a>
         <ul class="nav-links" id="navTabsContainer">
-            <li><a href="#" onclick="window.addNewTab(event)" style="color:var(--cyan); font-weight: bold; font-size:1.2rem;">+</a></li>
-            <li><a href="#warmup" contenteditable="true">The Loop</a></li>
-            <li><a href="#vocab" contenteditable="true">Lexicon</a></li>
-            <li><a href="#video" contenteditable="true">Debunk</a></li>
-            <li><a href="#grammar" contenteditable="true">Time Travel</a></li>
-            <li><a href="#practice" contenteditable="true">Application</a></li>
-            <li><a href="#task-hw" class="hw-tab" contenteditable="false">Homework</a></li>
+            <li><a href="#" style="color:var(--cyan); font-weight: bold; font-size:1.2rem;">+</a></li>
+            <li><a href="#t1">The Loop</a></li>
+            <li><a href="#t2">Lexicon</a></li>
+            <li><a href="#t4">D&D Vocab</a></li>
+            <li><a href="#t5">Footage</a></li>
+            <li><a href="#t7">Grammar</a></li>
+            <li><a href="#t12">Rewrite</a></li>
+            <li><a href="#t15">Board</a></li>
+            <li><a href="#hw" class="hw-tab">Homework</a></li>
         </ul>
     </div>
 </nav>
 
 <main>
-    <section class="section" id="warmup">
+    <section class="section" id="t1">
         <div class="section-inner">
             <div class="task-counter">01. THE MECHANICS</div>
             <h2 class="section-title">The Habit <em>Loop</em></h2>
-            <p class="section-desc" contenteditable="true">According to Charles Duhigg, every habit is driven by a 3-step loop. Analyze the components below. Can you map one of your own daily habits (good or bad) onto this structure?</p>
+            <p class="section-desc" contenteditable="true">According to Charles Duhigg, every habit is driven by a 3-step loop. Analyze the components below. Can you map one of your own daily habits (good or bad) onto this clinical structure?</p>
             
             <div class="grid-2">
                 <div class="concept-card" style="border-top: 3px solid var(--cyan);">
                     <h3 contenteditable="true">1. The Cue</h3>
-                    <p contenteditable="true">The trigger that initiates the behavior. It can be a specific time, a location, an emotional state, or preceding action. <em>(e.g., Feeling stressed at 3 PM).</em></p>
+                    <p contenteditable="true">The trigger that initiates the behavior. It can be a specific time, a location, an emotional state, or preceding action. <em>(e.g., Feeling stressed before a major presentation).</em></p>
                 </div>
                 <div class="concept-card" style="border-top: 3px solid var(--indigo);">
                     <h3 contenteditable="true">2. The Routine</h3>
-                    <p contenteditable="true">The actual behavior or action you perform in response to the cue. This is the habit itself. <em>(e.g., Going to the kitchen and eating chocolate).</em></p>
+                    <p contenteditable="true">The actual behavior or action you perform in response to the cue. This is the habit itself. <em>(e.g., Mindlessly scrolling social media).</em></p>
                 </div>
                 <div class="concept-card" style="border-top: 3px solid var(--emerald);">
                     <h3 contenteditable="true">3. The Reward</h3>
-                    <p contenteditable="true">The benefit you gain from the behavior. This satisfies the craving and tells your brain to remember this loop for the future. <em>(e.g., A temporary sugar rush and distraction).</em></p>
+                    <p contenteditable="true">The benefit you gain from the behavior. This satisfies the craving and tells the basal ganglia to remember this loop for the future. <em>(e.g., A temporary dopamine hit and distraction).</em></p>
                 </div>
                 <div class="concept-card" style="background: var(--dark); border: 1px dashed var(--slate);">
                     <h3 contenteditable="true" style="color:var(--cyan);">Your Turn:</h3>
@@ -314,7 +238,7 @@
         </div>
     </section>
 
-    <section class="section" id="vocab">
+    <section class="section" id="t2">
         <div class="section-inner">
             <div class="task-counter">02. C1 LEXICON</div>
             <h2 class="section-title">The Language of <em>Rewiring</em></h2>
@@ -322,124 +246,151 @@
 
             <div class="vocab-grid">
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">noun</div>
-                        <div class="v-word" contenteditable="true">Neuroplasticity</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">The brain's ability to reorganize itself by forming new neural connections throughout life, allowing us to learn or break habits.</div>
+                    <div class="v-front"><div class="v-pos">noun</div><div class="v-word">Neuroplasticity</div></div>
+                    <div class="v-back">The brain's ability to reorganize itself by forming new neural connections throughout life, allowing us to learn or break habits.</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">adjective</div>
-                        <div class="v-word" contenteditable="true">Ingrained</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">(Of a habit or belief) firmly fixed or established; difficult to change. <em>"A deeply ingrained morning routine."</em></div>
+                    <div class="v-front"><div class="v-pos">adjective</div><div class="v-word">Ingrained</div></div>
+                    <div class="v-back">(Of a habit or belief) firmly fixed or established; difficult to change. "A deeply ingrained morning routine."</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">verb</div>
-                        <div class="v-word" contenteditable="true">To trigger</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">To cause an event, reaction, or habit to start functioning. <em>"Stress usually triggers his smoking habit."</em></div>
+                    <div class="v-front"><div class="v-pos">verb</div><div class="v-word">To trigger</div></div>
+                    <div class="v-back">To cause an event, reaction, or habit to start functioning. "Stress usually triggers his smoking habit."</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">adjective</div>
-                        <div class="v-word" contenteditable="true">Compounding</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">The process where small, consistent actions multiply and produce massive results over a long period.</div>
+                    <div class="v-front"><div class="v-pos">adjective</div><div class="v-word">Compounding</div></div>
+                    <div class="v-back">The process where small, consistent actions multiply and produce massive results over a long period.</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">verb</div>
-                        <div class="v-word" contenteditable="true">To override</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">To use your conscious willpower to stop an automatic process or impulse. <em>"He had to actively override the urge to check his phone."</em></div>
+                    <div class="v-front"><div class="v-pos">verb</div><div class="v-word">To override</div></div>
+                    <div class="v-back">To use your conscious willpower to stop an automatic process or impulse. "He had to actively override the urge to check his phone."</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">noun / verb</div>
-                        <div class="v-word" contenteditable="true">Plateau</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">A state of little or no change following a period of activity or progress. <em>"After a month of gym, she hit a plateau."</em></div>
+                    <div class="v-front"><div class="v-pos">noun / verb</div><div class="v-word">Plateau</div></div>
+                    <div class="v-back">A state of little or no change following a period of activity or progress. "After a month of training, she hit a plateau."</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">adjective</div>
-                        <div class="v-word" contenteditable="true">Detrimental</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">Tending to cause harm. <em>"Lack of sleep is highly detrimental to building new neural pathways."</em></div>
+                    <div class="v-front"><div class="v-pos">adjective</div><div class="v-word">Detrimental</div></div>
+                    <div class="v-back">Tending to cause harm. "Lack of sleep is highly detrimental to building new neural pathways."</div>
                 </div>
                 <div class="vocab-card">
-                    <div class="v-front">
-                        <div class="v-pos" contenteditable="true">noun / verb</div>
-                        <div class="v-word" contenteditable="true">Relapse</div>
-                    </div>
-                    <div class="v-back" contenteditable="true">A deterioration in someone's state of behavior after a temporary improvement; falling back into bad habits.</div>
+                    <div class="v-front"><div class="v-pos">noun</div><div class="v-word">Relapse</div></div>
+                    <div class="v-back">A deterioration in behavior after a temporary improvement; falling back into bad habits.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="video">
+    <section class="section" id="t3">
         <div class="section-inner">
-            <div class="task-counter">03. EVIDENCE FILE</div>
-            <h2 class="section-title">The 21-Day <em>Myth</em></h2>
-            <p class="section-desc" contenteditable="true">Watch the video breaking down the psychology of habit formation. Then answer the questions below.</p>
+            <div class="task-counter">03. PSYCHOLOGICAL BRIEF</div>
+            <h2 class="section-title">The Anatomy of a <em>Habit</em></h2>
+            <div style="background:var(--panel); padding:40px; border-radius:var(--r-md); border-left:4px solid var(--indigo); line-height:1.9; font-size:1.1rem; color:var(--bone);">
+                <p style="margin-bottom:20px;" contenteditable="true">When a person attempts to change their life trajectory or adopt a healthier lifestyle, they often struggle with their own neurobiology. Habits are housed deep within the <strong>basal ganglia</strong>, a primitive part of the brain that stores automatic routines to save cognitive energy.</p>
+                <p style="margin-bottom:20px;" contenteditable="true">Because these routines are deeply <strong>ingrained</strong>, mere motivation is rarely enough to change them. An expert's precise focus during complex deep work is a result of <strong>compounding</strong> habits built over thousands of hours of repetition, where conscious effort has been fully automated.</p>
+                <p contenteditable="true">Understanding <strong>neuroplasticity</strong> gives us hope: the brain is not static. By identifying the cues that <strong>trigger</strong> a <strong>detrimental</strong> routine, individuals can consciously <strong>override</strong> the default pathway and forge new connections.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t4">
+        <div class="section-inner">
+            <div class="task-counter">04. APPLICATION WIRING</div>
+            <h2 class="section-title">Lexical <em>Integration</em></h2>
+            <p class="section-desc">Drag the correct vocabulary words from the bank and drop them into the appropriate zones in the sentences below.</p>
+
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. It takes immense willpower to <div class="drop-zone" data-target="override"></div> an automatic biological response.</div>
+                <div class="dnd-sentence">2. The <div class="drop-zone" data-target="compounding"></div> effect of reading just ten pages a day leads to massive knowledge over a year.</div>
+                <div class="dnd-sentence">3. She experienced a brief <div class="drop-zone" data-target="relapse"></div> and smoked a cigarette after three months of quitting.</div>
+                <div class="dnd-sentence">4. Once a behavior becomes <div class="drop-zone" data-target="ingrained"></div>, you perform it without any conscious thought.</div>
+                <div class="dnd-sentence">5. Constant stress is highly <div class="drop-zone" data-target="detrimental"></div> to our physical and mental health.</div>
+
+                <div class="draggable-bank" id="vocabBank">
+                    <div class="draggable-word" draggable="true" data-id="ingrained">ingrained</div>
+                    <div class="draggable-word" draggable="true" data-id="detrimental">detrimental</div>
+                    <div class="draggable-word" draggable="true" data-id="override">override</div>
+                    <div class="draggable-word" draggable="true" data-id="relapse">relapse</div>
+                    <div class="draggable-word" draggable="true" data-id="compounding">compounding</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t5">
+        <div class="section-inner">
+            <div class="task-counter">05. ARCHIVE FOOTAGE</div>
+            <h2 class="section-title">A Simple Way to <em>Break a Bad Habit</em></h2>
+            <p class="section-desc" contenteditable="true">Psychiatrist Judson Brewer explains the relationship between mindfulness and habit loops. Watch closely.</p>
 
             <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/FSZKTBNo2O0?rel=0" allowfullscreen></iframe>
-            </div>
-
-            <div class="callout c-indigo">
-                <strong contenteditable="true" style="display:block; margin-bottom:8px; font-size:1.1rem; color:var(--bone);">Comprehension Check:</strong>
-                <ol style="margin-left: 20px; color: var(--mist);">
-                    <li contenteditable="true">Where did the idea that "it takes 21 days to form a habit" originally come from? Why is it scientifically inaccurate?</li>
-                    <li contenteditable="true">According to recent UCL studies, what is the actual average time required for a behavior to become automatic?</li>
-                    <li contenteditable="true">Use the word <strong>"compounding"</strong> to describe how atomic habits work.</li>
-                </ol>
+                <iframe src="https://www.youtube.com/embed/-moW9jvvMr4?rel=0" allowfullscreen></iframe>
             </div>
         </div>
     </section>
 
-    <section class="section" id="grammar">
+    <section class="section" id="t6">
         <div class="section-inner">
-            <div class="task-counter">04. SYSTEM RULES</div>
-            <h2 class="section-title">Projecting the <em>Future Self</em></h2>
-            <p class="section-desc" contenteditable="true">To talk about habit formation goals, we must look into the future. At C1 level, we use the <strong>Future Continuous</strong> and <strong>Future Perfect</strong> to express high-level time relationships.</p>
+            <div class="task-counter">06. COMPREHENSION</div>
+            <h2 class="section-title">Fact vs. <em>Fiction</em></h2>
+            
+            <div class="tfng-item" id="t-1">
+                <div class="tfng-stmt" contenteditable="true">1. The brain's reward-based learning process works exactly the same way for eating food as it does for smoking.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(1,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(1,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(1,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="e-1">TRUE. Brewer states that trigger, behavior, and reward (the loop) apply universally to basic survival (food) and destructive habits (smoking).</div>
+            </div>
+            <div class="tfng-item" id="t-2">
+                <div class="tfng-stmt" contenteditable="true">2. The prefrontal cortex is the oldest and most reliable part of the brain when we are stressed.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(2,'T','F')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(2,'F','F')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(2,'NG','F')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="e-2">FALSE. It is the youngest part of the brain and the *first* to go offline when we are stressed, leaving the older basal ganglia in charge.</div>
+            </div>
+            <div class="tfng-item" id="t-3">
+                <div class="tfng-stmt" contenteditable="true">3. Mindfulness training is twice as effective as standard therapy for quitting smoking.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(3,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(3,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(3,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="e-3">TRUE. He mentions a study where mindfulness training was twice as good as gold standard therapy for quitting smoking.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t7">
+        <div class="section-inner">
+            <div class="task-counter">07. SYSTEM RULES</div>
+            <h2 class="section-title">The Future <em>Continuous</em></h2>
+            <p class="section-desc" contenteditable="true">To talk about habit formation goals, we must look into the future. The Future Continuous describes an action that will be <strong>in progress</strong> at a specific time in the future, or expected future routines.</p>
 
             <div class="grammar-box">
-                <div class="g-header">
-                    <h3>Future Continuous</h3>
-                    <span style="color:var(--mist); font-size:0.85rem;">Action in progress</span>
-                </div>
+                <div class="g-header"><h3>Future Continuous</h3></div>
                 <div class="g-content">
-                    <div class="g-formula" contenteditable="true">will be + V-ing <span>(or: will be sleeping, will be working)</span></div>
-                    <p contenteditable="true" style="color:var(--mist); font-size:1.05rem;">We use this to describe an action that will be <strong>in progress</strong> at a specific time in the future, or to talk about expected, normal future events.</p>
-                    
+                    <div class="g-formula" contenteditable="true">will be + V-ing <span>(e.g., will be sleeping, will be studying)</span></div>
                     <div class="g-example" contenteditable="true">"Don't call me at 6 AM tomorrow. I <em>will be sleeping</em>." (Action in progress).</div>
                     <div class="g-example" contenteditable="true">"This time next month, I <em>will be waking</em> up without an alarm." (Expected routine).</div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="section" id="t8">
+        <div class="section-inner">
+            <div class="task-counter">08. SYSTEM RULES</div>
+            <h2 class="section-title">The Future <em>Perfect</em></h2>
+            <p class="section-desc" contenteditable="true">We use this to say that an action will be <strong>completed before</strong> a specific time or another action in the future. It is almost always used with time expressions like <em>"by..."</em> or <em>"before..."</em>.</p>
 
             <div class="grammar-box">
-                <div class="g-header">
-                    <h3>Future Perfect</h3>
-                    <span style="color:var(--mist); font-size:0.85rem;">Action completed before a deadline</span>
-                </div>
+                <div class="g-header"><h3>Future Perfect</h3></div>
                 <div class="g-content">
-                    <div class="g-formula" contenteditable="true">will have + V3 <span>(or: will have finished, will have built)</span></div>
-                    <p contenteditable="true" style="color:var(--mist); font-size:1.05rem;">We use this to say that an action will be <strong>completed before</strong> a specific time or another action in the future. It is almost always used with time expressions like <em>"by..."</em> or <em>"before..."</em>.</p>
-                    
-                    <div class="g-timeline">
-                        <div style="position:absolute; top:50%; left:0; right:0; height:2px; background:var(--slate); transform:translateY(-50%);"></div>
-                        <div style="display:flex; justify-content:space-between; position:relative; z-index:1;">
-                            <div style="text-align:center;"><div style="width:12px; height:12px; background:var(--cyan); border-radius:50%; margin:0 auto 8px;"></div><span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--mist);">Now</span></div>
-                            <div style="text-align:center;"><div style="width:12px; height:12px; background:var(--indigo); border-radius:50%; margin:0 auto 8px;"></div><span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--indigo);">Action Completes</span></div>
-                            <div style="text-align:center;"><div style="width:12px; height:12px; background:var(--rose); border-radius:50%; margin:0 auto 8px;"></div><span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--rose);">Deadline (By 2027)</span></div>
-                        </div>
-                    </div>
-                    
+                    <div class="g-formula" contenteditable="true">will have + V3 <span>(e.g., will have finished, will have built)</span></div>
                     <div class="g-example" contenteditable="true">"By December, I <em>will have automated</em> my morning routine."</div>
                     <div class="g-example" contenteditable="true">"By the time we arrive, the lecture <em>will have started</em>."</div>
                 </div>
@@ -447,174 +398,135 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="t9">
         <div class="section-inner">
-            <div class="task-counter">05. SYNTAX WIRING</div>
-            <h2 class="section-title">The Timeline <em>Test</em></h2>
-            <p class="section-desc" contenteditable="true">Click a blank line in the sentences below, then click the correct grammatical form or vocabulary word from the bank below to construct the future scenario.</p>
+            <div class="task-counter">09. SYNTAX WIRING</div>
+            <h2 class="section-title">Timeline <em>Assembly</em></h2>
+            <p class="section-desc">Drag the correct grammar structures into the sentences to project the future scenarios accurately.</p>
 
-            <div class="gap-fill-box">
-                <div class="gf-sentence" contenteditable="false">1. It takes time for the brain to rewire itself. However, by this time next year, neuroplasticity <span class="gf-blank" data-id="1"></span> your default reactions entirely.</div>
-                <div class="gf-sentence" contenteditable="false">2. I can't meet you at 8:00 PM tomorrow. I <span class="gf-blank" data-id="2"></span> my evening meditation routine then.</div>
-                <div class="gf-sentence" contenteditable="false">3. If you keep repeating this detrimental action, the habit will become deeply <span class="gf-blank" data-id="3"></span> in your basal ganglia.</div>
-                <div class="gf-sentence" contenteditable="false">4. Do not worry about the current plateau. By December, the <span class="gf-blank" data-id="4"></span> effect of your daily efforts will become visible.</div>
-                <div class="gf-sentence" contenteditable="false">5. By the time he turns 30, he hopes he <span class="gf-blank" data-id="5"></span> the urge to smoke whenever stress triggers him.</div>
-                <div class="gf-sentence" contenteditable="false">6. Tomorrow at noon, thousands of students <span class="gf-blank" data-id="6"></span> the final exam, relying on the study habits they built.</div>
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. By this time next year, neuroplasticity <div class="drop-zone" data-target="changed"></div> your default reactions.</div>
+                <div class="dnd-sentence">2. I can't meet you at 8 PM. I <div class="drop-zone" data-target="doing"></div> my evening meditation routine then.</div>
+                <div class="dnd-sentence">3. By the time he turns 30, he hopes he <div class="drop-zone" data-target="overridden"></div> his detrimental impulses.</div>
+                <div class="dnd-sentence">4. Tomorrow at noon, the executive team <div class="drop-zone" data-target="negotiating"></div> the new merger.</div>
 
-                <div class="gf-word-bank" id="wordBank">
-                    <div class="gf-word" data-word="will have changed">will have changed</div>
-                    <div class="gf-word" data-word="will be doing">will be doing</div>
-                    <div class="gf-word" data-word="ingrained">ingrained</div>
-                    <div class="gf-word" data-word="compounding">compounding</div>
-                    <div class="gf-word" data-word="will have overridden">will have overridden</div>
-                    <div class="gf-word" data-word="will be taking">will be taking</div>
+                <div class="draggable-bank" id="grammarBank">
+                    <div class="draggable-word" draggable="true" data-id="negotiating">will be negotiating</div>
+                    <div class="draggable-word" draggable="true" data-id="overridden">will have overridden</div>
+                    <div class="draggable-word" draggable="true" data-id="changed">will have changed</div>
+                    <div class="draggable-word" draggable="true" data-id="doing">will be doing</div>
                 </div>
             </div>
-
-            <script>
-                let activeBlank = null;
-                document.querySelectorAll('.gf-blank').forEach(b => {
-                    b.addEventListener('click', function() {
-                        document.querySelectorAll('.gf-blank').forEach(el => el.classList.remove('gf-active-blank'));
-                        this.classList.add('gf-active-blank');
-                        activeBlank = this;
-                    });
-                });
-                document.querySelectorAll('.gf-word').forEach(w => {
-                    w.addEventListener('click', function() {
-                        if(activeBlank && !this.classList.contains('selected')) {
-                            // If blank already had a word, unselect it in bank
-                            if(activeBlank.dataset.filledWord) {
-                                document.querySelector(`.gf-word[data-word="${activeBlank.dataset.filledWord}"]`).classList.remove('selected');
-                            }
-                            activeBlank.innerText = this.dataset.word;
-                            activeBlank.dataset.filledWord = this.dataset.word;
-                            activeBlank.classList.add('filled');
-                            activeBlank.classList.remove('gf-active-blank');
-                            this.classList.add('selected');
-                            activeBlank = null;
-                        }
-                    });
-                });
-            </script>
         </div>
     </section>
 
-    <section class="section" id="practice">
+    <section class="section" id="t10">
         <div class="section-inner">
-            <div class="task-counter">06. DEBUNK THE GRAMMAR</div>
-            <h2 class="section-title">The Syntax <em>Editor</em></h2>
-            <p class="section-desc" contenteditable="true">These draft sentences project future habits but contain <strong>one major tense or vocabulary error</strong> each. Click the red text, type the correction, and hit Check.</p>
-
-            <div id="spyGameL10">
-                <div class="spy-sentence" id="spy-1">
-                    <span class="spy-num">01</span>
-                    <div class="spy-text">
-                        By the end of the 66-day cycle, you <span class="wrong-word" onclick="revealSpy(1)">will successfully built</span> a new neural pathway that overrides the old behavior.
-                        <div class="spy-input-wrap" id="wrap-1"><input class="spy-input" id="input-1" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(1)">Rewrite</button><span class="spy-feedback" id="fb-1"></span></div>
-                    </div>
-                </div>
-                <div class="spy-sentence" id="spy-2">
-                    <span class="spy-num">02</span>
-                    <div class="spy-text">
-                        Please do not interrupt him at 7 AM; he <span class="wrong-word" onclick="revealSpy(2)">will meditating</span>, which is a crucial part of his new routine.
-                        <div class="spy-input-wrap" id="wrap-2"><input class="spy-input" id="input-2" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(2)">Rewrite</button><span class="spy-feedback" id="fb-2"></span></div>
-                    </div>
-                </div>
-                <div class="spy-sentence" id="spy-3">
-                    <span class="spy-num">03</span>
-                    <div class="spy-text">
-                        After six months of rapid weight loss, she hit a <span class="wrong-word" onclick="revealSpy(3)">trigger</span> where her progress completely stalled despite her consistent habits.
-                        <div class="spy-input-wrap" id="wrap-3"><input class="spy-input" id="input-3" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(3)">Rewrite</button><span class="spy-feedback" id="fb-3"></span></div>
-                    </div>
-                </div>
-                <div class="spy-sentence" id="spy-4">
-                    <span class="spy-num">04</span>
-                    <div class="spy-text">
-                        By the time the new year begins, I <span class="wrong-word" onclick="revealSpy(4)">will finish</span> reading all twelve books on behavioral psychology.
-                        <div class="spy-input-wrap" id="wrap-4"><input class="spy-input" id="input-4" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(4)">Rewrite</button><span class="spy-feedback" id="fb-4"></span></div>
-                    </div>
-                </div>
-                <div class="spy-sentence" id="spy-5">
-                    <span class="spy-num">05</span>
-                    <div class="spy-text">
-                        Checking your phone immediately after waking up has a highly <span class="wrong-word" onclick="revealSpy(5)">compounding</span> effect on your dopamine levels and focus for the rest of the day.
-                        <div class="spy-input-wrap" id="wrap-5"><input class="spy-input" id="input-5" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(5)">Rewrite</button><span class="spy-feedback" id="fb-5"></span></div>
-                    </div>
-                </div>
-            </div>
+            <div class="task-counter">10. PHONETICS</div>
+            <h2 class="section-title">The Flow of <em>Fluency</em></h2>
+            <p class="section-desc" contenteditable="true">Native speakers rarely pronounce every syllable of complex future tenses. In the Future Perfect, the auxiliary verbs contract heavily.</p>
             
-            <script>
-                const ansL10 = {
-                    1: ['will have successfully built', 'will have built'],
-                    2: ['will be meditating'],
-                    3: ['plateau'],
-                    4: ['will have finished', 'will have completed'],
-                    5: ['detrimental', 'negative', 'harmful']
-                };
-                let solvedL10 = {};
-
-                function revealSpy(n) { document.getElementById('wrap-'+n).classList.add('visible'); document.getElementById('input-'+n).focus(); }
-                function checkSpy(n) {
-                    if (solvedL10[n]) return;
-                    let val = document.getElementById('input-'+n).value.trim().toLowerCase();
-                    let fb = document.getElementById('fb-'+n);
-                    let card = document.getElementById('spy-'+n);
-                    
-                    if (ansL10[n].some(a => val.includes(a))) {
-                        fb.textContent = "✓ Verified"; fb.style.color = "var(--emerald)";
-                        card.classList.add('correct'); solvedL10[n] = true;
-                    } else {
-                        fb.textContent = "✗ False"; fb.style.color = "var(--rose)";
-                        card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect');
-                        setTimeout(() => card.classList.remove('incorrect'), 400);
-                    }
-                }
-            </script>
+            <div class="callout c-cyan">
+                <div style="font-family:var(--font-mono); font-size:1.2rem; margin-bottom:10px;">will have + V3  →  /wɪləv/ + V3</div>
+                <p>Listen and repeat: "By tomorrow, I <strong>/wɪləv/</strong> finished the project prep."</p>
+            </div>
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="t11">
         <div class="section-inner">
-            <div class="task-counter">07. PROJECTION</div>
-            <h2 class="section-title">The Future <em>Self</em></h2>
-            <p class="section-desc" contenteditable="true">Take 2 minutes to imagine your life exactly 3 years from today. Describe your ideal routine to your partner using the target grammar. Use the prompts below.</p>
+            <div class="task-counter">11. DEBUNK THE GRAMMAR</div>
+            <h2 class="section-title">The Syntax <em>Editor</em></h2>
+            <p class="section-desc" contenteditable="true">Click the red text, type the correct verb form, and hit Rewrite.</p>
 
-            <div class="grid-2">
-                <div style="background:var(--dark); padding:24px; border-radius:var(--r-md); border-left:4px solid var(--cyan);">
-                    <h3 style="color:var(--cyan); margin-bottom:12px; font-family:var(--font-mono); font-size:1rem;" contenteditable="true">// The Future Continuous</h3>
-                    <ul style="color:var(--mist); line-height:2.2;">
-                        <li contenteditable="true">"This time in 2029, I will be living..."</li>
-                        <li contenteditable="true">"Every morning, I will be waking up and..."</li>
-                        <li contenteditable="true">"In my career, I will be working on..."</li>
-                    </ul>
+            <div class="spy-sentence" id="spy-1">
+                <span class="spy-num">01</span>
+                <div class="spy-text">
+                    By the end of the 66-day cycle, you <span class="wrong-word" onclick="revealSpy(1)">will successfully built</span> a new neural pathway that overrides the old behavior.
+                    <div class="spy-input-wrap" id="wrap-1"><input class="spy-input" id="input-1" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(1)">Rewrite</button></div>
                 </div>
-                <div style="background:var(--dark); padding:24px; border-radius:var(--r-md); border-left:4px solid var(--indigo);">
-                    <h3 style="color:var(--indigo); margin-bottom:12px; font-family:var(--font-mono); font-size:1rem;" contenteditable="true">// The Future Perfect</h3>
-                    <ul style="color:var(--mist); line-height:2.2;">
-                        <li contenteditable="true">"By 2029, I will have completely broken the habit of..."</li>
-                        <li contenteditable="true">"I will have mastered the skill of..."</li>
-                        <li contenteditable="true">"My daily compounding efforts will have resulted in..."</li>
-                    </ul>
+            </div>
+            <div class="spy-sentence" id="spy-2">
+                <span class="spy-num">02</span>
+                <div class="spy-text">
+                    Please do not interrupt him at 7 AM; he <span class="wrong-word" onclick="revealSpy(2)">will meditating</span>, which is a crucial part of his new routine.
+                    <div class="spy-input-wrap" id="wrap-2"><input class="spy-input" id="input-2" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(2)">Rewrite</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-3">
+                <span class="spy-num">03</span>
+                <div class="spy-text">
+                    By the time the new year begins, I <span class="wrong-word" onclick="revealSpy(3)">will finish</span> reading all the behavioral journals.
+                    <div class="spy-input-wrap" id="wrap-3"><input class="spy-input" id="input-3" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(3)">Rewrite</button></div>
                 </div>
             </div>
         </div>
     </section>
 
-  <section class="section" id="whiteboard" style="border-bottom:none;">
+    <section class="section" id="t12">
         <div class="section-inner">
-            <div class="task-counter">08. NEURAL MAPPING</div>
+            <div class="task-counter">12. SYNTAX UPGRADE</div>
+            <h2 class="section-title">Elevate the <em>Language</em></h2>
+            <p class="section-desc" contenteditable="true">Rewrite the basic B1 sentences using the C1 future tenses.</p>
+            
+            <div style="background:var(--panel); padding:30px; border-radius:var(--r-md); border:1px solid var(--slate);">
+                <ol style="color:var(--bone); line-height:2.4; padding-left:20px;">
+                    <li contenteditable="true">B1: Next year I want to finish my master's degree before summer.<br>
+                        <strong>C1 (Future Perfect):</strong> By summer next year, I <span style="border-bottom:1px dashed var(--mist); display:inline-block; min-width:200px;"></span>
+                    </li>
+                    <li contenteditable="true">B1: At 3 PM tomorrow, I have a meeting with the board of directors.<br>
+                        <strong>C1 (Future Continuous):</strong> At 3 PM tomorrow, I <span style="border-bottom:1px dashed var(--mist); display:inline-block; min-width:200px;"></span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t13">
+        <div class="section-inner">
+            <div class="task-counter">13. BEHAVIORAL INVESTIGATION</div>
+            <h2 class="section-title">The Coach & <em>The Client</em></h2>
+            <div class="grid-2">
+                <div style="background:var(--dark); padding:30px; border-radius:var(--r-md); border:1px solid var(--cyan);">
+                    <h3 style="color:var(--cyan); margin-bottom:16px;">The Coach</h3>
+                    <p style="color:var(--mist); font-size:0.95rem;">You are a behavioral coach helping a client break an <strong>ingrained</strong> habit. Use the Future Perfect to show them what they <em>will have achieved</em> in 3 months if they stick to the plan.</p>
+                </div>
+                <div style="background:var(--dark); padding:30px; border-radius:var(--r-md); border:1px solid var(--indigo);">
+                    <h3 style="color:var(--indigo); margin-bottom:16px;">The Client</h3>
+                    <p style="color:var(--mist); font-size:0.95rem;">You are frustrated by a <strong>plateau</strong>. You keep experiencing a <strong>relapse</strong>. Use the Future Continuous to describe what you <em>will be doing</em> tomorrow to try and fix it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t14">
+        <div class="section-inner">
+            <div class="task-counter">14. CREATIVE SYNTHESIS</div>
+            <h2 class="section-title">Projection <em>Spinners</em></h2>
+            <p class="section-desc">Pick a scenario. Tell your partner exactly what you <strong>will be doing</strong> and what you <strong>will have accomplished</strong> 10 years from today regarding this topic.</p>
+            <div class="spinner-grid">
+                <div class="spin-item">Professional Career</div>
+                <div class="spin-item">Language Fluency</div>
+                <div class="spin-item">Physical Health</div>
+                <div class="spin-item">Global Travel</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t15" style="border-bottom:none;">
+        <div class="section-inner">
+            <div class="task-counter">15. NEURAL MAPPING</div>
             <h2 class="section-title">Investigation <em>Board</em></h2>
-            <p class="section-desc" contenteditable="true">Map out your new habit loop, draw grammar timelines, or visualize your compounding progress.</p>
+            <p class="section-desc" contenteditable="true">Map out your new habit loop, draw grammar timelines, or visualize your compounding progress. (Tools map exactly to your cursor).</p>
 
             <div class="wb-container">
                 <div class="wb-toolbar">
                     <button class="wb-btn active" data-tool="pencil">Pencil</button>
                     <button class="wb-btn" data-tool="highlight">Highlight</button>
                     <button class="wb-btn" data-tool="text">Text</button>
-                    <button class="wb-btn" data-tool="arrow">String (Arrow)</button>
+                    <button class="wb-btn" data-tool="arrow">Arrow</button>
                     <input type="color" id="wbColor" class="wb-color" value="#0EA5E9" title="Color">
-                    <button class="wb-btn" id="wbClear" style="margin-left:auto; border-color:var(--rose); color:var(--rose);">Clear Mapping</button>
+                    <button class="wb-btn" id="wbClear" style="margin-left:auto; border-color:var(--rose); color:var(--rose);">Clear Board</button>
                 </div>
                 <canvas id="boardCanvas"></canvas>
             </div>
@@ -625,37 +537,33 @@
 <div id="homeworkSection" class="hw-exclusive">
     <div class="hw-container">
         <div class="hw-header">
-            <button class="hw-btn-skip" onclick="exitHomework()" style="margin-top:0;">← Return to Lesson</button>
+            <button class="hw-btn-skip" onclick="exitHomework()" style="background:var(--panel); border:1px solid var(--slate); color:var(--bone); padding:8px 16px; border-radius:4px; cursor:pointer;">← Return to Lesson</button>
             <div class="hw-timer">⏱️ <span id="hwTimerDisplay">05:00</span></div>
         </div>
         <div class="hw-progress"><div class="hw-progress-fill" id="hwProgressFill"></div></div>
         
         <div id="hw-start" class="hw-screen active">
-            <div class="hw-results-card" style="margin-top: 50px;">
-                <div style="font-family:var(--font-mono); color:var(--cyan); margin-bottom:12px; font-weight:700;">// MODULE 10: ASSESSMENT</div>
-                <h2 style="font-size: 2.2rem; color:var(--bone); margin-bottom:20px;">The Science of Habits</h2>
-                <p style="color:var(--mist); margin-bottom: 40px; font-size:1.1rem; max-width:500px; margin-left:auto; margin-right:auto;">This rigorous assessment tests C1 neuro-vocabulary, Future Perfect, and Future Continuous. <strong>Warning:</strong> You cannot navigate backward once the timer begins.</p>
+            <div style="background:var(--panel); padding:40px; border:1px solid var(--slate); border-top:4px solid var(--indigo); border-radius:12px; margin-top:50px;">
+                <h2 style="font-size:2.2rem; color:var(--bone); margin-bottom:20px;">The Science of Habits</h2>
+                <p style="color:var(--mist); margin-bottom:40px;">This rigorous assessment tests C1 neuro-vocabulary, Future Perfect, and Future Continuous. <strong>Warning:</strong> You cannot navigate backward once the timer begins.</p>
                 <button class="hw-btn-primary" onclick="startHomework()">Commence Assessment</button>
             </div>
         </div>
 
         <div id="hw-quiz" class="hw-screen">
             <div class="hw-qbox">
-                <div style="font-family:var(--font-mono); color:var(--indigo); font-size:0.85rem; margin-bottom:16px; font-weight:700;" id="hwQNumber">QUESTION 1 / 6</div>
-                <h3 class="hw-qtext" id="hwQuestionText">Loading question data...</h3>
-                <div class="hw-options" id="hwOptionsContainer">
-                    </div>
+                <div style="font-family:var(--font-mono); color:var(--indigo); margin-bottom:16px;" id="hwQNumber">QUESTION 1 / 6</div>
+                <h3 class="hw-qtext" id="hwQuestionText">Loading...</h3>
+                <div class="hw-options" id="hwOptionsContainer"></div>
             </div>
         </div>
 
         <div id="hw-results" class="hw-screen">
-            <div class="hw-results-card">
-                <div style="font-family:var(--font-mono); color:var(--emerald); margin-bottom:12px; font-weight:700;">// DIAGNOSTIC COMPLETE</div>
-                <h2 style="font-size: 2.2rem; color:var(--bone);">Final Score</h2>
-                <div class="hw-score" id="hwScoreText">0/6</div>
+            <div style="background:var(--panel); padding:40px; border:1px solid var(--slate); border-top:4px solid var(--emerald); border-radius:12px; margin-top:30px;">
+                <h2 style="font-size:2.2rem; color:var(--bone);">Final Score</h2>
+                <div style="font-size:4rem; font-weight:800; color:var(--bone); margin:10px 0; font-family:var(--font-mono);" id="hwScoreText">0/6</div>
                 <p style="color:var(--mist);" id="hwFeedbackText">Analyzing results...</p>
-                <div class="hw-review-grid" id="hwReviewGrid">
-                    </div>
+                <div style="display:flex; flex-direction:column; gap:16px; text-align:left; margin-top:40px;" id="hwReviewGrid"></div>
             </div>
         </div>
     </div>
@@ -663,48 +571,37 @@
 
 <div class="floating-actions" id="floatingActions">
     <button class="fab-btn" onclick="window.scrollTo({top: document.querySelector('.wb-container').offsetTop - 100, behavior: 'smooth'})" title="Board">🖍️</button>
-    <button class="fab-btn" style="background:var(--indigo);" onclick="document.getElementById('quizletModal').style.display='flex'" title="Quizlet">📝</button>
+    <button class="fab-btn" style="background:var(--indigo); border:none;" onclick="document.getElementById('quizletModal').style.display='flex'" title="Quizlet">📝</button>
     <button class="fab-btn" onclick="saveAsPDF()" title="PDF">💾</button>
-    <button class="fab-btn" style="background:var(--rose);" onclick="resetLesson()" title="Reset">🔄</button>
 </div>
 
 <div id="quizletModal" class="modal-overlay">
-    <div class="modal-content" style="background:var(--dark); border-color:var(--indigo);">
-        <span class="close-modal" onclick="document.getElementById('quizletModal').style.display='none'">×</span>
-        <h2 style="font-family:var(--font-ui); font-weight:800; color:var(--bone); margin-bottom:10px;">Extract Lexicon</h2>
-        <p style="color:var(--mist); font-size:0.9rem; margin-bottom:20px;">Input vocabulary to export directly to Quizlet.</p>
+    <div class="modal-content">
+        <span class="close-modal" onclick="document.getElementById('quizletModal').style.display='none'" style="position:absolute; right:20px; top:20px; cursor:pointer; color:var(--bone); font-size:1.5rem;">×</span>
+        <h2 style="font-family:var(--font-ui); color:var(--bone); margin-bottom:20px;">Extract Lexicon</h2>
         <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
-            <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Neuroplasticity" class="q-word" style="flex:1; padding:10px; background:var(--panel); border:1px solid var(--slate); color:var(--bone);"><input type="text" placeholder="Translation / Def" class="q-trans" style="flex:1; padding:10px; background:var(--panel); border:1px solid var(--slate); color:var(--bone);"></div>
-            <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Ingrained" class="q-word" style="flex:1; padding:10px; background:var(--panel); border:1px solid var(--slate); color:var(--bone);"><input type="text" placeholder="Translation / Def" class="q-trans" style="flex:1; padding:10px; background:var(--panel); border:1px solid var(--slate); color:var(--bone);"></div>
+            <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Neuroplasticity" class="q-word" style="flex:1; padding:10px; background:var(--dark); border:1px solid var(--slate); color:var(--bone);"><input type="text" placeholder="Translation / Def" class="q-trans" style="flex:1; padding:10px; background:var(--dark); border:1px solid var(--slate); color:var(--bone);"></div>
         </div>
         <div style="display:flex; gap:10px; margin-top:20px;">
-            <button onclick="addWordRow()" style="flex:1; background:var(--panel); border:1px solid var(--slate); color:var(--bone); padding:10px; border-radius:4px; cursor:pointer;">+ Add Row</button>
-            <button onclick="copyForQuizlet()" id="copyQuizletBtn" style="flex:2; background:var(--indigo); border:none; color:white; font-weight:bold; padding:10px; border-radius:4px; cursor:pointer;">📋 Copy Data</button>
+            <button onclick="addWordRow()" style="flex:1; background:var(--dark); border:1px solid var(--slate); color:var(--bone); padding:10px; cursor:pointer;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" style="flex:2; background:var(--indigo); border:none; color:white; font-weight:bold; padding:10px; cursor:pointer;">📋 Copy Data</button>
         </div>
     </div>
 </div>
 
 <script>
-    // --- Navigation & Homework Tab Logic ---
-    const mainContent = document.querySelector('main');
-    const heroContent = document.querySelector('.hero');
-    const hwSection = document.getElementById('homeworkSection');
-    const fabSection = document.getElementById('floatingActions');
-
+    // --- Navigation ---
     document.getElementById('navTabsContainer').addEventListener('click', e => {
         if(e.target.tagName === 'A') {
             e.preventDefault();
             const targetId = e.target.getAttribute('href');
-            
             if(e.target.classList.contains('hw-tab')) {
-                // Enter Homework Mode
-                mainContent.style.display = 'none';
-                heroContent.style.display = 'none';
-                fabSection.style.display = 'none';
-                hwSection.style.display = 'block';
+                document.querySelector('main').style.display = 'none';
+                document.querySelector('.hero').style.display = 'none';
+                document.getElementById('floatingActions').style.display = 'none';
+                document.getElementById('homeworkSection').style.display = 'block';
                 window.scrollTo(0,0);
             } else if(targetId.startsWith('#')) {
-                // Normal Scroll
                 exitHomework();
                 const el = document.querySelector(targetId);
                 if(el) window.scrollTo({top: el.offsetTop - 80, behavior: 'smooth'});
@@ -713,100 +610,124 @@
     });
 
     function exitHomework() {
-        hwSection.style.display = 'none';
-        mainContent.style.display = 'block';
-        heroContent.style.display = 'flex';
-        fabSection.style.display = 'flex';
+        document.getElementById('homeworkSection').style.display = 'none';
+        document.querySelector('main').style.display = 'block';
+        document.querySelector('.hero').style.display = 'flex';
+        document.getElementById('floatingActions').style.display = 'flex';
     }
 
-    // --- Homework Assessment Logic (Anti-Cheat) ---
-    const hwData = [
-        {
-            q: "By the time the conference starts tomorrow morning, I _______ all the data regarding neuroplasticity.",
-            options: ["will have analyzed", "will be analyzing", "will analyze", "have analyzed"],
-            ans: 0,
-            exp: "Future Perfect is used because the action will be completed BEFORE the conference starts."
-        },
-        {
-            q: "Please don't call me during my lunch break. I _______ my daily mindfulness routine.",
-            options: ["will have practiced", "will be practicing", "will practice", "practice"],
-            ans: 1,
-            exp: "Future Continuous is used because the action will be IN PROGRESS during the lunch break."
-        },
-        {
-            q: "Which word best describes a habit that is deeply fixed and extremely difficult to change?",
-            options: ["Detrimental", "Compounding", "Ingrained", "Ubiquitous"],
-            ans: 2,
-            exp: "'Ingrained' refers to beliefs or habits that are deeply embedded and hard to alter."
-        },
-        {
-            q: "If you continue to bypass your sleep schedule, it will have a highly _______ effect on your brain's ability to rewire itself.",
-            options: ["plateau", "visceral", "ingrained", "detrimental"],
-            ans: 3,
-            exp: "'Detrimental' means tending to cause harm."
-        },
-        {
-            q: "He reached a _______ in his gym progress, where despite his daily workouts, his strength stopped increasing.",
-            options: ["relapse", "plateau", "compounding", "cue"],
-            ans: 1,
-            exp: "A 'plateau' is a state of little or no change following a period of activity or progress."
-        },
-        {
-            q: "Fifty years from now, scientists predict that humanity _______ entirely new ways to override the brain's default dopamine loops.",
-            options: ["will be discovering", "will have discovered", "will discover", "discovers"],
-            ans: 1,
-            exp: "Future Perfect ('will have discovered') is correct because it projects completion before the specific deadline ('Fifty years from now')."
+    // --- Drag and Drop Logic ---
+    const draggables = document.querySelectorAll('.draggable-word');
+    const dropZones = document.querySelectorAll('.drop-zone');
+
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', (e) => {
+            draggable.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', draggable.dataset.id);
+        });
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging');
+        });
+    });
+
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.classList.add('drag-over');
+        });
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('drag-over');
+        });
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('drag-over');
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggedElement = document.querySelector(`.draggable-word[data-id="${draggedId}"]`);
+            
+            if (zone.dataset.target === draggedId) {
+                zone.appendChild(draggedElement);
+                zone.classList.add('filled');
+                draggedElement.style.border = 'none';
+                draggedElement.style.background = 'transparent';
+                draggedElement.setAttribute('draggable', 'false'); 
+            } else {
+                zone.style.animation = 'shake 0.4s';
+                zone.style.borderColor = 'var(--rose)';
+                setTimeout(() => {
+                    zone.style.animation = '';
+                    zone.style.borderColor = 'var(--indigo)';
+                }, 400);
+            }
+        });
+    });
+
+    // --- Error Spy ---
+    const spyAns = {
+        1: ['will have successfully built', 'will have built'],
+        2: ['will be meditating'],
+        3: ['will have finished', 'will have completed']
+    };
+    function revealSpy(n) { document.getElementById('wrap-'+n).classList.add('visible'); }
+    function checkSpy(n) {
+        let val = document.getElementById('input-'+n).value.trim().toLowerCase();
+        let card = document.getElementById('spy-'+n);
+        if (spyAns[n].some(a => val.includes(a))) {
+            card.classList.add('correct'); card.classList.remove('incorrect');
+        } else {
+            card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect');
         }
+    }
+
+    // --- TFNG ---
+    function checkTFNG(n, choice, correct) {
+        let item = document.getElementById('t-'+n);
+        let exp = document.getElementById('e-'+n);
+        if (choice === correct) item.classList.add('t-correct');
+        else item.classList.add('t-wrong');
+        exp.style.display = 'block';
+    }
+
+    // --- Homework Logic ---
+    const hwData = [
+        { q: "By the time the conference starts tomorrow, I _______ all the client's data.", options: ["will have analyzed", "will be analyzing", "will analyze", "have analyzed"], ans: 0, exp: "Future Perfect is used because the action will be completed BEFORE the conference starts." },
+        { q: "Please don't call me during my lunch break. I _______ my daily mindfulness routine.", options: ["will have practiced", "will be practicing", "will practice", "practice"], ans: 1, exp: "Future Continuous is used because the action will be IN PROGRESS." },
+        { q: "Which word best describes a habit that is deeply fixed and extremely difficult to change?", options: ["Detrimental", "Compounding", "Ingrained", "Ubiquitous"], ans: 2, exp: "'Ingrained' refers to habits that are deeply embedded." },
+        { q: "Bypassing your sleep schedule has a highly _______ effect on your brain's neuroplasticity.", options: ["plateau", "visceral", "ingrained", "detrimental"], ans: 3, exp: "'Detrimental' means tending to cause harm." },
+        { q: "He reached a _______ in his progress, where despite his efforts, his skills stopped improving.", options: ["relapse", "plateau", "compounding", "cue"], ans: 1, exp: "A 'plateau' is a state of little or no change." },
+        { q: "Fifty years from now, scientists predict that humanity _______ ways to override dopamine loops entirely.", options: ["will be discovering", "will have discovered", "will discover", "discovers"], ans: 1, exp: "Future Perfect ('will have discovered') projects completion before a specific deadline." }
     ];
 
-    let currentHW = 0;
-    let hwScore = 0;
-    let hwAnswers = [];
-    let hwTimer;
-    let timeLeft = 300; // 5 minutes
+    let currentHW = 0, hwScore = 0, hwAnswers = [], hwTimer, timeLeft = 300;
 
     function startHomework() {
         document.getElementById('hw-start').classList.remove('active');
         document.getElementById('hw-quiz').classList.add('active');
         currentHW = 0; hwScore = 0; hwAnswers = []; timeLeft = 300;
-        
         hwTimer = setInterval(() => {
             timeLeft--;
-            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-            let s = (timeLeft % 60).toString().padStart(2, '0');
-            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
             if(timeLeft <= 0) endHomework();
         }, 1000);
-        
         loadHWQuestion();
     }
 
     function loadHWQuestion() {
         if(currentHW >= hwData.length) { endHomework(); return; }
-        
         const qData = hwData[currentHW];
         document.getElementById('hwQNumber').innerText = `QUESTION ${currentHW + 1} / ${hwData.length}`;
         document.getElementById('hwQuestionText').innerText = qData.q;
-        
         const optsContainer = document.getElementById('hwOptionsContainer');
         optsContainer.innerHTML = '';
-        
         qData.options.forEach((opt, index) => {
-            const btn = document.createElement('button');
-            btn.className = 'hw-opt-btn';
-            btn.innerText = opt;
-            btn.onclick = () => submitHWAnswer(index);
+            const btn = document.createElement('button'); btn.className = 'hw-opt-btn'; btn.innerText = opt;
+            btn.onclick = () => {
+                hwAnswers.push({ q: qData.q, selected: index, correct: qData.ans, exp: qData.exp, options: qData.options });
+                if(index === qData.ans) hwScore++;
+                currentHW++; loadHWQuestion();
+            };
             optsContainer.appendChild(btn);
         });
-
         document.getElementById('hwProgressFill').style.width = `${(currentHW / hwData.length) * 100}%`;
-    }
-
-    function submitHWAnswer(index) {
-        hwAnswers.push({ q: hwData[currentHW].q, selected: index, correct: hwData[currentHW].ans, exp: hwData[currentHW].exp, options: hwData[currentHW].options });
-        if(index === hwData[currentHW].ans) hwScore++;
-        currentHW++;
-        loadHWQuestion();
     }
 
     function endHomework() {
@@ -814,84 +735,71 @@
         document.getElementById('hw-quiz').classList.remove('active');
         document.getElementById('hw-results').classList.add('active');
         document.getElementById('hwProgressFill').style.width = `100%`;
+        document.getElementById('hwScoreText').innerText = `${hwScore}/${hwData.length}`;
+        document.getElementById('hwFeedbackText').innerText = hwScore === hwData.length ? "Flawless execution. Neural pathways optimized." : "Review required to prevent relapse.";
         
-        const scoreEl = document.getElementById('hwScoreText');
-        scoreEl.innerText = `${hwScore}/${hwData.length}`;
-        
-        if(hwScore === hwData.length) document.getElementById('hwFeedbackText').innerText = "Flawless execution. Neural pathways optimized.";
-        else if(hwScore >= 4) document.getElementById('hwFeedbackText').innerText = "Solid understanding, but minor rewiring required.";
-        else document.getElementById('hwFeedbackText').innerText = "Detrimental results detected. Complete system review recommended.";
-
         const grid = document.getElementById('hwReviewGrid');
-        grid.innerHTML = '';
         hwAnswers.forEach((ans, i) => {
-            const div = document.createElement('div');
-            const isCorrect = ans.selected === ans.correct;
-            div.className = `hw-review-item ${isCorrect ? 'correct' : 'incorrect'}`;
-            div.innerHTML = `
-                <div class="hw-review-q">${i+1}. ${ans.q}</div>
-                <div class="hw-review-ans"><strong>Your Answer:</strong> ${ans.options[ans.selected]} ${isCorrect ? '✓' : '✗'}</div>
-                ${!isCorrect ? `<div class="hw-review-ans" style="color:var(--emerald);"><strong>Correct:</strong> ${ans.options[ans.correct]}</div>` : ''}
-                <div style="font-family:var(--font-mono); font-size:0.85rem; color:var(--mist); margin-top:8px;">> ${ans.exp}</div>
-            `;
-            grid.appendChild(div);
+            const isC = ans.selected === ans.correct;
+            grid.innerHTML += `<div style="padding:24px; background:var(--dark); border-left:4px solid ${isC ? 'var(--emerald)' : 'var(--rose)'}; border-radius:8px; margin-bottom:12px;">
+                <div style="font-size:1.1rem; color:var(--bone); margin-bottom:12px;">${i+1}. ${ans.q}</div>
+                <div style="color:var(--mist);"><strong>Your Answer:</strong> ${ans.options[ans.selected]} ${isC ? '✓' : '✗'}</div>
+                ${!isC ? `<div style="color:var(--emerald);"><strong>Correct:</strong> ${ans.options[ans.correct]}</div>` : ''}
+                <div style="font-family:var(--font-mono); font-size:0.85rem; color:var(--slate); margin-top:8px;">> ${ans.exp}</div>
+            </div>`;
         });
     }
 
-    // --- Quizlet Scripts ---
+    // --- Quizlet ---
     function addWordRow() {
-        const r = document.createElement('div');
-        r.style = "display:flex; gap:10px; margin-bottom:10px;";
-        r.innerHTML = '<input type="text" placeholder="Word" class="q-word" style="flex:1; padding:10px; background:var(--panel); border:1px solid var(--slate); color:var(--bone);"><input type="text" placeholder="Def" class="q-trans" style="flex:1; padding:10px; background:var(--panel); border:1px solid var(--slate); color:var(--bone);">';
-        document.getElementById('wordList').appendChild(r);
+        document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Word" class="q-word" style="flex:1; padding:10px; background:var(--dark); border:1px solid var(--slate); color:var(--bone);"><input type="text" placeholder="Def" class="q-trans" style="flex:1; padding:10px; background:var(--dark); border:1px solid var(--slate); color:var(--bone);"></div>`;
     }
-    
     function copyForQuizlet() {
         let out = '';
-        document.querySelectorAll('#wordList > div').forEach(r => {
-            const w = r.querySelector('.q-word').value.trim();
-            const t = r.querySelector('.q-trans').value.trim();
-            if (w || t) out += `${w}\t${t}\n`;
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i].value.trim();
+            if(w.value.trim() || t) out += `${w.value.trim()}\t${t}\n`;
         });
-        const btn = document.getElementById('copyQuizletBtn');
-        if (out) {
-            const ta = document.createElement('textarea'); ta.value = out; 
-            document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-            btn.innerText = '✓ Copied'; setTimeout(() => btn.innerText = '📋 Copy Data', 3000);
-        } else {
-            btn.innerText = '⚠️ Empty'; setTimeout(() => btn.innerText = '📋 Copy Data', 3000);
+        if(out) {
+            const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000);
         }
     }
 
     // --- PDF Export ---
     function saveAsPDF() {
         document.getElementById('floatingActions').style.display = 'none';
-        document.getElementById('syncStatus').style.display = 'none';
-        html2pdf().set({
-            margin: 0, filename: 'Lesson-10-Habits-C1.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true },
-            jsPDF: { unit: 'px', format: [document.body.scrollWidth, document.body.scrollHeight], orientation: 'portrait' }
-        }).from(document.body).save().then(() => {
-            document.getElementById('floatingActions').style.display = 'flex';
-            document.getElementById('syncStatus').style.display = 'flex';
-        });
+        html2pdf().set({ margin:0, filename:'Lesson-10-Habits.pdf', image:{type:'jpeg',quality:0.98}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[document.body.scrollWidth, document.body.scrollHeight],orientation:'portrait'} }).from(document.body).save().then(() => { document.getElementById('floatingActions').style.display = 'flex'; });
     }
 
-    // --- Whiteboard Scripts ---
+    // --- Repaired Whiteboard ---
     const canvas = document.getElementById('boardCanvas');
     const ctx = canvas.getContext('2d');
+    let canvasRect;
     
     function initCanvas() {
         const saved = canvas.toDataURL();
         canvas.width = canvas.parentElement.clientWidth;
-        canvas.height = 550;
+        canvas.height = 500;
         ctx.lineCap = 'round'; ctx.lineJoin = 'round';
         const img = new Image();
         img.onload = () => ctx.drawImage(img, 0, 0);
         img.src = saved;
+        updateRect();
     }
-    window.addEventListener('resize', initCanvas); initCanvas();
+    
+    function updateRect() {
+        canvasRect = canvas.getBoundingClientRect();
+    }
+
+    window.addEventListener('resize', initCanvas);
+    window.addEventListener('scroll', updateRect);
+    
+    document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', () => setTimeout(updateRect, 300));
+    });
+
+    initCanvas();
 
     let isDrawing = false, currentTool = 'pencil', color = '#0EA5E9', startX, startY, savedImg;
 
@@ -904,31 +812,28 @@
     });
     
     document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
-    
-    document.getElementById('wbClear').addEventListener('click', () => {
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        if (window.syncWbClear) window.syncWbClear();
-    });
+    document.getElementById('wbClear').addEventListener('click', () => ctx.clearRect(0,0,canvas.width,canvas.height));
 
-    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    function getPos(e) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - canvasRect.left, y: clientY - canvasRect.top };
+    }
 
-    canvas.addEventListener('mousedown', e => {
+    function startDraw(e) {
+        updateRect(); 
         const p = getPos(e); startX = p.x; startY = p.y;
         if (currentTool === 'text') {
             const t = prompt('Enter text:');
-            if (t) { 
-                ctx.font = "bold 18px 'Outfit', sans-serif"; 
-                ctx.fillStyle = color; 
-                ctx.fillText(t, startX, startY); 
-                if(window.syncWbDraw) window.syncWbDraw(); 
-            }
+            if (t) { ctx.font = "bold 18px 'Outfit', sans-serif"; ctx.fillStyle = color; ctx.fillText(t, startX, startY); }
             return;
         }
         isDrawing = true; savedImg = ctx.getImageData(0,0,canvas.width,canvas.height);
         ctx.beginPath(); ctx.moveTo(startX, startY);
-    });
+        if(e.touches) e.preventDefault();
+    }
 
-    canvas.addEventListener('mousemove', e => {
+    function draw(e) {
         if (!isDrawing) return;
         const p = getPos(e);
         if (currentTool === 'pencil' || currentTool === 'highlight') {
@@ -939,13 +844,26 @@
         } else {
             ctx.putImageData(savedImg, 0, 0); drawShape(p.x, p.y);
         }
-    });
+        if(e.touches) e.preventDefault();
+    }
 
-    canvas.addEventListener('mouseup', e => {
+    function endDraw(e) {
         if (!isDrawing) return; isDrawing = false;
-        if (['square','circle','arrow'].includes(currentTool)) drawShape(getPos(e).x, getPos(e).y);
-        if (window.syncWbDraw) window.syncWbDraw();
-    });
+        if (['arrow'].includes(currentTool)) {
+             const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+             const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+             drawShape(clientX - canvasRect.left, clientY - canvasRect.top);
+        }
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+    canvas.addEventListener('touchstart', startDraw, {passive: false});
+    canvas.addEventListener('touchmove', draw, {passive: false});
+    canvas.addEventListener('touchend', endDraw);
 
     function drawShape(ex, ey) {
         ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
@@ -966,18 +884,12 @@
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
-        authDomain: "b1-oge-l1.firebaseapp.com",
-        projectId: "b1-oge-l1"
-    };
-
+    const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
     const appId = 'lesson-10-habits-c1';
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     let user = null, isSync = false;
-    let editingId = null;
 
     signInAnonymously(auth).catch(console.error);
 
@@ -985,9 +897,6 @@
         user = u;
         if (user && !isSync) {
             isSync = true;
-            document.getElementById('syncText').innerText = "NEURAL LINK ESTABLISHED";
-            document.getElementById('syncDot').style.background = "var(--emerald)";
-            document.getElementById('syncDot').style.boxShadow = "0 0 8px var(--emerald)";
             setupSync(); setupCursors();
         }
     });
@@ -1000,48 +909,15 @@
 
         document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
             el.dataset.sid = 'ed_' + i;
-            el.addEventListener('focus', () => editingId = el.dataset.sid);
-            el.addEventListener('blur', () => { 
-                editingId = null; 
-                if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
-            });
-            el.addEventListener('input', debounce(() => { 
-                if (editingId === el.dataset.sid && user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
-            }, 500));
+            el.addEventListener('blur', () => { if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); });
+            el.addEventListener('input', debounce(() => { if (user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); }, 500));
         });
 
         onSnapshot(txtRef, snap => {
             if (!snap.exists()) return;
             for (const [id, html] of Object.entries(snap.data())) {
-                if (editingId !== id) {
-                    const el = document.querySelector(`[data-sid="${id}"]`);
-                    if (el && el.innerHTML !== html) el.innerHTML = html;
-                }
-            }
-        });
-
-        window.syncWbDraw = debounce(() => {
-            if(!user) return;
-            const cv = document.getElementById('boardCanvas');
-            setDoc(wbRef, { img: cv.toDataURL('image/png', 0.5), ts: Date.now() }, { merge:true });
-        }, 800);
-        
-        window.syncWbClear = () => { 
-            if(user) setDoc(wbRef, { clearTs: Date.now(), img: null }, { merge:true }); 
-        };
-
-        let lastClear = 0;
-        onSnapshot(wbRef, snap => {
-            if(!snap.exists()) return;
-            const d = snap.data(), cv = document.getElementById('boardCanvas'), cx = cv.getContext('2d');
-            if(d.clearTs && d.clearTs > lastClear) { 
-                cx.clearRect(0,0,cv.width,cv.height); 
-                lastClear = d.clearTs; 
-            }
-            if(d.img) { 
-                const i = new Image(); 
-                i.onload = () => { cx.clearRect(0,0,cv.width,cv.height); cx.drawImage(i,0,0); }; 
-                i.src = d.img; 
+                const el = document.querySelector(`[data-sid="${id}"]`);
+                if (el && el.innerHTML !== html && document.activeElement !== el) el.innerHTML = html;
             }
         });
     }
@@ -1049,10 +925,8 @@
     function setupCursors() {
         const curRef = collection(db, 'artifacts', appId, 'cursors');
         const myDoc = doc(curRef, user.uid);
-        const container = document.getElementById('liveCursorsContainer');
-        const colors = ['#0EA5E9','#6366F1','#10B981','#F43F5E'];
-        const myColor = colors[Math.floor(Math.random() * colors.length)];
-        const myName = "Neurologist " + Math.floor(Math.random() * 99);
+        const myColor = ['#0EA5E9','#6366F1','#10B981','#F43F5E'][Math.floor(Math.random()*4)];
+        const myName = "Analyst " + Math.floor(Math.random() * 99);
         
         document.addEventListener('mousemove', debounce(e => {
             if(user && document.getElementById('homeworkSection').style.display !== 'block') {
@@ -1065,43 +939,18 @@
                 if(ch.doc.id === user.uid) return;
                 const d = ch.doc.data();
                 let el = document.getElementById('cur-'+ch.doc.id);
-                
-                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { 
-                    if(el) el.remove(); return; 
-                }
-                
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
                 if(!el) {
-                    el = document.createElement('div'); 
-                    el.id = 'cur-'+ch.doc.id; 
-                    el.style = 'position:absolute; transition: top 0.2s, left 0.2s;';
-                    el.innerHTML = `
-                        <svg viewBox="0 0 24 24" fill="${d.color}" width="24" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5))">
-                            <path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/>
-                        </svg>
-                        <div style="background:${d.color}; color:#fff; font-size:10px; font-family:var(--font-mono); padding:2px 6px; border-radius:3px; margin-top:2px; font-weight:bold;">${d.name}</div>
-                    `;
-                    container.appendChild(el);
+                    el = document.createElement('div'); el.id = 'cur-'+ch.doc.id; el.style = 'position:absolute; transition: top 0.2s, left 0.2s; pointer-events:none; z-index:999999;';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="#fff" stroke-width="1.5"/></svg><div style="background:${d.color}; color:#fff; font-size:10px; font-family:var(--font-mono); padding:2px 6px; border-radius:3px;">${d.name}</div>`;
+                    document.body.appendChild(el);
                 }
-                el.style.left = (window.innerWidth/2 + d.x) + 'px';
-                el.style.top = d.y + 'px';
+                el.style.left = (window.innerWidth/2 + d.x) + 'px'; el.style.top = d.y + 'px';
             });
         });
         
         window.addEventListener('beforeunload', () => { if(user) deleteDoc(myDoc); });
     }
-
-    window.resetLesson = async () => {
-        if(!confirm('// WARNING: Purge all session data and canvas drawings?')) return;
-        document.getElementById('syncText').innerText = "PURGING DATA...";
-        document.getElementById('syncDot').style.background = "var(--rose)";
-        
-        if(user) {
-            await deleteDoc(doc(db, 'artifacts', appId, 'data', 'text'));
-            await setDoc(doc(db, 'artifacts', appId, 'data', 'wb'), { clearTs: Date.now(), img: null });
-        }
-        
-        setTimeout(() => location.reload(), 1000);
-    };
 </script>
 
 </body>
