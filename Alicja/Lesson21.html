@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 21: B2-C1 | Travel as Transformation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Earthy / Global Nomad Theme */
+            --void:       #1A1A1D;       /* Deep obsidian */
+            --navy:       #264653;       /* Deep ocean blue */
+            --navy-light: #2A9D8F;       /* Sage / Sea green */
+            --cream:      #F4F1DE;       /* Parchment */
+            --white:      #FFFFFF;
+            
+            --rust:       #E76F51;       /* Terracotta */
+            --rust-dim:   #F4A261;       /* Sandy ochre */
+            --rust-pale:  #FDF3E3;
+            
+            --green:      #2A9D8F;       /* Sage green */
+            --green-dim:  #81B29A;
+            --green-pale: #E8F1EE;
+            
+            --gold:       #E9C46A;       /* Warm sand */
+            --gold-dim:   #F4A261;
+            --gold-pale:  #FDF8EC;
+            
+            --text-dark:  #2B2D42;
+            --text-gray:  #6C757D;
+            --danger:     #D62828;
+            --success:    #2A9D8F;
+            
+            --shadow-sm:  0 2px 8px rgba(38, 70, 83, 0.08);
+            --shadow-md:  0 8px 24px rgba(38, 70, 83, 0.12);
+            --shadow-lg:  0 16px 40px rgba(26, 26, 29, 0.2);
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-xl: 36px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(231, 111, 81, 0.08); }
+        [contenteditable="true"]:focus { background: rgba(231, 111, 81, 0.15); box-shadow: 0 0 0 2px rgba(231, 111, 81, 0.4); }
+
+        /* ══ HERO ══ */
+        .hero {
+            position: relative; min-height: 580px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; overflow: hidden;
+            background: linear-gradient(135deg, var(--void), var(--navy));
+        }
+
+        .hero-waves {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            opacity: 0.4;
+        }
+        .hero-waves::before, .hero-waves::after {
+            content: ''; position: absolute; border-radius: 50%;
+            border: 2px solid rgba(233, 196, 106, 0.3);
+        }
+        .hero-waves::before {
+            width: 600px; height: 600px; top: -200px; left: -100px;
+            animation: ripple 12s infinite linear;
+        }
+        .hero-waves::after {
+            width: 800px; height: 800px; bottom: -300px; right: -200px;
+            border-color: rgba(231, 111, 81, 0.2);
+            animation: ripple 15s infinite linear reverse;
+        }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 0.2; } 100% { transform: scale(1); opacity: 0.5; } }
+
+        .hero-content {
+            position: relative; z-index: 2; max-width: 900px; padding: 80px 40px;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(233, 196, 106, 0.15); border: 1px solid rgba(233, 196, 106, 0.4);
+            color: var(--gold); padding: 6px 20px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Lora', serif;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            color: var(--white); line-height: 1.1;
+            letter-spacing: -0.5px; margin-bottom: 18px;
+        }
+
+        .hero h1 em { color: var(--rust); font-style: italic; }
+
+        .hero-sub {
+            font-size: 1.15rem; font-weight: 400; color: rgba(255,255,255,0.8);
+            max-width: 650px; margin: 0 auto 36px; line-height: 1.6;
+        }
+
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+        .hero-chip {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white); padding: 5px 16px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600; font-family: 'Nunito', sans-serif;
+        }
+        .hero-chip.rust { border-color: rgba(231, 111, 81, 0.5); color: var(--rust); background: rgba(231, 111, 81, 0.1); }
+        .hero-chip.green { border-color: rgba(42, 157, 143, 0.5); color: var(--green); background: rgba(42, 157, 143, 0.1); }
+
+        .hero-ribbon {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+            background: var(--cream);
+            clip-path: ellipse(60% 100% at 50% 100%);
+        }
+
+        /* ══ NAV ══ */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(244, 241, 222, 0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(38, 70, 83, 0.1); padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 56px;
+        }
+
+        .nav-logo {
+            font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 700;
+            color: var(--navy); text-decoration: none; display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-gray); font-size: 0.85rem; font-weight: 700;
+            padding: 6px 14px; border-radius: 50px; transition: all 0.2s; white-space: nowrap;
+        }
+        .nav-links a:hover { color: var(--rust); background: rgba(231, 111, 81, 0.1); }
+        .nav-links .add-tab { background: var(--rust); color: white; padding: 4px 12px; }
+        .nav-links .hw-tab { color: var(--rust); font-weight: 800; border: 1px solid rgba(231,111,81,0.3); }
+
+        /* ══ SECTIONS ══ */
+        .section { padding: 80px 24px; position: relative; z-index: 2; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 920px; margin: 0 auto; }
+
+        .section-label {
+            display: inline-flex; align-items: center; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem; font-weight: 700; color: var(--rust);
+            background: rgba(231, 111, 81, 0.1); padding: 6px 14px; border-radius: 50px;
+            margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-family: 'Lora', serif; font-size: clamp(2rem, 4vw, 2.6rem);
+            font-weight: 700; color: var(--navy); margin-bottom: 12px; line-height: 1.2;
+        }
+        .section-title em { color: var(--rust); font-style: italic; }
+
+        .section-desc { color: var(--text-gray); font-size: 1.05rem; margin-bottom: 36px; max-width: 700px; font-weight: 500; }
+
+        /* ══ PROVOCATION CARDS ══ */
+        .provocation-card {
+            background: var(--white); border: 1px solid rgba(38, 70, 83, 0.1);
+            border-radius: var(--r-lg); padding: 32px;
+            box-shadow: var(--shadow-sm); border-top: 6px solid var(--navy);
+            margin-bottom: 24px;
+        }
+        
+        .patient-quote {
+            font-family: 'Lora', serif; font-size: 1.4rem; color: var(--navy);
+            font-style: italic; padding-left: 20px; border-left: 4px solid var(--rust);
+            margin-bottom: 24px; line-height: 1.5;
+        }
+
+        .react-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+        .react-btn {
+            background: var(--cream); border: 1px solid rgba(38, 70, 83, 0.15);
+            color: var(--navy); padding: 10px 20px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            transition: all 0.2s; font-family: 'Nunito', sans-serif;
+        }
+        .react-btn:hover { background: rgba(231, 111, 81, 0.1); border-color: var(--rust); color: var(--rust); }
+        .react-btn.selected { background: var(--rust); border-color: var(--rust); color: var(--white); box-shadow: var(--shadow-md); }
+
+        /* ══ VOCABULARY GRID ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
+        .vocab-card {
+            background: var(--white); border-radius: var(--r-md); padding: 24px;
+            border: 1px solid rgba(38, 70, 83, 0.1); position: relative; overflow: hidden;
+            transition: all 0.3s ease; cursor: default; min-height: 150px; display: flex; flex-direction: column; justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .vocab-card:hover { border-color: var(--rust); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        
+        .vic-front { position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s; pointer-events: none; background: var(--white); }
+        .vocab-card:hover .vic-front { opacity: 0; }
+        .vic-pos { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--green); margin-bottom: 8px; font-weight: 700; }
+        .vic-word { font-family: 'Lora', serif; font-size: 1.4rem; color: var(--navy); font-weight: 700; }
+        .vic-hint { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; opacity: 0.5; transition: opacity 0.3s; }
+        .vocab-card:hover .vic-hint { opacity: 0; }
+
+        .vic-def {
+            position: absolute; inset: 0; padding: 24px;
+            background: var(--navy); color: var(--white);
+            font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md); z-index: 2;
+        }
+        .vocab-card:hover .vic-def { opacity: 1; }
+
+        /* ══ VIDEO ══ */
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            border-radius: var(--r-lg); box-shadow: var(--shadow-md); margin-bottom: 24px;
+            background: var(--void);
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .video-link { display: block; text-align: center; color: var(--rust); font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+        .video-link:hover { text-decoration: underline; }
+
+        /* ══ TFNG INTERACTIVE ══ */
+        .tfng-item { background: var(--white); border: 1px solid rgba(38, 70, 83, 0.1); border-radius: var(--r-md); padding: 20px 24px; margin-bottom: 16px; transition: border-color 0.3s; box-shadow: var(--shadow-sm); }
+        .tfng-item.t-correct { border-color: var(--green); background: rgba(42, 157, 143, 0.05); }
+        .tfng-item.t-wrong   { border-color: var(--rust); background: rgba(231, 111, 81, 0.05); }
+        .tfng-stmt { font-size: 1.05rem; font-weight: 600; color: var(--navy); margin-bottom: 16px; line-height: 1.6; }
+        .tfng-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+        .tfng-btn {
+            padding: 8px 24px; border-radius: 50px; border: 1px solid rgba(38, 70, 83, 0.2);
+            background: var(--cream); color: var(--navy); font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: all 0.2s; font-family: 'Nunito', sans-serif;
+        }
+        .tfng-btn:hover { border-color: var(--navy); background: rgba(38, 70, 83, 0.05); }
+        .tfng-btn.selected-correct { background: var(--green); border-color: var(--green); color: var(--white); }
+        .tfng-btn.selected-wrong   { background: var(--rust); border-color: var(--rust); color: var(--white); }
+        .tfng-btn.show-correct     { background: var(--green); border-color: var(--green); color: var(--white); }
+        
+        .tfng-explain {
+            display: none; margin-top: 16px; font-size: 0.95rem; color: var(--text-dark);
+            padding: 14px 18px; background: rgba(38, 70, 83, 0.05); border-radius: var(--r-sm);
+            border-left: 4px solid var(--navy); font-weight: 500;
+        }
+        .tfng-explain.visible { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ══ CALLOUTS ══ */
+        .callout { padding: 20px 24px; border-radius: var(--r-md); margin: 24px 0; font-size: 1rem; line-height: 1.65; border-left: 4px solid; background: var(--white); box-shadow: var(--shadow-sm); }
+        .callout-rust  { border-color: var(--rust); }
+        .callout-green { border-color: var(--green); }
+        .callout-navy  { border-color: var(--navy); }
+        .callout strong { color: var(--navy); font-family: 'Lora', serif; font-size: 1.1rem; }
+
+        /* ══ QUICK REVIEW BOX ══ */
+        .review-box {
+            background: linear-gradient(135deg, var(--navy), var(--void));
+            color: var(--white); padding: 32px; border-radius: var(--r-lg);
+            margin-top: 24px; box-shadow: var(--shadow-md);
+        }
+        .review-title { font-family: 'JetBrains Mono', monospace; color: var(--gold); font-size: 0.9rem; margin-bottom: 16px; letter-spacing: 1px; }
+        .review-content { font-size: 1.05rem; line-height: 1.7; }
+        .review-content code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: var(--rust-pale); }
+
+        /* ══ DIALOGUE / ROLEPLAY ══ */
+        .script-container { display: flex; flex-direction: column; gap: 24px; margin: 40px 0; }
+        .script-line { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid transparent; padding-left: 20px; position: relative; }
+        .script-line::before { content: ''; position: absolute; left: -5px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--border-light); }
+        .script-line.char-a { border-left-color: var(--navy); }
+        .script-line.char-a::before { background: var(--navy); }
+        .script-line.char-b { border-left-color: var(--gold); }
+        .script-line.char-b::before { background: var(--gold); }
+        .script-name { font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-text); }
+        .script-text { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--charcoal); line-height: 1.6; }
+
+        /* ── EDITORIAL ARTICLE (Reading) ── */
+        .editorial-article {
+            background: var(--white); padding: 50px 60px; border-radius: var(--r-lg);
+            box-shadow: var(--shadow-md); position: relative; border-top: 4px solid var(--navy);
+        }
+        .article-meta { font-family: 'Nunito', sans-serif; color: var(--text-gray); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; border-bottom: 1px solid var(--border-light); padding-bottom: 15px; }
+        .article-text { font-family: 'Lora', serif; font-size: 1.15rem; color: var(--text-dark); line-height: 2; }
+        .article-text p { margin-bottom: 24px; }
+        .article-text .dropcap { float: left; font-size: 4rem; line-height: 0.8; padding-right: 12px; padding-top: 6px; color: var(--gold); font-weight: 600; }
+        
+        .blank-input {
+            display: inline-block; min-width: 120px; border-bottom: 1px solid var(--text-gray);
+            color: var(--navy); font-family: 'Nunito', sans-serif; font-weight: 600; padding: 0 8px; text-align: center;
+            background: rgba(38, 70, 83, 0.03); transition: all 0.2s; margin: 0 4px;
+        }
+        .blank-input:focus { border-bottom-color: var(--gold); background: rgba(233, 196, 106, 0.1); }
+
+        /* ══ HOMEWORK SPECIFIC STYLES ══ */
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 15px 20px; font-size: 1.1rem; font-family: 'Nunito', sans-serif; border: 1px solid var(--border-light); border-radius: 6px; background: var(--white); color: var(--text-dark); transition: border-color 0.2s; margin-bottom: 20px; }
+        .hw-input:focus { outline: none; border-color: var(--rust); box-shadow: 0 0 0 2px rgba(231, 111, 81, 0.2); }
+        
+        .hw-btn-primary { background: var(--rust); color: white; border: none; padding: 16px 32px; font-size: 1rem; font-family: 'Nunito', sans-serif; font-weight: 700; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+        .hw-btn-primary:hover { background: var(--rust-dim); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .hw-btn-skip { background: transparent; color: var(--text-gray); border: 1px solid rgba(38,70,83,0.2); padding: 10px 24px; font-size: 0.9rem; font-family: 'Nunito', sans-serif; font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.2s; margin-top: 20px; }
+        .hw-btn-skip:hover { background: rgba(38,70,83,0.1); color: var(--navy); }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .hw-timer { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.1rem; color: var(--danger); background: #FDE8E8; padding: 8px 16px; border-radius: 6px; border: 1px solid #F5C2C7; display: flex; align-items: center; gap: 8px; }
+        .hw-progress { width: 100%; height: 8px; background: rgba(38,70,83,0.1); margin-bottom: 30px; border-radius: 4px; overflow: hidden; }
+        .hw-progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-qbox { background: var(--white); padding: 40px; border: 1px solid rgba(38,70,83,0.1); border-top: 4px solid var(--navy); border-radius: 8px; box-shadow: var(--shadow-md); text-align: left; margin-bottom: 30px; }
+        .hw-qtext { font-family: 'Lora', serif; font-size: 1.3rem; color: var(--navy); margin-bottom: 30px; line-height: 1.6; font-weight: 600; }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { background: var(--cream); border: 1px solid rgba(38,70,83,0.15); padding: 16px 24px; text-align: left; font-family: 'Nunito', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: all 0.2s; border-radius: 6px; }
+        .hw-opt-btn:hover { background: var(--rust-pale); border-color: var(--rust); transform: translateX(4px); }
+        
+        .hw-results-card { background: var(--white); padding: 40px; border: 1px solid rgba(38,70,83,0.1); border-radius: 8px; border-top: 4px solid var(--rust); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; text-align: center; }
+        .hw-score { font-size: 3rem; font-family: 'Lora', serif; font-weight: 700; color: var(--navy); margin: 10px 0; }
+        .hw-review-grid { display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 30px; }
+        .hw-review-item { padding: 20px; border: 1px solid rgba(38,70,83,0.1); border-left: 4px solid rgba(38,70,83,0.1); background: var(--white); border-radius: 6px; }
+        .hw-review-item.correct { border-left-color: var(--success); background: #F2F8F4; }
+        .hw-review-item.incorrect { border-left-color: var(--danger); background: #FDF5F6; }
+        .hw-review-q { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; font-weight: 600; }
+        .hw-review-ans { font-size: 0.95rem; margin-bottom: 4px; font-weight: 600; }
+
+        .elegant-table { width: 100%; border-collapse: collapse; background: var(--white); margin-top: 20px; border: 1px solid rgba(38,70,83,0.1); text-align: left; border-radius: 8px; overflow: hidden; }
+        .elegant-table th { background: var(--navy); color: var(--cream); padding: 15px 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .elegant-table td { padding: 15px 20px; border-bottom: 1px solid rgba(38,70,83,0.1); font-family: 'Nunito', sans-serif; font-size: 0.95rem; color: var(--text-dark); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-waves"></div>
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">🌍 B2–C1 Level · General English · Lesson 21</div>
+        <h1 contenteditable="true">Travel as Transformation<br><em>Journeys That Changed People</em></h1>
+        <p class="hero-sub" contenteditable="true">Explore the psychology of the global nomad, master complex text cohesion devices, and discuss whether modern travel is an immersive pilgrimage or just resort tourism.</p>
+        <div class="hero-chips">
+            <span class="hero-chip rust" contenteditable="true">Cohesion Extension</span>
+            <span class="hero-chip green" contenteditable="true">Lexical Chains</span>
+            <span class="hero-chip" contenteditable="true">TED: Pico Iyer</span>
+            <span class="hero-chip rust" contenteditable="true">Hedging Revision</span>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">✈️ <span contenteditable="true">Global Nomad</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" class="add-tab" contenteditable="false">+</a></li>
+            <li><a href="#task-1" contenteditable="true">Photo Prep</a></li>
+            <li><a href="#task-2" contenteditable="true">Cohesion Grammar</a></li>
+            <li><a href="#task-3" contenteditable="true">Travel Essay</a></li>
+            <li><a href="#task-4" contenteditable="true">Lexicon</a></li>
+            <li><a href="#task-5" contenteditable="true">Video Study</a></li>
+            <li><a href="#task-6" contenteditable="true">Discussion</a></li>
+            <li><a href="#task-7" contenteditable="true">Roleplay</a></li>
+            <li><a href="#task-hw" class="hw-tab" contenteditable="true">Homework Test</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="section" id="task-1">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">01 // Visual Provocation</span>
+        <h2 class="section-title" contenteditable="true">The <em>Photo</em> Discussion</h2>
+        <p class="section-desc" contenteditable="true">Bring one photo from a memorable trip you've taken. Show it to your teacher and discuss the reality behind the lens.</p>
+
+        <div class="provocation-card">
+            <div class="patient-quote" contenteditable="true">
+                "We travel, initially, to lose ourselves; and we travel, next, to find ourselves." – Pico Iyer
+            </div>
+            <p style="color:var(--text-gray);font-weight:600;margin-bottom:16px;" contenteditable="true">When you look at your photo, consider these questions:</p>
+            <div class="react-btns">
+                <button class="react-btn" onclick="selectReaction(this)">A. What "discomfort" was happening behind the scenes that the photo hides?</button>
+                <button class="react-btn" onclick="selectReaction(this)">B. Was this a true "immersion" into culture, or just comfortable tourism?</button>
+                <button class="react-btn" onclick="selectReaction(this)">C. Why did you really travel there? What were you escaping or seeking?</button>
+            </div>
+        </div>
+
+        <script>
+            function selectReaction(btn) {
+                btn.parentElement.querySelectorAll('.react-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+            }
+        </script>
+    </div>
+</section>
+
+<section class="section" id="task-2">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">02 // Grammar Input</span>
+        <h2 class="section-title" contenteditable="true">Advanced <em>Cohesion</em> (Revision + Extension)</h2>
+        <p class="section-desc" contenteditable="true">To write and speak at a C1 level, your sentences must link together seamlessly across paragraphs. Let's look at three powerful cohesive devices.</p>
+
+        <div style="background:var(--white);border-radius:var(--r-lg);padding:32px;box-shadow:var(--shadow-md);border-top:6px solid var(--navy);">
+            
+            <div style="margin-bottom:32px;">
+                <h3 style="font-family:'Lora',serif;color:var(--navy);font-size:1.3rem;margin-bottom:12px;" contenteditable="true">1. Pronoun Reference</h3>
+                <p style="font-size:1rem;margin-bottom:16px;color:var(--text-dark);" contenteditable="true">Using pronouns (this, these, those, it, they) to refer back to a complex idea in the previous sentence.</p>
+                <div style="background:rgba(38, 70, 83, 0.05);padding:16px;border-radius:var(--r-sm);border-left:4px solid var(--navy);">
+                    <p style="font-size:1rem;color:var(--navy);font-weight:700;" contenteditable="true">"Many tourists experience severe re-entry shock. <strong>This psychological dislocation</strong> can last for months."</p>
+                </div>
+            </div>
+
+            <div style="margin-bottom:32px;">
+                <h3 style="font-family:'Lora',serif;color:var(--navy);font-size:1.3rem;margin-bottom:12px;" contenteditable="true">2. Substitution</h3>
+                <p style="font-size:1rem;margin-bottom:16px;color:var(--text-dark);" contenteditable="true">Using words like <em>one, ones, do, so</em> to avoid repeating the exact same noun or verb phrase.</p>
+                <div style="background:rgba(42, 157, 143, 0.1);padding:16px;border-radius:var(--r-sm);border-left:4px solid var(--green);">
+                    <p style="font-size:1rem;color:var(--navy);font-weight:700;" contenteditable="true">"I usually avoid the crowded resort beaches. I much prefer the isolated <strong>ones</strong>."</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="font-family:'Lora',serif;color:var(--navy);font-size:1.3rem;margin-bottom:12px;" contenteditable="true">3. Lexical Chains</h3>
+                <p style="font-size:1rem;margin-bottom:16px;color:var(--text-dark);" contenteditable="true">Connecting paragraphs by using a progression of related vocabulary (synonyms, hyponyms, associations) rather than repeating the same word.</p>
+                <div style="background:rgba(231, 111, 81, 0.1);padding:16px;border-radius:var(--r-sm);border-left:4px solid var(--rust);">
+                    <p style="font-size:1rem;color:var(--navy);font-weight:700;" contenteditable="true">Paragraph 1 ends with: "...the long <strong>journey</strong>." <br>Paragraph 2 begins with: "Such an exhausting <strong>trek</strong>..."</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-3">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">03 // Cohesion Analysis</span>
+        <h2 class="section-title" contenteditable="true">The Gap Year <em>Fantasy</em></h2>
+        <p class="section-desc" contenteditable="true">Read the travel essay below. Notice how the highlighted words create links across sentences and paragraphs. Try to deduce the meaning of the bolded vocabulary.</p>
+
+        <div class="editorial-article">
+            <div class="article-meta" contenteditable="true">Editorial • Travel & Psychology</div>
+            <div class="article-text" contenteditable="true">
+                <p>
+                    <span class="dropcap">T</span>he modern "gap year" is often marketed as a profound <span class="target-word">pilgrimage</span> of self-discovery. Young adults pack their bags, fueled by intense <span class="target-word">wanderlust</span>, expecting a transformative <span class="target-word">sojourn</span> across continents. However, the reality of this <span style="background:var(--gold-pale);padding:2px 4px;border-radius:4px;">itinerant</span> lifestyle is frequently less glamorous than the filtered images suggest.
+                </p>
+                <p>
+                    <span style="background:var(--green-pale);padding:2px 4px;border-radius:4px;font-weight:bold;">This disparity</span> between expectation and reality stems from a misunderstanding of travel. True cultural <span class="target-word">immersion</span> requires facing significant <span class="target-word">discomfort</span>—navigating foreign bureaucracies, sleeping on uncomfortable buses, and dealing with <span class="target-word">provincial</span> attitudes. Resort tourism protects you from these challenges; authentic travel guarantees <span style="background:var(--gold-pale);padding:2px 4px;border-radius:4px;">them</span>.
+                </p>
+                <p>
+                    Furthermore, the hardest part of the <span style="background:var(--rust-pale);padding:2px 4px;border-radius:4px;font-weight:bold;">voyage</span> is often the return. Many backpackers report feeling a profound sense of psychological <span class="target-word">dislocation</span> when they arrive home. <span style="background:var(--green-pale);padding:2px 4px;border-radius:4px;font-weight:bold;">Such re-entry shock</span> can be harder to navigate than any foreign city <span style="background:var(--gold-pale);padding:2px 4px;border-radius:4px;">one</span> has visited.
+                </p>
+            </div>
+            
+            <div class="callout callout-navy" style="margin-top: 30px;">
+                <strong>🔍 Analysis Task:</strong> With your teacher, identify which of the highlighted words are examples of: 1) Pronoun Reference, 2) Substitution, 3) Lexical Chains.
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-4">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">04 // Lexical Focus</span>
+        <h2 class="section-title" contenteditable="true">The Language of the <em>Nomad</em></h2>
+        <p class="section-desc" contenteditable="true">Hover over the cards to unlock the C1 vocabulary from the essay.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vic-hint">🎒</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Itinerant</div></div>
+                <div class="vic-def">Traveling from place to place. <em>"He lived an itinerant lifestyle, moving to a new country every six months."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🗺️</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Pilgrimage</div></div>
+                <div class="vic-def">A journey to a place associated with someone or something well known or respected. <em>"The trek to Machu Picchu was a personal pilgrimage."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🏘️</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Provincial</div></div>
+                <div class="vic-def">Having attitudes or opinions supposedly typical of people outside the capital; unsophisticated or narrow-minded. <em>"They found the villagers' views quite provincial."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🛏️</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Sojourn</div></div>
+                <div class="vic-def">A temporary stay. <em>"Her brief sojourn in Rome inspired her next novel."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">😓</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Discomfort</div></div>
+                <div class="vic-def">Slight pain or mental unease. <em>"True growth only happens when you embrace the discomfort of the unknown."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🌊</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Immersion</div></div>
+                <div class="vic-def">Deep mental involvement; submersing oneself entirely in a foreign culture/language. <em>"Language immersion is the fastest way to fluency."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">✨</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Wanderlust</div></div>
+                <div class="vic-def">A strong desire to travel. <em>"Consumed by wanderlust, she quit her job and bought a one-way ticket."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🌀</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Dislocation</div></div>
+                <div class="vic-def">Disturbance from a proper, original, or usual place or state; feeling entirely out of place psychologically. <em>"Returning home after two years caused a deep sense of dislocation."</em></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-5">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">05 // Video Study</span>
+        <h2 class="section-title" contenteditable="true">Where is <em>Home?</em></h2>
+        <p class="section-desc" contenteditable="true">Watch this excerpt from Pico Iyer's TED Talk on a life of travel. Consider his philosophical definition of "home" for a modern itinerant.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube.com/embed/3bFlYrNtsTw?rel=0&modestbranding=1" title="TED: Where is home?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        
+        <div class="callout callout-green">
+            <strong>Revision: Hedging in Writing 🛡️</strong><br>
+            As you discuss the video, practice using hedging phrases from our previous lessons to sound objective (e.g., <em>"It is widely believed that...", "One could argue that...", "It seems plausible that..."</em>).
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-6">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">06 // Deep Discourse</span>
+        <h2 class="section-title" contenteditable="true">Privilege or <em>Right?</em></h2>
+        <p class="section-desc" contenteditable="true">Discuss these statements with your teacher, utilizing your new vocabulary and hedging techniques.</p>
+
+        <div id="tfngL14">
+            <div class="tfng-item" style="border-left: 4px solid var(--rust);">
+                <div class="tfng-stmt" contenteditable="true">"Travel is inherently a privilege of the wealthy, masked as a spiritual journey for the enlightened."</div>
+                <p style="font-size: 0.95rem; color: var(--text-gray);" contenteditable="true">Do you agree? How does the concept of a "gap year" differ between Eastern Europe and Western Europe/USA?</p>
+            </div>
+            <div class="tfng-item" style="border-left: 4px solid var(--navy);">
+                <div class="tfng-stmt" contenteditable="true">"We travel not to move around, but to be moved."</div>
+                <p style="font-size: 0.95rem; color: var(--text-gray);" contenteditable="true">Can true 'immersion' happen in a 7-day holiday, or does it require a longer 'sojourn'?</p>
+            </div>
+            <div class="tfng-item" style="border-left: 4px solid var(--green);">
+                <div class="tfng-stmt" contenteditable="true">"Re-entry shock is worse than culture shock."</div>
+                <p style="font-size: 0.95rem; color: var(--text-gray);" contenteditable="true">Have you ever experienced 'dislocation' after returning to Poland from a long trip? How did you cope?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-7">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">07 // Clinical Simulation</span>
+        <h2 class="section-title" contenteditable="true">The Colleague's <em>Misunderstanding</em></h2>
+        <p class="section-desc" contenteditable="true">Use your persuasive skills and new vocabulary to navigate a difficult conversation with a colleague.</p>
+
+        <div style="background:var(--white);border-radius:var(--r-xl);padding:40px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:16px;">
+            <p style="font-family:'Lora',serif;font-size:1.1rem;margin-bottom:20px;line-height:1.6;" contenteditable="true">
+                <strong>Context:</strong> You have just returned from a difficult, exhausting medical volunteering trip (or a very rugged travel experience) in a developing country. You suffered a lot of <em>discomfort</em>. You return to your clinic in Poland, still feeling a sense of <em>dislocation</em>. <br><br>
+                Your colleague (the teacher), who has never left Europe and prefers luxury resort tourism, says to you in the breakroom: <em>"Wow, you look terrible for someone who just had a 4-week holiday. I told you going there was a bad idea. Why didn't you just go to an all-inclusive in Spain like normal people?"</em>
+            </p>
+            
+            <div style="background:rgba(231, 111, 81, 0.1);padding:24px;border-radius:var(--r-md);border-left:5px solid var(--rust);">
+                <strong style="color:var(--rust);display:block;margin-bottom:8px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;">Your Task:</strong>
+                <ul style="margin-left: 20px; font-family:'Nunito',sans-serif;">
+                    <li>Explain the difference between a <strong>sojourn/pilgrimage</strong> and "resort tourism".</li>
+                    <li>Defend the value of cultural <strong>immersion</strong> and <strong>discomfort</strong>.</li>
+                    <li>Use <strong>hedging</strong> so you don't sound arrogant (e.g., <em>"One could argue that..."</em>).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="task-8">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">08 // Writing & Review</span>
+        <h2 class="section-title" contenteditable="true">The Transformative <em>Journey</em></h2>
+        <p class="section-desc" contenteditable="true">Take 5-7 minutes to draft a short paragraph describing a journey that changed you. You <strong>must</strong> use at least two cohesive devices (lexical chains, substitution, or pronoun reference) to link your sentences.</p>
+
+        <div class="review-box" style="background: var(--white); color: var(--navy); border: 2px solid var(--border-light);">
+            <div contenteditable="true" style="min-height: 150px; font-family: 'Lora', serif; font-size: 1.1rem; color: var(--charcoal); outline: none;">
+                [Type your paragraph here...]
+            </div>
+        </div>
+        
+        <div class="callout callout-green" style="margin-top: 20px;">
+            <strong>📝 Peer Edit:</strong> Read your paragraph aloud to your teacher. Work together to identify the cohesive links. Can you make the lexical chain stronger?
+        </div>
+    </div>
+</section>
+
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">09 // Diagram Area</span>
+        <h2 class="section-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        <p class="section-desc" contenteditable="true">A collaborative digital environment for mapping lexical chains or drafting cohesion exercises.</p>
+
+        <div style="border:1px solid rgba(61, 64, 91, 0.2);border-radius:var(--r-lg);background:var(--white);overflow:hidden;margin-top:24px;box-shadow:var(--shadow-lg);">
+            <div style="background:var(--navy);padding:12px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent;border:1px solid var(--rust);color:var(--rust);padding:6px 12px;border-radius:4px;cursor:pointer;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent;border:1px solid var(--text-gray);color:var(--cream);padding:6px 12px;border-radius:4px;cursor:pointer;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent;border:1px solid var(--text-gray);color:var(--cream);padding:6px 12px;border-radius:4px;cursor:pointer;">Text</button>
+                <div style="width:1px;height:24px;background:var(--text-gray);margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#E76F51" style="width:32px;height:32px;border:none;cursor:pointer;background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--rust);color:var(--white);border:none;padding:6px 12px;border-radius:4px;cursor:pointer;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block;width:100%;height:500px;cursor:crosshair;"></canvas>
+        </div>
+    </div>
+</section>
+
+<div id="task-hw" class="hw-exclusive" style="display: none; background: var(--bg-page); min-height: 100vh; padding-top: 40px; padding-bottom: 80px;">
+    
+    <section id="hw-welcome" class="hw-screen active">
+        <div class="hw-container">
+            <span class="section-label">Homework Portal</span>
+            <h2 class="section-title">Lesson 21 <em>Assessment</em></h2>
+            <p class="section-desc" style="max-width: 600px; margin: 0 auto 30px;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong> to complete 10 questions testing your knowledge of travel vocabulary, cohesion, and hedging. 
+                <br><br><span style="color: var(--danger); font-weight: 700;">Anti-Cheat Enabled:</span> Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.
+            </p>
+            <div class="hw-container" style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <br>
+                <button class="hw-btn-primary" onclick="startHW()">Accept Rules & Begin</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="hw-quiz" class="hw-screen">
+        <div class="hw-container">
+            <div class="hw-header">
+                <span class="section-label" id="hwQuestionCounter" style="margin: 0; background: transparent; padding: 0;">Question 1 / 10</span>
+                <div class="hw-timer">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            <div class="hw-progress">
+                <div class="hw-progress-fill" id="hwProgressFill"></div>
+            </div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </div>
+    </section>
+
+    <section id="hw-results" class="hw-screen">
+        <div class="hw-container" style="max-width: 850px;">
+            <div id="hw-pdf-content" style="background: var(--bg-page); padding: 20px; box-sizing: border-box;">
+                <div style="text-align: center;">
+                    <span class="section-label">Assessment Complete</span>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage"></p>
+                </div>
+
+                <div class="hw-results-card">
+                    <h3 style="font-family: var(--font-mono); color: var(--text-gray); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Final Score</h3>
+                    <div class="hw-score" id="hwScoreDetail">0 / 10</div>
+                    <p style="font-family: var(--font-ui); font-size: 1rem; color: var(--navy); font-weight: 700; margin-top: 10px;" id="hwTerminationReason"></p>
+                </div>
+
+                <h3 style="font-family: var(--font-serif); color: var(--navy); text-align: left; border-bottom: 2px solid var(--border-light); padding-bottom: 10px;">Question Review</h3>
+                <div class="hw-review-grid" id="hwReviewGrid"></div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="btn-outline" style="padding: 16px 32px; font-family: var(--font-ui); font-weight: 700; border-radius: 50px; background: transparent; border: 1px solid var(--navy); color: var(--navy); cursor: pointer;" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--navy);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--rust);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<div id="adminModal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(26,26,29,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-gray);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-family:var(--font-serif); color:var(--navy); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--text-gray); margin-bottom:20px;">Review recent student homework submissions.</p>
+        
+        <div style="overflow-x:auto;">
+            <table class="elegant-table">
+                <thead>
+                    <tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr>
+                </thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--danger); border-color:var(--danger); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<div id="quizletModal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(26,26,29,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:600px;box-shadow:var(--shadow-lg);position:relative;">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-gray);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-family:'Lora',serif;color:var(--navy);margin-bottom:8px;">Quizlet Exporter</h2>
+        <p style="color:var(--text-gray);font-size:0.95rem;margin-bottom:24px;">Add your terms, then copy and paste directly into Quizlet's Import tool.</p>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;"><input type="text" placeholder="Term (e.g. Sojourn)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;"></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" class="react-btn" style="flex:1;border-color:var(--navy);color:var(--navy);">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="react-btn" style="flex:2;background:#4255FF;border-color:#4255FF;color:white;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ─── NAV LOGIC & TAB SWITCHING ───
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            
+            if (id === '#task-hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+                document.getElementById('task-hw').style.display = 'none';
+                
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.getElementById('task-hw').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // ─── GENERAL INTERACTIONS ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(233, 196, 106, 0.4)');
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.getElementById('task-hw').style.display = 'none';
+        const el = document.getElementById('whiteboard');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth'});
+    };
+
+    // ─── QUIZLET MODAL ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){
+            navigator.clipboard.writeText(out).then(()=>{
+                btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000);
+            });
+        } else {
+            btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000);
+        }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#E76F51', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--text-gray)'; b.style.color='var(--cream)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--rust)'; btn.style.color='var(--rust)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Nunito', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool==='arrow') {
+            const hl=16,ang=Math.atan2(ey-startY,ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6)); ctx.stroke();
+        }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "Which word means 'traveling from place to place'?", options: ["Wanderlust", "Itinerant", "Provincial", "Sojourn"], correct: 1 },
+        { text: "Complete the lexical chain: voyage, trek, expedition, ___.", options: ["dislocation", "immersion", "journey", "discomfort"], correct: 2 },
+        { text: "What cohesive device is used here: 'I prefer small towns to large ONES'?", options: ["Lexical Chain", "Pronoun Reference", "Substitution", "Hedging"], correct: 2 },
+        { text: "Which hedging phrase is appropriate for formal writing?", options: ["It is 100% sure that...", "I bet that...", "It is widely believed that...", "Everyone knows that..."], correct: 2 },
+        { text: "A temporary stay is called a ___.", options: ["Pilgrimage", "Sojourn", "Dislocation", "Immersion"], correct: 1 },
+        { text: "Which word implies a feeling of being psychologically out of place?", options: ["Wanderlust", "Dislocation", "Provincial", "Itinerant"], correct: 1 },
+        { text: "Identify the cohesive device: 'The locals were helpful. THEY showed us the map.'", options: ["Substitution", "Lexical Chain", "Hedging", "Pronoun Reference"], correct: 3 },
+        { text: "Having a narrow-minded or unsophisticated attitude is being ___.", options: ["Provincial", "Itinerant", "Immersed", "Dislocated"], correct: 0 },
+        { text: "What is the best definition of 'wanderlust'?", options: ["Fear of traveling", "A strong desire to travel", "Getting lost in a forest", "A religious journey"], correct: 1 },
+        { text: "A journey to a respected or sacred place is called a ___.", options: ["Sojourn", "Dislocation", "Pilgrimage", "Lexical Chain"], correct: 2 }
+    ];
+
+    let currentStudent = "";
+    let questionHistory = []; 
+    let currentQuestionIndex = 0;
+    const TOTAL_QUESTIONS = 10;
+    let score = 0;
+    
+    let timeLeft = 10 * 60; // 10 minutes
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window to look up answers. If you do this again, your test will instantly end.");
+            }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.hw-timer').style.background = "var(--danger)";
+                document.querySelector('.hw-timer').style.color = "white";
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will now be submitted.");
+                endHWQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    function showHWScreen(id) {
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name to continue."); return; }
+        
+        currentStudent = nameInput;
+        currentQuestionIndex = 0;
+        score = 0;
+        questionHistory = [];
+        cheatWarnings = 0;
+        timeLeft = 10 * 60;
+        isTestActive = true;
+
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
+        
+        showHWScreen('hw-quiz');
+        startHWTimer();
+        renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+            endHWQuiz(false, "Completed Successfully");
+            return;
+        }
+
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid');
+        grid.innerHTML = "";
+        
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'hw-opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
+
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: correctAnsText, isCorrect: isCorrect });
+        if (isCorrect) score++;
+
+        currentQuestionIndex++;
+        renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false;
+        clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        
+        const termEl = document.getElementById('hwTerminationReason');
+        if (forcedExit) termEl.innerHTML = `<span style="color:var(--danger);">Status:</span> ${statusMsg}`;
+        else termEl.innerHTML = `<span style="color:var(--success);">Status:</span> ${statusMsg}`;
+
+        buildHWReviewGrid();
+        showHWScreen('hw-results');
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function buildHWReviewGrid() {
+        const grid = document.getElementById('hwReviewGrid');
+        grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `hw-review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
+            div.innerHTML = `
+                <div class="hw-review-q">${index + 1}. ${item.text}</div>
+                <div class="hw-review-ans">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div class="hw-review-ans">Correct answer: <span style="color: var(--success)">${item.correctAns}</span></div>` : ''}
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    // ─── PDF & ADMIN LOGIC ───
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const element = document.getElementById('hw-pdf-content');
+        const parent = element.parentNode;
+        const sibling = element.nextSibling;
+
+        const origBodyOverflowX = document.body.style.overflowX;
+        const origHtmlOverflowX = document.documentElement.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        document.documentElement.style.overflowX = 'visible';
+        document.body.appendChild(element);
+
+        const origCss = element.style.cssText;
+        element.style.cssText = `position: absolute !important; top: 0 !important; left: 0 !important; width: 800px !important; margin: 0 !important; padding: 40px !important; background: #F4F1DE !important; z-index: 999999 !important; display: block !important;`;
+        window.scrollTo(0, 0);
+
+        const w = 800; const h = element.scrollHeight;
+        const opt = {
+            margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L21_Homework.pdf`, image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, x: 0, y: 0, width: w, height: h, windowWidth: w, windowHeight: h, scrollX: 0, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [w, h], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.cssText = origCss;
+            if (sibling) parent.insertBefore(element, sibling);
+            else parent.appendChild(element);
+            document.body.style.overflowX = origBodyOverflowX;
+            document.documentElement.style.overflowX = origHtmlOverflowX;
+            document.getElementById('floatingActions').style.display='flex';
+        });
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson21HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson21HomeworkData', JSON.stringify(results));
+    }
+
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson21HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = "";
+
+        if (results.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No homework submissions yet.</td></tr>";
+        } else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="font-size:0.85rem;">${r.date}</td><td style="font-weight:700;">${r.name}</td><td>${r.score} / ${r.total}</td><td style="font-size:0.85rem; font-weight: 700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson21HomeworkData'); openAdmin(); } }
+
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'lesson-21-nomad-c1-v1';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(26,26,29,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:700; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(231,111,81,0.4); font-family:'Nunito',sans-serif;";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold);"></span><span id="syncText">Connecting Session...</span>`;
+    document.body.appendChild(statusDiv);
+
+    const statusText=document.getElementById('syncText');
+    const statusDot=document.getElementById('syncDot');
+    function setStatus(t,c){if(statusText)statusText.innerText=t;if(statusDot)statusDot.style.background=c;if(statusDot)statusDot.style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null,isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Student';
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    const initAuth = async () => { 
+        try {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch (e) {
+                    await signInAnonymously(auth);
+                }
+            } else {
+                await signInAnonymously(auth);
+            }
+        } catch(e) { 
+            setStatus('Auth Failed','#E76F51'); 
+        } 
+    };
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Scholar '+(snap.size+1);
+                setStatus('Live Sync On 🌍','#2A9D8F');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Scholar '+(Math.floor(Math.random()*99)+1);
+                setStatus('Live Sync On 🌍','#2A9D8F');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#E76F51');}
+    });
+
+    initAuth();
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        // Whiteboard Sync
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        
+        const container = document.createElement('div');
+        container.id = 'liveCursorsContainer';
+        container.style.cssText = 'position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;';
+        document.body.appendChild(container);
+
+        document.addEventListener('mousemove',debounce(e=>{if(!currentUser)return;setDoc(myRef,{xOffset:e.pageX-window.innerWidth/2,y:e.pageY,color:myCursorColor,name:myCursorName,timestamp:Date.now()});},400));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el=document.createElement('div');el.id='cursor-'+id;
+                    el.style.position='absolute';el.style.pointerEvents='none';el.style.zIndex='999999';
+                    el.style.transition='top 0.4s linear, left 0.4s linear';
+                    el.innerHTML=`<svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(38,70,83,0.5));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:'Nunito',sans-serif;box-shadow:0 2px 6px rgba(38,70,83,0.4);">${data.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left=(window.innerWidth/2+data.xOffset)+'px';
+                el.style.top=data.y+'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+
+    window.resetLesson = async () => {
+        if (!currentUser) return;
+        if (!confirm('Warning: This will wipe all global system data and canvas drawings for all users. Proceed?')) return;
+        setStatus('Purging...', '#E76F51');
+        const base = (s) => doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', s);
+        try {
+            await deleteDoc(base('text_edits'));
+            const ts = Date.now(); window.lastClear = ts;
+            await setDoc(base('whiteboard'), { clearTimestamp: ts, image: null });
+            
+            const blankInputs = document.querySelectorAll('.blank-input');
+            blankInputs.forEach(input => input.innerHTML = '');
+            
+            setTimeout(() => setStatus('Live Sync On 🌍', '#2A9D8F'), 1200);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+</script>
+</body>
+</html>
