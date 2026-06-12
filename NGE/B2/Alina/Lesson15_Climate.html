@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 15: B2-C1 | Climate Change & Environmental Clinic Practices</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Zilla+Slab:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Eco-Clinic Theme */
+            --forest:     #1E3F33;
+            --pine:       #2A5C4A;
+            --sage:       #82A392;
+            --mint:       #D8E8E0;
+            --cream:      #F7F9F8;
+            --white:      #FFFFFF;
+            
+            --terra:      #E07A5F;
+            --terra-dim:  #C86A50;
+            --terra-pale: #FDECE8;
+            
+            --sand:       #F2CC8F;
+            --charcoal:   #2C3632;
+            --gray-text:  #64736C;
+            
+            --danger:     #D62828;
+            --success:    #3A7D44;
+            
+            --font-ui:    'Outfit', sans-serif;
+            --font-serif: 'Zilla Slab', serif;
+            --font-mono:  'Fira Code', monospace;
+            
+            --shadow-sm:  0 4px 12px rgba(30, 63, 51, 0.08);
+            --shadow-md:  0 8px 24px rgba(30, 63, 51, 0.12);
+            --shadow-lg:  0 16px 40px rgba(30, 63, 51, 0.18);
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-xl: 36px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            line-height: 1.7;
+            color: var(--charcoal);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* The Laser Pointer Global Class */
+        body.laser-active {
+            cursor: crosshair !important;
+        }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(130, 163, 146, 0.15); }
+        [contenteditable="true"]:focus { background: rgba(130, 163, 146, 0.25); box-shadow: 0 0 0 2px rgba(42, 92, 74, 0.4); }
+
+        /* ══ HERO ══ */
+        .hero {
+            position: relative; min-height: 600px;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; overflow: hidden;
+            background: var(--forest);
+        }
+
+        .hero-pattern {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background-image: radial-gradient(var(--pine) 2px, transparent 2px);
+            background-size: 30px 30px; opacity: 0.4;
+        }
+
+        .hero-glow {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            background: radial-gradient(circle at 50% 100%, rgba(224, 122, 95, 0.15) 0%, transparent 60%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 2; max-width: 900px; padding: 80px 40px;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(242, 204, 143, 0.15); border: 1px solid rgba(242, 204, 143, 0.4);
+            color: var(--sand); padding: 6px 20px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 700; font-family: var(--font-mono);
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            color: var(--white); line-height: 1.05;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 em { color: var(--sage); font-style: italic; }
+
+        .hero-sub {
+            font-size: 1.15rem; font-weight: 300; color: rgba(255,255,255,0.85);
+            max-width: 650px; margin: 0 auto 36px; line-height: 1.6;
+        }
+
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+        .hero-chip {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white); padding: 6px 18px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 500; font-family: var(--font-ui);
+        }
+        .hero-chip.terra { border-color: rgba(224, 122, 95, 0.5); color: var(--terra); background: rgba(224, 122, 95, 0.1); }
+        .hero-chip.sand { border-color: rgba(242, 204, 143, 0.5); color: var(--sand); background: rgba(242, 204, 143, 0.1); }
+
+        .hero-ribbon {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+            background: var(--cream);
+            clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 100%);
+        }
+
+        /* ══ NAV ══ */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(247, 249, 248, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(42, 92, 74, 0.1); padding: 0 24px;
+        }
+
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 60px;
+        }
+
+        .nav-logo {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 700;
+            color: var(--forest); text-decoration: none; display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; gap: 6px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--gray-text); font-size: 0.85rem; font-weight: 600;
+            padding: 6px 14px; border-radius: 50px; transition: all 0.2s; white-space: nowrap;
+        }
+        .nav-links a:hover { color: var(--forest); background: var(--mint); }
+        .nav-links .add-tab { background: var(--forest); color: white; padding: 4px 12px; }
+        .nav-links .hw-tab { color: var(--terra); font-weight: 800; border: 1px solid rgba(224,122,95,0.3); }
+
+        /* ══ SECTIONS ══ */
+        .section { padding: 80px 24px; position: relative; z-index: 2; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+
+        .section-label {
+            display: inline-flex; align-items: center; font-family: var(--font-mono);
+            font-size: 0.8rem; font-weight: 700; color: var(--pine);
+            background: var(--mint); padding: 6px 14px; border-radius: 4px;
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .section-title {
+            font-family: var(--font-serif); font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 700; color: var(--forest); margin-bottom: 16px; line-height: 1.2;
+        }
+        .section-title em { color: var(--terra); font-style: italic; }
+
+        .section-desc { color: var(--gray-text); font-size: 1.1rem; margin-bottom: 40px; max-width: 750px; font-weight: 400; line-height: 1.6; }
+
+        /* ══ CARDS & GRIDS ══ */
+        .glass-card {
+            background: var(--white); border: 1px solid rgba(42, 92, 74, 0.1);
+            border-radius: var(--r-lg); padding: 40px;
+            box-shadow: var(--shadow-sm); border-top: 6px solid var(--pine);
+            margin-bottom: 24px; position: relative; overflow: hidden;
+        }
+        
+        .quote-block {
+            font-family: var(--font-serif); font-size: 1.4rem; color: var(--forest);
+            font-style: italic; padding-left: 24px; border-left: 4px solid var(--terra);
+            margin-bottom: 24px; line-height: 1.5;
+        }
+
+        /* ══ VOCABULARY GRID ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 24px; }
+        .vocab-card {
+            background: var(--white); border-radius: var(--r-md); padding: 24px;
+            border: 1px solid rgba(42, 92, 74, 0.1); position: relative; overflow: hidden;
+            transition: all 0.3s ease; cursor: default; min-height: 160px; display: flex; flex-direction: column; justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .vocab-card:hover { border-color: var(--pine); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        
+        .vic-front { position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s; pointer-events: none; background: var(--white); }
+        .vocab-card:hover .vic-front { opacity: 0; }
+        .vic-pos { font-family: var(--font-mono); font-size: 0.75rem; color: var(--sage); margin-bottom: 8px; font-weight: 600; }
+        .vic-word { font-family: var(--font-serif); font-size: 1.5rem; color: var(--forest); font-weight: 700; }
+        .vic-hint { position: absolute; top: 16px; right: 16px; font-size: 1.2rem; opacity: 0.5; transition: opacity 0.3s; }
+        .vocab-card:hover .vic-hint { opacity: 0; }
+
+        .vic-def {
+            position: absolute; inset: 0; padding: 24px;
+            background: var(--pine); color: var(--white);
+            font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md); z-index: 2;
+        }
+        .vocab-card:hover .vic-def { opacity: 1; }
+
+        /* ══ GRAMMAR TABLES & BOXES ══ */
+        .grammar-table { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid rgba(42, 92, 74, 0.1); text-align: left; border-radius: var(--r-md); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-sm); }
+        .grammar-table th { background: var(--forest); color: var(--white); padding: 16px 20px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .grammar-table td { padding: 16px 20px; border-bottom: 1px solid rgba(42, 92, 74, 0.1); font-size: 1rem; color: var(--charcoal); vertical-align: top; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: var(--cream); }
+
+        .verb-tag { display: inline-block; background: var(--mint); color: var(--pine); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem; }
+        .verb-tag.gerund { background: var(--terra-pale); color: var(--terra-dim); }
+
+        /* ══ PRACTICE LISTS ══ */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 24px; counter-reset: prac; }
+        .practice-list li {
+            background: var(--white); padding: 20px 24px 20px 60px;
+            border-radius: var(--r-md); border: 1px solid rgba(42, 92, 74, 0.1);
+            font-size: 1.05rem; position: relative; line-height: 1.7; box-shadow: var(--shadow-sm);
+        }
+        .practice-list li::before {
+            counter-increment: prac; content: "0" counter(prac);
+            position: absolute; left: 20px; top: 22px;
+            font-weight: 700; color: var(--sage); font-size: 0.9rem; font-family: var(--font-mono);
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 100px; border-bottom: 2px dashed var(--sage);
+            color: var(--pine); font-weight: 600; padding: 0 8px; text-align: center;
+            background: var(--mint); font-family: var(--font-mono); font-size: 0.95em;
+        }
+        .blank-input:focus { border-bottom-color: var(--pine); outline: none; background: rgba(130, 163, 146, 0.3); }
+
+        /* ══ TFNG & SPY ITEMS ══ */
+        .interactive-item { background: var(--white); border: 1px solid rgba(42, 92, 74, 0.1); border-radius: var(--r-md); padding: 24px; margin-bottom: 16px; transition: border-color 0.3s; box-shadow: var(--shadow-sm); }
+        .interactive-item.i-correct { border-color: var(--success); background: rgba(58, 125, 68, 0.05); }
+        .interactive-item.i-wrong   { border-color: var(--terra); background: rgba(224, 122, 95, 0.05); }
+        
+        .interactive-text { font-size: 1.05rem; font-weight: 500; color: var(--charcoal); margin-bottom: 16px; line-height: 1.6; }
+        
+        .wrong-word { color: var(--terra); background: var(--terra-pale); padding: 2px 6px; border-radius: 4px; cursor: pointer; border-bottom: 2px solid var(--terra); font-weight: 600; }
+        .wrong-word:hover { background: rgba(224, 122, 95, 0.2); }
+        
+        .btn-check { background: var(--forest); color: var(--white); border: none; padding: 6px 16px; border-radius: 4px; font-family: var(--font-ui); font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-check:hover { background: var(--pine); }
+
+        /* ══ CALLOUTS ══ */
+        .callout { padding: 20px 24px; border-radius: var(--r-md); margin: 24px 0; font-size: 1rem; line-height: 1.65; border-left: 4px solid; background: var(--white); box-shadow: var(--shadow-sm); }
+        .callout-terra  { border-color: var(--terra); }
+        .callout-pine   { border-color: var(--pine); }
+        .callout-sand   { border-color: var(--sand); }
+        .callout strong { color: var(--forest); font-family: var(--font-serif); font-size: 1.1rem; }
+
+        /* ══ LASER POINTER UI ══ */
+        .laser-dot {
+            position: absolute; pointer-events: none; z-index: 999999;
+            width: 12px; height: 12px; background: red; border-radius: 50%;
+            box-shadow: 0 0 15px 5px rgba(255,0,0,0.6);
+            transform: translate(-50%, -50%);
+            transition: top 0.1s linear, left 0.1s linear; /* Fast transition for smooth laser */
+            display: none;
+        }
+        .laser-label {
+            position: absolute; color: white; background: rgba(255,0,0,0.8);
+            font-size: 0.7rem; font-family: var(--font-mono); padding: 2px 6px;
+            border-radius: 4px; top: 10px; left: 10px; white-space: nowrap;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Global Laser Dot Container -->
+<div id="liveLaserContainer" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:999999;"></div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">🌍 B2–C1 Level · Dental English · Lesson 15</div>
+        <h1 contenteditable="true">Climate Change &<br><em>Eco-Clinic Practices</em></h1>
+        <p class="hero-sub" contenteditable="true">Navigate the complex intersection of global health policy, sustainable clinical procurement, and the nuanced grammar of verbs that change meaning.</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">Gerunds vs Infinitives</span>
+            <span class="hero-chip terra" contenteditable="true">Global Health Policy</span>
+            <span class="hero-chip sand" contenteditable="true">Green Dentistry</span>
+            <span class="hero-chip" contenteditable="true">Relative Clauses Revision</span>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">🌱 <span contenteditable="true">Dental English</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" class="add-tab" contenteditable="false">+</a></li>
+            <li><a href="#task-1" contenteditable="true">01 Dilemma</a></li>
+            <li><a href="#task-2" contenteditable="true">02 Vocab</a></li>
+            <li><a href="#task-3" contenteditable="true">03 Reading</a></li>
+            <li><a href="#task-4" contenteditable="true">04 Grammar</a></li>
+            <li><a href="#task-6" contenteditable="true">06 Error Spy</a></li>
+            <li><a href="#task-hw" class="hw-tab" contenteditable="true">Homework Test</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ══════════ TASK 1 — PROVOCATION ══════════ -->
+<section class="section" id="task-1">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">01 // The Scenario</span>
+        <h2 class="section-title" contenteditable="true">The <em>Single-Use</em> Dilemma</h2>
+        <p class="section-desc" contenteditable="true">Medicine relies heavily on single-use plastics to prevent cross-contamination. But what happens to the thousands of gloves, suction tips, and barriers a clinic uses every month? Read the quote below and discuss.</p>
+
+        <div class="glass-card">
+            <div class="quote-block" contenteditable="true">
+                "We try to save patients, but we forget to save the environment they live in. The healthcare sector is responsible for nearly 5% of global greenhouse gas emissions. If healthcare were a country, it would be the fifth-largest climate polluter on the planet."
+            </div>
+            <p style="color:var(--gray-text);font-weight:500;margin-bottom:16px;" contenteditable="true">— Adapted from Health Care Without Harm (HCWH) Global Report.</p>
+        </div>
+
+        <div class="callout callout-terra">
+            <strong>💬 Discussion:</strong> Think about your clinic. If you <em>stop to consider</em> the waste produced in just one implant surgery, what items take up the most space in the bin? Can cross-contamination protocols coexist with environmental sustainability?
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 2 — VOCABULARY ══════════ -->
+<section class="section" id="task-2">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">02 // Lexical Focus</span>
+        <h2 class="section-title" contenteditable="true">The Language of <em>Green Dentistry</em></h2>
+        <p class="section-desc" contenteditable="true">To discuss international guidelines (like those from the WHO) regarding medical waste, you need precise C1 terminology. Hover to unlock the definitions.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vic-hint">⚙️</div>
+                <div class="vic-front"><div class="vic-pos">noun phrase</div><div class="vic-word">Amalgam separator</div></div>
+                <div class="vic-def">A device installed in dental clinic plumbing to capture mercury from amalgam fillings before it enters the public water system and pollutes the environment.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🗑️</div>
+                <div class="vic-front"><div class="vic-pos">verb</div><div class="vic-word">To discard</div></div>
+                <div class="vic-def">To throw something away or reject it because it is no longer useful or wanted. <em>"Sharps and needles must be discarded in designated biohazard bins."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🔥</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Autoclave</div></div>
+                <div class="vic-def">A strong, heated container used for chemical reactions and other processes using high pressures and temperatures, e.g., steam sterilization of dental instruments.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">📦</div>
+                <div class="vic-front"><div class="vic-pos">noun phrase</div><div class="vic-word">Sustainable procurement</div></div>
+                <div class="vic-def">The process of purchasing goods and services that take into account the social and environmental impact, not just the financial cost.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">👣</div>
+                <div class="vic-front"><div class="vic-pos">noun phrase</div><div class="vic-word">Carbon footprint</div></div>
+                <div class="vic-def">The total amount of greenhouse gases (including carbon dioxide and methane) that are generated by our actions—or by a clinic's operations.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🧪</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Biohazard</div></div>
+                <div class="vic-def">A risk to human health or the environment arising from biological work, especially with microorganisms. Items soaked in blood are biohazards.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🤥</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Greenwashing</div></div>
+                <div class="vic-def">Deceptive marketing used to persuade the public that an organization's products, aims, and policies are environmentally friendly when they actually are not.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">♻️</div>
+                <div class="vic-front"><div class="vic-pos">adj</div><div class="vic-word">Single-use</div></div>
+                <div class="vic-def">Designed to be used exactly once and then disposed of. In medicine, this is critical for infection control but devastating for the environment.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 3 — READING ══════════ -->
+<section class="section" id="task-3">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">03 // Global Health Perspective</span>
+        <h2 class="section-title" contenteditable="true">The WHO & <em>Medical Waste</em></h2>
+        <p class="section-desc" contenteditable="true">Read this brief excerpt adapted from global health policy discussions regarding clinical waste management. Pay attention to verbs followed by <em>-ing</em> vs <em>to + infinitive</em>.</p>
+
+        <div class="glass-card" style="border-top-color: var(--sage);">
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px;" contenteditable="true">
+                During recent World Health Assembly discussions, policymakers urged member states to <strong>stop treating</strong> medical waste purely as a logistical issue and to <strong>stop to consider</strong> its long-term environmental impact. 
+            </p>
+            <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 16px;" contenteditable="true">
+                Many clinic owners <strong>regret buying</strong> cheap, single-use plastics when they calculate their monthly disposal costs. However, administrators often <strong>regret to inform</strong> staff that transitioning to stainless steel, autoclavable alternatives requires significant upfront capital. 
+            </p>
+            <p style="font-size: 1.05rem; line-height: 1.8;" contenteditable="true">
+                To combat this, the WHO recommends that clinics <strong>try conducting</strong> a waste audit for one week. "We must <strong>remember to upgrade</strong> our amalgam separators," noted one delegate, "but we must also <strong>remember watching</strong> the rivers become polluted before these regulations existed."
+            </p>
+        </div>
+
+        <div class="callout callout-pine">
+            <strong>📝 Comprehension:</strong> According to the text, why do clinic owners hesitate to switch to autoclavable (reusable) alternatives even if they dislike single-use plastics?
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 4 — GRAMMAR THEORY ══════════ -->
+<section class="section" id="task-4">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">04 // Grammar Core</span>
+        <h2 class="section-title" contenteditable="true">Verbs that <em>Change Meaning</em></h2>
+        <p class="section-desc" contenteditable="true">Some verbs can be followed by either a gerund (<em>-ing</em>) or an infinitive (<em>to do</em>), but the meaning changes completely. This is a classic C1 grammar trap.</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Verb</th>
+                    <th contenteditable="true">+ to Infinitive (Forward / Interruption)</th>
+                    <th contenteditable="true">+ Gerund (-ing) (Backward / The Action itself)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="color:var(--forest);" contenteditable="true">STOP</strong></td>
+                    <td>
+                        <span class="verb-tag" contenteditable="true">stop to do</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To interrupt what you are doing in order to do something else.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"During surgery, we stopped to check the patient's airway."</em>
+                    </td>
+                    <td>
+                        <span class="verb-tag gerund" contenteditable="true">stop doing</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To cease an action entirely.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"We stopped buying single-use plastics last year."</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--forest);" contenteditable="true">REMEMBER</strong></td>
+                    <td>
+                        <span class="verb-tag" contenteditable="true">remember to do</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To not forget to perform a necessary future task.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"Please remember to turn on the autoclave."</em>
+                    </td>
+                    <td>
+                        <span class="verb-tag gerund" contenteditable="true">remember doing</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To have a memory of a past event.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"I remember discarding the biohazard bag."</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--forest);" contenteditable="true">FORGET</strong></td>
+                    <td>
+                        <span class="verb-tag" contenteditable="true">forget to do</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To fail to do a necessary task.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"He forgot to check the amalgam separator."</em>
+                    </td>
+                    <td>
+                        <span class="verb-tag gerund" contenteditable="true">forget doing</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To lose the memory of having done something.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"I'll never forget attending the Health Assembly."</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--forest);" contenteditable="true">TRY</strong></td>
+                    <td>
+                        <span class="verb-tag" contenteditable="true">try to do</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To make an effort to do something difficult.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"We are trying to reduce our carbon footprint."</em>
+                    </td>
+                    <td>
+                        <span class="verb-tag gerund" contenteditable="true">try doing</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To experiment with an action to see if it solves a problem.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"Try using digital consent forms instead of paper."</em>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--forest);" contenteditable="true">REGRET</strong></td>
+                    <td>
+                        <span class="verb-tag" contenteditable="true">regret to inform/say</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">Formal way to announce bad news.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"We regret to inform you that costs will increase."</em>
+                    </td>
+                    <td>
+                        <span class="verb-tag gerund" contenteditable="true">regret doing</span><br>
+                        <span style="font-size:0.9rem;" contenteditable="true">To feel sorry about a past action.</span><br>
+                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"I regret buying those cheap instruments."</em>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ══════════ TASK 5 — GRAMMAR PRACTICE ══════════ -->
+<section class="section" id="task-5">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">05 // Application</span>
+        <h2 class="section-title" contenteditable="true">The <em>Eco-Audit</em></h2>
+        <p class="section-desc" contenteditable="true">Complete these sentences from a clinic's environmental audit by typing the correct form (infinitive with 'to' OR gerund '-ing') of the verb in brackets.</p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">[reduce] The clinic manager is trying <span class="blank-input" style="min-width:120px;"></span> the amount of single-use plastic, but it is extremely difficult.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">[buy] I completely forgot <span class="blank-input" style="min-width:120px;"></span> the new biodegradable cups, so we have none left today.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">[use] If patients complain about the paper cups leaking, try <span class="blank-input" style="min-width:120px;"></span> two cups together to make them stronger.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">[dispose] Staff must stop <span class="blank-input" style="min-width:120px;"></span> of normal waste in the biohazard bags—it costs us extra money to process.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">[announce] We regret <span class="blank-input" style="min-width:120px;"></span> that our transition to sustainable procurement has been delayed.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ══════════ TASK 6 — ERROR SPY ══════════ -->
+<section class="section" id="task-6">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">06 // Clinical Accuracy</span>
+        <h2 class="section-title" contenteditable="true">🕵️ Error Spy — <em>Grammar & Vocab</em></h2>
+        <p class="section-desc" contenteditable="true">Each sentence contains ONE error. It might be a vocabulary error (using the wrong eco-term) OR a grammar error (gerund vs infinitive). Click the highlighted mistake and type the correct word(s).</p>
+
+        <div id="spyGameL15" style="margin-top:24px;">
+            <!-- 1. using -> to use (stop to do) -->
+            <div class="interactive-item" id="spy15-1">
+                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">01</span>
+                <div style="display:inline-block;flex:1;">
+                    While walking down the corridor, the dentist stopped <span class="wrong-word" onclick="revealSpy15(1)">using</span> the new hand sanitizer to see if it smelled strongly.
+                    <div class="spy-input-wrap" id="wrap15-1" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-1" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(1)"><button class="btn-check" onclick="checkSpy15(1)" style="margin-left:8px;">Check</button><span id="fb15-1" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                </div>
+            </div>
+
+            <!-- 2. footprint -> washing / greenwashing -->
+            <div class="interactive-item" id="spy15-2">
+                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">02</span>
+                <div style="display:inline-block;flex:1;">
+                    The supplier claimed their gloves were 100% biodegradable, but after an audit, we realized it was just corporate carbon <span class="wrong-word" onclick="revealSpy15(2)">footprint</span>.
+                    <div class="spy-input-wrap" id="wrap15-2" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-2" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(2)"><button class="btn-check" onclick="checkSpy15(2)" style="margin-left:8px;">Check</button><span id="fb15-2" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                </div>
+            </div>
+
+            <!-- 3. to lock -> locking (remember doing) -->
+            <div class="interactive-item" id="spy15-3">
+                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">03</span>
+                <div style="display:inline-block;flex:1;">
+                    "I clearly remember <span class="wrong-word" onclick="revealSpy15(3)">to lock</span> the medical waste container yesterday before I left the clinic," the assistant insisted.
+                    <div class="spy-input-wrap" id="wrap15-3" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-3" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(3)"><button class="btn-check" onclick="checkSpy15(3)" style="margin-left:8px;">Check</button><span id="fb15-3" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                </div>
+            </div>
+
+            <!-- 4. biohazard -> separator / amalgam separator -->
+            <div class="interactive-item" id="spy15-4">
+                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">04</span>
+                <div style="display:inline-block;flex:1;">
+                    Local environmental regulations now strictly require every dental chair to be fitted with an amalgam <span class="wrong-word" onclick="revealSpy15(4)">biohazard</span> to filter out mercury.
+                    <div class="spy-input-wrap" id="wrap15-4" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-4" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(4)"><button class="btn-check" onclick="checkSpy15(4)" style="margin-left:8px;">Check</button><span id="fb15-4" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                </div>
+            </div>
+
+            <!-- 5. upgrading -> to upgrade (try to do - difficult effort) -->
+            <div class="interactive-item" id="spy15-5">
+                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">05</span>
+                <div style="display:inline-block;flex:1;">
+                    We are trying <span class="wrong-word" onclick="revealSpy15(5)">upgrading</span> the autoclave to a more energy-efficient model, but the manufacturer is currently out of stock.
+                    <div class="spy-input-wrap" id="wrap15-5" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-5" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(5)"><button class="btn-check" onclick="checkSpy15(5)" style="margin-left:8px;">Check</button><span id="fb15-5" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const answersL15={1:'to use',2:'washing',3:'locking',4:'separator',5:'to upgrade'};
+            const solvedL15={};
+            function revealSpy15(n){document.getElementById('wrap15-'+n).style.display='flex';document.getElementById('input15-'+n).focus();}
+            function checkSpy15(n){
+                if(solvedL15[n])return;
+                const inp=document.getElementById('input15-'+n).value.trim().toLowerCase();
+                const correct=answersL15[n].toLowerCase();
+                const fb=document.getElementById('fb15-'+n);
+                const item=document.getElementById('spy15-'+n);
+                const acc = [correct, 'greenwashing', 'amalgam separator'];
+                if(acc.includes(inp)){
+                    fb.textContent='✓ Correct'; fb.style.color='var(--success)';
+                    item.style.borderColor='var(--success)'; item.style.background='rgba(58, 125, 68, 0.05)';
+                    solvedL15[n]=true;
+                } else {
+                    fb.textContent='✗ Try again'; fb.style.color='var(--terra)';
+                    item.style.borderColor='var(--terra)'; item.style.background='rgba(224, 122, 95, 0.05)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- END OF PART 1 -->
+  <!-- ══════════ TASK 7 — VIDEO ══════════ -->
+<section class="section" id="task-7">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">07 // Video Study</span>
+        <h2 class="section-title" contenteditable="true">The <em>Hidden Cost</em> of Healthcare</h2>
+        <p class="section-desc" contenteditable="true">Watch this short documentary piece on healthcare sustainability. As you watch, listen for how professionals discuss the struggle of balancing infection control with environmental responsibility.</p>
+
+        <div class="glass-card" style="padding: 0; background: var(--forest); border: none;">
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--r-lg);">
+                <iframe src="https://www.youtube.com/embed/8b51k5sQpT0?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="Healthcare Sustainability" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="callout callout-sand">
+            <strong>💬 Post-Video Discussion:</strong> Use the verbs we just learned. Did the hospitals in the video <em>stop buying</em> single-use plastics entirely, or did they <em>try recycling</em> them? What do they <em>regret doing</em>?
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 8 — GRAMMAR REVISION ══════════ -->
+<section class="section" id="task-8">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">08 // Grammar Revision</span>
+        <h2 class="section-title" contenteditable="true">Relative Clauses <em>(L13-L14)</em></h2>
+        <p class="section-desc" contenteditable="true">Let's combine today's eco-vocabulary with the advanced relative clauses from our previous lessons. Combine the two sentences using a formal relative clause (e.g., preposition + which, whose, or full-clause which).</p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">1. The clinic generates 50kg of biohazard waste per week. Its carbon footprint is massive.</div>
+                <div contenteditable="true">The clinic, <span class="blank-input" style="min-width:300px;"></span>, generates 50kg of biohazard waste per week.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">2. We rely on strict cross-contamination protocols. They are absolutely essential for patient safety.</div>
+                <div contenteditable="true">The cross-contamination protocols <span class="blank-input" style="min-width:250px;"></span> are absolutely essential for patient safety.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-text);font-size:0.9rem;margin-bottom:8px;">3. The supplier completely ignored our request for biodegradable barriers. This was highly unprofessional.</div>
+                <div contenteditable="true">The supplier completely ignored our request for biodegradable barriers, <span class="blank-input" style="min-width:200px;"></span>.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ══════════ TASK 9 — ROLE-PLAY ══════════ -->
+<section class="section" id="task-9">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">09 // Clinical Simulation</span>
+        <h2 class="section-title" contenteditable="true">The <em>Procurement</em> Meeting</h2>
+        <p class="section-desc" contenteditable="true">Your clinic is conducting its annual budget and sustainability review. You must negotiate a shift toward "Green Dentistry" without compromising patient safety or bankrupting the clinic.</p>
+
+        <div class="glass-card" style="display:flex;flex-direction:column;gap:16px;">
+            <div style="background:rgba(42, 92, 74, 0.05);padding:24px;border-radius:var(--r-md);border-left:5px solid var(--forest);">
+                <strong style="color:var(--forest);display:block;margin-bottom:8px;font-family:var(--font-mono);text-transform:uppercase;">Role A: The Eco-Conscious Dentist</strong>
+                <p contenteditable="true">You want to <em>stop buying</em> single-use plastic suction tips and barriers immediately. You urge the clinic to <em>try investing</em> in a high-capacity autoclave and stainless steel instruments. You warn against suppliers who use <em>greenwashing</em>.</p>
+            </div>
+            
+            <div style="text-align:center;color:var(--gray-text);font-size:1.5rem;">⬇</div>
+
+            <div style="background:rgba(224, 122, 95, 0.1);padding:24px;border-radius:var(--r-md);border-left:5px solid var(--terra);">
+                <strong style="color:var(--terra-dim);display:block;margin-bottom:8px;font-family:var(--font-mono);text-transform:uppercase;">Role B: The Clinic Manager / Accountant</strong>
+                <p contenteditable="true">You <em>regret to inform</em> the dentist that the budget is tight. You remind them that autoclavable items have a massive upfront cost and increase the utility bills (electricity/water). You want to <em>try negotiating</em> with your current supplier first.</p>
+            </div>
+
+            <div style="text-align:center;color:var(--gray-text);font-size:1.5rem;">⬇</div>
+
+            <div style="background:rgba(242, 204, 143, 0.2);padding:24px;border-radius:var(--r-md);border-left:5px solid var(--sand);">
+                <strong style="color:var(--charcoal);display:block;margin-bottom:8px;font-family:var(--font-mono);text-transform:uppercase;">The Compromise</strong>
+                <p contenteditable="true">Work together to find a solution. Will you <em>remember to draft</em> a new sustainable procurement policy? Who will contact the supplier?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK 10 — WHITEBOARD ══════════ -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">10 // Diagram Area</span>
+        <h2 class="section-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        <p class="section-desc" contenteditable="true">Draw the carbon lifecycle of a clinic, map out the "stop to do vs. stop doing" logic, or annotate vocabulary.</p>
+
+        <div style="border:1px solid rgba(42, 92, 74, 0.2);border-radius:var(--r-lg);background:var(--white);overflow:hidden;margin-top:24px;box-shadow:var(--shadow-lg);">
+            <div style="background:var(--forest);padding:12px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent;border:1px solid var(--sand);color:var(--sand);padding:6px 12px;border-radius:4px;cursor:pointer;font-family:var(--font-ui);font-weight:600;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent;border:1px solid var(--mint);color:var(--mint);padding:6px 12px;border-radius:4px;cursor:pointer;font-family:var(--font-ui);font-weight:600;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent;border:1px solid var(--mint);color:var(--mint);padding:6px 12px;border-radius:4px;cursor:pointer;font-family:var(--font-ui);font-weight:600;">Text</button>
+                <div style="width:1px;height:24px;background:var(--pine);margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#E07A5F" style="width:32px;height:32px;border:none;cursor:pointer;background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--terra);color:var(--white);border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-family:var(--font-ui);font-weight:600;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block;width:100%;height:500px;cursor:crosshair;"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════ TASK HW — HOMEWORK TEST (HIDDEN BY DEFAULT) ══════════ -->
+<div id="task-hw" style="display: none; background: var(--cream); min-height: 100vh; padding-top: 40px; padding-bottom: 80px;">
+    
+    <section id="hw-welcome" class="hw-screen section active">
+        <div class="section-inner">
+            <span class="section-label">Homework Portal</span>
+            <h2 class="section-title">Lesson 15 <em>Assessment</em></h2>
+            <p class="section-desc" style="max-width: 600px; margin: 0 auto 30px;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong> to complete 10 questions. 
+                <br><br><span style="color: var(--danger); font-weight: 700;">Anti-Cheat Enabled:</span> Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.
+            </p>
+            <div style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="hwStudentName" placeholder="Enter your full name..." autocomplete="off" style="width:100%;padding:15px 20px;font-size:1.1rem;font-family:var(--font-ui);border:1px solid rgba(42,92,74,0.2);border-radius:6px;margin-bottom:20px;">
+                <br>
+                <button onclick="startHW()" style="background:var(--forest);color:white;border:none;padding:16px 32px;font-size:1rem;font-weight:700;border-radius:50px;cursor:pointer;">Accept Rules & Begin</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="hw-quiz" class="hw-screen section" style="display:none;">
+        <div class="section-inner" style="max-width: 800px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <span class="section-label" id="hwQuestionCounter" style="margin: 0; background: transparent; padding: 0;">Question 1 / 10</span>
+                <div class="hw-timer" style="font-family:var(--font-mono);font-weight:700;font-size:1.1rem;color:var(--danger);background:#FDE8E8;padding:8px 16px;border-radius:6px;border:1px solid #F5C2C7;">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            <div style="width:100%;height:8px;background:rgba(42,92,74,0.1);margin-bottom:30px;border-radius:4px;overflow:hidden;">
+                <div id="hwProgressFill" style="height:100%;background:var(--success);width:0%;transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:var(--white);padding:40px;border:1px solid rgba(42,92,74,0.1);border-top:4px solid var(--forest);border-radius:8px;box-shadow:var(--shadow-md);text-align:left;margin-bottom:30px;">
+                <h3 id="hwQuestionText" style="font-family:var(--font-serif);font-size:1.3rem;color:var(--forest);margin-bottom:30px;line-height:1.6;font-weight:700;">Loading question...</h3>
+                <div id="hwOptionsGrid" style="display:grid;gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent;color:var(--gray-text);border:1px solid rgba(42,92,74,0.2);padding:10px 24px;font-size:0.9rem;font-weight:600;border-radius:50px;cursor:pointer;">Skip Question</button>
+        </div>
+    </section>
+
+    <section id="hw-results" class="hw-screen section" style="display:none;">
+        <div class="section-inner" style="max-width: 850px;">
+            <div id="hw-pdf-content" style="background: var(--cream); padding: 20px; box-sizing: border-box;">
+                <div style="text-align: center;">
+                    <span class="section-label">Assessment Complete</span>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage"></p>
+                </div>
+
+                <div style="background:var(--white);padding:40px;border:1px solid rgba(42,92,74,0.1);border-radius:8px;border-top:4px solid var(--terra);box-shadow:var(--shadow-md);margin-top:30px;margin-bottom:40px;text-align:center;">
+                    <h3 style="font-family:var(--font-mono);color:var(--gray-text);text-transform:uppercase;letter-spacing:2px;font-size:0.9rem;">Final Score</h3>
+                    <div id="hwScoreDetail" style="font-size:3rem;font-family:var(--font-serif);font-weight:700;color:var(--forest);margin:10px 0;">0 / 10</div>
+                    <p id="hwTerminationReason" style="font-size:1rem;color:var(--forest);font-weight:700;margin-top:10px;"></p>
+                </div>
+
+                <h3 style="font-family:var(--font-serif);color:var(--forest);text-align:left;border-bottom:2px solid rgba(42,92,74,0.1);padding-bottom:10px;">Question Review</h3>
+                <div id="hwReviewGrid" style="display:flex;flex-direction:column;gap:16px;text-align:left;margin-top:30px;"></div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button onclick="downloadHWPDF()" style="background:var(--terra);color:white;border:none;padding:16px 32px;font-size:1rem;font-weight:700;border-radius:50px;cursor:pointer;">Download PDF Report</button>
+                <button onclick="exitHomework()" style="background:transparent;color:var(--forest);border:1px solid var(--forest);padding:16px 32px;font-size:1rem;font-weight:700;border-radius:50px;cursor:pointer;">Return to Lesson</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:#D62828;color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--forest);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--terra);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<!-- Teacher Dashboard Modal -->
+<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(44,54,50,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--gray-text);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-family:var(--font-serif); color:var(--forest); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--gray-text); margin-bottom:20px;">Review recent student homework submissions.</p>
+        
+        <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;border:1px solid rgba(42,92,74,0.1);text-align:left;">
+                <thead style="background:var(--forest);color:var(--white);">
+                    <tr><th style="padding:12px;">Date</th><th style="padding:12px;">Student Name</th><th style="padding:12px;">Score</th><th style="padding:12px;">Status</th></tr>
+                </thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button style="background:transparent;color:var(--danger); border:1px solid var(--danger); padding:10px 20px; border-radius:50px; margin-top:20px; cursor:pointer;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(44,54,50,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:600px;box-shadow:var(--shadow-lg);position:relative;">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--gray-text);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-family:var(--font-serif);color:var(--forest);margin-bottom:8px;">Quizlet Exporter</h2>
+        <p style="color:var(--gray-text);font-size:0.95rem;margin-bottom:24px;">Add your terms, then copy and paste directly into Quizlet's Import tool.</p>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;"><input type="text" placeholder="Term (e.g. Autoclave)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(42,92,74,0.2);"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(42,92,74,0.2);"></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" style="flex:1;background:transparent;border:1px solid var(--forest);color:var(--forest);padding:12px;border-radius:50px;cursor:pointer;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2;background:#4255FF;border:none;color:white;padding:12px;border-radius:50px;cursor:pointer;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // ─── NAV LOGIC & TAB SWITCHING ───
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            
+            if (id === '#task-hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+                document.getElementById('task-hw').style.display = 'none';
+                
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.getElementById('task-hw').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // ─── GENERAL INTERACTIONS & HIGHLIGHT ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(130, 163, 146, 0.4)');
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.getElementById('task-hw').style.display = 'none';
+        const el = document.getElementById('whiteboard');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth'});
+    };
+
+    // ─── QUIZLET MODAL ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(42,92,74,0.2);"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(42,92,74,0.2);">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){ navigator.clipboard.writeText(out).then(()=>{ btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }); } 
+        else { btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#E07A5F', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--mint)'; b.style.color='var(--mint)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--sand)'; btn.style.color='var(--sand)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Outfit', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool==='arrow') {
+            const hl=16,ang=Math.atan2(ey-startY,ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6)); ctx.stroke();
+        }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "I'll never forget ___ that massive pile of single-use gloves after the surgery.", options: ["to discard", "discard", "discarding", "discarded"], correct: 2 },
+        { text: "Please remember ___ the amalgam separator before the health inspection next week.", options: ["checking", "to check", "check", "checked"], correct: 1 },
+        { text: "The clinic manager stopped ___ cheap plastics when she saw the carbon footprint report.", options: ["to buy", "buying", "bought", "buy"], correct: 1 },
+        { text: "While evaluating the budget, the accountant stopped ___ the long-term cost of an autoclave.", options: ["to consider", "considering", "considered", "consider"], correct: 0 },
+        { text: "We regret ___ you that the price of sustainable procurement has increased by 10%.", options: ["informing", "to inform", "inform", "informed"], correct: 1 },
+        { text: "I really regret ___ that cheap brand of composite; it failed completely.", options: ["to buy", "buying", "bought", "buy"], correct: 1 },
+        { text: "The cross-contamination protocols, ___ are strictly enforced, create a lot of waste.", options: ["that", "which", "who", "whose"], correct: 1 },
+        { text: "The supplier ___ we rely uses greenwashing tactics in their marketing.", options: ["on who", "which on", "on which", "where"], correct: 2 },
+        { text: "If the paper cups keep leaking, try ___ two together to make them stronger.", options: ["to use", "using", "used", "use"], correct: 1 },
+        { text: "Items covered in blood are classified as a ___ and must be processed carefully.", options: ["procurement", "biohazard", "greenwashing", "separator"], correct: 1 }
+    ];
+
+    let currentStudent = "";
+    let questionHistory = []; 
+    let currentQuestionIndex = 0;
+    const TOTAL_QUESTIONS = 10;
+    let score = 0;
+    
+    let timeLeft = 10 * 60; // 10 minutes
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window to look up answers. If you do this again, your test will instantly end.");
+            }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = [];
+        cheatWarnings = 0; timeLeft = 10 * 60; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
+        
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= TOTAL_QUESTIONS) { endHWQuiz(false, "Completed Successfully"); return; }
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.style.cssText = "background:var(--white);border:1px solid rgba(42,92,74,0.2);padding:16px;text-align:left;font-family:var(--font-ui);font-size:1.05rem;font-weight:600;border-radius:6px;cursor:pointer;";
+            btn.onmouseover = () => btn.style.background = "var(--mint)";
+            btn.onmouseout = () => btn.style.background = "var(--white)";
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: currentQuestionObj.options[currentQuestionObj.correct], isCorrect: isCorrect });
+        if (isCorrect) score++;
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerText = `Status: ${statusMsg}`;
+        if(forcedExit) document.getElementById('hwTerminationReason').style.color = "var(--danger)";
+
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = `padding:20px; border:1px solid rgba(42,92,74,0.1); border-left:4px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; background:${item.isCorrect ? '#F2F8F4' : '#FDF5F6'}; border-radius:6px;`;
+            div.innerHTML = `<div style="font-family:var(--font-serif);font-size:1.1rem;font-weight:700;margin-bottom:10px;">${index + 1}. ${item.text}</div><div style="font-size:0.95rem;">Your answer: <span style="color:${item.isCorrect ? 'var(--success)' : 'var(--danger)'};font-weight:700;">${item.userAns}</span></div>${!item.isCorrect ? `<div style="font-size:0.95rem;">Correct answer: <span style="color:var(--success);font-weight:700;">${item.correctAns}</span></div>` : ''}`;
+            grid.appendChild(div);
+        });
+
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-results').style.display='block';
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const element = document.getElementById('hw-pdf-content');
+        const opt = { margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L15_Homework.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save().then(() => document.getElementById('floatingActions').style.display='flex');
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson15HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson15HomeworkData', JSON.stringify(results));
+    }
+
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson15HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='padding:12px;text-align:center;'>No submissions.</td></tr>";
+        else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.1);">${r.date}</td><td style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.1);font-weight:700;">${r.name}</td><td style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.1);">${r.score}/${r.total}</td><td style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.1);color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'};">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson15HomeworkData'); openAdmin(); } }
+
+</script>
+
+<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'dental-b2c1-lesson15-eco-v1';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(44,54,50,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:700; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(130,163,146,0.4); font-family:var(--font-ui);";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--sand);border-radius:50%;box-shadow:0 0 8px var(--sand);"></span><span id="syncText">Connecting Clinic...</span>`;
+    document.body.appendChild(statusDiv);
+
+    function setStatus(t,c){document.getElementById('syncText').innerText=t; document.getElementById('syncDot').style.background=c; document.getElementById('syncDot').style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Eco Dentist';
+
+    // LASER POINTER STATE
+    let myLaserMode = false;
+    window.toggleLaser = function() {
+        myLaserMode = !myLaserMode;
+        const btn = document.getElementById('laserBtn');
+        if(myLaserMode) {
+            document.body.classList.add('laser-active');
+            btn.style.boxShadow = "0 0 20px 5px rgba(255,0,0,0.8)";
+        } else {
+            document.body.classList.remove('laser-active');
+            btn.style.boxShadow = "var(--shadow-lg)";
+        }
+    };
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#D62828'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Eco Dentist '+(snap.size+1);
+                setStatus('Live Sync On 🌱','#3A7D44');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Eco Dentist '+(Math.floor(Math.random()*99)+1);
+                setStatus('Live Sync On 🌱','#3A7D44');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#D62828');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        // Whiteboard Sync
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveLaserContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{
+            if(!currentUser) return;
+            setDoc(myRef,{
+                xOffset: e.pageX - window.innerWidth/2, 
+                y: e.pageY, 
+                color: myCursorColor, 
+                name: myCursorName, 
+                isLaser: myLaserMode, // Pass laser state to Firebase
+                timestamp: Date.now()
+            });
+        }, 100)); // Slightly faster sync for smooth laser pointing
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el = document.createElement('div');
+                    el.id = 'cursor-'+id;
+                    el.style.position = 'absolute';
+                    el.style.pointerEvents = 'none';
+                    el.style.zIndex = '999999';
+                    el.style.transition = 'top 0.15s linear, left 0.15s linear';
+                    container.appendChild(el);
+                }
+
+                // Render based on whether the remote user is in Laser Mode or Normal Mode
+                if (data.isLaser) {
+                    el.innerHTML = `
+                        <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(255,0,0,0.8);color:white;font-size:0.75rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;font-family:var(--font-mono);">${data.name}</div>
+                    `;
+                } else {
+                    el.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+                        <div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-ui);box-shadow:0 2px 6px rgba(0,0,0,0.4);">${data.name}</div>
+                    `;
+                }
+                
+                el.style.left = (window.innerWidth/2 + data.xOffset) + 'px';
+                el.style.top = data.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
