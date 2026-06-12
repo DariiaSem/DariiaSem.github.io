@@ -354,62 +354,121 @@
     <div class="section-inner">
         <span class="section-label" contenteditable="true">04 // Grammar Core</span>
         <h2 class="section-title" contenteditable="true">Verbs that <em>Change Meaning</em></h2>
-        <p class="section-desc" contenteditable="true">As you saw in the simulator, some verbs completely change their meaning depending on whether they are followed by a gerund (<em>-ing</em>) or an infinitive (<em>to do</em>). This is a classic C1 grammar trap.</p>
+        <p class="section-desc" contenteditable="true">As you saw in the simulator, some verbs completely change their meaning depending on whether they are followed by a gerund (<em>-ing</em>) or an infinitive (<em>to do</em>). Click each verb below to reveal the structural differences.</p>
 
-        <table class="grammar-table">
-            <thead>
-                <tr>
-                    <th contenteditable="true">Verb</th>
-                    <th contenteditable="true">+ to Infinitive (Forward / Interruption)</th>
-                    <th contenteditable="true">+ Gerund (-ing) (Backward / The Action itself)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong style="color:var(--forest);" contenteditable="true">STOP</strong></td>
-                    <td>
-                        <span class="verb-tag" contenteditable="true">stop to do</span><br>
-                        <span style="font-size:0.9rem;" contenteditable="true">To interrupt what you are doing in order to do something else.</span><br>
-                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"We stopped to check the patient's airway."</em>
-                    </td>
-                    <td>
-                        <span class="verb-tag gerund" contenteditable="true">stop doing</span><br>
-                        <span style="font-size:0.9rem;" contenteditable="true">To cease an action entirely.</span><br>
-                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"We stopped buying disposable plastics last year."</em>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color:var(--forest);" contenteditable="true">REMEMBER</strong></td>
-                    <td>
-                        <span class="verb-tag" contenteditable="true">remember to do</span><br>
-                        <span style="font-size:0.9rem;" contenteditable="true">To not forget to perform a necessary future task.</span><br>
-                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"Please remember to sort the hazardous waste."</em>
-                    </td>
-                    <td>
-                        <span class="verb-tag gerund" contenteditable="true">remember doing</span><br>
-                        <span style="font-size:0.9rem;" contenteditable="true">To have a memory of a past event.</span><br>
-                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"I remember ordering the biodegradable cups."</em>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color:var(--forest);" contenteditable="true">FORGET</strong></td>
-                    <td>
-                        <span class="verb-tag" contenteditable="true">forget to do</span><br>
-                        <span style="font-size:0.9rem;" contenteditable="true">To fail to do a necessary task.</span><br>
-                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"He forgot to turn off the water."</em>
-                    </td>
-                    <td>
-                        <span class="verb-tag gerund" contenteditable="true">forget doing</span><br>
-                        <span style="font-size:0.9rem;" contenteditable="true">To lose the memory of having done something.</span><br>
-                        <em style="color:var(--gray-text);font-size:0.95rem;" contenteditable="true">"I'll never forget visiting that pristine forest."</em>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <style>
+            .grammar-accordion { border: 1px solid rgba(42,92,74,0.2); border-radius: var(--r-md); margin-bottom: 16px; overflow: hidden; background: var(--white); box-shadow: var(--shadow-sm); transition: box-shadow 0.3s; }
+            .grammar-accordion:hover { box-shadow: var(--shadow-md); }
+            .ga-header { padding: 20px 24px; background: var(--white); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-serif); font-size: 1.6rem; color: var(--forest); font-weight: 700; transition: background 0.2s; }
+            .ga-header:hover { background: var(--mint); }
+            .ga-icon { font-family: var(--font-mono); font-size: 1.2rem; color: var(--terra); transition: transform 0.3s; }
+            .ga-content { display: none; padding: 24px; border-top: 1px solid rgba(42,92,74,0.1); background: var(--cream); }
+            .ga-content.open { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; animation: slideDown 0.3s ease-out; }
+            .ga-side { background: var(--white); padding: 24px; border-radius: var(--r-sm); border-top: 4px solid var(--sage); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+            .ga-side.gerund { border-top-color: var(--terra); }
+            @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        </style>
+
+        <div id="grammarAccordions">
+            <div class="grammar-accordion">
+                <div class="ga-header" onclick="toggleGa(this)">STOP <span class="ga-icon">▼</span></div>
+                <div class="ga-content">
+                    <div class="ga-side">
+                        <div class="verb-tag" style="margin-bottom:12px;">+ to do (Infinitive)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To interrupt what you are doing in order to do something else.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"During the audit, we stopped to check the hazardous waste bins."</p>
+                    </div>
+                    <div class="ga-side gerund">
+                        <div class="verb-tag gerund" style="margin-bottom:12px;">+ doing (Gerund)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To cease an action entirely. To quit.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"We stopped buying disposable plastics last year."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grammar-accordion">
+                <div class="ga-header" onclick="toggleGa(this)">REMEMBER <span class="ga-icon">▼</span></div>
+                <div class="ga-content">
+                    <div class="ga-side">
+                        <div class="verb-tag" style="margin-bottom:12px;">+ to do (Infinitive)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To not forget to perform a necessary future task.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"Please remember to sort the biohazard materials before leaving."</p>
+                    </div>
+                    <div class="ga-side gerund">
+                        <div class="verb-tag gerund" style="margin-bottom:12px;">+ doing (Gerund)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To have a memory of a past event in your mind.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"I clearly remember ordering the biodegradable cups."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grammar-accordion">
+                <div class="ga-header" onclick="toggleGa(this)">FORGET <span class="ga-icon">▼</span></div>
+                <div class="ga-content">
+                    <div class="ga-side">
+                        <div class="verb-tag" style="margin-bottom:12px;">+ to do (Infinitive)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To fail to do a necessary task.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"He forgot to turn off the resource-intensive autoclave."</p>
+                    </div>
+                    <div class="ga-side gerund">
+                        <div class="verb-tag gerund" style="margin-bottom:12px;">+ doing (Gerund)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To lose the memory of having done something.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"I'll never forget visiting that pristine forest before it was logged."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grammar-accordion">
+                <div class="ga-header" onclick="toggleGa(this)">REGRET <span class="ga-icon">▼</span></div>
+                <div class="ga-content">
+                    <div class="ga-side">
+                        <div class="verb-tag" style="margin-bottom:12px;">+ to do (Infinitive)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">A formal way to announce bad news (usually with tell/say/inform).</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"We regret to inform you that the sustainable products are out of stock."</p>
+                    </div>
+                    <div class="ga-side gerund">
+                        <div class="verb-tag gerund" style="margin-bottom:12px;">+ doing (Gerund)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To feel sorry or bad about a past action.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"The clinic manager regrets signing a contract with a deceptive supplier."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grammar-accordion">
+                <div class="ga-header" onclick="toggleGa(this)">TRY <span class="ga-icon">▼</span></div>
+                <div class="ga-content">
+                    <div class="ga-side">
+                        <div class="verb-tag" style="margin-bottom:12px;">+ to do (Infinitive)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To make a difficult effort to achieve a goal.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"We are trying to reduce our carbon footprint, but it is challenging."</p>
+                    </div>
+                    <div class="ga-side gerund">
+                        <div class="verb-tag gerund" style="margin-bottom:12px;">+ doing (Gerund)</div>
+                        <p style="font-weight:700; margin-bottom:8px; color:var(--charcoal);">To experiment with a method to see if it solves a problem.</p>
+                        <p style="font-size:0.95rem; color:var(--gray-text); font-style:italic;">"If the suction fails, try using the secondary pump."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleGa(el) {
+                const content = el.nextElementSibling;
+                const icon = el.querySelector('.ga-icon');
+                if (content.classList.contains('open')) {
+                    content.classList.remove('open');
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    document.querySelectorAll('.ga-content').forEach(c => c.classList.remove('open'));
+                    document.querySelectorAll('.ga-icon').forEach(i => i.style.transform = 'rotate(0deg)');
+                    content.classList.add('open');
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            }
+        </script>
     </div>
 </section>
 
-    <!-- ══════════ TASK 5 — GRAMMAR PRACTICE ══════════ -->
 <section class="section" id="task-5">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">05 // Application</span>
@@ -436,84 +495,147 @@
     </div>
 </section>
 
-<!-- ══════════ TASK 6 — ERROR SPY ══════════ -->
 <section class="section" id="task-6">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">06 // Clinical Accuracy</span>
         <h2 class="section-title" contenteditable="true">🕵️ Error Spy — <em>Grammar & Vocab</em></h2>
-        <p class="section-desc" contenteditable="true">Each sentence contains ONE error. It might be a vocabulary error (using the wrong C1 adjective) OR a grammar error (gerund vs infinitive). Click the highlighted mistake and type the correct word(s).</p>
+        <p class="section-desc" contenteditable="true">Each sentence contains ONE error. It might be a vocabulary error (using the wrong C1 adjective) OR a grammar error (gerund vs infinitive). Click the highlighted mistake to open the correction panel. Target: 7/7.</p>
 
-        <div id="spyGameL15" style="margin-top:24px;">
-            <!-- 1. using -> to use (stop to do) -->
+        <style>
+            .interactive-item { background: var(--white); border: 1px solid rgba(42, 92, 74, 0.2); border-radius: var(--r-md); padding: 24px; margin-bottom: 20px; transition: all 0.3s; box-shadow: var(--shadow-sm); }
+            .interactive-item:hover { box-shadow: var(--shadow-md); border-color: var(--pine); }
+            .interactive-item.i-correct { border-color: var(--success); background: rgba(58, 125, 68, 0.05); }
+            .interactive-item.i-wrong   { border-color: var(--terra); background: rgba(224, 122, 95, 0.05); }
+            
+            /* Bigger, more obvious clickable target */
+            .wrong-word { 
+                color: var(--white); background: var(--terra-dim); padding: 4px 12px; 
+                border-radius: 6px; cursor: pointer; font-weight: 700; 
+                display: inline-block; transition: transform 0.2s, background 0.2s;
+                box-shadow: 0 2px 4px rgba(224, 122, 95, 0.4);
+            }
+            .wrong-word:hover { transform: scale(1.05); background: var(--terra); }
+            
+            .spy-input-wrap { background: var(--cream); border-radius: var(--r-sm); padding: 16px; border: 1px solid rgba(42,92,74,0.1); margin-top: 16px; }
+            .spy-input-wrap input { width: calc(100% - 100px); padding: 12px 16px; border: 1px solid rgba(42,92,74,0.3); border-radius: 6px; font-family: var(--font-ui); font-size: 1rem; color: var(--forest); outline: none; }
+            .spy-input-wrap input:focus { border-color: var(--pine); box-shadow: 0 0 0 3px rgba(42,92,74,0.1); }
+            .btn-check { background: var(--forest); color: var(--white); border: none; padding: 12px 20px; border-radius: 6px; font-family: var(--font-ui); font-weight: 700; cursor: pointer; transition: background 0.2s; width: 80px; }
+            .btn-check:hover { background: var(--pine); }
+        </style>
+
+        <div id="spyGameL15" style="margin-top:32px;">
             <div class="interactive-item" id="spy15-1">
-                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">01</span>
-                <div style="display:inline-block;flex:1;">
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">01</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
                     While walking down the corridor, the dentist stopped <span class="wrong-word" onclick="revealSpy15(1)">using</span> the new hand sanitizer to see if it smelled strongly.
-                    <div class="spy-input-wrap" id="wrap15-1" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-1" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(1)"><button class="btn-check" onclick="checkSpy15(1)" style="margin-left:8px;">Check</button><span id="fb15-1" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                    <div class="spy-input-wrap" id="wrap15-1" style="display:none;">
+                        <input id="input15-1" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(1)">
+                        <button class="btn-check" onclick="checkSpy15(1)">Check</button>
+                        <div id="fb15-1" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 2. resource-intensive -> deceptive -->
             <div class="interactive-item" id="spy15-2">
-                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">02</span>
-                <div style="display:inline-block;flex:1;">
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">02</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
                     The supplier claimed their gloves were 100% eco-friendly, but after an audit, we realized their marketing was highly <span class="wrong-word" onclick="revealSpy15(2)">resource-intensive</span>.
-                    <div class="spy-input-wrap" id="wrap15-2" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-2" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(2)"><button class="btn-check" onclick="checkSpy15(2)" style="margin-left:8px;">Check</button><span id="fb15-2" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                    <div class="spy-input-wrap" id="wrap15-2" style="display:none;">
+                        <input id="input15-2" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(2)">
+                        <button class="btn-check" onclick="checkSpy15(2)">Check</button>
+                        <div id="fb15-2" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 3. to lock -> locking (remember doing) -->
             <div class="interactive-item" id="spy15-3">
-                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">03</span>
-                <div style="display:inline-block;flex:1;">
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">03</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
                     "I clearly remember <span class="wrong-word" onclick="revealSpy15(3)">to lock</span> the hazardous waste container yesterday before I left the clinic," the assistant insisted.
-                    <div class="spy-input-wrap" id="wrap15-3" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-3" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(3)"><button class="btn-check" onclick="checkSpy15(3)" style="margin-left:8px;">Check</button><span id="fb15-3" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                    <div class="spy-input-wrap" id="wrap15-3" style="display:none;">
+                        <input id="input15-3" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(3)">
+                        <button class="btn-check" onclick="checkSpy15(3)">Check</button>
+                        <div id="fb15-3" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 4. pristine -> negligible -->
             <div class="interactive-item" id="spy15-4">
-                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">04</span>
-                <div style="display:inline-block;flex:1;">
-                    The cost of switching to biodegradable suction tips is completely <span class="wrong-word" onclick="revealSpy15(4)">pristine</span> compared to the environmental damage caused by plastic ones.
-                    <div class="spy-input-wrap" id="wrap15-4" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-4" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(4)"><button class="btn-check" onclick="checkSpy15(4)" style="margin-left:8px;">Check</button><span id="fb15-4" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">04</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    The financial cost of switching to biodegradable suction tips is completely <span class="wrong-word" onclick="revealSpy15(4)">pristine</span> compared to the environmental damage caused by plastic.
+                    <div class="spy-input-wrap" id="wrap15-4" style="display:none;">
+                        <input id="input15-4" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(4)">
+                        <button class="btn-check" onclick="checkSpy15(4)">Check</button>
+                        <div id="fb15-4" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 5. upgrading -> to upgrade (try to do - difficult effort) -->
             <div class="interactive-item" id="spy15-5">
-                <span style="font-family:var(--font-mono);color:var(--terra);margin-right:12px;font-weight:700;">05</span>
-                <div style="display:inline-block;flex:1;">
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">05</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
                     We are trying <span class="wrong-word" onclick="revealSpy15(5)">upgrading</span> our sterilization protocols to be more sustainable, but the local health regulations make it difficult.
-                    <div class="spy-input-wrap" id="wrap15-5" style="display:none;margin-top:12px;"><input class="blank-input" id="input15-5" placeholder="correction..." onkeydown="if(event.key==='Enter')checkSpy15(5)"><button class="btn-check" onclick="checkSpy15(5)" style="margin-left:8px;">Check</button><span id="fb15-5" style="margin-left:12px;font-family:var(--font-mono);font-size:0.8rem;font-weight:700;"></span></div>
+                    <div class="spy-input-wrap" id="wrap15-5" style="display:none;">
+                        <input id="input15-5" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(5)">
+                        <button class="btn-check" onclick="checkSpy15(5)">Check</button>
+                        <div id="fb15-5" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-item" id="spy15-6">
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">06</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    The new receptionist forgot <span class="wrong-word" onclick="revealSpy15(6)">signing</span> the biohazard disposal manifest, which resulted in a massive fine from the health department.
+                    <div class="spy-input-wrap" id="wrap15-6" style="display:none;">
+                        <input id="input15-6" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(6)">
+                        <button class="btn-check" onclick="checkSpy15(6)">Check</button>
+                        <div id="fb15-6" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-item" id="spy15-7">
+                <span style="font-family:var(--font-mono);color:var(--forest);margin-right:12px;font-weight:700;">07</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    To reduce our carbon footprint, we must shift away from single-use plastics and implement a fully <span class="wrong-word" onclick="revealSpy15(7)">disposable</span> procurement policy.
+                    <div class="spy-input-wrap" id="wrap15-7" style="display:none;">
+                        <input id="input15-7" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy15(7)">
+                        <button class="btn-check" onclick="checkSpy15(7)">Check</button>
+                        <div id="fb15-7" style="margin-top:8px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <script>
-            const answersL15={1:'to use',2:'deceptive',3:'locking',4:'negligible',5:'to upgrade'};
+            const answersL15={1:'to use',2:'deceptive',3:'locking',4:'negligible',5:'to upgrade', 6:'to sign', 7:'sustainable'};
             const solvedL15={};
-            function revealSpy15(n){document.getElementById('wrap15-'+n).style.display='flex';document.getElementById('input15-'+n).focus();}
+            function revealSpy15(n){
+                document.getElementById('wrap15-'+n).style.display='flex';
+                document.getElementById('input15-'+n).focus();
+            }
             function checkSpy15(n){
                 if(solvedL15[n])return;
                 const inp=document.getElementById('input15-'+n).value.trim().toLowerCase();
                 const correct=answersL15[n].toLowerCase();
                 const fb=document.getElementById('fb15-'+n);
                 const item=document.getElementById('spy15-'+n);
-                if(inp===correct){
-                    fb.textContent='✓ Correct'; fb.style.color='var(--success)';
-                    item.style.borderColor='var(--success)'; item.style.background='rgba(58, 125, 68, 0.05)';
+                const acc = [correct, 'greenwashing', 'biodegradable'];
+                if(acc.includes(inp)){
+                    fb.textContent='✓ Correct! Excellent syntax.'; fb.style.color='var(--success)';
+                    item.classList.add('i-correct'); item.classList.remove('i-wrong');
                     solvedL15[n]=true;
                 } else {
-                    fb.textContent='✗ Try again'; fb.style.color='var(--terra)';
-                    item.style.borderColor='var(--terra)'; item.style.background='rgba(224, 122, 95, 0.05)';
+                    fb.textContent='✗ Incorrect. Check the context again.'; fb.style.color='var(--danger)';
+                    item.classList.add('i-wrong'); item.classList.remove('i-correct');
                 }
             }
         </script>
     </div>
 </section>
 
-<!-- ══════════ TASK 7 — VIDEO ══════════ -->
 <section class="section" id="task-7">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">07 // Video Study</span>
@@ -522,7 +644,7 @@
 
         <div class="glass-card" style="padding: 0; background: var(--forest); border: none;">
             <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--r-lg);">
-                <iframe src="https://www.youtube.com/embed/Xs6Xw2xH-YI?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="Healthcare Sustainability" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/8b51k5sQpT0?rel=0&modestbranding=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" title="Healthcare Sustainability" allowfullscreen></iframe>
             </div>
         </div>
 
@@ -532,7 +654,6 @@
     </div>
 </section>
 
-<!-- ══════════ TASK 8 — GRAMMAR REVISION ══════════ -->
 <section class="section" id="task-8">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">08 // Grammar Revision</span>
@@ -556,7 +677,6 @@
     </div>
 </section>
 
-<!-- ══════════ TASK 9 — THE MEGA INTERACTIVE PR CRISIS ══════════ -->
 <section class="section" id="task-9">
     <div class="section-inner">
         <span class="section-label" style="background:var(--terra-pale);color:var(--terra);" contenteditable="true">09 // Live Crisis Simulation</span>
@@ -564,7 +684,6 @@
         <p class="section-desc" contenteditable="true"><strong>Scenario:</strong> You are the Clinic Director. A video just went viral showing your staff discarding hazardous medical waste into standard recycling bins. The press is here. The teacher will generate a hostile question. You must answer instantly, weaving in the strict grammar and vocabulary targets shown on the screen.</p>
 
         <div style="background:var(--forest);border-radius:var(--r-lg);padding:40px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;">
-            <!-- Breaking News Banner -->
             <div style="background:var(--terra);color:var(--white);padding:8px 20px;font-family:var(--font-mono);font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:12px;">
                 <span style="display:inline-block;width:10px;height:10px;background:var(--white);border-radius:50%;animation:blink 1s infinite;"></span> BREAKING NEWS: ECO-SCANDAL AT LOCAL CLINIC
             </div>
@@ -613,7 +732,6 @@
 
                 document.getElementById('crisisDisplay').style.display = 'block';
                 
-                // Add a typing effect for tension
                 const qEl = document.getElementById('reporterQuestion');
                 qEl.innerText = "";
                 let i = 0;
@@ -630,7 +748,6 @@
     </div>
 </section>
 
-<!-- ══════════ TASK 10 — WHITEBOARD ══════════ -->
 <section class="section" id="whiteboard">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">10 // Diagram Area</span>
@@ -651,7 +768,6 @@
     </div>
 </section>
 
-<!-- ══════════ TASK HW — HOMEWORK TEST (HIDDEN BY DEFAULT) ══════════ -->
 <div id="task-hw" style="display: none; background: var(--cream); min-height: 100vh; padding-top: 40px; padding-bottom: 80px;">
     
     <section id="hw-welcome" class="hw-screen section active">
@@ -718,7 +834,6 @@
     </section>
 </div>
 
-<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
 <div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
     <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:#D62828;color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
     <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--forest);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
@@ -726,7 +841,8 @@
     <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--terra);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
 </div>
 
-<!-- Teacher Dashboard Modal -->
+<div id="myLocalLaser" style="display:none; position:fixed; width:12px; height:12px; background:red; border-radius:50%; box-shadow:0 0 15px 5px rgba(255,0,0,0.8); pointer-events:none; z-index:1000000; transform:translate(-50%,-50%);"></div>
+
 <div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(44,54,50,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
     <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;">
         <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--gray-text);cursor:pointer;line-height:1;">&times;</span>
@@ -745,7 +861,6 @@
     </div>
 </div>
 
-<!-- Quizlet Modal -->
 <div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(44,54,50,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
     <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:600px;box-shadow:var(--shadow-lg);position:relative;">
         <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--gray-text);cursor:pointer;line-height:1;">&times;</span>
@@ -761,7 +876,6 @@
     </div>
 </div>
 
-<!-- ══════════ SCRIPTS ══════════ -->
 <script>
     // ─── NAV LOGIC & TAB SWITCHING ───
     document.getElementById('navTabsContainer').addEventListener('click', e => {
@@ -888,7 +1002,7 @@
         }
     }
 
-    // ─── HOMEWORK LOGIC[cite: 4] ───
+    // ─── HOMEWORK LOGIC ───
     const hwQuestionBank = [
         { text: "I'll never forget ___ that massive pile of single-use gloves after the surgery.", options: ["to discard", "discard", "discarding", "discarded"], correct: 2 },
         { text: "Please remember ___ the hazardous waste bins before the health inspection next week.", options: ["checking", "to check", "check", "checked"], correct: 1 },
@@ -944,7 +1058,7 @@
         
         currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = [];
         cheatWarnings = 0; timeLeft = 10 * 60; isTestActive = true;
-        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle[cite: 4]
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
         
         document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
         document.getElementById('hw-quiz').style.display='block';
@@ -1034,7 +1148,6 @@
 
 </script>
 
-<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -1066,17 +1179,20 @@
     const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
     let myCursorName='Eco Dentist';
 
-    // LASER POINTER STATE
+    // ─── LOCAL LASER STATE ───
     let myLaserMode = false;
+    const localLaser = document.getElementById('myLocalLaser');
     window.toggleLaser = function() {
         myLaserMode = !myLaserMode;
         const btn = document.getElementById('laserBtn');
         if(myLaserMode) {
             document.body.classList.add('laser-active');
             btn.style.boxShadow = "0 0 20px 5px rgba(255,0,0,0.8)";
+            localLaser.style.display = 'block';
         } else {
             document.body.classList.remove('laser-active');
             btn.style.boxShadow = "var(--shadow-lg)";
+            localLaser.style.display = 'none';
         }
     };
 
@@ -1126,7 +1242,6 @@
             }
         });
 
-        // Whiteboard Sync
         window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
         window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
 
@@ -1145,16 +1260,22 @@
         const container = document.getElementById('liveLaserContainer');
 
         document.addEventListener('mousemove',debounce(e=>{
+            // Move local laser
+            if(myLaserMode) {
+                localLaser.style.left = e.clientX + 'px';
+                localLaser.style.top = e.clientY + 'px';
+            }
+            
             if(!currentUser) return;
             setDoc(myRef,{
                 xOffset: e.pageX - window.innerWidth/2, 
                 y: e.pageY, 
                 color: myCursorColor, 
                 name: myCursorName, 
-                isLaser: myLaserMode, // Pass laser state to Firebase
+                isLaser: myLaserMode,
                 timestamp: Date.now()
             });
-        }, 100)); // Slightly faster sync for smooth laser pointing
+        }, 30)); // 30ms for smooth local and remote tracking
 
         onSnapshot(cursorsCol,snap=>{
             snap.docChanges().forEach(change=>{
@@ -1173,11 +1294,10 @@
                     el.style.position = 'absolute';
                     el.style.pointerEvents = 'none';
                     el.style.zIndex = '999999';
-                    el.style.transition = 'top 0.15s linear, left 0.15s linear';
+                    el.style.transition = 'top 0.1s linear, left 0.1s linear';
                     container.appendChild(el);
                 }
 
-                // Render based on whether the remote user is in Laser Mode or Normal Mode
                 if (data.isLaser) {
                     el.innerHTML = `
                         <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
@@ -1200,4 +1320,3 @@
 </script>
 </body>
 </html>
-
