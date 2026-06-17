@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 22: Cardio-Neuro-Gyn</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Clinical Dashboard Theme */
+            --bg-body: #F0F4F8;
+            --bg-card: #FFFFFF;
+            --bg-sidebar: #0F172A;
+            
+            --primary: #0284C7; /* Clinical Blue */
+            --primary-light: #E0F2FE;
+            --primary-dark: #0369A1;
+            
+            --accent-neuro: #8B5CF6; /* Purple for Neuro */
+            --accent-cardio: #EF4444; /* Red for Cardio */
+            --accent-gyn: #EC4899; /* Pink for Gyn */
+            
+            --text-main: #334155;
+            --text-muted: #64748B;
+            --text-light: #F8FAFC;
+            
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            
+            --border: #E2E8F0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        [contenteditable="true"] {
+            outline: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        [contenteditable="true"]:hover { background: var(--primary-light); }
+        [contenteditable="true"]:focus { background: var(--primary-light); box-shadow: 0 0 0 2px var(--primary); }
+
+        /* --- SIDEBAR NAVIGATION --- */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-sidebar);
+            color: var(--text-light);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 24px 0;
+            z-index: 100;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 24px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-light);
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.8rem;
+            color: #94A3B8;
+            margin-top: 4px;
+            font-family: var(--font-mono);
+        }
+
+        .nav-list { list-style: none; }
+
+        .nav-list li a {
+            display: flex;
+            align-items: center;
+            padding: 10px 24px;
+            color: #CBD5E1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-list li a:hover, .nav-list li a.active {
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
+            border-left-color: var(--primary);
+        }
+
+        .nav-list li a span {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            opacity: 0.5;
+            margin-right: 12px;
+        }
+
+        .nav-list .hw-tab { color: var(--accent-gyn); font-weight: 800; border-left: 3px solid var(--accent-gyn); }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px 60px;
+            max-width: 1200px;
+            transition: opacity 0.3s;
+        }
+
+        .lesson-header {
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .badge-group { display: flex; gap: 10px; margin-bottom: 16px; }
+        
+        .badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 50px;
+            text-transform: uppercase;
+        }
+        .badge-neuro { background: #EDE9FE; color: var(--accent-neuro); }
+        .badge-cardio { background: #FEE2E2; color: var(--accent-cardio); }
+        .badge-gyn { background: #FCE7F3; color: var(--accent-gyn); }
+
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0F172A;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .lesson-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        /* --- TASK SECTIONS --- */
+        .task-section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            scroll-margin-top: 40px;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .task-num {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--primary-light);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .task-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .task-instruction {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        /* --- UI COMPONENTS --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+
+        .clinical-card {
+            padding: 24px;
+            border-radius: var(--radius-md);
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+        }
+
+        .clinical-card h4 {
+            color: #0F172A;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        
+        .data-table th {
+            background: #F8FAFC;
+            padding: 16px;
+            text-align: left;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+
+        /* Gap Fillers & Practice */
+        .gap-fill-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .gap-item {
+            background: var(--bg-body);
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .blank-input {
+            border: none;
+            border-bottom: 2px dashed #94A3B8;
+            background: transparent;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+            padding: 2px 8px;
+            text-align: center;
+            min-width: 100px;
+            transition: all 0.2s;
+        }
+
+        .blank-input:focus {
+            border-bottom-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .spoiler {
+            background: #CBD5E1;
+            color: transparent;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            user-select: none;
+        }
+        .spoiler.revealed {
+            background: #D1FAE5;
+            color: #065F46;
+            font-weight: 600;
+        }
+
+        /* Dialogue */
+        .dialogue-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .speaker {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            width: 100px;
+            flex-shrink: 0;
+            text-align: right;
+            padding-top: 4px;
+        }
+        .speaker.doc { color: var(--primary); }
+        .speaker.pt { color: var(--accent-gyn); }
+        .speech {
+            background: var(--bg-body);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
+            flex: 1;
+            border: 1px solid var(--border);
+        }
+
+        /* Whiteboard */
+        .wb-wrapper {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+        .wb-tools {
+            background: #F8FAFC;
+            padding: 12px;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+        .wb-btn {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        .wb-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .color-picker {
+            width: 30px; height: 30px; border: none; padding: 0; border-radius: 4px; cursor: pointer;
+        }
+        #boardCanvas { width: 100%; height: 500px; background: var(--white); cursor: crosshair; }
+
+        /* Floating Actions */
+        .fab-container {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 1000;
+        }
+        .fab {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }
+        .fab:hover { transform: scale(1.05); }
+        .fab-danger { background: var(--danger); }
+
+        /* Sync Status */
+        #syncStatus {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: var(--bg-sidebar);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+
+        /* ══ HOMEWORK SPECIFIC STYLES ══ */
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 15px 20px; font-size: 1.1rem; font-family: var(--font-sans); border: 1px solid var(--border); border-radius: 6px; background: var(--white); color: var(--text-main); transition: border-color 0.2s; margin-bottom: 20px; }
+        .hw-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+        
+        .hw-btn-primary { background: var(--primary); color: white; border: none; padding: 16px 32px; font-size: 1rem; font-family: var(--font-sans); font-weight: 700; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+        .hw-btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .hw-btn-skip { background: transparent; color: var(--text-muted); border: 1px solid var(--border); padding: 10px 24px; font-size: 0.9rem; font-family: var(--font-sans); font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.2s; margin-top: 20px; }
+        .hw-btn-skip:hover { background: var(--bg-body); color: var(--text-main); }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .hw-timer { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; color: var(--danger); background: #FEE2E2; padding: 8px 16px; border-radius: 6px; border: 1px solid #FCA5A5; display: flex; align-items: center; gap: 8px; }
+        .hw-progress { width: 100%; height: 8px; background: var(--border); margin-bottom: 30px; border-radius: 4px; overflow: hidden; }
+        .hw-progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-qbox { background: var(--white); padding: 40px; border: 1px solid var(--border); border-top: 4px solid var(--primary); border-radius: 8px; box-shadow: var(--shadow-md); text-align: left; margin-bottom: 30px; }
+        .hw-qtext { font-family: var(--font-sans); font-size: 1.3rem; color: var(--text-main); margin-bottom: 30px; line-height: 1.6; font-weight: 600; }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { background: var(--bg-body); border: 1px solid var(--border); padding: 16px 24px; text-align: left; font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600; color: var(--text-main); cursor: pointer; transition: all 0.2s; border-radius: 6px; }
+        .hw-opt-btn:hover { background: var(--primary-light); border-color: var(--primary); transform: translateX(4px); }
+        
+        .hw-results-card { background: var(--white); padding: 40px; border: 1px solid var(--border); border-radius: 8px; border-top: 4px solid var(--success); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; text-align: center; }
+        .hw-score { font-size: 3rem; font-family: var(--font-mono); font-weight: 700; color: var(--primary); margin: 10px 0; }
+        .hw-review-grid { display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 30px; }
+        .hw-review-item { padding: 20px; border: 1px solid var(--border); border-left: 4px solid var(--border); background: var(--white); border-radius: 6px; }
+        .hw-review-item.correct { border-left-color: var(--success); background: #ECFDF5; }
+        .hw-review-item.incorrect { border-left-color: var(--danger); background: #FEF2F2; }
+        .hw-review-q { font-family: var(--font-sans); font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px; font-weight: 600; }
+        .hw-review-ans { font-size: 0.95rem; margin-bottom: 4px; font-weight: 600; }
+
+        @media (max-width: 1024px) {
+            .sidebar { width: 200px; }
+            .main-content { margin-left: 200px; padding: 30px; }
+        }
+        @media (max-width: 768px) {
+            .sidebar { display: none; }
+            .main-content { margin-left: 0; padding: 20px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span class="sync-dot" id="syncDot"></span>
+    <span id="syncText">System Online</span>
+</div>
+
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h1 contenteditable="true">Clinical English</h1>
+        <p contenteditable="true">Module 22 • B2/C1</p>
+    </div>
+    <ul class="nav-list" id="navTabsContainer">
+        <li><a href="#task1"><span>01</span> Warm-Up</a></li>
+        <li><a href="#task2"><span>02</span> Case Reading</a></li>
+        <li><a href="#task3"><span>03</span> Comprehension</a></li>
+        <li><a href="#task4"><span>04</span> Neuro Vocab</a></li>
+        <li><a href="#task5"><span>05</span> ECG Vocab</a></li>
+        <li><a href="#task6"><span>06</span> The FAST Test</a></li>
+        <li><a href="#task7"><span>07</span> Thrombolysis</a></li>
+        <li><a href="#task8"><span>08</span> Grammar Theory</a></li>
+        <li><a href="#task9"><span>09</span> Practice 1: Gaps</a></li>
+        <li><a href="#task10"><span>10</span> Practice 2: Fixes</a></li>
+        <li><a href="#task11"><span>11</span> Practice 3: Speak</a></li>
+        <li><a href="#task12"><span>12</span> Role-Play</a></li>
+        <li><a href="#task13"><span>13</span> Collocations</a></li>
+        <li><a href="#task14"><span>14</span> TIA vs Stroke</a></li>
+        <li><a href="#task15"><span>15</span> Diagramming</a></li>
+        <li><a href="#task-hw" class="hw-tab">📝 Assessment</a></li>
+    </ul>
+</aside>
+
+<!-- MAIN LESSON CONTENT -->
+<main class="main-content" id="mainLessonContent">
+    
+    <header class="lesson-header">
+        <div class="badge-group">
+            <span class="badge badge-gyn" contenteditable="true">Gynecology / Obs</span>
+            <span class="badge badge-cardio" contenteditable="true">Cardiology</span>
+            <span class="badge badge-neuro" contenteditable="true">Neurology</span>
+        </div>
+        <h1 class="lesson-title" contenteditable="true">The Cardio-Neuro-Gyn Intersection</h1>
+        <p class="lesson-desc" contenteditable="true">Mastering the language of peri-operative emergencies and post-partum complications. We will combine ECG interpretation, stroke assessment, and a highly structured review of the Present Perfect vs. Past Simple.</p>
+    </header>
+
+    <!-- TASK 1 -->
+    <section id="task1" class="task-section">
+        <div class="task-header">
+            <div class="task-num">01</div>
+            <h2 class="task-title" contenteditable="true">Clinical Warm-Up: The Dangerous Bridge</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Discuss the following intersections between your specialty and acute systemic emergencies.</p>
+        
+        <div class="grid-3">
+            <div class="clinical-card" style="border-left-color: var(--accent-gyn);">
+                <h4 contenteditable="true">The Post-Partum Brain</h4>
+                <p contenteditable="true">How often do you encounter severe pre-eclampsia leading to neurological symptoms (visual disturbances, severe headaches, or seizures)?</p>
+            </div>
+            <div class="clinical-card" style="border-left-color: var(--accent-cardio);">
+                <h4 contenteditable="true">The Pregnant Heart</h4>
+                <p contenteditable="true">Pregnancy causes immense cardiovascular strain. Have you ever had to manage a patient who developed sudden arrhythmias during labor or surgery?</p>
+            </div>
+            <div class="clinical-card" style="border-left-color: var(--accent-neuro);">
+                <h4 contenteditable="true">The Clotting Risk</h4>
+                <p contenteditable="true">Pregnancy is a hypercoagulable state. What is your protocol when you suspect a DVT or pulmonary embolism that could lead to a stroke?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 2 -->
+    <section id="task2" class="task-section">
+        <div class="task-header">
+            <div class="task-num">02</div>
+            <h2 class="task-title" contenteditable="true">Reading: The Crashing Patient</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Read the following handover note. Pay attention to the highlighted terminology regarding neurology and the ECG.</p>
+        
+        <div style="background: var(--bg-body); padding: 30px; border-radius: 8px; font-family: 'Times New Roman', serif; font-size: 1.1rem; line-height: 1.8; border-left: 5px solid var(--text-main);">
+            <p contenteditable="true">
+                <strong>Patient:</strong> Marta K., 32yo, G1P1, 4 days post-partum (vaginal delivery).<br><br>
+                Marta presented to the ER complaining of a sudden, severe headache and palpitations. While in triage, the nurse noted sudden onset right-sided facial droop and expressive aphasia. We immediately initiated the <span style="background: #FEE2E2; padding: 2px 6px;">FAST test</span>, which was positive. A Code Stroke was called. 
+                <br><br>
+                Simultaneously, she complained of a "fluttering" in her chest. An immediate 12-lead showed an irregularly irregular <span style="background: #E0F2FE; padding: 2px 6px;">rhythm abnormality</span> with no distinct P waves, indicating new-onset Atrial Fibrillation. 
+                <br><br>
+                Given her hypercoagulable post-partum state, we suspect a cardioembolic event. The Neurology team is currently calculating her <span style="background: #FEE2E2; padding: 2px 6px;">NIH Stroke Scale</span> to determine if she is a candidate for emergency <span style="background: #E0F2FE; padding: 2px 6px;">thrombolysis</span>.
+            </p>
+        </div>
+    </section>
+
+    <!-- TASK 3 -->
+    <section id="task3" class="task-section">
+        <div class="task-header">
+            <div class="task-num">03</div>
+            <h2 class="task-title" contenteditable="true">Comprehension & Analysis</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Answer the following questions based on the case study.</p>
+
+        <div class="gap-fill-list">
+            <div class="gap-item">
+                <span style="font-weight: 700; color: var(--primary);">Q1:</span> 
+                <div contenteditable="true" style="flex:1;">What specific neurological symptoms did the nurse observe in triage?</div>
+            </div>
+            <div class="gap-item">
+                <span style="font-weight: 700; color: var(--primary);">Q2:</span> 
+                <div contenteditable="true" style="flex:1;">How did the doctors interpret the ECG findings? What was the "language of the heart" telling them?</div>
+            </div>
+            <div class="gap-item">
+                <span style="font-weight: 700; color: var(--primary);">Q3:</span> 
+                <div contenteditable="true" style="flex:1;">Why is the patient's "post-partum state" highly relevant to this specific neuro-cardiac event?</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 4 -->
+    <section id="task4" class="task-section">
+        <div class="task-header">
+            <div class="task-num">04</div>
+            <h2 class="task-title" contenteditable="true">Neurology Vocabulary</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Match the neurological terms to their clinical definitions.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Definition</th>
+                    <th>Match (Letter)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true">1. Expressive Aphasia</td><td contenteditable="true">A) A scale used to quantify the impairment caused by a stroke.</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">B</span></td></tr>
+                <tr><td contenteditable="true">2. TIA (Transient Ischemic Attack)</td><td contenteditable="true">B) Inability to produce language, despite understanding it.</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">D</span></td></tr>
+                <tr><td contenteditable="true">3. Thrombolysis</td><td contenteditable="true">C) Drooping or weakness on one side of the face.</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">E</span></td></tr>
+                <tr><td contenteditable="true">4. Facial Palsy</td><td contenteditable="true">D) A temporary blockage of blood flow to the brain ("mini-stroke").</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">C</span></td></tr>
+                <tr><td contenteditable="true">5. NIH Stroke Scale</td><td contenteditable="true">E) The breakdown of blood clots using medication ("clot-busting").</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">A</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- TASK 5 -->
+    <section id="task5" class="task-section">
+        <div class="task-header">
+            <div class="task-num">05</div>
+            <h2 class="task-title" contenteditable="true">ECG Vocabulary: Reading the Heart's Language</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Fill in the blanks with the correct cardiology terminology: <em>arrhythmia, leads, ischemia, sinus rhythm, palpitations</em>.</p>
+
+        <div class="gap-fill-list">
+            <div class="gap-item">1. The patient reported feeling a fluttering in her chest, known clinically as <span class="blank-input" contenteditable="true"></span>. <span class="spoiler" onclick="toggleSpoiler(this)">palpitations</span></div>
+            <div class="gap-item">2. A normal, healthy heartbeat is referred to as normal <span class="blank-input" contenteditable="true"></span>. <span class="spoiler" onclick="toggleSpoiler(this)">sinus rhythm</span></div>
+            <div class="gap-item">3. We attached the 12 <span class="blank-input" contenteditable="true"></span> to the patient's chest and limbs to get a full view of the heart. <span class="spoiler" onclick="toggleSpoiler(this)">leads</span></div>
+            <div class="gap-item">4. ST-segment depression on an ECG is a classic indicator of myocardial <span class="blank-input" contenteditable="true"></span>. <span class="spoiler" onclick="toggleSpoiler(this)">ischemia</span></div>
+            <div class="gap-item">5. Atrial Fibrillation is a dangerous <span class="blank-input" contenteditable="true"></span> that can cause blood clots to form in the heart. <span class="spoiler" onclick="toggleSpoiler(this)">arrhythmia</span></div>
+        </div>
+    </section>
+
+    <!-- TASK 6 -->
+    <section id="task6" class="task-section">
+        <div class="task-header">
+            <div class="task-num">06</div>
+            <h2 class="task-title" contenteditable="true">The F.A.S.T. Test</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Explain the acronym used globally to recognize stroke symptoms to a junior medical student.</p>
+
+        <div class="grid-2">
+            <div class="clinical-card" style="border-left-color: var(--warning);">
+                <h4 style="font-size: 1.5rem;" contenteditable="true">F. A. S. T.</h4>
+                <ul style="margin-left: 20px; line-height: 2;">
+                    <li><strong>F</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Face (Drooping)</span></li>
+                    <li><strong>A</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Arms (Weakness)</span></li>
+                    <li><strong>S</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Speech (Slurred/Aphasia)</span></li>
+                    <li><strong>T</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Time (to call emergency)</span></li>
+                </ul>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <p contenteditable="true" style="font-size: 1.1rem; color: var(--text-main);"><strong>Discussion:</strong> In an obstetric setting, why might pre-eclampsia mimic or complicate the diagnosis of a stroke?</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 7 -->
+    <section id="task7" class="task-section">
+        <div class="task-header">
+            <div class="task-num">07</div>
+            <h2 class="task-title" contenteditable="true">Clinical Debate: Thrombolysis</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Discuss the risks vs. benefits of administering tPA (thrombolysis).</p>
+
+        <div class="clinical-card" style="background: #FEF2F2; border-left-color: var(--danger);">
+            <p contenteditable="true" style="font-size: 1.1rem;">
+                <strong>The Dilemma:</strong> A 38-week pregnant patient presents with acute ischemic stroke. She is within the 4.5-hour window for tPA. 
+                <br><br>
+                What are the absolute contraindications? How do you weigh the risk of maternal hemorrhage (especially placental abruption) against the risk of permanent maternal brain damage? Discuss your approach.
+            </p>
+        </div>
+    </section>
+
+    <!-- TASK 8 -->
+    <section id="task8" class="task-section">
+        <div class="task-header">
+            <div class="task-num">08</div>
+            <h2 class="task-title" contenteditable="true">Grammar Theory: Tenses Comparison</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">A structured review of Present Perfect vs. Past Simple in clinical contexts.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Tense</th>
+                    <th>Rule / Concept</th>
+                    <th>Clinical Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true" style="font-weight: 700; color: var(--primary);">Past Simple</td>
+                    <td contenteditable="true">Actions that happened at a <strong>specific, finished time</strong> in the past. (The "when" is known or asked).</td>
+                    <td contenteditable="true">"The patient <strong>suffered</strong> a stroke <em>in 2022</em>."<br>"When <strong>did</strong> her symptoms <strong>start</strong>?"</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true" style="font-weight: 700; color: var(--accent-gyn);">Present Perfect</td>
+                    <td contenteditable="true">Actions in the past with a <strong>result or relevance to the present</strong>. The specific time is unknown or unfinished (e.g., "today", "in her life").</td>
+                    <td contenteditable="true">"She <strong>has had</strong> three miscarriages." (Medical history).<br>"I <strong>have just ordered</strong> the ECG." (Recent action with present effect).</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div style="background: #F1F5F9; padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 0.9rem;">
+            <strong>Pro Tip for Doctors:</strong> When taking a patient's history, we usually start with Present Perfect ("Have you ever had surgery?") and switch to Past Simple for details ("Yes, I had my appendix out last year. It went well.").
+        </div>
+    </section>
+
+    <!-- TASK 9 -->
+    <section id="task9" class="task-section">
+        <div class="task-header">
+            <div class="task-num">09</div>
+            <h2 class="task-title" contenteditable="true">Grammar Practice 1: Gap Fillers</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Choose either the Past Simple or Present Perfect to complete the medical notes.</p>
+
+        <div class="gap-fill-list">
+            <div class="gap-item">1. The patient <span class="blank-input" contenteditable="true"></span> (develop) pre-eclampsia during her first pregnancy five years ago. <span class="spoiler" onclick="toggleSpoiler(this)">developed</span></div>
+            <div class="gap-item">2. "Doctor, come quickly! The patient in Bed 4 <span class="blank-input" contenteditable="true"></span> (just / lose) consciousness!" <span class="spoiler" onclick="toggleSpoiler(this)">has just lost</span></div>
+            <div class="gap-item">3. I <span class="blank-input" contenteditable="true"></span> (never / see) such a strange rhythm abnormality on an ECG before today. <span class="spoiler" onclick="toggleSpoiler(this)">have never seen</span></div>
+            <div class="gap-item">4. We <span class="blank-input" contenteditable="true"></span> (administer) thrombolysis at exactly 14:30. <span class="spoiler" onclick="toggleSpoiler(this)">administered</span></div>
+            <div class="gap-item">5. <span class="blank-input" contenteditable="true"></span> (you / check) the NIH Stroke Scale yet? The neurologist is waiting for the score. <span class="spoiler" onclick="toggleSpoiler(this)">Have you checked</span></div>
+        </div>
+    </section>
+
+    <!-- TASK 10 -->
+    <section id="task10" class="task-section">
+        <div class="task-header">
+            <div class="task-num">10</div>
+            <h2 class="task-title" contenteditable="true">Grammar Practice 2: Handover Correction</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">A junior doctor wrote this handover note, but made 4 tense mistakes. Find and correct them.</p>
+
+        <div class="clinical-card" style="font-family: var(--font-mono); font-size: 0.95rem;">
+            <p contenteditable="true">
+                "Mrs. Nowak is a 45yo patient. She has presented to the ER at 8:00 AM with facial drooping. I have done a FAST test immediately, and it was positive. Since she arrived, her blood pressure dropped significantly. We didn't send her to the CT scanner yet."
+            </p>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <strong>Corrections:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><span class="spoiler" onclick="toggleSpoiler(this)">has presented -> presented (specific time 8:00 AM)</span></li>
+                <li><span class="spoiler" onclick="toggleSpoiler(this)">have done -> did (immediately past action)</span></li>
+                <li><span class="spoiler" onclick="toggleSpoiler(this)">dropped -> has dropped (Since she arrived...)</span></li>
+                <li><span class="spoiler" onclick="toggleSpoiler(this)">didn't send -> haven't sent (yet)</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- TASK 11 -->
+    <section id="task11" class="task-section">
+        <div class="task-header">
+            <div class="task-num">11</div>
+            <h2 class="task-title" contenteditable="true">Grammar Practice 3: Speaking</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Use the Present Perfect to state a clinical finding, and the Past Simple to provide the detail.</p>
+
+        <div class="grid-2">
+            <div class="clinical-card">
+                <h4 contenteditable="true">Prompt 1: Patient History</h4>
+                <p contenteditable="true">Tell your senior that the patient <strong>has experienced</strong> a TIA before. Add detail about <strong>when</strong> it happened and what symptoms she <strong>had</strong>.</p>
+            </div>
+            <div class="clinical-card">
+                <h4 contenteditable="true">Prompt 2: ECG Review</h4>
+                <p contenteditable="true">Tell the cardiologist you <strong>have noticed</strong> an abnormality. Explain exactly what you <strong>saw</strong> when you <strong>printed</strong> the rhythm strip ten minutes ago.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 12 -->
+    <section id="task12" class="task-section">
+        <div class="task-header">
+            <div class="task-num">12</div>
+            <h2 class="task-title" contenteditable="true">Role-Play: Senior Consultation</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">You are the junior doctor on the ward. You must describe rhythm abnormalities to a senior colleague.</p>
+
+        <div class="dialogue-row">
+            <div class="speaker doc" contenteditable="true">Senior (Teacher)</div>
+            <div class="speech" contenteditable="true">"Alicja, you paged me. What's going on with the patient in bed 6? She just had her C-section this morning."</div>
+        </div>
+        <div class="dialogue-row">
+            <div class="speaker pt" contenteditable="true">You</div>
+            <div class="speech" contenteditable="true"><em>(Use Present Perfect: State that her heart rate has spiked. Use Past Simple: Explain that you ordered an ECG five minutes ago).</em></div>
+        </div>
+        <div class="dialogue-row">
+            <div class="speaker doc" contenteditable="true">Senior (Teacher)</div>
+            <div class="speech" contenteditable="true">"Okay, let me look at the strip. What are you seeing here?"</div>
+        </div>
+        <div class="dialogue-row">
+            <div class="speaker pt" contenteditable="true">You</div>
+            <div class="speech" contenteditable="true"><em>(Use ECG Vocabulary: Mention absent P waves, irregular rhythm. Suggest she might be in Atrial Fibrillation).</em></div>
+        </div>
+    </section>
+
+    <!-- TASK 13 -->
+    <section id="task13" class="task-section">
+        <div class="task-header">
+            <div class="task-num">13</div>
+            <h2 class="task-title" contenteditable="true">Advanced Collocations</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Match the verb to the correct clinical noun phrase.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Verb</th>
+                    <th>Noun Phrase</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true">1. Administer</td><td contenteditable="true">A) ...an ECG to check for arrhythmias.</td></tr>
+                <tr><td contenteditable="true">2. Interpret</td><td contenteditable="true">B) ...thrombolysis within the 4.5 hour window.</td></tr>
+                <tr><td contenteditable="true">3. Perform</td><td contenteditable="true">C) ...the NIH Stroke scale to assess severity.</td></tr>
+                <tr><td contenteditable="true">4. Calculate</td><td contenteditable="true">D) ...the rhythm abnormalities on the strip.</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 10px; font-size: 0.9rem;"><strong>Answers:</strong> <span class="spoiler" onclick="toggleSpoiler(this)">1-B, 2-D, 3-A, 4-C</span></p>
+    </section>
+
+    <!-- TASK 14 -->
+    <section id="task14" class="task-section">
+        <div class="task-header">
+            <div class="task-num">14</div>
+            <h2 class="task-title" contenteditable="true">Clinical Decision Making</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Recognizing TIA vs. Stroke in the ER.</p>
+
+        <div class="clinical-card" style="border-left-color: var(--accent-neuro);">
+            <p contenteditable="true">
+                <strong>Scenario:</strong> A pregnant patient experienced facial drooping and slurred speech at home. By the time she reaches your emergency department 45 minutes later, the symptoms have completely resolved. 
+                <br><br>
+                <strong>Discuss:</strong> Is this a TIA or a Stroke? What is the immediate risk to this patient over the next 48 hours? What diagnostic imaging is safe to perform immediately?
+            </p>
+        </div>
+    </section>
+
+    <!-- TASK 15 -->
+    <section id="task15" class="task-section" style="margin-bottom: 0;">
+        <div class="task-header">
+            <div class="task-num">15</div>
+            <h2 class="task-title" contenteditable="true">Teacher's Whiteboard</h2>
+        </div>
+        <p class="task-instruction" contenteditable="true">Use this space to draw ECG waveforms, map the cerebral arteries, or review grammar timelines.</p>
+
+        <div class="wb-wrapper">
+            <div class="wb-tools">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="eraser" contenteditable="true">Eraser</button>
+                <div style="width: 1px; height: 20px; background: var(--border); margin: 0 8px;"></div>
+                <input type="color" id="wbColor" class="color-picker" value="#0284C7">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; color: var(--danger); border-color: var(--danger);" contenteditable="true">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </section>
+
+</main>
+
+<!-- ══════════ TASK HW — HOMEWORK TEST (HIDDEN BY DEFAULT) ══════════ -->
+<div id="task-hw" class="hw-exclusive" style="display: none; background: var(--bg-body); min-height: 100vh; padding-top: 40px; padding-bottom: 80px; width: 100%; position: absolute; top: 0; left: 0; z-index: 50;">
+    
+    <section id="hw-welcome" class="hw-screen active">
+        <div class="hw-container">
+            <span class="section-label">Homework Portal</span>
+            <h2 class="section-title">Lesson 22 <em>Assessment</em></h2>
+            <p class="section-desc" style="max-width: 600px; margin: 0 auto 30px;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong> to complete 10 questions testing your knowledge of Cardio-Neuro vocabulary and the Present Perfect vs. Past Simple. 
+                <br><br><span style="color: var(--danger); font-weight: 700;">Anti-Cheat Enabled:</span> Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.
+            </p>
+            <div class="hw-container" style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <br>
+                <button class="hw-btn-primary" onclick="startHW()">Accept Rules & Begin</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="hw-quiz" class="hw-screen">
+        <div class="hw-container">
+            <div class="hw-header">
+                <span class="section-label" id="hwQuestionCounter" style="margin: 0; background: transparent; padding: 0;">Question 1 / 10</span>
+                <div class="hw-timer">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            <div class="hw-progress">
+                <div class="hw-progress-fill" id="hwProgressFill"></div>
+            </div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </div>
+    </section>
+
+    <section id="hw-results" class="hw-screen">
+        <div class="hw-container" style="max-width: 850px;">
+            <div id="hw-pdf-content" style="background: var(--bg-body); padding: 20px; box-sizing: border-box;">
+                <div style="text-align: center;">
+                    <span class="section-label">Assessment Complete</span>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage"></p>
+                </div>
+
+                <div class="hw-results-card">
+                    <h3 style="font-family: var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Final Score</h3>
+                    <div class="hw-score" id="hwScoreDetail">0 / 10</div>
+                    <p style="font-family: var(--font-sans); font-size: 1rem; color: var(--primary); font-weight: 700; margin-top: 10px;" id="hwTerminationReason"></p>
+                </div>
+
+                <h3 style="font-family: var(--font-sans); color: var(--text-main); text-align: left; border-bottom: 2px solid var(--border); padding-bottom: 10px;">Question Review</h3>
+                <div class="hw-review-grid" id="hwReviewGrid"></div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="hw-btn-skip" style="margin-top: 0; color: var(--primary); border-color: var(--primary);" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- FLOATING ACTIONS -->
+<div class="fab-container" id="floatingActions">
+    <button class="fab" onclick="window.scrollTo({top: document.getElementById('task15').offsetTop, behavior: 'smooth'})" title="Whiteboard">🖍️</button>
+    <button class="fab" style="background: #8B5CF6;" onclick="document.getElementById('quizletModal').style.display='flex'" title="Export Quizlet">📝</button>
+    <button class="fab" style="background: var(--accent-gyn);" onclick="openAdmin()" title="Teacher Dashboard">📋</button>
+    <button class="fab" style="background: var(--success);" onclick="saveAsPDF()" title="Save PDF">💾</button>
+    <button class="fab fab-danger" onclick="resetLesson()" title="Reset Lesson">🔄</button>
+</div>
+
+<!-- Teacher Dashboard Modal -->
+<div id="adminModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.8); z-index:2000; justify-content:center; align-items:center;">
+    <div style="background:white; padding:40px; border-radius:16px; width:90%; max-width:800px; max-height:90vh; overflow-y:auto; position:relative;">
+        <span onclick="closeAdmin()" style="position:absolute; top:20px; right:20px; font-size:1.5rem; cursor:pointer; color:#64748B;">&times;</span>
+        <h2 style="color:var(--primary); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Review recent student homework submissions.</p>
+        
+        <div style="overflow-x:auto;">
+            <table class="data-table">
+                <thead>
+                    <tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr>
+                </thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--danger); border-color:var(--danger); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<!-- QUIZLET MODAL -->
+<div id="quizletModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.8); z-index:2000; justify-content:center; align-items:center;">
+    <div style="background:white; padding:40px; border-radius:16px; width:90%; max-width:600px; position:relative;">
+        <span onclick="this.parentElement.parentElement.style.display='none'" style="position:absolute; top:20px; right:20px; font-size:1.5rem; cursor:pointer; color:#64748B;">&times;</span>
+        <h2 style="color:var(--primary); margin-bottom:10px;">Vocab Exporter</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Add terms, then copy directly to Quizlet.</p>
+        
+        <div id="wordList" style="max-height:300px; overflow-y:auto; margin-bottom:20px; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <input type="text" placeholder="Term (e.g. Ischemia)" class="q-word" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;">
+                <input type="text" placeholder="Definition" class="q-trans" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;">
+            </div>
+        </div>
+        
+        <div style="display:flex; gap:10px;">
+            <button onclick="addWordRow()" style="flex:1; padding:12px; background:#F1F5F9; border:none; border-radius:6px; font-weight:600; cursor:pointer; color:#334155;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2; padding:12px; background:#4255FF; border:none; border-radius:6px; font-weight:600; cursor:pointer; color:white;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- BASIC UI LOGIC ---
+    function toggleSpoiler(el) { el.classList.toggle('revealed'); }
+
+    // Highlight command
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(2, 132, 199, 0.2)');
+        }
+    });
+
+    // Navigation & HW Tab Switch
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+            e.preventDefault();
+            const target = e.target.tagName === 'A' ? e.target : e.target.parentElement;
+            
+            document.querySelectorAll('.nav-list li a').forEach(a => a.classList.remove('active'));
+            target.classList.add('active');
+
+            const id = target.getAttribute('href');
+            
+            if (id === '#task-hw') {
+                document.getElementById('mainLessonContent').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                document.getElementById('mainLessonContent').style.display = 'block';
+                document.getElementById('task-hw').style.display = 'none';
+                
+                const sec = document.querySelector(id);
+                if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 40, behavior: 'smooth' });
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.getElementById('mainLessonContent').style.display = 'block';
+        document.getElementById('task-hw').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // Quizlet
+    function addWordRow() {
+        const div = document.createElement('div');
+        div.style.cssText = "display:flex; gap:10px; margin-bottom:10px;";
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;">`;
+        document.getElementById('wordList').appendChild(div);
+    }
+    function copyForQuizlet() {
+        let out = '';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        if(out){
+            navigator.clipboard.writeText(out).then(()=>{
+                document.getElementById('copyQuizletBtn').innerText = '✓ Copied!';
+                setTimeout(()=> document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000);
+            });
+        }
+    }
+
+    // PDF
+    window.saveAsPDF = () => {
+        document.getElementById('floatingActions').style.display='none';
+        document.getElementById('syncStatus').style.display='none';
+        const el = document.body;
+        html2pdf().set({
+            margin: 0, filename: 'Lesson-22-Cardio-Neuro-Gyn.pdf', image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth },
+            jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' }
+        }).from(el).save().then(() => {
+            document.getElementById('floatingActions').style.display='flex';
+            document.getElementById('syncStatus').style.display='flex';
+        });
+    };
+
+    // --- WHITEBOARD LOGIC ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing = false, pendingDraw = false, startX, startY;
+    let currentTool = 'pencil', currentColor = '#0284C7', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { 
+        ctx.clearRect(0,0,canvas.width,canvas.height); 
+        if(window.syncWhiteboardClear) window.syncWhiteboardClear(); 
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        isDrawing = true;
+        savedImageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (currentTool === 'eraser') {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineTo(p.x, p.y); ctx.lineWidth = 30; ctx.lineCap = 'round'; ctx.stroke();
+            ctx.globalCompositeOperation = 'source-over';
+        } else if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle = currentTool === 'highlight' ? currentColor+'40' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 16 : 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        if (!isDrawing) return; isDrawing = false;
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing = false; if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+    });
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "Choose the correct tense: 'The patient ___ to the ER at 8:00 AM.'", options: ["has presented", "presented", "present", "was presented"], correct: 1 },
+        { text: "Choose the correct tense: 'I ___ such a severe arrhythmia before today.'", options: ["never saw", "have never seen", "didn't see", "never have saw"], correct: 1 },
+        { text: "What does the 'A' in the F.A.S.T. stroke test stand for?", options: ["Aphasia", "Airway", "Arms (Weakness)", "Artery"], correct: 2 },
+        { text: "Which term describes an inability to produce language despite understanding it?", options: ["Facial Palsy", "Thrombolysis", "Expressive Aphasia", "Ischemia"], correct: 2 },
+        { text: "What is the medical term for 'clot-busting' medication?", options: ["Thrombolysis", "Arrhythmia", "Ischemia", "Prophylaxis"], correct: 0 },
+        { text: "A temporary blockage of blood flow to the brain is known as a:", options: ["Stroke", "Myocardial Infarction", "TIA", "Palpitation"], correct: 2 },
+        { text: "Choose the correct tense: 'Doctor, the patient in bed 4 ___ consciousness!'", options: ["just lost", "has just lost", "losed", "losing"], correct: 1 },
+        { text: "The term for a patient feeling a 'fluttering' in their chest is:", options: ["Ischemia", "Aphasia", "Palpitations", "Arrhythmia"], correct: 2 },
+        { text: "Which tense focuses on an action completed at a specific, known time in the past?", options: ["Present Perfect", "Past Simple", "Past Continuous", "Present Simple"], correct: 1 },
+        { text: "ST-segment depression on an ECG often indicates myocardial ___.", options: ["Arrhythmia", "Fibrillation", "Ischemia", "Palsy"], correct: 2 }
+    ];
+
+    let currentStudent = "";
+    let questionHistory = []; 
+    let currentQuestionIndex = 0;
+    const TOTAL_QUESTIONS = 10;
+    let score = 0;
+    
+    let timeLeft = 10 * 60; // 10 minutes
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window to look up answers. If you do this again, your test will instantly end.");
+            }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.hw-timer').style.background = "var(--danger)";
+                document.querySelector('.hw-timer').style.color = "white";
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will now be submitted.");
+                endHWQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    function showHWScreen(id) {
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name to continue."); return; }
+        
+        currentStudent = nameInput;
+        currentQuestionIndex = 0;
+        score = 0;
+        questionHistory = [];
+        cheatWarnings = 0;
+        timeLeft = 10 * 60;
+        isTestActive = true;
+
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
+        
+        showHWScreen('hw-quiz');
+        startHWTimer();
+        renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+            endHWQuiz(false, "Completed Successfully");
+            return;
+        }
+
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid');
+        grid.innerHTML = "";
+        
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'hw-opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
+
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: correctAnsText, isCorrect: isCorrect });
+        if (isCorrect) score++;
+
+        currentQuestionIndex++;
+        renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false;
+        clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        
+        const termEl = document.getElementById('hwTerminationReason');
+        if (forcedExit) termEl.innerHTML = `<span style="color:var(--danger);">Status:</span> ${statusMsg}`;
+        else termEl.innerHTML = `<span style="color:var(--success);">Status:</span> ${statusMsg}`;
+
+        buildHWReviewGrid();
+        showHWScreen('hw-results');
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function buildHWReviewGrid() {
+        const grid = document.getElementById('hwReviewGrid');
+        grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `hw-review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
+            div.innerHTML = `
+                <div class="hw-review-q">${index + 1}. ${item.text}</div>
+                <div class="hw-review-ans">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div class="hw-review-ans">Correct answer: <span style="color: var(--success)">${item.correctAns}</span></div>` : ''}
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    // ─── ADMIN LOGIC ───
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const element = document.getElementById('hw-pdf-content');
+        const parent = element.parentNode;
+        const sibling = element.nextSibling;
+
+        const origBodyOverflowX = document.body.style.overflowX;
+        const origHtmlOverflowX = document.documentElement.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        document.documentElement.style.overflowX = 'visible';
+        document.body.appendChild(element);
+
+        const origCss = element.style.cssText;
+        element.style.cssText = `position: absolute !important; top: 0 !important; left: 0 !important; width: 800px !important; margin: 0 !important; padding: 40px !important; background: #F0F4F8 !important; z-index: 999999 !important; display: block !important;`;
+        window.scrollTo(0, 0);
+
+        const w = 800; const h = element.scrollHeight;
+        const opt = {
+            margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L22_Homework.pdf`, image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, x: 0, y: 0, width: w, height: h, windowWidth: w, windowHeight: h, scrollX: 0, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [w, h], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.cssText = origCss;
+            if (sibling) parent.insertBefore(element, sibling);
+            else parent.appendChild(element);
+            document.body.style.overflowX = origBodyOverflowX;
+            document.documentElement.style.overflowX = origHtmlOverflowX;
+            document.getElementById('floatingActions').style.display='flex';
+        });
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson22HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson22HomeworkData', JSON.stringify(results));
+    }
+
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson22HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = "";
+
+        if (results.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No homework submissions yet.</td></tr>";
+        } else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="font-size:0.85rem;">${r.date}</td><td style="font-weight:700;">${r.name}</td><td>${r.score} / ${r.total}</td><td style="font-size:0.85rem; font-weight: 700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson22HomeworkData'); openAdmin(); } }
+
+</script>
+
+<!-- FIREBASE SYNC -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'lesson-22-cardio-neuro-gyn-v1';
+
+    const syncText = document.getElementById('syncText');
+    const syncDot = document.getElementById('syncDot');
+    function setStatus(t, c) { if (syncText) syncText.innerText = t; if (syncDot) syncDot.style.background = c; }
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null, isSyncSetup = false;
+    const myCursorColor = ['#0284C7', '#8B5CF6', '#EF4444', '#EC4899', '#10B981'][Math.floor(Math.random() * 5)];
+    let myCursorName = 'Doctor';
+
+    const editables = document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el, i) => { el.dataset.syncId = 'e' + i; });
+    let isEditing = null;
+
+    function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+    const initAuth = async () => { 
+        try {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try { await signInWithCustomToken(auth, __initial_auth_token); } 
+                catch (e) { await signInAnonymously(auth); }
+            } else { await signInAnonymously(auth); }
+        } catch(e) { setStatus('Offline','#EF4444'); } 
+    };
+
+    onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user && !isSyncSetup) {
+            isSyncSetup = true;
+            getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                myCursorName = 'Doctor ' + (snap.size + 1);
+                setStatus('Live Sync Active', '#10B981');
+                setupSync(); setupCursors();
+            }).catch(() => {
+                myCursorName = 'Doctor ' + (Math.floor(Math.random() * 99) + 1);
+                setStatus('Live Sync Active', '#10B981');
+                setupSync(); setupCursors();
+            });
+        } else if (!user) { setStatus('Offline', '#EF4444'); }
+    });
+
+    initAuth();
+
+    function setupSync() {
+        const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text');
+        const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+        window.saveTextUpdate = el => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', () => isEditing = el.dataset.syncId);
+            el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+            el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        };
+
+        editables.forEach(el => window.attachEditableListeners(el));
+
+        onSnapshot(textRef, snap => {
+            if (!snap.exists()) return;
+            const data = snap.data();
+            for (const [id, html] of Object.entries(data)) {
+                if (isEditing !== id) { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }
+            }
+        });
+
+        window.syncWhiteboardDraw = debounce(() => {
+            if (!currentUser) return;
+            const c = document.getElementById('boardCanvas');
+            setDoc(wbRef, { image: c.toDataURL('image/png', 0.5), clearTs: window.lastClear || 0 }, { merge: true });
+            pendingDraw = false;
+        }, 800);
+
+        window.syncWhiteboardClear = () => { if (!currentUser) return; const ts = Date.now(); window.lastClear = ts; setDoc(wbRef, { clearTs: ts, image: null }, { merge: true }); };
+
+        onSnapshot(wbRef, snap => {
+            if (!snap.exists()) return;
+            const data = snap.data(); const c = document.getElementById('boardCanvas'); const x = c.getContext('2d');
+            if (data.clearTs > (window.lastClear || 0)) { x.clearRect(0, 0, c.width, c.height); window.lastClear = data.clearTs; return; }
+            if (data.image && !pendingDraw) { const img = new Image(); img.onload = () => { x.clearRect(0,0,c.width,c.height); x.drawImage(img,0,0); }; img.src = data.image; }
+        });
+    }
+
+    function setupCursors() {
+        const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+        const myRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+        const container = document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove', debounce(e => {
+            if (!currentUser) return;
+            setDoc(myRef, { xOff: e.pageX - window.innerWidth / 2, y: e.pageY, color: myCursorColor, name: myCursorName, ts: Date.now() });
+        }, 300));
+
+        onSnapshot(cursorsCol, snap => {
+            snap.docChanges().forEach(ch => {
+                const id = ch.doc.id; if (id === currentUser.uid) return;
+                if (ch.type === 'removed') { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                const d = ch.doc.data();
+                if (Date.now() - d.ts > 60000) { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                let el = document.getElementById('cur-' + id);
+                if (!el) {
+                    el = document.createElement('div'); el.id = 'cur-' + id;
+                    el.style.cssText = "position:absolute; pointer-events:none; z-index:999999; transition:top 0.2s linear, left 0.2s linear; display:flex; align-items:flex-start;";
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div style="background:${d.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-sans);box-shadow:var(--shadow-sm);">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth / 2 + d.xOff) + 'px';
+                el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myRef); });
+    }
+
+    window.resetLesson = async () => {
+        if (!currentUser) return;
+        if (!confirm('Warning: This will wipe all global system data and canvas drawings. Proceed?')) return;
+        setStatus('Purging...', '#EF4444');
+        const base = (s) => doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', s);
+        await deleteDoc(base('text'));
+        const ts = Date.now(); window.lastClear = ts;
+        await setDoc(base('whiteboard'), { clearTs: ts, image: null });
+        
+        document.querySelectorAll('.blank-input').forEach(i => i.innerHTML = '');
+        
+        setTimeout(() => setStatus('Live Sync Active', '#10B981'), 1200);
+    };
+</script>
+</body>
+</html>
