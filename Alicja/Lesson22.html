@@ -3,908 +3,846 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lesson 22: Cardio-Neuro-Gyn</title>
+    <title>Lesson 21: B2-C1 | Travel as Transformation</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         :root {
-            /* Clinical Dashboard Theme */
-            --bg-body: #F0F4F8;
-            --bg-card: #FFFFFF;
-            --bg-sidebar: #0F172A;
+            /* Warm Communication & Travel Theme */
+            --void:       #1B2021;
+            --navy:       #3D405B;
+            --navy-light: #5A5E82;
+            --cream:      #F4F1DE;
+            --white:      #FFFFFF;
             
-            --primary: #0284C7; /* Clinical Blue */
-            --primary-light: #E0F2FE;
-            --primary-dark: #0369A1;
+            --rust:       #E07A5F;
+            --rust-dim:   #C86A50;
+            --rust-pale:  #F9DCC4;
             
-            --accent-neuro: #8B5CF6; /* Purple for Neuro */
-            --accent-cardio: #EF4444; /* Red for Cardio */
-            --accent-gyn: #EC4899; /* Pink for Gyn */
+            --green:      #81B29A;
+            --green-dim:  #6D9E87;
+            --green-pale: #D8E2DC;
             
-            --text-main: #334155;
-            --text-muted: #64748B;
-            --text-light: #F8FAFC;
+            --gold:       #F2CC8F;
+            --gold-dim:   #E0B87A;
+            --gold-pale:  #FDF3E3;
             
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
+            --text-dark:  #2B2D42;
+            --text-gray:  #6C757D;
+            --danger:     #D62828;
+            --success:    #3A7D44;
             
-            --border: #E2E8F0;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-sm:  0 2px 8px rgba(61, 64, 91, 0.08);
+            --shadow-md:  0 8px 24px rgba(61, 64, 91, 0.12);
+            --shadow-lg:  0 16px 40px rgba(27, 32, 33, 0.2);
             
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'Space Mono', monospace;
-            
-            --radius-md: 12px;
-            --radius-lg: 16px;
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-xl: 36px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: var(--font-sans);
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            display: flex;
-            min-height: 100vh;
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--cream);
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
         [contenteditable="true"] {
-            outline: none;
-            border-radius: 4px;
-            transition: all 0.2s ease;
+            outline: none; border-radius: 4px;
+            transition: background 0.2s, box-shadow 0.2s;
         }
-        [contenteditable="true"]:hover { background: var(--primary-light); }
-        [contenteditable="true"]:focus { background: var(--primary-light); box-shadow: 0 0 0 2px var(--primary); }
+        [contenteditable="true"]:hover { background: rgba(224, 122, 95, 0.08); }
+        [contenteditable="true"]:focus { background: rgba(224, 122, 95, 0.15); box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.4); }
 
-        /* --- SIDEBAR NAVIGATION --- */
-        .sidebar {
-            width: 280px;
-            background: var(--bg-sidebar);
-            color: var(--text-light);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            padding: 24px 0;
-            z-index: 100;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
-        }
-
-        .sidebar-header {
-            padding: 0 24px 24px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 24px;
-        }
-
-        .sidebar-header h1 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-light);
-            letter-spacing: 0.5px;
-        }
-
-        .sidebar-header p {
-            font-size: 0.8rem;
-            color: #94A3B8;
-            margin-top: 4px;
-            font-family: var(--font-mono);
-        }
-
-        .nav-list { list-style: none; }
-
-        .nav-list li a {
-            display: flex;
-            align-items: center;
-            padding: 10px 24px;
-            color: #CBD5E1;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-        }
-
-        .nav-list li a:hover, .nav-list li a.active {
-            background: rgba(255,255,255,0.05);
-            color: var(--white);
-            border-left-color: var(--primary);
-        }
-
-        .nav-list li a span {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            opacity: 0.5;
-            margin-right: 12px;
-        }
-
-        /* --- MAIN CONTENT --- */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 40px 60px;
-            max-width: 1200px;
-        }
-
-        .lesson-header {
-            margin-bottom: 40px;
-            padding-bottom: 24px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        .badge-group { display: flex; gap: 10px; margin-bottom: 16px; }
-        
-        .badge {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 50px;
-            text-transform: uppercase;
-        }
-        .badge-neuro { background: #EDE9FE; color: var(--accent-neuro); }
-        .badge-cardio { background: #FEE2E2; color: var(--accent-cardio); }
-        .badge-gyn { background: #FCE7F3; color: var(--accent-gyn); }
-
-        .lesson-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #0F172A;
-            line-height: 1.2;
-            margin-bottom: 12px;
-        }
-
-        .lesson-desc {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 800px;
-        }
-
-        /* --- TASK SECTIONS --- */
-        .task-section {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border);
-            scroll-margin-top: 40px;
-        }
-
-        .task-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .task-num {
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary);
-            background: var(--primary-light);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-        }
-
-        .task-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0F172A;
-        }
-
-        .task-instruction {
-            font-size: 1rem;
-            color: var(--text-muted);
-            margin-bottom: 32px;
-        }
-
-        /* --- UI COMPONENTS --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
-
-        .clinical-card {
-            padding: 24px;
-            border-radius: var(--radius-md);
-            background: var(--bg-body);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--primary);
-        }
-
-        .clinical-card h4 {
-            color: #0F172A;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-        }
-
-        /* Tables */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: var(--white);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-        
-        .data-table th {
-            background: #F8FAFC;
-            padding: 16px;
-            text-align: left;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .data-table td {
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.95rem;
-        }
-
-        .data-table tr:last-child td { border-bottom: none; }
-
-        /* Gap Fillers & Practice */
-        .gap-fill-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .gap-item {
-            background: var(--bg-body);
-            padding: 16px 24px;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .blank-input {
-            border: none;
-            border-bottom: 2px dashed #94A3B8;
-            background: transparent;
-            font-family: var(--font-mono);
-            font-size: 1rem;
-            color: var(--primary-dark);
-            font-weight: 700;
-            padding: 2px 8px;
-            text-align: center;
-            min-width: 100px;
-            transition: all 0.2s;
-        }
-
-        .blank-input:focus {
-            border-bottom-color: var(--primary);
-            background: var(--primary-light);
-        }
-
-        .spoiler {
-            background: #CBD5E1;
-            color: transparent;
-            padding: 2px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            user-select: none;
-        }
-        .spoiler.revealed {
-            background: #D1FAE5;
-            color: #065F46;
-            font-weight: 600;
-        }
-
-        /* Dialogue */
-        .dialogue-row {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        .speaker {
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            width: 100px;
-            flex-shrink: 0;
-            text-align: right;
-            padding-top: 4px;
-        }
-        .speaker.doc { color: var(--primary); }
-        .speaker.pt { color: var(--accent-gyn); }
-        .speech {
-            background: var(--bg-body);
-            padding: 16px 20px;
-            border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
-            flex: 1;
-            border: 1px solid var(--border);
-        }
-
-        /* Whiteboard */
-        .wb-wrapper {
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-        }
-        .wb-tools {
-            background: #F8FAFC;
-            padding: 12px;
-            display: flex;
-            gap: 8px;
-            border-bottom: 1px solid var(--border);
-            align-items: center;
-        }
-        .wb-btn {
-            background: var(--white);
-            border: 1px solid var(--border);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            color: var(--text-main);
-        }
-        .wb-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-        .color-picker {
-            width: 30px; height: 30px; border: none; padding: 0; border-radius: 4px; cursor: pointer;
-        }
-        #boardCanvas { width: 100%; height: 500px; background: var(--white); cursor: crosshair; }
-
-        /* Floating Actions */
-        .fab-container {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-        }
-        .fab {
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: var(--shadow-lg);
+        /* ══ HERO ══ */
+        .hero {
+            position: relative; min-height: 580px;
             display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s;
+            text-align: center; overflow: hidden;
+            background: linear-gradient(135deg, var(--void), var(--navy));
         }
-        .fab:hover { transform: scale(1.05); }
-        .fab-danger { background: var(--danger); }
 
-        /* Sync Status */
-        #syncStatus {
-            position: fixed;
-            top: 20px;
-            right: 30px;
-            background: var(--bg-sidebar);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 1000;
-            box-shadow: var(--shadow-md);
+        .hero-waves {
+            position: absolute; inset: 0; pointer-events: none; z-index: 1;
+            opacity: 0.4;
         }
-        .sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+        .hero-waves::before, .hero-waves::after {
+            content: ''; position: absolute; border-radius: 50%;
+            border: 2px solid rgba(242, 204, 143, 0.3);
+        }
+        .hero-waves::before {
+            width: 600px; height: 600px; top: -200px; left: -100px;
+            animation: ripple 12s infinite linear;
+        }
+        .hero-waves::after {
+            width: 800px; height: 800px; bottom: -300px; right: -200px;
+            border-color: rgba(224, 122, 95, 0.2);
+            animation: ripple 15s infinite linear reverse;
+        }
+        @keyframes ripple { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 0.2; } 100% { transform: scale(1); opacity: 0.5; } }
 
-        @media (max-width: 1024px) {
-            .sidebar { width: 200px; }
-            .main-content { margin-left: 200px; padding: 30px; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 80px 40px; }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(242, 204, 143, 0.15); border: 1px solid rgba(242, 204, 143, 0.4);
+            color: var(--gold); padding: 6px 20px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 800; font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
         }
-        @media (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; padding: 20px; }
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+        .hero h1 {
+            font-family: 'Lora', serif; font-size: clamp(2.8rem, 6vw, 5rem);
+            color: var(--white); line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 18px;
         }
+        .hero h1 em { color: var(--rust); font-style: italic; }
+
+        .hero-sub { font-size: 1.15rem; font-weight: 400; color: rgba(255,255,255,0.8); max-width: 650px; margin: 0 auto 36px; line-height: 1.6; }
+
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .hero-chip {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white); padding: 5px 16px; border-radius: 50px;
+            font-size: 0.8rem; font-weight: 600; font-family: 'Nunito', sans-serif;
+        }
+        .hero-chip.rust { border-color: rgba(224, 122, 95, 0.5); color: var(--rust); background: rgba(224, 122, 95, 0.1); }
+        .hero-chip.green { border-color: rgba(129, 178, 154, 0.5); color: var(--green); background: rgba(129, 178, 154, 0.1); }
+
+        .hero-ribbon {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+            background: var(--cream); clip-path: ellipse(60% 100% at 50% 100%);
+        }
+
+        /* ══ NAV ══ */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(244, 241, 222, 0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(61, 64, 91, 0.1); padding: 0 24px;
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .nav-logo { font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-gray); font-size: 0.85rem; font-weight: 700; padding: 6px 14px; border-radius: 50px; transition: all 0.2s; white-space: nowrap; }
+        .nav-links a:hover { color: var(--rust); background: rgba(224, 122, 95, 0.1); }
+        .nav-links .hw-tab { color: var(--white); background: var(--danger); font-weight: 800; border: 1px solid var(--danger); }
+
+        /* ══ SECTIONS ══ */
+        .section { padding: 80px 24px; position: relative; z-index: 2; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 920px; margin: 0 auto; }
+
+        .section-label {
+            display: inline-flex; align-items: center; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem; font-weight: 700; color: var(--rust);
+            background: rgba(224, 122, 95, 0.1); padding: 6px 14px; border-radius: 50px;
+            margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .section-title { font-family: 'Lora', serif; font-size: clamp(2rem, 4vw, 2.6rem); font-weight: 700; color: var(--navy); margin-bottom: 12px; line-height: 1.2; }
+        .section-title em { color: var(--rust); font-style: italic; }
+        .section-desc { color: var(--text-gray); font-size: 1.05rem; margin-bottom: 36px; max-width: 700px; font-weight: 500; }
+
+        /* ══ GRIDS & CARDS ══ */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-bottom: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 24px; }
+        
+        .card { background: var(--white); border: 1px solid rgba(61, 64, 91, 0.1); border-radius: var(--r-lg); padding: 32px; box-shadow: var(--shadow-sm); border-top: 6px solid var(--navy); }
+        .card h3 { font-family: 'Lora', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 16px; }
+        
+        /* ══ TRANSLATION TOOLTIPS ══ */
+        .trans-word { border-bottom: 2px dashed var(--gold); cursor: help; position: relative; display: inline-block; font-weight: 700; color: var(--navy); }
+        .trans-word .tooltip { visibility: hidden; width: max-content; max-width: 250px; background-color: var(--navy); color: #fff; text-align: center; border-radius: 6px; padding: 6px 12px; position: absolute; z-index: 10; bottom: 130%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.2s; font-size: 0.85rem; font-weight: 600; box-shadow: var(--shadow-md); font-family: 'Nunito', sans-serif; }
+        .trans-word .tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: var(--navy) transparent transparent transparent; }
+        .trans-word:hover .tooltip, .trans-word.clicked .tooltip { visibility: visible; opacity: 1; }
+
+        /* ══ GRAMMAR "EASY MODE" BOXES ══ */
+        .grammar-box { background: var(--gold-pale); border: 1px solid var(--gold-dim); padding: 32px; border-radius: var(--r-lg); margin-bottom: 24px; }
+        .grammar-rule { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 24px; background: var(--white); padding: 24px; border-radius: var(--r-md); box-shadow: var(--shadow-sm); border-left: 5px solid var(--gold); }
+        .rule-icon { font-size: 2rem; background: var(--cream); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
+        .rule-text h4 { font-family: 'Lora', serif; font-size: 1.2rem; color: var(--navy); margin-bottom: 8px; }
+        .rule-text p { font-size: 1rem; color: var(--text-dark); margin-bottom: 8px; line-height: 1.6; }
+        .rule-text .example { background: rgba(61, 64, 91, 0.05); padding: 10px 16px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--navy); }
+
+        /* ══ INTERACTIVE ERROR SPY ══ */
+        .spy-item { background: var(--white); border: 1px solid rgba(61, 64, 91, 0.1); border-radius: var(--r-md); padding: 20px 24px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 16px; box-shadow: var(--shadow-sm); transition: all 0.3s; }
+        .spy-item.solved { border-color: var(--success); background: rgba(58, 125, 68, 0.05); }
+        .spy-item.failed { border-color: var(--danger); background: rgba(214, 40, 40, 0.05); }
+        .spy-num { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--rust); }
+        .spy-text { font-size: 1.1rem; line-height: 1.6; flex: 1; }
+        .wrong-word { color: var(--danger); background: rgba(214, 40, 40, 0.1); padding: 2px 6px; border-radius: 4px; cursor: pointer; border-bottom: 2px dashed var(--danger); font-weight: 700; transition: all 0.2s; }
+        .wrong-word:hover { background: var(--danger); color: var(--white); }
+        .spy-input-wrap { display: none; margin-top: 16px; align-items: center; gap: 12px; }
+        .blank-input { border: none; border-bottom: 2px solid var(--navy); background: rgba(61, 64, 91, 0.05); padding: 6px 12px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700; color: var(--navy); outline: none; border-radius: 4px 4px 0 0; min-width: 150px; }
+        .blank-input:focus { background: rgba(224, 122, 95, 0.1); border-bottom-color: var(--rust); }
+        .btn-check { background: var(--navy); color: white; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 700; cursor: pointer; }
+
+        /* ══ HOMEWORK SPECIFIC STYLES ══ */
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 15px 20px; font-size: 1.1rem; font-family: var(--font-ui); border: 1px solid var(--border-light); border-radius: 6px; background: var(--white); color: var(--text-dark); transition: border-color 0.2s; margin-bottom: 20px; }
+        .hw-input:focus { outline: none; border-color: var(--rust); box-shadow: 0 0 0 2px rgba(224, 122, 95, 0.2); }
+        
+        .hw-btn-primary { background: var(--danger); color: white; border: none; padding: 16px 32px; font-size: 1rem; font-family: var(--font-ui); font-weight: 700; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+        .hw-btn-primary:hover { background: #b51c1c; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .hw-timer { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.1rem; color: var(--danger); background: #FDE8E8; padding: 8px 16px; border-radius: 6px; border: 1px solid #F5C2C7; display: flex; align-items: center; gap: 8px; }
+        .hw-progress { width: 100%; height: 8px; background: rgba(61,64,91,0.1); margin-bottom: 30px; border-radius: 4px; overflow: hidden; }
+        .hw-progress-fill { height: 100%; background: var(--green); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-qbox { background: var(--white); padding: 40px; border: 1px solid rgba(61,64,91,0.1); border-top: 4px solid var(--navy); border-radius: 8px; box-shadow: var(--shadow-md); text-align: left; margin-bottom: 30px; }
+        .hw-qtext { font-family: 'Lora', serif; font-size: 1.3rem; color: var(--navy); margin-bottom: 30px; line-height: 1.6; font-weight: 600; }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { background: var(--cream); border: 1px solid rgba(61,64,91,0.15); padding: 16px 24px; text-align: left; font-family: var(--font-ui); font-size: 1.05rem; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: all 0.2s; border-radius: 6px; }
+        .hw-opt-btn:hover { background: var(--rust-pale); border-color: var(--rust); transform: translateX(4px); }
+        
+        .hw-results-card { background: var(--white); padding: 40px; border: 1px solid rgba(61,64,91,0.1); border-radius: 8px; border-top: 4px solid var(--rust); box-shadow: var(--shadow-md); margin-top: 30px; margin-bottom: 40px; text-align: center; }
+        .hw-score { font-size: 3rem; font-family: 'Lora', serif; font-weight: 700; color: var(--navy); margin: 10px 0; }
+        .hw-review-grid { display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 30px; }
+        .hw-review-item { padding: 20px; border: 1px solid rgba(61,64,91,0.1); border-left: 4px solid rgba(61,64,91,0.1); background: var(--white); border-radius: 6px; }
+        .hw-review-item.correct { border-left-color: var(--success); background: #F2F8F4; }
+        .hw-review-item.incorrect { border-left-color: var(--danger); background: #FDF5F6; }
+        .hw-review-q { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 10px; font-weight: 600; }
+        .hw-review-ans { font-size: 0.95rem; margin-bottom: 4px; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div id="syncStatus">
-    <span class="sync-dot" id="syncDot"></span>
-    <span id="syncText">System Online</span>
-</div>
-
-<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
-
-<aside class="sidebar">
-    <div class="sidebar-header">
-        <h1 contenteditable="true">Clinical English</h1>
-        <p contenteditable="true">Module 22 • B2/C1</p>
+<!-- ══ HERO ══ -->
+<section class="hero">
+    <div class="hero-waves"></div>
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">🌍 B2–C1 Level · General English · Lesson 21</div>
+        <h1 contenteditable="true">Travel as Transformation<br><em>Journeys That Changed People</em></h1>
+        <p class="hero-sub" contenteditable="true">Explore the psychology of the global nomad, master complex text cohesion devices, and discuss whether modern travel is an immersive pilgrimage or just resort tourism.</p>
+        <div class="hero-chips">
+            <span class="hero-chip rust" contenteditable="true">Cohesion (Lexical Chains)</span>
+            <span class="hero-chip green" contenteditable="true">Medical Sabbaticals</span>
+            <span class="hero-chip" contenteditable="true">TED: Pico Iyer</span>
+            <span class="hero-chip rust" contenteditable="true">Hedging Revision</span>
+        </div>
     </div>
-    <ul class="nav-list" id="navTabsContainer">
-        <li><a href="#task1"><span>01</span> Warm-Up</a></li>
-        <li><a href="#task2"><span>02</span> Case Reading</a></li>
-        <li><a href="#task3"><span>03</span> Comprehension</a></li>
-        <li><a href="#task4"><span>04</span> Neuro Vocab</a></li>
-        <li><a href="#task5"><span>05</span> ECG Vocab</a></li>
-        <li><a href="#task6"><span>06</span> The FAST Test</a></li>
-        <li><a href="#task7"><span>07</span> Thrombolysis</a></li>
-        <li><a href="#task8"><span>08</span> Grammar Theory</a></li>
-        <li><a href="#task9"><span>09</span> Practice 1: Gaps</a></li>
-        <li><a href="#task10"><span>10</span> Practice 2: Fixes</a></li>
-        <li><a href="#task11"><span>11</span> Practice 3: Speak</a></li>
-        <li><a href="#task12"><span>12</span> Role-Play</a></li>
-        <li><a href="#task13"><span>13</span> Collocations</a></li>
-        <li><a href="#task14"><span>14</span> TIA vs Stroke</a></li>
-        <li><a href="#task15"><span>15</span> Diagramming</a></li>
-    </ul>
-</aside>
+    <div class="hero-ribbon"></div>
+</section>
 
-<main class="main-content">
-    
-    <header class="lesson-header">
-        <div class="badge-group">
-            <span class="badge badge-gyn" contenteditable="true">Gynecology / Obs</span>
-            <span class="badge badge-cardio" contenteditable="true">Cardiology</span>
-            <span class="badge badge-neuro" contenteditable="true">Neurology</span>
-        </div>
-        <h1 class="lesson-title" contenteditable="true">The Cardio-Neuro-Gyn Intersection</h1>
-        <p class="lesson-desc" contenteditable="true">Mastering the language of peri-operative emergencies and post-partum complications. We will combine ECG interpretation, stroke assessment, and a highly structured review of the Present Perfect vs. Past Simple.</p>
-    </header>
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">✈️ <span contenteditable="true">Global Nomad</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#task-1">1. Photo Prep</a></li>
+            <li><a href="#task-2">2. Lexicon</a></li>
+            <li><a href="#task-3">3. Travel Essay</a></li>
+            <li><a href="#task-4">4. Cohesion Hunt</a></li>
+            <li><a href="#task-5">5. Grammar (Easy)</a></li>
+            <li><a href="#task-6">6. Error Spy</a></li>
+            <li><a href="#task-7">7. Video Study</a></li>
+            <li><a href="#task-8">8. Comprehension</a></li>
+            <li><a href="#task-9">9. Hedging Rev</a></li>
+            <li><a href="#task-10">10. Discussion</a></li>
+            <li><a href="#task-11">11. Roleplay</a></li>
+            <li><a href="#task-12">12. Synthesis</a></li>
+            <li><a href="#task-hw" class="hw-tab">Homework Test</a></li>
+        </ul>
+    </div>
+</nav>
 
-    <!-- TASK 1 -->
-    <section id="task1" class="task-section">
-        <div class="task-header">
-            <div class="task-num">01</div>
-            <h2 class="task-title" contenteditable="true">Clinical Warm-Up: The Dangerous Bridge</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Discuss the following intersections between your specialty and acute systemic emergencies.</p>
-        
-        <div class="grid-3">
-            <div class="clinical-card" style="border-left-color: var(--accent-gyn);">
-                <h4 contenteditable="true">The Post-Partum Brain</h4>
-                <p contenteditable="true">How often do you encounter severe pre-eclampsia leading to neurological symptoms (visual disturbances, severe headaches, or seizures)?</p>
+<main>
+
+<!-- 1. WARM UP -->
+<section class="section" id="task-1">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">01 // Visual Provocation</span>
+        <h2 class="section-title" contenteditable="true">The <em>Photo</em> Discussion</h2>
+        <p class="section-desc" contenteditable="true">Bring one photo from a memorable trip you've taken. Show it to your teacher and discuss the reality behind the lens.</p>
+
+        <div class="card">
+            <div class="patient-quote" contenteditable="true" style="margin-bottom: 24px;">
+                "We travel, initially, to lose ourselves; and we travel, next, to find ourselves." – Pico Iyer
             </div>
-            <div class="clinical-card" style="border-left-color: var(--accent-cardio);">
-                <h4 contenteditable="true">The Pregnant Heart</h4>
-                <p contenteditable="true">Pregnancy causes immense cardiovascular strain. Have you ever had to manage a patient who developed sudden arrhythmias during labor or surgery?</p>
-            </div>
-            <div class="clinical-card" style="border-left-color: var(--accent-neuro);">
-                <h4 contenteditable="true">The Clotting Risk</h4>
-                <p contenteditable="true">Pregnancy is a hypercoagulable state. What is your protocol when you suspect a DVT or pulmonary embolism that could lead to a stroke?</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- TASK 2 -->
-    <section id="task2" class="task-section">
-        <div class="task-header">
-            <div class="task-num">02</div>
-            <h2 class="task-title" contenteditable="true">Reading: The Crashing Patient</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Read the following handover note. Pay attention to the highlighted terminology regarding neurology and the ECG.</p>
-        
-        <div style="background: var(--bg-body); padding: 30px; border-radius: 8px; font-family: 'Times New Roman', serif; font-size: 1.1rem; line-height: 1.8; border-left: 5px solid var(--text-main);">
-            <p contenteditable="true">
-                <strong>Patient:</strong> Marta K., 32yo, G1P1, 4 days post-partum (vaginal delivery).<br><br>
-                Marta presented to the ER complaining of a sudden, severe headache and palpitations. While in triage, the nurse noted sudden onset right-sided facial droop and expressive aphasia. We immediately initiated the <span style="background: #FEE2E2; padding: 2px 6px;">FAST test</span>, which was positive. A Code Stroke was called. 
-                <br><br>
-                Simultaneously, she complained of a "fluttering" in her chest. An immediate 12-lead showed an irregularly irregular <span style="background: #E0F2FE; padding: 2px 6px;">rhythm abnormality</span> with no distinct P waves, indicating new-onset Atrial Fibrillation. 
-                <br><br>
-                Given her hypercoagulable post-partum state, we suspect a cardioembolic event. The Neurology team is currently calculating her <span style="background: #FEE2E2; padding: 2px 6px;">NIH Stroke Scale</span> to determine if she is a candidate for emergency <span style="background: #E0F2FE; padding: 2px 6px;">thrombolysis</span>.
-            </p>
-        </div>
-    </section>
-
-    <!-- TASK 3 -->
-    <section id="task3" class="task-section">
-        <div class="task-header">
-            <div class="task-num">03</div>
-            <h2 class="task-title" contenteditable="true">Comprehension & Analysis</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Answer the following questions based on the case study.</p>
-
-        <div class="gap-fill-list">
-            <div class="gap-item">
-                <span style="font-weight: 700; color: var(--primary);">Q1:</span> 
-                <div contenteditable="true" style="flex:1;">What specific neurological symptoms did the nurse observe in triage?</div>
-            </div>
-            <div class="gap-item">
-                <span style="font-weight: 700; color: var(--primary);">Q2:</span> 
-                <div contenteditable="true" style="flex:1;">How did the doctors interpret the ECG findings? What was the "language of the heart" telling them?</div>
-            </div>
-            <div class="gap-item">
-                <span style="font-weight: 700; color: var(--primary);">Q3:</span> 
-                <div contenteditable="true" style="flex:1;">Why is the patient's "post-partum state" highly relevant to this specific neuro-cardiac event?</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TASK 4 -->
-    <section id="task4" class="task-section">
-        <div class="task-header">
-            <div class="task-num">04</div>
-            <h2 class="task-title" contenteditable="true">Neurology Vocabulary</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Match the neurological terms to their clinical definitions.</p>
-
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Term</th>
-                    <th>Definition</th>
-                    <th>Match (Letter)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td contenteditable="true">1. Expressive Aphasia</td><td contenteditable="true">A) A scale used to quantify the impairment caused by a stroke.</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">B</span></td></tr>
-                <tr><td contenteditable="true">2. TIA (Transient Ischemic Attack)</td><td contenteditable="true">B) Inability to produce language, despite understanding it.</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">D</span></td></tr>
-                <tr><td contenteditable="true">3. Thrombolysis</td><td contenteditable="true">C) Drooping or weakness on one side of the face.</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">E</span></td></tr>
-                <tr><td contenteditable="true">4. Facial Palsy</td><td contenteditable="true">D) A temporary blockage of blood flow to the brain ("mini-stroke").</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">C</span></td></tr>
-                <tr><td contenteditable="true">5. NIH Stroke Scale</td><td contenteditable="true">E) The breakdown of blood clots using medication ("clot-busting").</td><td><span class="blank-input"></span> <span class="spoiler" onclick="toggleSpoiler(this)">A</span></td></tr>
-            </tbody>
-        </table>
-    </section>
-
-    <!-- TASK 5 -->
-    <section id="task5" class="task-section">
-        <div class="task-header">
-            <div class="task-num">05</div>
-            <h2 class="task-title" contenteditable="true">ECG Vocabulary: Reading the Heart's Language</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Fill in the blanks with the correct cardiology terminology: <em>arrhythmia, leads, ischemia, sinus rhythm, palpitations</em>.</p>
-
-        <div class="gap-fill-list">
-            <div class="gap-item">1. The patient reported feeling a fluttering in her chest, known clinically as <span class="blank-input" contenteditable="true"></span>. <span class="spoiler" onclick="toggleSpoiler(this)">palpitations</span></div>
-            <div class="gap-item">2. A normal, healthy heartbeat is referred to as normal <span class="blank-input" contenteditable="true"></span>. <span class="spoiler" onclick="toggleSpoiler(this)">sinus rhythm</span></div>
-            <div class="gap-item">3. We attached the 12 <span class="blank-input" contenteditable="true"></span> to the patient's chest and limbs to get a full view of the heart. <span class="spoiler" onclick="toggleSpoiler(this)">leads</span></div>
-            <div class="gap-item">4. ST-segment depression on an ECG is a classic indicator of myocardial <span class="blank-input" contenteditable="true"></span>. <span class="spoiler" onclick="toggleSpoiler(this)">ischemia</span></div>
-            <div class="gap-item">5. Atrial Fibrillation is a dangerous <span class="blank-input" contenteditable="true"></span> that can cause blood clots to form in the heart. <span class="spoiler" onclick="toggleSpoiler(this)">arrhythmia</span></div>
-        </div>
-    </section>
-
-    <!-- TASK 6 -->
-    <section id="task6" class="task-section">
-        <div class="task-header">
-            <div class="task-num">06</div>
-            <h2 class="task-title" contenteditable="true">The F.A.S.T. Test</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Explain the acronym used globally to recognize stroke symptoms to a junior medical student.</p>
-
-        <div class="grid-2">
-            <div class="clinical-card" style="border-left-color: var(--warning);">
-                <h4 style="font-size: 1.5rem;" contenteditable="true">F. A. S. T.</h4>
-                <ul style="margin-left: 20px; line-height: 2;">
-                    <li><strong>F</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Face (Drooping)</span></li>
-                    <li><strong>A</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Arms (Weakness)</span></li>
-                    <li><strong>S</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Speech (Slurred/Aphasia)</span></li>
-                    <li><strong>T</strong> = <span class="blank-input" contenteditable="true"></span> <span class="spoiler" onclick="toggleSpoiler(this)">Time (to call emergency)</span></li>
-                </ul>
-            </div>
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-                <p contenteditable="true" style="font-size: 1.1rem; color: var(--text-main);"><strong>Discussion:</strong> In an obstetric setting, why might pre-eclampsia mimic or complicate the diagnosis of a stroke?</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- TASK 7 -->
-    <section id="task7" class="task-section">
-        <div class="task-header">
-            <div class="task-num">07</div>
-            <h2 class="task-title" contenteditable="true">Clinical Debate: Thrombolysis</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Discuss the risks vs. benefits of administering tPA (thrombolysis).</p>
-
-        <div class="clinical-card" style="background: #FEF2F2; border-left-color: var(--danger);">
-            <p contenteditable="true" style="font-size: 1.1rem;">
-                <strong>The Dilemma:</strong> A 38-week pregnant patient presents with acute ischemic stroke. She is within the 4.5-hour window for tPA. 
-                <br><br>
-                What are the absolute contraindications? How do you weigh the risk of maternal hemorrhage (especially placental abruption) against the risk of permanent maternal brain damage? Discuss your approach.
-            </p>
-        </div>
-    </section>
-
-    <!-- TASK 8 -->
-    <section id="task8" class="task-section">
-        <div class="task-header">
-            <div class="task-num">08</div>
-            <h2 class="task-title" contenteditable="true">Grammar Theory: Tenses Comparison</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">A structured review of Present Perfect vs. Past Simple in clinical contexts.</p>
-
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Tense</th>
-                    <th>Rule / Concept</th>
-                    <th>Clinical Example</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td contenteditable="true" style="font-weight: 700; color: var(--primary);">Past Simple</td>
-                    <td contenteditable="true">Actions that happened at a <strong>specific, finished time</strong> in the past. (The "when" is known or asked).</td>
-                    <td contenteditable="true">"The patient <strong>suffered</strong> a stroke <em>in 2022</em>."<br>"When <strong>did</strong> her symptoms <strong>start</strong>?"</td>
-                </tr>
-                <tr>
-                    <td contenteditable="true" style="font-weight: 700; color: var(--accent-gyn);">Present Perfect</td>
-                    <td contenteditable="true">Actions in the past with a <strong>result or relevance to the present</strong>. The specific time is unknown or unfinished (e.g., "today", "in her life").</td>
-                    <td contenteditable="true">"She <strong>has had</strong> three miscarriages." (Medical history).<br>"I <strong>have just ordered</strong> the ECG." (Recent action with present effect).</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div style="background: #F1F5F9; padding: 16px; border-radius: 8px; margin-top: 16px; font-size: 0.9rem;">
-            <strong>Pro Tip for Doctors:</strong> When taking a patient's history, we usually start with Present Perfect ("Have you ever had surgery?") and switch to Past Simple for details ("Yes, I had my appendix out last year. It went well.").
-        </div>
-    </section>
-
-    <!-- TASK 9 -->
-    <section id="task9" class="task-section">
-        <div class="task-header">
-            <div class="task-num">09</div>
-            <h2 class="task-title" contenteditable="true">Grammar Practice 1: Gap Fillers</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Choose either the Past Simple or Present Perfect to complete the medical notes.</p>
-
-        <div class="gap-fill-list">
-            <div class="gap-item">1. The patient <span class="blank-input" contenteditable="true"></span> (develop) pre-eclampsia during her first pregnancy five years ago. <span class="spoiler" onclick="toggleSpoiler(this)">developed</span></div>
-            <div class="gap-item">2. "Doctor, come quickly! The patient in Bed 4 <span class="blank-input" contenteditable="true"></span> (just / lose) consciousness!" <span class="spoiler" onclick="toggleSpoiler(this)">has just lost</span></div>
-            <div class="gap-item">3. I <span class="blank-input" contenteditable="true"></span> (never / see) such a strange rhythm abnormality on an ECG before today. <span class="spoiler" onclick="toggleSpoiler(this)">have never seen</span></div>
-            <div class="gap-item">4. We <span class="blank-input" contenteditable="true"></span> (administer) thrombolysis at exactly 14:30. <span class="spoiler" onclick="toggleSpoiler(this)">administered</span></div>
-            <div class="gap-item">5. <span class="blank-input" contenteditable="true"></span> (you / check) the NIH Stroke Scale yet? The neurologist is waiting for the score. <span class="spoiler" onclick="toggleSpoiler(this)">Have you checked</span></div>
-        </div>
-    </section>
-
-    <!-- TASK 10 -->
-    <section id="task10" class="task-section">
-        <div class="task-header">
-            <div class="task-num">10</div>
-            <h2 class="task-title" contenteditable="true">Grammar Practice 2: Handover Correction</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">A junior doctor wrote this handover note, but made 4 tense mistakes. Find and correct them.</p>
-
-        <div class="clinical-card" style="font-family: var(--font-mono); font-size: 0.95rem;">
-            <p contenteditable="true">
-                "Mrs. Nowak is a 45yo patient. She has presented to the ER at 8:00 AM with facial drooping. I have done a FAST test immediately, and it was positive. Since she arrived, her blood pressure dropped significantly. We didn't send her to the CT scanner yet."
-            </p>
-        </div>
-        
-        <div style="margin-top: 20px;">
-            <strong>Corrections:</strong>
-            <ul style="margin-left: 20px; margin-top: 10px;">
-                <li><span class="spoiler" onclick="toggleSpoiler(this)">has presented -> presented (specific time 8:00 AM)</span></li>
-                <li><span class="spoiler" onclick="toggleSpoiler(this)">have done -> did (immediately past action)</span></li>
-                <li><span class="spoiler" onclick="toggleSpoiler(this)">dropped -> has dropped (Since she arrived...)</span></li>
-                <li><span class="spoiler" onclick="toggleSpoiler(this)">didn't send -> haven't sent (yet)</span></li>
+            <p style="color:var(--text-gray);font-weight:600;margin-bottom:16px;" contenteditable="true">When you look at your photo, consider these questions:</p>
+            <ul style="margin-left: 20px; font-size: 1.1rem; line-height: 1.8;">
+                <li contenteditable="true">What <span class="trans-word" onclick="toggleTrans(this)">discomfort<span class="tooltip">dyskomfort / niewygoda</span></span> was happening behind the scenes that the photo hides?</li>
+                <li contenteditable="true">Was this a true <span class="trans-word" onclick="toggleTrans(this)">immersion<span class="tooltip">zanurzenie (w kulturze)</span></span> into the local culture, or just comfortable tourism?</li>
+                <li contenteditable="true">As a doctor, do you travel to escape the immense pressure of the hospital, or to seek new experiences?</li>
             </ul>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- TASK 11 -->
-    <section id="task11" class="task-section">
-        <div class="task-header">
-            <div class="task-num">11</div>
-            <h2 class="task-title" contenteditable="true">Grammar Practice 3: Speaking</h2>
+<!-- 2. VOCABULARY -->
+<section class="section" id="task-2">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">02 // Lexical Focus</span>
+        <h2 class="section-title" contenteditable="true">The Language of the <em>Nomad</em></h2>
+        <p class="section-desc" contenteditable="true">Hover over the cards to unlock the C1 vocabulary essential for discussing profound travel experiences.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vic-hint">🎒</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Itinerant</div></div>
+                <div class="vic-def">Traveling from place to place. <em>"She left the Polish hospital for an itinerant lifestyle, volunteering in clinics across Asia."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🗺️</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Pilgrimage</div></div>
+                <div class="vic-def">A journey to a place of particular significance. <em>"The trek to Machu Picchu was a personal pilgrimage."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🏘️</div>
+                <div class="vic-front"><div class="vic-pos">adj.</div><div class="vic-word">Provincial</div></div>
+                <div class="vic-def">Narrow-minded or unsophisticated; typical of rural areas. <em>"They found the villagers' views on medicine quite provincial."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🛏️</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Sojourn</div></div>
+                <div class="vic-def">A temporary stay. <em>"Her brief medical sojourn in Kenya completely changed her clinical perspective."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">🌀</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Dislocation</div></div>
+                <div class="vic-def">Disturbance from a proper, original place; feeling psychologically out of place. <em>"Returning to a luxury resort after working in a refugee camp caused a deep sense of dislocation."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-hint">✨</div>
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Wanderlust</div></div>
+                <div class="vic-def">A strong desire to travel. <em>"Consumed by wanderlust, the surgeon took a one-year sabbatical."</em></div>
+            </div>
         </div>
-        <p class="task-instruction" contenteditable="true">Use the Present Perfect to state a clinical finding, and the Past Simple to provide the detail.</p>
+    </div>
+</section>
+
+<!-- 3. READING -->
+<section class="section" id="task-3">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">03 // Editorial Reading</span>
+        <h2 class="section-title" contenteditable="true">The Sabbatical <em>Fantasy</em></h2>
+        <p class="section-desc" contenteditable="true">Read the travel essay below. Notice how the highlighted words create links across sentences and paragraphs.</p>
+
+        <div class="card" style="border-top-color: var(--rust);">
+            <div style="font-family: 'Lora', serif; font-size: 1.15rem; line-height: 2;">
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    <span style="float:left; font-size:4rem; line-height:0.8; padding-right:12px; color:var(--rust); font-weight:700;">T</span>he modern "medical sabbatical" is often marketed as a profound <span class="trans-word" onclick="toggleTrans(this)"><strong>pilgrimage</strong><span class="tooltip">pielgrzymka</span></span> of self-discovery. Burned-out doctors pack their bags, fueled by intense <strong>wanderlust</strong>, expecting a transformative <strong>sojourn</strong> across continents. However, the reality of this <span style="background:var(--gold-pale);padding:2px 4px;border-radius:4px;">itinerant</span> lifestyle is frequently less glamorous than the filtered Instagram images suggest.
+                </p>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    <span style="background:var(--green-pale);padding:2px 4px;border-radius:4px;font-weight:bold;">This disparity</span> between expectation and reality stems from a misunderstanding of travel. True cultural <strong>immersion</strong> requires facing significant <strong>discomfort</strong>—navigating foreign bureaucracies, sleeping on uncomfortable buses, and dealing with <strong>provincial</strong> healthcare systems. Resort tourism protects you from these challenges; authentic travel guarantees <span style="background:var(--gold-pale);padding:2px 4px;border-radius:4px;">them</span>.
+                </p>
+                <p contenteditable="true">
+                    Furthermore, the hardest part of the <span style="background:rgba(231, 111, 81, 0.15);padding:2px 4px;border-radius:4px;font-weight:bold;">voyage</span> is often the return. Many professionals report feeling a profound sense of psychological <strong>dislocation</strong> when they arrive back at their sterile European hospitals. <span style="background:var(--green-pale);padding:2px 4px;border-radius:4px;font-weight:bold;">Such re-entry shock</span> can be harder to navigate than any foreign city <span style="background:var(--gold-pale);padding:2px 4px;border-radius:4px;">one</span> has visited.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. COHESION HUNT -->
+<section class="section" id="task-4">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">04 // Analysis</span>
+        <h2 class="section-title" contenteditable="true">Cohesion Hunt 🔍</h2>
+        <p class="section-desc" contenteditable="true">With your teacher, identify what the highlighted words from the text are doing to glue the paragraphs together.</p>
+
+        <div class="grid-3">
+            <div class="card" style="padding: 20px;">
+                <h4 style="color: var(--navy); margin-bottom: 10px;">"This disparity"</h4>
+                <p style="font-size: 0.95rem;">What exact words in the previous paragraph does "This disparity" refer to?</p>
+            </div>
+            <div class="card" style="padding: 20px;">
+                <h4 style="color: var(--navy); margin-bottom: 10px;">"them"</h4>
+                <p style="font-size: 0.95rem;">"...authentic travel guarantees <strong>them</strong>." What does 'them' replace?</p>
+            </div>
+            <div class="card" style="padding: 20px;">
+                <h4 style="color: var(--navy); margin-bottom: 10px;">"voyage"</h4>
+                <p style="font-size: 0.95rem;">Why did the author use 'voyage' in paragraph 3 instead of 'journey' or 'trip'?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. GRAMMAR EASY MODE -->
+<section class="section" id="task-5">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">05 // Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">Cohesion: <em>Easy Mode</em> 🧩</h2>
+        <p class="section-desc" contenteditable="true">To write and speak at a C1 level, your sentences must link together logically. Here are the three simple rules to avoid sounding like a robot.</p>
+
+        <div class="grammar-box">
+            
+            <div class="grammar-rule">
+                <div class="rule-icon">👈</div>
+                <div class="rule-text">
+                    <h4 contenteditable="true">Rule 1: The "Pointer" Words (Pronoun Reference)</h4>
+                    <p contenteditable="true">Instead of repeating a whole idea, point back to it using <strong>This / These / Such + Summary Word</strong>.</p>
+                    <div class="example" contenteditable="true">"Patients often wait for hours in the ER. <strong>This delay</strong> causes anger."</div>
+                </div>
+            </div>
+
+            <div class="grammar-rule">
+                <div class="rule-icon">🔄</div>
+                <div class="rule-text">
+                    <h4 contenteditable="true">Rule 2: The "Replacers" (Substitution)</h4>
+                    <p contenteditable="true">Don't repeat nouns or verbs. Replace them with <strong>One / Ones / Do so</strong>.</p>
+                    <div class="example" contenteditable="true">"I prefer tropical climates to cold <strong>ones</strong>. If I can travel south, I will <strong>do so</strong>."</div>
+                </div>
+            </div>
+
+            <div class="grammar-rule">
+                <div class="rule-icon">🔗</div>
+                <div class="rule-text">
+                    <h4 contenteditable="true">Rule 3: The "Vocabulary Chain" (Lexical Chains)</h4>
+                    <p contenteditable="true">Don't use the same word in every sentence. Move from a specific word to a <strong>synonym</strong> or <strong>category</strong>.</p>
+                    <div class="example" contenteditable="true">"The <strong>surgeon</strong> arrived. The <strong>specialist</strong> looked tired. The <strong>doctor</strong> sighed."</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 6. ERROR SPY -->
+<section class="section" id="task-6">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">06 // Interactive Practice</span>
+        <h2 class="section-title" contenteditable="true">🕵️ Error Spy — <em>Cohesion Fixer</em></h2>
+        <p class="section-desc" contenteditable="true">These sentences sound unnatural because they lack proper cohesion. Click the red, repetitive word and type the appropriate cohesive device (e.g., <em>this problem, one, ones, do so</em>).</p>
+
+        <div id="spyGameL21">
+            <div class="spy-item" id="spy21-1">
+                <div class="spy-num">01</div>
+                <div class="spy-text">
+                    Many young doctors suffer from severe burnout after residency. <span class="wrong-word" onclick="revealSpy(1)">Burnout</span> causes them to seek sabbaticals abroad.
+                    <div class="spy-input-wrap" id="wrap21-1">
+                        <input class="blank-input" id="input21-1" placeholder="Type correction..." onkeydown="if(event.key==='Enter')checkSpy(1, 'This condition')">
+                        <button class="btn-check" onclick="checkSpy(1, ['this condition', 'this exhaustion', 'this'])">Fix</button>
+                        <span id="fb21-1" style="font-weight:700;font-size:0.9rem;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spy-item" id="spy21-2">
+                <div class="spy-num">02</div>
+                <div class="spy-text">
+                    If you wish to volunteer at a rural clinic in Africa, you should <span class="wrong-word" onclick="revealSpy(2)">volunteer at a rural clinic in Africa</span> before you turn 30.
+                    <div class="spy-input-wrap" id="wrap21-2">
+                        <input class="blank-input" id="input21-2" placeholder="Type correction..." onkeydown="if(event.key==='Enter')checkSpy(2, 'do so')">
+                        <button class="btn-check" onclick="checkSpy(2, ['do so', 'do it'])">Fix</button>
+                        <span id="fb21-2" style="font-weight:700;font-size:0.9rem;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spy-item" id="spy21-3">
+                <div class="spy-num">03</div>
+                <div class="spy-text">
+                    I don't like massive, all-inclusive luxury resorts. I much prefer small, authentic <span class="wrong-word" onclick="revealSpy(3)">resorts</span>.
+                    <div class="spy-input-wrap" id="wrap21-3">
+                        <input class="blank-input" id="input21-3" placeholder="Type correction..." onkeydown="if(event.key==='Enter')checkSpy(3, 'ones')">
+                        <button class="btn-check" onclick="checkSpy(3, ['ones'])">Fix</button>
+                        <span id="fb21-3" style="font-weight:700;font-size:0.9rem;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="spy-item" id="spy21-4">
+                <div class="spy-num">04</div>
+                <div class="spy-text">
+                    The expedition into the Amazon rainforest was grueling. The <span class="wrong-word" onclick="revealSpy(4)">expedition into the Amazon rainforest</span> tested our physical limits.
+                    <div class="spy-input-wrap" id="wrap21-4">
+                        <input class="blank-input" id="input21-4" placeholder="Type correction..." onkeydown="if(event.key==='Enter')checkSpy(4, 'trek')">
+                        <button class="btn-check" onclick="checkSpy(4, ['journey', 'trek', 'voyage', 'trip', 'experience'])">Fix</button>
+                        <span id="fb21-4" style="font-weight:700;font-size:0.9rem;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            let solved21 = {};
+            function revealSpy(n) { document.getElementById('wrap21-'+n).style.display = 'flex'; document.getElementById('input21-'+n).focus(); }
+            function checkSpy(n, validAnswers) {
+                if(solved21[n]) return;
+                const inp = document.getElementById('input21-'+n).value.trim().toLowerCase();
+                const item = document.getElementById('spy21-'+n);
+                const fb = document.getElementById('fb21-'+n);
+                
+                let isCorrect = false;
+                if (Array.isArray(validAnswers)) {
+                    isCorrect = validAnswers.some(ans => inp === ans.toLowerCase());
+                } else {
+                    isCorrect = inp === validAnswers.toLowerCase();
+                }
+
+                if (isCorrect) {
+                    fb.textContent = '✓ Perfect Cohesion'; fb.style.color = 'var(--success)';
+                    item.classList.add('solved'); item.classList.remove('failed');
+                    solved21[n] = true;
+                } else {
+                    fb.textContent = '✗ Try again'; fb.style.color = 'var(--danger)';
+                    item.classList.add('failed');
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- 7. VIDEO STUDY -->
+<section class="section" id="task-7">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">07 // Media Analysis</span>
+        <h2 class="section-title" contenteditable="true">Where is <em>Home?</em> 🎬</h2>
+        <p class="section-desc" contenteditable="true">Watch this excerpt from Pico Iyer's TED Talk on a life of travel. Consider his philosophical definition of "home" for a modern itinerant.</p>
+
+        <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:var(--r-md); box-shadow:var(--shadow-md); margin-bottom:24px; background:var(--void);">
+            <iframe src="https://www.youtube.com/embed/3bFlYrNtsTw?rel=0&modestbranding=1" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- 8. COMPREHENSION -->
+<section class="section" id="task-8">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">08 // Comprehension</span>
+        <h2 class="section-title" contenteditable="true">The Global Nomad 🌍</h2>
+        <p class="section-desc" contenteditable="true">Discuss these concepts based on the video.</p>
 
         <div class="grid-2">
-            <div class="clinical-card">
-                <h4 contenteditable="true">Prompt 1: Patient History</h4>
-                <p contenteditable="true">Tell your senior that the patient <strong>has experienced</strong> a TIA before. Add detail about <strong>when</strong> it happened and what symptoms she <strong>had</strong>.</p>
+            <div class="card" style="border-top-color: var(--navy-light);">
+                <h4 style="color: var(--navy); margin-bottom: 10px;">I. Defining Home</h4>
+                <p style="font-size: 0.95rem;">According to Iyer, how has the definition of "home" changed for people who live itinerant lifestyles? Is it still a physical building?</p>
             </div>
-            <div class="clinical-card">
-                <h4 contenteditable="true">Prompt 2: ECG Review</h4>
-                <p contenteditable="true">Tell the cardiologist you <strong>have noticed</strong> an abnormality. Explain exactly what you <strong>saw</strong> when you <strong>printed</strong> the rhythm strip ten minutes ago.</p>
+            <div class="card" style="border-top-color: var(--gold);">
+                <h4 style="color: var(--navy); margin-bottom: 10px;">II. The Illusion of Movement</h4>
+                <p style="font-size: 0.95rem;">Iyer suggests that sometimes going nowhere is the greatest journey. What does he mean by this paradox?</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- TASK 12 -->
-    <section id="task12" class="task-section">
-        <div class="task-header">
-            <div class="task-num">12</div>
-            <h2 class="task-title" contenteditable="true">Role-Play: Senior Consultation</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">You are the junior doctor on the ward. You must describe rhythm abnormalities to a senior colleague.</p>
+<!-- 9. HEDGING REVISION -->
+<section class="section" id="task-9">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">09 // Grammar Revision</span>
+        <h2 class="section-title" contenteditable="true">Hedging in Argumentation 🛡️</h2>
+        <p class="section-desc" contenteditable="true">Before our debate, remember to soften your statements to sound objective and academic, just like we practiced in previous lessons.</p>
 
-        <div class="dialogue-row">
-            <div class="speaker doc" contenteditable="true">Senior (Teacher)</div>
-            <div class="speech" contenteditable="true">"Alicja, you paged me. What's going on with the patient in bed 6? She just had her C-section this morning."</div>
+        <div class="grammar-box" style="background: var(--white); border-color: var(--border-light);">
+            <ul style="font-size: 1.05rem; line-height: 1.8; list-style: none;">
+                <li>✔️ <strong>Instead of:</strong> "Travel is a privilege."</li>
+                <li>➔ <strong>Use:</strong> "It could be argued that travel is inherently a privilege."</li>
+                <br>
+                <li>✔️ <strong>Instead of:</strong> "Resorts are bad for the local culture."</li>
+                <li>➔ <strong>Use:</strong> "Evidence suggests that resort tourism tends to negatively impact local culture."</li>
+            </ul>
         </div>
-        <div class="dialogue-row">
-            <div class="speaker pt" contenteditable="true">You</div>
-            <div class="speech" contenteditable="true"><em>(Use Present Perfect: State that her heart rate has spiked. Use Past Simple: Explain that you ordered an ECG five minutes ago).</em></div>
-        </div>
-        <div class="dialogue-row">
-            <div class="speaker doc" contenteditable="true">Senior (Teacher)</div>
-            <div class="speech" contenteditable="true">"Okay, let me look at the strip. What are you seeing here?"</div>
-        </div>
-        <div class="dialogue-row">
-            <div class="speaker pt" contenteditable="true">You</div>
-            <div class="speech" contenteditable="true"><em>(Use ECG Vocabulary: Mention absent P waves, irregular rhythm. Suggest she might be in Atrial Fibrillation).</em></div>
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- TASK 13 -->
-    <section id="task13" class="task-section">
-        <div class="task-header">
-            <div class="task-num">13</div>
-            <h2 class="task-title" contenteditable="true">Advanced Collocations</h2>
+<!-- 10. DISCUSSION -->
+<section class="section" id="task-10">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">10 // Deep Discourse</span>
+        <h2 class="section-title" contenteditable="true">Privilege or <em>Right?</em></h2>
+        <p class="section-desc" contenteditable="true">Discuss these statements with your teacher, utilizing your new vocabulary, cohesion, and hedging techniques.</p>
+
+        <div class="card" style="margin-bottom: 16px; border-left: 5px solid var(--rust); border-top: 1px solid var(--border-light);">
+            <h4 style="font-size: 1.1rem; color: var(--navy); margin-bottom: 8px;">Statement A</h4>
+            <p style="font-style: italic;">"Travel is inherently a privilege of the wealthy, masked as a spiritual journey for the enlightened."</p>
+            <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 8px;">Do you agree? How does the concept of a "gap year" differ between Eastern Europe and Western Europe/USA?</p>
         </div>
-        <p class="task-instruction" contenteditable="true">Match the verb to the correct clinical noun phrase.</p>
 
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Verb</th>
-                    <th>Noun Phrase</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td contenteditable="true">1. Administer</td><td contenteditable="true">A) ...an ECG to check for arrhythmias.</td></tr>
-                <tr><td contenteditable="true">2. Interpret</td><td contenteditable="true">B) ...thrombolysis within the 4.5 hour window.</td></tr>
-                <tr><td contenteditable="true">3. Perform</td><td contenteditable="true">C) ...the NIH Stroke scale to assess severity.</td></tr>
-                <tr><td contenteditable="true">4. Calculate</td><td contenteditable="true">D) ...the rhythm abnormalities on the strip.</td></tr>
-            </tbody>
-        </table>
-        <p style="margin-top: 10px; font-size: 0.9rem;"><strong>Answers:</strong> <span class="spoiler" onclick="toggleSpoiler(this)">1-B, 2-D, 3-A, 4-C</span></p>
-    </section>
-
-    <!-- TASK 14 -->
-    <section id="task14" class="task-section">
-        <div class="task-header">
-            <div class="task-num">14</div>
-            <h2 class="task-title" contenteditable="true">Clinical Decision Making</h2>
+        <div class="card" style="margin-bottom: 16px; border-left: 5px solid var(--navy); border-top: 1px solid var(--border-light);">
+            <h4 style="font-size: 1.1rem; color: var(--navy); margin-bottom: 8px;">Statement B</h4>
+            <p style="font-style: italic;">"We travel not to move around, but to be moved."</p>
+            <p style="font-size: 0.9rem; color: var(--text-gray); margin-top: 8px;">Can true 'immersion' happen in a 7-day holiday, or does it require a longer 'sojourn'?</p>
         </div>
-        <p class="task-instruction" contenteditable="true">Recognizing TIA vs. Stroke in the ER.</p>
+    </div>
+</section>
 
-        <div class="clinical-card" style="border-left-color: var(--accent-neuro);">
-            <p contenteditable="true">
-                <strong>Scenario:</strong> A pregnant patient experienced facial drooping and slurred speech at home. By the time she reaches your emergency department 45 minutes later, the symptoms have completely resolved. 
-                <br><br>
-                <strong>Discuss:</strong> Is this a TIA or a Stroke? What is the immediate risk to this patient over the next 48 hours? What diagnostic imaging is safe to perform immediately?
+<!-- 11. ROLEPLAY -->
+<section class="section" id="task-11">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">11 // Clinical Simulation</span>
+        <h2 class="section-title" contenteditable="true">The Colleague's <em>Misunderstanding</em></h2>
+        <p class="section-desc" contenteditable="true">Use your persuasive skills and new vocabulary to navigate a difficult conversation with a colleague.</p>
+
+        <div style="background:var(--white);border-radius:var(--r-xl);padding:40px;box-shadow:var(--shadow-md);display:flex;flex-direction:column;gap:16px;">
+            <p style="font-family:'Lora',serif;font-size:1.1rem;margin-bottom:20px;line-height:1.6;" contenteditable="true">
+                <strong>Context:</strong> You have just returned from a difficult, exhausting medical volunteering trip in a developing country. You suffered a lot of <em>discomfort</em>. You return to your clinic in Poland, still feeling a sense of <em>dislocation</em>. <br><br>
+                Your colleague (the teacher), who has never left Europe and prefers luxury resort tourism, says to you in the breakroom: <em>"Wow, you look terrible for someone who just had a 4-week holiday. I told you going there was a bad idea. Why didn't you just go to an all-inclusive in Spain like normal people?"</em>
             </p>
-        </div>
-    </section>
-
-    <!-- TASK 15 -->
-    <section id="task15" class="task-section" style="margin-bottom: 0;">
-        <div class="task-header">
-            <div class="task-num">15</div>
-            <h2 class="task-title" contenteditable="true">Teacher's Whiteboard</h2>
-        </div>
-        <p class="task-instruction" contenteditable="true">Use this space to draw ECG waveforms, map the cerebral arteries, or review grammar timelines.</p>
-
-        <div class="wb-wrapper">
-            <div class="wb-tools">
-                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
-                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
-                <button class="wb-btn" data-tool="eraser" contenteditable="true">Eraser</button>
-                <div style="width: 1px; height: 20px; background: var(--border); margin: 0 8px;"></div>
-                <input type="color" id="wbColor" class="color-picker" value="#0284C7">
-                <button class="wb-btn" id="wbClear" style="margin-left: auto; color: var(--danger); border-color: var(--danger);" contenteditable="true">Clear Board</button>
+            
+            <div style="background:rgba(231, 111, 81, 0.1);padding:24px;border-radius:var(--r-md);border-left:5px solid var(--rust);">
+                <strong style="color:var(--rust);display:block;margin-bottom:8px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;">Your Task:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Explain the difference between a <strong>sojourn/pilgrimage</strong> and "resort tourism".</li>
+                    <li>Defend the value of cultural <strong>immersion</strong> and <strong>discomfort</strong>.</li>
+                    <li>Use <strong>hedging</strong> so you don't sound arrogant (e.g., <em>"One could argue that..."</em>).</li>
+                </ul>
             </div>
-            <canvas id="boardCanvas"></canvas>
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- 12. WRITING -->
+<section class="section" id="task-12">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">12 // Writing & Review</span>
+        <h2 class="section-title" contenteditable="true">The Transformative <em>Journey</em></h2>
+        <p class="section-desc" contenteditable="true">Take 5-7 minutes to draft a short paragraph describing a journey that changed you. You <strong>must</strong> use at least two cohesive devices (lexical chains, substitution, or pronoun reference) to link your sentences.</p>
+
+        <div style="background: var(--white); padding: 32px; border-radius: var(--r-md); border: 2px solid var(--border-light); box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+            <div contenteditable="true" style="min-height: 150px; font-family: 'Lora', serif; font-size: 1.1rem; color: var(--charcoal); outline: none;">
+                [Type your paragraph here...]
+            </div>
+        </div>
+        
+        <div style="padding: 16px; background: rgba(129, 178, 154, 0.1); border-left: 4px solid var(--green); margin-top: 20px; border-radius: 4px;">
+            <strong>📝 Peer Edit:</strong> Read your paragraph aloud to your teacher. Work together to identify the cohesive links. Can you make the lexical chain stronger?
+        </div>
+    </div>
+</section>
+
+<!-- 13. WHITEBOARD -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">13 // Diagram Area</span>
+        <h2 class="section-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        <p class="section-desc" contenteditable="true">A collaborative digital environment for mapping lexical chains or drafting cohesion exercises.</p>
+
+        <div style="border:1px solid rgba(61, 64, 91, 0.2);border-radius:var(--r-lg);background:var(--white);overflow:hidden;margin-top:24px;box-shadow:var(--shadow-lg);">
+            <div style="background:var(--navy);padding:12px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent;border:1px solid var(--rust);color:var(--rust);padding:6px 12px;border-radius:4px;cursor:pointer;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent;border:1px solid var(--text-gray);color:var(--cream);padding:6px 12px;border-radius:4px;cursor:pointer;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent;border:1px solid var(--text-gray);color:var(--cream);padding:6px 12px;border-radius:4px;cursor:pointer;">Text</button>
+                <div style="width:1px;height:24px;background:var(--text-gray);margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#E76F51" style="width:32px;height:32px;border:none;cursor:pointer;background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--rust);color:var(--white);border:none;padding:6px 12px;border-radius:4px;cursor:pointer;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block;width:100%;height:500px;cursor:crosshair;"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- 14. SUM UP -->
+<section class="section" id="task-14">
+    <div class="section-inner">
+        <div style="background:linear-gradient(135deg, var(--navy), var(--void));color:var(--white);border-radius:var(--r-xl);padding:48px;text-align:center;box-shadow:var(--shadow-md);">
+            <h2 style="font-family:'Lora',serif;color:var(--gold);font-size:2.2rem;margin-bottom:16px;" contenteditable="true">Lesson 21 Complete ✈️</h2>
+            <p style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:24px;" contenteditable="true">// Transformation achieved</p>
+            <ul style="list-style:none;text-align:left;max-width:650px;margin:0 auto;line-height:2;font-size:1.05rem;">
+                <li contenteditable="true"><strong style="color:var(--gold);">✓ Lexis:</strong> Itinerant, pilgrimage, provincial, sojourn, discomfort, immersion, wanderlust, dislocation.</li>
+                <li contenteditable="true"><strong style="color:var(--rust-pale);">✓ Philosophy:</strong> Deconstructed the romanticized "gap year" and medical sabbaticals.</li>
+                <li contenteditable="true"><strong style="color:var(--green-pale);">✓ Grammar Core:</strong> Mastered text cohesion (Pronoun reference, substitution, lexical chains).</li>
+                <li contenteditable="true"><strong style="color:var(--white);">✓ Assessment:</strong> Click the massive red button below to enter the Homework Portal!</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 15. MASSIVE HOMEWORK CTA -->
+<section class="section" id="task-15" style="padding-top: 0;">
+    <div class="section-inner" style="text-align: center;">
+        <button onclick="document.getElementById('navTabsContainer').querySelector('.hw-tab').click();" style="background: var(--danger); color: white; padding: 24px 48px; font-size: 1.5rem; font-family: 'Nunito', sans-serif; font-weight: 800; border: none; border-radius: 50px; box-shadow: 0 10px 25px rgba(214, 40, 40, 0.4); cursor: pointer; transition: transform 0.2s; text-transform: uppercase; letter-spacing: 2px;">
+            📝 Enter Homework Assessment Portal
+        </button>
+    </div>
+</section>
 
 </main>
 
-<!-- FLOATING ACTIONS -->
-<div class="fab-container" id="floatingActions">
-    <button class="fab" onclick="window.scrollTo({top: document.getElementById('task15').offsetTop, behavior: 'smooth'})" title="Whiteboard">🖍️</button>
-    <button class="fab" style="background: #8B5CF6;" onclick="document.getElementById('quizletModal').style.display='flex'" title="Export Quizlet">📝</button>
-    <button class="fab" style="background: var(--success);" onclick="saveAsPDF()" title="Save PDF">💾</button>
-    <button class="fab fab-danger" onclick="resetLesson()" title="Reset Lesson">🔄</button>
-</div>
-
-<!-- QUIZLET MODAL -->
-<div id="quizletModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.8); z-index:2000; justify-content:center; align-items:center;">
-    <div style="background:white; padding:40px; border-radius:16px; width:90%; max-width:600px; position:relative;">
-        <span onclick="this.parentElement.parentElement.style.display='none'" style="position:absolute; top:20px; right:20px; font-size:1.5rem; cursor:pointer; color:#64748B;">&times;</span>
-        <h2 style="color:var(--primary); margin-bottom:10px;">Vocab Exporter</h2>
-        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Add terms, then copy directly to Quizlet.</p>
-        
-        <div id="wordList" style="max-height:300px; overflow-y:auto; margin-bottom:20px; padding-right:10px;">
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <input type="text" placeholder="Term (e.g. Ischemia)" class="q-word" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;">
-                <input type="text" placeholder="Definition" class="q-trans" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;">
+<!-- ══════════ TASK HW — HOMEWORK TEST (HIDDEN BY DEFAULT) ══════════ -->
+<div id="task-hw" class="hw-exclusive" style="display: none; background: var(--bg-page); min-height: 100vh; padding-top: 40px; padding-bottom: 80px;">
+    
+    <section id="hw-welcome" class="hw-screen active">
+        <div class="hw-container">
+            <span class="section-label">Homework Portal</span>
+            <h2 class="section-title">Lesson 21 <em>Assessment</em></h2>
+            <p class="section-desc" style="max-width: 600px; margin: 0 auto 30px;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong> to complete 10 questions testing your knowledge of travel vocabulary, cohesion, and hedging. 
+                <br><br><span style="color: var(--danger); font-weight: 700;">Anti-Cheat Enabled:</span> Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.
+            </p>
+            <div class="hw-container" style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <br>
+                <button class="hw-btn-primary" onclick="startHW()">Accept Rules & Begin</button>
             </div>
         </div>
+    </section>
+
+    <section id="hw-quiz" class="hw-screen">
+        <div class="hw-container">
+            <div class="hw-header">
+                <span class="section-label" id="hwQuestionCounter" style="margin: 0; background: transparent; padding: 0;">Question 1 / 10</span>
+                <div class="hw-timer">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            <div class="hw-progress">
+                <div class="hw-progress-fill" id="hwProgressFill"></div>
+            </div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </div>
+    </section>
+
+    <section id="hw-results" class="hw-screen">
+        <div class="hw-container" style="max-width: 850px;">
+            <div id="hw-pdf-content" style="background: var(--bg-page); padding: 20px; box-sizing: border-box;">
+                <div style="text-align: center;">
+                    <span class="section-label">Assessment Complete</span>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage"></p>
+                </div>
+
+                <div class="hw-results-card">
+                    <h3 style="font-family: var(--font-mono); color: var(--text-gray); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Final Score</h3>
+                    <div class="hw-score" id="hwScoreDetail">0 / 10</div>
+                    <p style="font-family: var(--font-ui); font-size: 1rem; color: var(--navy); font-weight: 700; margin-top: 10px;" id="hwTerminationReason"></p>
+                </div>
+
+                <h3 style="font-family: var(--font-serif); color: var(--navy); text-align: left; border-bottom: 2px solid var(--border-light); padding-bottom: 10px;">Question Review</h3>
+                <div class="hw-review-grid" id="hwReviewGrid"></div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="btn-outline" style="padding: 16px 32px; font-family: var(--font-ui); font-weight: 700; border-radius: 50px; background: transparent; border: 1px solid var(--navy); color: var(--navy); cursor: pointer;" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--navy);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--rust);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-lg); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<!-- Teacher Dashboard Modal -->
+<div id="adminModal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(26,26,29,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);position:relative;">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-gray);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-family:var(--font-serif); color:var(--navy); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--text-gray); margin-bottom:20px;">Review recent student homework submissions.</p>
         
-        <div style="display:flex; gap:10px;">
-            <button onclick="addWordRow()" style="flex:1; padding:12px; background:#F1F5F9; border:none; border-radius:6px; font-weight:600; cursor:pointer; color:#334155;">+ Add Row</button>
-            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2; padding:12px; background:#4255FF; border:none; border-radius:6px; font-weight:600; cursor:pointer; color:white;">📋 Copy Data</button>
+        <div style="overflow-x:auto;">
+            <table class="elegant-table">
+                <thead>
+                    <tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr>
+                </thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--danger); border-color:var(--danger); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(26,26,29,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--white);padding:40px;border-radius:var(--r-xl);width:90%;max-width:600px;box-shadow:var(--shadow-lg);position:relative;">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-gray);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-family:'Lora',serif;color:var(--navy);margin-bottom:8px;">Quizlet Exporter</h2>
+        <p style="color:var(--text-gray);font-size:0.95rem;margin-bottom:24px;">Add your terms, then copy and paste directly into Quizlet's Import tool.</p>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;gap:12px;"><input type="text" placeholder="Term (e.g. Sojourn)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;"></div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" class="hw-btn-skip" style="flex:1;border-color:var(--navy);color:var(--navy);margin-top:0;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="hw-btn-primary" style="flex:2;background:#4255FF;margin-top:0;border-radius:50px;">📋 Copy Data</button>
         </div>
     </div>
 </div>
 
+<!-- ══════════ SCRIPTS ══════════ -->
 <script>
-    // --- BASIC UI LOGIC ---
-    function toggleSpoiler(el) { el.classList.toggle('revealed'); }
-
-    // Highlight command
-    document.addEventListener('keydown', e => {
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
-            e.preventDefault();
-            const sel = window.getSelection();
-            if (!sel.rangeCount || sel.isCollapsed) return;
-            document.execCommand('hiliteColor', false, 'rgba(2, 132, 199, 0.2)');
-        }
-    });
-
-    // Navigation
+    // ─── NAV LOGIC & TAB SWITCHING ───
     document.getElementById('navTabsContainer').addEventListener('click', e => {
-        if (e.target.tagName === 'A' || e.target.parentElement.tagName === 'A') {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
             e.preventDefault();
-            const target = e.target.tagName === 'A' ? e.target : e.target.parentElement;
+            const id = e.target.getAttribute('href');
             
-            document.querySelectorAll('.nav-list li a').forEach(a => a.classList.remove('active'));
-            target.classList.add('active');
-
-            const id = target.getAttribute('href');
-            if (id && id.startsWith('#')) {
-                const sec = document.querySelector(id);
-                if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 40, behavior: 'smooth' });
+            if (id === '#task-hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+                document.getElementById('task-hw').style.display = 'none';
+                
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth'});
             }
         }
     });
 
-    // Quizlet
-    function addWordRow() {
-        const div = document.createElement('div');
-        div.style.cssText = "display:flex; gap:10px; margin-bottom:10px;";
-        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1; padding:10px; border:1px solid #E2E8F0; border-radius:6px;">`;
-        document.getElementById('wordList').appendChild(div);
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.getElementById('task-hw').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
-    function copyForQuizlet() {
-        let out = '';
+
+    // ─── GENERAL INTERACTIONS ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(233, 196, 106, 0.4)');
+        }
+    });
+
+    function toggleTrans(element) { element.classList.toggle('clicked'); }
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.getElementById('task-hw').style.display = 'none';
+        const el = document.getElementById('whiteboard');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth'});
+    };
+
+    // ─── QUIZLET MODAL ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(38,70,83,0.2);background:var(--cream);color:var(--navy);font-family:'Nunito',sans-serif;">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
         document.querySelectorAll('.q-word').forEach((w, i) => {
             const t = document.querySelectorAll('.q-trans')[i];
             if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
         });
+        const btn = document.getElementById('copyQuizletBtn');
         if(out){
             navigator.clipboard.writeText(out).then(()=>{
-                document.getElementById('copyQuizletBtn').innerText = '✓ Copied!';
-                setTimeout(()=> document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000);
+                btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000);
             });
+        } else {
+            btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000);
         }
-    }
-
-    // PDF
-    window.saveAsPDF = () => {
-        document.getElementById('floatingActions').style.display='none';
-        document.getElementById('syncStatus').style.display='none';
-        const el = document.body;
-        html2pdf().set({
-            margin: 0, filename: 'Lesson-22-Cardio-Neuro-Gyn.pdf', image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth },
-            jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' }
-        }).from(el).save().then(() => {
-            document.getElementById('floatingActions').style.display='flex';
-            document.getElementById('syncStatus').style.display='flex';
-        });
     };
 
-    // --- WHITEBOARD LOGIC ---
+    // ─── WHITEBOARD LOGIC ───
     const canvas = document.getElementById('boardCanvas');
     const ctx = canvas.getContext('2d');
     function resizeCanvas() {
@@ -914,55 +852,274 @@
     }
     window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
-    let isDrawing = false, pendingDraw = false, startX, startY;
-    let currentTool = 'pencil', currentColor = '#0284C7', savedImageData;
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#E76F51', savedImageData;
 
     document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
         btn.addEventListener('click', () => {
-            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentTool = btn.dataset.tool;
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--text-gray)'; b.style.color='var(--cream)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--rust)'; btn.style.color='var(--rust)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
         });
     });
 
     document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
-    document.getElementById('wbClear').addEventListener('click', () => { 
-        ctx.clearRect(0,0,canvas.width,canvas.height); 
-        if(window.syncWhiteboardClear) window.syncWhiteboardClear(); 
-    });
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
 
     function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
 
     canvas.addEventListener('mousedown', e => {
         const p = getPos(e); startX = p.x; startY = p.y;
-        isDrawing = true;
-        savedImageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Nunito', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
         ctx.beginPath(); ctx.moveTo(startX,startY);
     });
 
     canvas.addEventListener('mousemove', e => {
         if (!isDrawing) return; const p = getPos(e);
-        if (currentTool === 'eraser') {
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineTo(p.x, p.y); ctx.lineWidth = 30; ctx.lineCap = 'round'; ctx.stroke();
-            ctx.globalCompositeOperation = 'source-over';
-        } else if (currentTool === 'pencil' || currentTool === 'highlight') {
-            ctx.lineTo(p.x,p.y); ctx.strokeStyle = currentTool === 'highlight' ? currentColor+'40' : currentColor;
-            ctx.lineWidth = currentTool === 'highlight' ? 16 : 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
-        }
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
     });
 
-    canvas.addEventListener('mouseup', () => {
-        if (!isDrawing) return; isDrawing = false;
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
         if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
     });
 
-    canvas.addEventListener('mouseout', () => {
-        if (isDrawing) { isDrawing = false; if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+        else if (currentTool==='arrow') {
+            const hl=16,ang=Math.atan2(ey-startY,ex-startX);
+            ctx.moveTo(startX,startY); ctx.lineTo(ex,ey); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang-Math.PI/6),ey-hl*Math.sin(ang-Math.PI/6));
+            ctx.moveTo(ex,ey); ctx.lineTo(ex-hl*Math.cos(ang+Math.PI/6),ey-hl*Math.sin(ang+Math.PI/6)); ctx.stroke();
+        }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "Which word means 'traveling from place to place'?", options: ["Wanderlust", "Itinerant", "Provincial", "Sojourn"], correct: 1 },
+        { text: "Complete the lexical chain: voyage, trek, expedition, ___.", options: ["dislocation", "immersion", "journey", "discomfort"], correct: 2 },
+        { text: "What cohesive device is used here: 'I prefer small towns to large ONES'?", options: ["Lexical Chain", "Pronoun Reference", "Substitution", "Hedging"], correct: 2 },
+        { text: "Which hedging phrase is appropriate for formal writing?", options: ["It is 100% sure that...", "I bet that...", "It is widely believed that...", "Everyone knows that..."], correct: 2 },
+        { text: "A temporary stay is called a ___.", options: ["Pilgrimage", "Sojourn", "Dislocation", "Immersion"], correct: 1 },
+        { text: "Which word implies a feeling of being psychologically out of place?", options: ["Wanderlust", "Dislocation", "Provincial", "Itinerant"], correct: 1 },
+        { text: "Identify the cohesive device: 'The locals were helpful. THEY showed us the map.'", options: ["Substitution", "Lexical Chain", "Hedging", "Pronoun Reference"], correct: 3 },
+        { text: "Having a narrow-minded or unsophisticated attitude is being ___.", options: ["Provincial", "Itinerant", "Immersed", "Dislocated"], correct: 0 },
+        { text: "What is the best definition of 'wanderlust'?", options: ["Fear of traveling", "A strong desire to travel", "Getting lost in a forest", "A religious journey"], correct: 1 },
+        { text: "A journey to a respected or sacred place is called a ___.", options: ["Sojourn", "Dislocation", "Pilgrimage", "Lexical Chain"], correct: 2 }
+    ];
+
+    let currentStudent = "";
+    let questionHistory = []; 
+    let currentQuestionIndex = 0;
+    const TOTAL_QUESTIONS = 10;
+    let score = 0;
+    
+    let timeLeft = 10 * 60; // 10 minutes
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window to look up answers. If you do this again, your test will instantly end.");
+            }
+        }
     });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.hw-timer').style.background = "var(--danger)";
+                document.querySelector('.hw-timer').style.color = "white";
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will now be submitted.");
+                endHWQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    function showHWScreen(id) {
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name to continue."); return; }
+        
+        currentStudent = nameInput;
+        currentQuestionIndex = 0;
+        score = 0;
+        questionHistory = [];
+        cheatWarnings = 0;
+        timeLeft = 10 * 60;
+        isTestActive = true;
+
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
+        
+        showHWScreen('hw-quiz');
+        startHWTimer();
+        renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+            endHWQuiz(false, "Completed Successfully");
+            return;
+        }
+
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid');
+        grid.innerHTML = "";
+        
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'hw-opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
+
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: correctAnsText, isCorrect: isCorrect });
+        if (isCorrect) score++;
+
+        currentQuestionIndex++;
+        renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false;
+        clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        
+        const termEl = document.getElementById('hwTerminationReason');
+        if (forcedExit) termEl.innerHTML = `<span style="color:var(--danger);">Status:</span> ${statusMsg}`;
+        else termEl.innerHTML = `<span style="color:var(--success);">Status:</span> ${statusMsg}`;
+
+        buildHWReviewGrid();
+        showHWScreen('hw-results');
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function buildHWReviewGrid() {
+        const grid = document.getElementById('hwReviewGrid');
+        grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `hw-review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
+            div.innerHTML = `
+                <div class="hw-review-q">${index + 1}. ${item.text}</div>
+                <div class="hw-review-ans">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div class="hw-review-ans">Correct answer: <span style="color: var(--success)">${item.correctAns}</span></div>` : ''}
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    // ─── PDF & ADMIN LOGIC ───
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const element = document.getElementById('hw-pdf-content');
+        const parent = element.parentNode;
+        const sibling = element.nextSibling;
+
+        const origBodyOverflowX = document.body.style.overflowX;
+        const origHtmlOverflowX = document.documentElement.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        document.documentElement.style.overflowX = 'visible';
+        document.body.appendChild(element);
+
+        const origCss = element.style.cssText;
+        element.style.cssText = `position: absolute !important; top: 0 !important; left: 0 !important; width: 800px !important; margin: 0 !important; padding: 40px !important; background: #F4F1DE !important; z-index: 999999 !important; display: block !important;`;
+        window.scrollTo(0, 0);
+
+        const w = 800; const h = element.scrollHeight;
+        const opt = {
+            margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L21_Homework.pdf`, image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, x: 0, y: 0, width: w, height: h, windowWidth: w, windowHeight: h, scrollX: 0, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [w, h], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.cssText = origCss;
+            if (sibling) parent.insertBefore(element, sibling);
+            else parent.appendChild(element);
+            document.body.style.overflowX = origBodyOverflowX;
+            document.documentElement.style.overflowX = origHtmlOverflowX;
+            document.getElementById('floatingActions').style.display='flex';
+        });
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson21HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson21HomeworkData', JSON.stringify(results));
+    }
+
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson21HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = "";
+
+        if (results.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No homework submissions yet.</td></tr>";
+        } else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="font-size:0.85rem;">${r.date}</td><td style="font-weight:700;">${r.name}</td><td>${r.score} / ${r.total}</td><td style="font-size:0.85rem; font-weight: 700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson21HomeworkData'); openAdmin(); } }
+
 </script>
 
-<!-- FIREBASE SYNC -->
+<!-- ══════════ FIREBASE LIVE SYNC ══════════ -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -977,134 +1134,151 @@
         appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
     };
 
-    const appId = 'lesson-22-cardio-neuro-gyn-v1';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'lesson-21-nomad-c1-v2';
 
-    const syncText = document.getElementById('syncText');
-    const syncDot = document.getElementById('syncDot');
-    function setStatus(t, c) { if (syncText) syncText.innerText = t; if (syncDot) syncDot.style.background = c; }
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(26,26,29,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:700; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(231,111,81,0.4); font-family:'Nunito',sans-serif;";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold);"></span><span id="syncText">Connecting Session...</span>`;
+    document.body.appendChild(statusDiv);
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    let currentUser = null, isSyncSetup = false;
-    const myCursorColor = ['#0284C7', '#8B5CF6', '#EF4444', '#EC4899', '#10B981'][Math.floor(Math.random() * 5)];
-    let myCursorName = 'Doctor';
+    const statusText=document.getElementById('syncText');
+    const statusDot=document.getElementById('syncDot');
+    function setStatus(t,c){if(statusText)statusText.innerText=t;if(statusDot)statusDot.style.background=c;if(statusDot)statusDot.style.boxShadow=`0 0 8px ${c}`;}
 
-    const editables = document.querySelectorAll('[contenteditable="true"]');
-    editables.forEach((el, i) => { el.dataset.syncId = 'e' + i; });
-    let isEditing = null;
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null,isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Student';
 
-    function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
 
     const initAuth = async () => { 
         try {
             if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                try { await signInWithCustomToken(auth, __initial_auth_token); } 
-                catch (e) { await signInAnonymously(auth); }
-            } else { await signInAnonymously(auth); }
-        } catch(e) { setStatus('Offline','#EF4444'); } 
+                try {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } catch (e) {
+                    await signInAnonymously(auth);
+                }
+            } else {
+                await signInAnonymously(auth);
+            }
+        } catch(e) { 
+            setStatus('Auth Failed','#E76F51'); 
+        } 
     };
 
-    onAuthStateChanged(auth, user => {
-        currentUser = user;
-        if (user && !isSyncSetup) {
-            isSyncSetup = true;
-            getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
-                myCursorName = 'Doctor ' + (snap.size + 1);
-                setStatus('Live Sync Active', '#10B981');
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Scholar '+(snap.size+1);
+                setStatus('Live Sync On 🌍','#2A9D8F');
                 setupSync(); setupCursors();
-            }).catch(() => {
-                myCursorName = 'Doctor ' + (Math.floor(Math.random() * 99) + 1);
-                setStatus('Live Sync Active', '#10B981');
+            }).catch(()=>{
+                myCursorName='Scholar '+(Math.floor(Math.random()*99)+1);
+                setStatus('Live Sync On 🌍','#2A9D8F');
                 setupSync(); setupCursors();
             });
-        } else if (!user) { setStatus('Offline', '#EF4444'); }
+        } else if(!user){setStatus('Disconnected','#E76F51');}
     });
 
     initAuth();
 
-    function setupSync() {
-        const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text');
-        const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
 
-        window.saveTextUpdate = el => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
 
-        window.attachEditableListeners = el => {
-            el.addEventListener('focus', () => isEditing = el.dataset.syncId);
-            el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
-            el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
         };
 
-        editables.forEach(el => window.attachEditableListeners(el));
+        editables.forEach(el=>window.attachEditableListeners(el));
 
-        onSnapshot(textRef, snap => {
-            if (!snap.exists()) return;
-            const data = snap.data();
-            for (const [id, html] of Object.entries(data)) {
-                if (isEditing !== id) { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
             }
         });
 
-        window.syncWhiteboardDraw = debounce(() => {
-            if (!currentUser) return;
-            const c = document.getElementById('boardCanvas');
-            setDoc(wbRef, { image: c.toDataURL('image/png', 0.5), clearTs: window.lastClear || 0 }, { merge: true });
-            pendingDraw = false;
-        }, 800);
+        // Whiteboard Sync
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
 
-        window.syncWhiteboardClear = () => { if (!currentUser) return; const ts = Date.now(); window.lastClear = ts; setDoc(wbRef, { clearTs: ts, image: null }, { merge: true }); };
-
-        onSnapshot(wbRef, snap => {
-            if (!snap.exists()) return;
-            const data = snap.data(); const c = document.getElementById('boardCanvas'); const x = c.getContext('2d');
-            if (data.clearTs > (window.lastClear || 0)) { x.clearRect(0, 0, c.width, c.height); window.lastClear = data.clearTs; return; }
-            if (data.image && !pendingDraw) { const img = new Image(); img.onload = () => { x.clearRect(0,0,c.width,c.height); x.drawImage(img,0,0); }; img.src = data.image; }
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
         });
     }
 
-    function setupCursors() {
-        const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
-        const myRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
-        const container = document.getElementById('liveCursorsContainer');
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        
+        const container = document.createElement('div');
+        container.id = 'liveCursorsContainer';
+        container.style.cssText = 'position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999;';
+        document.body.appendChild(container);
 
-        document.addEventListener('mousemove', debounce(e => {
-            if (!currentUser) return;
-            setDoc(myRef, { xOff: e.pageX - window.innerWidth / 2, y: e.pageY, color: myCursorColor, name: myCursorName, ts: Date.now() });
-        }, 300));
+        document.addEventListener('mousemove',debounce(e=>{if(!currentUser)return;setDoc(myRef,{xOffset:e.pageX-window.innerWidth/2,y:e.pageY,color:myCursorColor,name:myCursorName,timestamp:Date.now()});},400));
 
-        onSnapshot(cursorsCol, snap => {
-            snap.docChanges().forEach(ch => {
-                const id = ch.doc.id; if (id === currentUser.uid) return;
-                if (ch.type === 'removed') { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
-                const d = ch.doc.data();
-                if (Date.now() - d.ts > 60000) { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
-                let el = document.getElementById('cur-' + id);
-                if (!el) {
-                    el = document.createElement('div'); el.id = 'cur-' + id;
-                    el.style.cssText = "position:absolute; pointer-events:none; z-index:999999; transition:top 0.2s linear, left 0.2s linear; display:flex; align-items:flex-start;";
-                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(2px 4px 6px rgba(0,0,0,0.3));"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg><div style="background:${d.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-sans);box-shadow:var(--shadow-sm);">${d.name}</div>`;
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el=document.createElement('div');el.id='cursor-'+id;
+                    el.style.position='absolute';el.style.pointerEvents='none';el.style.zIndex='999999';
+                    el.style.transition='top 0.4s linear, left 0.4s linear';
+                    el.innerHTML=`<svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(38,70,83,0.5));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:'Nunito',sans-serif;box-shadow:0 2px 6px rgba(38,70,83,0.4);">${data.name}</div>`;
                     container.appendChild(el);
                 }
-                el.style.left = (window.innerWidth / 2 + d.xOff) + 'px';
-                el.style.top = d.y + 'px';
+                el.style.left=(window.innerWidth/2+data.xOffset)+'px';
+                el.style.top=data.y+'px';
             });
         });
 
-        window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myRef); });
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
     }
 
     window.resetLesson = async () => {
         if (!currentUser) return;
-        if (!confirm('Warning: This will wipe all global system data and canvas drawings. Proceed?')) return;
-        setStatus('Purging...', '#EF4444');
+        if (!confirm('Warning: This will wipe all global system data and canvas drawings for all users. Proceed?')) return;
+        setStatus('Purging...', '#E76F51');
         const base = (s) => doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', s);
-        await deleteDoc(base('text'));
-        const ts = Date.now(); window.lastClear = ts;
-        await setDoc(base('whiteboard'), { clearTs: ts, image: null });
-        
-        document.querySelectorAll('.blank-input').forEach(i => i.innerHTML = '');
-        
-        setTimeout(() => setStatus('Live Sync Active', '#10B981'), 1200);
+        try {
+            await deleteDoc(base('text_edits'));
+            const ts = Date.now(); window.lastClear = ts;
+            await setDoc(base('whiteboard'), { clearTimestamp: ts, image: null });
+            
+            const blankInputs = document.querySelectorAll('.blank-input');
+            blankInputs.forEach(input => input.innerHTML = '');
+            
+            setTimeout(() => setStatus('Live Sync On 🌍', '#2A9D8F'), 1200);
+        } catch (e) {
+            console.log(e);
+        }
     };
 </script>
 </body>
