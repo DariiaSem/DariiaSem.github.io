@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 16: B2-C1 | Social Media & Personal Branding</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Dark Social Dashboard Theme */
+            --bg-base: #0f1115;
+            --bg-panel: #181b21;
+            --bg-card: #22262f;
+            
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            
+            /* Gradients & Accents (Instagram/TikTok vibe) */
+            --accent-pink: #ec4899;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #3b82f6;
+            --accent-teal: #14b8a6;
+            
+            --grad-brand: linear-gradient(135deg, #ec4899, #8b5cf6);
+            --grad-cool: linear-gradient(135deg, #3b82f6, #14b8a6);
+            
+            --danger: #ef4444;
+            --success: #10b981;
+            
+            --font-ui: 'Inter', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-full: 9999px;
+            
+            --shadow-glow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.laser-active { cursor: crosshair !important; }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px; transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(255,255,255,0.05); }
+        [contenteditable="true"]:focus { background: rgba(255,255,255,0.1); box-shadow: 0 0 0 2px var(--accent-purple); }
+
+        /* ══ SIDEBAR NAVIGATION ══ */
+        .sidebar {
+            width: 260px; background: var(--bg-panel); border-right: 1px solid rgba(255,255,255,0.05);
+            position: fixed; height: 100vh; top: 0; left: 0; display: flex; flex-direction: column;
+            padding: 30px 20px; z-index: 100;
+        }
+
+        .brand {
+            font-size: 1.2rem; font-weight: 800; color: var(--text-main);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 40px;
+            text-decoration: none;
+        }
+        .brand-icon {
+            width: 32px; height: 32px; border-radius: 10px;
+            background: var(--grad-brand); display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: white;
+        }
+
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .nav-item a {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            text-decoration: none; color: var(--text-muted); font-weight: 500;
+            border-radius: var(--r-md); transition: all 0.2s;
+        }
+        .nav-item a:hover, .nav-item a.active {
+            background: rgba(139, 92, 246, 0.1); color: var(--text-main);
+        }
+        .nav-item a.active { border-left: 3px solid var(--accent-purple); }
+        
+        .hw-btn {
+            margin-top: auto; background: rgba(236, 72, 153, 0.1); color: var(--accent-pink);
+            border: 1px solid rgba(236, 72, 153, 0.3); padding: 12px; text-align: center;
+            border-radius: var(--r-md); font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .hw-btn:hover { background: var(--accent-pink); color: white; box-shadow: 0 0 15px rgba(236, 72, 153, 0.4); }
+
+        /* ══ MAIN CONTENT AREA ══ */
+        .main-content {
+            margin-left: 260px; flex: 1; padding: 40px 60px; max-width: 1100px;
+        }
+
+        .dashboard-header { margin-bottom: 40px; }
+        .module-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+            color: var(--accent-teal); background: rgba(20, 184, 166, 0.1);
+            padding: 6px 12px; border-radius: var(--r-full); margin-bottom: 16px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .dashboard-title {
+            font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 16px;
+            background: var(--grad-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .dashboard-desc { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; }
+
+        /* ══ SECTIONS ══ */
+        .section { display: none; animation: fadeIn 0.4s ease-out; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .task-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .task-num {
+            font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700;
+            color: var(--bg-base); background: var(--text-main);
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px;
+        }
+        .task-title { font-size: 1.8rem; font-weight: 700; }
+
+        /* ══ UI CARDS ══ */
+        .card {
+            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: var(--r-lg); padding: 32px; margin-bottom: 32px;
+        }
+
+        /* ══ THE FEED (Task 1) ══ */
+        .feed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .post-card {
+            background: var(--bg-card); border-radius: var(--r-md); overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05); transition: transform 0.2s;
+        }
+        .post-card:hover { transform: translateY(-4px); border-color: rgba(139,92,246,0.3); }
+        .post-img { width: 100%; height: 200px; background: #2a2e38; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+        .post-content { padding: 20px; }
+        .post-handle { font-weight: 700; color: var(--text-main); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .verified { color: var(--accent-blue); font-size: 0.9rem; }
+        .post-caption { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+
+        /* ══ READING TEXT & INTERACTIVE VOCAB ══ */
+        .article-body {
+            font-size: 1.15rem; line-height: 1.9; color: #cbd5e1;
+            background: var(--bg-card); padding: 40px; border-radius: var(--r-lg);
+            border-left: 4px solid var(--accent-purple);
+        }
+        
+        .vocab-hl {
+            color: var(--accent-pink); font-weight: 700; border-bottom: 2px dashed rgba(236,72,153,0.4);
+            cursor: pointer; transition: all 0.2s; position: relative; display: inline-block;
+        }
+        .vocab-hl:hover { background: rgba(236,72,153,0.1); border-bottom-style: solid; }
+
+        /* Vocab Modal */
+        .vocab-modal-overlay {
+            position: fixed; inset: 0; background: rgba(15,17,21,0.85); backdrop-filter: blur(8px);
+            z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s;
+        }
+        .vocab-modal-overlay.visible { display: flex; opacity: 1; }
+        .vocab-modal {
+            background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--r-lg); width: 90%; max-width: 400px; overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); transform: translateY(20px); transition: transform 0.3s;
+        }
+        .vocab-modal-overlay.visible .vocab-modal { transform: translateY(0); }
+        .vm-img { width: 100%; height: 220px; background-size: cover; background-position: center; position: relative; }
+        .vm-close {
+            position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
+            background: rgba(0,0,0,0.5); color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            font-weight: bold; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .vm-close:hover { background: var(--danger); }
+        .vm-content { padding: 24px; }
+        .vm-word { font-size: 1.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; text-transform: capitalize; }
+        .vm-pos { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-purple); margin-bottom: 16px; display: block; }
+        .vm-def { font-size: 1.05rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* ══ INDUCTIVE GRAMMAR (Drag/Match UI) ══ */
+        .grammar-discovery { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .gd-sentences { display: flex; flex-direction: column; gap: 12px; }
+        .gd-sentence {
+            background: var(--bg-card); padding: 16px 20px; border-radius: var(--r-md);
+            border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: all 0.2s;
+            font-size: 1rem; border-left: 4px solid transparent;
+        }
+        .gd-sentence:hover { background: rgba(255,255,255,0.05); }
+        .gd-sentence.selected { border-left-color: var(--accent-blue); background: rgba(59,130,246,0.1); }
+        .gd-sentence.matched { opacity: 0.5; cursor: default; border-left-color: var(--success); }
+        .gd-sentence em { color: var(--accent-blue); font-weight: 700; font-style: normal; }
+
+        .gd-rules { display: flex; flex-direction: column; gap: 12px; }
+        .gd-rule {
+            background: var(--bg-card); padding: 16px 20px; border-radius: var(--r-md);
+            border: 1px dashed rgba(255,255,255,0.2); cursor: pointer; transition: all 0.2s;
+            font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .gd-rule:hover { border-color: var(--accent-blue); color: var(--text-main); }
+        .gd-rule.filled { border-style: solid; border-color: var(--success); background: rgba(16,185,129,0.05); color: var(--success); }
+        .gd-rule.error { border-color: var(--danger); background: rgba(239,68,68,0.05); animation: shake 0.4s; }
+
+        @keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+    </style>
+</head>
+<body>
+
+<div id="liveLaserContainer" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:999999;"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+    <a href="#" class="brand">
+        <div class="brand-icon">#</div>
+        <div contenteditable="true">Brand.io</div>
+    </a>
+    <ul class="nav-menu" id="navTabsContainer">
+        <li class="nav-item"><a href="#task-1" class="active" contenteditable="true">01. The Feed</a></li>
+        <li class="nav-item"><a href="#task-2" contenteditable="true">02. Viral Post (Vocab)</a></li>
+        <li class="nav-item"><a href="#task-3" contenteditable="true">03. Code Breaker</a></li>
+        <li class="nav-item"><a href="#task-4" contenteditable="true">04. The Algorithm</a></li>
+        <li class="nav-item"><a href="#task-5" contenteditable="true">05. Content Creator</a></li>
+        <li class="nav-item"><a href="#task-6" contenteditable="true">06. PR Crisis</a></li>
+    </ul>
+    <button class="hw-btn" onclick="openHomework()" contenteditable="true">Launch Assessment</button>
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+    
+    <header class="dashboard-header">
+        <div class="module-badge" contenteditable="true">B2–C1 Level · Lesson 16</div>
+        <h1 class="dashboard-title" contenteditable="true">Social Media &<br>Personal Branding</h1>
+        <p class="dashboard-desc" contenteditable="true">Master the vocabulary of digital influence and discover advanced gerund/infinitive patterns organically through content curation.</p>
+    </header>
+
+    <!-- ══════════ TASK 1 — WARM UP ══════════ -->
+    <section class="section active" id="task-1">
+        <div class="task-header">
+            <div class="task-num">01</div>
+            <h2 class="task-title" contenteditable="true">The Feed</h2>
+        </div>
+        
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Look at these three types of dental social media accounts. Discuss with your partner: What is the main goal of each account? Which one builds the most trust?
+        </p>
+
+        <div class="feed-grid">
+            <div class="post-card">
+                <div class="post-img">📸</div>
+                <div class="post-content">
+                    <div class="post-handle" contenteditable="true">@DrSmilePerfect <span class="verified">✓</span></div>
+                    <div class="post-caption" contenteditable="true">Before & After! Another amazing 10-veneer transformation. DM to book your consultation! 💎✨ #Veneers #HollywoodSmile</div>
+                </div>
+            </div>
+            <div class="post-card">
+                <div class="post-img">🔬</div>
+                <div class="post-content">
+                    <div class="post-handle" contenteditable="true">@TheEvidenceBasedDentist <span class="verified">✓</span></div>
+                    <div class="post-caption" contenteditable="true">Stop using charcoal toothpaste! Today we're looking at the enamel abrasion studies from the ADA. Here is the science... 📊🦷 #DentalFact #OralHealth</div>
+                </div>
+            </div>
+            <div class="post-card">
+                <div class="post-img">🤪</div>
+                <div class="post-content">
+                    <div class="post-handle" contenteditable="true">@DrDaveExtracts <span class="verified">✓</span></div>
+                    <div class="post-caption" contenteditable="true">POV: When the patient says they floss every day but their gums are bleeding instantly. 🚩🚩🚩 (Dance video) #DentalHumor #DentistLife</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 2 — READING & VOCABULARY ══════════ -->
+    <section class="section" id="task-2">
+        <div class="task-header">
+            <div class="task-num">02</div>
+            <h2 class="task-title" contenteditable="true">The Viral Phenomenon</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Read the article about "The Insta-Dentist." Click on the highlighted words to unlock their visual definitions. (Pay close attention to the verbs followed by <em>-ing</em> or <em>to do</em>!).
+        </p>
+
+        <div class="article-body" contenteditable="false">
+            <p style="margin-bottom: 20px;">
+                Ten years ago, a dental clinic's reputation relied on word-of-mouth. Today, many clinics encourage their staff <em style="color:var(--accent-blue);font-style:normal;">to build</em> personal brands online. The pressure of the algorithm makes modern dentists <em style="color:var(--accent-blue);font-style:normal;">post</em> highly produced content to gain <span class="vocab-hl" onclick="openVocab('clout')">clout</span> in a saturated market.
+            </p>
+            <p style="margin-bottom: 20px;">
+                Successful professionals <span class="vocab-hl" onclick="openVocab('leverage')">leverage</span> their expertise to educate the public. However, many new practitioners fall into the trap of trying to <span class="vocab-hl" onclick="openVocab('curate')">curate</span> an impossibly perfect feed. They are used <em style="color:var(--accent-blue);font-style:normal;">to displaying</em> flawless <span class="vocab-hl" onclick="openVocab('veneer')">veneers</span>, but Gen Z audiences are increasingly demanding <span class="vocab-hl" onclick="openVocab('authentic')">authentic</span> content over polished marketing.
+            </p>
+            <p>
+                There are ethical risks, too. When a professional decides to endorse a commercial whitening product, they often face severe <span class="vocab-hl" onclick="openVocab('backlash')">backlash</span> from the medical community. Some purists strongly object <em style="color:var(--accent-blue);font-style:normal;">to turning</em> healthcare into entertainment. Yet, as the digital age evolves, it is crucial <em style="color:var(--accent-blue);font-style:normal;">to maintain</em> a digital presence.
+            </p>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 3 — INDUCTIVE GRAMMAR ══════════ -->
+    <section class="section" id="task-3">
+        <div class="task-header">
+            <div class="task-num">03</div>
+            <h2 class="task-title" contenteditable="true">Code Breaker</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Look at the sentences taken from the text. Can you figure out the grammar rules? <br>
+            <strong>Click a sentence on the left, then click the correct rule on the right to match them.</strong>
+        </p>
+
+        <div class="grammar-discovery">
+            <div class="gd-sentences">
+                <div class="gd-sentence" id="sent-1" onclick="selectSent(this, 'rule-b')">1. "Clinics <em>encourage their staff to build</em> brands."</div>
+                <div class="gd-sentence" id="sent-2" onclick="selectSent(this, 'rule-d')">2. "The algorithm <em>makes modern dentists post</em> content."</div>
+                <div class="gd-sentence" id="sent-3" onclick="selectSent(this, 'rule-a')">3. "Some strongly <em>object to turning</em> healthcare into entertainment."</div>
+                <div class="gd-sentence" id="sent-4" onclick="selectSent(this, 'rule-c')">4. "They <em>are used to displaying</em> flawless results."</div>
+                <div class="gd-sentence" id="sent-5" onclick="selectSent(this, 'rule-e')">5. "<em>It is crucial to maintain</em> a digital presence."</div>
+            </div>
+            
+            <div class="gd-rules">
+                <div class="gd-rule" id="rule-a" onclick="selectRule(this)">[ ? ] Preposition 'to' + Gerund (-ing)</div>
+                <div class="gd-rule" id="rule-b" onclick="selectRule(this)">[ ? ] Verb + Object + 'to' + Infinitive</div>
+                <div class="gd-rule" id="rule-c" onclick="selectRule(this)">[ ? ] 'Be used to' + Gerund (-ing)</div>
+                <div class="gd-rule" id="rule-d" onclick="selectRule(this)">[ ? ] 'Make' or 'Let' + Object + Bare Infinitive</div>
+                <div class="gd-rule" id="rule-e" onclick="selectRule(this)">[ ? ] Adjective + 'to' + Infinitive</div>
+            </div>
+        </div>
+
+        <script>
+            let activeSent = null;
+            let targetRuleId = null;
+
+            function selectSent(el, correctRuleId) {
+                if (el.classList.contains('matched')) return;
+                document.querySelectorAll('.gd-sentence').forEach(s => s.classList.remove('selected'));
+                el.classList.add('selected');
+                activeSent = el;
+                targetRuleId = correctRuleId;
+            }
+
+            function selectRule(ruleEl) {
+                if (!activeSent) return;
+                if (ruleEl.classList.contains('filled')) return;
+
+                if (ruleEl.id === targetRuleId) {
+                    // Match!
+                    ruleEl.classList.add('filled');
+                    ruleEl.innerHTML = `✓ ${activeSent.innerHTML.split('.')[1].replace(/<\/?em>/g, '')}`;
+                    activeSent.classList.remove('selected');
+                    activeSent.classList.add('matched');
+                    activeSent = null; targetRuleId = null;
+                } else {
+                    // Error
+                    ruleEl.classList.add('error');
+                    setTimeout(() => ruleEl.classList.remove('error'), 400);
+                }
+            }
+        </script>
+    </section>
+  <!-- ══════════ TASK 4 — GRAMMAR REVEAL ══════════ -->
+    <section class="section" id="task-4">
+        <div class="task-header">
+            <div class="task-num">04</div>
+            <h2 class="task-title" contenteditable="true">The Algorithm (Grammar Rules)</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            You cracked the code in Task 3. Now let's formalize these advanced C1 gerund and infinitive patterns. These structures elevate your English from conversational to highly professional.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            
+            <div class="card" style="margin-bottom:0;">
+                <div style="font-family:var(--font-mono); color:var(--accent-teal); font-size:0.85rem; margin-bottom:12px;" contenteditable="true">// PATTERN 01</div>
+                <h3 style="font-size:1.2rem; margin-bottom:12px; color:var(--text-main);" contenteditable="true">Verb + Object + <em>to do</em></h3>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:16px;" contenteditable="true">Verbs like <strong>encourage, persuade, allow, advise, force, urge</strong> require an object before the infinitive.</p>
+                <div style="background:rgba(255,255,255,0.05); padding:12px; border-left:3px solid var(--accent-teal); border-radius:4px; font-family:var(--font-mono); font-size:0.9rem;" contenteditable="true">
+                    "We <em>encourage</em> <strong>patients</strong> <em>to leave</em> a review."
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:0;">
+                <div style="font-family:var(--font-mono); color:var(--accent-pink); font-size:0.85rem; margin-bottom:12px;" contenteditable="true">// PATTERN 02</div>
+                <h3 style="font-size:1.2rem; margin-bottom:12px; color:var(--text-main);" contenteditable="true">Make / Let + Object + <em>do</em> (Bare)</h3>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:16px;" contenteditable="true"><strong>Make</strong> (force) and <strong>Let</strong> (allow) take an object and a bare infinitive (no 'to').</p>
+                <div style="background:rgba(255,255,255,0.05); padding:12px; border-left:3px solid var(--accent-pink); border-radius:4px; font-family:var(--font-mono); font-size:0.9rem;" contenteditable="true">
+                    "The algorithm <em>makes</em> <strong>us</strong> <em>post</em> daily."<br>
+                    <span style="color:var(--danger); font-size:0.8rem;">NOT: makes us to post</span>
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:0;">
+                <div style="font-family:var(--font-mono); color:var(--accent-purple); font-size:0.85rem; margin-bottom:12px;" contenteditable="true">// PATTERN 03</div>
+                <h3 style="font-size:1.2rem; margin-bottom:12px; color:var(--text-main);" contenteditable="true">Preposition + <em>doing</em></h3>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:16px;" contenteditable="true">Always use a gerund after a preposition (in, of, about, for, etc.). *Watch out for 'to' when it acts as a preposition!</p>
+                <div style="background:rgba(255,255,255,0.05); padding:12px; border-left:3px solid var(--accent-purple); border-radius:4px; font-family:var(--font-mono); font-size:0.9rem;" contenteditable="true">
+                    "I object <strong>to</strong> <em>turning</em> healthcare into a joke."<br>
+                    "I look forward <strong>to</strong> <em>seeing</em> you."
+                </div>
+            </div>
+
+            <div class="card" style="margin-bottom:0;">
+                <div style="font-family:var(--font-mono); color:var(--accent-blue); font-size:0.85rem; margin-bottom:12px;" contenteditable="true">// PATTERN 04</div>
+                <h3 style="font-size:1.2rem; margin-bottom:12px; color:var(--text-main);" contenteditable="true">Be used to + <em>doing</em></h3>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:16px;" contenteditable="true">Meaning "to be accustomed to." The 'to' here is a preposition, so it requires a gerund or a noun.</p>
+                <div style="background:rgba(255,255,255,0.05); padding:12px; border-left:3px solid var(--accent-blue); border-radius:4px; font-family:var(--font-mono); font-size:0.9rem;" contenteditable="true">
+                    "They <strong>are used to</strong> <em>displaying</em> perfect veneers."
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 5 — APPLICATION ══════════ -->
+    <section class="section" id="task-5">
+        <div class="task-header">
+            <div class="task-num">05</div>
+            <h2 class="task-title" contenteditable="true">Content Creator</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Complete the social media strategy guidelines by typing the correct form of the verb in brackets.
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="background:var(--bg-card); padding:20px; border-radius:var(--r-md); border:1px solid rgba(255,255,255,0.05);">
+                <div style="color:var(--text-muted); font-size:0.95rem; margin-bottom:8px;" contenteditable="true">[leverage] We advise all junior doctors <span style="display:inline-block; border-bottom:2px dashed var(--accent-blue); color:var(--accent-teal); font-family:var(--font-mono); font-weight:700; padding:0 8px; min-width:120px;" contenteditable="true"></span> their clinical expertise online.</div>
+            </div>
+            <div style="background:var(--bg-card); padding:20px; border-radius:var(--r-md); border:1px solid rgba(255,255,255,0.05);">
+                <div style="color:var(--text-muted); font-size:0.95rem; margin-bottom:8px;" contenteditable="true">[deal] Are you used to <span style="display:inline-block; border-bottom:2px dashed var(--accent-blue); color:var(--accent-teal); font-family:var(--font-mono); font-weight:700; padding:0 8px; min-width:120px;" contenteditable="true"></span> with public backlash when a post goes wrong?</div>
+            </div>
+            <div style="background:var(--bg-card); padding:20px; border-radius:var(--r-md); border:1px solid rgba(255,255,255,0.05);">
+                <div style="color:var(--text-muted); font-size:0.95rem; margin-bottom:8px;" contenteditable="true">[be] The pressure to gain clout makes some influencers <span style="display:inline-block; border-bottom:2px dashed var(--accent-blue); color:var(--accent-teal); font-family:var(--font-mono); font-weight:700; padding:0 8px; min-width:120px;" contenteditable="true"></span> highly deceptive.</div>
+            </div>
+            <div style="background:var(--bg-card); padding:20px; border-radius:var(--r-md); border:1px solid rgba(255,255,255,0.05);">
+                <div style="color:var(--text-muted); font-size:0.95rem; margin-bottom:8px;" contenteditable="true">[curate] They are heavily focused on <span style="display:inline-block; border-bottom:2px dashed var(--accent-blue); color:var(--accent-teal); font-family:var(--font-mono); font-weight:700; padding:0 8px; min-width:120px;" contenteditable="true"></span> the perfect, authentic-looking grid.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 6 — ERROR SPY ══════════ -->
+    <section class="section" id="task-6">
+        <div class="task-header">
+            <div class="task-num">06</div>
+            <h2 class="task-title" contenteditable="true">PR Crisis (Error Spy)</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            You are auditing a rival clinic's social media. Each "comment" or "tweet" below contains ONE grammar or vocabulary error. Click the highlighted mistake and type the correction. Target: 5/5.
+        </p>
+
+        <style>
+            .tweet-card { background: var(--bg-card); border-radius: var(--r-md); padding: 20px; margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.05); display: flex; gap: 16px; }
+            .tweet-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--grad-brand); flex-shrink: 0; }
+            .tweet-body { flex: 1; }
+            .tweet-name { font-weight: 700; margin-bottom: 4px; display: flex; gap: 8px; align-items: center; }
+            .tweet-handle { color: var(--text-muted); font-weight: 400; font-size: 0.9rem; }
+            .wrong-word { background: rgba(239, 68, 68, 0.15); color: #fca5a5; padding: 2px 6px; border-radius: 4px; border-bottom: 2px solid var(--danger); cursor: pointer; font-weight: 600; }
+            .wrong-word:hover { background: rgba(239, 68, 68, 0.3); }
+            
+            .spy-input-wrap { background: var(--bg-panel); border-radius: var(--r-sm); padding: 12px; margin-top: 12px; border: 1px solid rgba(255,255,255,0.1); display: none; align-items: center; gap: 12px; }
+            .spy-input-wrap input { flex: 1; background: var(--bg-base); border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: 6px; color: white; font-family: var(--font-ui); outline: none; }
+            .spy-input-wrap input:focus { border-color: var(--accent-purple); }
+            .btn-check { background: var(--accent-purple); color: white; border: none; padding: 10px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+            .btn-check:hover { background: #7c3aed; }
+            .spy-feedback { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; }
+        </style>
+
+        <div id="spyGameL16">
+            <!-- 1. to post -> post -->
+            <div class="tweet-card" id="spy16-1">
+                <div class="tweet-avatar"></div>
+                <div class="tweet-body">
+                    <div class="tweet-name" contenteditable="true">Dr. Smith <span class="tweet-handle">@SmithDental</span></div>
+                    <div style="font-size:1.05rem;">My marketing agency makes me <span class="wrong-word" onclick="revealSpy16(1)">to post</span> three TikToks a day. It's exhausting but necessary for growth.</div>
+                    <div class="spy-input-wrap" id="wrap16-1">
+                        <input id="input16-1" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy16(1)">
+                        <button class="btn-check" onclick="checkSpy16(1)">Fix</button>
+                        <span id="fb16-1" class="spy-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. pristine -> deceptive -->
+            <div class="tweet-card" id="spy16-2">
+                <div class="tweet-avatar" style="background:var(--grad-cool);"></div>
+                <div class="tweet-body">
+                    <div class="tweet-name" contenteditable="true">Dental Watchdog <span class="tweet-handle">@TeethTruths</span></div>
+                    <div style="font-size:1.05rem;">That influencer dentist is promoting a charcoal paste that destroys enamel. Her advice is highly <span class="wrong-word" onclick="revealSpy16(2)">pristine</span> and dangerous.</div>
+                    <div class="spy-input-wrap" id="wrap16-2">
+                        <input id="input16-2" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy16(2)">
+                        <button class="btn-check" onclick="checkSpy16(2)">Fix</button>
+                        <span id="fb16-2" class="spy-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. recording -> to record (encourage + object + to do) -->
+            <div class="tweet-card" id="spy16-3">
+                <div class="tweet-avatar" style="background:#f59e0b;"></div>
+                <div class="tweet-body">
+                    <div class="tweet-name" contenteditable="true">Clinic Manager <span class="tweet-handle">@ManageSmiles</span></div>
+                    <div style="font-size:1.05rem;">We strongly encourage our hygienists <span class="wrong-word" onclick="revealSpy16(3)">recording</span> 'day in the life' videos to show patients how friendly we are.</div>
+                    <div class="spy-input-wrap" id="wrap16-3">
+                        <input id="input16-3" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy16(3)">
+                        <button class="btn-check" onclick="checkSpy16(3)">Fix</button>
+                        <span id="fb16-3" class="spy-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. to be -> being (used to doing) -->
+            <div class="tweet-card" id="spy16-4">
+                <div class="tweet-avatar" style="background:#10b981;"></div>
+                <div class="tweet-body">
+                    <div class="tweet-name" contenteditable="true">Dr. Jane <span class="tweet-handle">@JaneDDS</span></div>
+                    <div style="font-size:1.05rem;">I am not used <span class="wrong-word" onclick="revealSpy16(4)">to be</span> on camera. Creating an authentic personal brand is much harder than doing actual root canals!</div>
+                    <div class="spy-input-wrap" id="wrap16-4">
+                        <input id="input16-4" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy16(4)">
+                        <button class="btn-check" onclick="checkSpy16(4)">Fix</button>
+                        <span id="fb16-4" class="spy-feedback"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. clout -> backlash -->
+            <div class="tweet-card" id="spy16-5">
+                <div class="tweet-avatar" style="background:#ef4444;"></div>
+                <div class="tweet-body">
+                    <div class="tweet-name" contenteditable="true">News Bot <span class="tweet-handle">@MedNewsNow</span></div>
+                    <div style="font-size:1.05rem;">A local dentist is facing severe <span class="wrong-word" onclick="revealSpy16(5)">clout</span> after posting a TikTok dancing while a patient was anesthetized in the background.</div>
+                    <div class="spy-input-wrap" id="wrap16-5">
+                        <input id="input16-5" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy16(5)">
+                        <button class="btn-check" onclick="checkSpy16(5)">Fix</button>
+                        <span id="fb16-5" class="spy-feedback"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const answersL16={1:'post', 2:'deceptive', 3:'to record', 4:'to being', 5:'backlash'};
+            const solvedL16={};
+            function revealSpy16(n){
+                document.getElementById('wrap16-'+n).style.display='flex';
+                document.getElementById('input16-'+n).focus();
+            }
+            function checkSpy16(n){
+                if(solvedL16[n])return;
+                const inp=document.getElementById('input16-'+n).value.trim().toLowerCase();
+                const correct=answersL16[n].toLowerCase();
+                const fb=document.getElementById('fb16-'+n);
+                const item=document.getElementById('spy16-'+n);
+                
+                if(inp === correct){
+                    fb.textContent='✓ Resolved'; fb.style.color='var(--success)';
+                    item.style.borderColor='var(--success)';
+                    solvedL16[n]=true;
+                } else {
+                    fb.textContent='✗ Incorrect'; fb.style.color='var(--danger)';
+                    item.style.borderColor='var(--danger)';
+                }
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ WHITEBOARD ══════════ -->
+    <section class="section" id="whiteboard">
+        <div class="task-header">
+            <div class="task-num">WB</div>
+            <h2 class="task-title" contenteditable="true">Whiteboard</h2>
+        </div>
+
+        <div style="border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-lg);background:var(--white);overflow:hidden;margin-top:24px;box-shadow:var(--shadow-lg);">
+            <div style="background:var(--bg-panel);padding:12px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,0.05);">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent;border:1px solid var(--accent-purple);color:var(--accent-purple);padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:600;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent;border:1px solid var(--text-muted);color:var(--text-main);padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:600;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent;border:1px solid var(--text-muted);color:var(--text-main);padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:600;">Text</button>
+                <div style="width:1px;height:24px;background:var(--text-muted);margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#8b5cf6" style="width:32px;height:32px;border:none;cursor:pointer;background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--danger);color:var(--white);border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:600;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block;width:100%;height:500px;cursor:crosshair;"></canvas>
+        </div>
+    </section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ══════════ HOMEWORK PORTAL (HIDDEN BY DEFAULT) ══════════ -->
+<div id="homework-portal" style="display: none; position: fixed; inset: 0; background: var(--bg-base); z-index: 500; overflow-y: auto; padding: 40px;">
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; margin-top: 10vh;">
+            <div class="module-badge" style="background:rgba(236,72,153,0.1);color:var(--accent-pink);">Homework Assessment</div>
+            <h2 class="dashboard-title">Lesson 16 Test</h2>
+            <p style="color:var(--text-muted); margin-bottom:30px; font-size:1.1rem;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong>. <br>
+                <span style="color:var(--danger);">Anti-Cheat:</span> Leaving this tab twice will terminate your test automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter your full name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--bg-panel);border:1px solid rgba(255,255,255,0.1);color:white;border-radius:8px;margin-bottom:24px;outline:none;">
+            <br>
+            <button onclick="startHW()" style="background:var(--accent-pink);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 10px 25px rgba(236,72,153,0.3);transition:transform 0.2s;">Begin Test</button>
+            <button onclick="closeHomework()" style="background:transparent;color:var(--text-muted);border:none;display:block;margin:20px auto;cursor:pointer;">Cancel & Return</button>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <span style="font-family:var(--font-mono); color:var(--accent-teal); font-weight:700;" id="hwQuestionCounter">Question 1 / 10</span>
+                <div style="font-family:var(--font-mono); color:var(--danger); background:rgba(239,68,68,0.1); padding:8px 16px; border-radius:8px; border:1px solid rgba(239,68,68,0.3); font-weight:700;">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:8px; background:var(--bg-panel); border-radius:4px; overflow:hidden; margin-bottom:40px;">
+                <div id="hwProgressFill" style="height:100%; background:var(--grad-brand); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border:1px solid rgba(255,255,255,0.05); margin-bottom:30px;">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:600; margin-bottom:30px; line-height:1.5;">Loading question...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--text-muted); border:1px solid rgba(255,255,255,0.1); padding:12px 24px; border-radius:50px; cursor:pointer; transition:all 0.2s;">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div id="hw-pdf-content" style="background:var(--bg-base); padding:20px;">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 class="dashboard-title" style="font-size:2.5rem;">Test Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--text-muted);"></p>
+                </div>
+
+                <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border-top:4px solid var(--accent-teal); text-align:center; margin-bottom:40px;">
+                    <div style="font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Final Score</div>
+                    <div id="hwScoreDetail" style="font-size:4rem; font-weight:800; color:var(--text-main); margin:10px 0;">0/10</div>
+                    <div id="hwTerminationReason" style="font-weight:700;"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--accent-teal); color:var(--bg-base); border:none; padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Download PDF</button>
+                <button onclick="closeHomework()" style="background:transparent; color:var(--text-main); border:1px solid rgba(255,255,255,0.2); padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Exit Portal</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:var(--danger);color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-glow); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--accent-purple);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(139,92,246,0.4); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(66,85,255,0.4); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--accent-pink);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(236,72,153,0.4); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<!-- Local Laser Cursor -->
+<div id="myLocalLaser" style="display:none; position:fixed; width:12px; height:12px; background:red; border-radius:50%; box-shadow:0 0 15px 5px rgba(255,0,0,0.8); pointer-events:none; z-index:1000000; transform:translate(-50%,-50%);"></div>
+
+<!-- Admin Modal -->
+<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(15,17,21,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;border:1px solid rgba(255,255,255,0.1);">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Review recent submissions.</p>
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead style="background:var(--bg-card);color:var(--text-main);">
+                <tr><th style="padding:12px;">Date</th><th style="padding:12px;">Student</th><th style="padding:12px;">Score</th><th style="padding:12px;">Status</th></tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+        </table>
+        <button style="background:transparent;color:var(--danger);border:1px solid var(--danger);padding:10px 20px;border-radius:50px;margin-top:20px;cursor:pointer;" onclick="clearData()">Clear Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(15,17,21,0.9);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:600px;border:1px solid rgba(255,255,255,0.1);">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:8px;">Quizlet Exporter</h2>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-top:24px;">
+            <div style="display:flex;gap:12px;">
+                <input type="text" placeholder="Term (e.g. Clout)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,0.1);background:var(--bg-base);color:white;">
+                <input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,0.1);background:var(--bg-base);color:white;">
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" style="flex:1;background:var(--bg-card);color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2;background:#4255FF;color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // ─── GENERAL UI LOGIC ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(139, 92, 246, 0.4)');
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        const el = document.getElementById('whiteboard');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 40, behavior: 'smooth'});
+    };
+
+    // ─── QUIZLET & ADMIN MODALS ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,0.1);background:var(--bg-base);color:white;"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(255,255,255,0.1);background:var(--bg-base);color:white;">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){ navigator.clipboard.writeText(out).then(()=>{ btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }); } 
+        else { btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#8b5cf6', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--text-muted)'; b.style.color='var(--text-main)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--accent-purple)'; btn.style.color='var(--accent-purple)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Inter', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "My marketing manager strongly advises us ___ highly produced content every single day.", options: ["posting", "to post", "post", "to posting"], correct: 1 },
+        { text: "Many older professionals strongly object ___ their medical practice into entertainment.", options: ["turning", "to turn", "to turning", "turn"], correct: 2 },
+        { text: "The new algorithm makes content creators ___ heavily on trending audio to be seen.", options: ["relying", "to rely", "rely", "relied"], correct: 2 },
+        { text: "I am not used ___ on camera; recording these videos feels very unnatural.", options: ["to be", "to being", "being", "be"], correct: 1 },
+        { text: "It is absolutely crucial ___ a pristine reputation online in this saturated market.", options: ["maintaining", "to maintain", "maintain", "for maintain"], correct: 1 },
+        { text: "If you want to gain genuine ___, you need to post authentic content, not just ads.", options: ["leverage", "backlash", "clout", "veneer"], correct: 2 },
+        { text: "The dentist faced severe ___ after posting a deceptive advertisement about teeth whitening.", options: ["clout", "curation", "backlash", "leverage"], correct: 2 },
+        { text: "We try to ___ our clinical expertise by sharing evidence-based facts on Instagram.", options: ["backlash", "leverage", "clout", "deceptive"], correct: 1 },
+        { text: "Which sentence is grammatically CORRECT?", options: ["They let the patients to take selfies.", "They let the patients taking selfies.", "They let the patients take selfies.", "They let the patients took selfies."], correct: 2 },
+        { text: "Which sentence uses 'used to' correctly to describe a CURRENT habit/state?", options: ["I used to posting every day.", "I am used to post every day.", "I used to post every day.", "I am used to posting every day."], correct: 3 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 10 * 60, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    window.openHomework = () => {
+        document.querySelector('.main-content').style.display = 'none';
+        document.getElementById('homework-portal').style.display = 'block';
+    };
+
+    window.closeHomework = () => {
+        document.querySelector('.main-content').style.display = 'block';
+        document.getElementById('homework-portal').style.display = 'none';
+        if(isTestActive) endHWQuiz(true, "Terminated (Manually Exited)");
+    };
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else alert("WARNING: Do not leave the test tab.");
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = [];
+        cheatWarnings = 0; timeLeft = 10 * 60; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5);
+        
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 10) { endHWQuiz(false, "Completed Successfully"); return; }
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 10`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 10) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:var(--bg-card);border:1px solid rgba(255,255,255,0.1);padding:16px 24px;text-align:left;font-family:var(--font-ui);font-size:1.05rem;color:var(--text-main);border-radius:8px;cursor:pointer;transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "rgba(139, 92, 246, 0.1)";
+            btn.onmouseout = () => btn.style.background = "var(--bg-card)";
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: currentQuestionObj.options[currentQuestionObj.correct], isCorrect: isCorrect });
+        if (isCorrect) score++;
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerText = `Status: ${statusMsg}`;
+        if(forcedExit) document.getElementById('hwTerminationReason').style.color = "var(--danger)";
+        else document.getElementById('hwTerminationReason').style.color = "var(--success)";
+
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = `padding:20px; border:1px solid rgba(255,255,255,0.05); border-left:4px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; background:var(--bg-card); border-radius:8px;`;
+            div.innerHTML = `<div style="font-size:1.1rem;font-weight:600;margin-bottom:10px;">${index + 1}. ${item.text}</div><div style="font-size:0.95rem;color:var(--text-muted);">Your answer: <span style="color:${item.isCorrect ? 'var(--success)' : 'var(--danger)'};font-weight:700;">${item.userAns}</span></div>${!item.isCorrect ? `<div style="font-size:0.95rem;color:var(--text-muted);">Correct answer: <span style="color:var(--success);font-weight:700;">${item.correctAns}</span></div>` : ''}`;
+            grid.appendChild(div);
+        });
+
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-results').style.display='block';
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function downloadHWPDF() {
+        const element = document.getElementById('hw-pdf-content');
+        // Ensure dark theme renders correctly in PDF by temporarily forcing light background if needed, but lets keep it dark for aesthetic.
+        const opt = { margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L16_Homework.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, backgroundColor: '#0f1115' }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson16HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson16HomeworkData', JSON.stringify(results));
+    }
+
+    // ─── ADMIN DASHBOARD ───
+    window.openAdmin = () => {
+        const results = JSON.parse(localStorage.getItem('lesson16HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='padding:12px;text-align:center;'>No submissions.</td></tr>";
+        else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);">${r.date}</td><td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);font-weight:700;color:white;">${r.name}</td><td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);">${r.score}/${r.total}</td><td style="padding:12px;border-bottom:1px solid rgba(255,255,255,0.05);color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'};">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    };
+    window.closeAdmin = () => document.getElementById('adminModal').style.display = 'none';
+    window.clearData = () => { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson16HomeworkData'); openAdmin(); } };
+
+</script>
+
+<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'dental-b2c1-lesson16-social-v1';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(24,27,33,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(139,92,246,0.3); font-family:var(--font-ui);";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--accent-purple);border-radius:50%;box-shadow:0 0 8px var(--accent-purple);"></span><span id="syncText">Connecting Network...</span>`;
+    document.body.appendChild(statusDiv);
+
+    function setStatus(t,c){document.getElementById('syncText').innerText=t; document.getElementById('syncDot').style.background=c; document.getElementById('syncDot').style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Creator';
+
+    // LASER POINTER STATE
+    let myLaserMode = false;
+    const localLaser = document.getElementById('myLocalLaser');
+    window.toggleLaser = function() {
+        myLaserMode = !myLaserMode;
+        const btn = document.getElementById('laserBtn');
+        if(myLaserMode) {
+            document.body.classList.add('laser-active');
+            btn.style.boxShadow = "0 0 20px 5px rgba(239,68,68,0.8)";
+            localLaser.style.display = 'block';
+        } else {
+            document.body.classList.remove('laser-active');
+            btn.style.boxShadow = "var(--shadow-glow)";
+            localLaser.style.display = 'none';
+        }
+    };
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#ef4444'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Creator '+(snap.size+1);
+                setStatus('Network Active 🌐','#10b981');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Creator '+(Math.floor(Math.random()*99)+1);
+                setStatus('Network Active 🌐','#10b981');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#ef4444');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveLaserContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{
+            if(myLaserMode) {
+                localLaser.style.left = e.clientX + 'px';
+                localLaser.style.top = e.clientY + 'px';
+            }
+            if(!currentUser) return;
+            setDoc(myRef,{
+                xOffset: e.pageX - window.innerWidth/2, 
+                y: e.pageY, 
+                color: myCursorColor, 
+                name: myCursorName, 
+                isLaser: myLaserMode,
+                timestamp: Date.now()
+            });
+        }, 30));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el = document.createElement('div');
+                    el.id = 'cursor-'+id;
+                    el.style.position = 'absolute'; el.style.pointerEvents = 'none'; el.style.zIndex = '999999';
+                    el.style.transition = 'top 0.1s linear, left 0.1s linear';
+                    container.appendChild(el);
+                }
+
+                if (data.isLaser) {
+                    el.innerHTML = `
+                        <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(255,0,0,0.8);color:white;font-size:0.75rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;font-family:var(--font-mono);">${data.name}</div>
+                    `;
+                } else {
+                    el.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+                        <div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-ui);box-shadow:0 2px 6px rgba(0,0,0,0.4);">${data.name}</div>
+                    `;
+                }
+                
+                el.style.left = (window.innerWidth/2 + data.xOffset) + 'px';
+                el.style.top = data.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
+
+</main>
+
+<!-- ══ VOCABULARY MODAL OVERLAY ══ -->
+<div class="vocab-modal-overlay" id="vocabModal" onclick="closeVocab(event)">
+    <div class="vocab-modal">
+        <div class="vm-img" id="vmImg">
+            <div class="vm-close" onclick="closeVocab(event)">×</div>
+        </div>
+        <div class="vm-content">
+            <div class="vm-word" id="vmWord">Word</div>
+            <div class="vm-pos" id="vmPos">part of speech</div>
+            <div class="vm-def" id="vmDef">Definition goes here...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Vocab Database (Images via Unsplash Source IDs for stability)
+    const vocabData = {
+        'clout': {
+            img: 'https://images.unsplash.com/photo-1516251193007-45ef944ab0c6?auto=format&fit=crop&w=600&q=80',
+            pos: 'noun (informal / social media)',
+            def: 'Influence or power, especially in politics, business, or social media. Often associated with the number of followers or likes.'
+        },
+        'leverage': {
+            img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+            pos: 'verb (C1 business)',
+            def: 'To use something that you already have in order to achieve something new or better. "Leveraging your medical degree to gain trust online."'
+        },
+        'curate': {
+            img: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80',
+            pos: 'verb (C1)',
+            def: 'To carefully choose, arrange, and present items (like photos on an Instagram grid) to create a specific aesthetic or impression.'
+        },
+        'veneer': {
+            img: 'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=600&q=80',
+            pos: 'noun (dual meaning)',
+            def: '1. A thin covering of porcelain placed over a tooth. <br>2. An attractive appearance that covers or hides someone\'s true nature or feelings.'
+        },
+        'authentic': {
+            img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+            pos: 'adjective',
+            def: 'Real, genuine, and not copied or false. On social media, it means showing imperfections and being honest with your audience.'
+        },
+        'backlash': {
+            img: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=600&q=80',
+            pos: 'noun (C1)',
+            def: 'A strong and adverse reaction by a large number of people, especially to a social or political development (or a controversial social media post).'
+        }
+    };
+
+    function openVocab(word) {
+        const data = vocabData[word];
+        if(!data) return;
+        document.getElementById('vmImg').style.backgroundImage = `url('${data.img}')`;
+        document.getElementById('vmWord').innerText = word;
+        document.getElementById('vmPos').innerText = data.pos;
+        document.getElementById('vmDef').innerHTML = data.def;
+        document.getElementById('vocabModal').classList.add('visible');
+    }
+
+    function closeVocab(e) {
+        if (e.target.id === 'vocabModal' || e.target.classList.contains('vm-close')) {
+            document.getElementById('vocabModal').classList.remove('visible');
+        }
+    }
+
+    // Nav logic
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick') && !e.target.classList.contains('hw-btn')) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                const el = document.querySelector(id);
+                if (el) el.classList.add('active');
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>
