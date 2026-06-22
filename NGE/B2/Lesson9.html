@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 9: C1 | True Crime & Criminal Psychology</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Investigation File Light Theme */
+            --bg-page:    #F3F4F6; /* Light gray */
+            --bg-panel:   #FFFFFF; /* White */
+            --bg-alt:     #E5E7EB; /* Slightly darker gray for zones */
+            
+            --text-main:  #111827; /* Near black */
+            --text-muted: #4B5563; /* Medium gray */
+            
+            --blood:      #BE123C; /* Crimson */
+            --blood-dim:  #9F1239;
+            --police:     #1D4ED8; /* Blue */
+            --success:    #15803D; /* Green */
+            --border:     #D1D5DB; /* Standard border */
+            
+            --font-ui: 'Inter', sans-serif;
+            --font-type: 'Courier Prime', monospace;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+            --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-ui); line-height: 1.7; color: var(--text-main); background: var(--bg-page); overflow-x: hidden; }
+
+        [contenteditable="true"] { outline: none; border-radius: 2px; transition: background 0.2s; }
+        [contenteditable="true"]:hover { background: rgba(190, 18, 60, 0.05); }
+        [contenteditable="true"]:focus { background: rgba(190, 18, 60, 0.1); box-shadow: 0 0 0 2px var(--blood); }
+
+        /* ── HERO ── */
+        .hero { position: relative; min-height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="%23f3f4f6"/><path d="M0 19h20v1H0zM19 0h1v20h-1z" fill="%23e5e7eb"/></svg>'); }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 60px 40px; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border: 1px solid var(--border); box-shadow: var(--shadow-lg); border-radius: var(--r-lg); }
+        .hero-badge { display: inline-flex; align-items: center; background: var(--text-main); color: var(--bg-panel); padding: 6px 16px; font-family: var(--font-type); font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; border-radius: 2px; }
+        .hero h1 { font-family: var(--font-type); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; margin-bottom: 20px; color: var(--text-main); text-transform: uppercase; }
+        .hero h1 em { color: var(--blood); font-style: normal; text-decoration: underline; text-decoration-color: var(--blood); text-underline-offset: 4px; }
+        .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 30px; font-weight: 400; }
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .hero-chip { background: var(--bg-alt); border: 1px solid var(--border); padding: 4px 14px; font-size: 0.85rem; font-family: var(--font-type); color: var(--text-muted); border-radius: 2px; }
+
+        /* ── NAV ── */
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 2px solid var(--text-main); padding: 0 24px; box-shadow: var(--shadow-sm); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+        .nav-logo { font-weight: 800; font-size: 1.2rem; color: var(--text-main); text-decoration: none; display: flex; align-items: center; font-family: var(--font-type); letter-spacing: -0.5px; }
+        .nav-logo span { color: var(--blood); margin-left: 6px; }
+        .nav-links { display: flex; gap: 8px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; padding: 6px 12px; transition: all 0.2s; white-space: nowrap; border-radius: 2px; }
+        .nav-links a:hover { color: var(--text-main); background: var(--bg-alt); }
+        .nav-links .hw-tab { color: var(--bg-panel); background: var(--text-main); }
+        .nav-links .hw-tab:hover { background: var(--blood); color: var(--bg-panel); }
+
+        /* ── SECTIONS ── */
+        .section { padding: 80px 24px; border-bottom: 1px solid var(--border); }
+        .section:nth-child(even) { background: var(--bg-panel); }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+        .task-counter { display: inline-flex; align-items: center; font-family: var(--font-type); font-size: 0.8rem; color: var(--text-muted); border-bottom: 2px solid var(--text-main); padding-bottom: 4px; margin-bottom: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .section-title { font-family: var(--font-type); font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 700; color: var(--text-main); margin-bottom: 16px; line-height: 1.2; text-transform: uppercase; }
+        .section-title em { color: var(--blood); font-style: normal; background: rgba(190, 18, 60, 0.1); padding: 0 8px; }
+        .section-desc { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 700px; font-weight: 400; }
+
+        /* ── GRIDS & CARDS ── */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .concept-card { background: var(--bg-panel); padding: 30px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); border-top: 4px solid var(--text-main); position: relative; transition: transform 0.2s, box-shadow 0.2s; }
+        .concept-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--text-muted); }
+        .concept-card h3 { color: var(--text-main); font-family: var(--font-type); font-size: 1.2rem; margin-bottom: 12px; }
+
+        /* ── VOCABULARY FLIP CARDS ── */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+        .vocab-card { background: var(--bg-panel); border: 1px solid var(--border); padding: 24px; position: relative; cursor: pointer; transition: all 0.3s; min-height: 140px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .vocab-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--blood); }
+        .v-front { transition: opacity 0.3s; }
+        .vocab-card:hover .v-front { opacity: 0; }
+        .v-word { font-size: 1.3rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px; font-family: var(--font-type); }
+        .v-pos { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+        .v-back { position: absolute; inset: 0; padding: 20px; background: var(--text-main); color: var(--bg-panel); opacity: 0; transition: opacity 0.3s; display: flex; align-items: center; font-size: 0.9rem; line-height: 1.5; font-weight: 400; border-left: 4px solid var(--blood); }
+        .vocab-card:hover .v-back { opacity: 1; }
+
+        /* ── DRAG & DROP MECHANICS ── */
+        .dnd-container { background: var(--bg-panel); border: 1px solid var(--border); padding: 30px; box-shadow: var(--shadow-sm); }
+        .dnd-sentence { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8; color: var(--text-main); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .drop-zone { min-width: 160px; height: 36px; border: 2px dashed var(--text-muted); background: var(--bg-alt); display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; vertical-align: middle; }
+        .drop-zone.drag-over { border-color: var(--police); background: rgba(29, 78, 216, 0.1); transform: scale(1.02); }
+        .drop-zone.filled { border: 2px solid var(--text-main); background: var(--bg-panel); }
+        .draggable-bank { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border); min-height: 60px; }
+        .draggable-word { background: var(--text-main); color: var(--bg-panel); padding: 6px 16px; font-family: var(--font-type); font-size: 0.9rem; font-weight: 600; cursor: grab; transition: transform 0.1s, box-shadow 0.1s; box-shadow: var(--shadow-sm); }
+        .draggable-word:active { cursor: grabbing; transform: scale(0.95); }
+        .draggable-word.dragging { opacity: 0.5; box-shadow: var(--shadow-md); }
+
+        /* ── GRAMMAR TABLES ── */
+        .grammar-box { background: var(--bg-panel); border: 1px solid var(--border); margin-top: 20px; box-shadow: var(--shadow-sm); }
+        .g-header { background: var(--bg-alt); padding: 16px 24px; border-bottom: 1px solid var(--border); }
+        .g-header h3 { font-family: var(--font-type); font-size: 1.1rem; color: var(--text-main); text-transform: uppercase; font-weight: 700; }
+        .g-content { padding: 24px; }
+        .g-formula { font-size: 1.4rem; font-weight: 700; color: var(--blood); margin-bottom: 16px; font-family: var(--font-type); }
+        .g-formula span { color: var(--text-muted); font-size: 0.95rem; font-weight: 400; margin-left:12px; font-family: var(--font-ui); }
+        .g-example { border-left: 3px solid var(--text-main); padding: 12px 16px; background: var(--bg-page); margin-top: 12px; font-size: 1.05rem; color: var(--text-main); }
+
+        /* ── ERROR SPY ── */
+        .spy-sentence { background: var(--bg-panel); border: 1px solid var(--border); padding: 20px 24px; margin-bottom: 12px; font-size: 1.05rem; display: flex; align-items: flex-start; gap: 16px; box-shadow: var(--shadow-sm); }
+        .spy-sentence.correct { border-left: 4px solid var(--success); }
+        .spy-sentence.incorrect { border-left: 4px solid var(--blood); animation: shake 0.4s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .spy-num { font-family: var(--font-type); font-weight: 700; color: var(--text-muted); font-size: 0.9rem; margin-top: 3px; }
+        .wrong-word { background: rgba(190, 18, 60, 0.1); color: var(--blood); font-weight: 600; padding: 2px 6px; border-bottom: 2px solid var(--blood); cursor: pointer; }
+        .spy-input-wrap { display: none; align-items: center; gap: 10px; margin-top: 12px; }
+        .spy-input-wrap.visible { display: flex; }
+        .spy-input { border: 1px solid var(--text-main); padding: 8px 12px; font-family: var(--font-type); outline: none; flex: 1; max-width: 300px; }
+        .spy-check-btn { background: var(--text-main); color: white; border: none; padding: 8px 16px; cursor: pointer; font-weight: 600; font-family: var(--font-type); }
+
+        /* ── VIDEO & TFNG ── */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border: 1px solid var(--border); background: #000; margin-bottom: 20px; box-shadow: var(--shadow-md); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .tfng-item { background: var(--bg-panel); border: 1px solid var(--border); padding: 20px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+        .tfng-item.t-correct { border-left: 4px solid var(--success); }
+        .tfng-item.t-wrong { border-left: 4px solid var(--blood); }
+        .tfng-btns { display: flex; gap: 10px; margin-top:12px; }
+        .tfng-btn { background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-main); padding: 6px 16px; font-size: 0.85rem; cursor: pointer; font-family: var(--font-type); font-weight: 700; transition: background 0.2s; }
+        .tfng-btn:hover { background: var(--border); }
+        .tfng-btn.selected-correct { background: var(--success); color: white; border-color: var(--success); }
+        .tfng-btn.selected-wrong { background: var(--blood); color: white; border-color: var(--blood); }
+        .tfng-explain { display: none; margin-top: 16px; font-size: 0.95rem; color: var(--text-muted); padding-top: 16px; border-top: 1px dashed var(--border); }
+
+        /* ── CALLOUTS & SPINNERS ── */
+        .callout { padding: 20px 24px; margin: 24px 0; border-left: 4px solid var(--blood); background: rgba(190, 18, 60, 0.05); font-size: 1rem; color: var(--text-main); }
+        .spinner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .spin-item { background: var(--bg-panel); border: 1px dashed var(--text-muted); padding: 24px; text-align: center; font-family: var(--font-type); font-weight: 700; transition: all 0.2s; cursor: pointer; }
+        .spin-item:hover { border-color: var(--blood); color: var(--blood); background: rgba(190, 18, 60, 0.05); }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 1px solid var(--border); overflow: hidden; background: #fff; margin-top: 20px; box-shadow: var(--shadow-md); }
+        .wb-toolbar { background: var(--bg-alt); padding: 12px 20px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border); }
+        .wb-btn { background: var(--bg-panel); color: var(--text-main); border: 1px solid var(--border); padding: 6px 12px; cursor: pointer; font-family: var(--font-type); font-size: 0.85rem; font-weight: 700; }
+        .wb-btn:hover, .wb-btn.active { background: var(--text-main); color: var(--bg-panel); }
+        canvas { display: block; width: 100%; height: 500px; cursor: crosshair; }
+
+        /* ── HOMEWORK UI (Anti-Cheat) ── */
+        .hw-exclusive { display: none; background: var(--bg-page); min-height: 100vh; padding: 40px 20px 80px; }
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .hw-timer { font-family: var(--font-type); font-weight: 700; font-size: 1.2rem; color: var(--text-main); background: var(--bg-panel); padding: 10px 20px; border: 2px solid var(--text-main); }
+        .hw-progress { width: 100%; height: 8px; background: var(--bg-alt); margin-bottom: 40px; }
+        .hw-progress-fill { height: 100%; background: var(--text-main); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 12px 20px; font-size: 1rem; border: 1px solid var(--border); background: var(--bg-panel); color: var(--text-main); margin-bottom: 20px; font-family: var(--font-type); }
+        .hw-input:focus { outline: none; border-color: var(--text-main); }
+        .hw-btn-primary { background: var(--blood); color: white; border: none; padding: 14px 32px; font-size: 1rem; font-weight: 700; font-family: var(--font-type); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        .hw-btn-primary:hover { background: var(--blood-dim); }
+        
+        .hw-qbox { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border); border-top: 4px solid var(--text-main); text-align: left; margin-bottom: 30px; box-shadow: var(--shadow-sm); }
+        .hw-qtext { font-size: 1.2rem; color: var(--text-main); margin-bottom: 30px; font-weight: 600; line-height: 1.6; }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { background: var(--bg-page); border: 1px solid var(--border); padding: 16px 20px; text-align: left; font-size: 1.05rem; color: var(--text-main); cursor: pointer; transition: all 0.2s; }
+        .hw-opt-btn:hover { background: var(--bg-alt); border-color: var(--text-muted); }
+        .hw-btn-skip { background: transparent; color: var(--text-muted); border: 1px solid var(--border); padding: 10px 24px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: var(--font-type); }
+        
+        .elegant-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); margin-top: 20px; border: 1px solid var(--border); text-align: left; }
+        .elegant-table th { background: var(--bg-alt); color: var(--text-main); padding: 12px 16px; font-family: var(--font-type); font-size: 0.85rem; }
+        .elegant-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
+        /* FABs & MODALS */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab-btn { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-panel); color: var(--text-main); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; }
+        .fab-btn:hover { background: var(--text-main); color: var(--bg-panel); }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--bg-panel); padding: 32px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; border-top: 4px solid var(--text-main); position: relative; box-shadow: var(--shadow-lg); }
+        .close-modal { position: absolute; top: 16px; right: 20px; color: var(--text-muted); cursor: pointer; font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--bg-panel); padding:6px 16px; border:1px solid var(--border); display:flex; align-items:center; gap:8px; z-index:10000; font-family:var(--font-type); font-size:0.75rem; color:var(--text-main); box-shadow:var(--shadow-sm);">
+    <span id="syncDot" style="width:8px; height:8px; border-radius:50%; background:var(--success); display:block;"></span>
+    <span id="syncText">SYNC SECURE</span>
+</div>
+
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">File #09 // General English C1</div>
+        <h1 contenteditable="true">True Crime &<br><em>Psychology</em></h1>
+        <p class="hero-sub" contenteditable="true">Deconstruct criminal motives, analyze forensics, and master all forms of the Passive Voice to report the facts neutrally.</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">PASSIVE VOICE</span>
+            <span class="hero-chip" contenteditable="true">CAUSATIVE PASSIVE</span>
+            <span class="hero-chip" contenteditable="true">CRIME LEXICON</span>
+        </div>
+    </div>
+</header>
+
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">NGE <span>// L09</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1">The Motive</a></li>
+            <li><a href="#t2">Lexicon</a></li>
+            <li><a href="#t3">The Heist</a></li>
+            <li><a href="#t4">D&D Vocab</a></li>
+            <li><a href="#t5">Footage</a></li>
+            <li><a href="#t7">Grammar</a></li>
+            <li><a href="#t11">Rewrite</a></li>
+            <li><a href="#t15">Board</a></li>
+            <li><a href="#hw" class="hw-tab">Homework</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+    <section class="section" id="t1">
+        <div class="section-inner">
+            <div class="task-counter">01. THE MECHANICS</div>
+            <h2 class="section-title">The Fraud <em>Triangle</em></h2>
+            <p class="section-desc" contenteditable="true">In criminology, investigators look for three elements before naming a suspect. Analyze the components below. Discuss a famous white-collar crime and map it to this structure.</p>
+            
+            <div class="grid-3">
+                <div class="concept-card">
+                    <h3 contenteditable="true">1. Motive (Pressure)</h3>
+                    <p contenteditable="true" style="color:var(--text-muted);">The reason why a person commits the crime. Usually financial pressure, revenge, or psychological compulsion.</p>
+                </div>
+                <div class="concept-card">
+                    <h3 contenteditable="true">2. Opportunity</h3>
+                    <p contenteditable="true" style="color:var(--text-muted);">The ability to execute the crime without being caught immediately. Often created by weak security systems or blind trust.</p>
+                </div>
+                <div class="concept-card">
+                    <h3 contenteditable="true">3. Rationalization</h3>
+                    <p contenteditable="true" style="color:var(--text-muted);">The psychological justification. "They owe me this money," or "I'm just borrowing it temporarily."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t2">
+        <div class="section-inner">
+            <div class="task-counter">02. C1 LEXICON</div>
+            <h2 class="section-title">The Language of <em>Justice</em></h2>
+            <p class="section-desc" contenteditable="true">Hover over the cards to reveal advanced vocabulary used in true crime reporting, law, and psychology.</p>
+
+            <div class="vocab-grid">
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">verb (passive)</div><div class="v-word">To be apprehended</div></div>
+                    <div class="v-back">To be caught and arrested by the police. "The suspect was finally apprehended near the border."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">verb</div><div class="v-word">To exonerate</div></div>
+                    <div class="v-back">To officially absolve someone from blame. "DNA evidence later exonerated the innocent man."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">verb</div><div class="v-word">To tamper with</div></div>
+                    <div class="v-back">To interfere with something in order to cause damage or hide evidence. "The crime scene had been tampered with."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">adjective / noun</div><div class="v-word">Forensic</div></div>
+                    <div class="v-back">Relating to the application of scientific methods to investigate crime. "Forensic accounting revealed the fraud."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">noun</div><div class="v-word">Perpetrator</div></div>
+                    <div class="v-back">A person who carries out a harmful, illegal, or immoral act. "The perpetrator acted alone."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">noun</div><div class="v-word">Alibi</div></div>
+                    <div class="v-back">A claim or piece of evidence that one was elsewhere when an act is alleged to have taken place.</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">verb (passive)</div><div class="v-word">To be incarcerated</div></div>
+                    <div class="v-back">To be imprisoned or confined. "He is currently incarcerated in a high-security facility."</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="v-front"><div class="v-pos">noun</div><div class="v-word">Modus Operandi</div></div>
+                    <div class="v-back">(MO) A particular way or method of doing something, especially one that is characteristic of a criminal.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t3">
+        <div class="section-inner">
+            <div class="task-counter">03. CASE FILE</div>
+            <h2 class="section-title">The Gardner Museum <em>Heist</em></h2>
+            <div style="background:var(--bg-panel); padding:40px; border:1px solid var(--border); border-left:4px solid var(--text-main); line-height:1.9; font-size:1.1rem; box-shadow:var(--shadow-sm);">
+                <p style="margin-bottom:20px;" contenteditable="true">In the early hours of March 18, 1990, the Isabella Stewart Gardner Museum in Boston <strong>was infiltrated</strong> by two men disguised as police officers. Within 81 minutes, thirteen priceless works of art <strong>had been stolen</strong>, including masterpieces by Rembrandt and Vermeer. </p>
+                <p style="margin-bottom:20px;" contenteditable="true">The security guards <strong>were handcuffed</strong> and placed in the basement. Astonishingly, the museum's alarms <strong>were bypassed</strong> entirely, suggesting the perpetrators possessed insider knowledge. Despite a massive FBI investigation, no arrests <strong>have ever been made</strong>.</p>
+                <p contenteditable="true">It <strong>is widely believed</strong> that the paintings <strong>were moved</strong> overseas, but they have never <strong>been recovered</strong>. The empty frames remain hanging on the walls to this day, waiting for the art to <strong>be returned</strong>.</p>
+            </div>
+            <div class="callout">
+                <strong>Why Passive Voice?</strong> Notice how the text focuses on the <em>actions</em> and the <em>victims/objects</em> (the art, the alarms) rather than the perpetrators, because their identities are unknown.
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t4">
+        <div class="section-inner">
+            <div class="task-counter">04. APPLICATION WIRING</div>
+            <h2 class="section-title">Lexical <em>Integration</em></h2>
+            <p class="section-desc">Drag the correct vocabulary words from the bank and drop them into the appropriate zones in the sentences below.</p>
+
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. The suspect claimed he had an <div class="drop-zone" data-target="alibi"></div>, stating he was at a restaurant during the robbery.</div>
+                <div class="dnd-sentence">2. The evidence was dismissed in court because the box had been <div class="drop-zone" data-target="tampered"></div> with.</div>
+                <div class="dnd-sentence">3. After the new DNA analysis, the wrongly convicted man was completely <div class="drop-zone" data-target="exonerated"></div>.</div>
+                <div class="dnd-sentence">4. The <div class="drop-zone" data-target="perpetrator"></div> was caught on CCTV leaving through the back exit.</div>
+                <div class="dnd-sentence">5. The fugitive was finally <div class="drop-zone" data-target="apprehended"></div> after a two-week international manhunt.</div>
+
+                <div class="draggable-bank" id="vocabBank">
+                    <div class="draggable-word" draggable="true" data-id="perpetrator">perpetrator</div>
+                    <div class="draggable-word" draggable="true" data-id="exonerated">exonerated</div>
+                    <div class="draggable-word" draggable="true" data-id="apprehended">apprehended</div>
+                    <div class="draggable-word" draggable="true" data-id="alibi">alibi</div>
+                    <div class="draggable-word" draggable="true" data-id="tampered">tampered</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t5">
+        <div class="section-inner">
+            <div class="task-counter">05. ARCHIVE FOOTAGE</div>
+            <h2 class="section-title">Exploring the Mind of a <em>Killer</em></h2>
+            <p class="section-desc" contenteditable="true">Neuroscientist Jim Fallon explores the brain scans of psychopathic killers and uncovers a shocking secret about his own biology.</p>
+
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/u2V0vI4LsHQ?rel=0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t6">
+        <div class="section-inner">
+            <div class="task-counter">06. COMPREHENSION</div>
+            <h2 class="section-title">Fact vs. <em>Fiction</em></h2>
+            
+            <div class="tfng-item" id="t-1">
+                <div class="tfng-stmt" contenteditable="true">1. Psychopathic killers generally possess a highly overactive orbital cortex.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(1,'T','F')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(1,'F','F')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(1,'NG','F')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="e-1">FALSE. He explicitly states that the orbital cortex (which controls moral behavior and impulsivity) is "turned off" or under-active in these individuals.</div>
+            </div>
+            <div class="tfng-item" id="t-2">
+                <div class="tfng-stmt" contenteditable="true">2. The MAOA gene (the "warrior gene") is exclusively passed down from the mother.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(2,'T','T')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(2,'F','T')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(2,'NG','T')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="e-2">TRUE. It is on the X chromosome, and since males only get one X chromosome (from their mother), it affects men more prominently.</div>
+            </div>
+            <div class="tfng-item" id="t-3">
+                <div class="tfng-stmt" contenteditable="true">3. Genetics guarantee that a person will become a violent criminal, regardless of their childhood.</div>
+                <div class="tfng-btns">
+                    <button class="tfng-btn" onclick="checkTFNG(3,'T','F')">TRUE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(3,'F','F')">FALSE</button>
+                    <button class="tfng-btn" onclick="checkTFNG(3,'NG','F')">NOT GIVEN</button>
+                </div>
+                <div class="tfng-explain" id="e-3">FALSE. He emphasizes that violent behavior is triggered by a combination of genetics AND severe childhood trauma (epigenetics).</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t7">
+        <div class="section-inner">
+            <div class="task-counter">07. SYSTEM RULES</div>
+            <h2 class="section-title">The Passive Voice: <em>All Forms</em></h2>
+            <p class="section-desc" contenteditable="true">The passive voice is ubiquitous in news, crime reporting, and academic writing. We use it when the *action* is more important than the *actor*.</p>
+
+            <div class="grammar-box">
+                <div class="g-header"><h3>Core Passive Forms</h3></div>
+                <div class="g-content">
+                    <div class="g-formula">to be + Past Participle (V3)</div>
+                    <ul style="color:var(--text-muted); line-height:2.2; margin-left:20px; font-size:1.05rem;">
+                        <li><strong>Present Simple:</strong> Evidence <em>is collected</em> daily.</li>
+                        <li><strong>Past Simple:</strong> The suspect <em>was interrogated</em> yesterday.</li>
+                        <li><strong>Present Continuous:</strong> The crime scene <em>is being examined</em> right now.</li>
+                        <li><strong>Present Perfect:</strong> The stolen funds <em>have been recovered</em>.</li>
+                        <li><strong>Past Perfect:</strong> The safe <em>had been tampered</em> with before police arrived.</li>
+                        <li><strong>Modals:</strong> The truth <em>must be discovered</em>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t8">
+        <div class="section-inner">
+            <div class="task-counter">08. SYSTEM RULES</div>
+            <h2 class="section-title">Advanced <em>Passive Constructs</em></h2>
+
+            <div class="grammar-box">
+                <div class="g-header"><h3>Impersonal Passive (Reporting)</h3></div>
+                <div class="g-content">
+                    <p style="color:var(--text-muted); margin-bottom:10px;">Used to report rumors, beliefs, or unverified claims without assigning a specific source.</p>
+                    <div class="g-formula">It is said/believed/thought that...</div>
+                    <div class="g-example">"<em>It is believed that</em> the perpetrator fled the country."</div>
+                    <div class="g-formula">Subject + is said/believed to + infinitive</div>
+                    <div class="g-example">"The perpetrator <em>is believed to have fled</em> the country."</div>
+                </div>
+            </div>
+
+            <div class="grammar-box">
+                <div class="g-header"><h3>Causative Passive</h3></div>
+                <div class="g-content">
+                    <p style="color:var(--text-muted); margin-bottom:10px;">Used when we arrange for someone else to do something for us.</p>
+                    <div class="g-formula">have / get + object + V3</div>
+                    <div class="g-example">"The CEO <em>had the financial records altered</em>." (He didn't do it himself; he ordered it).</div>
+                    <div class="g-example">"We need to <em>get the security cameras checked</em>."</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t9">
+        <div class="section-inner">
+            <div class="task-counter">09. SYNTAX WIRING</div>
+            <h2 class="section-title">Timeline <em>Assembly</em></h2>
+            <p class="section-desc">Drag the correct grammar structures to complete the report.</p>
+
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. Right now, the suspect's alibi <div class="drop-zone" data-target="being_checked"></div> by the lead detective.</div>
+                <div class="dnd-sentence">2. Before the trial even began, the evidence <div class="drop-zone" data-target="had_been"></div> destroyed.</div>
+                <div class="dnd-sentence">3. The mafia boss <div class="drop-zone" data-target="had_killed"></div> to prevent him from testifying.</div>
+                <div class="dnd-sentence">4. <div class="drop-zone" data-target="it_is"></div> that the hackers stole millions of data records.</div>
+
+                <div class="draggable-bank" id="grammarBank">
+                    <div class="draggable-word" draggable="true" data-id="had_killed">had his rival killed</div>
+                    <div class="draggable-word" draggable="true" data-id="being_checked">is being checked</div>
+                    <div class="draggable-word" draggable="true" data-id="it_is">It is believed</div>
+                    <div class="draggable-word" draggable="true" data-id="had_been">had been</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t10">
+        <div class="section-inner">
+            <div class="task-counter">10. PHONETICS</div>
+            <h2 class="section-title">The Flow of <em>Fluency</em></h2>
+            <p class="section-desc" contenteditable="true">Native speakers rarely pronounce auxiliary verbs clearly in passive voice. They are reduced to "weak forms."</p>
+            
+            <div class="callout">
+                <div style="font-family:var(--font-type); font-size:1.2rem; margin-bottom:10px;">has been  →  /həz bɪn/</div>
+                <div style="font-family:var(--font-type); font-size:1.2rem; margin-bottom:10px;">are being  →  /ər biːɪŋ/</div>
+                <p>Listen and repeat: "The suspects <strong>/ər biːɪŋ/</strong> questioned."</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t11">
+        <div class="section-inner">
+            <div class="task-counter">11. DEBUNK THE GRAMMAR</div>
+            <h2 class="section-title">The Syntax <em>Editor</em></h2>
+            <p class="section-desc" contenteditable="true">Click the red text, type the correct verb form, and hit Rewrite.</p>
+
+            <div class="spy-sentence" id="spy-1">
+                <span class="spy-num">01</span>
+                <div class="spy-text">
+                    The stolen diamonds <span class="wrong-word" onclick="revealSpy(1)">was recovered</span> in a warehouse yesterday.
+                    <div class="spy-input-wrap" id="wrap-1"><input class="spy-input" id="input-1" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(1)">Rewrite</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-2">
+                <span class="spy-num">02</span>
+                <div class="spy-text">
+                    He is thought <span class="wrong-word" onclick="revealSpy(2)">to escaped</span> the country on a private jet.
+                    <div class="spy-input-wrap" id="wrap-2"><input class="spy-input" id="input-2" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(2)">Rewrite</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-3">
+                <span class="spy-num">03</span>
+                <div class="spy-text">
+                    The mayor <span class="wrong-word" onclick="revealSpy(3)">had the documents destroy</span> before the police arrived.
+                    <div class="spy-input-wrap" id="wrap-3"><input class="spy-input" id="input-3" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(3)">Rewrite</button></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t12">
+        <div class="section-inner">
+            <div class="task-counter">12. SYNTAX UPGRADE</div>
+            <h2 class="section-title">Elevate the <em>Language</em></h2>
+            <p class="section-desc" contenteditable="true">Rewrite the active sentences to focus on the object (use passive).</p>
+            
+            <div style="background:var(--bg-panel); padding:30px; border:1px solid var(--border);">
+                <ol style="color:var(--text-main); line-height:2.4; padding-left:20px;">
+                    <li contenteditable="true">Active: The forensic team is analyzing the DNA right now.<br>
+                        <strong>Passive:</strong> The DNA <span style="border-bottom:1px dashed var(--text-muted); display:inline-block; min-width:300px;"></span>
+                    </li>
+                    <li contenteditable="true">Active: People think the gang stole fifty million dollars.<br>
+                        <strong>Passive (Reporting):</strong> It <span style="border-bottom:1px dashed var(--text-muted); display:inline-block; min-width:300px;"></span>
+                    </li>
+                    <li contenteditable="true">Active: Someone hacked the bank's security system.<br>
+                        <strong>Passive:</strong> The bank's security system <span style="border-bottom:1px dashed var(--text-muted); display:inline-block; min-width:300px;"></span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t13">
+        <div class="section-inner">
+            <div class="task-counter">13. INTERROGATION</div>
+            <h2 class="section-title">The Detective & <em>The Suspect</em></h2>
+            <div class="grid-2">
+                <div style="background:var(--bg-alt); padding:30px; border:1px solid var(--border); border-top:4px solid var(--police);">
+                    <h3 style="color:var(--police); margin-bottom:16px;">The Detective</h3>
+                    <p style="color:var(--text-muted); font-size:0.95rem;">You are interrogating a suspect regarding corporate fraud. Use <strong>Passive Voice</strong> to present facts coldly. <em>("The accounts were altered. Money has been moved.")</em></p>
+                </div>
+                <div style="background:var(--bg-alt); padding:30px; border:1px solid var(--border); border-top:4px solid var(--blood);">
+                    <h3 style="color:var(--blood); margin-bottom:16px;">The Suspect</h3>
+                    <p style="color:var(--text-muted); font-size:0.95rem;">You deny everything. Use <strong>Active Voice</strong> to shift the blame to others, or <strong>Causative Passive</strong> to explain innocence. <em>("My accountant did it! I had my taxes done by a professional!")</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t14">
+        <div class="section-inner">
+            <div class="task-counter">14. CREATIVE SYNTHESIS</div>
+            <h2 class="section-title">The Crime <em>Generator</em></h2>
+            <p class="section-desc">Pick an element below. Spend 60 seconds describing a fictional crime scenario. You must use at least THREE passive structures and TWO words from the Lexicon.</p>
+            <div class="grid-3">
+                <div class="spin-item">A Stolen Diamond</div>
+                <div class="spin-item">A Hacked Server</div>
+                <div class="spin-item">A Missing Painting</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t15" style="border-bottom:none;">
+        <div class="section-inner">
+            <div class="task-counter">15. INVESTIGATION BOARD</div>
+            <h2 class="section-title">Red String <em>Theory</em></h2>
+            <p class="section-desc" contenteditable="true">Map out a suspect timeline, connect motives, or draw grammar structures. (Tools map exactly to your cursor).</p>
+
+            <div class="wb-container">
+                <div class="wb-toolbar">
+                    <button class="wb-btn active" data-tool="pencil">Pen</button>
+                    <button class="wb-btn" data-tool="highlight">Marker</button>
+                    <button class="wb-btn" data-tool="text">Text</button>
+                    <button class="wb-btn" data-tool="arrow">String (Arrow)</button>
+                    <input type="color" id="wbColor" style="width: 30px; height: 30px; cursor: pointer; border: none; padding: 0;" value="#BE123C" title="Color">
+                    <button class="wb-btn" id="wbClear" style="margin-left:auto; color:var(--blood); border-color:var(--blood);">Clear Board</button>
+                </div>
+                <div id="canvasWrapper" style="position: relative; overflow: hidden; width: 100%; height: 500px;">
+                    <canvas id="boardCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="task-hw" class="hw-exclusive">
+    <div class="hw-container">
+        
+        <section id="hw-welcome" class="hw-screen active">
+            <div class="task-counter" style="color:var(--text-muted); border-color:var(--text-muted);">Homework Portal</div>
+            <h2 class="section-title">Module 09 <em>Assessment</em></h2>
+            <div style="background:var(--bg-panel); border:1px solid var(--border); padding:30px; text-align:left; margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <p style="margin-bottom:16px;"><strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 questions regarding Passive Voice constructs and C1 Crime Vocabulary.</p>
+                <p style="color: var(--blood); font-weight: 700; margin-bottom:0;">⚠️ Anti-Cheat Enabled: Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test and submit your current score.</p>
+            </div>
+            <div style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <button class="hw-btn-primary" onclick="startHW()" style="width:100%;">Accept Rules & Begin</button>
+            </div>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen">
+            <div class="hw-header">
+                <div class="task-counter" id="hwQuestionCounter" style="margin:0; border:none;">Question 1 / 15</div>
+                <div class="hw-timer">⏱️ <span id="hwTimerDisplay">15:00</span></div>
+            </div>
+            <div class="hw-progress"><div class="hw-progress-fill" id="hwProgressFill"></div></div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen">
+            <div id="hw-pdf-content" style="background: var(--bg-page); padding: 20px; box-sizing: border-box; text-align: left;">
+                <div style="text-align: center;">
+                    <div class="task-counter" style="border:none;">Assessment Complete</div>
+                    <h2 class="section-title" style="font-size:2rem;">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage" style="color:var(--text-main); font-weight:600;"></p>
+                </div>
+
+                <div style="background: var(--bg-panel); padding: 40px; border: 1px solid var(--border); border-top: 4px solid var(--text-main); margin: 30px 0; text-align: center; box-shadow:var(--shadow-md);">
+                    <h3 style="font-family: var(--font-type); color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Final Score</h3>
+                    <div style="font-size: 3rem; font-family: var(--font-type); font-weight: 700; color: var(--text-main); margin: 10px 0;" id="hwScoreDetail">0 / 15</div>
+                    <p style="font-family: var(--font-ui); font-size: 1rem; font-weight: 700; margin-top: 10px;" id="hwTerminationReason"></p>
+                </div>
+
+                <h3 style="font-family: var(--font-type); color: var(--text-main); text-align: left; border-bottom: 2px solid var(--text-main); padding-bottom: 10px;">Question Review</h3>
+                <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 20px;" id="hwReviewGrid"></div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="hw-btn-skip" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Board">🖍️</button>
+    <button class="fab-btn" onclick="openQuizletModal()" title="Quizlet" style="background: var(--police); color:white; border:none;">📝</button>
+    <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard" style="background: var(--text-main); color:white; border:none;">📋</button>
+</div>
+
+<div id="adminModal" class="modal-overlay">
+    <div class="modal-content" style="border-top-color: var(--text-main);">
+        <span class="close-modal" onclick="closeAdmin()">×</span>
+        <h2 style="font-family: var(--font-type); color: var(--text-main); margin-bottom: 10px;">Teacher Dashboard</h2>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Review recent student homework submissions.</p>
+        <div style="overflow-x: auto;">
+            <table class="elegant-table">
+                <thead><tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--blood); border-color:var(--blood); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content" style="border-top-color: var(--police);">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:var(--font-type); color:var(--text-main); margin-bottom:20px;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Term" class="hw-input" style="margin-bottom:0; flex:1;"><input type="text" placeholder="Definition" class="hw-input" style="margin-bottom:0; flex:1;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" class="hw-btn-skip" style="flex:1; margin-top:0;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" class="hw-btn-primary" style="flex:2; background:var(--police);">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Navigation & Toggles ---
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            
+            if (id === '#hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.querySelector('.hero').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                exitHomework();
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 60, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.querySelector('.hero').style.display = 'flex';
+        document.getElementById('task-hw').style.display = 'none';
+    }
+
+    window.scrollToWhiteboard = () => {
+        exitHomework();
+        const el = document.getElementById('t15');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth'});
+    };
+
+    // --- Drag and Drop Logic ---
+    const draggables = document.querySelectorAll('.draggable-word');
+    const dropZones = document.querySelectorAll('.drop-zone');
+
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', (e) => {
+            draggable.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', draggable.dataset.id);
+        });
+        draggable.addEventListener('dragend', () => draggable.classList.remove('dragging') );
+    });
+
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => { zone.classList.remove('drag-over'); });
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('drag-over');
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggedElement = document.querySelector(`.draggable-word[data-id="${draggedId}"]`);
+            
+            if (zone.dataset.target === draggedId) {
+                zone.appendChild(draggedElement);
+                zone.classList.add('filled');
+                draggedElement.style.border = 'none';
+                draggedElement.style.background = 'transparent';
+                draggedElement.style.color = 'var(--text-main)';
+                draggedElement.style.boxShadow = 'none';
+                draggedElement.setAttribute('draggable', 'false'); 
+            } else {
+                zone.style.animation = 'shake 0.4s';
+                zone.style.borderColor = 'var(--blood)';
+                setTimeout(() => {
+                    zone.style.animation = '';
+                    zone.style.borderColor = 'var(--text-muted)';
+                }, 400);
+            }
+        });
+    });
+
+    // --- Error Spy ---
+    const spyAns = {
+        1: ['were recovered'],
+        2: ['to have escaped'],
+        3: ['had the documents destroyed']
+    };
+    function revealSpy(n) { document.getElementById('wrap-'+n).classList.add('visible'); }
+    function checkSpy(n) {
+        let val = document.getElementById('input-'+n).value.trim().toLowerCase();
+        let card = document.getElementById('spy-'+n);
+        if (spyAns[n].some(a => val.includes(a))) {
+            card.classList.add('correct'); card.classList.remove('incorrect');
+        } else {
+            card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect');
+        }
+    }
+
+    // --- TFNG ---
+    function checkTFNG(n, choice, correct) {
+        let item = document.getElementById('t-'+n);
+        let exp = document.getElementById('e-'+n);
+        if (choice === correct) item.classList.add('t-correct');
+        else item.classList.add('t-wrong');
+        exp.style.display = 'block';
+    }
+
+    // --- Repaired Whiteboard Logic ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    let canvasRect;
+    
+    function initCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = saved;
+        updateRect();
+    }
+    
+    function updateRect() { canvasRect = canvas.getBoundingClientRect(); }
+
+    window.addEventListener('resize', initCanvas);
+    window.addEventListener('scroll', updateRect);
+    initCanvas();
+
+    let isDrawing = false, currentTool = 'pencil', color = '#BE123C', startX, startY, savedImg;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(b => {
+        b.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(x => x.classList.remove('active'));
+            b.classList.add('active'); currentTool = b.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    
+    document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => ctx.clearRect(0,0,canvas.width,canvas.height));
+
+    function getPos(e) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - canvasRect.left, y: clientY - canvasRect.top };
+    }
+
+    function startDraw(e) {
+        updateRect(); 
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const t = prompt('Enter text:');
+            if (t) { ctx.font = "bold 18px 'Courier Prime', monospace"; ctx.fillStyle = color; ctx.fillText(t, startX, startY); }
+            return;
+        }
+        isDrawing = true; savedImg = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+        if(e.touches) e.preventDefault();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        const p = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(p.x, p.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? color + '40' : color;
+            ctx.lineWidth = currentTool === 'highlight' ? 16 : 2;
+            ctx.stroke();
+        } else {
+            ctx.putImageData(savedImg, 0, 0); drawShape(p.x, p.y);
+        }
+        if(e.touches) e.preventDefault();
+    }
+
+    function endDraw(e) {
+        if (!isDrawing) return; isDrawing = false;
+        if (['arrow'].includes(currentTool)) {
+             const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+             const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+             drawShape(clientX - canvasRect.left, clientY - canvasRect.top);
+        }
+    }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+    canvas.addEventListener('touchstart', startDraw, {passive: false});
+    canvas.addEventListener('touchmove', draw, {passive: false});
+    canvas.addEventListener('touchend', endDraw);
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+        if (currentTool === 'arrow') {
+            const hl = 16, ang = Math.atan2(ey-startY, ex-startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - hl * Math.cos(ang - Math.PI/6), ey - hl * Math.sin(ang - Math.PI/6));
+            ctx.moveTo(ex, ey);
+            ctx.lineTo(ex - hl * Math.cos(ang + Math.PI/6), ey - hl * Math.sin(ang + Math.PI/6));
+            ctx.stroke();
+        }
+    }
+
+    // --- Quizlet ---
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() {
+        document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Term" class="hw-input" style="margin-bottom:0; flex:1;"><input type="text" placeholder="Definition" class="hw-input" style="margin-bottom:0; flex:1;"></div>`;
+    }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) {
+            const w = inputs[i].value.trim(), t = inputs[i+1].value.trim();
+            if(w || t) out += `${w}\t${t}\n`;
+        }
+        if(out) {
+            const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000);
+        }
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
+    const hwQuestionBank = [
+        { text: "The art pieces _______ from the museum over thirty years ago.", options: ["were stolen", "was stolen", "have been stolen", "are stolen"], correct: 0 },
+        { text: "The DNA evidence is currently _______ by the forensics team.", options: ["being analyzed", "been analyzed", "analyzing", "analyzed"], correct: 0 },
+        { text: "To officially state that someone is not guilty of a crime is to _______ them.", options: ["apprehend", "exonerate", "tamper", "incarcerate"], correct: 1 },
+        { text: "It _______ that the hackers stole millions of passwords.", options: ["is believing", "believed", "is believed", "has believed"], correct: 2 },
+        { text: "The CEO didn't shred the documents himself; he _______ by his assistant.", options: ["had them destroyed", "got them destroy", "had destroyed them", "was destroyed"], correct: 0 },
+        { text: "The suspect is believed _______ the country yesterday.", options: ["to escape", "escaping", "to have escaped", "escaped"], correct: 2 },
+        { text: "A person who commits a crime is known as the _______.", options: ["perpetrator", "alibi", "forensic", "modi operandi"], correct: 0 },
+        { text: "Before the police arrived, the safe _______ with.", options: ["has been tampered", "had been tampered", "was tampered", "is tampered"], correct: 1 },
+        { text: "If you interfere with evidence, you _______ it.", options: ["apprehend", "exonerate", "tamper with", "incarcerate"], correct: 2 },
+        { text: "The stolen money must _______ immediately.", options: ["returned", "be return", "be returning", "be returned"], correct: 3 },
+        { text: "We need to _______ the security cameras checked by a professional.", options: ["have", "get", "make", "do"], correct: 1 },
+        { text: "The man was finally _______ after a long chase.", options: ["exonerated", "apprehended", "tampered", "alibi"], correct: 1 },
+        { text: "His typical method of operation is also known as his _______.", options: ["forensic", "perpetrator", "modus operandi", "alibi"], correct: 2 },
+        { text: "The suspect claims he has an _______, proving he was at a restaurant.", options: ["alibi", "incarceration", "exoneration", "operation"], correct: 0 },
+        { text: "Thousands of innocent people are _______ in prisons every year.", options: ["apprehended", "exonerated", "tampered", "incarcerated"], correct: 3 }
+    ];
+
+    let currentStudent = "";
+    let questionHistory = []; 
+    let currentQuestionIndex = 0;
+    const TOTAL_QUESTIONS = 15;
+    let score = 0;
+    
+    let timeLeft = 15 * 60; 
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window. If you do this again, your test will instantly end.");
+            }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.hw-timer').style.background = "var(--blood)";
+                document.querySelector('.hw-timer').style.color = "white";
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will now be submitted.");
+                endHWQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    function showHWScreen(id) {
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name to continue."); return; }
+        
+        currentStudent = nameInput;
+        currentQuestionIndex = 0;
+        score = 0;
+        questionHistory = [];
+        cheatWarnings = 0;
+        timeLeft = 15 * 60;
+        isTestActive = true;
+
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
+        
+        showHWScreen('hw-quiz');
+        startHWTimer();
+        renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+            endHWQuiz(false, "Completed Successfully");
+            return;
+        }
+
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid');
+        grid.innerHTML = "";
+        
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'hw-opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
+
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: correctAnsText, isCorrect: isCorrect });
+        if (isCorrect) score++;
+
+        currentQuestionIndex++;
+        renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false;
+        clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        
+        const termEl = document.getElementById('hwTerminationReason');
+        if (forcedExit) termEl.innerHTML = `<span style="color:var(--blood);">Status:</span> ${statusMsg}`;
+        else termEl.innerHTML = `<span style="color:var(--success);">Status:</span> ${statusMsg}`;
+
+        buildHWReviewGrid();
+        showHWScreen('hw-results');
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function buildHWReviewGrid() {
+        const grid = document.getElementById('hwReviewGrid');
+        grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.padding = "20px";
+            div.style.background = "var(--bg-panel)";
+            div.style.border = "1px solid var(--border)";
+            div.style.borderLeft = item.isCorrect ? "4px solid var(--success)" : "4px solid var(--blood)";
+            
+            div.innerHTML = `
+                <div style="font-size:1.1rem; color:var(--text-main); margin-bottom:10px; font-weight:600;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--text-muted);">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--blood)'}; font-weight:600;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--text-muted);">Correct answer: <span style="color: var(--success); font-weight:600;">${item.correctAns}</span></div>` : ''}
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const element = document.getElementById('hw-pdf-content');
+        const parent = element.parentNode;
+        const sibling = element.nextSibling;
+
+        const origBodyOverflowX = document.body.style.overflowX;
+        const origHtmlOverflowX = document.documentElement.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        document.documentElement.style.overflowX = 'visible';
+        document.body.appendChild(element);
+
+        const origCss = element.style.cssText;
+        element.style.cssText = `position: absolute !important; top: 0 !important; left: 0 !important; width: 800px !important; margin: 0 !important; padding: 40px !important; background: #ffffff !important; z-index: 999999 !important; display: block !important;`;
+        window.scrollTo(0, 0);
+
+        const w = 800; const h = element.scrollHeight;
+        const opt = {
+            margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L09_Homework.pdf`, image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, x: 0, y: 0, width: w, height: h, windowWidth: w, windowHeight: h, scrollX: 0, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [w, h], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.cssText = origCss;
+            if (sibling) parent.insertBefore(element, sibling);
+            else parent.appendChild(element);
+            document.body.style.overflowX = origBodyOverflowX;
+            document.documentElement.style.overflowX = origHtmlOverflowX;
+            document.getElementById('floatingActions').style.display='flex';
+        });
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson09HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson09HomeworkData', JSON.stringify(results));
+    }
+
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson09HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = "";
+
+        if (results.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No homework submissions yet.</td></tr>";
+        } else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="font-size:0.85rem;">${r.date}</td><td style="font-weight:700; color:var(--text-main);">${r.name}</td><td>${r.score} / ${r.total}</td><td style="font-size:0.85rem; font-weight: 700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--blood)'}">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson09HomeworkData'); openAdmin(); } }
+
+</script>
+</body>
+</html>
