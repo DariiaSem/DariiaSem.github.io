@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 11: C1 | Conspiracy Theories</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Oxford Academic / Original Course Hub Light Theme */
+            --ink: #1A1209;
+            --parchment: #F5EDD8;
+            --parchment-dark: #EAD9B5;
+            --rust: #B84C1C;
+            --rust-light: #D4673A;
+            --gold: #C9933A;
+            --gold-light: #E2B55A;
+            --sage: #3D6B4F;
+            --charcoal: #2E2922;
+            --mist: #8C8070;
+            --cream: #FAF4E8;
+            --white: #FFFFFF;
+            
+            --danger: #B84C1C;
+            --success: #3D6B4F;
+            
+            --shadow-sm: 0 2px 8px rgba(26,18,9,0.06);
+            --shadow-md: 0 8px 24px rgba(26,18,9,0.08);
+            --shadow-lg: 0 16px 40px rgba(26,18,9,0.12);
+            --radius-md: 8px;
+            --radius-lg: 16px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+        [contenteditable="true"] { outline: none; border-radius: 4px; transition: background 0.2s; padding: 0 4px; margin: 0 -4px; }
+        [contenteditable="true"]:hover { background: rgba(201,147,58,0.15); }
+        [contenteditable="true"]:focus { background: rgba(201,147,58,0.25); box-shadow: 0 2px 0 var(--gold); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative; background: var(--parchment); color: var(--ink);
+            padding: 100px 24px 80px; text-align: center; overflow: hidden;
+            border-bottom: 4px solid var(--gold);
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: linear-gradient(rgba(26,18,9,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(26,18,9,0.03) 1px, transparent 1px);
+            background-size: 30px 30px; pointer-events: none;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+        .hero-badge {
+            display: inline-flex; align-items: center; background: var(--white);
+            border: 1px solid var(--parchment-dark); color: var(--rust);
+            padding: 6px 20px; border-radius: 50px; font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; box-shadow: var(--shadow-sm);
+        }
+        .hero h1 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: var(--ink); letter-spacing: -1px; }
+        .hero h1 em { color: var(--rust); font-style: italic; }
+        .hero-sub { font-size: 1.15rem; color: var(--mist); max-width: 650px; margin: 0 auto 36px; font-weight: 400; }
+        
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .hero-chip { background: var(--white); border: 1px solid var(--parchment-dark); color: var(--sage); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; box-shadow: var(--shadow-sm); }
+
+        /* ── NAV ── */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100; background: rgba(250, 244, 232, 0.95);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--parchment-dark); padding: 0 24px; box-shadow: var(--shadow-sm);
+        }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+        .nav-logo { font-weight: 900; font-size: 1.3rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; font-family: 'Playfair Display', serif; }
+        .nav-logo span { color: var(--gold); }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; padding-bottom: 2px; }
+        .nav-links a { text-decoration: none; color: var(--mist); font-size: 0.85rem; font-weight: 700; padding: 6px 14px; border-radius: 50px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links a:hover { color: var(--ink); background: var(--parchment); }
+        .nav-links .hw-tab { color: var(--rust); border: 1px solid rgba(184,76,28,0.3); background: rgba(184,76,28,0.05); }
+
+        /* ── SECTIONS ── */
+        .section { padding: 90px 24px; position: relative; }
+        .section:nth-child(even) { background: var(--white); border-top: 1px solid var(--parchment); border-bottom: 1px solid var(--parchment); }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+        
+        .task-counter {
+            display: inline-flex; align-items: center; gap: 8px; font-family: 'DM Sans', sans-serif;
+            font-size: 0.75rem; color: var(--sage); background: rgba(61,107,79,0.1);
+            border: 1px solid rgba(61,107,79,0.2); padding: 6px 16px; border-radius: 50px;
+            margin-bottom: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--ink); margin-bottom: 16px; line-height: 1.2; letter-spacing: -0.5px; }
+        .section-title em { color: var(--rust); font-style: italic; }
+        .section-desc { color: var(--mist); font-size: 1.1rem; margin-bottom: 40px; max-width: 750px; font-weight: 400; }
+
+        /* ── CARDS & GRIDS ── */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
+        .concept-card {
+            background: var(--white); padding: 32px; border-radius: var(--radius-md);
+            border: 1px solid var(--parchment-dark); box-shadow: var(--shadow-sm);
+            transition: transform 0.3s, box-shadow 0.3s; position: relative;
+        }
+        .concept-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--gold); }
+        .concept-card h3 { color: var(--ink); font-size: 1.4rem; margin-bottom: 12px; font-family: 'Playfair Display', serif; }
+        .concept-card p { color: var(--charcoal); font-size: 1rem; }
+
+        /* ── INTUITIVE VOCABULARY (Flip Cards) ── */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .vocab-card {
+            background: var(--white); border: 1px solid var(--parchment-dark); padding: 24px;
+            border-radius: var(--radius-md); position: relative; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 150px; display: flex; flex-direction: column; justify-content: center; box-shadow: var(--shadow-sm); overflow: hidden;
+            border-bottom: 4px solid var(--gold);
+        }
+        .vocab-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--rust); border-bottom-color: var(--rust); }
+        .v-front { transition: opacity 0.3s; position: relative; z-index: 2; text-align: center; }
+        .vocab-card:hover .v-front { opacity: 0; }
+        .v-word { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .v-pos { font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: var(--mist); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .v-back {
+            position: absolute; inset: 0; padding: 24px; background: var(--rust); color: var(--white);
+            opacity: 0; transition: opacity 0.3s; display: flex; align-items: center; justify-content: center; text-align: center;
+            font-size: 0.95rem; line-height: 1.5; font-weight: 500; z-index: 3;
+        }
+        .vocab-card:hover .v-back { opacity: 1; }
+
+        /* ── EDITORIAL READING ── */
+        .editorial {
+            background: var(--white); padding: 50px 60px; border-radius: var(--radius-lg);
+            border: 1px solid var(--parchment-dark); box-shadow: var(--shadow-md); position: relative;
+        }
+        .editorial::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--gold), var(--rust)); border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+        .ed-meta { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; text-transform: uppercase; color: var(--sage); margin-bottom: 20px; font-weight: 700; letter-spacing: 1px; }
+        .ed-title { font-size: 2.4rem; font-weight: 900; color: var(--ink); margin-bottom: 24px; line-height: 1.2; letter-spacing: -0.5px; }
+        .ed-text { font-size: 1.1rem; line-height: 1.9; color: var(--charcoal); }
+        .ed-text p { margin-bottom: 20px; }
+        .ed-dropcap { float: left; font-size: 4rem; line-height: 0.8; padding-right: 12px; padding-top: 6px; color: var(--gold); font-weight: 900; font-family: 'Playfair Display', serif; }
+        .v-hl { color: var(--rust); font-weight: 700; cursor: help; border-bottom: 1px dashed var(--rust-light); }
+
+        /* ── INTERACTIVE TFNG ── */
+        .tfng-item { background: var(--white); border: 1px solid var(--parchment-dark); border-radius: var(--radius-md); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow-sm); transition: all 0.3s; }
+        .tfng-item.t-correct { border-left: 6px solid var(--success); background: rgba(61,107,79,0.05); }
+        .tfng-item.t-wrong { border-left: 6px solid var(--danger); background: rgba(184,76,28,0.05); }
+        .tfng-stmt { font-size: 1.1rem; font-weight: 600; color: var(--ink); margin-bottom: 16px; line-height: 1.5; }
+        .tfng-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+        .tfng-btn { background: var(--cream); border: 1px solid var(--parchment-dark); color: var(--charcoal); padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .tfng-btn:hover { border-color: var(--ink); color: var(--ink); }
+        .tfng-btn.selected-correct, .tfng-btn.show-correct { background: var(--success); border-color: var(--success); color: white; }
+        .tfng-btn.selected-wrong { background: var(--danger); border-color: var(--danger); color: white; }
+        .tfng-explain { display: none; margin-top: 16px; font-size: 0.95rem; color: var(--mist); padding: 16px; background: var(--cream); border-radius: var(--radius-md); border: 1px solid var(--parchment-dark); font-weight: 500; }
+        .tfng-explain.visible { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ── CLICK-CLACK GAP FILL ── */
+        .gap-fill-box { background: var(--white); border: 1px solid var(--parchment-dark); padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+        .gf-sentence { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.9; color: var(--ink); }
+        .gf-blank { display: inline-block; min-width: 140px; height: 36px; border-bottom: 2px dashed var(--mist); margin: 0 8px; vertical-align: middle; text-align: center; color: var(--rust); font-weight: 700; cursor: pointer; transition: all 0.2s; background: var(--parchment); border-radius: 4px 4px 0 0; }
+        .gf-blank:hover { background: var(--parchment-dark); border-bottom-color: var(--rust); }
+        .gf-blank.filled { border-bottom-style: solid; border-color: var(--success); color: var(--success); background: rgba(61,107,79,0.1); cursor: default; }
+        .gf-active-blank { border-color: var(--gold) !important; background: rgba(201,147,58,0.2) !important; color: var(--ink); box-shadow: 0 4px 12px rgba(201,147,58,0.15); }
+        .gf-word-bank { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; padding-top: 30px; border-top: 1px solid var(--parchment-dark); }
+        .gf-word { background: var(--cream); border: 1px solid var(--parchment-dark); color: var(--ink); padding: 10px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: var(--shadow-sm); }
+        .gf-word:hover { background: var(--rust); color: white; border-color: var(--rust); transform: translateY(-2px); }
+        .gf-word.selected { background: var(--success); color: white; border-color: var(--success); opacity: 0.4; pointer-events: none; transform: none; box-shadow: none; }
+
+        /* ── EXTENSIVE GRAMMAR TABLES ── */
+        .grammar-box { background: var(--white); border: 1px solid var(--parchment-dark); border-radius: var(--radius-lg); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-sm); }
+        .g-header { background: var(--parchment); padding: 20px 30px; border-bottom: 1px solid var(--parchment-dark); display: flex; justify-content: space-between; align-items: center; }
+        .g-header h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--ink); font-weight: 800; }
+        .g-header .g-badge { background: var(--white); color: var(--sage); padding: 4px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; border: 1px solid var(--parchment-dark); }
+        .g-content { padding: 30px; }
+        .g-table { width: 100%; border-collapse: collapse; }
+        .g-table th { text-align: left; padding: 12px 16px; font-size: 0.85rem; color: var(--mist); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--parchment-dark); }
+        .g-table td { padding: 16px; border-bottom: 1px solid var(--parchment-dark); vertical-align: top; color: var(--charcoal); font-size: 1.05rem; }
+        .g-table tr:last-child td { border-bottom: none; }
+        .g-table strong { color: var(--ink); }
+        .g-table .g-hl { color: var(--rust); font-weight: 700; background: rgba(184,76,28,0.1); padding: 2px 6px; border-radius: 4px; }
+        .g-example { border-left: 4px solid var(--gold); padding: 16px 20px; background: var(--cream); margin-top: 16px; font-size: 1.05rem; color: var(--ink); font-style: italic; }
+
+        /* ── COMMA TOGGLE TEST ── */
+        .comma-test-box { background: var(--white); border: 1px solid var(--parchment-dark); padding: 30px; border-radius: var(--radius-lg); margin-bottom: 20px; }
+        .comma-sentence { font-size: 1.2rem; color: var(--ink); line-height: 2; font-family: 'Playfair Display', serif; }
+        .comma-slot { display: inline-block; width: 16px; height: 24px; border: 1px dashed var(--mist); cursor: pointer; text-align: center; line-height: 24px; color: var(--rust); font-weight: 900; font-family: sans-serif; vertical-align: bottom; margin: 0 2px; transition: 0.2s; }
+        .comma-slot:hover { background: var(--parchment); border-color: var(--rust); }
+        .comma-slot.active { border: none; font-size: 1.5rem; }
+
+        /* ── DRAG & DROP MECHANICS ── */
+        .dnd-container { background: var(--white); border: 1px solid var(--parchment-dark); padding: 30px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+        .dnd-sentence { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8; color: var(--ink); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .drop-zone { min-width: 160px; height: 38px; border: 2px dashed var(--mist); background: var(--parchment); border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; transition: 0.2s; vertical-align: middle; }
+        .drop-zone.drag-over { border-color: var(--gold); background: rgba(201,147,58,0.2); transform: scale(1.05); }
+        .drop-zone.filled { border: 2px solid var(--success); background: rgba(61,107,79,0.1); }
+        .draggable-bank { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--parchment-dark); min-height: 60px; }
+        .draggable-word { background: var(--ink); color: var(--white); padding: 8px 16px; border-radius: 50px; font-size: 0.95rem; font-weight: 600; cursor: grab; transition: 0.2s; user-select: none; box-shadow: var(--shadow-sm); }
+        .draggable-word:active { cursor: grabbing; transform: scale(0.95); }
+        .draggable-word.dragging { opacity: 0.5; box-shadow: var(--shadow-md); }
+
+        /* ── ERROR SPY ── */
+        .spy-sentence { background: var(--white); border: 1px solid var(--parchment-dark); border-radius: var(--radius-md); padding: 20px 24px; margin-bottom: 12px; font-size: 1.05rem; display: flex; align-items: flex-start; gap: 16px; box-shadow: var(--shadow-sm); transition: 0.3s; border-left: 4px solid var(--parchment-dark); }
+        .spy-sentence.correct { border-left-color: var(--success); background: rgba(61,107,79,0.05); }
+        .spy-sentence.incorrect { border-left-color: var(--danger); animation: shake 0.4s; }
+        .spy-num { font-weight: 900; color: var(--gold); font-size: 1rem; margin-top: 3px; font-family: 'Playfair Display', serif; }
+        .spy-text { flex: 1; line-height: 1.6; }
+        .wrong-word { background: rgba(184,76,28,0.15); color: var(--danger); font-weight: 700; padding: 2px 6px; border-radius: 4px; border-bottom: 2px solid var(--danger); cursor: pointer; transition: 0.2s; }
+        .wrong-word:hover { background: rgba(184,76,28,0.25); }
+        .spy-input-wrap { display: none; align-items: center; gap: 10px; margin-top: 12px; }
+        .spy-input-wrap.visible { display: flex; }
+        .spy-input { background: var(--cream); border: 1px solid var(--gold); padding: 8px 12px; border-radius: 6px; outline: none; flex:1; max-width: 300px; font-size: 1rem; color: var(--ink); }
+        .spy-check-btn { background: var(--ink); color: white; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .spy-check-btn:hover { background: var(--charcoal); }
+
+        /* ── CALLOUTS ── */
+        .callout { padding: 20px 24px; border-radius: var(--radius-md); margin: 24px 0; border-left: 4px solid; background: var(--white); box-shadow: var(--shadow-sm); font-size: 1.05rem; display: flex; gap: 16px; align-items: flex-start; }
+        .callout-icon { font-size: 1.5rem; }
+        .c-gold { border-color: var(--gold); }
+        .c-rust { border-color: var(--rust); }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 1px solid var(--parchment-dark); border-radius: var(--radius-lg); overflow: hidden; background: #fff; margin-top: 20px; box-shadow: var(--shadow-md); }
+        .wb-toolbar { background: var(--parchment); padding: 12px 20px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--parchment-dark); flex-wrap: wrap; }
+        .wb-btn { background: var(--white); color: var(--ink); border: 1px solid var(--parchment-dark); padding: 6px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.2s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+        canvas { display: block; width: 100%; height: 500px; cursor: crosshair; touch-action: none; }
+
+        /* ── HOMEWORK UI (Anti-Cheat) ── */
+        .hw-exclusive { display: none; background: var(--cream); min-height: 100vh; padding: 40px 20px 80px; }
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .hw-timer { font-weight: 700; font-size: 1.2rem; color: var(--danger); background: rgba(184,76,28,0.1); padding: 10px 20px; border-radius: 8px; border: 2px solid var(--danger); display: inline-flex; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); }
+        .hw-progress { width: 100%; height: 8px; background: var(--parchment-dark); margin-bottom: 40px; border-radius: 4px; overflow: hidden; }
+        .hw-progress-fill { height: 100%; background: var(--sage); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 14px 20px; font-size: 1.05rem; border: 2px solid var(--parchment-dark); border-radius: 8px; margin-bottom: 24px; outline: none; transition: 0.2s; background: var(--white); }
+        .hw-input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201,147,58,0.2); }
+        .hw-btn-primary { background: var(--ink); color: white; border: none; padding: 16px 36px; font-size: 1.05rem; font-weight: 700; border-radius: 50px; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-md); text-transform: uppercase; letter-spacing: 1px; }
+        .hw-btn-primary:hover { transform: translateY(-2px); background: var(--charcoal); }
+        
+        .hw-qbox { background: var(--white); padding: 40px; border: 1px solid var(--parchment-dark); border-top: 4px solid var(--gold); border-radius: 12px; box-shadow: var(--shadow-md); margin-bottom: 30px; text-align: left; }
+        .hw-qtext { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: 30px; font-weight: 700; line-height: 1.4; }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { width: 100%; text-align: left; background: var(--cream); border: 2px solid var(--parchment-dark); padding: 16px 24px; font-size: 1.05rem; border-radius: 8px; cursor: pointer; transition: 0.2s; color: var(--ink); font-weight: 600; }
+        .hw-opt-btn:hover { background: var(--white); border-color: var(--gold); transform: translateX(4px); }
+        .hw-btn-skip { background: transparent; color: var(--mist); border: 1px solid var(--parchment-dark); padding: 10px 24px; font-size: 0.9rem; font-weight: 700; border-radius: 50px; cursor: pointer; }
+
+        /* FABS */
+        .fab-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--parchment-dark); background: var(--white); color: var(--ink); font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-lg); transition: 0.2s; display: flex; align-items: center; justify-content: center; }
+        .fab:hover { transform: translateY(-4px); background: var(--ink); color: var(--white); }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(26,18,9,0.8); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: var(--white); padding: 40px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; border-top: 4px solid var(--rust); position: relative; box-shadow: var(--shadow-lg); border-radius: var(--radius-lg); }
+        .close-modal { position: absolute; top: 16px; right: 24px; color: var(--mist); cursor: pointer; font-size: 2rem; line-height: 1; }
+        .close-modal:hover { color: var(--danger); }
+        
+        .elegant-table { width: 100%; border-collapse: collapse; background: var(--white); margin-top: 20px; border: 1px solid var(--parchment-dark); text-align: left; }
+        .elegant-table th { background: var(--parchment); color: var(--ink); padding: 12px 16px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .elegant-table td { padding: 12px 16px; border-bottom: 1px solid var(--parchment-dark); color: var(--charcoal); }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--white); padding:8px 20px; border-radius:50px; font-size:0.75rem; font-weight:700; border:1px solid var(--parchment-dark); box-shadow:var(--shadow-md); display:flex; align-items:center; gap:10px; z-index:10000; color:var(--ink); letter-spacing:1px; text-transform:uppercase;">
+    <span id="syncDot" style="width:8px; height:8px; border-radius:50%; background:var(--sage); box-shadow:0 0 8px var(--sage); display:block;"></span>
+    <span id="syncText">System Sync</span>
+</div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">File #11 // General English C1</div>
+        <h1 contenteditable="true">Conspiracy Theories &<br><em>The Architecture of Belief</em></h1>
+        <p class="hero-sub" contenteditable="true">Investigate the psychology of misinformation, deconstruct complex narratives, and master advanced Relative Clauses.</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">Defining & Non-Defining Clauses</span>
+            <span class="hero-chip" contenteditable="true">Reduced Participles</span>
+            <span class="hero-chip" contenteditable="true">C1 Lexicon</span>
+        </div>
+    </div>
+</header>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">NGE <span>// L11</span></a>
+        <div class="nav-links" id="navLinks">
+            <a href="#t1">Provocation</a>
+            <a href="#t2">Lexicon</a>
+            <a href="#t3">Reading</a>
+            <a href="#t4">TFNG</a>
+            <a href="#t5">Gap Fill</a>
+            <a href="#t6">Defining</a>
+            <a href="#t7">Prepositions</a>
+            <a href="#t8">Advanced</a>
+            <a href="#t9">Reduced</a>
+            <a href="#t10">Syntax</a>
+            <a href="#t11">Commas</a>
+            <a href="#t12">Editor</a>
+            <a href="#t13">Debate</a>
+            <a href="#t14">Roleplay</a>
+            <a href="#t15">Synthesis</a>
+            <a href="#t16">Board</a>
+            <a href="#hw" class="hw-tab">Homework</a>
+        </div>
+    </div>
+</nav>
+
+<main id="main-content">
+    <!-- T1: WARMUP -->
+    <section class="section" id="t1">
+        <div class="section-inner">
+            <div class="task-counter">01. PROVOCATION</div>
+            <h2 class="section-title">The Appeal of the <em>Unseen</em></h2>
+            <p class="section-desc" contenteditable="true">Analyze the classic theories below. Why do highly intelligent people often fall victim to these narratives? What psychological need do they fulfill?</p>
+            <div class="grid-3">
+                <div class="concept-card" style="border-top: 4px solid var(--gold);">
+                    <h3 contenteditable="true">The Fake Moon Landing</h3>
+                    <p contenteditable="true">The belief that the 1969 Apollo mission was staged in a Hollywood studio to win the Space Race.</p>
+                </div>
+                <div class="concept-card" style="border-top: 4px solid var(--rust);">
+                    <h3 contenteditable="true">The Flat Earth</h3>
+                    <p contenteditable="true">A growing modern movement claiming all space agencies collude to hide the true shape of the planet.</p>
+                </div>
+                <div class="concept-card" style="border-top: 4px solid var(--sage);">
+                    <h3 contenteditable="true">The Illuminati</h3>
+                    <p contenteditable="true">The idea that a clandestine global elite controls world affairs, governments, and the global economy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T2: VOCAB -->
+    <section class="section" id="t2">
+        <div class="section-inner">
+            <div class="task-counter">02. C1 LEXICON</div>
+            <h2 class="section-title">The Language of <em>Misinformation</em></h2>
+            <p class="section-desc" contenteditable="true">Hover to reveal advanced terminology essential for dissecting and debunking complex narratives.</p>
+            <div class="vocab-grid">
+                <div class="vocab-card"><div class="v-front"><div class="v-word">Cognitive dissonance</div><div class="v-pos">noun phrase</div></div><div class="v-back">Mental discomfort experienced by someone holding contradictory beliefs or ideas.</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-word">To collude</div><div class="v-pos">verb</div></div><div class="v-back">To come to a secret understanding for a harmful purpose; conspire.</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-word">Plausible</div><div class="v-pos">adjective</div></div><div class="v-back">Seeming reasonable or probable. "A highly plausible explanation."</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-word">Echo chamber</div><div class="v-pos">noun phrase</div></div><div class="v-back">An environment where a person only encounters beliefs or opinions that coincide with their own.</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-word">Confirmation bias</div><div class="v-pos">noun phrase</div></div><div class="v-back">The tendency to interpret new evidence as confirmation of one's existing beliefs.</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-word">To proliferate</div><div class="v-pos">verb</div></div><div class="v-back">To increase rapidly in numbers; multiply. "Misinformation proliferates online."</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-word">Clandestine</div><div class="v-pos">adjective</div></div><div class="v-back">Kept secret or done secretively, especially because illicit. "A clandestine meeting."</div></div>
+                <div class="vocab-card"><div class="v-front"><div class="v-pos">noun</div><div class="v-word">Smokescreen</div></div><div class="v-back">A ruse designed to disguise someone's real intentions or activities.</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T3: READING -->
+    <section class="section" id="t3">
+        <div class="section-inner">
+            <div class="task-counter">03. EDITORIAL REVIEW</div>
+            <h2 class="section-title">The Anatomy of a <em>Conspiracy</em></h2>
+            <div class="editorial">
+                <div class="ed-meta" contenteditable="true">The Sociological Review // Issue 42</div>
+                <div class="ed-title" contenteditable="true">Control in a Chaotic World</div>
+                <div class="ed-text" contenteditable="true">
+                    <span class="ed-dropcap">T</span>he human brain is, fundamentally, a pattern-recognition machine. We are biologically hardwired to seek order in chaos. When confronted with monumental, random tragedies—a sudden assassination, a global pandemic, or an economic crash—accepting that these events lack a grand design triggers severe <span class="v-hl">cognitive dissonance</span>. 
+                    <br><br>
+                    It is often more psychologically comforting to believe that a <span class="v-hl">clandestine</span> group of elites is actively <span class="v-hl">colluding</span> to control the world than to accept that the world is inherently uncontrollable. Conspiracy theories act as an emotional <span class="v-hl">smokescreen</span> against the terrifying randomness of existence. 
+                    <br><br>
+                    In the digital age, these narratives <span class="v-hl">proliferate</span> instantly within algorithmic <span class="v-hl">echo chambers</span>. Once a theory takes root, <span class="v-hl">confirmation bias</span> ensures that believers only seek out information that makes the conspiracy seem <span class="v-hl">plausible</span>, dismissing all contradictory evidence as part of the cover-up itself.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T4: TFNG -->
+    <section class="section" id="t4">
+        <div class="section-inner">
+            <div class="task-counter">04. COMPREHENSION</div>
+            <h2 class="section-title">Fact vs. <em>Fiction</em></h2>
+            <div class="tfng-item" id="t-1">
+                <div class="tfng-stmt" contenteditable="true">1. The author argues that believing in conspiracies is a result of low intelligence and poor education.</div>
+                <div class="tfng-btns"><button class="tfng-btn" onclick="checkTFNG(1,'T','F')">TRUE</button><button class="tfng-btn" onclick="checkTFNG(1,'F','F')">FALSE</button><button class="tfng-btn" onclick="checkTFNG(1,'NG','F')">NOT GIVEN</button></div>
+                <div class="tfng-explain" id="e-1">FALSE. The author states it is a biological response ("pattern-recognition machine") to avoid the fear of randomness, not a lack of intelligence.</div>
+            </div>
+            <div class="tfng-item" id="t-2">
+                <div class="tfng-stmt" contenteditable="true">2. People find comfort in conspiracies because it implies that someone, even if evil, is in control.</div>
+                <div class="tfng-btns"><button class="tfng-btn" onclick="checkTFNG(2,'T','T')">TRUE</button><button class="tfng-btn" onclick="checkTFNG(2,'F','T')">FALSE</button><button class="tfng-btn" onclick="checkTFNG(2,'NG','T')">NOT GIVEN</button></div>
+                <div class="tfng-explain" id="e-2">TRUE. "It is often more psychologically comforting to believe that a clandestine group... is actively colluding... than to accept that the world is inherently uncontrollable."</div>
+            </div>
+            <div class="tfng-item" id="t-3">
+                <div class="tfng-stmt" contenteditable="true">3. Social media algorithms were intentionally designed to spread conspiracy theories.</div>
+                <div class="tfng-btns"><button class="tfng-btn" onclick="checkTFNG(3,'T','NG')">TRUE</button><button class="tfng-btn" onclick="checkTFNG(3,'F','NG')">FALSE</button><button class="tfng-btn" onclick="checkTFNG(3,'NG','NG')">NOT GIVEN</button></div>
+                <div class="tfng-explain" id="e-3">NOT GIVEN. The text mentions theories proliferate within algorithmic echo chambers, but doesn't state the algorithms were *intentionally designed* for this purpose.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T5: GAP FILL (CLICK CLACK) -->
+    <section class="section" id="t5">
+        <div class="section-inner">
+            <div class="task-counter">05. LEXICAL APPLICATION</div>
+            <h2 class="section-title">Fill the <em>Void</em></h2>
+            <p class="section-desc">Click a blank line, then click the correct C1 word from the bank below.</p>
+            <div class="gap-fill-box">
+                <div class="gf-sentence" contenteditable="false">1. He accused the two rival corporations of attempting to <span class="gf-blank" data-id="1"></span> to fix prices globally.</div>
+                <div class="gf-sentence" contenteditable="false">2. The official report was merely a <span class="gf-blank" data-id="2"></span> to hide the government's catastrophic failure.</div>
+                <div class="gf-sentence" contenteditable="false">3. Social media creates a dangerous <span class="gf-blank" data-id="3"></span> where people never encounter opposing viewpoints.</div>
+                <div class="gf-sentence" contenteditable="false">4. Because of <span class="gf-blank" data-id="4"></span>, people will ignore fifty facts that prove them wrong, but cling to the one fact that proves them right.</div>
+                <div class="gf-sentence" contenteditable="false">5. The theory sounded highly <span class="gf-blank" data-id="5"></span> at first, until investigative journalists uncovered the truth.</div>
+                
+                <div class="gf-word-bank">
+                    <div class="gf-word" data-word="collude">collude</div>
+                    <div class="gf-word" data-word="plausible">plausible</div>
+                    <div class="gf-word" data-word="confirmation bias">confirmation bias</div>
+                    <div class="gf-word" data-word="echo chamber">echo chamber</div>
+                    <div class="gf-word" data-word="smokescreen">smokescreen</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T6: GRAMMAR 1 -->
+    <section class="section" id="t6">
+        <div class="section-inner">
+            <div class="task-counter">06. SYSTEM RULES</div>
+            <h2 class="section-title">Defining vs. <em>Non-Defining</em></h2>
+            <p class="section-desc" contenteditable="true">Relative clauses give more information about a noun. The presence or absence of commas completely changes the meaning of the sentence.</p>
+
+            <div class="grammar-box">
+                <div class="g-header">
+                    <h3>1. Defining Relative Clauses</h3>
+                    <span class="g-badge" style="border-color:var(--danger); color:var(--danger);">No Commas</span>
+                </div>
+                <div class="g-content">
+                    <p style="margin-bottom:16px;">These clauses give <strong>essential</strong> information. Without them, we don't know who or what is being talked about. You <em>can</em> use "that" instead of who/which.</p>
+                    <div class="g-example">"The scientist <strong>who leaked the documents</strong> vanished." <br><span style="font-size:0.9rem; color:var(--mist);">(Tells us *which specific* scientist vanished. There are many scientists.)</span></div>
+                </div>
+            </div>
+
+            <div class="grammar-box" style="margin-top:20px;">
+                <div class="g-header">
+                    <h3>2. Non-Defining Relative Clauses</h3>
+                    <span class="g-badge" style="border-color:var(--success); color:var(--success);">Requires Commas</span>
+                </div>
+                <div class="g-content">
+                    <p style="margin-bottom:16px;">These give <strong>extra, non-essential</strong> information. If you remove the clause, the sentence still makes perfect sense. You <strong>cannot</strong> use "that".</p>
+                    <div class="g-example">"Dr. Smith<strong>, who leaked the documents,</strong> vanished." <br><span style="font-size:0.9rem; color:var(--mist);">(We already know who Dr. Smith is. The clause just adds a fun fact.)</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T7: GRAMMAR 2 -->
+    <section class="section" id="t7">
+        <div class="section-inner">
+            <div class="task-counter">07. SYSTEM RULES</div>
+            <h2 class="section-title">Prepositions in <em>Relative Clauses</em></h2>
+            <p class="section-desc" contenteditable="true">In C1 academic and formal English, prepositions should not dangle at the end of a relative clause.</p>
+            <div class="grammar-box">
+                <div class="g-header"><h3>Preposition + Whom / Which</h3></div>
+                <div class="g-content">
+                    <p style="margin-bottom:16px;">Move the preposition <strong>before</strong> the relative pronoun. You must use <em>whom</em> (people) or <em>which</em> (things). Never use <em>who</em> or <em>that</em>.</p>
+                    <table class="g-table">
+                        <tr>
+                            <th>Informal (B2)</th>
+                            <th>Formal (C1)</th>
+                        </tr>
+                        <tr>
+                            <td>The forum that they post their theories <strong>on</strong> is illegal.</td>
+                            <td>The forum <strong>on which</strong> they post their theories is illegal.</td>
+                        </tr>
+                        <tr>
+                            <td>The whistleblower who the journalist spoke <strong>to</strong> disappeared.</td>
+                            <td>The whistleblower <strong>to whom</strong> the journalist spoke disappeared.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T8: GRAMMAR 3 -->
+    <section class="section" id="t8">
+        <div class="section-inner">
+            <div class="task-counter">08. SYSTEM RULES</div>
+            <h2 class="section-title">Advanced <em>Structures</em></h2>
+            
+            <div class="grid-2">
+                <div class="concept-card" style="border-top: 4px solid var(--gold);">
+                    <h3 style="font-family:'DM Sans',sans-serif; font-size:1.1rem; text-transform:uppercase; letter-spacing:1px;">Quantifiers + Relative</h3>
+                    <p style="color:var(--charcoal); margin-bottom:12px;">Used to talk about a portion of a group.</p>
+                    <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--rust); margin-bottom:12px;">some of / many of / none of + whom/which</p>
+                    <div style="background:var(--parchment); padding:12px; border-left:3px solid var(--rust); font-size:0.95rem;">"There were hundreds of leaked files, <em>most of which</em> were heavily redacted."</div>
+                </div>
+                <div class="concept-card" style="border-top: 4px solid var(--sage);">
+                    <h3 style="font-family:'DM Sans',sans-serif; font-size:1.1rem; text-transform:uppercase; letter-spacing:1px;">Full-Clause "Which"</h3>
+                    <p style="color:var(--charcoal); margin-bottom:12px;">Sometimes "which" refers to the <strong>entire previous action/situation</strong>, not just one noun. It needs a comma.</p>
+                    <div style="background:var(--parchment); padding:12px; border-left:3px solid var(--sage); font-size:0.95rem;">"They denied all the allegations, <em>which</em> only fueled the conspiracy further."</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T9: GRAMMAR 4 -->
+    <section class="section" id="t9">
+        <div class="section-inner">
+            <div class="task-counter">09. SYSTEM RULES</div>
+            <h2 class="section-title">Reduced <em>Relative Clauses</em></h2>
+            <p class="section-desc" contenteditable="true">To make academic writing concise, we often drop the relative pronoun and the verb "to be", replacing the clause with a participle phrase.</p>
+            <div class="grammar-box">
+                <div class="g-content">
+                    <table class="g-table">
+                        <tr>
+                            <th>Active Voice → Present Participle (-ing)</th>
+                            <th>Passive Voice → Past Participle (-ed/V3)</th>
+                        </tr>
+                        <tr>
+                            <td>The theories <em>which are circulating</em> online...<br>↓<br>The theories <span class="g-hl">circulating</span> online...</td>
+                            <td>The evidence <em>which was found</em> at the scene...<br>↓<br>The evidence <span class="g-hl">found</span> at the scene...</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T10: DRAG AND DROP -->
+    <section class="section" id="t10">
+        <div class="section-inner">
+            <div class="task-counter">10. SYNTAX WIRING</div>
+            <h2 class="section-title">Timeline <em>Assembly</em></h2>
+            <p class="section-desc">Drag the correct grammar structures into the sentences to complete the C1 analysis.</p>
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. The whistleblower <div class="drop-zone" data-target="to_whom"></div> the journalist spoke is now in hiding.</div>
+                <div class="dnd-sentence">2. There are many theories, <div class="drop-zone" data-target="none_of_which"></div> have been proven true by actual science.</div>
+                <div class="dnd-sentence">3. The government immediately classified the documents, <div class="drop-zone" data-target="which_fueled"></div> the rumors even more.</div>
+                <div class="dnd-sentence">4. The secret facility <div class="drop-zone" data-target="located"></div> in the desert is heavily guarded.</div>
+
+                <div class="draggable-bank">
+                    <div class="draggable-word" draggable="true" data-id="which_fueled">which fueled</div>
+                    <div class="draggable-word" draggable="true" data-id="located">located</div>
+                    <div class="draggable-word" draggable="true" data-id="none_of_which">none of which</div>
+                    <div class="draggable-word" draggable="true" data-id="to_whom">to whom</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T11: COMMA TEST -->
+    <section class="section" id="t11">
+        <div class="section-inner">
+            <div class="task-counter">11. PUNCTUATION AUDIT</div>
+            <h2 class="section-title">The Comma <em>Test</em></h2>
+            <p class="section-desc">Click the dashed slots to add or remove commas. Decide if the relative clause is Defining (no commas) or Non-Defining (needs commas based on context).</p>
+            
+            <div class="comma-test-box">
+                <div class="comma-sentence">
+                    1. The politicians <span class="comma-slot" onclick="this.classList.toggle('active'); this.innerText = this.classList.contains('active') ? ',' : '';"></span> who colluded to hide the truth <span class="comma-slot" onclick="this.classList.toggle('active'); this.innerText = this.classList.contains('active') ? ',' : '';"></span> should be arrested immediately. 
+                    <span style="display:block; font-family:'DM Sans', sans-serif; font-size:0.9rem; color:var(--mist); margin-top:8px;">(Context: Not all politicians colluded. Only the specific guilty ones should be arrested.)</span>
+                </div>
+            </div>
+            <div class="comma-test-box">
+                <div class="comma-sentence">
+                    2. The Earth <span class="comma-slot" onclick="this.classList.toggle('active'); this.innerText = this.classList.contains('active') ? ',' : '';"></span> which is undeniably a sphere <span class="comma-slot" onclick="this.classList.toggle('active'); this.innerText = this.classList.contains('active') ? ',' : '';"></span> orbits the sun.
+                    <span style="display:block; font-family:'DM Sans', sans-serif; font-size:0.9rem; color:var(--mist); margin-top:8px;">(Context: We only have one Earth. The shape is just an extra fact.)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T12: ERROR SPY -->
+    <section class="section" id="t12">
+        <div class="section-inner">
+            <div class="task-counter">12. DEBUNK THE GRAMMAR</div>
+            <h2 class="section-title">The Syntax <em>Editor</em></h2>
+            <p class="section-desc" contenteditable="true">Click the red text, type the correct grammar form, and hit Check.</p>
+            <div class="spy-sentence" id="spy-1">
+                <span class="spy-num">01</span>
+                <div class="spy-text">
+                    The secret society <span class="wrong-word" onclick="revealSpy(1)">that its members</span> are powerful billionaires meets once a year in Switzerland.
+                    <div class="spy-input-wrap" id="wrap-1"><input class="spy-input" id="input-1" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(1)">Check</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-2">
+                <span class="spy-num">02</span>
+                <div class="spy-text">
+                    The evidence <span class="wrong-word" onclick="revealSpy(2)">which finding</span> at the crash site was heavily guarded by military personnel.
+                    <div class="spy-input-wrap" id="wrap-2"><input class="spy-input" id="input-2" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(2)">Check</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-3">
+                <span class="spy-num">03</span>
+                <div class="spy-text">
+                    There are countless rumors online, <span class="wrong-word" onclick="revealSpy(3)">most of that</span> are completely apocryphal.
+                    <div class="spy-input-wrap" id="wrap-3"><input class="spy-input" id="input-3" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(3)">Check</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-4">
+                <span class="spy-num">04</span>
+                <div class="spy-text">
+                    The website <span class="wrong-word" onclick="revealSpy(4)">which they published</span> the leaked documents was immediately shut down.
+                    <div class="spy-input-wrap" id="wrap-4"><input class="spy-input" id="input-4" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(4)">Check</button></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T13: DISCUSSION -->
+    <section class="section" id="t13">
+        <div class="section-inner">
+            <div class="task-counter">13. DISCOURSE</div>
+            <h2 class="section-title">The Ethics of <em>Belief</em></h2>
+            <div class="grid-2">
+                <div class="callout c-gold" style="margin:0;">
+                    <div class="callout-icon">💬</div>
+                    <div>
+                        <strong style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--ink); display:block; margin-bottom:8px;">The Echo Chamber Effect</strong>
+                        How much responsibility do social media platforms have in stopping the proliferation of apocryphal information? Should algorithms be regulated by the government?
+                    </div>
+                </div>
+                <div class="callout c-rust" style="margin:0;">
+                    <div class="callout-icon">💬</div>
+                    <div>
+                        <strong style="font-family:'Playfair Display',serif; font-size:1.2rem; color:var(--ink); display:block; margin-bottom:8px;">Harmless Fiction?</strong>
+                        Are conspiracy theories inherently dangerous, or is believing that aliens built the pyramids just a harmless form of modern entertainment? Where is the line drawn?
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T14: ROLEPLAY -->
+    <section class="section" id="t14">
+        <div class="section-inner">
+            <div class="task-counter">14. SIMULATION</div>
+            <h2 class="section-title">The Skeptic & <em>The Believer</em></h2>
+            <div class="grid-2">
+                <div class="concept-card" style="border-top:4px solid var(--rust);">
+                    <h3 style="color:var(--rust); margin-bottom:16px;">The Theorist</h3>
+                    <p style="color:var(--charcoal); font-size:1rem;">You believe a recent major event was entirely staged. You must present your "evidence" passionately. Use <strong>Full-Clause "Which"</strong> to connect your ideas. <em>("They deleted the files, which proves they are hiding something!")</em></p>
+                </div>
+                <div class="concept-card" style="border-top:4px solid var(--sage);">
+                    <h3 style="color:var(--sage); margin-bottom:16px;">The Skeptic</h3>
+                    <p style="color:var(--charcoal); font-size:1rem;">You are exhausted by this conversation. You must debunk their theory logically. Use <strong>Preposition + Which</strong> to dismantle their argument. <em>("The article on which you are basing your theory was written by a comedian.")</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T15: SYNTHESIS -->
+    <section class="section" id="t15">
+        <div class="section-inner">
+            <div class="task-counter">15. CREATIVE SYNTHESIS</div>
+            <h2 class="section-title">The Conspiracy <em>Generator</em></h2>
+            <p class="section-desc">You have 60 seconds. Invent a highly plausible conspiracy theory about why pigeons sit on power lines. You must use at least THREE relative clauses (one reduced) and TWO words from the Lexicon.</p>
+        </div>
+    </section>
+
+    <!-- T16: WHITEBOARD -->
+    <section class="section" id="t16" style="border-bottom:none;">
+        <div class="section-inner">
+            <div class="task-counter">16. INVESTIGATION BOARD</div>
+            <h2 class="section-title">Connecting the <em>Dots</em></h2>
+            <p class="section-desc">Map out the structure of a theory or draw grammar syntax trees.</p>
+            <div class="wb-container">
+                <div class="wb-toolbar">
+                    <button class="wb-btn active" data-tool="pencil">Pen</button>
+                    <button class="wb-btn" data-tool="highlight">Marker</button>
+                    <button class="wb-btn" data-tool="text">Text</button>
+                    <button class="wb-btn" data-tool="arrow">String (Arrow)</button>
+                    <input type="color" id="wbColor" style="width:30px; height:30px; cursor:pointer; border:none; padding:0;" value="#B84C1C" title="Color">
+                    <button class="wb-btn" id="wbClear" style="margin-left:auto; color:var(--danger); border-color:var(--danger);">Clear Board</button>
+                </div>
+                <div id="canvasWrapper" style="position:relative; width:100%; height:500px; touch-action:none;">
+                    <canvas id="boardCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ══ HOMEWORK MODULE (Anti-Cheat, 15 Mins, 15 Questions) ══ -->
+<div id="task-hw" class="hw-exclusive">
+    <div class="hw-container">
+        
+        <section id="hw-welcome" class="hw-screen active">
+            <div class="task-counter" style="color:var(--rust); border-color:var(--rust); background:transparent;">Homework Portal</div>
+            <h2 class="section-title">Module 11 <em>Assessment</em></h2>
+            <div class="concept-card" style="text-align:left; margin-bottom:30px; border-top:4px solid var(--gold);">
+                <p style="margin-bottom:16px;"><strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 questions regarding Advanced Relative Clauses and C1 Lexicon.</p>
+                <p style="color:var(--danger); font-weight:700; margin-bottom:0;">⚠️ Anti-Cheat Enabled: Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.</p>
+            </div>
+            <div style="max-width:400px; margin:0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <button class="hw-btn-primary" onclick="startHW()" style="width:100%;">Accept Rules & Begin</button>
+            </div>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen">
+            <div class="hw-header">
+                <div class="task-counter" id="hwQuestionCounter" style="margin:0; border:none; background:transparent;">Question 1 / 15</div>
+                <div class="hw-timer">⏱️ <span id="hwTimerDisplay">15:00</span></div>
+            </div>
+            <div class="hw-progress"><div class="hw-progress-fill" id="hwProgressFill"></div></div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen">
+            <div id="hw-pdf-content" style="background:var(--cream); padding:20px; box-sizing:border-box; text-align:left;">
+                <div style="text-align:center;">
+                    <div class="task-counter" style="border:none; background:transparent;">Assessment Complete</div>
+                    <h2 class="section-title" style="font-size:2rem;">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage" style="color:var(--ink); font-weight:700;"></p>
+                </div>
+                <div class="concept-card" style="margin:30px 0; text-align:center; border-top:4px solid var(--ink);">
+                    <h3 style="font-family:'DM Sans',sans-serif; color:var(--mist); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Final Score</h3>
+                    <div style="font-size:3rem; font-family:'Playfair Display',serif; font-weight:900; color:var(--ink); margin:10px 0;" id="hwScoreDetail">0 / 15</div>
+                    <p style="font-family:'DM Sans',sans-serif; font-size:1rem; font-weight:700; margin-top:10px;" id="hwTerminationReason"></p>
+                </div>
+                <h3 style="font-family:'Playfair Display',serif; color:var(--ink); text-align:left; border-bottom:2px solid var(--ink); padding-bottom:10px;">Question Review</h3>
+                <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px;" id="hwReviewGrid"></div>
+            </div>
+            <div style="margin-top:40px; display:flex; gap:20px; justify-content:center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="hw-btn-skip" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- ══ FABs & MODALS ══ -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab" onclick="window.scrollToWhiteboard()" title="Board">🖍️</button>
+    <button class="fab" onclick="openQuizletModal()" title="Quizlet" style="background:var(--gold); color:white; border:none;">📝</button>
+    <button class="fab" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--rust); color:white; border:none;">📋</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminModal" class="modal-overlay">
+    <div class="modal-content" style="border-top-color:var(--rust);">
+        <span class="close-modal" onclick="closeAdmin()">×</span>
+        <h2 style="font-family:'Playfair Display',serif; color:var(--ink); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--mist); margin-bottom:20px;">Review recent student homework submissions.</p>
+        <div style="overflow-x:auto;">
+            <table class="elegant-table">
+                <thead><tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--danger); border-color:var(--danger); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content" style="border-top-color:var(--gold);">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:'Playfair Display',serif; color:var(--ink); margin-bottom:20px;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Term" class="hw-input" style="margin-bottom:0; flex:1;"><input type="text" placeholder="Definition" class="hw-input" style="margin-bottom:0; flex:1;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" class="hw-btn-skip" style="flex:1; margin-top:0;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" class="hw-btn-primary" style="flex:2; background:var(--gold);">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // --- Navigation & Toggles ---
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id === '#hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.querySelector('.hero').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                exitHomework();
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.querySelector('.hero').style.display = 'flex';
+        document.getElementById('task-hw').style.display = 'none';
+    }
+
+    window.scrollToWhiteboard = () => {
+        exitHomework();
+        const el = document.getElementById('t16');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth'});
+    };
+
+    // --- Gap Fill (Click Clack) ---
+    let activeBlank = null;
+    document.querySelectorAll('.gf-blank').forEach(b => {
+        b.addEventListener('click', function() {
+            document.querySelectorAll('.gf-blank').forEach(el => el.classList.remove('gf-active-blank'));
+            this.classList.add('gf-active-blank'); activeBlank = this;
+        });
+    });
+    document.querySelectorAll('.gf-word').forEach(w => {
+        w.addEventListener('click', function() {
+            if(activeBlank && !this.classList.contains('selected')) {
+                if(activeBlank.dataset.filledWord) document.querySelector(`.gf-word[data-word="${activeBlank.dataset.filledWord}"]`).classList.remove('selected');
+                activeBlank.innerText = this.dataset.word;
+                activeBlank.dataset.filledWord = this.dataset.word;
+                activeBlank.classList.add('filled'); activeBlank.classList.remove('gf-active-blank');
+                this.classList.add('selected'); activeBlank = null;
+            }
+        });
+    });
+
+    // --- Drag & Drop ---
+    const draggables = document.querySelectorAll('.draggable-word');
+    const dropZones = document.querySelectorAll('.drop-zone');
+    draggables.forEach(d => {
+        d.addEventListener('dragstart', (e) => { d.classList.add('dragging'); e.dataTransfer.setData('text/plain', d.dataset.id); });
+        d.addEventListener('dragend', () => d.classList.remove('dragging') );
+    });
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault(); zone.classList.remove('drag-over');
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggedEl = document.querySelector(`.draggable-word[data-id="${draggedId}"]`);
+            if (zone.dataset.target === draggedId) {
+                zone.appendChild(draggedEl); zone.classList.add('filled');
+                draggedEl.style.border='none'; draggedEl.style.background='transparent'; draggedEl.style.color='var(--ink)'; draggedEl.style.boxShadow='none'; draggedEl.setAttribute('draggable', 'false'); 
+            } else {
+                zone.style.animation = 'shake 0.4s'; zone.style.borderColor = 'var(--danger)';
+                setTimeout(() => { zone.style.animation = ''; zone.style.borderColor = 'var(--mist)'; }, 400);
+            }
+        });
+    });
+
+    // --- Error Spy ---
+    const spyAns = {
+        1: ['whose members', 'where its members'],
+        2: ['which was found', 'found'],
+        3: ['most of which'],
+        4: ['on which they published', 'where they published']
+    };
+    function revealSpy(n) { document.getElementById('wrap-'+n).classList.add('visible'); }
+    function checkSpy(n) {
+        let val = document.getElementById('input-'+n).value.trim().toLowerCase();
+        let card = document.getElementById('spy-'+n);
+        if (spyAns[n].some(a => val.includes(a))) { card.classList.add('correct'); card.classList.remove('incorrect'); } 
+        else { card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect'); }
+    }
+
+    // --- TFNG ---
+    function checkTFNG(n, choice, correct) {
+        let item = document.getElementById('t-'+n), exp = document.getElementById('e-'+n);
+        if (choice === correct) item.classList.add('t-correct'); else item.classList.add('t-wrong');
+        exp.style.display = 'block';
+    }
+
+    // --- Repaired Whiteboard ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    let canvasRect;
+    
+    function initCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+        updateRect();
+    }
+    
+    function updateRect() { canvasRect = canvas.getBoundingClientRect(); }
+    window.addEventListener('resize', initCanvas); window.addEventListener('scroll', updateRect);
+    initCanvas();
+
+    let isDrawing = false, currentTool = 'pencil', color = '#B84C1C', startX, startY, savedImg;
+    document.querySelectorAll('.wb-btn').forEach(b => {
+        if(b.id==='wbClear') return;
+        b.addEventListener('click', () => { document.querySelectorAll('.wb-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); currentTool = b.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair'; });
+    });
+    
+    document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => ctx.clearRect(0,0,canvas.width,canvas.height));
+
+    function getPos(e) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - canvasRect.left, y: clientY - canvasRect.top };
+    }
+
+    function startDraw(e) {
+        updateRect(); const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') { const t = prompt('Enter text:'); if (t) { ctx.font = "bold 18px 'DM Sans', sans-serif"; ctx.fillStyle = color; ctx.fillText(t, startX, startY); } return; }
+        isDrawing = true; savedImg = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+        if(e.touches) e.preventDefault();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return; const p = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') { ctx.lineTo(p.x, p.y); ctx.strokeStyle = currentTool === 'highlight' ? color + '40' : color; ctx.lineWidth = currentTool === 'highlight' ? 16 : 2; ctx.stroke(); } 
+        else { ctx.putImageData(savedImg, 0, 0); drawShape(p.x, p.y); }
+        if(e.touches) e.preventDefault();
+    }
+
+    function endDraw(e) {
+        if (!isDrawing) return; isDrawing = false;
+        if (['arrow'].includes(currentTool)) { const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX; const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY; drawShape(clientX - canvasRect.left, clientY - canvasRect.top); }
+    }
+
+    canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseup', endDraw); canvas.addEventListener('mouseout', () => isDrawing = false);
+    canvas.addEventListener('touchstart', startDraw, {passive: false}); canvas.addEventListener('touchmove', draw, {passive: false}); canvas.addEventListener('touchend', endDraw);
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+        if (currentTool === 'arrow') { const hl = 16, ang = Math.atan2(ey-startY, ex-startX); ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke(); ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang - Math.PI/6), ey - hl * Math.sin(ang - Math.PI/6)); ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang + Math.PI/6), ey - hl * Math.sin(ang + Math.PI/6)); ctx.stroke(); }
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
+    const hwQuestionBank = [
+        { text: "The forum _______ they posted the documents was shut down immediately.", options: ["on that", "on which", "where on", "which on"], correct: 1 },
+        { text: "There are countless theories online, _______ are completely apocryphal.", options: ["most of them", "most of which", "which most", "that most"], correct: 1 },
+        { text: "Mental discomfort experienced by holding contradictory beliefs is known as:", options: ["echo chamber", "cognitive dissonance", "confirmation bias", "smokescreen"], correct: 1 },
+        { text: "To officially expose the falseness of a myth is to _______ it.", options: ["debunk", "collude", "proliferate", "clandestine"], correct: 0 },
+        { text: "The scientist, _______ leaked the documents, has vanished without a trace.", options: ["that", "which", "who", "whom"], correct: 2 },
+        { text: "The evidence _______ at the crash site was heavily guarded by military personnel.", options: ["which found", "found", "was found", "finding"], correct: 1 },
+        { text: "An environment where a person only encounters beliefs that coincide with their own is an _______.", options: ["echo chamber", "smokescreen", "cognitive dissonance", "confirmation bias"], correct: 0 },
+        { text: "The politician _______ financial records were leaked resigned yesterday.", options: ["who's", "whose", "whom", "that's"], correct: 1 },
+        { text: "They denied all the allegations, _______ only fueled the conspiracy further.", options: ["that", "what", "which", "who"], correct: 2 },
+        { text: "The tendency to interpret new evidence as proof of one's existing beliefs is _______.", options: ["cognitive dissonance", "confirmation bias", "clandestine", "plausible"], correct: 1 },
+        { text: "The whistleblower _______ the journalist spoke is now in hiding.", options: ["who", "to who", "to whom", "whom to"], correct: 2 },
+        { text: "A secret or illicit meeting is often described as _______.", options: ["macabre", "plausible", "clandestine", "ubiquitous"], correct: 2 },
+        { text: "The theory sounded highly _______ at first, until journalists uncovered the truth.", options: ["plausible", "apocryphal", "macabre", "proliferating"], correct: 0 },
+        { text: "Which sentence is grammatically correct and uses a NON-DEFINING relative clause?", options: ["The man who sold the world vanished.", "The man, who sold the world, vanished.", "The man that sold the world vanished.", "The man, that sold the world, vanished."], correct: 1 },
+        { text: "A ruse designed to disguise someone's real intentions is a _______.", options: ["smokescreen", "echo chamber", "cognitive dissonance", "confirmation bias"], correct: 0 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.querySelector('.hw-timer').style.background = "var(--danger)"; document.querySelector('.hw-timer').style.color = "white"; document.querySelector('.hw-timer').style.borderColor = "var(--danger)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.className = 'hw-opt-btn'; btn.innerText = opt;
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--danger)' : 'var(--success)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div class="concept-card" style="border-left:4px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; padding:20px;">
+                <div style="font-size:1.1rem; color:var(--ink); margin-bottom:10px; font-weight:600;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--mist);">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--mist);">Correct answer: <span style="color: var(--success); font-weight:700;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson11HW')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson11HW', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L11_HW.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save().then(() => document.getElementById('floatingActions').style.display='flex');
+    }
+
+    // --- Admin & Quizlet ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson11HW')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px;'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td>${r.date}</td><td style="font-weight:700;">${r.name}</td><td>${r.score}/${r.total}</td><td style="font-weight:700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson11HW'); openAdmin(); } }
+
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() { document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Term" class="hw-input" style="margin-bottom:0; flex:1;"><input type="text" placeholder="Definition" class="hw-input" style="margin-bottom:0; flex:1;"></div>`; }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
+        if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+</script>
+</body>
+</html>
