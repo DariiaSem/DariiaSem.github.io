@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 8: A2–B1 | Crime & Law</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Crime & Law / Slate & Crimson Palette */
+            --bg-color: #F8FAFC; /* Slate 50 */
+            --bg-page: #F8FAFC;
+            --bg-panel: #FFFFFF;
+            --surface: #FFFFFF;
+            --primary: #B91C1C; /* Crimson Red */
+            --primary-light: #FEE2E2;
+            --secondary: #334155; /* Dark Slate / Police */
+            --secondary-light: #F1F5F9;
+            --tertiary: #CA8A04; /* Gold / Badge */
+            --tertiary-light: #FEF9C3;
+            --danger: #DC2626; /* Red */
+            --danger-light: #FEF2F2;
+            --text-main: #0F172A; /* Deep Slate */
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            
+            --shadow-soft: 0px 18px 40px rgba(185, 28, 28, 0.08);
+            --shadow-hover: 0px 20px 45px rgba(185, 28, 28, 0.15);
+            --radius-sm: 10px;
+            --radius-md: 20px;
+            --radius-lg: 30px;
+
+            /* HW Specific Variables */
+            --charcoal: #0F172A;
+            --gray-text: #475569;
+            --border-light: #E2E8F0;
+            --success: #059669;
+            --font-ui: 'Plus Jakarta Sans', sans-serif;
+            --font-serif: 'Outfit', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: var(--font-serif);
+        }
+
+        /* ── CONTENT EDITABLE ── */
+        [contenteditable="true"] { outline: none; border-radius: 6px; transition: background 0.2s, box-shadow 0.2s; }
+        [contenteditable="true"]:hover { background: var(--primary-light); }
+        [contenteditable="true"]:focus { background: var(--primary-light); box-shadow: 0 0 0 2px var(--primary); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, #7F1D1D 0%, #B91C1C 100%);
+            color: white;
+            padding: 140px 24px 100px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 60px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .hero::before {
+            content: '🕵️'; position: absolute; top: 10%; left: 8%; font-size: 90px; opacity: 0.2; transform: rotate(-10deg);
+        }
+        .hero::after {
+            content: '⚖️'; position: absolute; bottom: 10%; right: 10%; font-size: 100px; opacity: 0.2; transform: rotate(15deg);
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 10px 24px; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4.5rem);
+            font-weight: 800; line-height: 1.1; margin-bottom: 20px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 em { color: #FEF9C3; font-style: normal; }
+        .hero-subtitle { font-size: 1.2rem; color: rgba(255,255,255,0.95); max-width: 600px; margin: 0 auto 40px; }
+
+        /* ── NAV ── */
+        .nav-bar {
+            position: sticky; top: 20px; z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--surface);
+            padding: 0 24px; margin: 0 24px 60px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
+        }
+
+        .nav-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 70px;
+        }
+
+        .nav-logo {
+            font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--primary);
+            text-decoration: none; font-size: 1.2rem; display: flex; align-items: center; gap: 8px;
+        }
+
+        .nav-links { display: flex; gap: 8px; list-style: none; overflow-x: auto; align-items: center; padding: 0 10px; }
+        .nav-links::-webkit-scrollbar { display: none; }
+
+        .nav-links a {
+            text-decoration: none; color: var(--text-muted);
+            font-size: 0.9rem; font-weight: 700; padding: 10px 18px; border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap;
+        }
+
+        .nav-links a:hover { color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
+        .nav-links .hw-tab { color: var(--secondary); border: 2px solid var(--border-color); }
+        .nav-links .hw-tab:hover { background: var(--secondary); color: white; border-color: var(--secondary); }
+
+        /* ── SECTIONS ── */
+        .section { padding: 40px 24px 80px; }
+        .section-inner { max-width: 1000px; margin: 0 auto; }
+
+        .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 30px; }
+        .section-icon { 
+            width: 56px; height: 56px; border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; flex-shrink: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .icon-crimson { background: var(--primary-light); color: var(--primary); }
+        .icon-slate { background: var(--secondary-light); color: var(--secondary); }
+        .icon-gold { background: var(--tertiary-light); color: var(--tertiary); }
+        .icon-red { background: var(--danger-light); color: var(--danger); }
+
+        .section-title { font-size: 2.2rem; font-weight: 800; color: var(--text-main); line-height: 1.2; margin-bottom: 6px; }
+        .section-label { font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); }
+        .section-desc { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 700px; }
+
+        /* ── RICH CARDS (Vocab & Games) ── */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 30px; }
+        .rich-card {
+            background: var(--surface); border-radius: var(--radius-md);
+            padding: 30px; box-shadow: var(--shadow-soft);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative; overflow: hidden; border: 1px solid var(--border-color);
+        }
+        .rich-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+        
+        .card-emoji { font-size: 3rem; margin-bottom: 20px; display: inline-block; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1)); }
+        .rich-card h4 { font-size: 1.3rem; color: var(--text-main); margin-bottom: 12px; font-weight: 800; }
+        .rich-card p.def { font-size: 1rem; color: var(--text-main); margin-bottom: 16px; font-weight: 500; line-height: 1.6; }
+        .rich-card p.ex { font-size: 0.95rem; color: var(--text-muted); background: var(--bg-color); padding: 12px; border-radius: 10px; font-weight: 600; }
+
+        .blank-input {
+            display: inline-block; min-width: 140px; border-bottom: 3px solid var(--primary);
+            color: var(--primary); font-weight: 800; padding: 4px 12px; text-align: center;
+            background: var(--primary-light); border-radius: 8px 8px 0 0; font-family: 'Outfit';
+        }
+
+        /* ── GRAMMAR VISUALS (Formulas) ── */
+        .grammar-formula-box {
+            background: var(--surface); padding: 32px; border-radius: var(--radius-md); margin-bottom: 24px;
+            box-shadow: var(--shadow-soft); border: 2px solid var(--border-color);
+        }
+        .formula-title { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .formula-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.1rem; background: var(--bg-color); padding: 16px; border-radius: 12px;}
+        .f-part { padding: 6px 14px; border-radius: 8px; font-weight: 800; background: var(--surface); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .f-plus { color: var(--text-muted); font-weight: 800; }
+        .f-example { font-size: 1.05rem; color: var(--text-main); margin-top: 12px; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+
+        /* ── PRACTICE LIST (Modern) ── */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 20px; counter-reset: ex; }
+        .practice-list li {
+            background: var(--surface); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); padding: 24px 30px 24px 70px;
+            position: relative; font-size: 1.1rem; box-shadow: var(--shadow-soft);
+            font-weight: 500;
+        }
+        .practice-list li::before {
+            counter-increment: ex; content: counter(ex);
+            position: absolute; left: 24px; top: 24px;
+            background: var(--primary); color: white; font-weight: 800; font-family: 'Outfit';
+            width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        }
+
+        /* ── CHAT UI ── */
+        .chat-container {
+            background: #E2E8F0; border-radius: var(--radius-lg); padding: 30px; box-shadow: inset 0 4px 20px rgba(0,0,0,0.05);
+            max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px;
+        }
+        .chat-msg {
+            max-width: 80%; padding: 14px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 500;
+            position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.5;
+        }
+        .chat-msg.received { background: var(--surface); color: var(--text-main); align-self: flex-start; border-top-left-radius: 4px; }
+        .chat-msg.sent { background: var(--secondary); color: #FFFFFF; align-self: flex-end; border-top-right-radius: 4px; }
+        .chat-name { font-size: 0.8rem; font-weight: 800; margin-bottom: 4px; color: var(--text-muted); }
+        .chat-msg.sent .chat-name { text-align: right; color: var(--secondary-light); }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 2px solid var(--border-color); border-radius: var(--radius-lg); overflow: hidden; margin-top: 30px; box-shadow: var(--shadow-soft); background: var(--surface); }
+        .wb-toolbar { background: var(--surface); border-bottom: 1px solid var(--border-color); padding: 16px 24px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .wb-btn {
+            background: var(--bg-color); color: var(--text-main); border: none;
+            padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 700; transition: all 0.2s; font-family: 'Outfit';
+        }
+        .wb-btn:hover, .wb-btn.active { background: var(--primary); color: white; }
+        .wb-color { width: 36px; height: 36px; border-radius: 50%; border: 3px solid var(--bg-color); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 600px; background: var(--surface); cursor: crosshair; }
+
+        /* ── FLOATING ACTIONS ── */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 16px; z-index: 1000; }
+        .fab-btn {
+            background: var(--surface); color: var(--text-main); border: none;
+            width: 60px; height: 60px; border-radius: 50%; font-size: 1.6rem; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.3); transition: all 0.3s; display: flex; align-items: center; justify-content: center;
+        }
+        .fab-btn:hover { transform: translateY(-5px); background: var(--primary); color: white; }
+        .fab-btn.fab-danger:hover { background: var(--danger); }
+        .fab-btn.fab-admin { background: var(--secondary); color: white; }
+        .fab-btn.fab-admin:hover { background: var(--secondary-light); color: var(--secondary); }
+
+        /* ── SYNC & MODALS ── */
+        #syncStatus {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: var(--surface); color: var(--text-main); padding: 10px 24px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 800; z-index: 10000; display: flex; align-items: center; gap: 12px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15); border: 1px solid var(--border-color); font-family: 'Outfit';
+        }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: var(--surface); padding: 40px; border-radius: var(--radius-lg); width: 90%; max-width: 600px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 20px; right: 24px; font-size: 2.5rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
+        .word-row { display: flex; gap: 12px; margin-bottom: 16px; }
+        .word-row input { flex: 1; padding: 14px; border: 2px solid var(--bg-color); border-radius: 12px; font-family: 'Plus Jakarta Sans'; font-weight: 600; outline: none; background: var(--bg-color); transition: border 0.2s;}
+        .word-row input:focus { border-color: var(--primary); background: var(--surface); }
+
+        #liveCursorsContainer { position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999; }
+        .remote-cursor { position: absolute; transition: top 0.15s linear, left 0.15s linear; display: flex; align-items: flex-start; }
+        .remote-cursor svg { width: 24px; height: 24px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+        .remote-cursor-label { color: white; font-size: 0.85rem; padding: 6px 10px; border-radius: 8px; margin-left: -4px; margin-top: 18px; font-weight: 700; font-family: 'Outfit'; box-shadow: 0 4px 10px rgba(0,0,0,0.1);}
+
+        /* ── HOMEWORK SPECIFIC STYLES ── */
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 15px 20px; font-size: 1.1rem; font-family: var(--font-ui); border: 1px solid var(--border-light); border-radius: 12px; background: var(--bg-panel); color: var(--charcoal); transition: border-color 0.2s; margin-bottom: 20px; }
+        .hw-input:focus { outline: none; border-color: var(--secondary); box-shadow: 0 0 0 2px var(--secondary-light); }
+        
+        .hw-btn-primary { background: var(--primary); color: white; border: none; padding: 16px 32px; font-size: 1rem; font-family: var(--font-serif); font-weight: 700; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.2s; }
+        .hw-btn-primary:hover { background: #991B1B; transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+        .hw-btn-skip { background: transparent; color: var(--gray-text); border: 1px solid var(--border-color); padding: 10px 24px; font-size: 0.9rem; font-family: var(--font-serif); font-weight: 600; border-radius: 50px; cursor: pointer; transition: all 0.2s; margin-top: 20px; }
+        .hw-btn-skip:hover { background: var(--border-color); color: var(--charcoal); }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .hw-timer { font-family: var(--font-ui); font-weight: 800; font-size: 1.1rem; color: var(--danger); background: var(--danger-light); padding: 8px 16px; border-radius: 10px; display: flex; align-items: center; gap: 8px; }
+        .hw-progress { width: 100%; height: 8px; background: var(--border-color); margin-bottom: 30px; border-radius: 4px; overflow: hidden; }
+        .hw-progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-qbox { background: var(--surface); padding: 40px; border: 1px solid var(--border-color); border-top: 4px solid var(--primary); border-radius: var(--radius-md); box-shadow: var(--shadow-soft); text-align: left; margin-bottom: 30px; }
+        .hw-qtext { font-family: var(--font-serif); font-size: 1.3rem; color: var(--text-main); margin-bottom: 30px; line-height: 1.6; font-weight: 600; }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { background: var(--bg-color); border: 1px solid var(--border-color); padding: 16px 24px; text-align: left; font-family: var(--font-ui); font-size: 1.05rem; font-weight: 600; color: var(--charcoal); cursor: pointer; transition: all 0.2s; border-radius: 12px; }
+        .hw-opt-btn:hover { background: var(--primary-light); border-color: var(--primary); transform: translateX(4px); }
+        
+        .hw-results-card { background: var(--surface); padding: 40px; border: 1px solid var(--border-color); border-radius: var(--radius-md); border-top: 4px solid var(--tertiary); box-shadow: var(--shadow-soft); margin-top: 30px; margin-bottom: 40px; text-align: center; }
+        .hw-score { font-size: 3rem; font-family: var(--font-serif); font-weight: 800; color: var(--tertiary); margin: 10px 0; }
+        .hw-review-grid { display: flex; flex-direction: column; gap: 16px; text-align: left; margin-top: 30px; }
+        .hw-review-item { padding: 20px; border: 1px solid var(--border-color); border-left: 4px solid var(--border-color); background: var(--surface); border-radius: 12px; }
+        .hw-review-item.correct { border-left-color: var(--success); background: #ECFDF5; }
+        .hw-review-item.incorrect { border-left-color: var(--danger); background: var(--danger-light); }
+        .hw-review-q { font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-main); margin-bottom: 10px; font-weight: 600; }
+        .hw-review-ans { font-size: 0.95rem; margin-bottom: 4px; font-weight: 600; }
+
+        .elegant-table { width: 100%; border-collapse: collapse; background: var(--surface); margin-top: 20px; border: 1px solid var(--border-color); text-align: left; border-radius: 12px; overflow: hidden; }
+        .elegant-table th { background: var(--secondary); color: white; padding: 15px 20px; font-family: var(--font-serif); font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .elegant-table td { padding: 15px 20px; border-bottom: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 0.95rem; color: var(--text-main); font-weight: 500; }
+
+        @media (max-width: 768px) {
+            .hero { padding: 100px 20px 60px; border-radius: 0 0 30px 30px; }
+            .nav-bar { margin: 0 16px 40px; }
+            .section { padding: 30px 16px 60px; }
+            .chat-msg { max-width: 95%; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus">
+    <span id="syncDot" style="width:12px;height:12px;border-radius:50%;background:var(--tertiary);display:block;box-shadow:0 0 12px var(--tertiary);"></span>
+    <span id="syncText">Syncing Data…</span>
+</div>
+<div id="liveCursorsContainer"></div>
+
+<!-- MAIN LESSON CONTENT -->
+<div id="lesson-content">
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge" contenteditable="true">🚔 General English · A2–B1 · Lesson 8</div>
+            <h1 contenteditable="true">Crime & <em>Law</em></h1>
+            <p class="hero-subtitle" contenteditable="true">Famous heists in history. Learn true crime vocabulary, master the Present Simple Passive Voice, and review indefinite pronouns.</p>
+        </div>
+    </section>
+
+    <nav class="nav-bar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">⚖️ Lesson 8</a>
+            <ul class="nav-links" id="navTabsContainer">
+                <li><a href="#" onclick="window.addNewTab(event)" style="background:var(--bg-color);color:var(--primary);">+ New Tab</a></li>
+                <li><a href="#t1" contenteditable="true">Recap</a></li>
+                <li><a href="#t2" contenteditable="true">Warm-Up</a></li>
+                <li><a href="#t3" contenteditable="true">Vocab</a></li>
+                <li><a href="#t5" contenteditable="true">Reading</a></li>
+                <li><a href="#t7" contenteditable="true">Grammar</a></li>
+                <li><a href="#t10" contenteditable="true">Video</a></li>
+                <li><a href="#t12" contenteditable="true">Role-Play</a></li>
+                <li><a href="#t15" contenteditable="true">Finale</a></li>
+                <li><a href="#task-hw" class="hw-tab" contenteditable="false">📝 Homework Test</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="section" id="t1">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-crimson">📋</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 1 · Recap</div>
+                    <h2 class="section-title" contenteditable="true">Memory Check: Indefinite Pronouns</h2>
+                </div>
+            </div>
+            
+            <ul class="practice-list">
+                <li><div contenteditable="true"><strong>Rule Check:</strong> Use <strong>some-</strong> for positive sentences. Use <strong>any-</strong> for questions and negatives.</div></li>
+                <li><div contenteditable="true">1. I didn't see <span class="blank-input" contenteditable="true"></span> running away from the bank.</div></li>
+                <li><div contenteditable="true">2. Look! There is <span class="blank-input" contenteditable="true"></span> hiding behind that car.</div></li>
+                <li><div contenteditable="true">3. The police searched the house, but they found <span class="blank-input" contenteditable="true"></span>. (Zero things)</div></li>
+                <li><div contenteditable="true">4. Did <span class="blank-input" contenteditable="true"></span> hear the alarm ring last night?</div></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="t2">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-slate">🎯</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 2 · Warm-Up</div>
+                    <h2 class="section-title" contenteditable="true">This or That: Crime Edition</h2>
+                </div>
+            </div>
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Choose one and say why in one simple sentence.</p>
+
+            <div class="card-grid">
+                <div class="rich-card" contenteditable="true" style="border-top: 5px solid var(--primary);">
+                    <span class="card-emoji">📺</span>
+                    <h4>Would you rather...</h4>
+                    <p class="def">A) Watch a documentary about a real crime</p>
+                    <p class="def">B) Watch a fictional action movie about a heist</p>
+                </div>
+                <div class="rich-card" contenteditable="true" style="border-top: 5px solid var(--secondary);">
+                    <span class="card-emoji">🔦</span>
+                    <h4>Which job is more difficult?</h4>
+                    <p class="def">A) Being a police detective</p>
+                    <p class="def">B) Being a judge in court</p>
+                </div>
+                <div class="rich-card" contenteditable="true" style="border-top: 5px solid var(--tertiary);">
+                    <span class="card-emoji">🏃</span>
+                    <h4>If you saw a robbery on the street...</h4>
+                    <p class="def">A) Run away and call the police</p>
+                    <p class="def">B) Try to record a video on your phone</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t3">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-gold">📖</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 3 · Vocabulary</div>
+                    <h2 class="section-title" contenteditable="true">Crime Words</h2>
+                </div>
+            </div>
+
+            <div class="card-grid">
+                <div class="rich-card">
+                    <span class="card-emoji" contenteditable="true">💰</span>
+                    <h4 contenteditable="true">1. Robbery</h4>
+                    <p class="def" contenteditable="true">The crime of stealing money or property, usually using force or fear.</p>
+                    <p class="ex" contenteditable="true">The bank <strong>robbery</strong> happened at midnight.</p>
+                </div>
+                <div class="rich-card">
+                    <span class="card-emoji" contenteditable="true">🦹</span>
+                    <h4 contenteditable="true">2. Thief</h4>
+                    <p class="def" contenteditable="true">A person who steals things secretly. (Plural: Thieves).</p>
+                    <p class="ex" contenteditable="true">The <strong>thief</strong> took her phone from her bag.</p>
+                </div>
+                <div class="rich-card">
+                    <span class="card-emoji" contenteditable="true">🚔</span>
+                    <h4 contenteditable="true">3. Arrest</h4>
+                    <p class="def" contenteditable="true">When the police catch someone and take them to the police station.</p>
+                    <p class="ex" contenteditable="true">The police will <strong>arrest</strong> the suspect tomorrow.</p>
+                </div>
+                <div class="rich-card">
+                    <span class="card-emoji" contenteditable="true">🏛️</span>
+                    <h4 contenteditable="true">4. Court</h4>
+                    <p class="def" contenteditable="true">The place where a judge decides if someone broke the law.</p>
+                    <p class="ex" contenteditable="true">The thief must go to <strong>court</strong> next week.</p>
+                </div>
+                <div class="rich-card">
+                    <span class="card-emoji" contenteditable="true">😓</span>
+                    <h4 contenteditable="true">5. Guilty</h4>
+                    <p class="def" contenteditable="true">Responsible for committing a crime. (Opposite: Innocent).</p>
+                    <p class="ex" contenteditable="true">The judge decided that the man was <strong>guilty</strong>.</p>
+                </div>
+                <div class="rich-card">
+                    <span class="card-emoji" contenteditable="true">🔍</span>
+                    <h4 contenteditable="true">6. Detective</h4>
+                    <p class="def" contenteditable="true">A police officer whose job is to discover information about crimes.</p>
+                    <p class="ex" contenteditable="true">The <strong>detective</strong> found fingerprints on the window.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t4">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-crimson">✏️</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 4 · Vocabulary in Use</div>
+                    <h2 class="section-title" contenteditable="true">Fill in the Blanks</h2>
+                </div>
+            </div>
+
+            <ul class="practice-list">
+                <li><div contenteditable="true">1. After a long investigation, they finally decided to <span class="blank-input" contenteditable="true"></span> the dangerous criminal.</div></li>
+                <li><div contenteditable="true">2. The jury listened to all the evidence in <span class="blank-input" contenteditable="true"></span>.</div></li>
+                <li><div contenteditable="true">3. He went to prison because he was found <span class="blank-input" contenteditable="true"></span> of stealing the car.</div></li>
+                <li><div contenteditable="true">4. Someone broke into the museum. It is the biggest art <span class="blank-input" contenteditable="true"></span> in history!</div></li>
+                <li><div contenteditable="true">5. The smart <span class="blank-input" contenteditable="true"></span> asked the suspect difficult questions during the interview.</div></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="t5">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-header">
+                <div class="section-icon icon-slate">🗂️</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 5 · Reading</div>
+                    <h2 class="section-title" contenteditable="true">News Report: The Midnight Heist</h2>
+                </div>
+            </div>
+
+            <div class="card-grid" style="grid-template-columns: 1fr;">
+                <div class="rich-card" style="border-left: 8px solid var(--secondary);">
+                    <p contenteditable="true" style="margin-bottom: 20px; font-size: 1.1rem;">
+                        <strong>LONDON</strong> — A famous diamond is stolen from the City Museum. Every night, the museum is locked at 8:00 PM and the alarm system is turned on. However, last night, thieves managed to enter through a small window on the roof. 
+                    </p>
+                    <p contenteditable="true" style="margin-bottom: 20px; font-size: 1.1rem;">
+                        The security cameras are checked by the police every morning, but the video from last night shows nothing. The wires were cut. 
+                    </p>
+                    <p contenteditable="true" style="font-size: 1.1rem;">
+                        Currently, three suspects are held at the police station. They are interviewed by the lead detective. If they are found guilty in court, they will face 10 years in prison.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t6">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-gold">🔎</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 6 · Comprehension</div>
+                    <h2 class="section-title" contenteditable="true">Fact Check</h2>
+                </div>
+            </div>
+
+            <ul class="practice-list">
+                <li>
+                    <div contenteditable="true">1. The thieves entered the museum through the front door. (True / False) <span class="blank-input" contenteditable="true" style="width: 60px;"></span></div>
+                </li>
+                <li>
+                    <div contenteditable="true">2. The police saw the robbery on the security cameras. (True / False) <span class="blank-input" contenteditable="true" style="width: 60px;"></span></div>
+                </li>
+                <li>
+                    <div contenteditable="true">3. Three people are currently suspects in the case. (True / False) <span class="blank-input" contenteditable="true" style="width: 60px;"></span></div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="t7">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-crimson">📐</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 7 · Grammar Theory</div>
+                    <h2 class="section-title" contenteditable="true">Passive Voice (Present Simple)</h2>
+                </div>
+            </div>
+
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 24px;">We use the Passive Voice when the <strong>action</strong> is more important than <strong>who</strong> does it. It is very common in news and crime reports.</p>
+
+            <div class="grammar-formula-box" style="border-left: 6px solid var(--primary);">
+                <div class="formula-title" contenteditable="true"><span style="font-size:1.8rem">🔧</span> The Formula</div>
+                <div class="formula-row">
+                    <span class="f-part" contenteditable="true">Object</span> <span class="f-plus">+</span>
+                    <span class="f-part" contenteditable="true" style="background: var(--primary); color: white;">am / is / are</span> <span class="f-plus">+</span>
+                    <span class="f-part" contenteditable="true" style="background: var(--secondary); color: white;">Past Participle (V3)</span>
+                </div>
+            </div>
+
+            <div class="grammar-formula-box" style="border-left: 6px solid var(--secondary);">
+                <div class="formula-title" contenteditable="true"><span style="font-size:1.8rem">🔄</span> Active vs. Passive</div>
+                <div class="f-example" contenteditable="true" style="margin-bottom: 16px;"><strong>Active:</strong> The police arrest criminals. <br><span style="color: var(--text-muted); font-size: 0.95rem;">(Focus is on the police)</span></div>
+                <div class="f-example" contenteditable="true"><strong>Passive:</strong> Criminals <strong>are arrested</strong> (by the police). <br><span style="color: var(--text-muted); font-size: 0.95rem;">(Focus is on the criminals and the action)</span></div>
+            </div>
+
+            <div class="grammar-formula-box" style="border-left: 6px solid var(--tertiary);">
+                <div class="formula-title" contenteditable="true"><span style="font-size:1.8rem">📰</span> Common News Examples</div>
+                <div class="f-example" contenteditable="true">✅ "The museum <strong>is locked</strong> at 8:00 PM."</div>
+                <div class="f-example" contenteditable="true">✅ "The diamonds <strong>are hidden</strong> in a safe."</div>
+                <div class="f-example" contenteditable="true">✅ "The suspect <strong>is interviewed</strong> by a detective."</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t8">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-slate">🖊️</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 8 · Grammar Practice</div>
+                    <h2 class="section-title" contenteditable="true">Make it Passive</h2>
+                </div>
+            </div>
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Fill in the blank with <strong>is/are + the V3 form</strong> of the verb in brackets.</p>
+
+            <ul class="practice-list">
+                <li><div contenteditable="true">1. The bank <span class="blank-input" contenteditable="true"></span> <em>(clean)</em> every night by the staff.</div></li>
+                <li><div contenteditable="true">2. Important documents <span class="blank-input" contenteditable="true"></span> <em>(keep)</em> in a secret room.</div></li>
+                <li><div contenteditable="true">3. The criminal <span class="blank-input" contenteditable="true"></span> <em>(take)</em> to court by the police.</div></li>
+                <li><div contenteditable="true">4. Millions of dollars <span class="blank-input" contenteditable="true"></span> <em>(steal)</em> in bank robberies every year.</div></li>
+                <li><div contenteditable="true">5. The security alarm <span class="blank-input" contenteditable="true"></span> <em>(check)</em> every Monday.</div></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="t10">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-red">🎬</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 10 · Video Study</div>
+                    <h2 class="section-title" contenteditable="true">World's Greatest Heists</h2>
+                </div>
+            </div>
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Watch this short video about famous robberies. Write down 2 interesting facts.</p>
+
+            <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; border-radius:var(--radius-lg); box-shadow:var(--shadow-soft); margin-bottom:20px; border: 4px solid var(--surface);" contenteditable="false">
+                <!-- Using a generic placeholder video ID for an educational video -->
+                <iframe 
+                    src="https://www.youtube-nocookie.com/embed/uM_TfW2uGk0?rel=0&modestbranding=1"
+                    style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    title="Heist Video">
+                </iframe>
+            </div>
+            <p style="text-align:center; margin-bottom:32px;">
+                <a href="https://www.youtube.com/watch?v=uM_TfW2uGk0" target="_blank" style="color:var(--primary); font-weight:800; text-decoration:none;">🔗 Watch directly on YouTube</a>
+            </p>
+
+            <ul class="practice-list">
+                <li><div contenteditable="true">Fact 1: <span class="blank-input" contenteditable="true" style="min-width: 300px;"></span></div></li>
+                <li><div contenteditable="true">Fact 2: <span class="blank-input" contenteditable="true" style="min-width: 300px;"></span></div></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section" id="t11">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-slate">📱</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 11 · Role-Play</div>
+                    <h2 class="section-title" contenteditable="true">The Interrogation</h2>
+                </div>
+            </div>
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">You are texting a detective. You witnessed a crime! Fill in the blanks.</p>
+
+            <div class="chat-container">
+                <div class="chat-msg received">
+                    <div class="chat-name" contenteditable="true">Detective Miller</div>
+                    <div contenteditable="true">Hello. We believe you saw the <strong>robbery</strong> yesterday. Did you see <strong>[anybody / somebody]</strong> run out of the bank?</div>
+                </div>
+                
+                <div class="chat-msg sent">
+                    <div class="chat-name" contenteditable="true">You</div>
+                    <div contenteditable="true">Yes! I saw a man in a black coat. He was carrying a bag. Is he <strong>[arrested / guilty]</strong> yet?</div>
+                </div>
+                
+                <div class="chat-msg received">
+                    <div class="chat-name" contenteditable="true">Detective Miller</div>
+                    <div contenteditable="true">Not yet. The man <strong>[is searched / is searching]</strong> by our officers right now. Did he drop <strong>[anything / nothing]</strong> on the street?</div>
+                </div>
+                
+                <div class="chat-msg sent">
+                    <div class="chat-name" contenteditable="true">You</div>
+                    <div contenteditable="true">No, I didn't see him drop anything. I hope you catch the <strong>[thief / court]</strong> soon!</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t12">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-gold">💬</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 12 · Discussion</div>
+                    <h2 class="section-title" contenteditable="true">True Crime Fascination</h2>
+                </div>
+            </div>
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Answer the questions using the vocabulary and grammar from today's lesson.</p>
+
+            <div class="card-grid">
+                <div class="rich-card" contenteditable="true">
+                    <span class="card-emoji">📺</span>
+                    <h4>Question 1</h4>
+                    <p class="def">Why do you think "true crime" podcasts and shows are so popular today?</p>
+                </div>
+                <div class="rich-card" contenteditable="true">
+                    <span class="card-emoji">🕵️‍♂️</span>
+                    <h4>Question 2</h4>
+                    <p class="def">Do you think the punishment for a robbery should always be prison time, or are there other ways to punish the guilty?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="t15">
+        <div class="section-inner">
+            <div class="section-header">
+                <div class="section-icon icon-crimson">🏆</div>
+                <div>
+                    <div class="section-label" contenteditable="true">Task 15 · Grand Finale</div>
+                    <h2 class="section-title" contenteditable="true">The 30-Second Speaker</h2>
+                </div>
+            </div>
+            <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Choose one prompt. Speak for 30 seconds without stopping.</p>
+
+            <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <div class="rich-card" contenteditable="true" style="border-top: 4px solid var(--primary);">Describe how a bank is protected. (Use the passive voice!)</div>
+                <div class="rich-card" contenteditable="true" style="border-top: 4px solid var(--secondary);">Tell a story (real or fake) about a thief trying to steal something silly.</div>
+                <div class="rich-card" contenteditable="true" style="border-top: 4px solid var(--tertiary);">What would you do if you were locked inside a museum overnight?</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="whiteboard" style="background:var(--text-main); color:white; padding-top: 60px; padding-bottom: 100px;">
+        <div class="section-inner">
+            <div class="section-header" style="margin-bottom: 24px;">
+                <div class="section-icon" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">🖍️</div>
+                <div>
+                    <div class="section-label" contenteditable="true" style="color: rgba(255,255,255,0.7);">Teacher's Space</div>
+                    <h2 class="section-title" contenteditable="true" style="color: white;">Detective's Evidence Board</h2>
+                </div>
+            </div>
+
+            <div class="wb-container" style="border-color: rgba(255,255,255,0.1);">
+                <div class="wb-toolbar" style="background: #000000; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <button class="wb-btn active" data-tool="pencil" style="color: white;">Pencil</button>
+                    <button class="wb-btn" data-tool="highlight" style="color: white;">Highlight</button>
+                    <button class="wb-btn" data-tool="text" style="color: white;">Text</button>
+                    <button class="wb-btn" data-tool="square" style="color: white;">Square</button>
+                    <button class="wb-btn" data-tool="circle" style="color: white;">Circle</button>
+                    <button class="wb-btn" data-tool="arrow" style="color: white;">Arrow</button>
+                    <div style="width:2px;height:24px;background:rgba(255,255,255,0.2);margin:0 8px;border-radius:2px;"></div>
+                    <input type="color" id="wbColor" class="wb-color" value="#B91C1C" title="Pick color">
+                    <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--danger);color:white;">Clear Board</button>
+                </div>
+                <canvas id="boardCanvas"></canvas>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ══════════ TASK HW — HOMEWORK TEST (HIDDEN BY DEFAULT) ══════════ -->
+<div id="task-hw" style="display: none; background: var(--bg-page); min-height: 100vh; padding-top: 40px; padding-bottom: 80px;">
+    
+    <!-- Step 1: Welcome -->
+    <section id="hw-welcome" class="hw-screen active">
+        <div class="hw-container">
+            <span class="section-label" style="color: var(--secondary);">Homework Portal</span>
+            <h2 class="section-title" style="color: var(--secondary);">Lesson 8 <em>Assessment</em></h2>
+            <p class="section-desc" style="max-width: 600px; margin: 0 auto 30px;">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 questions on crime vocabulary and passive voice grammar. 
+                <br><br><span style="color: var(--danger); font-weight: 700;">Anti-Cheat Enabled:</span> Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.
+            </p>
+            <div class="hw-container" style="max-width: 400px; margin: 0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <br>
+                <button class="hw-btn-primary" onclick="startHW()">Accept Rules & Begin</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2: Quiz -->
+    <section id="hw-quiz" class="hw-screen">
+        <div class="hw-container">
+            <div class="hw-header">
+                <span class="section-label" id="hwQuestionCounter" style="margin: 0; background: transparent; padding: 0; color: var(--secondary);">Question 1 / 15</span>
+                <div class="hw-timer">
+                    ⏱️ <span id="hwTimerDisplay">15:00</span>
+                </div>
+            </div>
+            <div class="hw-progress">
+                <div class="hw-progress-fill" id="hwProgressFill"></div>
+            </div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </div>
+    </section>
+
+    <!-- Step 3: Results & PDF Export Wrapper -->
+    <section id="hw-results" class="hw-screen">
+        <div class="hw-container" style="max-width: 850px;">
+            <div id="hw-pdf-content" style="background: var(--bg-page); padding: 20px; box-sizing: border-box;">
+                <div style="text-align: center;">
+                    <span class="section-label" style="color: var(--tertiary);">Assessment Complete</span>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage"></p>
+                </div>
+
+                <div class="hw-results-card">
+                    <h3 style="font-family: var(--font-serif); color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem;">Final Score</h3>
+                    <div class="hw-score" id="hwScoreDetail">0 / 15</div>
+                    <p style="font-family: var(--font-ui); font-size: 1rem; color: var(--text-main); font-weight: 700; margin-top: 10px;" id="hwTerminationReason"></p>
+                </div>
+
+                <h3 style="font-family: var(--font-serif); color: var(--text-main); text-align: left; border-bottom: 2px solid var(--border-light); padding-bottom: 10px;">Question Review</h3>
+                <div class="hw-review-grid" id="hwReviewGrid"></div>
+            </div>
+            
+            <div style="margin-top: 40px; display: flex; gap: 20px; justify-content: center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="hw-btn-skip" style="margin-top: 0;" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ══════════ FLOATING ACTIONS ══════════ -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWB()" title="Whiteboard">🖍️</button>
+    <button class="fab-btn" style="background: #334155; color: white;" onclick="openQuizletModal()" title="Quizlet Export">📝</button>
+    <button class="fab-btn" style="background:var(--tertiary); color: white;" onclick="window.saveAsPDF()" title="Save PDF">💾</button>
+    <button class="fab-btn fab-admin" onclick="openAdmin()" title="Teacher Dashboard">📋</button>
+    <button class="fab-btn fab-danger" onclick="window.resetLesson()" title="Reset">🔄</button>
+</div>
+
+<!-- Teacher Dashboard Modal -->
+<div id="adminModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeAdmin()">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--text-main); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Review recent student homework submissions.</p>
+        
+        <div style="overflow-x:auto;">
+            <table class="elegant-table">
+                <thead>
+                    <tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr>
+                </thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--danger); border-color:var(--danger); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:'Outfit',serif; font-weight: 800; color:var(--text-main); margin-bottom:10px;">Quizlet Exporter</h2>
+        <p style="font-size:1rem;color:var(--text-muted);margin-bottom:24px; font-weight: 500;">Type words and translations, then copy to Quizlet.</p>
+        <div id="wordList" style="max-height: 300px; overflow-y: auto; margin-bottom: 24px; padding-right: 10px;">
+            <div class="word-row"><input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+            <button onclick="addWordRow()" style="flex:1; padding:16px; border:2px solid var(--bg-color); background:var(--surface); border-radius:12px; cursor:pointer; font-weight:700; font-family:'Outfit'; font-size:1.1rem; color:var(--text-main); transition:all 0.2s;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2; padding:16px; border:none; background:#334155; color:white; border-radius:12px; cursor:pointer; font-weight:800; font-family:'Outfit'; font-size:1.1rem; transition:all 0.2s; box-shadow:0 10px 20px rgba(51,65,85,0.2);">📋 Copy Text</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // HIGHLIGHT SHORTCUT
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'var(--primary-light)');
+        }
+    });
+
+    // NAV SMOOTH SCROLL & HOMEWORK TOGGLE
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            
+            if (id === '#task-hw') {
+                document.getElementById('lesson-content').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                document.getElementById('lesson-content').style.display = 'block';
+                document.getElementById('task-hw').style.display = 'none';
+                const sec = document.querySelector(id);
+                if (sec) window.scrollTo({ top: sec.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+            }
+        }
+    });
+    window.scrollToWB = () => {
+        document.getElementById('lesson-content').style.display = 'block';
+        document.getElementById('task-hw').style.display = 'none';
+        window.scrollTo({ top: document.getElementById('whiteboard').getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+    }
+    function exitHomework() {
+        document.getElementById('lesson-content').style.display = 'block';
+        document.getElementById('task-hw').style.display = 'none';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    // WHITEBOARD
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false, pendingDraw = false, startX, startY, currentTool = 'pencil', currentColor = '#B91C1C', savedImg;
+
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 600; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWBClear) window.syncWBClear();
+    });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const pos = getPos(e); startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const t = prompt('Enter text:');
+            if (t) { ctx.font = "600 22px 'Plus Jakarta Sans', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(t, startX, startY); if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } }
+            return;
+        }
+        isDrawing = true; savedImg = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return;
+        const pos = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '33' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 24 : 4;
+            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+        } else { ctx.putImageData(savedImg, 0, 0); drawShape(pos.x, pos.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') drawShape(getPos(e).x, getPos(e).y);
+        if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); }
+    });
+    canvas.addEventListener('mouseout', () => { if (isDrawing) { isDrawing = false; if (window.syncWBDraw) { pendingDraw = true; window.syncWBDraw(); } } });
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 4;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, ex - startX, ey - startY); }
+        else if (currentTool === 'circle') { const r = Math.sqrt(Math.pow(ex - startX, 2) + Math.pow(ey - startY, 2)); ctx.arc(startX, startY, r, 0, 2 * Math.PI); ctx.stroke(); }
+        else if (currentTool === 'arrow') {
+            const hl = 20, ang = Math.atan2(ey - startY, ex - startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke(); ctx.beginPath();
+            ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang - Math.PI / 6), ey - hl * Math.sin(ang - Math.PI / 6));
+            ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang + Math.PI / 6), ey - hl * Math.sin(ang + Math.PI / 6)); ctx.stroke();
+        }
+    }
+
+    // PDF EXPORT (LESSON)
+    window.saveAsPDF = () => {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const el = document.getElementById('lesson-content');
+        html2pdf().set({
+            margin: 0, filename: 'Lesson8-Crime.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, windowWidth: el.scrollWidth, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [el.scrollWidth, el.scrollHeight], orientation: 'portrait' }
+        }).from(el).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    };
+
+    // QUIZLET
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const d = document.createElement('div'); d.className = 'word-row';
+        d.innerHTML = '<input type="text" placeholder="Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans">';
+        const wl = document.getElementById('wordList'); wl.appendChild(d); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out = '';
+        document.querySelectorAll('.word-row').forEach(r => { const w = r.querySelector('.q-word').value.trim(), t = r.querySelector('.q-trans').value.trim(); if (w || t) out += `${w}\t${t}\n`; });
+        const btn = document.getElementById('copyQuizletBtn');
+        if (out) { navigator.clipboard.writeText(out).then(() => { btn.innerText = '✅ Copied!'; setTimeout(() => btn.innerText = '📋 Copy Text', 3000); }); }
+        else { btn.innerText = '⚠️ Empty!'; setTimeout(() => btn.innerText = '📋 Copy Text', 3000); }
+    };
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "The person who steals money from the bank is a ___.", options: ["detective", "court", "thief", "guilty"], correct: 2 },
+        { text: "The police will ___ the suspect if they have enough evidence.", options: ["robbery", "arrest", "court", "guilty"], correct: 1 },
+        { text: "The judge works in the ___.", options: ["thief", "arrest", "robbery", "court"], correct: 3 },
+        { text: "If you break the law, you are ___.", options: ["guilty", "detective", "court", "thief"], correct: 0 },
+        { text: "The bank ___ was planned for months.", options: ["arrest", "guilty", "court", "robbery"], correct: 3 },
+        { text: "Active: They clean the office. Passive: The office ___.", options: ["cleans", "is clean", "is cleaned", "are cleaned"], correct: 2 },
+        { text: "Active: People steal diamonds. Passive: Diamonds ___.", options: ["are stolen", "is stolen", "steal", "are steal"], correct: 0 },
+        { text: "The criminal ___ by the detective every morning.", options: ["is interview", "are interviewed", "interview", "is interviewed"], correct: 3 },
+        { text: "Important documents ___ in the safe.", options: ["are kept", "is kept", "keep", "are keep"], correct: 0 },
+        { text: "The museum doors ___ at 8 PM.", options: ["lock", "is locked", "are locked", "locks"], correct: 2 },
+        { text: "I didn't see ___ near the bank.", options: ["somebody", "nobody", "anybody", "everybody"], correct: 2 },
+        { text: "Look! There is ___ in the garden.", options: ["anybody", "somebody", "nobody", "anything"], correct: 1 },
+        { text: "The police searched the house, but they found ___.", options: ["anything", "nothing", "something", "everything"], correct: 1 },
+        { text: "Does ___ know what time the robbery happened?", options: ["somebody", "anybody", "nobody", "nothing"], correct: 1 },
+        { text: "___ loves a good mystery story.", options: ["Anybody", "Nobody", "Everybody", "Anything"], correct: 2 }
+    ];
+
+    let currentStudent = "";
+    let questionHistory = []; 
+    let currentQuestionIndex = 0;
+    const TOTAL_QUESTIONS = 15;
+    let score = 0;
+    let timeLeft = 15 * 60; // 15 minutes
+    let timerInterval;
+    let cheatWarnings = 0;
+    let isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times. Your test will now be submitted as-is.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else {
+                alert("WARNING: Do not leave the test tab or minimize the window to look up answers. If you do this again, your test will instantly end.");
+            }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            
+            if (timeLeft <= 60) {
+                document.querySelector('.hw-timer').style.background = "var(--danger)";
+                document.querySelector('.hw-timer').style.color = "white";
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your test will now be submitted.");
+                endHWQuiz(true, "Terminated (Time Expired)");
+            }
+        }, 1000);
+    }
+
+    function showHWScreen(id) {
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name to continue."); return; }
+        
+        currentStudent = nameInput;
+        currentQuestionIndex = 0;
+        score = 0;
+        questionHistory = [];
+        cheatWarnings = 0;
+        timeLeft = 15 * 60;
+        isTestActive = true;
+
+        hwQuestionBank.sort(() => Math.random() - 0.5); // Shuffle
+        
+        showHWScreen('hw-quiz');
+        startHWTimer();
+        renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+            endHWQuiz(false, "Completed Successfully");
+            return;
+        }
+
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / TOTAL_QUESTIONS) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid');
+        grid.innerHTML = "";
+        
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'hw-opt-btn';
+            btn.innerText = opt;
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        const correctAnsText = currentQuestionObj.options[currentQuestionObj.correct];
+
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: correctAnsText, isCorrect: isCorrect });
+        if (isCorrect) score++;
+
+        currentQuestionIndex++;
+        renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false;
+        clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        
+        const termEl = document.getElementById('hwTerminationReason');
+        if (forcedExit) termEl.innerHTML = `<span style="color:var(--danger);">Status:</span> ${statusMsg}`;
+        else termEl.innerHTML = `<span style="color:var(--tertiary);">Status:</span> ${statusMsg}`;
+
+        buildHWReviewGrid();
+        showHWScreen('hw-results');
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function buildHWReviewGrid() {
+        const grid = document.getElementById('hwReviewGrid');
+        grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = `hw-review-item ${item.isCorrect ? 'correct' : 'incorrect'}`;
+            div.innerHTML = `
+                <div class="hw-review-q">${index + 1}. ${item.text}</div>
+                <div class="hw-review-ans">Your answer: <span style="color: ${item.isCorrect ? 'var(--tertiary)' : 'var(--danger)'}">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div class="hw-review-ans">Correct answer: <span style="color: var(--tertiary)">${item.correctAns}</span></div>` : ''}
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    // ─── PDF FOR HW ───
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const element = document.getElementById('hw-pdf-content');
+        const parent = element.parentNode;
+        const sibling = element.nextSibling;
+
+        const origBodyOverflowX = document.body.style.overflowX;
+        const origHtmlOverflowX = document.documentElement.style.overflowX;
+        document.body.style.overflowX = 'visible';
+        document.documentElement.style.overflowX = 'visible';
+        document.body.appendChild(element);
+
+        const origCss = element.style.cssText;
+        element.style.cssText = `position: absolute !important; top: 0 !important; left: 0 !important; width: 800px !important; margin: 0 !important; padding: 40px !important; background: #F8FAFC !important; z-index: 999999 !important; display: block !important;`;
+        window.scrollTo(0, 0);
+
+        const w = 800; const h = element.scrollHeight;
+        const opt = {
+            margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L8_Homework.pdf`, image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, x: 0, y: 0, width: w, height: h, windowWidth: w, windowHeight: h, scrollX: 0, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [w, h], orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            element.style.cssText = origCss;
+            if (sibling) parent.insertBefore(element, sibling);
+            else parent.appendChild(element);
+            document.body.style.overflowX = origBodyOverflowX;
+            document.documentElement.style.overflowX = origHtmlOverflowX;
+            document.getElementById('floatingActions').style.display='flex';
+        });
+    }
+
+    // ─── ADMIN DASHBOARD ───
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson8HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson8HomeworkData', JSON.stringify(results));
+    }
+
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson8HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody');
+        tbody.innerHTML = "";
+
+        if (results.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>No homework submissions yet.</td></tr>";
+        } else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="font-size:0.85rem;">${r.date}</td><td style="font-weight:700;">${r.name}</td><td>${r.score} / ${r.total}</td><td style="font-size:0.85rem; font-weight: 700; color:${r.status.includes('Completed') ? 'var(--tertiary)' : 'var(--danger)'}">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson8HomeworkData'); openAdmin(); } }
+
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // GENERATED UNIQUE APP ID
+    const appId = 'lesson-8-a2b1-crime-v1';
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const syncText = document.getElementById('syncText');
+    const syncDot = document.getElementById('syncDot');
+    function setStatus(t, c) { if (syncText) syncText.innerText = t; if (syncDot) syncDot.style.background = c; syncDot.style.boxShadow = `0 0 12px ${c}`; }
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let currentUser = null, isSyncSetup = false;
+    const myCursorColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    let myCursorName = 'Detective';
+
+    const editables = document.querySelectorAll('[contenteditable="true"]');
+    const originalStates = {};
+    editables.forEach((el, i) => { el.dataset.syncId = 'e' + i; originalStates['e' + i] = el.innerHTML; });
+    let isEditing = null;
+
+    function debounce(fn, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
+
+    const initAuth = async () => { try { await signInAnonymously(auth); } catch(e) { setStatus('Auth Failed','var(--danger)'); } };
+
+    onAuthStateChanged(auth, user => {
+        currentUser = user;
+        if (user && !isSyncSetup) {
+            isSyncSetup = true;
+            getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                myCursorName = 'Detective ' + (snap.size + 1);
+                setStatus('Live Sync On', 'var(--tertiary)');
+                setupSync(); setupCursors();
+            }).catch(() => {
+                myCursorName = 'Detective ' + (Math.floor(Math.random() * 99) + 1);
+                setStatus('Live Sync On', 'var(--tertiary)');
+                setupSync(); setupCursors();
+            });
+        } else if (!user) setStatus('Disconnected', 'var(--danger)');
+    });
+
+    initAuth();
+
+    function setupSync() {
+        const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text');
+        const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+        window.saveTextUpdate = el => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+
+        window.attachEditableListeners = el => {
+            el.addEventListener('focus', () => isEditing = el.dataset.syncId);
+            el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+            el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+        };
+
+        editables.forEach(el => window.attachEditableListeners(el));
+
+        window.addNewTab = e => {
+            e.preventDefault();
+            const c = document.getElementById('navTabsContainer');
+            const li = document.createElement('li');
+            const newId = 'tab-' + Date.now();
+            li.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+            c.appendChild(li);
+            window.attachEditableListeners(li.querySelector('a'));
+            if (currentUser) setDoc(textRef, { 'nav_tabs': c.innerHTML }, { merge: true });
+        };
+
+        onSnapshot(textRef, snap => {
+            if (!snap.exists()) { Object.entries(originalStates).forEach(([id, html]) => { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }); return; }
+            const data = snap.data();
+            for (const [id, html] of Object.entries(data)) {
+                if (id === 'nav_tabs') {
+                    const c = document.getElementById('navTabsContainer');
+                    if (!c.contains(document.activeElement)) { c.innerHTML = html; c.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a)); }
+                    continue;
+                }
+                if (isEditing !== id) { const el = document.querySelector(`[data-sync-id="${id}"]`); if (el && el.innerHTML !== html) el.innerHTML = html; }
+            }
+        });
+
+        window.syncWBDraw = debounce(() => {
+            if (!currentUser) return;
+            const c = document.getElementById('boardCanvas');
+            setDoc(wbRef, { image: c.toDataURL('image/png', 0.5), clearTs: window.lastClear || 0 }, { merge: true });
+            pendingDraw = false;
+        }, 800);
+
+        window.syncWBClear = () => { if (!currentUser) return; const ts = Date.now(); window.lastClear = ts; setDoc(wbRef, { clearTs: ts, image: null }, { merge: true }); };
+
+        onSnapshot(wbRef, snap => {
+            if (!snap.exists()) return;
+            const data = snap.data(); const c = document.getElementById('boardCanvas'); const x = c.getContext('2d');
+            if (data.clearTs > (window.lastClear || 0)) { x.clearRect(0, 0, c.width, c.height); window.lastClear = data.clearTs; return; }
+            if (data.image && !pendingDraw) { const img = new Image(); img.onload = () => { x.clearRect(0,0,c.width,c.height); x.drawImage(img,0,0); }; img.src = data.image; }
+        });
+    }
+
+    function setupCursors() {
+        const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+        const myRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+        const container = document.getElementById('liveCursorsContainer');
+
+        document.addEventListener('mousemove', debounce(e => {
+            if (!currentUser) return;
+            setDoc(myRef, { xOff: e.pageX - window.innerWidth / 2, y: e.pageY, color: myCursorColor, name: myCursorName, ts: Date.now() });
+        }, 300));
+
+        onSnapshot(cursorsCol, snap => {
+            snap.docChanges().forEach(ch => {
+                const id = ch.doc.id; if (id === currentUser.uid) return;
+                if (ch.type === 'removed') { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                const d = ch.doc.data();
+                if (Date.now() - d.ts > 60000) { const el = document.getElementById('cur-' + id); if (el) el.remove(); return; }
+                let el = document.getElementById('cur-' + id);
+                if (!el) {
+                    el = document.createElement('div'); el.id = 'cur-' + id; el.className = 'remote-cursor';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${d.color}">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth / 2 + d.xOff) + 'px';
+                el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myRef); });
+    }
+
+    window.resetLesson = async () => {
+        if (!currentUser) return;
+        if (!confirm('Reset this lesson for everyone? All edits will be cleared.')) return;
+        setStatus('Resetting…', 'var(--tertiary)');
+        const base = (s) => doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', s);
+        await deleteDoc(base('text'));
+        const ts = Date.now(); window.lastClear = ts;
+        await setDoc(base('whiteboard'), { clearTs: ts, image: null });
+        setTimeout(() => setStatus('Live Sync On', 'var(--tertiary)'), 1200);
+    };
+</script>
+</body>
+</html>
