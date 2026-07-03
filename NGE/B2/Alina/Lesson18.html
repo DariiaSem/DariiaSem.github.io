@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 18: B2-C1 | The Science of Happiness</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Lucid & Uplifting Theme */
+            --bg-base:    #F8FAFC; /* Slate 50 - clean off-white */
+            --bg-panel:   #FFFFFF;
+            
+            --sky:        #0EA5E9; /* Sky blue */
+            --sky-dim:    #0284C7;
+            --sky-pale:   #E0F2FE;
+            
+            --amber:      #F59E0B; /* Warm amber/yellow */
+            --amber-dim:  #D97706;
+            --amber-pale: #FEF3C7;
+            
+            --slate:      #334155; /* Deep slate for text */
+            --slate-light:#64748B;
+            --slate-pale: #F1F5F9;
+            
+            --success:    #10B981;
+            --danger:     #EF4444;
+            
+            --font-ui:    'Nunito Sans', sans-serif;
+            --font-serif: 'Cabin', sans-serif;
+            --font-mono:  'Fira Code', monospace;
+            
+            --shadow-sm:  0 4px 6px -1px rgba(14, 165, 233, 0.05), 0 2px 4px -1px rgba(14, 165, 233, 0.03);
+            --shadow-md:  0 10px 15px -3px rgba(14, 165, 233, 0.1), 0 4px 6px -2px rgba(14, 165, 233, 0.05);
+            --shadow-lg:  0 20px 25px -5px rgba(14, 165, 233, 0.1), 0 10px 10px -5px rgba(14, 165, 233, 0.04);
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-base);
+            color: var(--slate);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.laser-active { cursor: crosshair !important; }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px; transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(14, 165, 233, 0.05); }
+        [contenteditable="true"]:focus { background: rgba(14, 165, 233, 0.1); box-shadow: 0 0 0 2px var(--sky); }
+
+        /* ══ SIDEBAR ══ */
+        .sidebar {
+            width: 280px; background: var(--bg-panel); border-right: 1px solid var(--slate-pale);
+            position: fixed; height: 100vh; top: 0; left: 0; display: flex; flex-direction: column;
+            padding: 30px 20px; z-index: 100; overflow-y: auto; box-shadow: var(--shadow-sm);
+        }
+
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--slate-pale); border-radius: 10px; }
+
+        .brand {
+            font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--slate);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 30px; text-decoration: none;
+        }
+        .brand span { color: var(--sky); font-size: 1.8rem; }
+
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .nav-item a {
+            display: flex; align-items: center; padding: 10px 14px;
+            text-decoration: none; color: var(--slate-light); font-weight: 600; font-size: 0.95rem;
+            border-radius: var(--r-sm); transition: all 0.2s;
+        }
+        .nav-item a:hover, .nav-item a.active {
+            background: var(--sky-pale); color: var(--sky-dim);
+        }
+        .nav-item a.active { border-left: 4px solid var(--sky); padding-left: 10px; }
+        
+        .hw-btn {
+            margin-top: 24px; background: var(--amber-pale); color: var(--amber-dim);
+            border: 1px solid rgba(245, 158, 11, 0.2); padding: 12px; text-align: center;
+            border-radius: var(--r-md); font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
+        .hw-btn:hover { background: var(--amber); color: white; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); }
+
+        /* ══ MAIN CONTENT ══ */
+        .main-content {
+            margin-left: 280px; flex: 1; padding: 50px 60px; max-width: 1100px;
+        }
+
+        .dashboard-header { margin-bottom: 50px; border-bottom: 2px solid var(--slate-pale); padding-bottom: 30px; }
+        .module-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+            color: var(--amber-dim); background: var(--amber-pale); border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;
+            text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
+        }
+        .dashboard-title {
+            font-family: var(--font-serif); font-size: clamp(3rem, 4.5vw, 4rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 16px; color: var(--slate); letter-spacing: -1px;
+        }
+        .dashboard-title em { color: var(--sky); font-style: normal; }
+        .dashboard-desc { font-size: 1.15rem; color: var(--slate-light); max-width: 700px; line-height: 1.6; }
+
+        /* ══ SECTIONS & TASKS ══ */
+        .section { display: none; animation: fadeIn 0.4s ease-out; margin-bottom: 60px; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .task-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .task-num {
+            font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+            color: var(--sky-dim); background: var(--sky-pale);
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px; border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        .task-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--slate); }
+
+        /* ══ UI CARDS & TYPOGRAPHY ══ */
+        .card {
+            background: var(--bg-panel); border: 1px solid var(--slate-pale);
+            border-radius: var(--r-lg); padding: 32px; margin-bottom: 32px;
+            box-shadow: var(--shadow-sm); transition: box-shadow 0.3s;
+        }
+        .card:hover { box-shadow: var(--shadow-md); }
+        
+        .quote-block {
+            font-family: var(--font-serif); font-size: 1.6rem; color: var(--slate);
+            font-style: italic; padding-left: 24px; border-left: 4px solid var(--amber);
+            margin-bottom: 20px; line-height: 1.4;
+        }
+
+        /* ══ VOCABULARY GRID ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .vocab-card {
+            background: var(--bg-base); border-radius: var(--r-md); padding: 24px;
+            border: 1px solid var(--slate-pale); position: relative; overflow: hidden;
+            transition: all 0.3s ease; cursor: default; min-height: 140px; display: flex; flex-direction: column; justify-content: center;
+        }
+        .vocab-card:hover { border-color: var(--sky); transform: translateY(-4px); box-shadow: var(--shadow-md); background: var(--bg-panel); }
+        
+        .vic-front { position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s; pointer-events: none; }
+        .vocab-card:hover .vic-front { opacity: 0; }
+        .vic-pos { font-family: var(--font-mono); font-size: 0.75rem; color: var(--sky-dim); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; }
+        .vic-word { font-family: var(--font-serif); font-size: 1.5rem; color: var(--slate); font-weight: 700; }
+        
+        .vic-def {
+            position: absolute; inset: 0; padding: 24px;
+            background: var(--sky); color: var(--white);
+            font-size: 0.95rem; line-height: 1.6; display: flex; align-items: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md); z-index: 2;
+        }
+        .vocab-card:hover .vic-def { opacity: 1; }
+        .vocab-card:nth-child(even):hover .vic-def { background: var(--amber); }
+
+        /* ══ READING TEXT ══ */
+        .article-body {
+            font-size: 1.1rem; line-height: 1.9; color: var(--slate);
+            background: var(--bg-panel); padding: 40px 48px; border-radius: var(--r-lg);
+            border-top: 6px solid var(--sky); box-shadow: var(--shadow-md);
+            margin-bottom: 32px; border: 1px solid var(--slate-pale);
+        }
+        .article-body p { margin-bottom: 20px; }
+        .article-body p:last-child { margin-bottom: 0; }
+        .article-title { font-family: var(--font-serif); font-size: 2.2rem; color: var(--slate); margin-bottom: 8px; font-weight: 700; line-height: 1.2; }
+        .article-subtitle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--slate-light); text-transform: uppercase; margin-bottom: 32px; display: block; border-bottom: 1px solid var(--slate-pale); padding-bottom: 16px; }
+        
+        .vocab-hl {
+            color: var(--sky-dim); font-weight: 700; background: var(--sky-pale);
+            padding: 2px 6px; border-radius: 4px; cursor: help; transition: all 0.2s;
+        }
+        .vocab-hl:hover { background: var(--sky); color: white; }
+
+        /* ══ GRAMMAR HUB (TABBED INTERFACE) ══ */
+        .grammar-hub {
+            background: var(--bg-panel); border: 1px solid var(--slate-pale);
+            border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-sm);
+        }
+        .gh-tabs {
+            display: flex; background: var(--bg-base); border-bottom: 1px solid var(--slate-pale);
+        }
+        .gh-tab {
+            flex: 1; padding: 16px; text-align: center; font-family: var(--font-mono); font-weight: 700;
+            font-size: 0.9rem; color: var(--slate-light); cursor: pointer; transition: all 0.2s;
+            border-bottom: 3px solid transparent; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .gh-tab:hover { background: var(--sky-pale); color: var(--sky-dim); }
+        .gh-tab.active { background: var(--bg-panel); color: var(--sky-dim); border-bottom-color: var(--sky); }
+        
+        .gh-content { padding: 32px; display: none; animation: fadeIn 0.3s; }
+        .gh-content.active { display: block; }
+        
+        .grammar-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .grammar-table th { background: var(--slate-pale); color: var(--slate); padding: 12px 16px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; text-align: left; border-bottom: 2px solid var(--slate-light); }
+        .grammar-table td { padding: 16px; border-bottom: 1px solid var(--slate-pale); font-size: 1rem; color: var(--slate); vertical-align: top; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        
+        .g-rule { font-weight: 700; color: var(--sky-dim); display: block; margin-bottom: 4px; }
+        .g-ex { font-style: italic; color: var(--slate-light); font-size: 0.95rem; }
+        .g-hi { background: var(--amber-pale); color: var(--amber-dim); padding: 0 4px; border-radius: 3px; font-weight: 700; }
+
+        /* ══ PRACTICE LISTS ══ */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+        .practice-list li {
+            background: var(--bg-panel); padding: 20px 24px 20px 60px;
+            border-radius: var(--r-md); border: 1px solid var(--slate-pale);
+            font-size: 1.05rem; position: relative; line-height: 1.7; box-shadow: var(--shadow-sm);
+        }
+        .practice-list li::before {
+            counter-increment: prac; content: "0" counter(prac);
+            position: absolute; left: 20px; top: 22px;
+            font-weight: 700; color: var(--sky-dim); font-size: 0.9rem; font-family: var(--font-mono);
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 120px; border-bottom: 2px dashed var(--sky);
+            color: var(--sky-dim); font-weight: 700; padding: 0 8px; text-align: center;
+            background: var(--sky-pale); font-family: var(--font-ui); font-size: 1em;
+            outline: none;
+        }
+        .blank-input:focus { border-bottom-style: solid; background: rgba(14, 165, 233, 0.15); }
+
+        /* ══ CALLOUTS ══ */
+        .callout { padding: 20px 24px; border-radius: var(--r-md); margin: 24px 0; font-size: 1.05rem; line-height: 1.6; border-left: 4px solid; background: var(--bg-panel); box-shadow: var(--shadow-sm); }
+        .callout-amber { border-color: var(--amber); }
+        .callout-sky { border-color: var(--sky); }
+        .callout strong { color: var(--slate); font-family: var(--font-serif); font-size: 1.2rem; }
+
+    </style>
+</head>
+<body>
+
+<div id="liveLaserContainer" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:999999;"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+    <a href="#" class="brand">
+        <span>●</span><div contenteditable="true">B2/C1 English</div>
+    </a>
+    <ul class="nav-menu" id="navTabsContainer">
+        <li class="nav-item"><a href="#task-1" class="active" contenteditable="true">01. The Provocation</a></li>
+        <li class="nav-item"><a href="#task-2" contenteditable="true">02. C1 Vocabulary</a></li>
+        <li class="nav-item"><a href="#task-3" contenteditable="true">03. The Reading</a></li>
+        <li class="nav-item"><a href="#task-4" contenteditable="true">04. Comprehension</a></li>
+        <li class="nav-item"><a href="#task-5" contenteditable="true">05. Articles Hub</a></li>
+        <li class="nav-item"><a href="#task-6" contenteditable="true">06. Quantifiers Hub</a></li>
+        <li class="nav-item"><a href="#task-7" contenteditable="true">07. The Maze</a></li>
+        <li class="nav-item"><a href="#task-8" contenteditable="true">08. Reading 2</a></li>
+        <li class="nav-item"><a href="#task-9" contenteditable="true">09. Error Spy</a></li>
+        <li class="nav-item"><a href="#task-10" contenteditable="true">10. Sentence Synthesis</a></li>
+        <li class="nav-item"><a href="#task-11" contenteditable="true">11. Either/Or Dilemmas</a></li>
+        <li class="nav-item"><a href="#task-12" contenteditable="true">12. Advanced Phrases</a></li>
+        <li class="nav-item"><a href="#task-13" contenteditable="true">13. The Audit Role-play</a></li>
+        <li class="nav-item"><a href="#task-14" contenteditable="true">14. Diagramming</a></li>
+        <li class="nav-item"><a href="#task-15" contenteditable="true">15. Final Synthesis</a></li>
+    </ul>
+    <button class="hw-btn" onclick="openHomework()" contenteditable="true">Homework Assessment</button>
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+    
+    <header class="dashboard-header">
+        <div class="module-badge" contenteditable="true">Lesson 18</div>
+        <h1 class="dashboard-title" contenteditable="true">The Science of<br><em>Happiness</em></h1>
+        <p class="dashboard-desc" contenteditable="true">Explore the psychology of contentment in a high-paced dental environment, while mastering the absolute totality of C1 Quantifiers and Articles.</p>
+    </header>
+
+    <!-- ══════════ TASK 1 — PROVOCATION ══════════ -->
+    <section class="section active" id="task-1">
+        <div class="task-header">
+            <div class="task-num">01</div>
+            <h2 class="task-title" contenteditable="true">The Provocation</h2>
+        </div>
+        
+        <div class="card">
+            <div class="quote-block" contenteditable="true">
+                "We often assume that securing a higher salary, passing an exam, or buying new clinic equipment will finally make us happy. Yet, within months, our baseline of satisfaction resets. We are running on a treadmill where the scenery changes, but we never actually move forward."
+            </div>
+        </div>
+
+        <div class="callout callout-amber">
+            <strong>💬 Discussion:</strong> Think about your career as a dental professional and tutor. Was there a specific goal (a graduation, a raise, mastering a new skill) that you thought would bring lasting happiness, but the feeling faded quickly?
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 2 — VOCABULARY ══════════ -->
+    <section class="section" id="task-2">
+        <div class="task-header">
+            <div class="task-num">02</div>
+            <h2 class="task-title" contenteditable="true">Lexical Focus: Psychology</h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            To discuss positive psychology at a C1 level, you need vocabulary that goes beyond "happy" and "sad". Hover to unlock.
+        </p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">adjective</div><div class="vic-word">Hedonic</div></div>
+                <div class="vic-def">Relating to or considered in terms of pleasant (or unpleasant) sensations; the pursuit of pleasure. <em>"The hedonic treadmill."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">adjective</div><div class="vic-word">Transient</div></div>
+                <div class="vic-def">Lasting only for a short time; impermanent. <em>"The joy of buying a new car is entirely transient."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Contentment</div></div>
+                <div class="vic-def">A state of quiet happiness and satisfaction; deeper and more stable than mere 'joy'. <em>"She found true contentment in her daily clinic routine."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Eudaimonia</div></div>
+                <div class="vic-def">A Greek word meaning human flourishing; happiness derived from meaning, purpose, and fulfilling one's potential, rather than pleasure.</div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Gratification</div></div>
+                <div class="vic-def">Pleasure, especially when gained from the satisfaction of a desire. <em>"Social media provides instant gratification."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Altruism</div></div>
+                <div class="vic-def">The selfless concern for the well-being of others. <em>"Helping a nervous patient requires a degree of altruism."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Equilibrium</div></div>
+                <div class="vic-def">A state in which opposing forces or influences are balanced. <em>"After a major life event, our mood eventually returns to its natural equilibrium."</em></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">adjective</div><div class="vic-word">Pervasive</div></div>
+                <div class="vic-def">Spreading widely throughout an area or a group of people. <em>"There is a pervasive myth that wealth equals happiness."</em></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 3 — EXTENSIVE READING 1 ══════════ -->
+    <section class="section" id="task-3">
+        <div class="task-header">
+            <div class="task-num">03</div>
+            <h2 class="task-title" contenteditable="true">Reading: The Clinic Treadmill</h2>
+        </div>
+
+        <div class="article-body" contenteditable="false">
+            <div class="article-title" contenteditable="true">The Hedonic Treadmill</div>
+            <span class="article-subtitle" contenteditable="true">Why the next promotion won't fix everything</span>
+            <p>
+                In the high-paced environment of a dental clinic, <span class="vocab-hl" title="Every assistant / Each assistant">every</span> assistant knows the feeling of striving for the next milestone. Perhaps it is mastering a complex 3D intraoral scanner, receiving a long-awaited salary increase, or finally organizing the sterilization room perfectly. We anticipate that these achievements will bring us lasting happiness. Yet, psychologists warn us about a <span class="vocab-hl">pervasive</span> phenomenon known as the Hedonic Treadmill.
+            </p>
+            <p>
+                The theory suggests that humans have a baseline level of happiness. When <span class="vocab-hl" title="A positive event / The positive event">a</span> positive event occurs—like a promotion—our happiness spikes. We feel a surge of <span class="vocab-hl">gratification</span>. However, this feeling is strictly <span class="vocab-hl">transient</span>. Within a few months, we adapt to the new salary or the new equipment, and our mood returns to its previous <span class="vocab-hl">equilibrium</span>.
+            </p>
+            <p>
+                This means that <span class="vocab-hl" title="All the money / All money">all the</span> money in the world cannot guarantee sustained joy if we only chase <span class="vocab-hl">hedonic</span> pleasure. Instead, researchers suggest focusing on <span class="vocab-hl">eudaimonia</span>—finding meaning in the work itself. For a dental professional, this might mean focusing on the <span class="vocab-hl">altruism</span> of calming a terrified patient, rather than just waiting for the shift to end.
+            </p>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 4 — COMPREHENSION ══════════ -->
+    <section class="section" id="task-4">
+        <div class="task-header">
+            <div class="task-num">04</div>
+            <h2 class="task-title" contenteditable="true">Comprehension Check</h2>
+        </div>
+
+        <div class="callout callout-sky">
+            <strong>💬 Answer with your partner:</strong>
+            <ol style="margin-left:24px; margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+                <li contenteditable="true">Explain the "Hedonic Treadmill" in your own words, using a clinical example.</li>
+                <li contenteditable="true">What is the difference between <em>hedonic</em> pleasure and <em>eudaimonia</em>?</li>
+                <li contenteditable="true">Think of a colleague. Do they seem to be running on the treadmill, or have they found <em>contentment</em>? Why?</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 5 — GRAMMAR HUB (ARTICLES) ══════════ -->
+    <section class="section" id="task-5">
+        <div class="task-header">
+            <div class="task-num">05</div>
+            <h2 class="task-title" contenteditable="true">Masterclass: Articles <em>(a/an, the, zero)</em></h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Articles dictate subtle shifts in meaning. Master these advanced rules to sound fully fluent in both casual conversations and professional clinical environments.
+        </p>
+
+        <div class="grammar-hub">
+            <div class="gh-tabs">
+                <div class="gh-tab active" onclick="switchTab('g5', 'tab1')">General vs Specific</div>
+                <div class="gh-tab" onclick="switchTab('g5', 'tab2')">Institutions</div>
+                <div class="gh-tab" onclick="switchTab('g5', 'tab3')">Medical & Geo</div>
+            </div>
+            
+            <!-- Tab 1 -->
+            <div class="gh-content active" id="g5-tab1">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--sky-dim);">Abstract Nouns & Generalizations</h3>
+                <table class="grammar-table">
+                    <tr>
+                        <td style="width:50%;">
+                            <span class="g-rule">Zero Article [ Ø ] (Speaking Generally)</span>
+                            Use no article when talking about abstract concepts or plural nouns in a general sense.<br><br>
+                            <span class="g-ex">"<span class="g-hi">Ø</span> Happiness is difficult to measure."</span><br>
+                            <span class="g-ex">"<span class="g-hi">Ø</span> Dentists work hard."</span>
+                        </td>
+                        <td style="width:50%;">
+                            <span class="g-rule">The (Speaking Specifically)</span>
+                            Use 'the' when you restrict or define the noun (often using 'of').<br><br>
+                            <span class="g-ex">"<span class="g-hi">The</span> happiness <em>of our patients</em> is priority."</span><br>
+                            <span class="g-ex">"<span class="g-hi">The</span> dentists <em>in this clinic</em> work hard."</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Tab 2 -->
+            <div class="gh-content" id="g5-tab2">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--sky-dim);">Institutions (Hospital, Prison, School, Uni)</h3>
+                <table class="grammar-table">
+                    <tr>
+                        <td style="width:50%;">
+                            <span class="g-rule">Zero Article [ Ø ] (Primary Purpose)</span>
+                            Use no article when the person is there for the institution's intended purpose.<br><br>
+                            <span class="g-ex">"He was admitted to <span class="g-hi">Ø</span> hospital." (As a patient)</span><br>
+                            <span class="g-ex">"She is studying at <span class="g-hi">Ø</span> university." (As a student)</span>
+                        </td>
+                        <td style="width:50%;">
+                            <span class="g-rule">The (Visiting / The Building)</span>
+                            Use 'the' when visiting as an outsider, or referring to the physical building.<br><br>
+                            <span class="g-ex">"I went to <span class="g-hi">the</span> hospital to visit him." (As a visitor)</span><br>
+                            <span class="g-ex">"I parked behind <span class="g-hi">the</span> university." (The building)</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Tab 3 -->
+            <div class="gh-content" id="g5-tab3">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--sky-dim);">Medical Conditions & Geography</h3>
+                <table class="grammar-table">
+                    <tr>
+                        <td style="width:50%;">
+                            <span class="g-rule">Medical Conditions</span>
+                            Most diseases take <strong>Zero Article</strong>:<br>
+                            <span class="g-ex">"He has <span class="g-hi">Ø</span> cancer / caries / diabetes."</span><br><br>
+                            Aches/Pains take <strong>A/An</strong>:<br>
+                            <span class="g-ex">"I have <span class="g-hi">a</span> toothache / <span class="g-hi">a</span> cold."</span><br><br>
+                            Exceptions take <strong>The</strong>:<br>
+                            <span class="g-ex">"She caught <span class="g-hi">the</span> flu / <span class="g-hi">the</span> measles."</span>
+                        </td>
+                        <td style="width:50%;">
+                            <span class="g-rule">Geography Rules</span>
+                            <strong>Zero Article:</strong> Continents, individual mountains, lakes, countries.<br>
+                            <span class="g-ex">"<span class="g-hi">Ø</span> Europe, <span class="g-hi">Ø</span> Mt. Everest, <span class="g-hi">Ø</span> Ukraine."</span><br><br>
+                            <strong>The:</strong> Plurals, oceans, rivers, and words with 'Republic/Kingdom/States'.<br>
+                            <span class="g-ex">"<span class="g-hi">The</span> UK, <span class="g-hi">the</span> Alps, <span class="g-hi">the</span> Atlantic."</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 6 — GRAMMAR HUB (QUANTIFIERS) ══════════ -->
+    <section class="section" id="task-6">
+        <div class="task-header">
+            <div class="task-num">06</div>
+            <h2 class="task-title" contenteditable="true">Masterclass: Quantifiers <em>(C1 Nuances)</em></h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Quantifiers tell us <em>how much</em> or <em>how many</em>. At C1, the distinction between <em>Every</em> and <em>Each</em>, or <em>Few</em> and <em>A Few</em>, completely alters the tone of your sentence.
+        </p>
+
+        <div class="grammar-hub">
+            <div class="gh-tabs">
+                <div class="gh-tab active" onclick="switchTab('g6', 'tab1')">All / Every / Each</div>
+                <div class="gh-tab" onclick="switchTab('g6', 'tab2')">Both / Either / Neither</div>
+                <div class="gh-tab" onclick="switchTab('g6', 'tab3')">Few vs A Few / Little vs A Little</div>
+            </div>
+            
+            <!-- Tab 1 -->
+            <div class="gh-content active" id="g6-tab1">
+                <table class="grammar-table">
+                    <tr>
+                        <td style="width:33%;">
+                            <span class="g-rule">ALL (The whole amount)</span>
+                            Used with plural or uncountable nouns.<br>
+                            <span class="g-ex">"<span class="g-hi">All</span> patients must sign."</span><br>
+                            <span class="g-ex">"I worked <span class="g-hi">all</span> day." (From 9 to 5)</span>
+                        </td>
+                        <td style="width:33%;">
+                            <span class="g-rule">EVERY (The group as a whole)</span>
+                            Used with singular countable nouns. Focuses on the collective.<br>
+                            <span class="g-ex">"<span class="g-hi">Every</span> patient must sign."</span><br>
+                            <span class="g-ex">"I work <span class="g-hi">every</span> day." (Mon, Tue, Wed...)</span>
+                        </td>
+                        <td style="width:33%;">
+                            <span class="g-rule">EACH (Individuals in a group)</span>
+                            Used with singular countable nouns. Focuses on individual separate items (2 or more).<br>
+                            <span class="g-ex">"I sterilized <span class="g-hi">each</span> instrument carefully."</span>
+                        </td>
+                    </tr>
+                </table>
+                <div style="background:var(--amber-pale); padding:12px; border-radius:4px; margin-top:16px; font-size:0.9rem; color:var(--amber-dim);">
+                    <strong>C1 Note:</strong> We say "All of the..." or "All...". But we CANNOT say "Every of the...". We must say "Every one of the...".
+                </div>
+            </div>
+
+            <!-- Tab 2 -->
+            <div class="gh-content" id="g6-tab2">
+                <table class="grammar-table">
+                    <tr>
+                        <td style="width:33%;">
+                            <span class="g-rule">BOTH (Two things - Positive)</span>
+                            Takes a <strong>plural</strong> verb.<br>
+                            <span class="g-ex">"<span class="g-hi">Both</span> of the composites <strong>are</strong> good."</span><br>
+                            <span class="g-ex">"<span class="g-hi">Both</span> the dentist <strong>and</strong> the assistant were tired."</span>
+                        </td>
+                        <td style="width:33%;">
+                            <span class="g-rule">EITHER (One or the other)</span>
+                            Takes a <strong>singular</strong> verb.<br>
+                            <span class="g-ex">"<span class="g-hi">Either</span> scanner <strong>is</strong> fine to use."</span><br>
+                            <span class="g-ex">"<span class="g-hi">Either</span> we take a break, <strong>or</strong> we make a mistake."</span>
+                        </td>
+                        <td style="width:33%;">
+                            <span class="g-rule">NEITHER (Not one, not the other)</span>
+                            Takes a <strong>singular</strong> verb (formally).<br>
+                            <span class="g-ex">"<span class="g-hi">Neither</span> of the patients <strong>was</strong> in pain."</span><br>
+                            <span class="g-ex">"<span class="g-hi">Neither</span> the doctor <strong>nor</strong> I knew the answer."</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Tab 3 -->
+            <div class="gh-content" id="g6-tab3">
+                <table class="grammar-table">
+                    <tr>
+                        <td style="width:50%;">
+                            <span class="g-rule">Few / Little (Negative Nuance)</span>
+                            Means "not enough" or "almost none".<br>
+                            <strong>Few</strong> = Countable. <strong>Little</strong> = Uncountable.<br><br>
+                            <span class="g-ex">"I have <span class="g-hi">few</span> friends here." (I am lonely).</span><br>
+                            <span class="g-ex">"We have <span class="g-hi">little</span> time." (We are rushing).</span>
+                        </td>
+                        <td style="width:50%;">
+                            <span class="g-rule">A Few / A Little (Positive Nuance)</span>
+                            Means "some" or "enough".<br>
+                            <strong>A Few</strong> = Countable. <strong>A Little</strong> = Uncountable.<br><br>
+                            <span class="g-ex">"I have <span class="g-hi">a few</span> friends here." (I have some, it's good).</span><br>
+                            <span class="g-ex">"We have <span class="g-hi">a little</span> time." (We can grab a coffee).</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            function switchTab(hubId, tabId) {
+                // Hide all contents in this hub
+                document.querySelectorAll(`#${hubId}-tab1, #${hubId}-tab2, #${hubId}-tab3`).forEach(c => c.classList.remove('active'));
+                // Remove active class from all tabs in this hub
+                document.getElementById(hubId + '-tab1').parentElement.querySelectorAll('.gh-tab').forEach(t => t.classList.remove('active'));
+                
+                // Activate target
+                document.getElementById(`${hubId}-${tabId}`).classList.add('active');
+                event.target.classList.add('active');
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ TASK 7 — GRAMMAR APPLICATION ══════════ -->
+    <section class="section" id="task-7">
+        <div class="task-header">
+            <div class="task-num">07</div>
+            <h2 class="task-title" contenteditable="true">The Quantifier Maze</h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Apply the nuanced rules from Task 6. Click the blank line and type the correct quantifier from the brackets.
+        </p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.9rem; margin-bottom:4px;">[every / all / each]</div>
+                <div contenteditable="true">We clean <span class="blank-input" style="min-width:120px;"></span> instrument individually to ensure perfect sterility.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.9rem; margin-bottom:4px;">[few / a few]</div>
+                <div contenteditable="true">Unfortunately, <span class="blank-input" style="min-width:120px;"></span> patients understand how important daily flossing actually is.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.9rem; margin-bottom:4px;">[neither / both / either]</div>
+                <div contenteditable="true"><span class="blank-input" style="min-width:120px;"></span> of the two options are ideal, but we have to choose one.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.9rem; margin-bottom:4px;">[all / every / each]</div>
+                <div contenteditable="true">He worked <span class="blank-input" style="min-width:120px;"></span> day on his days off, completely ruining his work-life balance.</div>
+            </li>
+        </ul>
+    </section>
+
+<!-- END OF PART 1 -->
+
+  <!-- ══════════ TASK 8 — EXTENSIVE READING 2 ══════════ -->
+    <section class="section" id="task-8">
+        <div class="task-header">
+            <div class="task-num">08</div>
+            <h2 class="task-title" contenteditable="true">Reading: Finding "Flow" in the Clinic</h2>
+        </div>
+
+        <div class="article-body" contenteditable="false">
+            <div class="article-title" contenteditable="true">The Eudaimonic Assistant</div>
+            <span class="article-subtitle" contenteditable="true">Mastering the Chaos of Clinical Practice</span>
+            <p>
+                In a busy dental clinic, finding a sense of <span class="vocab-hl">equilibrium</span> can feel impossible. The phone is ringing, <span class="vocab-hl" title="Every patient / All patients">every</span> patient seems <span class="vocab-hl">apprehensive</span>, and the sterilization cycle never ends. If an assistant relies purely on <span class="vocab-hl">hedonic</span> rewards—like waiting for the lunch break or hoping for an easy afternoon—they will quickly burn out. 
+            </p>
+            <p>
+                Positive psychology introduces the concept of "Flow"—a state of deep, effortless concentration where time seems to disappear. For a highly skilled dental assistant, flow occurs when they anticipate the dentist's needs perfectly, passing instruments without a word being spoken. This seamless teamwork provides a deep sense of <span class="vocab-hl">contentment</span> and <span class="vocab-hl">eudaimonia</span>.
+            </p>
+            <p>
+                Furthermore, studies show that <span class="vocab-hl">altruism</span> is a powerful driver of happiness. Taking <span class="vocab-hl" title="A little extra time / Little extra time">a little</span> extra time to hold a nervous patient's hand or explain a procedure can transform a highly stressful environment into a deeply rewarding one. The joy derived from helping others is rarely <span class="vocab-hl">transient</span>; it builds a lasting foundation of professional pride.
+            </p>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 9 — ERROR SPY (ARTICLES & QUANTIFIERS) ══════════ -->
+    <section class="section" id="task-9">
+        <div class="task-header">
+            <div class="task-num">09</div>
+            <h2 class="task-title" contenteditable="true">🕵️ Error Spy</h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Each sentence contains ONE error related to <strong>Articles</strong> or <strong>Quantifiers</strong>. Click the highlighted mistake and type the correction. Target: 7/7.
+        </p>
+
+        <style>
+            .interactive-item { background: var(--bg-panel); border: 1px solid var(--slate-pale); border-radius: var(--r-md); padding: 24px; margin-bottom: 20px; transition: all 0.3s; box-shadow: var(--shadow-sm); }
+            .interactive-item:hover { box-shadow: var(--shadow-md); border-color: var(--sky); }
+            .interactive-item.i-correct { border-color: var(--success); background: #F0FDF4; }
+            .interactive-item.i-wrong   { border-color: var(--danger); background: #FEF2F2; }
+            
+            .wrong-word { 
+                color: var(--white); background: var(--amber); padding: 4px 12px; 
+                border-radius: 6px; cursor: pointer; font-weight: 700; 
+                display: inline-block; transition: transform 0.2s, background 0.2s;
+                box-shadow: 0 2px 4px rgba(245, 158, 11, 0.4);
+            }
+            .wrong-word:hover { transform: scale(1.05); background: var(--amber-dim); }
+            
+            .spy-input-wrap { background: var(--bg-base); border-radius: var(--r-sm); padding: 16px; border: 1px solid var(--slate-pale); margin-top: 16px; display: none; align-items: center; gap: 12px; }
+            .spy-input-wrap input { flex: 1; padding: 12px 16px; border: 1px solid var(--slate-pale); border-radius: 6px; font-family: var(--font-ui); font-size: 1rem; color: var(--slate); outline: none; }
+            .spy-input-wrap input:focus { border-color: var(--sky); box-shadow: 0 0 0 3px var(--sky-pale); }
+            .btn-check { background: var(--sky-dim); color: var(--white); border: none; padding: 12px 20px; border-radius: 6px; font-family: var(--font-ui); font-weight: 700; cursor: pointer; transition: background 0.2s; width: 80px; }
+            .btn-check:hover { background: var(--sky); }
+        </style>
+
+        <div id="spyGameL18" style="margin-top:32px;">
+            <!-- 1. Every of -> Every one of / Each of / All of -->
+            <div class="interactive-item" id="spy18-1">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">01</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    <span class="wrong-word" onclick="revealSpy18(1)">Every of</span> the patients in the waiting room was complaining about the delay.
+                    <div class="spy-input-wrap" id="wrap18-1">
+                        <input id="input18-1" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(1)">
+                        <button class="btn-check" onclick="checkSpy18(1)">Check</button>
+                        <div id="fb18-1" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. a flu -> the flu -->
+            <div class="interactive-item" id="spy18-2">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">02</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    The senior assistant had to take three days off because she caught <span class="wrong-word" onclick="revealSpy18(2)">a flu</span>.
+                    <div class="spy-input-wrap" id="wrap18-2">
+                        <input id="input18-2" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(2)">
+                        <button class="btn-check" onclick="checkSpy18(2)">Check</button>
+                        <div id="fb18-2" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. little time -> a little time (positive nuance) -->
+            <div class="interactive-item" id="spy18-3">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">03</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    We have <span class="wrong-word" onclick="revealSpy18(3)">little</span> time before the next patient arrives; let's quickly grab a coffee!
+                    <div class="spy-input-wrap" id="wrap18-3">
+                        <input id="input18-3" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(3)">
+                        <button class="btn-check" onclick="checkSpy18(3)">Check</button>
+                        <div id="fb18-3" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. the toothache -> a toothache -->
+            <div class="interactive-item" id="spy18-4">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">04</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    A patient called the clinic in tears because he has had <span class="wrong-word" onclick="revealSpy18(4)">the toothache</span> since yesterday.
+                    <div class="spy-input-wrap" id="wrap18-4">
+                        <input id="input18-4" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(4)">
+                        <button class="btn-check" onclick="checkSpy18(4)">Check</button>
+                        <div id="fb18-4" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Neither... or -> Neither... nor -->
+            <div class="interactive-item" id="spy18-5">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">05</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    Neither the dentist <span class="wrong-word" onclick="revealSpy18(5)">or</span> the assistant noticed that the composite material had expired.
+                    <div class="spy-input-wrap" id="wrap18-5">
+                        <input id="input18-5" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(5)">
+                        <button class="btn-check" onclick="checkSpy18(5)">Check</button>
+                        <div id="fb18-5" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. the hospital -> hospital (primary purpose as a patient) -->
+            <div class="interactive-item" id="spy18-6">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">06</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    After the severe allergic reaction to the anesthetic, he was immediately admitted to <span class="wrong-word" onclick="revealSpy18(6)">the hospital</span>.
+                    <div class="spy-input-wrap" id="wrap18-6">
+                        <input id="input18-6" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(6)">
+                        <button class="btn-check" onclick="checkSpy18(6)">Check</button>
+                        <div id="fb18-6" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Both of the scanner -> scanners -->
+            <div class="interactive-item" id="spy18-7">
+                <span style="font-family:var(--font-mono);color:var(--sky-dim);margin-right:12px;font-weight:700;">07</span>
+                <div style="display:inline-block;flex:1;font-size:1.1rem;">
+                    It was a terrible morning because both of the <span class="wrong-word" onclick="revealSpy18(7)">scanner</span> broke down at the same time.
+                    <div class="spy-input-wrap" id="wrap18-7">
+                        <input id="input18-7" placeholder="Type correction here..." onkeydown="if(event.key==='Enter')checkSpy18(7)">
+                        <button class="btn-check" onclick="checkSpy18(7)">Check</button>
+                        <div id="fb18-7" style="margin-left:12px;font-family:var(--font-mono);font-size:0.9rem;font-weight:700;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const answersL18 = {
+                1: ['every one of', 'each of', 'all of'], 
+                2: ['the flu'], 
+                3: ['a little'], 
+                4: ['a toothache'], 
+                5: ['nor'], 
+                6: ['hospital', 'zero', 'zero article'], 
+                7: ['scanners']
+            };
+            const solvedL18 = {};
+            
+            function revealSpy18(n){
+                document.getElementById('wrap18-'+n).style.display='flex';
+                document.getElementById('input18-'+n).focus();
+            }
+            
+            function checkSpy18(n){
+                if(solvedL18[n])return;
+                const inp=document.getElementById('input18-'+n).value.trim().toLowerCase();
+                const acc = answersL18[n].map(a => a.toLowerCase());
+                const fb=document.getElementById('fb18-'+n);
+                const item=document.getElementById('spy18-'+n);
+                
+                if(acc.includes(inp) || (n===6 && inp==='')){
+                    fb.textContent='✓ Correct!'; fb.style.color='var(--success)';
+                    item.classList.add('i-correct'); item.classList.remove('i-wrong');
+                    solvedL18[n]=true;
+                } else {
+                    fb.textContent='✗ Incorrect.'; fb.style.color='var(--danger)';
+                    item.classList.add('i-wrong'); item.classList.remove('i-correct');
+                }
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ TASK 10 — SENTENCE SYNTHESIS ══════════ -->
+    <section class="section" id="task-10">
+        <div class="task-header">
+            <div class="task-num">10</div>
+            <h2 class="task-title" contenteditable="true">Sentence Synthesis</h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Rewrite the sentence so it means exactly the same thing, using the word in brackets.
+        </p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.95rem; margin-bottom:4px;">Not one of the two receptionists knew how to fix the printer. <strong>[NEITHER]</strong></div>
+                <div contenteditable="true"><span class="blank-input" style="min-width:250px;"></span> knew how to fix the printer.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.95rem; margin-bottom:4px;">I sterilize all the tools individually to ensure safety. <strong>[EACH]</strong></div>
+                <div contenteditable="true">I sterilize <span class="blank-input" style="min-width:250px;"></span> to ensure safety.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--slate-light); font-size:0.95rem; margin-bottom:4px;">The joy of a salary raise only lasts for a short time. <strong>[TRANSIENT]</strong></div>
+                <div contenteditable="true">The joy of a salary raise <span class="blank-input" style="min-width:250px;"></span>.</div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ══════════ TASK 11 — EITHER/OR DILEMMAS ══════════ -->
+    <section class="section" id="task-11">
+        <div class="task-header">
+            <div class="task-num">11</div>
+            <h2 class="task-title" contenteditable="true">Either / Neither / Both <em>(Speaking)</em></h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Discuss these clinical dilemmas with your partner. You must use <strong>Both</strong>, <strong>Either...or</strong>, or <strong>Neither...nor</strong> in your answers.
+        </p>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+            <div class="card" style="border-top:4px solid var(--sky);">
+                <p style="font-size:1.05rem; font-weight:600; color:var(--slate);" contenteditable="true">
+                    You have two job offers. Clinic A pays extremely well but has a toxic, high-stress environment. Clinic B pays a low salary but has a wonderful, supportive team. Which do you choose?
+                </p>
+                <p style="font-size:0.9rem; color:var(--sky-dim); margin-top:12px; font-family:var(--font-mono);" contenteditable="true">Target: "Neither of them..." / "Both of them..."</p>
+            </div>
+            <div class="card" style="border-top:4px solid var(--amber);">
+                <p style="font-size:1.05rem; font-weight:600; color:var(--slate);" contenteditable="true">
+                    A patient is terrified of an extraction. You can offer them nitrous oxide (laughing gas) or you can hold their hand and talk them through it. How do you help them?
+                </p>
+                <p style="font-size:0.9rem; color:var(--amber-dim); margin-top:12px; font-family:var(--font-mono);" contenteditable="true">Target: "We can either... or..." / "I would use both..."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 12 — ADVANCED PHRASES ══════════ -->
+    <section class="section" id="task-12">
+        <div class="task-header">
+            <div class="task-num">12</div>
+            <h2 class="task-title" contenteditable="true">Advanced Phrases</h2>
+        </div>
+
+        <div class="callout callout-amber">
+            <strong>Expressions of Contentment & Dissatisfaction</strong>
+            <ul style="margin-top:12px; margin-left:20px; color:var(--slate);">
+                <li contenteditable="true"><strong>To be at peace with (something):</strong> To completely accept a situation. <em>"I am at peace with my current salary."</em></li>
+                <li contenteditable="true"><strong>To take (something) in stride:</strong> To deal with a problem calmly. <em>"She takes angry patients in stride."</em></li>
+                <li contenteditable="true"><strong>To be running on fumes:</strong> To continue working when you have no energy left. <em>"By Friday afternoon, the whole clinic is running on fumes."</em></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 13 — ROLE-PLAY ══════════ -->
+    <section class="section" id="task-13">
+        <div class="task-header">
+            <div class="task-num">13</div>
+            <h2 class="task-title" contenteditable="true">The Mentorship <em>(Role-play)</em></h2>
+        </div>
+
+        <p style="color:var(--slate-light); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Put everything together. You are having a private conversation in the breakroom.
+        </p>
+
+        <div style="background:var(--bg-panel); border:1px solid var(--slate-pale); border-radius:var(--r-lg); padding:40px; box-shadow:var(--shadow-md);">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                
+                <div style="background:var(--sky-pale); padding:24px; border-left:4px solid var(--sky); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--sky-dim); margin-bottom:8px;" contenteditable="true">Role A: The Burned-Out Junior Assistant</h3>
+                    <p style="color:var(--slate); font-size:1rem;" contenteditable="true">
+                        You have been working here for six months. You are chasing <em>hedonic</em> goals (wanting a raise, wanting the newest equipment) but you are exhausted and <em>running on fumes</em>. You feel like <em>every one of</em> the patients is difficult. Complain to your senior colleague.
+                    </p>
+                </div>
+
+                <div style="text-align:center; color:var(--slate-light); font-size:1.5rem;">⬇</div>
+
+                <div style="background:var(--amber-pale); padding:24px; border-left:4px solid var(--amber); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--amber-dim); margin-bottom:8px;" contenteditable="true">Role B: The Contented Senior Assistant</h3>
+                    <p style="color:var(--slate); font-size:1rem;" contenteditable="true">
+                        You have worked here for ten years. You have found <em>eudaimonia</em> and <em>equilibrium</em> by focusing on <em>altruism</em> and the flow of the work. Give advice to your junior colleague. Correct their mindset about happiness. Use <em>"Both / Neither"</em> to compare your experiences.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 14 — WHITEBOARD ══════════ -->
+    <section class="section" id="task-14">
+        <div class="task-header">
+            <div class="task-num">14</div>
+            <h2 class="task-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        </div>
+
+        <div style="border:1px solid var(--slate-pale); border-radius:var(--r-lg); background:var(--white); overflow:hidden; box-shadow:var(--shadow-lg);">
+            <div style="background:var(--slate); padding:12px 20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent; border:1px solid var(--sky); color:var(--sky); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent; border:1px solid var(--slate-light); color:var(--bg-base); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent; border:1px solid var(--slate-light); color:var(--bg-base); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Text</button>
+                <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#0EA5E9" style="width:32px; height:32px; border:none; cursor:pointer; background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto; background:var(--danger); color:var(--white); border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block; width:100%; height:500px; cursor:crosshair;"></canvas>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 15 — FINAL SYNTHESIS ══════════ -->
+    <section class="section" id="task-15">
+        <div class="task-header">
+            <div class="task-num">15</div>
+            <h2 class="task-title" contenteditable="true">Final Synthesis</h2>
+        </div>
+        <div class="callout callout-sky">
+            <strong>💬 60-Second Challenge:</strong> Summarize the difference between <em>Hedonic</em> happiness and <em>Eudaimonia</em> in the context of being a dental assistant. You must use the words <strong>Altruism</strong>, <strong>Transient</strong>, and the quantifier <strong>Every one of</strong>.
+        </div>
+    </section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ══════════ HOMEWORK PORTAL (HIDDEN BY DEFAULT) ══════════ -->
+<div id="homework-portal" style="display: none; position: fixed; inset: 0; background: var(--bg-base); z-index: 500; overflow-y: auto; padding: 40px;">
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; margin-top: 10vh;">
+            <div class="module-badge" style="background:var(--amber-pale);color:var(--amber-dim);">Homework Assessment</div>
+            <h2 class="dashboard-title">Lesson 18 Test</h2>
+            <p style="color:var(--slate-light); margin-bottom:30px; font-size:1.1rem;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong>. <br>
+                <span style="color:var(--danger);">Anti-Cheat:</span> Leaving this tab twice will terminate your test automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter your full name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--bg-panel);border:1px solid var(--slate-pale);color:var(--slate);border-radius:8px;margin-bottom:24px;outline:none;">
+            <br>
+            <button onclick="startHW()" style="background:var(--amber);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 10px 25px rgba(245, 158, 11, 0.3);transition:transform 0.2s;">Begin Test</button>
+            <button onclick="closeHomework()" style="background:transparent;color:var(--slate-light);border:none;display:block;margin:20px auto;cursor:pointer;">Cancel & Return</button>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <span style="font-family:var(--font-mono); color:var(--slate); font-weight:700;" id="hwQuestionCounter">Question 1 / 10</span>
+                <div style="font-family:var(--font-mono); color:var(--danger); background:#FEF2F2; padding:8px 16px; border-radius:8px; border:1px solid #FCA5A5; font-weight:700;">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:8px; background:var(--slate-pale); border-radius:4px; overflow:hidden; margin-bottom:40px; border:1px solid var(--slate-pale);">
+                <div id="hwProgressFill" style="height:100%; background:var(--sky); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border:1px solid var(--slate-pale); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:700; margin-bottom:30px; line-height:1.5; color:var(--slate); font-family:var(--font-serif);">Loading question...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--slate-light); border:1px solid var(--slate-pale); padding:12px 24px; border-radius:50px; cursor:pointer; transition:all 0.2s;">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div id="hw-pdf-content" style="background:var(--bg-base); padding:20px;">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 class="dashboard-title" style="font-size:2.5rem;">Test Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--slate-light);"></p>
+                </div>
+
+                <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border-top:4px solid var(--sky); text-align:center; margin-bottom:40px; box-shadow:var(--shadow-sm);">
+                    <div style="font-family:var(--font-mono); color:var(--slate-light); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Final Score</div>
+                    <div id="hwScoreDetail" style="font-size:4rem; font-weight:700; color:var(--slate); margin:10px 0; font-family:var(--font-serif);">0/10</div>
+                    <div id="hwTerminationReason" style="font-weight:700;"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--sky); color:white; border:none; padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Download PDF</button>
+                <button onclick="closeHomework()" style="background:transparent; color:var(--slate); border:1px solid var(--slate); padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Exit Portal</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:var(--danger);color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-md); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--sky);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(14,165,233,0.4); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(66,85,255,0.4); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--amber);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(245,158,11,0.4); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<!-- Local Laser Cursor -->
+<div id="myLocalLaser" style="display:none; position:fixed; width:12px; height:12px; background:red; border-radius:50%; box-shadow:0 0 15px 5px rgba(255,0,0,0.8); pointer-events:none; z-index:1000000; transform:translate(-50%,-50%);"></div>
+
+<!-- Admin Modal -->
+<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(51,65,85,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;border:1px solid var(--slate-pale);box-shadow:var(--shadow-lg);">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--slate-light);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:10px; font-family:var(--font-serif); color:var(--slate);">Teacher Dashboard</h2>
+        <p style="color:var(--slate-light); margin-bottom:20px;">Review recent submissions.</p>
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead style="background:var(--slate);color:var(--white);font-family:var(--font-mono);font-size:0.85rem;">
+                <tr><th style="padding:12px;">Date</th><th style="padding:12px;">Student</th><th style="padding:12px;">Score</th><th style="padding:12px;">Status</th></tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+        </table>
+        <button style="background:transparent;color:var(--danger);border:1px solid var(--danger);padding:10px 20px;border-radius:50px;margin-top:20px;cursor:pointer;font-weight:600;" onclick="clearData()">Clear Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(51,65,85,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:600px;border:1px solid var(--slate-pale);box-shadow:var(--shadow-lg);">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--slate-light);cursor:pointer;line-height:1;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:8px; font-family:var(--font-serif); color:var(--slate);">Quizlet Exporter</h2>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-top:24px;">
+            <div style="display:flex;gap:12px;">
+                <input type="text" placeholder="Term (e.g. Eudaimonia)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid var(--slate-pale);background:var(--bg-base);color:var(--slate);font-family:var(--font-ui);">
+                <input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid var(--slate-pale);background:var(--bg-base);color:var(--slate);font-family:var(--font-ui);">
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" style="flex:1;background:var(--bg-base);color:var(--slate);border:1px solid var(--slate-pale);padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2;background:#4255FF;color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // ─── NAV LOGIC & TAB SWITCHING ───
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick') && !e.target.classList.contains('hw-btn')) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                const el = document.querySelector(id);
+                if (el) el.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+    });
+
+    // ─── GENERAL UI LOGIC ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(14, 165, 233, 0.25)');
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById('whiteboard');
+        if(el) {
+            el.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    };
+
+    // ─── QUIZLET & ADMIN MODALS ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid var(--slate-pale);background:var(--bg-base);color:var(--slate);font-family:var(--font-ui);"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid var(--slate-pale);background:var(--bg-base);color:var(--slate);font-family:var(--font-ui);">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){ navigator.clipboard.writeText(out).then(()=>{ btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }); } 
+        else { btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#0EA5E9', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--slate-light)'; b.style.color='var(--bg-base)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--sky)'; btn.style.color='var(--sky)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Nunito Sans', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "___ of the instruments in the tray must be sterilized before the next patient.", options: ["Every", "All", "Each", "Every one"], correct: 1 },
+        { text: "The receptionist had to call ___ patient individually to reschedule the appointments.", options: ["all", "every", "each", "all of"], correct: 2 },
+        { text: "___ the dentist nor the assistant noticed the expiration date on the composite.", options: ["Either", "Neither", "Both", "None"], correct: 1 },
+        { text: "We have ___ time before the next patient arrives; let's quickly organize the tray.", options: ["a few", "a little", "few", "little"], correct: 1 },
+        { text: "He was so sick with ___ flu that he couldn't come to the clinic for a week.", options: ["a", "the", "an", "Ø (Zero Article)"], correct: 1 },
+        { text: "I have a terrible toothache. I think I need to go to ___ dentist.", options: ["a", "the", "an", "Ø (Zero Article)"], correct: 1 },
+        { text: "___ happiness is not derived from transient pleasures, but from meaningful work.", options: ["The", "A", "An", "Ø (Zero Article)"], correct: 3 },
+        { text: "The joy of getting a new salary raise is usually ___, lasting only a few months.", options: ["hedonic", "pervasive", "transient", "altruistic"], correct: 2 },
+        { text: "Which sentence is grammatically CORRECT?", options: ["Every of the patients was happy.", "Every patients was happy.", "Every one of the patients was happy.", "All of patient was happy."], correct: 2 },
+        { text: "Which sentence implies a POSITIVE meaning?", options: ["I have few patients today.", "I have a few patients today.", "I have little time today.", "Neither of them are coming."], correct: 1 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 10 * 60, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    window.openHomework = () => {
+        document.querySelector('.main-content').style.display = 'none';
+        document.getElementById('homework-portal').style.display = 'block';
+    };
+
+    window.closeHomework = () => {
+        document.querySelector('.main-content').style.display = 'block';
+        document.getElementById('homework-portal').style.display = 'none';
+        if(isTestActive) endHWQuiz(true, "Terminated (Manually Exited)");
+    };
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else alert("WARNING: Do not leave the test tab.");
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = [];
+        cheatWarnings = 0; timeLeft = 10 * 60; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5);
+        
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 10) { endHWQuiz(false, "Completed Successfully"); return; }
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 10`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 10) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:var(--bg-panel);border:1px solid var(--slate-pale);padding:16px 24px;text-align:left;font-family:var(--font-ui);font-size:1.05rem;color:var(--slate);border-radius:8px;cursor:pointer;transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "var(--sky-pale)";
+            btn.onmouseout = () => btn.style.background = "var(--bg-panel)";
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: currentQuestionObj.options[currentQuestionObj.correct], isCorrect: isCorrect });
+        if (isCorrect) score++;
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerText = `Status: ${statusMsg}`;
+        if(forcedExit) document.getElementById('hwTerminationReason').style.color = "var(--danger)";
+        else document.getElementById('hwTerminationReason').style.color = "var(--success)";
+
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = `padding:20px; border:1px solid var(--slate-pale); border-left:4px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; background:var(--bg-panel); border-radius:8px;`;
+            div.innerHTML = `<div style="font-size:1.1rem;font-weight:700;margin-bottom:10px;font-family:var(--font-serif);color:var(--slate);">${index + 1}. ${item.text}</div><div style="font-size:0.95rem;color:var(--slate-light);">Your answer: <span style="color:${item.isCorrect ? 'var(--success)' : 'var(--danger)'};font-weight:700;">${item.userAns}</span></div>${!item.isCorrect ? `<div style="font-size:0.95rem;color:var(--slate-light);">Correct answer: <span style="color:var(--success);font-weight:700;">${item.correctAns}</span></div>` : ''}`;
+            grid.appendChild(div);
+        });
+
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-results').style.display='block';
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function downloadHWPDF() {
+        const element = document.getElementById('hw-pdf-content');
+        const opt = { margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L18_Homework.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, backgroundColor: '#F8FAFC' }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson18HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson18HomeworkData', JSON.stringify(results));
+    }
+
+    // ─── ADMIN DASHBOARD ───
+    window.openAdmin = () => {
+        const results = JSON.parse(localStorage.getItem('lesson18HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='padding:12px;text-align:center;'>No submissions.</td></tr>";
+        else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="padding:12px;border-bottom:1px solid var(--slate-pale);">${r.date}</td><td style="padding:12px;border-bottom:1px solid var(--slate-pale);font-weight:700;color:var(--slate);">${r.name}</td><td style="padding:12px;border-bottom:1px solid var(--slate-pale);font-family:var(--font-mono);">${r.score}/${r.total}</td><td style="padding:12px;border-bottom:1px solid var(--slate-pale);color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'};">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    };
+    window.closeAdmin = () => document.getElementById('adminModal').style.display = 'none';
+    window.clearData = () => { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson18HomeworkData'); openAdmin(); } };
+
+</script>
+
+<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'dental-b2c1-lesson18-happiness-v1';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(51,65,85,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(14,165,233,0.3); font-family:var(--font-ui);";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--sky);border-radius:50%;box-shadow:0 0 8px var(--sky);"></span><span id="syncText">Connecting Session...</span>`;
+    document.body.appendChild(statusDiv);
+
+    function setStatus(t,c){document.getElementById('syncText').innerText=t; document.getElementById('syncDot').style.background=c; document.getElementById('syncDot').style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Doc';
+
+    // LASER POINTER STATE
+    let myLaserMode = false;
+    const localLaser = document.getElementById('myLocalLaser');
+    window.toggleLaser = function() {
+        myLaserMode = !myLaserMode;
+        const btn = document.getElementById('laserBtn');
+        if(myLaserMode) {
+            document.body.classList.add('laser-active');
+            btn.style.boxShadow = "0 0 20px 5px rgba(239,68,68,0.8)";
+            localLaser.style.display = 'block';
+        } else {
+            document.body.classList.remove('laser-active');
+            btn.style.boxShadow = "var(--shadow-md)";
+            localLaser.style.display = 'none';
+        }
+    };
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#EF4444'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Doc '+(snap.size+1);
+                setStatus('Session Active ✨','#0EA5E9');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Doc '+(Math.floor(Math.random()*99)+1);
+                setStatus('Session Active ✨','#0EA5E9');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#EF4444');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveLaserContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{
+            if(myLaserMode) {
+                localLaser.style.left = e.clientX + 'px';
+                localLaser.style.top = e.clientY + 'px';
+            }
+            if(!currentUser) return;
+            setDoc(myRef,{
+                xOffset: e.pageX - window.innerWidth/2, 
+                y: e.pageY, 
+                color: myCursorColor, 
+                name: myCursorName, 
+                isLaser: myLaserMode,
+                timestamp: Date.now()
+            });
+        }, 30));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el = document.createElement('div');
+                    el.id = 'cursor-'+id;
+                    el.style.position = 'absolute'; el.style.pointerEvents = 'none'; el.style.zIndex = '999999';
+                    el.style.transition = 'top 0.1s linear, left 0.1s linear';
+                    container.appendChild(el);
+                }
+
+                if (data.isLaser) {
+                    el.innerHTML = `
+                        <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(255,0,0,0.8);color:white;font-size:0.75rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;font-family:var(--font-mono);">${data.name}</div>
+                    `;
+                } else {
+                    el.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+                        <div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-ui);box-shadow:0 2px 6px rgba(0,0,0,0.2);">${data.name}</div>
+                    `;
+                }
+                
+                el.style.left = (window.innerWidth/2 + data.xOffset) + 'px';
+                el.style.top = data.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
