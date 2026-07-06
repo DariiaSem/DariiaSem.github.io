@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 12: C1 | The Art of Negotiation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Top School / Ivy League Light Theme - NO DARK TONES */
+            --bg-page:    #F9F9F6; /* Ivory/Parchment */
+            --bg-panel:   #FFFFFF; /* Pure White */
+            --bg-alt:     #F3F0E6; /* Light Beige */
+            
+            --text-main:  #1A202C; /* Deep Oxford Blue-Grey */
+            --text-muted: #4A5568; /* Medium Grey */
+            --text-light: #A0AEC0; /* Light Grey */
+            
+            --primary:    #002147; /* Oxford Blue */
+            --primary-bg: #E6EAF0; /* Light Blue tint */
+            
+            --accent:     #8B0000; /* Crimson/Harvard Red */
+            --accent-bg:  #FBEAEA; /* Light Crimson tint */
+            
+            --gold:       #C5A059; /* Classic Gold */
+            --gold-bg:    #FDFBF5; 
+            
+            --success:    #2E664E; /* Academic Green */
+            --success-bg: #EAF2EE;
+            
+            --border:     #E2E8F0; /* Soft border */
+            --border-gold:#D4C4A8;
+            
+            --font-head: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-mono: 'Courier New', monospace;
+            
+            --shadow-sm: 0 2px 8px rgba(0,33,71,0.06);
+            --shadow-md: 0 8px 24px rgba(0,33,71,0.08);
+            --shadow-lg: 0 16px 40px rgba(139,0,0,0.12);
+            --r-sm: 4px; --r-md: 8px; --r-lg: 16px;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); line-height: 1.7; color: var(--text-main); background: var(--bg-page); overflow-x: hidden; }
+
+        [contenteditable="true"] { outline: none; border-radius: 4px; transition: background 0.2s, box-shadow 0.2s; padding: 0 4px; }
+        [contenteditable="true"]:hover { background: var(--accent-bg); }
+        [contenteditable="true"]:focus { background: var(--accent-bg); box-shadow: 0 0 0 2px var(--accent); }
+
+        /* ── HERO ── */
+        .hero { position: relative; min-height: 550px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; background: var(--bg-panel); border-bottom: 4px solid var(--primary); }
+        .hero-pattern { position: absolute; inset: 0; pointer-events: none; opacity: 0.8; background-image: repeating-linear-gradient(45deg, var(--bg-alt) 25%, transparent 25%, transparent 75%, var(--bg-alt) 75%, var(--bg-alt)), repeating-linear-gradient(45deg, var(--bg-alt) 25%, var(--bg-panel) 25%, var(--bg-panel) 75%, var(--bg-alt) 75%, var(--bg-alt)); background-position: 0 0, 10px 10px; background-size: 20px 20px; }
+        .hero-glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.9) 30%, rgba(255,255,255,0.4) 100%); pointer-events: none; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 60px 40px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: var(--bg-panel); padding: 6px 16px; border-radius: 2px; font-family: var(--font-body); font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+        .hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 5vw, 5rem); font-weight: 900; line-height: 1.1; letter-spacing: -1px; margin-bottom: 20px; color: var(--text-main); }
+        .hero h1 em { color: var(--accent); font-style: italic; }
+        .hero-sub { font-size: 1.2rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 36px; font-weight: 400; font-family: var(--font-body); }
+        .hero-chips { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .hero-chip { background: var(--bg-panel); border: 1px solid var(--border-gold); color: var(--primary); padding: 6px 16px; border-radius: 2px; font-size: 0.85rem; font-family: var(--font-body); font-weight: 600; box-shadow: var(--shadow-sm); }
+
+        /* ── NAV ── */
+        .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-gold); padding: 0 24px; box-shadow: var(--shadow-sm); }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+        .nav-logo { font-family: var(--font-head); font-weight: 900; font-size: 1.3rem; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .nav-logo span { color: var(--accent); font-style: italic; }
+        .nav-links { display: flex; gap: 6px; list-style: none; overflow-x: auto; align-items: center; padding-bottom: 2px; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.85rem; font-weight: 600; padding: 6px 12px; border-radius: 2px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px; }
+        .nav-links a:hover { color: var(--primary); background: var(--bg-alt); }
+        .nav-links .hw-tab { color: var(--accent); font-weight: 800; border: 1px solid var(--accent); }
+
+        /* ── SECTIONS ── */
+        .section { padding: 90px 24px; position: relative; border-bottom: 1px solid var(--border); }
+        .section:nth-child(even) { background: var(--bg-panel); }
+        .section:nth-child(odd) { background: var(--bg-page); }
+        .section-inner { max-width: 960px; margin: 0 auto; }
+        .task-counter { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 0.75rem; color: var(--primary); background: var(--primary-bg); padding: 6px 16px; border-radius: 2px; margin-bottom: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; border: 1px solid rgba(0,33,71,0.2); }
+        .section-title { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--text-main); margin-bottom: 16px; line-height: 1.2; }
+        .section-title em { color: var(--accent); font-style: italic; }
+        .section-desc { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px; max-width: 750px; font-weight: 400; }
+
+        /* ── CARDS & GRIDS ── */
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--bg-panel); padding: 30px; border-radius: 2px; border: 1px solid var(--border-gold); box-shadow: var(--shadow-sm); transition: transform 0.3s, box-shadow 0.3s; position: relative; }
+        .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--gold); }
+        .card h3 { font-family: var(--font-head); font-size: 1.4rem; color: var(--primary); margin-bottom: 12px; }
+
+        /* ── INDUCTIVE TEXT & HOVER POPUPS (As Requested) ── */
+        .inductive-text-box { background: var(--bg-panel); padding: 50px 60px; border: 1px solid var(--border-gold); border-top: 4px solid var(--primary); box-shadow: var(--shadow-md); font-family: 'Georgia', serif; font-size: 1.15rem; line-height: 2; color: var(--text-main); }
+        .inductive-word { position: relative; display: inline-block; border-bottom: 2px dashed var(--accent); color: var(--primary); font-weight: 700; cursor: help; padding: 0 2px; transition: 0.2s; }
+        .inductive-word:hover { background: var(--accent-bg); }
+        
+        .inductive-popup {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%) translateY(10px);
+            width: 240px; background: var(--bg-panel); border: 1px solid var(--gold); border-radius: 4px; padding: 12px;
+            box-shadow: var(--shadow-lg); z-index: 1000; transition: all 0.3s ease; text-align: left; font-family: var(--font-body);
+        }
+        .inductive-word:hover .inductive-popup { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+        .inductive-popup::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -8px; border-width: 8px; border-style: solid; border-color: var(--gold) transparent transparent transparent; }
+        .inductive-popup img { width: 100%; height: 120px; object-fit: cover; border-radius: 2px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .pop-title { font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 4px; text-transform: capitalize; }
+        .pop-pos { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); margin-bottom: 8px; font-weight: bold; text-transform: uppercase; }
+        .pop-def { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+        .pop-grammar { font-size: 0.85rem; color: var(--success); font-weight: 600; line-height: 1.4; background: var(--success-bg); padding: 6px; border-radius: 2px;}
+
+        /* ── D&D LEXICON ── */
+        .dnd-container { background: var(--bg-panel); border: 1px solid var(--border-gold); padding: 30px; box-shadow: var(--shadow-sm); }
+        .dnd-sentence { font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8; color: var(--text-main); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .drop-zone { min-width: 160px; height: 36px; border: 2px dashed var(--text-light); background: var(--bg-alt); display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; vertical-align: middle; border-radius: 2px;}
+        .drop-zone.drag-over { border-color: var(--primary); background: var(--primary-bg); transform: scale(1.02); }
+        .drop-zone.filled { border: 2px solid var(--success); background: var(--bg-panel); }
+        .draggable-bank { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border); min-height: 60px; }
+        .draggable-word { background: var(--primary); color: var(--bg-panel); padding: 6px 16px; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; cursor: grab; transition: transform 0.1s, box-shadow 0.1s; box-shadow: var(--shadow-sm); border-radius: 2px;}
+        .draggable-word:active { cursor: grabbing; transform: scale(0.95); }
+        .draggable-word.dragging { opacity: 0.5; box-shadow: var(--shadow-md); }
+
+        /* ── GRAMMAR TABLES (Structured & Elegant) ── */
+        .grammar-box { background: var(--bg-panel); border: 1px solid var(--border-gold); margin-top: 24px; box-shadow: var(--shadow-sm); border-radius: 2px; overflow: hidden; }
+        .g-header { background: var(--bg-alt); padding: 16px 24px; border-bottom: 1px solid var(--border-gold); display: flex; justify-content: space-between; align-items: center;}
+        .g-header h3 { font-family: var(--font-head); font-size: 1.2rem; color: var(--primary); font-weight: 700; margin:0;}
+        .g-content { padding: 24px; }
+        .g-formula { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 16px; font-family: var(--font-mono); }
+        .g-table { width: 100%; border-collapse: collapse; }
+        .g-table th { text-align: left; padding: 12px 16px; font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--border-gold); font-family: var(--font-body); }
+        .g-table td { padding: 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); font-size: 1.05rem;}
+        .g-table tr:last-child td { border-bottom: none; }
+        .g-table strong { color: var(--primary); }
+        .g-hl { color: var(--accent); font-weight: 700; background: var(--accent-bg); padding: 2px 6px; border-radius: 2px; }
+
+        /* ── ERROR SPY ── */
+        .spy-sentence { background: var(--bg-panel); border: 1px solid var(--border-gold); padding: 20px 24px; margin-bottom: 12px; font-size: 1.05rem; display: flex; align-items: flex-start; gap: 16px; box-shadow: var(--shadow-sm); border-radius: 2px;}
+        .spy-sentence.correct { border-left: 4px solid var(--success); }
+        .spy-sentence.incorrect { border-left: 4px solid var(--accent); animation: shake 0.4s; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+        .spy-num { font-family: var(--font-head); font-weight: 900; color: var(--gold); font-size: 1.2rem; margin-top: 0; }
+        .spy-text { flex: 1; line-height: 1.6; }
+        .wrong-word { background: var(--accent-bg); color: var(--accent); font-weight: 600; padding: 2px 6px; border-bottom: 2px solid var(--accent); cursor: pointer; transition: 0.2s; border-radius: 2px;}
+        .wrong-word:hover { background: rgba(139,0,0,0.15); }
+        .spy-input-wrap { display: none; align-items: center; gap: 10px; margin-top: 12px; }
+        .spy-input-wrap.visible { display: flex; }
+        .spy-input { border: 1px solid var(--primary); padding: 8px 12px; font-family: var(--font-body); outline: none; flex: 1; max-width: 300px; border-radius: 2px;}
+        .spy-check-btn { background: var(--primary); color: white; border: none; padding: 8px 16px; cursor: pointer; font-weight: 600; border-radius: 2px;}
+
+        /* ── TFNG ── */
+        .tfng-item { background: var(--bg-panel); border: 1px solid var(--border-gold); padding: 20px; margin-bottom: 12px; box-shadow: var(--shadow-sm); border-radius: 2px;}
+        .tfng-item.t-correct { border-left: 4px solid var(--success); }
+        .tfng-item.t-wrong { border-left: 4px solid var(--accent); }
+        .tfng-btns { display: flex; gap: 10px; margin-top:12px; }
+        .tfng-btn { background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-main); padding: 6px 16px; font-size: 0.85rem; cursor: pointer; font-family: var(--font-body); font-weight: 600; transition: 0.2s; border-radius: 2px;}
+        .tfng-btn:hover { background: var(--border); }
+        .tfng-btn.selected-correct, .tfng-btn.show-correct { background: var(--success); color: white; border-color: var(--success); }
+        .tfng-btn.selected-wrong { background: var(--accent); color: white; border-color: var(--accent); }
+        .tfng-explain { display: none; margin-top: 16px; font-size: 0.95rem; color: var(--text-muted); padding-top: 16px; border-top: 1px dashed var(--border); }
+
+        /* ── CALLOUTS & SPINNERS ── */
+        .callout { padding: 20px 24px; margin: 24px 0; border-left: 4px solid var(--primary); background: var(--primary-bg); font-size: 1rem; color: var(--text-main); border-radius: 2px;}
+        .spinner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .spin-item { background: var(--bg-panel); border: 1px dashed var(--primary); padding: 24px; text-align: center; font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; transition: all 0.2s; cursor: pointer; color: var(--primary); border-radius: 2px;}
+        .spin-item:hover { background: var(--primary-bg); transform: scale(1.02); }
+
+        /* ── WHITEBOARD ── */
+        .wb-container { border: 1px solid var(--border-gold); background: #fff; margin-top: 20px; box-shadow: var(--shadow-md); border-radius: 2px;}
+        .wb-toolbar { background: var(--bg-alt); padding: 12px 20px; display: flex; gap: 10px; align-items: center; border-bottom: 1px solid var(--border-gold); flex-wrap: wrap; }
+        .wb-btn { background: var(--bg-panel); color: var(--primary); border: 1px solid var(--primary); padding: 6px 12px; cursor: pointer; font-family: var(--font-body); font-size: 0.85rem; font-weight: 600; border-radius: 2px;}
+        .wb-btn:hover, .wb-btn.active { background: var(--primary); color: white; }
+        canvas { display: block; width: 100%; height: 500px; cursor: crosshair; touch-action: none; }
+
+        /* ── HOMEWORK UI (Anti-Cheat) ── */
+        .hw-exclusive { display: none; background: var(--bg-page); min-height: 100vh; padding: 40px 20px 80px; }
+        .hw-container { max-width: 800px; margin: 0 auto; text-align: center; }
+        .hw-screen { display: none; animation: fadeIn 0.4s ease-in; }
+        .hw-screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .hw-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .hw-timer { font-family: var(--font-mono); font-weight: 700; font-size: 1.2rem; color: var(--accent); background: var(--accent-bg); padding: 10px 20px; border: 1px solid var(--accent); border-radius: 2px;}
+        .hw-progress { width: 100%; height: 8px; background: var(--border); margin-bottom: 40px; border-radius: 4px; overflow: hidden; }
+        .hw-progress-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        
+        .hw-input { width: 100%; max-width: 400px; padding: 12px 20px; font-size: 1rem; border: 1px solid var(--border-gold); background: var(--bg-panel); color: var(--text-main); margin-bottom: 20px; font-family: var(--font-body); border-radius: 2px;}
+        .hw-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-bg);}
+        .hw-btn-primary { background: var(--primary); color: white; border: none; padding: 14px 32px; font-size: 1rem; font-weight: 700; font-family: var(--font-body); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; border-radius: 2px; transition: 0.2s;}
+        .hw-btn-primary:hover { background: #00152e; transform: translateY(-2px); box-shadow: var(--shadow-md);}
+        
+        .hw-qbox { background: var(--bg-panel); padding: 40px; border: 1px solid var(--border-gold); border-top: 4px solid var(--primary); text-align: left; margin-bottom: 30px; box-shadow: var(--shadow-sm); border-radius: 2px;}
+        .hw-qtext { font-size: 1.3rem; color: var(--text-main); margin-bottom: 30px; font-weight: 600; line-height: 1.6; font-family: var(--font-head); }
+        .hw-options { display: grid; gap: 12px; }
+        .hw-opt-btn { background: var(--bg-page); border: 1px solid var(--border); padding: 16px 20px; text-align: left; font-size: 1.05rem; color: var(--text-main); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); font-weight: 500; border-radius: 2px;}
+        .hw-opt-btn:hover { background: var(--bg-alt); border-color: var(--primary); transform: translateX(4px); }
+        .hw-btn-skip { background: transparent; color: var(--text-muted); border: 1px solid var(--border); padding: 10px 24px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: var(--font-body); border-radius: 2px;}
+        
+        .elegant-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); margin-top: 20px; border: 1px solid var(--border-gold); text-align: left; }
+        .elegant-table th { background: var(--bg-alt); color: var(--primary); padding: 12px 16px; font-family: var(--font-body); font-size: 0.85rem; font-weight: 700; text-transform: uppercase;}
+        .elegant-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
+        /* FABS & MODALS */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 12px; z-index: 1000; }
+        .fab-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 1.2rem; cursor: pointer; box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center; transition: 0.2s;}
+        .fab-btn:hover { transform: translateY(-4px); background: #00152e; }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 33, 71, 0.8); backdrop-filter: blur(4px); z-index: 2000; align-items: center; justify-content: center; }
+        .modal-content { background: var(--bg-panel); padding: 32px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; border-top: 4px solid var(--gold); position: relative; box-shadow: var(--shadow-lg); border-radius: 2px;}
+        .close-modal { position: absolute; top: 16px; right: 20px; color: var(--text-muted); cursor: pointer; font-size: 2rem; line-height: 1; }
+        .close-modal:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+<div id="syncStatus" style="position:fixed; top:16px; left:50%; transform:translateX(-50%); background:var(--bg-panel); padding:6px 16px; border:1px solid var(--border-gold); display:flex; align-items:center; gap:8px; z-index:10000; font-family:var(--font-mono); font-size:0.75rem; font-weight:700; color:var(--primary); box-shadow:var(--shadow-sm); border-radius:2px;">
+    <span id="syncDot" style="width:8px; height:8px; border-radius:50%; background:var(--success); display:block;"></span>
+    <span id="syncText">ACADEMIC SYNC</span>
+</div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+    <div class="hero-pattern"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Curriculum #12 // General English C1</div>
+        <h1 contenteditable="true">The Art of<br><em>Negotiation</em></h1>
+        <p class="hero-sub" contenteditable="true">Master diplomatic leverage, corporate strategy, and the highly advanced grammar of Wishes, Regrets, and Unreal Pasts.</p>
+        <div class="hero-chips">
+            <span class="hero-chip" contenteditable="true">WISH / IF ONLY</span>
+            <span class="hero-chip" contenteditable="true">WOULD RATHER / IT'S TIME</span>
+            <span class="hero-chip" contenteditable="true">DIPLOMATIC LEXICON</span>
+        </div>
+    </div>
+</header>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo">NGE <span>// L12</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1">Mindset</a></li>
+            <li><a href="#t2">Reading (Popups)</a></li>
+            <li><a href="#t3">TFNG</a></li>
+            <li><a href="#t4">Lexicon</a></li>
+            <li><a href="#t5">Grammar 1</a></li>
+            <li><a href="#t6">Grammar 2</a></li>
+            <li><a href="#t7">Grammar 3</a></li>
+            <li><a href="#t8">D&D Syntax</a></li>
+            <li><a href="#t9">Editor</a></li>
+            <li><a href="#t10">Upgrade</a></li>
+            <li><a href="#t11">Pronunciation</a></li>
+            <li><a href="#t12">Analysis</a></li>
+            <li><a href="#t13">Roleplay I</a></li>
+            <li><a href="#t14">Roleplay II</a></li>
+            <li><a href="#t15">Synthesis</a></li>
+            <li><a href="#hw" class="hw-tab">Homework</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main id="main-content">
+    <!-- TASK 1: WARMUP -->
+    <section class="section" id="t1">
+        <div class="section-inner">
+            <div class="task-counter">01. THE MINDSET</div>
+            <h2 class="section-title">The <em>Ultimatum</em></h2>
+            <p class="section-desc" contenteditable="true">Before we delve into the grammar of regret, let's establish the psychology of negotiation. Discuss the following corporate dilemma with your partner.</p>
+            
+            <div class="card" style="border-top: 4px solid var(--primary); font-size:1.1rem; line-height:1.8;">
+                <p style="margin-bottom:16px;" contenteditable="true">You are negotiating a salary for a C-level executive position. You want $150,000. The company firmly offers $120,000 and says, <em>"That is our absolute final offer. Take it or leave it."</em></p>
+                <div style="background:var(--bg-alt); padding:20px; border-left:4px solid var(--gold); margin-top:20px;">
+                    <strong style="color:var(--primary); font-family:var(--font-head); font-size:1.2rem;">Discussion:</strong><br>
+                    <span contenteditable="true">Do you walk away? Do you accept? Or is there a third option? What non-financial demands could you make to balance the deal?</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 2: INDUCTIVE READING (WITH HOVER POPUPS) -->
+    <section class="section" id="t2">
+        <div class="section-inner">
+            <div class="task-counter">02. INDUCTIVE ANALYSIS</div>
+            <h2 class="section-title">The Deal of the <em>Century</em></h2>
+            <p class="section-desc" contenteditable="true">Read the diplomatic briefing below. Hover over the <span style="color:var(--accent); font-weight:bold; border-bottom:2px dashed var(--accent);">highlighted terms</span> to unlock their definitions and grammar rules visually.</p>
+
+            <div class="inductive-text-box">
+                <span class="ed-dropcap">T</span>he summit had reached a complete <span class="inductive-word">stalemate
+                    <div class="inductive-popup">
+                        <img src="https://images.unsplash.com/photo-1529693662653-9d480530a697?q=80&w=400&auto=format&fit=crop" alt="Chess Stalemate">
+                        <div class="pop-title">Stalemate</div>
+                        <div class="pop-pos">Noun (C1)</div>
+                        <div class="pop-def">A situation in which further action or progress by opposing parties seems impossible.</div>
+                    </div>
+                </span>. For three days, the delegates argued over the border treaty. Looking back, the lead negotiator sighed. "<span class="inductive-word">If only we had established
+                    <div class="inductive-popup">
+                        <div class="pop-title">If only + Past Perfect</div>
+                        <div class="pop-grammar">Grammar Focus</div>
+                        <div class="pop-def">Used to express a strong regret about something that happened (or didn't happen) in the past. It is impossible to change now.</div>
+                    </div>
+                </span> our core priorities earlier," she noted, staring at the unsigned documents. 
+                <br><br>
+                The opposition held all the <span class="inductive-word">leverage
+                    <div class="inductive-popup">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop" alt="Leverage/Scale">
+                        <div class="pop-title">Leverage</div>
+                        <div class="pop-pos">Noun (Uncountable)</div>
+                        <div class="pop-def">The power to influence a person or situation to achieve a particular outcome.</div>
+                    </div>
+                </span>, controlling the vital supply routes. "I <span class="inductive-word">wish they would compromise
+                    <div class="inductive-popup">
+                        <div class="pop-title">Wish + Would + V1</div>
+                        <div class="pop-grammar">Grammar Focus</div>
+                        <div class="pop-def">Used to express annoyance or dissatisfaction with someone else's behavior in the present, wanting them to change it in the future.</div>
+                    </div>
+                </span> on the tariffs," she thought, "but they refuse to yield." 
+                <br><br>
+                In a desperate move to save the talks, she offered a major <span class="inductive-word">concession
+                    <div class="inductive-popup">
+                        <img src="https://images.unsplash.com/photo-1603987248955-9c142c5ae89b?q=80&w=400&auto=format&fit=crop" alt="Handshake Concession">
+                        <div class="pop-title">Concession</div>
+                        <div class="pop-pos">Noun (C1)</div>
+                        <div class="pop-def">A thing that is granted, especially in response to demands; a compromise.</div>
+                    </div>
+                </span> regarding maritime access. It was a risky strategy. "Honestly, <span class="inductive-word">I'd rather we walked
+                    <div class="inductive-popup">
+                        <div class="pop-title">Would rather + Past Simple</div>
+                        <div class="pop-grammar">Grammar Focus</div>
+                        <div class="pop-def">Used to express a preference about *someone else's* actions in the present or future. (e.g. I'd rather you didn't smoke).</div>
+                    </div>
+                </span> away from the table entirely than sign a bad deal," her advisor whispered. But <span class="inductive-word">it was high time they reached
+                    <div class="inductive-popup">
+                        <div class="pop-title">It's high time + Past Simple</div>
+                        <div class="pop-grammar">Grammar Focus</div>
+                        <div class="pop-def">Used to say that something should have been done already and needs to be done urgently now.</div>
+                    </div>
+                </span> an agreement, or the markets would crash by morning.
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 3: TFNG -->
+    <section class="section" id="t3">
+        <div class="section-inner">
+            <div class="task-counter">03. COMPREHENSION</div>
+            <h2 class="section-title">Fact vs. <em>Fiction</em></h2>
+            <div class="tfng-item" id="t-1">
+                <div class="tfng-stmt" contenteditable="true">1. The lead negotiator regrets not setting clear priorities at the beginning of the summit.</div>
+                <div class="tfng-btns"><button class="tfng-btn" onclick="checkTFNG(1,'T','T')">TRUE</button><button class="tfng-btn" onclick="checkTFNG(1,'F','T')">FALSE</button><button class="tfng-btn" onclick="checkTFNG(1,'NG','T')">NOT GIVEN</button></div>
+                <div class="tfng-explain" id="e-1">TRUE. "If only we had established our core priorities earlier," indicates regret about the past.</div>
+            </div>
+            <div class="tfng-item" id="t-2">
+                <div class="tfng-stmt" contenteditable="true">2. The opposition eventually agreed to lower the tariffs after the negotiator's concession.</div>
+                <div class="tfng-btns"><button class="tfng-btn" onclick="checkTFNG(2,'T','F')">TRUE</button><button class="tfng-btn" onclick="checkTFNG(2,'F','F')">FALSE</button><button class="tfng-btn" onclick="checkTFNG(2,'NG','F')">NOT GIVEN</button></div>
+                <div class="tfng-explain" id="e-2">FALSE. The text says "they refuse to yield," meaning they did not agree to compromise on the tariffs.</div>
+            </div>
+            <div class="tfng-item" id="t-3">
+                <div class="tfng-stmt" contenteditable="true">3. The advisor believes that walking away is a better option than signing a bad agreement.</div>
+                <div class="tfng-btns"><button class="tfng-btn" onclick="checkTFNG(3,'T','T')">TRUE</button><button class="tfng-btn" onclick="checkTFNG(3,'F','T')">FALSE</button><button class="tfng-btn" onclick="checkTFNG(3,'NG','T')">NOT GIVEN</button></div>
+                <div class="tfng-explain" id="e-3">TRUE. "I'd rather we walked away from the table entirely than sign a bad deal," her advisor whispered.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 4: DRAG AND DROP VOCAB -->
+    <section class="section" id="t4">
+        <div class="section-inner">
+            <div class="task-counter">04. LEXICAL APPLICATION</div>
+            <h2 class="section-title">Lexical <em>Integration</em></h2>
+            <p class="section-desc">Drag the correct vocabulary words from the bank into the corporate sentences below.</p>
+
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. The union negotiations have reached a <div class="drop-zone" data-target="stalemate"></div>; neither side will move.</div>
+                <div class="dnd-sentence">2. Because we have multiple job offers, we have incredible <div class="drop-zone" data-target="leverage"></div> in this interview.</div>
+                <div class="dnd-sentence">3. To close the deal, the CEO had to make a painful <div class="drop-zone" data-target="concession"></div> regarding stock options.</div>
+                <div class="dnd-sentence">4. Giving them an <div class="drop-zone" data-target="ultimatum"></div> is risky; they might just walk away.</div>
+
+                <div class="draggable-bank">
+                    <div class="draggable-word" draggable="true" data-id="leverage">leverage</div>
+                    <div class="draggable-word" draggable="true" data-id="stalemate">stalemate</div>
+                    <div class="draggable-word" draggable="true" data-id="ultimatum">ultimatum</div>
+                    <div class="draggable-word" draggable="true" data-id="concession">concession</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 5: GRAMMAR 1 -->
+    <section class="section" id="t5">
+        <div class="section-inner">
+            <div class="task-counter">05. SYSTEM RULES</div>
+            <h2 class="section-title">Wishes: <em>Present & Future</em></h2>
+            
+            <div class="grammar-box">
+                <div class="g-header"><h3>1. Wish / If Only + Past Simple</h3></div>
+                <div class="g-content">
+                    <p style="margin-bottom:16px;">Used to express a desire for a <strong>present situation</strong> to be different. It is contrary to current facts.</p>
+                    <div class="g-formula">I wish / If only + subject + Past Simple (or Past Continuous)</div>
+                    <table class="g-table" style="margin-top:16px;">
+                        <tr><td>"I wish we <strong>had</strong> more leverage."</td><td>(Reality: We don't have leverage right now).</td></tr>
+                        <tr><td>"If only the CEO <strong>weren't speaking</strong> so loudly."</td><td>(Reality: He is speaking loudly right now).</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grammar-box">
+                <div class="g-header"><h3>2. Wish / If Only + Would + V1</h3></div>
+                <div class="g-content">
+                    <p style="margin-bottom:16px;">Used to express <strong>annoyance or dissatisfaction</strong> with someone else's current behavior, wanting them to change it in the future. <em>(Note: We cannot use 'would' for ourselves: "I wish I would..." is incorrect).</em></p>
+                    <div class="g-formula">I wish / If only + subject + would + V1</div>
+                    <table class="g-table" style="margin-top:16px;">
+                        <tr><td>"I wish they <strong>would offer</strong> a better price."</td><td>(They are currently offering a bad price, and it annoys me).</td></tr>
+                        <tr><td>"If only he <strong>would stop</strong> interrupting me."</td><td>(He interrupts me constantly, and I want it to stop).</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 6: GRAMMAR 2 -->
+    <section class="section" id="t6">
+        <div class="section-inner">
+            <div class="task-counter">06. SYSTEM RULES</div>
+            <h2 class="section-title">Wishes: <em>The Past (Regrets)</em></h2>
+            
+            <div class="grammar-box">
+                <div class="g-header"><h3>Wish / If Only + Past Perfect</h3></div>
+                <div class="g-content">
+                    <p style="margin-bottom:16px;">Used to express <strong>regret</strong> about a situation that happened (or didn't happen) in the past. It is impossible to change.</p>
+                    <div class="g-formula" style="color:var(--accent);">I wish / If only + subject + had + V3</div>
+                    <table class="g-table" style="margin-top:16px;">
+                        <tr><td>"I wish we <strong>had walked</strong> away from the deal yesterday."</td><td>(Reality: We didn't walk away, and now I regret it).</td></tr>
+                        <tr><td>"If only I <strong>hadn't accepted</strong> their first offer."</td><td>(Reality: I accepted it too quickly).</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 7: GRAMMAR 3 -->
+    <section class="section" id="t7">
+        <div class="section-inner">
+            <div class="task-counter">07. SYSTEM RULES</div>
+            <h2 class="section-title">Advanced <em>Alternates</em></h2>
+            <p class="section-desc">At C1 level, we use specific phrases that force the Past Simple tense to talk about present preferences or urgency.</p>
+
+            <div class="grid-2">
+                <div class="card" style="border-top:4px solid var(--gold);">
+                    <h3 style="color:var(--gold);">Would Rather (Subject 2)</h3>
+                    <p style="margin-bottom:12px;">When you state a preference about <em>someone else's</em> actions, use the Past Simple.</p>
+                    <div style="font-family:var(--font-mono); font-weight:bold; color:var(--text-main); margin-bottom:12px;">would rather + subject 2 + Past Simple</div>
+                    <div style="background:var(--bg-alt); padding:12px; font-style:italic;">"I'd rather <strong>you didn't mention</strong> the budget yet."</div>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">(Compare to same subject: "I'd rather not mention it.")</p>
+                </div>
+                
+                <div class="card" style="border-top:4px solid var(--success);">
+                    <h3 style="color:var(--success);">It's (high) time</h3>
+                    <p style="margin-bottom:12px;">Used to say something is urgent and should have been done already. Always uses Past Simple.</p>
+                    <div style="font-family:var(--font-mono); font-weight:bold; color:var(--text-main); margin-bottom:12px;">It's high time + subject + Past Simple</div>
+                    <div style="background:var(--bg-alt); padding:12px; font-style:italic;">"It's high time <strong>we signed</strong> the contract."</div>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:8px;">(Meaning: We need to sign it right now).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 8: DRAG AND DROP GRAMMAR -->
+    <section class="section" id="t8">
+        <div class="section-inner">
+            <div class="task-counter">08. SYNTAX WIRING</div>
+            <h2 class="section-title">Timeline <em>Assembly</em></h2>
+            <p class="section-desc">Drag the correct grammar structures into the sentences to project the negotiation scenarios accurately.</p>
+
+            <div class="dnd-container">
+                <div class="dnd-sentence">1. I'm furious. I wish they <div class="drop-zone" data-target="would_stop"></div> changing the terms of the agreement every day!</div>
+                <div class="dnd-sentence">2. The company is failing. It is high time management <div class="drop-zone" data-target="took_action"></div>.</div>
+                <div class="dnd-sentence">3. Looking at the terrible contract we signed yesterday, if only we <div class="drop-zone" data-target="had_hired"></div> a better lawyer.</div>
+                <div class="dnd-sentence">4. I'd rather you <div class="drop-zone" data-target="didn_t_speak"></div> to the press until the deal is finalized.</div>
+
+                <div class="draggable-bank">
+                    <div class="draggable-word" draggable="true" data-id="didn_t_speak">didn't speak</div>
+                    <div class="draggable-word" draggable="true" data-id="would_stop">would stop</div>
+                    <div class="draggable-word" draggable="true" data-id="took_action">took action</div>
+                    <div class="draggable-word" draggable="true" data-id="had_hired">had hired</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 9: ERROR SPY -->
+    <section class="section" id="t9">
+        <div class="section-inner">
+            <div class="task-counter">09. DEBUNK THE GRAMMAR</div>
+            <h2 class="section-title">The Syntax <em>Editor</em></h2>
+            <p class="section-desc" contenteditable="true">Click the red text, type the correct grammar form, and hit Check.</p>
+
+            <div class="spy-sentence" id="spy-1">
+                <span class="spy-num">01</span>
+                <div class="spy-text">
+                    The negotiation was a disaster yesterday. I wish I <span class="wrong-word" onclick="revealSpy(1)">didn't lose</span> my temper at the CEO.
+                    <div class="spy-input-wrap" id="wrap-1"><input class="spy-input" id="input-1" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(1)">Check</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-2">
+                <span class="spy-num">02</span>
+                <div class="spy-text">
+                    This stalemate is exhausting. It's high time we <span class="wrong-word" onclick="revealSpy(2)">make</span> a major concession.
+                    <div class="spy-input-wrap" id="wrap-2"><input class="spy-input" id="input-2" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(2)">Check</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-3">
+                <span class="spy-num">03</span>
+                <div class="spy-text">
+                    He keeps interrupting me during the meeting! I wish he <span class="wrong-word" onclick="revealSpy(3)">stops</span> talking for just one minute.
+                    <div class="spy-input-wrap" id="wrap-3"><input class="spy-input" id="input-3" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(3)">Check</button></div>
+                </div>
+            </div>
+            <div class="spy-sentence" id="spy-4">
+                <span class="spy-num">04</span>
+                <div class="spy-text">
+                    To be honest, I'd rather you <span class="wrong-word" onclick="revealSpy(4)">don't sign</span> the document until the lawyers review it.
+                    <div class="spy-input-wrap" id="wrap-4"><input class="spy-input" id="input-4" placeholder="correction..."><button class="spy-check-btn" onclick="checkSpy(4)">Check</button></div>
+                </div>
+            </div>
+            
+            <script>
+                const spyAns = {
+                    1: ["hadn't lost", "had not lost"],
+                    2: ['made'],
+                    3: ['would stop'],
+                    4: ["didn't sign", "did not sign"]
+                };
+                function revealSpy(n) { document.getElementById('wrap-'+n).classList.add('visible'); document.getElementById('input-'+n).focus(); }
+                function checkSpy(n) {
+                    let val = document.getElementById('input-'+n).value.trim().toLowerCase();
+                    let card = document.getElementById('spy-'+n);
+                    if (spyAns[n].some(a => val.includes(a))) { card.classList.add('correct'); card.classList.remove('incorrect'); } 
+                    else { card.classList.remove('incorrect'); void card.offsetWidth; card.classList.add('incorrect'); }
+                }
+            </script>
+        </div>
+    </section>
+
+    <!-- TASK 10: SYNTAX UPGRADE -->
+    <section class="section" id="t10">
+        <div class="section-inner">
+            <div class="task-counter">10. SYNTAX UPGRADE</div>
+            <h2 class="section-title">Elevate the <em>Language</em></h2>
+            <p class="section-desc" contenteditable="true">Rewrite the basic B2 sentences using the advanced C1 grammar structures in brackets.</p>
+            
+            <div class="card">
+                <ol style="color:var(--text-main); line-height:2.4; padding-left:20px; font-weight:500;">
+                    <li contenteditable="true">B2: I really regret giving them our financial data yesterday.<br>
+                        <span style="color:var(--primary); font-weight:700;">C1 [If only]:</span> If only <span style="border-bottom:2px solid var(--text-light); display:inline-block; min-width:250px;"></span>
+                    </li>
+                    <li contenteditable="true">B2: We really need to hire a new negotiating team right now.<br>
+                        <span style="color:var(--primary); font-weight:700;">C1 [It's high time]:</span> It's high time <span style="border-bottom:2px solid var(--text-light); display:inline-block; min-width:250px;"></span>
+                    </li>
+                    <li contenteditable="true">B2: Please don't contact my client directly.<br>
+                        <span style="color:var(--primary); font-weight:700;">C1 [I'd rather]:</span> I'd rather <span style="border-bottom:2px solid var(--text-light); display:inline-block; min-width:250px;"></span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 11: PRONUNCIATION -->
+    <section class="section" id="t11">
+        <div class="section-inner">
+            <div class="task-counter">11. PHONETICS</div>
+            <h2 class="section-title">The Emotion of <em>Regret</em></h2>
+            <p class="section-desc" contenteditable="true">When using "If only" or "I wish", native speakers use heavy emotional intonation. The auxiliary verb is often stressed to show the depth of the regret.</p>
+            
+            <div class="grid-2">
+                <div class="callout c-accent" style="margin:0;">
+                    <div style="font-family:var(--font-head); font-size:1.2rem; margin-bottom:10px; color:var(--text-main);">"If only I <em>HAD</em> known..."</div>
+                    <p contenteditable="true">The word <strong>HAD</strong> is stressed heavily, followed by a pause. The pitch drops at the end of the sentence to signify disappointment.</p>
+                </div>
+                <div class="callout c-gold" style="margin:0;">
+                    <div style="font-family:var(--font-head); font-size:1.2rem; margin-bottom:10px; color:var(--text-main);">"I wish they <em>WOULD</em> listen."</div>
+                    <p contenteditable="true">The word <strong>WOULD</strong> is stressed to show extreme annoyance. Practice this sentence with your partner, expressing deep frustration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 12: SCENARIO ANALYSIS -->
+    <section class="section" id="t12">
+        <div class="section-inner">
+            <div class="task-counter">12. ANALYSIS</div>
+            <h2 class="section-title">What Went <em>Wrong?</em></h2>
+            <p class="section-desc" contenteditable="true">Look at the failed negotiation scenarios below. Create a sentence using a target grammar structure to express the regret or desired change.</p>
+
+            <div class="card" style="margin-bottom:16px; border-left:4px solid var(--accent);">
+                <p style="margin-bottom:10px;" contenteditable="true"><strong>Scenario 1:</strong> Your company bought a competitor for $5 Million without doing a background check. The competitor is completely bankrupt.</p>
+                <p style="font-family:var(--font-mono); color:var(--accent); font-size:0.9rem;">Express past regret (If only...)</p>
+                <div style="border-bottom:1px solid var(--text-light); height:24px; margin-top:10px;" contenteditable="true"></div>
+            </div>
+            
+            <div class="card" style="margin-bottom:16px; border-left:4px solid var(--gold);">
+                <p style="margin-bottom:10px;" contenteditable="true"><strong>Scenario 2:</strong> Your business partner is talking to the rival CEO right now and revealing all your corporate secrets.</p>
+                <p style="font-family:var(--font-mono); color:var(--gold); font-size:0.9rem;">Express preference about their action (I'd rather...)</p>
+                <div style="border-bottom:1px solid var(--text-light); height:24px; margin-top:10px;" contenteditable="true"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 13: ROLEPLAY I -->
+    <section class="section" id="t13">
+        <div class="section-inner">
+            <div class="task-counter">13. SIMULATION I</div>
+            <h2 class="section-title">The <em>Boardroom</em></h2>
+            <div class="grid-2">
+                <div class="card" style="border-top:4px solid var(--primary);">
+                    <h3 style="color:var(--primary); margin-bottom:16px;">The CEO</h3>
+                    <p style="color:var(--text-muted); font-size:0.95rem;">You are angry. The union is striking. You feel you have no <strong>leverage</strong>. Express annoyance using: <em>"I wish they would..."</em> and <em>"It's high time..."</em></p>
+                </div>
+                <div class="card" style="border-top:4px solid var(--accent);">
+                    <h3 style="color:var(--accent); margin-bottom:16px;">The Union Leader</h3>
+                    <p style="color:var(--text-muted); font-size:0.95rem;">You refuse to end the strike. You regret a past contract you signed. Express this using: <em>"If only we hadn't..."</em> and demand a <strong>concession</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 14: ROLEPLAY II -->
+    <section class="section" id="t14">
+        <div class="section-inner">
+            <div class="task-counter">14. SIMULATION II</div>
+            <h2 class="section-title">The Diplomatic <em>Crisis</em></h2>
+            <p class="section-desc" contenteditable="true">Two nations are arguing over a disputed island. You have 3 minutes to negotiate. Each person must use "I'd rather you didn't..." at least once to reject a proposal politely but firmly.</p>
+        </div>
+    </section>
+
+    <!-- TASK 15: SPINNER -->
+    <section class="section" id="t15">
+        <div class="section-inner">
+            <div class="task-counter">15. CREATIVE SYNTHESIS</div>
+            <h2 class="section-title">The Ultimate <em>Pitch</em></h2>
+            <p class="section-desc">Pick a scenario. You have 60 seconds to negotiate the best possible outcome. You must use ONE regret (past), ONE annoyance (would), and ONE vocabulary word (leverage/concession).</p>
+            <div class="grid-3">
+                <div class="spin-item">Selling a haunted house to a skeptic.</div>
+                <div class="spin-item">Convincing your boss to double your salary.</div>
+                <div class="spin-item">Negotiating peace with alien invaders.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TASK 16: WHITEBOARD -->
+    <section class="section" id="t16" style="border-bottom:none;">
+        <div class="section-inner">
+            <div class="task-counter">16. TACTICAL MAPPING</div>
+            <h2 class="section-title">Investigation <em>Board</em></h2>
+            <p class="section-desc">Draw negotiation strategies, map out leverage points, or analyze grammar structures.</p>
+            <div class="wb-container">
+                <div class="wb-toolbar">
+                    <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                    <button class="wb-btn" data-tool="highlight">Marker</button>
+                    <button class="wb-btn" data-tool="text">Text</button>
+                    <button class="wb-btn" data-tool="arrow">Arrow</button>
+                    <input type="color" id="wbColor" value="#002147" style="height:32px; width:32px; border:none; cursor:pointer;">
+                    <button id="wbClear" class="wb-btn" style="margin-left:auto; color:var(--accent); border-color:var(--accent);">Clear</button>
+                </div>
+                <div id="canvasWrapper" style="position:relative; width:100%; height:500px; touch-action:none;">
+                    <canvas id="boardCanvas" style="display:block; width:100%; height:100%; cursor:crosshair;"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ══ HOMEWORK MODULE (Anti-Cheat, 15 Mins, 15 Questions) ══ -->
+<div id="task-hw" class="hw-exclusive">
+    <div class="hw-container">
+        
+        <section id="hw-welcome" class="hw-screen active">
+            <div class="task-counter" style="background:transparent; border-color:var(--text-muted); color:var(--text-muted);">Homework Portal</div>
+            <h2 class="section-title">Module 12 <em>Assessment</em></h2>
+            <div class="card" style="text-align:left; margin-bottom:30px; border-top:4px solid var(--gold);">
+                <p style="margin-bottom:16px;"><strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 questions regarding Wishes, Regrets, and Diplomatic Lexicon.</p>
+                <p style="color:var(--accent); font-weight:700; margin-bottom:0;">⚠️ Anti-Cheat Enabled: Leaving this tab or minimizing the window will trigger a warning. Doing it twice will automatically terminate your test.</p>
+            </div>
+            <div style="max-width:400px; margin:0 auto;">
+                <input type="text" id="hwStudentName" class="hw-input" placeholder="Enter your full name..." autocomplete="off">
+                <button class="hw-btn-primary" onclick="startHW()" style="width:100%;">Accept Rules & Begin</button>
+            </div>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen">
+            <div class="hw-header">
+                <div class="task-counter" id="hwQuestionCounter" style="margin:0; border:none; background:transparent;">Question 1 / 15</div>
+                <div class="hw-timer">⏱️ <span id="hwTimerDisplay">15:00</span></div>
+            </div>
+            <div class="hw-progress"><div class="hw-progress-fill" id="hwProgressFill"></div></div>
+            
+            <div class="hw-qbox">
+                <h3 class="hw-qtext" id="hwQuestionText">Loading question...</h3>
+                <div class="hw-options" id="hwOptionsGrid"></div>
+            </div>
+            <button class="hw-btn-skip" onclick="skipHWQuestion()">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen">
+            <div id="hw-pdf-content" style="background:var(--bg-page); padding:20px; box-sizing:border-box; text-align:left;">
+                <div style="text-align:center;">
+                    <div class="task-counter" style="border:none; background:transparent;">Assessment Complete</div>
+                    <h2 class="section-title">Official Results</h2>
+                    <p class="section-desc" id="hwResultsMessage" style="color:var(--text-main); font-weight:700;"></p>
+                </div>
+                <div class="card" style="margin:30px 0; text-align:center; border-top:4px solid var(--primary);">
+                    <h3 style="font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Final Score</h3>
+                    <div style="font-size:3rem; font-family:var(--font-head); font-weight:900; color:var(--text-main); margin:10px 0;" id="hwScoreDetail">0 / 15</div>
+                    <p style="font-family:var(--font-body); font-size:1rem; font-weight:700; margin-top:10px;" id="hwTerminationReason"></p>
+                </div>
+                <h3 style="font-family:var(--font-head); color:var(--text-main); text-align:left; border-bottom:2px solid var(--text-main); padding-bottom:10px;">Question Review</h3>
+                <div style="display:flex; flex-direction:column; gap:16px; margin-top:20px;" id="hwReviewGrid"></div>
+            </div>
+            <div style="margin-top:40px; display:flex; gap:20px; justify-content:center;">
+                <button class="hw-btn-primary" onclick="downloadHWPDF()">Download PDF Report</button>
+                <button class="hw-btn-skip" onclick="exitHomework()">Return to Lesson</button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- ══ FABs & MODALS ══ -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab" onclick="window.scrollToWhiteboard()" title="Board">🖍️</button>
+    <button class="fab" onclick="openQuizletModal()" title="Quizlet" style="background:var(--primary); color:white; border:none;">📝</button>
+    <button class="fab" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--accent); color:white; border:none;">📋</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminModal" class="modal-overlay">
+    <div class="modal-content" style="border-top-color:var(--accent);">
+        <span class="close-modal" onclick="closeAdmin()">×</span>
+        <h2 style="font-family:var(--font-head); color:var(--text-main); margin-bottom:10px;">Teacher Dashboard</h2>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Review recent student homework submissions.</p>
+        <div style="overflow-x:auto;">
+            <table class="elegant-table">
+                <thead><tr><th>Date</th><th>Student Name</th><th>Score</th><th>Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button class="hw-btn-skip" style="color:var(--accent); border-color:var(--accent); margin-top:20px;" onclick="clearData()">Clear All Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content" style="border-top-color:var(--primary);">
+        <span class="close-modal" onclick="closeQuizletModal()">×</span>
+        <h2 style="font-family:var(--font-head); color:var(--text-main); margin-bottom:20px;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Term" class="hw-input" style="margin-bottom:0; flex:1;"><input type="text" placeholder="Definition" class="hw-input" style="margin-bottom:0; flex:1;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" class="hw-btn-skip" style="flex:1; margin-top:0;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" class="hw-btn-primary" style="flex:2; background:var(--primary);">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // --- Navigation & Toggles ---
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id === '#hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.querySelector('.hero').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                exitHomework();
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.querySelector('.hero').style.display = 'flex';
+        document.getElementById('task-hw').style.display = 'none';
+    }
+
+    window.scrollToWhiteboard = () => {
+        exitHomework();
+        const el = document.getElementById('t16');
+        if(el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth'});
+    };
+
+    // --- Drag & Drop ---
+    const draggables = document.querySelectorAll('.draggable-word');
+    const dropZones = document.querySelectorAll('.drop-zone');
+    draggables.forEach(d => {
+        d.addEventListener('dragstart', (e) => { d.classList.add('dragging'); e.dataTransfer.setData('text/plain', d.dataset.id); });
+        d.addEventListener('dragend', () => d.classList.remove('dragging') );
+    });
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault(); zone.classList.remove('drag-over');
+            const draggedId = e.dataTransfer.getData('text/plain');
+            const draggedEl = document.querySelector(`.draggable-word[data-id="${draggedId}"]`);
+            if (zone.dataset.target === draggedId) {
+                zone.appendChild(draggedEl); zone.classList.add('filled');
+                draggedEl.style.border='none'; draggedEl.style.background='transparent'; draggedEl.style.color='var(--success)'; draggedEl.style.boxShadow='none'; draggedEl.setAttribute('draggable', 'false'); 
+            } else {
+                zone.style.animation = 'shake 0.4s'; zone.style.borderColor = 'var(--accent)';
+                setTimeout(() => { zone.style.animation = ''; zone.style.borderColor = 'var(--mist)'; }, 400);
+            }
+        });
+    });
+
+    // --- TFNG ---
+    function checkTFNG(n, choice, correct) {
+        let item = document.getElementById('t-'+n), exp = document.getElementById('e-'+n);
+        if (choice === correct) item.classList.add('t-correct'); else item.classList.add('t-wrong');
+        exp.style.display = 'block';
+    }
+
+    // --- Repaired Whiteboard Logic ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    let canvasRect;
+    
+    function initCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+        ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+        updateRect();
+    }
+    
+    function updateRect() { canvasRect = canvas.getBoundingClientRect(); }
+    window.addEventListener('resize', initCanvas); window.addEventListener('scroll', updateRect);
+    initCanvas();
+
+    let isDrawing = false, currentTool = 'pencil', color = '#002147', startX, startY, savedImg;
+    document.querySelectorAll('.wb-btn').forEach(b => {
+        if(b.id==='wbClear') return;
+        b.addEventListener('click', () => { document.querySelectorAll('.wb-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); currentTool = b.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair'; });
+    });
+    
+    document.getElementById('wbColor').addEventListener('change', e => color = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => ctx.clearRect(0,0,canvas.width,canvas.height));
+
+    function getPos(e) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        return { x: clientX - canvasRect.left, y: clientY - canvasRect.top };
+    }
+
+    function startDraw(e) {
+        updateRect(); const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') { const t = prompt('Enter text:'); if (t) { ctx.font = "bold 18px 'Inter', sans-serif"; ctx.fillStyle = color; ctx.fillText(t, startX, startY); } return; }
+        isDrawing = true; savedImg = ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+        if(e.touches) e.preventDefault();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return; const p = getPos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') { ctx.lineTo(p.x, p.y); ctx.strokeStyle = currentTool === 'highlight' ? color + '40' : color; ctx.lineWidth = currentTool === 'highlight' ? 16 : 2; ctx.stroke(); } 
+        else { ctx.putImageData(savedImg, 0, 0); drawShape(p.x, p.y); }
+        if(e.touches) e.preventDefault();
+    }
+
+    function endDraw(e) {
+        if (!isDrawing) return; isDrawing = false;
+        if (['arrow'].includes(currentTool)) { const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX; const clientY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY; drawShape(clientX - canvasRect.left, clientY - canvasRect.top); }
+    }
+
+    canvas.addEventListener('mousedown', startDraw); canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseup', endDraw); canvas.addEventListener('mouseout', () => isDrawing = false);
+    canvas.addEventListener('touchstart', startDraw, {passive: false}); canvas.addEventListener('touchmove', draw, {passive: false}); canvas.addEventListener('touchend', endDraw);
+
+    function drawShape(ex, ey) {
+        ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = 2;
+        if (currentTool === 'arrow') { const hl = 16, ang = Math.atan2(ey-startY, ex-startX); ctx.moveTo(startX, startY); ctx.lineTo(ex, ey); ctx.stroke(); ctx.beginPath(); ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang - Math.PI/6), ey - hl * Math.sin(ang - Math.PI/6)); ctx.moveTo(ex, ey); ctx.lineTo(ex - hl * Math.cos(ang + Math.PI/6), ey - hl * Math.sin(ang + Math.PI/6)); ctx.stroke(); }
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
+    const hwQuestionBank = [
+        { text: "I'm exhausted. I wish the CEO _______ talking so loudly on the phone.", options: ["would stop", "stopped", "had stopped", "will stop"], correct: 0 },
+        { text: "The deal fell through. If only we _______ our priorities earlier.", options: ["have established", "established", "had established", "would establish"], correct: 2 },
+        { text: "I'd rather you _______ to the press until the contract is signed.", options: ["didn't speak", "don't speak", "won't speak", "hadn't spoken"], correct: 0 },
+        { text: "It's high time management _______ action on the falling profits.", options: ["take", "taking", "took", "had taken"], correct: 2 },
+        { text: "A situation in which further progress by opposing parties seems impossible is a:", options: ["concession", "leverage", "stalemate", "ultimatum"], correct: 2 },
+        { text: "The power to influence a person or situation is known as:", options: ["stalemate", "concession", "leverage", "dissonance"], correct: 2 },
+        { text: "I really regret ignoring their first offer. I wish I _______ it.", options: ["accepted", "would accept", "had accepted", "accept"], correct: 2 },
+        { text: "I wish I _______ more leverage in this negotiation.", options: ["have", "had", "had had", "would have"], correct: 1 },
+        { text: "She made a massive _______ by lowering the price by 20%.", options: ["ultimatum", "concession", "stalemate", "leverage"], correct: 1 },
+        { text: "If only the market _______ crashing right now.", options: ["isn't", "wasn't", "wouldn't be", "hasn't been"], correct: 1 },
+        { text: "I'd rather we _______ away from the deal yesterday.", options: ["walked", "have walked", "had walked", "walk"], correct: 2 },
+        { text: "It's high time you _______ realizing your true worth in the industry.", options: ["started", "start", "have started", "will start"], correct: 0 },
+        { text: "I wish they _______ compromise on the tariffs, but they refuse.", options: ["would", "will", "had", "did"], correct: 0 },
+        { text: "A final demand, the rejection of which will result in retaliation, is an:", options: ["ultimatum", "stalemate", "concession", "leverage"], correct: 0 },
+        { text: "If only we _______ the contract before the deadline.", options: ["sign", "signed", "had signed", "would sign"], correct: 2 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.querySelector('.hw-timer').style.background = "var(--accent)"; document.querySelector('.hw-timer').style.color = "white"; document.querySelector('.hw-timer').style.borderColor = "var(--accent)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.className = 'hw-opt-btn'; btn.innerText = opt;
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--accent)' : 'var(--success)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div class="card" style="border-left:4px solid ${item.isCorrect ? 'var(--success)' : 'var(--accent)'}; padding:20px;">
+                <div style="font-size:1.1rem; color:var(--text-main); margin-bottom:10px; font-weight:600;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--text-muted);">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--accent)'}; font-weight:700;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--text-muted);">Correct answer: <span style="color: var(--success); font-weight:700;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson12HW')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson12HW', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        document.getElementById('floatingActions').style.display='none';
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L12_HW.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save().then(() => document.getElementById('floatingActions').style.display='flex');
+    }
+
+    // --- Admin ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson12HW')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px;'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid var(--border); font-size:0.85rem;">${r.date}</td><td style="padding:12px; border-bottom:1px solid var(--border); font-weight:700;">${r.name}</td><td style="padding:12px; border-bottom:1px solid var(--border);">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid var(--border); font-size:0.85rem; font-weight:700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--accent)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson12HW'); openAdmin(); } }
+
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() { document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:10px;"><input type="text" placeholder="Term" class="hw-input" style="margin-bottom:0; flex:1;"><input type="text" placeholder="Definition" class="hw-input" style="margin-bottom:0; flex:1;"></div>`; }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
+        if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+</script>
+</body>
+</html>
