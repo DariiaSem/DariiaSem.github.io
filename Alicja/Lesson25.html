@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 25: B2-C1 | The Endocrine Toll of Burnout</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Clinical Amethyst & Slate Theme */
+            --bg-base:    #F7F7F9; /* Very light cool grey */
+            --bg-panel:   #FFFFFF;
+            --bg-card:    #FAFAFC;
+            
+            --dusk:       #2B2D42; /* Deep slate */
+            --indigo:     #5E548E; /* Muted Amethyst */
+            --indigo-lt:  #9F86C0;
+            --indigo-pale:#F3F0F8;
+            
+            --sunset:     #E0B1CB; /* Soft lilac/pink */
+            --sunset-lt:  #D4A373; /* Warm contrast */
+            --sunset-pale:#FFF5F8;
+            
+            --coral:      #E56B6F; /* Soft clinical red for errors */
+            --coral-pale: #FFEDED;
+            
+            --teal:       #4EA8DE; /* Medical Blue */
+            --teal-pale:  #E8F6FF;
+            
+            --text-main:  #141416;
+            --text-muted: #6C757D;
+            
+            --font-ui:    'Figtree', sans-serif;
+            --font-serif: 'Crimson Pro', serif;
+            --font-mono:  'Fira Code', monospace;
+            
+            --shadow-sm:  0 4px 12px rgba(43, 45, 66, 0.04);
+            --shadow-md:  0 8px 24px rgba(43, 45, 66, 0.08);
+            --shadow-lg:  0 16px 40px rgba(43, 45, 66, 0.12);
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.laser-active { cursor: crosshair !important; }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px; transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(94, 84, 142, 0.05); }
+        [contenteditable="true"]:focus { background: rgba(94, 84, 142, 0.1); box-shadow: 0 0 0 2px var(--indigo-lt); }
+
+        /* ══ SIDEBAR ══ */
+        .sidebar {
+            width: 280px; background: var(--dusk); border-right: 1px solid rgba(255,255,255,0.05);
+            position: fixed; height: 100vh; top: 0; left: 0; display: flex; flex-direction: column;
+            padding: 30px 20px; z-index: 100; overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        .brand {
+            font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--indigo-pale);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 30px; text-decoration: none;
+        }
+        .brand span { color: var(--indigo-lt); font-style: italic; }
+
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+        .nav-item a {
+            display: flex; align-items: center; padding: 10px 14px;
+            text-decoration: none; color: rgba(255,255,255,0.5); font-weight: 500; font-size: 0.95rem;
+            border-radius: var(--r-sm); transition: all 0.2s;
+        }
+        .nav-item a:hover, .nav-item a.active {
+            background: rgba(159, 134, 192, 0.2); color: #FFFFFF;
+        }
+        .nav-item a.active { border-left: 3px solid var(--indigo-lt); font-weight: 600; }
+        
+        .hw-btn {
+            margin-top: 24px; background: rgba(255,255,255,0.03); color: var(--indigo-lt);
+            border: 1px solid rgba(159, 134, 192, 0.4); padding: 12px; text-align: center;
+            border-radius: var(--r-md); font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .hw-btn:hover { background: var(--indigo-lt); color: var(--dusk); box-shadow: 0 0 15px rgba(159, 134, 192, 0.3); }
+
+        /* ══ MAIN CONTENT ══ */
+        .main-content {
+            margin-left: 280px; flex: 1; padding: 60px; max-width: 1100px;
+        }
+
+        .dashboard-header { margin-bottom: 50px; border-bottom: 2px solid rgba(43, 45, 66, 0.08); padding-bottom: 30px; }
+        .module-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+            color: var(--indigo); background: var(--indigo-pale); border: 1px solid rgba(94, 84, 142, 0.2);
+            padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;
+            text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+        }
+        .dashboard-title {
+            font-family: var(--font-serif); font-size: clamp(3rem, 5vw, 4rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 16px; color: var(--dusk);
+        }
+        .dashboard-title em { color: var(--indigo-lt); }
+        .dashboard-desc { font-size: 1.15rem; color: var(--text-muted); max-width: 700px; line-height: 1.6; }
+
+        /* ══ SECTIONS & TASKS ══ */
+        .section { display: none; animation: fadeIn 0.4s ease-out; margin-bottom: 60px; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .task-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .task-num {
+            font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+            color: #FFFFFF; background: var(--indigo);
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px; box-shadow: 0 4px 10px rgba(94, 84, 142, 0.3);
+        }
+        .task-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--dusk); }
+
+        /* ══ UI CARDS & TYPOGRAPHY ══ */
+        .card {
+            background: var(--bg-panel); border: 1px solid rgba(43, 45, 66, 0.05);
+            border-radius: var(--r-lg); padding: 32px; margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quote-block {
+            font-family: var(--font-serif); font-size: 1.5rem; color: var(--dusk);
+            font-style: italic; padding-left: 24px; border-left: 4px solid var(--indigo-lt);
+            margin-bottom: 20px; line-height: 1.5;
+        }
+
+        /* ══ VOCABULARY GRID ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+        .vocab-card {
+            background: var(--bg-card); border-radius: var(--r-md); padding: 24px;
+            border: 1px solid rgba(43, 45, 66, 0.05); position: relative; overflow: hidden;
+            transition: all 0.3s ease; cursor: default; min-height: 140px; display: flex; flex-direction: column; justify-content: center;
+        }
+        .vocab-card:hover { border-color: var(--indigo-lt); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        
+        .vic-front { position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s; pointer-events: none; background: var(--bg-card); }
+        .vocab-card:hover .vic-front { opacity: 0; }
+        .vic-pos { font-family: var(--font-mono); font-size: 0.75rem; color: var(--indigo-lt); margin-bottom: 8px; font-weight: 600; }
+        .vic-word { font-family: var(--font-serif); font-size: 1.5rem; color: var(--dusk); font-weight: 700; }
+        
+        .vic-def {
+            position: absolute; inset: 0; padding: 24px;
+            background: var(--dusk); color: #FFFFFF;
+            font-size: 0.95rem; line-height: 1.5; display: flex; flex-direction: column; justify-content: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md); z-index: 2;
+        }
+        .vocab-card:hover .vic-def { opacity: 1; }
+        .pl-trans { display: block; margin-top: 8px; color: var(--sunset); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ══ READING TEXT ══ */
+        .article-body {
+            font-size: 1.15rem; line-height: 1.9; color: var(--text-main);
+            background: var(--bg-panel); padding: 40px 48px; border-radius: var(--r-lg);
+            border-top: 6px solid var(--indigo); box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+        }
+        .article-body p { margin-bottom: 20px; }
+        .article-body p:last-child { margin-bottom: 0; }
+        .article-title { font-family: var(--font-serif); font-size: 2.2rem; color: var(--dusk); margin-bottom: 8px; font-weight: 700; line-height: 1.2; }
+        .article-subtitle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 32px; display: block; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 16px; }
+        
+        .vocab-hl {
+            color: var(--indigo); font-weight: 600; background: var(--indigo-pale);
+            padding: 2px 6px; border-radius: 4px; cursor: help; transition: all 0.2s;
+        }
+        .vocab-hl:hover { background: var(--indigo); color: white; }
+
+        /* ══ GRAMMAR TABLES ══ */
+        .grammar-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); border: 1px solid rgba(43,45,66,0.1); border-radius: var(--r-md); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-sm); }
+        .grammar-table th { background: var(--dusk); color: #FFFFFF; padding: 16px 20px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-align: left; }
+        .grammar-table td { padding: 16px 20px; border-bottom: 1px solid rgba(43,45,66,0.1); font-size: 1rem; color: var(--dusk); vertical-align: top; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: var(--bg-card); }
+
+        .article-tag { display: inline-block; background: var(--indigo-pale); color: var(--indigo); border: 1px solid rgba(94, 84, 142, 0.2); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 700; font-size: 0.9rem; }
+
+        /* ══ PRACTICE LISTS ══ */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+        .practice-list li {
+            background: var(--bg-panel); padding: 20px 24px 20px 60px;
+            border-radius: var(--r-md); border: 1px solid rgba(43,45,66,0.05);
+            font-size: 1.05rem; position: relative; line-height: 1.7; box-shadow: var(--shadow-sm);
+        }
+        .practice-list li::before {
+            counter-increment: prac; content: "0" counter(prac);
+            position: absolute; left: 20px; top: 22px;
+            font-weight: 700; color: var(--indigo-lt); font-size: 0.9rem; font-family: var(--font-mono);
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 120px; border-bottom: 2px dashed var(--indigo-lt);
+            color: var(--dusk); font-weight: 700; padding: 0 8px; text-align: center;
+            background: var(--indigo-pale); font-family: var(--font-mono); font-size: 0.95em;
+        }
+        .blank-input:focus { border-bottom-color: var(--indigo); outline: none; background: rgba(94, 84, 142, 0.15); }
+
+        /* ══ CALLOUTS ══ */
+        .callout { padding: 20px 24px; border-radius: var(--r-md); margin: 24px 0; font-size: 1.05rem; line-height: 1.6; border-left: 4px solid; background: var(--bg-panel); box-shadow: var(--shadow-sm); }
+        .callout-sunset { border-color: var(--sunset-lt); }
+        .callout-indigo { border-color: var(--indigo); }
+        .callout strong { color: var(--dusk); font-family: var(--font-serif); font-size: 1.15rem; }
+
+        /* ══ INTERACTIVE SPY ══ */
+        .interactive-item { background: var(--bg-panel); border: 1px solid rgba(43,45,66,0.1); border-radius: var(--r-md); padding: 24px; margin-bottom: 16px; transition: all 0.3s; box-shadow: var(--shadow-sm); }
+        .interactive-item:hover { box-shadow: var(--shadow-md); border-color: var(--indigo-lt); }
+        .interactive-item.i-correct { border-color: var(--teal); background: var(--teal-pale); }
+        .interactive-item.i-wrong   { border-color: var(--coral); background: var(--coral-pale); }
+        
+        .wrong-word { 
+            color: #FFFFFF; background: var(--coral); padding: 2px 8px; 
+            border-radius: 4px; cursor: pointer; font-weight: 600; 
+            display: inline-block; transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(229,107,111,0.3);
+        }
+        .wrong-word:hover { transform: scale(1.05); }
+        
+        .spy-input-wrap { background: var(--bg-base); border-radius: var(--r-sm); padding: 16px; border: 1px solid rgba(43,45,66,0.05); margin-top: 16px; display: none; align-items: center; gap: 12px; }
+        .spy-input-wrap input { flex: 1; padding: 10px 16px; border: 1px solid rgba(43,45,66,0.2); border-radius: 6px; font-family: var(--font-ui); font-size: 1rem; color: var(--dusk); outline: none; }
+        .spy-input-wrap input:focus { border-color: var(--indigo-lt); box-shadow: 0 0 0 3px var(--indigo-pale); }
+        .btn-check { background: var(--indigo); color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 6px; font-family: var(--font-ui); font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-check:hover { background: var(--dusk); }
+
+    </style>
+</head>
+<body>
+
+<div id="liveLaserContainer" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:999999;"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+    <a href="#" class="brand">
+        <span contenteditable="true">B2/C1</span><div contenteditable="true">English</div>
+    </a>
+    <ul class="nav-menu" id="navTabsContainer">
+        <li class="nav-item"><a href="#task-1" class="active" contenteditable="true">01. Provocation</a></li>
+        <li class="nav-item"><a href="#task-2" contenteditable="true">02. Lexical Matrix</a></li>
+        <li class="nav-item"><a href="#task-3" contenteditable="true">03. The Case Study</a></li>
+        <li class="nav-item"><a href="#task-4" contenteditable="true">04. Clinical Discussion</a></li>
+        <li class="nav-item"><a href="#task-5" contenteditable="true">05. Grammar I: Cause & Effect</a></li>
+        <li class="nav-item"><a href="#task-6" contenteditable="true">06. Error Spy</a></li>
+        <li class="nav-item"><a href="#task-7" contenteditable="true">07. Academic Reading</a></li>
+        <li class="nav-item"><a href="#task-8" contenteditable="true">08. Grammar II: Cohesion</a></li>
+        <li class="nav-item"><a href="#task-9" contenteditable="true">09. Cohesion Drill</a></li>
+        <li class="nav-item"><a href="#task-10" contenteditable="true">10. Transformations</a></li>
+        <li class="nav-item"><a href="#task-11" contenteditable="true">11. Whiteboard</a></li>
+        <li class="nav-item"><a href="#task-12" contenteditable="true">12. Occupational Health</a></li>
+    </ul>
+    <button class="hw-btn" onclick="openHomework()" contenteditable="true">Homework Assessment</button>
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+    
+    <header class="dashboard-header">
+        <div class="module-badge" contenteditable="true">Lesson 25</div>
+        <h1 class="dashboard-title" contenteditable="true">The Body Under Pressure:<br><em>Stress & Endocrinology</em></h1>
+        <p class="dashboard-desc" contenteditable="true">Explore the physiological cascade of prolonged stress. Master Cause & Effect language and Cohesion devices to articulate complex medical scenarios, differentiating between burnout and endocrine dysfunction.</p>
+    </header>
+
+    <!-- ══════════ TASK 1 — PROVOCATION ══════════ -->
+    <section class="section active" id="task-1">
+        <div class="task-header">
+            <div class="task-num">01</div>
+            <h2 class="task-title" contenteditable="true">The Provocation</h2>
+        </div>
+        
+        <div class="card">
+            <div class="quote-block" contenteditable="true">
+                "We frequently treat physicians for 'burnout' with mindfulness apps and mandatory wellness modules. However, the physical reality is often a dysregulated HPA axis masquerading as a purely psychological crisis."
+            </div>
+        </div>
+
+        <div class="callout callout-sunset">
+            <strong>💬 Discussion:</strong> In your clinical experience, how often are physical symptoms (like extreme fatigue or brain fog) misdiagnosed as purely psychological stress or depression? Where is the line drawn clinically?
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 2 — VOCABULARY ══════════ -->
+    <section class="section" id="task-2">
+        <div class="task-header">
+            <div class="task-num">02</div>
+            <h2 class="task-title" contenteditable="true">Lexical Matrix: Stress & Hormones</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            To discuss the intersection of psychological pressure and endocrine health, you need specific terminology. Hover to view definitions and <strong>Polish translations</strong>.
+        </p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun (phrase)</div><div class="vic-word">Allostatic load</div></div>
+                <div class="vic-def">
+                    The cumulative burden of chronic stress and life events on the body. 
+                    <span class="pl-trans">[PL: obciążenie allostatyczne]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Dysregulation</div></div>
+                <div class="vic-def">
+                    Impairment of a physiological regulatory mechanism (e.g., the nervous system). 
+                    <span class="pl-trans">[PL: dysregulacja / zaburzenie regulacji]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Hypothyroidism</div></div>
+                <div class="vic-def">
+                    A condition where the thyroid gland does not produce enough thyroid hormone. 
+                    <span class="pl-trans">[PL: niedoczynność tarczycy]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun (phrase)</div><div class="vic-word">Insulin resistance</div></div>
+                <div class="vic-def">
+                    When cells don't respond well to insulin and can't easily take up glucose from blood. 
+                    <span class="pl-trans">[PL: insulinooporność]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Rumination</div></div>
+                <div class="vic-def">
+                    Continuously thinking about the same dark, negative thoughts. 
+                    <span class="pl-trans">[PL: ruminacje / natrętne myśli]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">adjective</div><div class="vic-word">Somatic</div></div>
+                <div class="vic-def">
+                    Relating to the body, especially as distinct from the mind. 
+                    <span class="pl-trans">[PL: somatyczny]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Perimenopause</div></div>
+                <div class="vic-def">
+                    The transitional period before menopause, characterized by hormonal fluctuations. 
+                    <span class="pl-trans">[PL: perimenopauza / okres okołomenopauzalny]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun (acronym)</div><div class="vic-word">HRT</div></div>
+                <div class="vic-def">
+                    Hormone Replacement Therapy; used to relieve symptoms of menopause. 
+                    <span class="pl-trans">[PL: HTZ - Hormonalna Terapia Zastępcza]</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 3 — READING 1 ══════════ -->
+    <section class="section" id="task-3">
+        <div class="task-header">
+            <div class="task-num">03</div>
+            <h2 class="task-title" contenteditable="true">Reading: The Case Study</h2>
+        </div>
+
+        <div class="article-body" contenteditable="false">
+            <div class="article-title" contenteditable="true">The Resident Who Couldn't Stop</div>
+            <span class="article-subtitle" contenteditable="true">Burnout, or Something Else?</span>
+            <p>
+                Dr. Ewa, a 38-year-old surgical resident, presented to occupational health with complaints of profound fatigue, unexplained weight gain (6 kg over 3 months), and severe brain fog. She attributed these <span class="vocab-hl">somatic</span> symptoms entirely to burnout, noting that she was working 70-hour weeks and suffering from constant <span class="vocab-hl">rumination</span> regarding patient outcomes.
+            </p>
+            <p>
+                While the psychological burden of her residency was undeniable, her physician suspected a deeper physiological issue. The constant stress of her job had maintained elevated cortisol levels for over two years, creating a significant <span class="vocab-hl">allostatic load</span>. This prolonged HPA axis <span class="vocab-hl">dysregulation</span> can disrupt the thyroid's function. Consequently, blood panels were ordered.
+            </p>
+            <p>
+                The results revealed elevated TSH and low Free T4, confirming <span class="vocab-hl">hypothyroidism</span>. Additionally, her HbA1c indicated early-stage <span class="vocab-hl">insulin resistance</span>. Her fatigue did not stem solely from a lack of rest; it was an endocrine cascade triggered by chronic stress. Treating the psychological burnout without addressing the thyroid would have yielded minimal clinical improvement.
+            </p>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 4 — COMPREHENSION ══════════ -->
+    <section class="section" id="task-4">
+        <div class="task-header">
+            <div class="task-num">04</div>
+            <h2 class="task-title" contenteditable="true">Clinical Discussion</h2>
+        </div>
+
+        <div class="callout callout-indigo">
+            <strong>💬 Discuss with your partner:</strong>
+            <ol style="margin-left:24px; margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+                <li contenteditable="true">How did chronic stress physically manifest in Dr. Ewa's blood panels?</li>
+                <li contenteditable="true">If Dr. Ewa had been 48 instead of 38, how might <em>perimenopause</em> complicate the diagnosis of her symptoms?</li>
+                <li contenteditable="true">In your practice, do you routinely check endocrine markers (like TSH or glucose) when a patient presents with stress or depression?</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 5 — GRAMMAR THEORY 1 (CAUSE & EFFECT) ══════════ -->
+    <section class="section" id="task-5">
+        <div class="task-header">
+            <div class="task-num">05</div>
+            <h2 class="task-title" contenteditable="true">Grammar I: Cause & Effect Language</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            To explain physiological cascades (how one physical event triggers another), B2/C1 speakers use specific verbs and phrases rather than just "because" or "so".
+        </p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Focusing on the RESULT (A causes B)</th>
+                    <th contenteditable="true">Focusing on the CAUSE (B is caused by A)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">
+                        <strong style="color:var(--indigo);">Results in / Leads to</strong><br>
+                        <em>"Elevated cortisol <span class="article-tag">results in</span> sleep disruption."</em><br><br>
+                        <strong style="color:var(--indigo);">Triggers / Induces</strong><br>
+                        <em>"Chronic stress <span class="article-tag">triggers</span> an endocrine cascade."</em><br><br>
+                        <strong style="color:var(--indigo);">Consequently, / Therefore,</strong><br>
+                        <em>"Her TSH was high; <span class="article-tag">consequently,</span> she felt fatigued."</em>
+                    </td>
+                    <td contenteditable="true">
+                        <strong style="color:var(--sunset-lt);">Results from / Stems from</strong><br>
+                        <em>"Her fatigue <span class="article-tag">stems from</span> hypothyroidism."</em><br><br>
+                        <strong style="color:var(--sunset-lt);">Is attributed to / Is due to</strong><br>
+                        <em>"The weight gain <span class="article-tag">is attributed to</span> insulin resistance."</em><br><br>
+                        <strong style="color:var(--sunset-lt);">Is brought on by</strong><br>
+                        <em>"The somatic symptoms <span class="article-tag">were brought on by</span> burnout."</em>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ══════════ TASK 6 — ERROR SPY (CAUSE & EFFECT) ══════════ -->
+    <section class="section" id="task-6">
+        <div class="task-header">
+            <div class="task-num">06</div>
+            <h2 class="task-title" contenteditable="true">Error Spy <em>(Cause & Effect)</em></h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Each sentence contains ONE error related to cause and effect structures. Click the mistake and type the correct form.
+        </p>
+
+        <div id="spyGameL25_1">
+            <!-- 1. attributes to -> is attributed to -->
+            <div class="interactive-item" id="spy25-1">
+                <span style="font-family:var(--font-mono);color:var(--indigo-lt);margin-right:12px;font-weight:700;">01</span>
+                <div style="display:inline-block;flex:1;font-size:1.05rem;">
+                    The patient's sudden onset of severe anxiety <span class="wrong-word" onclick="revealSpy25_1(1)">attributes to</span> the dysregulation of her thyroid hormones.
+                    <div class="spy-input-wrap" id="wrap25-1">
+                        <input id="input25-1" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy25_1(1)">
+                        <button class="btn-check" onclick="checkSpy25_1(1)">Check</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. results from -> results in (or leads to) -->
+            <div class="interactive-item" id="spy25-2">
+                <span style="font-family:var(--font-mono);color:var(--indigo-lt);margin-right:12px;font-weight:700;">02</span>
+                <div style="display:inline-block;flex:1;font-size:1.05rem;">
+                    Working 80 hours a week without adequate rest directly <span class="wrong-word" onclick="revealSpy25_1(2)">results from</span> an immense allostatic load on the body.
+                    <div class="spy-input-wrap" id="wrap25-2">
+                        <input id="input25-2" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy25_1(2)">
+                        <button class="btn-check" onclick="checkSpy25_1(2)">Check</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. stems in -> stems from -->
+            <div class="interactive-item" id="spy25-3">
+                <span style="font-family:var(--font-mono);color:var(--indigo-lt);margin-right:12px;font-weight:700;">03</span>
+                <div style="display:inline-block;flex:1;font-size:1.05rem;">
+                    The difficulty she experiences in losing weight <span class="wrong-word" onclick="revealSpy25_1(3)">stems in</span> the insulin resistance caused by high cortisol.
+                    <div class="spy-input-wrap" id="wrap25-3">
+                        <input id="input25-3" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy25_1(3)">
+                        <button class="btn-check" onclick="checkSpy25_1(3)">Check</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const answersL25_1 = { 1: 'is attributed to', 2: 'results in', 3: 'stems from' };
+            const solvedL25_1 = {};
+            function revealSpy25_1(n) {
+                document.getElementById('wrap25-'+n).style.display = 'flex';
+                document.getElementById('input25-'+n).focus();
+            }
+            function checkSpy25_1(n) {
+                if(solvedL25_1[n]) return;
+                const inp = document.getElementById('input25-'+n).value.trim().toLowerCase();
+                const correct = answersL25_1[n].toLowerCase();
+                const item = document.getElementById('spy25-'+n);
+                
+                // Allow some flexible answers
+                const acceptable = [correct, correct.replace('is ', ''), 'leads to'];
+                
+                if (acceptable.some(a => inp === a || inp.includes(a))) {
+                    item.classList.add('i-correct'); item.classList.remove('i-wrong');
+                    solvedL25_1[n] = true;
+                } else {
+                    item.classList.add('i-wrong'); item.classList.remove('i-correct');
+                }
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ TASK 7 — READING 2 (Academic Text) ══════════ -->
+    <section class="section" id="task-7">
+        <div class="task-header">
+            <div class="task-num">07</div>
+            <h2 class="task-title" contenteditable="true">Reading: Academic Excerpt</h2>
+        </div>
+
+        <div class="article-body" style="border-top-color: var(--teal);" contenteditable="false">
+            <div class="article-title" contenteditable="true">Cortisol & The Menopause Overlap</div>
+            <span class="article-subtitle" contenteditable="true">Extract from Journal of Occupational Endocrinology</span>
+            <p>
+                When a female physician reaches her late forties, <span class="vocab-hl">perimenopause</span> often coincides with peak career demands. During this transitional phase, oestrogen and progesterone fluctuate wildly. <span style="text-decoration:underline; font-weight:bold; color:var(--indigo);">These hormonal shifts</span> frequently mimic the exact <span class="vocab-hl">somatic</span> symptoms of clinical burnout: disrupted sleep, mood swings, and cognitive fatigue. 
+            </p>
+            <p>
+                If a patient presents with these symptoms, a clinician must differentiate between occupational stress and endocrine failure. <span style="text-decoration:underline; font-weight:bold; color:var(--indigo);">The former</span> requires rest and psychological intervention, whereas <span style="text-decoration:underline; font-weight:bold; color:var(--indigo);">the latter</span> may be effectively managed with <span class="vocab-hl">HRT</span>. 
+            </p>
+            <p>
+                Furthermore, prolonged cortisol elevation can exacerbate perimenopausal symptoms. Addressing the burnout without treating the hormonal deficit is inefficient; <span style="text-decoration:underline; font-weight:bold; color:var(--indigo);">doing so</span> leaves the underlying physiological <span class="vocab-hl">dysregulation</span> intact. Patients must be counseled that HRT is not a failure of resilience, but a vital medical tool.
+            </p>
+        </div>
+    </section>
+
+
+  <!-- ══════════ TASK 8 — GRAMMAR 2 (COHESION) ══════════ -->
+    <section class="section" id="task-8">
+        <div class="task-header">
+            <div class="task-num">08</div>
+            <h2 class="task-title" contenteditable="true">Grammar II: Cohesion Devices</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Notice the underlined phrases in the text above. In C1 academic and clinical writing, we avoid repeating words by using **cohesion devices** (reference and substitution).
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+            
+            <div style="background:var(--bg-panel); border:1px solid rgba(43,45,66,0.1); border-radius:var(--r-md); padding:24px; box-shadow:var(--shadow-sm); border-top:4px solid var(--indigo);">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--dusk); margin-bottom:12px;" contenteditable="true">The Former / The Latter</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;" contenteditable="true">Used to refer back to two specific things mentioned previously in the same order.</p>
+                <div style="font-size:0.95rem; font-style:italic; border-left:2px solid var(--indigo); padding-left:12px; color:var(--text-main);" contenteditable="true">
+                    "She suffers from burnout and hypothyroidism. <strong>The former</strong> (burnout) needs rest, while <strong>the latter</strong> (hypothyroidism) needs medication."
+                </div>
+            </div>
+
+            <div style="background:var(--bg-panel); border:1px solid rgba(43,45,66,0.1); border-radius:var(--r-md); padding:24px; box-shadow:var(--shadow-sm); border-top:4px solid var(--teal);">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--dusk); margin-bottom:12px;" contenteditable="true">Doing So / To do so</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;" contenteditable="true">Substitutes an entire action or verb phrase previously mentioned to avoid repetition.</p>
+                <div style="font-size:0.95rem; font-style:italic; border-left:2px solid var(--teal); padding-left:12px; color:var(--text-main);" contenteditable="true">
+                    "We must treat the hormonal deficit. <strong>Doing so</strong> (treating the deficit) will improve her energy."
+                </div>
+            </div>
+
+            <div style="background:var(--bg-panel); border:1px solid rgba(43,45,66,0.1); border-radius:var(--r-md); padding:24px; box-shadow:var(--shadow-sm); border-top:4px solid var(--sunset-lt);">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--dusk); margin-bottom:12px;" contenteditable="true">Such / This / These + Noun</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;" contenteditable="true">Summarizes a complex idea from the previous sentence into a neat category.</p>
+                <div style="font-size:0.95rem; font-style:italic; border-left:2px solid var(--sunset-lt); padding-left:12px; color:var(--text-main);" contenteditable="true">
+                    "Oestrogen and progesterone fluctuate wildly. <strong>These hormonal shifts</strong> mimic burnout."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 9 — COHESION DRILL ══════════ -->
+    <section class="section" id="task-9">
+        <div class="task-header">
+            <div class="task-num">09</div>
+            <h2 class="task-title" contenteditable="true">The Cohesion Drill</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Select the correct cohesion device to seamlessly connect the academic sentences.
+        </p>
+
+        <style>
+            .drill-item { background: var(--bg-panel); padding: 16px 24px; border-radius: var(--r-md); border: 1px solid rgba(43,45,66,0.1); margin-bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 1.05rem; }
+            .drill-btn { background: var(--bg-base); border: 1px solid rgba(43,45,66,0.2); padding: 6px 16px; border-radius: 50px; cursor: pointer; font-family: var(--font-ui); font-weight: 600; color: var(--dusk); transition: all 0.2s; }
+            .drill-btn:hover { background: var(--indigo-pale); border-color: var(--indigo-lt); color: var(--indigo-lt); }
+            .drill-btn.d-correct { background: var(--teal); border-color: var(--teal); color: white; }
+            .drill-btn.d-wrong { background: var(--coral); border-color: var(--coral); color: white; animation: shakeL25 0.4s; }
+            @keyframes shakeL25 { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-4px);} 75% {transform: translateX(4px);} }
+            .drill-text { flex: 1; min-width: 250px; }
+        </style>
+
+        <div id="advDrill">
+            <div class="drill-item">
+                <div class="drill-text" contenteditable="true">1. You can prescribe antidepressants or HRT. However, ________ is much more effective for menopause symptoms.</div>
+                <div>
+                    <button class="drill-btn" onclick="checkDrill(this, false)">doing so</button>
+                    <button class="drill-btn" onclick="checkDrill(this, true)">the latter</button>
+                </div>
+            </div>
+            <div class="drill-item">
+                <div class="drill-text" contenteditable="true">2. The doctor advised taking a month off. ________ allowed the patient's cortisol levels to normalize.</div>
+                <div>
+                    <button class="drill-btn" onclick="checkDrill(this, true)">Doing so</button>
+                    <button class="drill-btn" onclick="checkDrill(this, false)">The former</button>
+                </div>
+            </div>
+            <div class="drill-item">
+                <div class="drill-text" contenteditable="true">3. Cortisol acts on the brain and the liver. In ________, it triggers gluconeogenesis to increase blood sugar.</div>
+                <div>
+                    <button class="drill-btn" onclick="checkDrill(this, true)">the latter</button>
+                    <button class="drill-btn" onclick="checkDrill(this, false)">such organs</button>
+                </div>
+            </div>
+            <div class="drill-item">
+                <div class="drill-text" contenteditable="true">4. The patient experienced night sweats, mood swings, and weight gain. ________ symptoms strongly suggested perimenopause.</div>
+                <div>
+                    <button class="drill-btn" onclick="checkDrill(this, false)">The former</button>
+                    <button class="drill-btn" onclick="checkDrill(this, true)">Such</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 10 — TRANSFORMATIONS ══════════ -->
+    <section class="section" id="task-10">
+        <div class="task-header">
+            <div class="task-num">10</div>
+            <h2 class="task-title" contenteditable="true">Transformations <em>(Cause & Cohesion)</em></h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Rewrite the sentence so that it means exactly the same thing, using the bold word provided.
+        </p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:4px;">Her constant fatigue is caused by early-stage insulin resistance. <strong>(ATTRIBUTED)</strong></div>
+                <div contenteditable="true">Her constant fatigue <span class="blank-input" style="min-width:250px;"></span> early-stage insulin resistance.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:4px;">If we ignore the thyroid issue, it will prolong her recovery time. <strong>(DOING)</strong></div>
+                <div contenteditable="true">We shouldn't ignore the thyroid issue, as <span class="blank-input" style="min-width:250px;"></span> prolong her recovery time.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:4px;">The high cortisol causes severe sleep dysregulation. <strong>(RESULTS)</strong></div>
+                <div contenteditable="true">The high cortisol <span class="blank-input" style="min-width:250px;"></span> severe sleep dysregulation.</div>
+            </li>
+        </ul>
+    </section>
+
+
+    <!-- ══════════ TASK 11 — WHITEBOARD ══════════ -->
+    <section class="section" id="task-11">
+        <div class="task-header">
+            <div class="task-num">11</div>
+            <h2 class="task-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        </div>
+
+        <div style="border:1px solid rgba(43,45,66,0.1); border-radius:var(--r-lg); background:#FFFFFF; overflow:hidden; box-shadow:var(--shadow-lg);">
+            <div style="background:var(--dusk); padding:12px 20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent; border:1px solid var(--indigo-lt); color:var(--indigo-lt); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent; border:1px solid var(--indigo-pale); color:var(--indigo-pale); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent; border:1px solid var(--indigo-pale); color:var(--indigo-pale); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Text</button>
+                <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#5E548E" style="width:32px; height:32px; border:none; cursor:pointer; background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto; background:var(--coral); color:#FFFFFF; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block; width:100%; height:500px; cursor:crosshair;"></canvas>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 12 — FINAL ROLE-PLAY ══════════ -->
+    <section class="section" id="task-12">
+        <div class="task-header">
+            <div class="task-num">12</div>
+            <h2 class="task-title" contenteditable="true">The <em>Occupational Health Consult</em></h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Apply today's vocabulary and grammar in a clinical roleplay differentiating psychological burnout from physical endocrine issues.
+        </p>
+
+        <div style="background:var(--bg-panel); border:1px solid rgba(43,45,66,0.1); border-radius:var(--r-lg); padding:40px; box-shadow:var(--shadow-md);">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                
+                <div style="background:var(--indigo-pale); padding:24px; border-left:4px solid var(--indigo); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--indigo); margin-bottom:8px;" contenteditable="true">Role A: The Occupational Health Doctor</h3>
+                    <p style="color:var(--text-main); font-size:1rem;" contenteditable="true">
+                        Your colleague (Role B) has come to you claiming they are severely burnt out and need antidepressants. Based on their blood work and age, you suspect their symptoms <strong>stem from</strong> perimenopause and an <strong>allostatic load</strong> affecting their thyroid. You need to counsel them on the benefits of <strong>HRT</strong> and rest.<br><br>
+                        <strong>Grammar Target:</strong> Use Cause & Effect language ("results in", "is attributed to") and Cohesion ("doing so").
+                    </p>
+                </div>
+
+                <div style="text-align:center; color:var(--text-muted); font-size:1.5rem;">⬇</div>
+
+                <div style="background:var(--sunset-pale); padding:24px; border-left:4px solid var(--sunset-lt); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--sunset-lt); margin-bottom:8px;" contenteditable="true">Role B: The "Burnt-Out" Colleague</h3>
+                    <p style="color:var(--text-main); font-size:1rem;" contenteditable="true">
+                        You are convinced your fatigue and <strong>rumination</strong> are purely psychological due to 80-hour work weeks. You are dismissive of the idea that this is hormonal (perimenopause or thyroid) and resistant to taking HRT, seeing it as a sign of weakness.<br><br>
+                        <strong>Vocabulary Target:</strong> Use words like <em>somatic, dysregulation, insulin resistance</em>.
+                    </p>
+                </div>
+
+                <div style="text-align:center; color:var(--text-muted); font-size:1.5rem;">⬇</div>
+
+                <div style="background:var(--bg-card); border:1px dashed var(--text-muted); padding:24px; border-radius:var(--r-sm); text-align:center;">
+                    <h3 style="font-family:var(--font-serif); color:var(--dusk); margin-bottom:8px;" contenteditable="true">The Goal</h3>
+                    <p style="color:var(--text-muted); font-size:1rem;" contenteditable="true">Reach a consensus on a treatment plan that addresses both the psychological stress and the physical endocrine dysfunction.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ══════════ HOMEWORK PORTAL (HIDDEN BY DEFAULT) ══════════ -->
+<div id="homework-portal" style="display: none; position: fixed; inset: 0; background: var(--bg-base); z-index: 500; overflow-y: auto; padding: 40px;">
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; margin-top: 10vh;">
+            <div class="module-badge" style="background:var(--indigo-pale);color:var(--indigo);">Homework Assessment</div>
+            <h2 class="dashboard-title">Lesson 25 Test</h2>
+            <p style="color:var(--text-muted); margin-bottom:30px; font-size:1.1rem;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong>. <br>
+                <span style="color:var(--coral);">Anti-Cheat:</span> Leaving this tab twice will terminate your test automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter your full name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--bg-panel);border:1px solid rgba(43,45,66,0.1);color:var(--dusk);border-radius:8px;margin-bottom:24px;outline:none;">
+            <br>
+            <button onclick="startHW()" style="background:var(--indigo);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 10px 25px rgba(94, 84, 142, 0.3);transition:transform 0.2s;">Begin Test</button>
+            <button onclick="closeHomework()" style="background:transparent;color:var(--text-muted);border:none;display:block;margin:20px auto;cursor:pointer;">Cancel & Return</button>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <span style="font-family:var(--font-mono); color:var(--dusk); font-weight:700;" id="hwQuestionCounter">Question 1 / 10</span>
+                <div style="font-family:var(--font-mono); color:var(--coral); background:rgba(229,107,111,0.1); padding:8px 16px; border-radius:8px; border:1px solid rgba(229,107,111,0.3); font-weight:700;">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:8px; background:var(--bg-panel); border-radius:4px; overflow:hidden; margin-bottom:40px; border:1px solid rgba(43,45,66,0.05);">
+                <div id="hwProgressFill" style="height:100%; background:var(--indigo); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border:1px solid rgba(43,45,66,0.1); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:700; margin-bottom:30px; line-height:1.5; color:var(--dusk); font-family:var(--font-serif);">Loading question...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--text-muted); border:1px solid rgba(43,45,66,0.2); padding:12px 24px; border-radius:50px; cursor:pointer; transition:all 0.2s;">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div id="hw-pdf-content" style="background:var(--bg-base); padding:20px;">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 class="dashboard-title" style="font-size:2.5rem;">Test Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--text-muted);"></p>
+                </div>
+
+                <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border-top:4px solid var(--teal); text-align:center; margin-bottom:40px; box-shadow:var(--shadow-sm);">
+                    <div style="font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Final Score</div>
+                    <div id="hwScoreDetail" style="font-size:4rem; font-weight:700; color:var(--dusk); margin:10px 0; font-family:var(--font-serif);">0/10</div>
+                    <div id="hwTerminationReason" style="font-weight:700;"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--teal); color:white; border:none; padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Download PDF</button>
+                <button onclick="closeHomework()" style="background:transparent; color:var(--dusk); border:1px solid var(--dusk); padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Exit Portal</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:var(--coral);color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-md); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--dusk);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(43,45,66,0.4); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(66,85,255,0.4); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--indigo);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(94, 84, 142, 0.4); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<!-- Local Laser Cursor -->
+<div id="myLocalLaser" style="display:none; position:fixed; width:12px; height:12px; background:red; border-radius:50%; box-shadow:0 0 15px 5px rgba(255,0,0,0.8); pointer-events:none; z-index:1000000; transform:translate(-50%,-50%);"></div>
+
+<!-- Admin Modal -->
+<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(43,45,66,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;border:1px solid rgba(43,45,66,0.1);box-shadow:var(--shadow-lg);">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:10px; font-family:var(--font-serif); color:var(--dusk);">Teacher Dashboard</h2>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Review recent submissions.</p>
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead style="background:var(--dusk);color:#FFFFFF;font-family:var(--font-mono);font-size:0.85rem;">
+                <tr><th style="padding:12px;">Date</th><th style="padding:12px;">Student</th><th style="padding:12px;">Score</th><th style="padding:12px;">Status</th></tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+        </table>
+        <button style="background:transparent;color:var(--coral);border:1px solid var(--coral);padding:10px 20px;border-radius:50px;margin-top:20px;cursor:pointer;font-weight:600;" onclick="clearData()">Clear Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(43,45,66,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:600px;border:1px solid rgba(43,45,66,0.1);box-shadow:var(--shadow-lg);">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:8px; font-family:var(--font-serif); color:var(--dusk);">Quizlet Exporter</h2>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-top:24px;">
+            <div style="display:flex;gap:12px;">
+                <input type="text" placeholder="Term (e.g. Allostatic Load)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(43,45,66,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">
+                <input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(43,45,66,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" style="flex:1;background:var(--bg-card);color:var(--dusk);border:1px solid rgba(43,45,66,0.1);padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2;background:#4255FF;color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // ─── NAV LOGIC & TAB SWITCHING ───
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick') && !e.target.classList.contains('hw-btn')) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                const el = document.querySelector(id);
+                if (el) el.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+    });
+
+    // ─── GENERAL UI LOGIC ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(159, 134, 192, 0.25)'); // Indigo highlight
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById('task-11');
+        if(el) {
+            el.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    };
+
+    // ─── QUIZLET & ADMIN MODALS ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(43,45,66,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(43,45,66,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){ navigator.clipboard.writeText(out).then(()=>{ btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }); } 
+        else { btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#5E548E', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--indigo-pale)'; b.style.color='var(--indigo-pale)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--indigo-lt)'; btn.style.color='var(--indigo-lt)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Figtree', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "Her extreme fatigue is directly ___ to her dysregulated thyroid.", options: ["attributed", "resulted", "stemmed", "induced"], correct: 0 },
+        { text: "Prolonged stress ___ an increased allostatic load.", options: ["stems from", "results in", "brings on by", "is due to"], correct: 1 },
+        { text: "The term for when cells don't respond well to insulin is ___.", options: ["insulin resistance", "hypothyroidism", "somatic dysregulation", "HRT"], correct: 0 },
+        { text: "She needed therapy and HRT. ___ helped her mental state, while the latter fixed her hormones.", options: ["Doing so", "Such", "The former", "This"], correct: 2 },
+        { text: "Continuously thinking about negative clinical outcomes is called ___.", options: ["dysregulation", "rumination", "somatic load", "perimenopause"], correct: 1 },
+        { text: "We must manage her cortisol levels. ___ will prevent further endocrine issues.", options: ["The former", "Such symptoms", "Doing so", "Resulting in"], correct: 2 },
+        { text: "Her sudden weight gain ___ from untreated hypothyroidism.", options: ["results", "attributes", "leads", "stems"], correct: 3 },
+        { text: "The physical symptoms (like headaches) are often described as ___.", options: ["rumination", "somatic", "allostatic", "endocrine"], correct: 1 },
+        { text: "The period characterized by hormonal fluctuations before menopause is ___.", options: ["hypothyroidism", "perimenopause", "insulin resistance", "HRT"], correct: 1 },
+        { text: "Elevated cortisol ___ severe sleep dysregulation.", options: ["is due to", "stems from", "leads to", "is attributed to"], correct: 2 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 10 * 60, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    window.openHomework = () => {
+        document.querySelector('.main-content').style.display = 'none';
+        document.getElementById('homework-portal').style.display = 'block';
+    };
+
+    window.closeHomework = () => {
+        document.querySelector('.main-content').style.display = 'block';
+        document.getElementById('homework-portal').style.display = 'none';
+        if(isTestActive) endHWQuiz(true, "Terminated (Manually Exited)");
+    };
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else alert("WARNING: Do not leave the test tab.");
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = [];
+        cheatWarnings = 0; timeLeft = 10 * 60; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5);
+        
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 10) { endHWQuiz(false, "Completed Successfully"); return; }
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 10`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 10) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:var(--bg-card);border:1px solid rgba(43,45,66,0.1);padding:16px 24px;text-align:left;font-family:var(--font-ui);font-size:1.05rem;color:var(--dusk);border-radius:8px;cursor:pointer;transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "rgba(94, 84, 142, 0.1)";
+            btn.onmouseout = () => btn.style.background = "var(--bg-card)";
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: currentQuestionObj.options[currentQuestionObj.correct], isCorrect: isCorrect });
+        if (isCorrect) score++;
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerText = `Status: ${statusMsg}`;
+        if(forcedExit) document.getElementById('hwTerminationReason').style.color = "var(--coral)";
+        else document.getElementById('hwTerminationReason').style.color = "var(--teal)";
+
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = `padding:20px; border:1px solid rgba(43,45,66,0.05); border-left:4px solid ${item.isCorrect ? 'var(--teal)' : 'var(--coral)'}; background:var(--bg-panel); border-radius:8px;`;
+            div.innerHTML = `<div style="font-size:1.1rem;font-weight:600;margin-bottom:10px;font-family:var(--font-serif);color:var(--dusk);">${index + 1}. ${item.text}</div><div style="font-size:0.95rem;color:var(--text-muted);">Your answer: <span style="color:${item.isCorrect ? 'var(--teal)' : 'var(--coral)'};font-weight:700;">${item.userAns}</span></div>${!item.isCorrect ? `<div style="font-size:0.95rem;color:var(--text-muted);">Correct answer: <span style="color:var(--teal);font-weight:700;">${item.correctAns}</span></div>` : ''}`;
+            grid.appendChild(div);
+        });
+
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-results').style.display='block';
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function downloadHWPDF() {
+        const element = document.getElementById('hw-pdf-content');
+        const opt = { margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L25_Homework.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, backgroundColor: '#F7F7F9' }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson25HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson25HomeworkData', JSON.stringify(results));
+    }
+
+    // ─── ADMIN DASHBOARD ───
+    window.openAdmin = () => {
+        const results = JSON.parse(localStorage.getItem('lesson25HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='padding:12px;text-align:center;'>No submissions.</td></tr>";
+        else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="padding:12px;border-bottom:1px solid rgba(43,45,66,0.05);">${r.date}</td><td style="padding:12px;border-bottom:1px solid rgba(43,45,66,0.05);font-weight:700;color:var(--dusk);">${r.name}</td><td style="padding:12px;border-bottom:1px solid rgba(43,45,66,0.05);font-family:var(--font-mono);">${r.score}/${r.total}</td><td style="padding:12px;border-bottom:1px solid rgba(43,45,66,0.05);color:${r.status.includes('Completed') ? 'var(--teal)' : 'var(--coral)'};">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    };
+    window.closeAdmin = () => document.getElementById('adminModal').style.display = 'none';
+    window.clearData = () => { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson25HomeworkData'); openAdmin(); } };
+
+</script>
+
+<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'medical-b2c1-lesson25-endo-stress-v1';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(43,45,66,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(94,84,142,0.3); font-family:var(--font-ui);";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--indigo-lt);border-radius:50%;box-shadow:0 0 8px var(--indigo-lt);"></span><span id="syncText">Connecting Session...</span>`;
+    document.body.appendChild(statusDiv);
+
+    function setStatus(t,c){document.getElementById('syncText').innerText=t; document.getElementById('syncDot').style.background=c; document.getElementById('syncDot').style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Doc';
+
+    // LASER POINTER STATE
+    let myLaserMode = false;
+    const localLaser = document.getElementById('myLocalLaser');
+    window.toggleLaser = function() {
+        myLaserMode = !myLaserMode;
+        const btn = document.getElementById('laserBtn');
+        if(myLaserMode) {
+            document.body.classList.add('laser-active');
+            btn.style.boxShadow = "0 0 20px 5px rgba(239,68,68,0.8)";
+            localLaser.style.display = 'block';
+        } else {
+            document.body.classList.remove('laser-active');
+            btn.style.boxShadow = "var(--shadow-md)";
+            localLaser.style.display = 'none';
+        }
+    };
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#E56B6F'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Doc '+(snap.size+1);
+                setStatus('Session Active 🌙','#5E548E');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Doc '+(Math.floor(Math.random()*99)+1);
+                setStatus('Session Active 🌙','#5E548E');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#E56B6F');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveLaserContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{
+            if(myLaserMode) {
+                localLaser.style.left = e.clientX + 'px';
+                localLaser.style.top = e.clientY + 'px';
+            }
+            if(!currentUser) return;
+            setDoc(myRef,{
+                xOffset: e.pageX - window.innerWidth/2, 
+                y: e.pageY, 
+                color: myCursorColor, 
+                name: myCursorName, 
+                isLaser: myLaserMode,
+                timestamp: Date.now()
+            });
+        }, 30));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el = document.createElement('div');
+                    el.id = 'cursor-'+id;
+                    el.style.position = 'absolute'; el.style.pointerEvents = 'none'; el.style.zIndex = '999999';
+                    el.style.transition = 'top 0.1s linear, left 0.1s linear';
+                    container.appendChild(el);
+                }
+
+                if (data.isLaser) {
+                    el.innerHTML = `
+                        <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(255,0,0,0.8);color:white;font-size:0.75rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;font-family:var(--font-mono);">${data.name}</div>
+                    `;
+                } else {
+                    el.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+                        <div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-ui);box-shadow:0 2px 6px rgba(0,0,0,0.2);">${data.name}</div>
+                    `;
+                }
+                
+                el.style.left = (window.innerWidth/2 + data.xOffset) + 'px';
+                el.style.top = data.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
