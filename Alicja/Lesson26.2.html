@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 26: B2-C1 | The Relationship Audit</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Matcha & Mocha Theme: Organic, warm, conversation-focused */
+            --bg-base:    #F5F4F1; 
+            --bg-panel:   #FFFFFF;
+            --bg-card:    #FCFBF9;
+            
+            --dusk:       #3A3532; /* Espresso */
+            --indigo:     #6A7B62; /* Matcha Green */
+            --indigo-lt:  #8C9E82;
+            --indigo-pale:#EEF1EC;
+            
+            --sunset:     #C97A63; /* Warm Terracotta */
+            --sunset-lt:  #DDA77B; 
+            --sunset-pale:#FDF6F2;
+            
+            --coral:      #D95D41; 
+            --coral-pale: #FCECE9;
+            
+            --teal:       #5C8286; 
+            --teal-pale:  #EAF1F2;
+            
+            --text-main:  #2B2A29;
+            --text-muted: #75726F;
+            
+            --font-ui:    'Figtree', sans-serif;
+            --font-serif: 'Crimson Pro', serif;
+            --font-mono:  'Fira Code', monospace;
+            
+            --shadow-sm:  0 4px 12px rgba(58, 53, 50, 0.05);
+            --shadow-md:  0 8px 24px rgba(58, 53, 50, 0.08);
+            --shadow-lg:  0 16px 40px rgba(58, 53, 50, 0.12);
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.laser-active { cursor: crosshair !important; }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px; transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(106, 123, 98, 0.08); }
+        [contenteditable="true"]:focus { background: rgba(106, 123, 98, 0.12); box-shadow: 0 0 0 2px var(--indigo-lt); }
+
+        /* ══ SIDEBAR ══ */
+        .sidebar {
+            width: 280px; background: var(--dusk); border-right: 1px solid rgba(255,255,255,0.05);
+            position: fixed; height: 100vh; top: 0; left: 0; display: flex; flex-direction: column;
+            padding: 30px 20px; z-index: 100; overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        .brand {
+            font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--indigo-pale);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 30px; text-decoration: none;
+        }
+        .brand span { color: var(--sunset-lt); font-style: italic; }
+
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+        .nav-item a {
+            display: flex; align-items: center; padding: 10px 14px;
+            text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 500; font-size: 0.95rem;
+            border-radius: var(--r-sm); transition: all 0.2s;
+        }
+        .nav-item a:hover, .nav-item a.active {
+            background: rgba(201, 122, 99, 0.2); color: #FFFFFF;
+        }
+        .nav-item a.active { border-left: 3px solid var(--sunset); font-weight: 600; }
+        
+        .hw-btn {
+            margin-top: 24px; background: rgba(255,255,255,0.03); color: var(--sunset-lt);
+            border: 1px solid rgba(221, 167, 123, 0.4); padding: 12px; text-align: center;
+            border-radius: var(--r-md); font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .hw-btn:hover { background: var(--sunset); color: #FFF; box-shadow: 0 0 15px rgba(201, 122, 99, 0.4); border-color: var(--sunset); }
+
+        /* ══ MAIN CONTENT ══ */
+        .main-content {
+            margin-left: 280px; flex: 1; padding: 60px; max-width: 1100px;
+        }
+
+        .dashboard-header { margin-bottom: 50px; border-bottom: 2px solid rgba(58, 53, 50, 0.08); padding-bottom: 30px; }
+        .module-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+            color: var(--sunset); background: var(--sunset-pale); border: 1px solid rgba(201, 122, 99, 0.2);
+            padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;
+            text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+        }
+        .dashboard-title {
+            font-family: var(--font-serif); font-size: clamp(3rem, 5vw, 4rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 16px; color: var(--dusk);
+        }
+        .dashboard-title em { color: var(--indigo); }
+        .dashboard-desc { font-size: 1.15rem; color: var(--text-muted); max-width: 700px; line-height: 1.6; }
+
+        /* ══ SECTIONS & TASKS ══ */
+        .section { display: none; animation: fadeIn 0.4s ease-out; margin-bottom: 60px; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .task-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .task-num {
+            font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+            color: #FFFFFF; background: var(--dusk);
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px; box-shadow: 0 4px 10px rgba(58, 53, 50, 0.2);
+        }
+        .task-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--dusk); }
+
+        /* ══ UI CARDS & TYPOGRAPHY ══ */
+        .card {
+            background: var(--bg-panel); border: 1px solid rgba(58, 53, 50, 0.05);
+            border-radius: var(--r-lg); padding: 32px; margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quote-block {
+            font-family: var(--font-serif); font-size: 1.5rem; color: var(--dusk);
+            font-style: italic; padding-left: 24px; border-left: 4px solid var(--indigo);
+            margin-bottom: 20px; line-height: 1.5;
+        }
+
+        /* ══ DISCUSSION CALLOUTS ══ */
+        .discussion-box {
+            background: var(--indigo-pale); border-left: 6px solid var(--indigo);
+            padding: 24px 32px; border-radius: var(--r-md); margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        .discussion-box h3 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--dusk); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .discussion-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .discussion-list li { position: relative; padding-left: 24px; font-size: 1.1rem; color: var(--text-main); }
+        .discussion-list li::before { content: "💬"; position: absolute; left: 0; top: 2px; font-size: 0.9rem; }
+
+        /* ══ VOCABULARY GRID ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px;}
+        .vocab-card {
+            background: var(--bg-card); border-radius: var(--r-md); padding: 24px;
+            border: 1px solid rgba(58, 53, 50, 0.05); position: relative; overflow: hidden;
+            transition: all 0.3s ease; cursor: default; min-height: 140px; display: flex; flex-direction: column; justify-content: center;
+        }
+        .vocab-card:hover { border-color: var(--sunset); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        
+        .vic-front { position: absolute; inset: 0; padding: 24px; display: flex; flex-direction: column; justify-content: center; transition: opacity 0.3s; pointer-events: none; background: var(--bg-card); }
+        .vocab-card:hover .vic-front { opacity: 0; }
+        .vic-pos { font-family: var(--font-mono); font-size: 0.75rem; color: var(--sunset); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; }
+        .vic-word { font-family: var(--font-serif); font-size: 1.5rem; color: var(--dusk); font-weight: 700; }
+        
+        .vic-def {
+            position: absolute; inset: 0; padding: 24px;
+            background: var(--dusk); color: #FFFFFF;
+            font-size: 0.95rem; line-height: 1.5; display: flex; flex-direction: column; justify-content: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: var(--r-md); z-index: 2;
+        }
+        .vocab-card:hover .vic-def { opacity: 1; }
+        .pl-trans { display: block; margin-top: 8px; color: var(--sunset-lt); font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ══ READING TEXT ══ */
+        .article-body {
+            font-size: 1.15rem; line-height: 1.9; color: var(--text-main);
+            background: var(--bg-panel); padding: 40px 48px; border-radius: var(--r-lg);
+            border-top: 6px solid var(--indigo); box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+        }
+        .article-body p { margin-bottom: 20px; }
+        .article-body p:last-child { margin-bottom: 0; }
+        .article-title { font-family: var(--font-serif); font-size: 2.2rem; color: var(--dusk); margin-bottom: 8px; font-weight: 700; line-height: 1.2; }
+        .article-subtitle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 32px; display: block; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 16px; }
+        
+        .vocab-hl {
+            color: var(--sunset); font-weight: 600; background: var(--sunset-pale);
+            padding: 2px 6px; border-radius: 4px; cursor: help; transition: all 0.2s;
+        }
+        .vocab-hl:hover { background: var(--sunset); color: white; }
+
+        /* ══ GRAMMAR TABLES ══ */
+        .grammar-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); border: 1px solid rgba(58,53,50,0.1); border-radius: var(--r-md); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-sm); }
+        .grammar-table th { background: var(--dusk); color: #FFFFFF; padding: 16px 20px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-align: left; }
+        .grammar-table td { padding: 16px 20px; border-bottom: 1px solid rgba(58,53,50,0.1); font-size: 1.05rem; color: var(--text-main); vertical-align: top; line-height: 1.6; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: var(--bg-card); }
+
+        .article-tag { display: inline-block; background: var(--indigo-pale); color: var(--indigo); border: 1px solid rgba(106, 123, 98, 0.3); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 700; font-size: 0.9rem; margin-top: 4px;}
+
+        /* ══ INTERACTIVE TRANSLATOR ══ */
+        .gossip-card {
+            background: var(--bg-panel); border: 1px solid rgba(58,53,50,0.1); border-radius: var(--r-md); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow-sm);
+        }
+        .gossip-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; color: var(--coral); font-style: italic; margin-bottom: 16px; border-left: 4px solid var(--coral); padding-left: 16px;
+        }
+        .translation-btn {
+            background: var(--dusk); color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 6px; font-family: var(--font-ui); font-weight: 600; cursor: pointer; transition: background 0.2s;
+        }
+        .translation-btn:hover { background: var(--indigo); }
+        .clinical-translation {
+            margin-top: 16px; padding: 16px; background: var(--indigo-pale); border-radius: var(--r-sm); color: var(--dusk); font-size: 1.1rem; display: none; font-weight: 500; border: 1px dashed var(--indigo-lt);
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="liveLaserContainer" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:999999;"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+    <a href="#" class="brand">
+        <span contenteditable="true">B2/C1</span><div contenteditable="true">English</div>
+    </a>
+    <ul class="nav-menu" id="navTabsContainer">
+        <li class="nav-item"><a href="#task-1" class="active" contenteditable="true">01. The Audit</a></li>
+        <li class="nav-item"><a href="#task-2" contenteditable="true">02. Lexical Matrix</a></li>
+        <li class="nav-item"><a href="#task-3" contenteditable="true">03. The Pop-Psych Debate</a></li>
+        <li class="nav-item"><a href="#task-4" contenteditable="true">04. Grammar: Passive Voice</a></li>
+        <li class="nav-item"><a href="#task-5" contenteditable="true">05. Grammar: Reported Speech</a></li>
+        <li class="nav-item"><a href="#task-6" contenteditable="true">06. The Gossip Translator</a></li>
+        <li class="nav-item"><a href="#task-7" contenteditable="true">07. Micro-Case Studies</a></li>
+        <li class="nav-item"><a href="#task-8" contenteditable="true">08. The Breakup Roleplay</a></li>
+        <li class="nav-item"><a href="#task-9" contenteditable="true">09. Teacher's Whiteboard</a></li>
+    </ul>
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+    
+    <header class="dashboard-header">
+        <div class="module-badge" contenteditable="true">Lesson 26</div>
+        <h1 class="dashboard-title" contenteditable="true">The Relationship Audit:<br><em>What We Expect From Others</em></h1>
+        <p class="dashboard-desc" contenteditable="true">Explore the psychology of connection, attachment styles, and why some friendships expire. Master advanced grammar by fully exploring Passive Voice and Reported Speech to de-escalate conflict.</p>
+    </header>
+
+    <!-- ══════════ TASK 1 — THE AUDIT (PROVOCATION) ══════════ -->
+    <section class="section active" id="task-1">
+        <div class="task-header">
+            <div class="task-num">01</div>
+            <h2 class="task-title" contenteditable="true">The Audit</h2>
+        </div>
+        
+        <div class="card" style="border-top: 4px solid var(--sunset);">
+            <div class="quote-block" contenteditable="true">
+                "We are the average of the five people we spend the most time with. Yet, we rarely audit those relationships to see if they are rooted in genuine connection, or merely shared history and obligation."
+            </div>
+        </div>
+
+        <div class="discussion-box">
+            <h3 contenteditable="true">The Hot Seat</h3>
+            <ul class="discussion-list">
+                <li contenteditable="true">Mentally map your 5 closest relationships (friends, family, colleagues). How many of them are maintained out of habit rather than active, mutual growth?</li>
+                <li contenteditable="true">What is the difference between a "low maintenance" friendship and a "neglected" one?</li>
+                <li contenteditable="true">Have you ever realized that <em>you</em> might be the toxic friend in a specific dynamic?</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 2 — VOCABULARY ══════════ -->
+    <section class="section" id="task-2">
+        <div class="task-header">
+            <div class="task-num">02</div>
+            <h2 class="task-title" contenteditable="true">Lexical Matrix: Psychology of Connection</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            To discuss relationship dynamics at a C1 level, you need psychological vocabulary. Hover to view definitions and <strong>Polish translations</strong>.
+        </p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Attachment</div></div>
+                <div class="vic-def">
+                    The emotional bond between individuals (often categorized as secure, anxious, or avoidant). 
+                    <span class="pl-trans">[PL: przywiązanie]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Reciprocity</div></div>
+                <div class="vic-def">
+                    The practice of exchanging things with others for mutual benefit; a balanced give-and-take. 
+                    <span class="pl-trans">[PL: wzajemność]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Enmeshment</div></div>
+                <div class="vic-def">
+                    A relationship lacking boundaries, where individuals are overly involved in each other's lives. 
+                    <span class="pl-trans">[PL: uwikłanie]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Codependency</div></div>
+                <div class="vic-def">
+                    Excessive emotional or psychological reliance on a partner, often one who requires support. 
+                    <span class="pl-trans">[PL: współuzależnienie]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Attrition</div></div>
+                <div class="vic-def">
+                    The gradual reduction of strength or effectiveness (e.g., a friendship fading over time). 
+                    <span class="pl-trans">[PL: wykruszanie się / wyczerpanie]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">adjective</div><div class="vic-word">Platonic</div></div>
+                <div class="vic-def">
+                    An intimate and affectionate relationship that is not romantic or sexual. 
+                    <span class="pl-trans">[PL: platoniczny]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Vulnerability</div></div>
+                <div class="vic-def">
+                    The state of being exposed to the possibility of being attacked or harmed, emotionally. 
+                    <span class="pl-trans">[PL: wrażliwość / podatność na zranienie]</span>
+                </div>
+            </div>
+            <div class="vocab-card">
+                <div class="vic-front"><div class="vic-pos">noun</div><div class="vic-word">Disenchantment</div></div>
+                <div class="vic-def">
+                    A feeling of disappointment about someone or something you previously respected or admired. 
+                    <span class="pl-trans">[PL: rozczarowanie / odczarowanie]</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="discussion-box" style="background: var(--sunset-pale); border-color: var(--sunset);">
+            <h3 contenteditable="true" style="color: var(--sunset);">Application</h3>
+            <ul class="discussion-list">
+                <li contenteditable="true">Can a lack of <strong>reciprocity</strong> destroy a <strong>platonic</strong> relationship just as easily as a romantic one? Give an example.</li>
+                <li contenteditable="true">What is the danger of <strong>enmeshment</strong> in the workplace?</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 3 — DEBATE READING ══════════ -->
+    <section class="section" id="task-3">
+        <div class="task-header">
+            <div class="task-num">03</div>
+            <h2 class="task-title" contenteditable="true">The Pop-Psych Debate</h2>
+        </div>
+
+        <div class="article-body" contenteditable="false">
+            <div class="article-title" contenteditable="true">Are "Love Languages" Ruining Us?</div>
+            <span class="article-subtitle" contenteditable="true">The weaponization of therapy speak</span>
+            <p>
+                In recent years, it has been widely <span class="vocab-hl">claimed</span> that understanding "The 5 Love Languages" (Acts of Service, Words of Affirmation, Quality Time, Gifts, Physical Touch) is the key to relationship survival. However, many clinical psychologists are now pushing back. 
+            </p>
+            <p>
+                Therapists report that this framework is increasingly being weaponized. Rather than fostering <span class="vocab-hl">vulnerability</span>, patients use their "love language" as a rigid demand. For example, a partner might say, <em>"You aren't buying me gifts, and since that is my love language, you are failing me."</em> It is argued that this creates an environment of entitlement rather than <span class="vocab-hl">reciprocity</span>.
+            </p>
+            <p>
+                Similarly, the concept of <span class="vocab-hl">attachment</span> styles (anxious, avoidant, secure) is frequently misused. Individuals diagnose their friends and partners, using these labels to excuse their own <span class="vocab-hl">codependency</span> or to justify ending a relationship prematurely due to minor <span class="vocab-hl">disenchantment</span>. Are we over-analyzing our connections to the point of <span class="vocab-hl">attrition</span>?
+            </p>
+        </div>
+
+        <div class="discussion-box">
+            <h3 contenteditable="true">Debate Room</h3>
+            <ul class="discussion-list">
+                <li contenteditable="true">Do you agree that therapy concepts (like love languages and attachment styles) are being "weaponized" in everyday arguments?</li>
+                <li contenteditable="true">Is it helpful to label a friend as "avoidant", or does it just put them in a box?</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 4 — GRAMMAR 1: PASSIVE VOICE ══════════ -->
+    <section class="section" id="task-4">
+        <div class="task-header">
+            <div class="task-num">04</div>
+            <h2 class="task-title" contenteditable="true">Grammar Masterclass: Passive Voice</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            When we discuss relationship conflicts, using the Active Voice can sound highly accusatory ("You ruined the friendship"). Using the <strong>Passive Voice</strong> allows us to distance ourselves, speak objectively, and de-escalate tension.
+        </p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Concept & Usage</th>
+                    <th contenteditable="true">Rules & Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="color:var(--indigo);" contenteditable="true">1. Avoiding Blame (Distancing)</strong><br><span style="font-size:0.85rem;color:var(--text-muted);">Removing the 'Agent'</span></td>
+                    <td contenteditable="true">
+                        Instead of attacking the person, focus on the action that occurred. <br><br>
+                        <em>Aggressive (Active):</em> "You broke my trust."<br>
+                        <em>Diplomatic (Passive):</em> "<span class="article-tag">My trust was broken.</span>"<br><br>
+                        <em>Aggressive:</em> "You made a mistake."<br>
+                        <em>Diplomatic:</em> "<span class="article-tag">Mistakes were made.</span>"
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--indigo);" contenteditable="true">2. Impersonal Passives</strong><br><span style="font-size:0.85rem;color:var(--text-muted);">Reporting general beliefs</span></td>
+                    <td contenteditable="true">
+                        Used to introduce theories or rumors without taking personal ownership of the statement. Uses verbs like <em>say, believe, claim, expect.</em><br><br>
+                        <strong>Format A (It):</strong> <span class="article-tag">It is widely claimed that</span> long-distance friendships fail.<br>
+                        <strong>Format B (Subject):</strong> Long-distance friendships <span class="article-tag">are expected to</span> suffer from attrition.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--indigo);" contenteditable="true">3. Verbs with Two Objects</strong><br><span style="font-size:0.85rem;color:var(--text-muted);">(give, tell, offer, promise)</span></td>
+                    <td contenteditable="true">
+                        When a verb has a person and a thing as objects, English prefers making the <strong>person</strong> the subject of the passive sentence.<br><br>
+                        <em>Active:</em> They told me lies.<br>
+                        <em>Passive:</em> <span class="article-tag">I was told</span> lies. (Much more natural than "Lies were told to me").<br>
+                        <em>Passive:</em> <span class="article-tag">She was given</span> an ultimatum.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ══════════ TASK 5 — GRAMMAR 2: REPORTED SPEECH ══════════ -->
+    <section class="section" id="task-5">
+        <div class="task-header">
+            <div class="task-num">05</div>
+            <h2 class="task-title" contenteditable="true">Grammar Masterclass: Reported Speech</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            When recounting past arguments or analyzing why a friendship expired, we use Reported Speech. Because the speech happened in the past, we must "backshift" the tenses.
+        </p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Concept</th>
+                    <th contenteditable="true">The Rules of Backshifting</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="color:var(--sunset);" contenteditable="true">Tense Backshifting</strong></td>
+                    <td contenteditable="true">
+                        Move the tense one step back into the past when the reporting verb is in the past.<br><br>
+                        <em>Present Simple ➔ Past Simple:</em> "I need space." <br>➔ She said she <span class="article-tag">needed</span> space.<br><br>
+                        <em>Present Perfect ➔ Past Perfect:</em> "We have drifted apart." <br>➔ He noted they <span class="article-tag">had drifted</span> apart.<br><br>
+                        <em>Past Simple ➔ Past Perfect:</em> "I broke the boundary." <br>➔ He admitted he <span class="article-tag">had broken</span> the boundary.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--sunset);" contenteditable="true">Pronouns & Time Markers</strong></td>
+                    <td contenteditable="true">
+                        You must adjust the perspective based on when and where you are speaking.<br><br>
+                        <em>"I can't do <strong>this</strong> <strong>tomorrow</strong>."</em> <br>➔ She said <strong>she</strong> couldn't do <strong>that</strong> <strong>the next day</strong>.<br>
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">(Here ➔ there, now ➔ then, yesterday ➔ the day before).</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--sunset);" contenteditable="true">Advanced Reporting Verbs</strong></td>
+                    <td contenteditable="true">
+                        Instead of just using "said", B2/C1 English uses specific verbs that capture the tone.<br><br>
+                        <strong>Verb + (that):</strong> <em>He <span class="article-tag">admitted that</span> he was codependent.</em> (complain, claim, deny)<br>
+                        <strong>Verb + Object + to-inf:</strong> <em>She <span class="article-tag">advised me to end</span> it.</em> (warn, encourage, persuade)<br>
+                        <strong>Verb + Gerund (-ing):</strong> <em>He <span class="article-tag">suggested taking</span> a break.</em> (deny, recommend, admit)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ══════════ TASK 6 — THE GOSSIP TRANSLATOR ══════════ -->
+    <section class="section" id="task-6">
+        <div class="task-header">
+            <div class="task-num">06</div>
+            <h2 class="task-title" contenteditable="true">The Gossip Translator</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Read the raw, emotional quotes from a messy friendship breakup. How would a therapist formally report this? Click the button to reveal a clinical translation using <strong>Passive Voice</strong> or <strong>Reported Speech</strong>. Discuss the differences in tone.
+        </p>
+
+        <!-- Quote 1 -->
+        <div class="gossip-card">
+            <div class="gossip-quote" contenteditable="true">
+                "You literally never invite me anywhere anymore! You ruined this friendship!"
+            </div>
+            <button class="translation-btn" onclick="toggleTranslation('trans1')">Reveal Clinical Translation</button>
+            <div class="clinical-translation" id="trans1" contenteditable="true">
+                <strong>Reported & Passive:</strong> She <span style="color:var(--coral); font-weight:700;">complained that she was never invited</span> anywhere anymore, and <span style="color:var(--coral); font-weight:700;">claimed that the friendship had been ruined</span>.
+            </div>
+        </div>
+
+        <!-- Quote 2 -->
+        <div class="gossip-card">
+            <div class="gossip-quote" contenteditable="true">
+                "I am so suffocated by you. I need you to give me some space tomorrow!"
+            </div>
+            <button class="translation-btn" onclick="toggleTranslation('trans2')">Reveal Clinical Translation</button>
+            <div class="clinical-translation" id="trans2" contenteditable="true">
+                <strong>Reported:</strong> He <span style="color:var(--coral); font-weight:700;">admitted that he felt suffocated</span> by the enmeshment, and <span style="color:var(--coral); font-weight:700;">advised her to give him space the following day</span>.
+            </div>
+        </div>
+
+        <!-- Quote 3 -->
+        <div class="gossip-card">
+            <div class="gossip-quote" contenteditable="true">
+                "Everyone knows that Anna is totally codependent and crazy."
+            </div>
+            <button class="translation-btn" onclick="toggleTranslation('trans3')">Reveal Clinical Translation</button>
+            <div class="clinical-translation" id="trans3" contenteditable="true">
+                <strong>Impersonal Passive:</strong> <span style="color:var(--coral); font-weight:700;">It is widely believed that</span> Anna suffers from severe codependency. 
+            </div>
+        </div>
+
+        <script>
+            function toggleTranslation(id) {
+                const el = document.getElementById(id);
+                if (el.style.display === 'block') {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = 'block';
+                }
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ TASK 7 — MICRO CASE STUDIES ══════════ -->
+    <section class="section" id="task-7">
+        <div class="task-header">
+            <div class="task-num">07</div>
+            <h2 class="task-title" contenteditable="true">Therapy Room: Case Studies</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Read the following micro-cases of friendships experiencing attrition. Discuss who is at fault, and formulate a sentence using Passive Voice or Reported Speech to summarize the problem.
+        </p>
+
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+            
+            <div class="card" style="border-top:4px solid var(--sunset); margin-bottom:0;">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--dusk); margin-bottom:12px;" contenteditable="true">Case 1: The One-Sided Vent</h3>
+                <p style="font-size:1rem; color:var(--text-main); margin-bottom:12px;" contenteditable="true">Mark calls David every week to complain about his terrible job and his dating life. David listens for hours. However, when David tries to talk about his own recent promotion, Mark changes the subject back to himself within two minutes.</p>
+                <div style="background:var(--bg-base); padding:12px; border-radius:4px; font-family:var(--font-mono); font-size:0.85rem; color:var(--sunset);" contenteditable="true">
+                    Target: Discuss "Reciprocity". Formulate a passive sentence about David.
+                </div>
+            </div>
+
+            <div class="card" style="border-top:4px solid var(--indigo); margin-bottom:0;">
+                <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--dusk); margin-bottom:12px;" contenteditable="true">Case 2: The Resentful Roommate</h3>
+                <p style="font-size:1rem; color:var(--text-main); margin-bottom:12px;" contenteditable="true">Sarah and Lisa have lived together for three years. Sarah always buys the groceries, cleans the apartment, and pays the bills, silently hoping Lisa will notice and say "thank you" (Words of Affirmation). Lisa never notices. Sarah is furious.</p>
+                <div style="background:var(--bg-base); padding:12px; border-radius:4px; font-family:var(--font-mono); font-size:0.85rem; color:var(--indigo);" contenteditable="true">
+                    Target: Discuss "Love Languages as weapons". Formulate reported speech for Sarah.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 8 — FINAL ROLE-PLAY ══════════ -->
+    <section class="section" id="task-8">
+        <div class="task-header">
+            <div class="task-num">08</div>
+            <h2 class="task-title" contenteditable="true">The <em>Friendship Breakup</em></h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Apply today's vocabulary and grammar in a heavy, emotionally charged roleplay. You must navigate a friendship breakup using diplomacy.
+        </p>
+
+        <div style="background:var(--bg-panel); border:1px solid rgba(58,53,50,0.1); border-radius:var(--r-lg); padding:40px; box-shadow:var(--shadow-md);">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                
+                <div style="background:var(--sunset-pale); padding:24px; border-left:4px solid var(--sunset); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--sunset); margin-bottom:8px;" contenteditable="true">Role A: The Initiator</h3>
+                    <p style="color:var(--text-main); font-size:1rem;" contenteditable="true">
+                        You have decided to end a 10-year <strong>platonic</strong> friendship. The relationship has become a source of toxic <strong>enmeshment</strong> and lacks <strong>reciprocity</strong>. You feel drained. You want to explain your feelings kindly but firmly. <br><br>
+                        <strong>Grammar Target:</strong> Use Reported Speech to address past issues calmly (e.g., "When you told me that..., I felt..."). Use Passive Voice to distance blame ("Boundaries were crossed").
+                    </p>
+                </div>
+
+                <div style="text-align:center; color:var(--text-muted); font-size:1.5rem;">⬇</div>
+
+                <div style="background:var(--indigo-pale); padding:24px; border-left:4px solid var(--indigo); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--indigo); margin-bottom:8px;" contenteditable="true">Role B: The Surprised Friend</h3>
+                    <p style="color:var(--text-main); font-size:1rem;" contenteditable="true">
+                        You are shocked by this conversation. You thought your bond was incredibly strong, though you admit you have been relying on them heavily lately. You feel a sense of intense <strong>disenchantment</strong> that they are giving up so easily.<br><br>
+                        <strong>Grammar Target:</strong> Use Impersonal Passives to express your surprise (e.g., "It was always believed that we were best friends... I was told that...").
+                    </p>
+                </div>
+
+                <div style="text-align:center; color:var(--text-muted); font-size:1.5rem;">⬇</div>
+
+                <div style="background:var(--bg-card); border:1px dashed var(--text-muted); padding:24px; border-radius:var(--r-sm); text-align:center;">
+                    <h3 style="font-family:var(--font-serif); color:var(--dusk); margin-bottom:8px;" contenteditable="true">The Goal</h3>
+                    <p style="color:var(--text-muted); font-size:1rem;" contenteditable="true">Have an honest, respectful "friendship breakup" conversation without resorting to active voice anger ("You did this!"). Seek closure.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 9 — WHITEBOARD ══════════ -->
+    <section class="section" id="task-9">
+        <div class="task-header">
+            <div class="task-num">09</div>
+            <h2 class="task-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        </div>
+
+        <div style="border:1px solid rgba(58,53,50,0.1); border-radius:var(--r-lg); background:#FFFFFF; overflow:hidden; box-shadow:var(--shadow-lg);">
+            <div style="background:var(--dusk); padding:12px 20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent; border:1px solid var(--indigo-lt); color:var(--indigo-lt); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent; border:1px solid var(--indigo-pale); color:var(--indigo-pale); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent; border:1px solid var(--indigo-pale); color:var(--indigo-pale); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Text</button>
+                <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#899878" style="width:32px; height:32px; border:none; cursor:pointer; background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto; background:var(--coral); color:#FFFFFF; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block; width:100%; height:500px; cursor:crosshair;"></canvas>
+        </div>
+    </section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:var(--coral);color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-md); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--dusk);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(58,53,50,0.4); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(66,85,255,0.4); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+</div>
+
+<!-- Local Laser Cursor -->
+<div id="myLocalLaser" style="display:none; position:fixed; width:12px; height:12px; background:red; border-radius:50%; box-shadow:0 0 15px 5px rgba(255,0,0,0.8); pointer-events:none; z-index:1000000; transform:translate(-50%,-50%);"></div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(58,53,50,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:600px;border:1px solid rgba(58,53,50,0.1);box-shadow:var(--shadow-lg);">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:8px; font-family:var(--font-serif); color:var(--dusk);">Quizlet Exporter</h2>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-top:24px;">
+            <div style="display:flex;gap:12px;">
+                <input type="text" placeholder="Term (e.g. Reciprocity)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(58,53,50,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">
+                <input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(58,53,50,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" style="flex:1;background:var(--bg-card);color:var(--dusk);border:1px solid rgba(58,53,50,0.1);padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2;background:#4255FF;color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // ─── NAV LOGIC & TAB SWITCHING ───
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick') && !e.target.classList.contains('hw-btn')) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                const el = document.querySelector(id);
+                if (el) el.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+    });
+
+    // ─── GENERAL UI LOGIC ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(201, 122, 99, 0.25)'); // Sunset pale highlight
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById('task-9');
+        if(el) {
+            el.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    };
+
+    // ─── QUIZLET MODAL ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(58,53,50,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(58,53,50,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){ navigator.clipboard.writeText(out).then(()=>{ btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }); } 
+        else { btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#899878', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--indigo-pale)'; b.style.color='var(--indigo-pale)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--indigo-lt)'; btn.style.color='var(--indigo-lt)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Figtree', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+    }
+
+</script>
+
+<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'lesson26-relationships-v2';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(58,53,50,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(137,152,120,0.3); font-family:var(--font-ui);";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--sunset);border-radius:50%;box-shadow:0 0 8px var(--sunset);"></span><span id="syncText">Connecting Session...</span>`;
+    document.body.appendChild(statusDiv);
+
+    function setStatus(t,c){document.getElementById('syncText').innerText=t; document.getElementById('syncDot').style.background=c; document.getElementById('syncDot').style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Doc';
+
+    // LASER POINTER STATE
+    let myLaserMode = false;
+    const localLaser = document.getElementById('myLocalLaser');
+    window.toggleLaser = function() {
+        myLaserMode = !myLaserMode;
+        const btn = document.getElementById('laserBtn');
+        if(myLaserMode) {
+            document.body.classList.add('laser-active');
+            btn.style.boxShadow = "0 0 20px 5px rgba(217,93,65,0.8)";
+            localLaser.style.display = 'block';
+        } else {
+            document.body.classList.remove('laser-active');
+            btn.style.boxShadow = "var(--shadow-md)";
+            localLaser.style.display = 'none';
+        }
+    };
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#D95D41'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Doc '+(snap.size+1);
+                setStatus('Session Active 🌙','#899878');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Doc '+(Math.floor(Math.random()*99)+1);
+                setStatus('Session Active 🌙','#899878');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#D95D41');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveLaserContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{
+            if(myLaserMode) {
+                localLaser.style.left = e.clientX + 'px';
+                localLaser.style.top = e.clientY + 'px';
+            }
+            if(!currentUser) return;
+            setDoc(myRef,{
+                xOffset: e.pageX - window.innerWidth/2, 
+                y: e.pageY, 
+                color: myCursorColor, 
+                name: myCursorName, 
+                isLaser: myLaserMode,
+                timestamp: Date.now()
+            });
+        }, 30));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el = document.createElement('div');
+                    el.id = 'cursor-'+id;
+                    el.style.position = 'absolute'; el.style.pointerEvents = 'none'; el.style.zIndex = '999999';
+                    el.style.transition = 'top 0.1s linear, left 0.1s linear';
+                    container.appendChild(el);
+                }
+
+                if (data.isLaser) {
+                    el.innerHTML = `
+                        <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(255,0,0,0.8);color:white;font-size:0.75rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;font-family:var(--font-mono);">${data.name}</div>
+                    `;
+                } else {
+                    el.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+                        <div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-ui);box-shadow:0 2px 6px rgba(0,0,0,0.2);">${data.name}</div>
+                    `;
+                }
+                
+                el.style.left = (window.innerWidth/2 + data.xOffset) + 'px';
+                el.style.top = data.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
