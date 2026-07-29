@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 27: C1 | Sports Medicine & The Medical News Cycle</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Athletic Navy & Amber Theme: Energetic & Professional */
+            --bg-base:    #F0F4F8; /* Cool gray/blue background */
+            --bg-panel:   #FFFFFF;
+            --bg-card:    #F8FAFC;
+            
+            --dusk:       #1A202C; /* Very dark slate */
+            --indigo:     #2B6CB0; /* Athletic Navy Blue */
+            --indigo-lt:  #4299E1;
+            --indigo-pale:#EBF8FF;
+            
+            --sunset:     #DD6B20; /* Athletic Amber/Orange */
+            --sunset-lt:  #ED8936; 
+            --sunset-pale:#FFFAF0;
+            
+            --coral:      #E53E3E; /* Error Red */
+            --coral-pale: #FFF5F5;
+            
+            --teal:       #319795; /* Medical Teal */
+            --teal-pale:  #E6FFFA;
+            
+            --text-main:  #2D3748;
+            --text-muted: #718096;
+            
+            --font-ui:    'Figtree', sans-serif;
+            --font-serif: 'Crimson Pro', serif;
+            --font-mono:  'Fira Code', monospace;
+            
+            --shadow-sm:  0 4px 12px rgba(26, 32, 44, 0.05);
+            --shadow-md:  0 8px 24px rgba(26, 32, 44, 0.08);
+            --shadow-lg:  0 16px 40px rgba(26, 32, 44, 0.12);
+            
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-ui);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.laser-active { cursor: crosshair !important; }
+
+        [contenteditable="true"] {
+            outline: none; border-radius: 4px; transition: background 0.2s, box-shadow 0.2s;
+        }
+        [contenteditable="true"]:hover { background: rgba(43, 108, 176, 0.05); }
+        [contenteditable="true"]:focus { background: rgba(43, 108, 176, 0.1); box-shadow: 0 0 0 2px var(--indigo-lt); }
+
+        /* ====== POLISH HOVER TOOLTIP ====== */
+        .pl-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 2px dotted var(--sunset);
+            font-weight: 700;
+            color: var(--indigo);
+            transition: color 0.2s;
+        }
+        .pl-tooltip:hover { color: var(--sunset); }
+        .pl-tooltip::after {
+            content: attr(data-pl);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dusk);
+            color: var(--bg-panel);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 50;
+            font-family: var(--font-ui);
+            box-shadow: var(--shadow-md);
+        }
+        .pl-tooltip:hover::after { opacity: 1; }
+
+        /* ══ SIDEBAR ══ */
+        .sidebar {
+            width: 280px; background: var(--dusk); border-right: 1px solid rgba(255,255,255,0.05);
+            position: fixed; height: 100vh; top: 0; left: 0; display: flex; flex-direction: column;
+            padding: 30px 20px; z-index: 100; overflow-y: auto;
+        }
+
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        .brand {
+            font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; color: var(--indigo-pale);
+            display: flex; align-items: center; gap: 10px; margin-bottom: 30px; text-decoration: none;
+        }
+        .brand span { color: var(--sunset-lt); font-style: italic; }
+
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+        .nav-item a {
+            display: flex; align-items: center; padding: 10px 14px;
+            text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 500; font-size: 0.95rem;
+            border-radius: var(--r-sm); transition: all 0.2s;
+        }
+        .nav-item a:hover, .nav-item a.active {
+            background: rgba(43, 108, 176, 0.3); color: #FFFFFF;
+        }
+        .nav-item a.active { border-left: 3px solid var(--sunset); font-weight: 600; }
+        
+        .hw-btn {
+            margin-top: 24px; background: rgba(255,255,255,0.03); color: var(--sunset-lt);
+            border: 1px solid rgba(237, 137, 54, 0.4); padding: 12px; text-align: center;
+            border-radius: var(--r-md); font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .hw-btn:hover { background: var(--sunset); color: #FFF; box-shadow: 0 0 15px rgba(221, 107, 32, 0.4); border-color: var(--sunset); }
+
+        /* ══ MAIN CONTENT ══ */
+        .main-content {
+            margin-left: 280px; flex: 1; padding: 60px; max-width: 1100px;
+        }
+
+        .dashboard-header { margin-bottom: 50px; border-bottom: 2px solid rgba(45, 55, 72, 0.08); padding-bottom: 30px; }
+        .module-badge {
+            display: inline-block; font-family: var(--font-mono); font-size: 0.75rem;
+            color: var(--indigo); background: var(--indigo-pale); border: 1px solid rgba(43, 108, 176, 0.2);
+            padding: 6px 14px; border-radius: 50px; margin-bottom: 16px;
+            text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+        }
+        .dashboard-title {
+            font-family: var(--font-serif); font-size: clamp(3rem, 5vw, 4rem); font-weight: 700;
+            line-height: 1.1; margin-bottom: 16px; color: var(--dusk);
+        }
+        .dashboard-title em { color: var(--sunset); }
+        .dashboard-desc { font-size: 1.15rem; color: var(--text-muted); max-width: 700px; line-height: 1.6; }
+
+        /* ══ SECTIONS & TASKS ══ */
+        .section { display: none; animation: fadeIn 0.4s ease-out; margin-bottom: 60px; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .task-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .task-num {
+            font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700;
+            color: #FFFFFF; background: var(--indigo);
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            border-radius: 12px; box-shadow: 0 4px 10px rgba(43, 108, 176, 0.3);
+        }
+        .task-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; color: var(--dusk); }
+
+        /* ══ UI CARDS & TYPOGRAPHY ══ */
+        .card {
+            background: var(--bg-panel); border: 1px solid rgba(45, 55, 72, 0.05);
+            border-radius: var(--r-lg); padding: 32px; margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .quote-block {
+            font-family: var(--font-serif); font-size: 1.5rem; color: var(--dusk);
+            font-style: italic; padding-left: 24px; border-left: 4px solid var(--sunset);
+            margin-bottom: 20px; line-height: 1.5;
+        }
+
+        /* ══ DISCUSSION CALLOUTS ══ */
+        .discussion-box {
+            background: var(--indigo-pale); border-left: 6px solid var(--indigo);
+            padding: 24px 32px; border-radius: var(--r-md); margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+        .discussion-box h3 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--dusk); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .discussion-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .discussion-list li { position: relative; padding-left: 24px; font-size: 1.1rem; color: var(--text-main); }
+        .discussion-list li::before { content: "💬"; position: absolute; left: 0; top: 2px; font-size: 0.9rem; }
+
+        /* ══ VOCABULARY GRID ══ */
+        .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 32px;}
+        .vocab-card {
+            background: var(--bg-card); border-radius: var(--r-md); padding: 24px;
+            border: 1px solid rgba(45, 55, 72, 0.05); position: relative; overflow: hidden;
+            transition: all 0.3s ease; cursor: default; min-height: 160px; display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
+        .vocab-card:hover { border-color: var(--sunset); transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        
+        .vocab-icon { width: 48px; height: 48px; margin-bottom: 12px; color: var(--indigo); transition: color 0.3s; }
+        .vocab-card:hover .vocab-icon { color: var(--sunset); }
+
+        .vic-pos { font-family: var(--font-mono); font-size: 0.75rem; color: var(--sunset); margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+        .vic-word { font-family: var(--font-serif); font-size: 1.4rem; color: var(--dusk); font-weight: 700; line-height: 1.2; }
+        
+        .vic-def {
+            position: absolute; inset: 0; padding: 20px;
+            background: var(--dusk); color: #FFFFFF;
+            font-size: 0.9rem; line-height: 1.4; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s; z-index: 2; text-align: center;
+        }
+        .vocab-card:hover .vic-def { opacity: 1; }
+        .pl-trans { display: block; margin-top: 8px; color: var(--sunset-lt); font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8px; }
+
+        /* ══ READING TEXT ══ */
+        .article-body {
+            font-size: 1.15rem; line-height: 1.9; color: var(--text-main);
+            background: var(--bg-panel); padding: 40px 48px; border-radius: var(--r-lg);
+            border-top: 6px solid var(--indigo); box-shadow: var(--shadow-md);
+            margin-bottom: 32px;
+        }
+        .article-body p { margin-bottom: 20px; }
+        .article-body p:last-child { margin-bottom: 0; }
+        .article-title { font-family: var(--font-serif); font-size: 2.2rem; color: var(--dusk); margin-bottom: 8px; font-weight: 700; line-height: 1.2; }
+        .article-subtitle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 32px; display: block; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 16px; }
+        
+        .vocab-hl {
+            color: var(--indigo); font-weight: 600; background: var(--indigo-pale);
+            padding: 2px 6px; border-radius: 4px; cursor: help; transition: all 0.2s;
+        }
+        .vocab-hl:hover { background: var(--indigo); color: white; }
+
+        /* ══ GRAMMAR TABLES ══ */
+        .grammar-table { width: 100%; border-collapse: collapse; background: var(--bg-panel); border: 1px solid rgba(45, 55, 72, 0.1); border-radius: var(--r-md); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-sm); }
+        .grammar-table th { background: var(--dusk); color: #FFFFFF; padding: 16px 20px; font-family: var(--font-mono); font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; text-align: left; }
+        .grammar-table td { padding: 16px 20px; border-bottom: 1px solid rgba(45, 55, 72, 0.1); font-size: 1.05rem; color: var(--text-main); vertical-align: top; line-height: 1.6; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: var(--bg-card); }
+
+        .article-tag { display: inline-block; background: var(--sunset-pale); color: var(--sunset); border: 1px solid rgba(221, 107, 32, 0.3); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-weight: 700; font-size: 0.9rem; margin-top: 4px;}
+
+        /* ══ PRACTICE LISTS ══ */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; margin-top: 24px; counter-reset: practice-counter; }
+        .practice-list li {
+            background: var(--bg-panel); padding: 20px 24px 20px 60px;
+            border-radius: var(--r-md); border: 1px solid rgba(45, 55, 72, 0.05);
+            font-size: 1.05rem; position: relative; line-height: 1.7; box-shadow: var(--shadow-sm);
+        }
+        .practice-list li::before {
+            counter-increment: practice-counter; content: "0" counter(practice-counter);
+            position: absolute; left: 20px; top: 22px;
+            font-weight: 700; color: var(--sunset); font-size: 0.9rem; font-family: var(--font-mono);
+        }
+
+        .blank-input {
+            display: inline-block; min-width: 120px; border-bottom: 2px dashed var(--indigo);
+            color: var(--dusk); font-weight: 700; padding: 0 8px; text-align: center;
+            background: var(--indigo-pale); font-family: var(--font-mono); font-size: 0.95em;
+        }
+        .blank-input:focus { border-bottom-color: var(--sunset); outline: none; background: rgba(221, 107, 32, 0.1); }
+
+        /* ══ INTERACTIVE SPY ══ */
+        .interactive-item { background: var(--bg-panel); border: 1px solid rgba(45, 55, 72, 0.1); border-radius: var(--r-md); padding: 24px; margin-bottom: 16px; transition: all 0.3s; box-shadow: var(--shadow-sm); }
+        .interactive-item:hover { box-shadow: var(--shadow-md); border-color: var(--sunset); }
+        .interactive-item.i-correct { border-color: var(--teal); background: var(--teal-pale); }
+        .interactive-item.i-wrong   { border-color: var(--coral); background: var(--coral-pale); }
+        
+        .wrong-word { 
+            color: #FFFFFF; background: var(--coral); padding: 2px 8px; 
+            border-radius: 4px; cursor: pointer; font-weight: 600; 
+            display: inline-block; transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(229,62,62,0.3);
+        }
+        .wrong-word:hover { transform: scale(1.05); }
+        
+        .spy-input-wrap { background: var(--bg-base); border-radius: var(--r-sm); padding: 16px; border: 1px solid rgba(45, 55, 72, 0.05); margin-top: 16px; display: none; align-items: center; gap: 12px; }
+        .spy-input-wrap input { flex: 1; padding: 10px 16px; border: 1px solid rgba(45, 55, 72, 0.2); border-radius: 6px; font-family: var(--font-ui); font-size: 1rem; color: var(--dusk); outline: none; }
+        .spy-input-wrap input:focus { border-color: var(--indigo); box-shadow: 0 0 0 3px var(--indigo-pale); }
+        .btn-check { background: var(--dusk); color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 6px; font-family: var(--font-ui); font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn-check:hover { background: var(--indigo); }
+
+        /* ══ INTERACTIVE SELECT ══ */
+        .select-btn { background: var(--bg-card); border: 1px solid var(--indigo-lt); color: var(--indigo); padding: 4px 12px; border-radius: 20px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-mono); font-size: 0.9rem;}
+        .select-btn:hover { background: var(--indigo-pale); }
+        .select-btn.correct { background: var(--teal); color: white; border-color: var(--teal); }
+        .select-btn.wrong { background: var(--coral); color: white; border-color: var(--coral); }
+        .tense-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding: 12px; background: var(--bg-panel); border-radius: var(--r-sm); border: 1px solid rgba(45, 55, 72, 0.1); }
+
+    </style>
+</head>
+<body>
+
+<div id="liveLaserContainer" style="position:absolute; top:0; left:0; width:100%; pointer-events:none; z-index:999999;"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+    <a href="#" class="brand">
+        <span contenteditable="true">C1</span><div contenteditable="true">Medical</div>
+    </a>
+    <ul class="nav-menu" id="navTabsContainer">
+        <li class="nav-item"><a href="#task-1" class="active" contenteditable="true">01. The Provocation</a></li>
+        <li class="nav-item"><a href="#task-2" contenteditable="true">02. Lexical Matrix</a></li>
+        <li class="nav-item"><a href="#task-3" contenteditable="true">03. The Sports Rumour</a></li>
+        <li class="nav-item"><a href="#task-4" contenteditable="true">04. Clinical Debate</a></li>
+        <li class="nav-item"><a href="#task-5" contenteditable="true">05. Grammar: Tense Alignment</a></li>
+        <li class="nav-item"><a href="#task-6" contenteditable="true">06. Error Spy</a></li>
+        <li class="nav-item"><a href="#task-7" contenteditable="true">07. The Concussion Protocol</a></li>
+        <li class="nav-item"><a href="#task-8" contenteditable="true">08. Grammar: Universal Truths</a></li>
+        <li class="nav-item"><a href="#task-9" contenteditable="true">09. Interactive Tense Drill</a></li>
+        <li class="nav-item"><a href="#task-10" contenteditable="true">10. The Echo Chamber</a></li>
+        <li class="nav-item"><a href="#task-11" contenteditable="true">11. Vocab Application</a></li>
+        <li class="nav-item"><a href="#task-12" contenteditable="true">12. Headline Transformations</a></li>
+        <li class="nav-item"><a href="#task-13" contenteditable="true">13. The Clinical Dilemma</a></li>
+        <li class="nav-item"><a href="#task-14" contenteditable="true">14. The Press Conference</a></li>
+        <li class="nav-item"><a href="#task-15" contenteditable="true">15. Personal Reflection</a></li>
+        <li class="nav-item"><a href="#task-16" contenteditable="true">16. Teacher's Whiteboard</a></li>
+    </ul>
+    <button class="hw-btn" onclick="openHomework()" contenteditable="true">Homework Assessment</button>
+</aside>
+
+<!-- ══ MAIN CONTENT ══ -->
+<main class="main-content">
+    
+    <header class="dashboard-header">
+        <div class="module-badge" contenteditable="true">Lesson 27</div>
+        <h1 class="dashboard-title" contenteditable="true">Sports Medicine &<br><em>The News Cycle</em></h1>
+        <p class="dashboard-desc" contenteditable="true">Explore the intersection of sports injuries, media literacy, and clinical reality. Master Tense Alignment (Sequence of Tenses) to accurately report what pundits claimed versus what medical science proves.</p>
+    </header>
+
+    <!-- ══════════ TASK 1 — PROVOCATION ══════════ -->
+    <section class="section active" id="task-1">
+        <div class="task-header">
+            <div class="task-num">01</div>
+            <h2 class="task-title" contenteditable="true">The Provocation</h2>
+        </div>
+        
+        <div class="card" style="border-top: 4px solid var(--sunset);">
+            <div class="quote-block" contenteditable="true">
+                "In sports medicine today, treating the physical injury is often faster than treating the misinformation. Before the athlete even reaches the MRI machine, internet pundits have already diagnosed the tear, prescribed the recovery, and blamed the coaching staff."
+            </div>
+        </div>
+
+        <div class="discussion-box">
+            <h3 contenteditable="true">The Information Diet</h3>
+            <ul class="discussion-list">
+                <li contenteditable="true">As a medical professional, how often do you have to "de-program" patients who have self-diagnosed based on fitness influencers or media reports?</li>
+                <li contenteditable="true">Why does sports medicine generate so much public outrage and speculation compared to other fields?</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 2 — VOCABULARY ══════════ -->
+    <section class="section" id="task-2">
+        <div class="task-header">
+            <div class="task-num">02</div>
+            <h2 class="task-title" contenteditable="true">Lexical Matrix: Medicine meets Media</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            To discuss sports injuries and the media storm around them, you need specialized vocabulary. Hover to view definitions and <strong>Polish translations</strong>.
+        </p>
+
+        <div class="vocab-grid">
+            <!-- Medical -->
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                </div>
+                <div class="vic-pos">noun</div><div class="vic-word">Tendinopathy</div>
+                <div class="vic-def">A breakdown of collagen in a tendon causing pain and reduced flexibility. <span class="pl-trans">[PL: tendinopatia / choroba ścięgien]</span></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+                </div>
+                <div class="vic-pos">noun</div><div class="vic-word">Proprioception</div>
+                <div class="vic-def">The body's ability to sense its location, movements, and actions. <span class="pl-trans">[PL: propriocepcja / czucie głębokie]</span></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg>
+                </div>
+                <div class="vic-pos">noun</div><div class="vic-word">Concussion</div>
+                <div class="vic-def">A traumatic brain injury altering brain function, usually from a blow to the head. <span class="pl-trans">[PL: wstrząśnienie mózgu]</span></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                </div>
+                <div class="vic-pos">noun (phrase)</div><div class="vic-word">Overuse injury</div>
+                <div class="vic-def">Tissue damage resulting from repetitive demand over time. <span class="pl-trans">[PL: uraz z przeciążenia]</span></div>
+            </div>
+            
+            <!-- Media -->
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                </div>
+                <div class="vic-pos">verb</div><div class="vic-word">Corroborate</div>
+                <div class="vic-def">To confirm or give support to a statement, theory, or finding. <span class="pl-trans">[PL: potwierdzać / poświadczać]</span></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </div>
+                <div class="vic-pos">noun</div><div class="vic-word">Echo chamber</div>
+                <div class="vic-def">An environment where a person only encounters information or opinions that reflect their own. <span class="pl-trans">[PL: bańka informacyjna]</span></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </div>
+                <div class="vic-pos">noun</div><div class="vic-word">Misinformation</div>
+                <div class="vic-def">False or inaccurate information, especially that which is deliberately intended to deceive. <span class="pl-trans">[PL: dezinformacja]</span></div>
+            </div>
+            <div class="vocab-card">
+                <div class="vocab-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </div>
+                <div class="vic-pos">noun</div><div class="vic-word">Pundit</div>
+                <div class="vic-def">An expert in a particular subject or field who is frequently called on to give opinions in the media. <span class="pl-trans">[PL: ekspert medialny / komentator]</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 3 — READING 1 ══════════ -->
+    <section class="section" id="task-3">
+        <div class="task-header">
+            <div class="task-num">03</div>
+            <h2 class="task-title" contenteditable="true">Reading: Anatomy of a Sports Rumour</h2>
+        </div>
+
+        <div class="article-body" contenteditable="false">
+            <div class="article-title" contenteditable="true">The Torn ACL That Wasn't</div>
+            <span class="article-subtitle" contenteditable="true">When Twitter diagnoses athletes</span>
+            <p>
+                During Sunday's final, the star sprinter collapsed clutching his knee. Before he had even left the track, sports <span class="vocab-hl">pundits</span> were already declaring that his career was over. A prominent fitness blogger tweeted that the athlete had certainly torn his ACL due to improper <span class="vocab-hl">proprioception</span> training. Within minutes, this <span class="vocab-hl">misinformation</span> went viral, creating a massive <span class="vocab-hl">echo chamber</span> of blame directed at the coaching staff.
+            </p>
+            <p>
+                The media asserted that the coaching staff had ignored warning signs and that the athlete had complained of pain all week. However, the team's head of sports medicine, Dr. Aris, later clarified the situation. She explained that the athlete had suffered a minor <span class="vocab-hl">overuse injury</span>, specifically a patellar <span class="vocab-hl">tendinopathy</span>, which had temporarily flared up. 
+            </p>
+            <p>
+                Dr. Aris noted that the MRI scans <span class="vocab-hl">corroborated</span> her initial sideline assessment: the ligaments were perfectly intact. She reminded the press that tendons take time to adapt to load, and she confidently stated that the athlete would return to the track within three weeks.
+            </p>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 4 — COMPREHENSION ══════════ -->
+    <section class="section" id="task-4">
+        <div class="task-header">
+            <div class="task-num">04</div>
+            <h2 class="task-title" contenteditable="true">Clinical Debate</h2>
+        </div>
+
+        <div class="callout callout-indigo">
+            <strong>💬 Discuss with your partner:</strong>
+            <ol style="margin-left:24px; margin-top:12px; display:flex; flex-direction:column; gap:8px;">
+                <li contenteditable="true">How did the media's diagnosis differ from the actual medical diagnosis?</li>
+                <li contenteditable="true">Why is it dangerous when an <em>echo chamber</em> forms around medical misinformation in sports?</li>
+                <li contenteditable="true">If you were Dr. Aris, how frustrated would you be having to publicly <em>corroborate</em> basic anatomy to sports pundits?</li>
+            </ol>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 5 — GRAMMAR 1: TENSE ALIGNMENT ══════════ -->
+    <section class="section" id="task-5">
+        <div class="task-header">
+            <div class="task-num">05</div>
+            <h2 class="task-title" contenteditable="true">Grammar: Tense Alignment (Backshifting)</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            When reporting what the media, pundits, or patients said in the past, we use <strong>Tense Alignment</strong> (Sequence of Tenses). If the reporting verb (said, claimed, reported) is in the past, the following noun clause must shift "back" in time.
+        </p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Original Statement (Direct)</th>
+                    <th contenteditable="true">Reported (Aligned Tense)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="color:var(--indigo);" contenteditable="true">Present Simple ➔ Past Simple</strong><br><span style="font-size:0.9rem;">"He has a torn ACL."</span></td>
+                    <td contenteditable="true">
+                        The pundit <strong>claimed</strong> that he <span class="article-tag">had</span> a torn ACL.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--indigo);" contenteditable="true">Past Simple / Present Perfect ➔ Past Perfect</strong><br><span style="font-size:0.9rem;">"The coaches ignored the signs."<br>"He has suffered a concussion."</span></td>
+                    <td contenteditable="true">
+                        The media <strong>asserted</strong> that the coaches <span class="article-tag">had ignored</span> the signs.<br>
+                        They <strong>reported</strong> that he <span class="article-tag">had suffered</span> a concussion.
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color:var(--indigo);" contenteditable="true">Future (Will) ➔ Future in the Past (Would)</strong><br><span style="font-size:0.9rem;">"He will return in three weeks."</span></td>
+                    <td contenteditable="true">
+                        Dr. Aris <strong>stated</strong> that the athlete <span class="article-tag">would return</span> in three weeks.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ══════════ TASK 6 — ERROR SPY (TENSE ALIGNMENT) ══════════ -->
+    <section class="section" id="task-6">
+        <div class="task-header">
+            <div class="task-num">06</div>
+            <h2 class="task-title" contenteditable="true">Error Spy <em>(Misaligned Tenses)</em></h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Each sentence contains ONE error where the tenses do not align correctly after a past reporting verb. Click the mistake and type the correct form.
+        </p>
+
+        <div id="spyGameL27_1">
+            <!-- 1. is -> was -->
+            <div class="interactive-item" id="spy27-1">
+                <span style="font-family:var(--font-mono);color:var(--sunset);margin-right:12px;font-weight:700;">01</span>
+                <div style="display:inline-block;flex:1;font-size:1.05rem;">
+                    The fitness blogger tweeted yesterday that the athlete's career <span class="wrong-word" onclick="revealSpy27_1(1)">is</span> completely over due to the injury.
+                    <div class="spy-input-wrap" id="wrap27-1">
+                        <input id="input27-1" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy27_1(1)">
+                        <button class="btn-check" onclick="checkSpy27_1(1)">Check</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. suffered -> had suffered -->
+            <div class="interactive-item" id="spy27-2">
+                <span style="font-family:var(--font-mono);color:var(--sunset);margin-right:12px;font-weight:700;">02</span>
+                <div style="display:inline-block;flex:1;font-size:1.05rem;">
+                    During the press conference, the medical team confirmed that he <span class="wrong-word" onclick="revealSpy27_1(2)">suffered</span> a severe concussion the previous night.
+                    <div class="spy-input-wrap" id="wrap27-2">
+                        <input id="input27-2" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy27_1(2)">
+                        <button class="btn-check" onclick="checkSpy27_1(2)">Check</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. will recover -> would recover -->
+            <div class="interactive-item" id="spy27-3">
+                <span style="font-family:var(--font-mono);color:var(--sunset);margin-right:12px;font-weight:700;">03</span>
+                <div style="display:inline-block;flex:1;font-size:1.05rem;">
+                    Despite the media panic, the surgeon confidently stated that the knee <span class="wrong-word" onclick="revealSpy27_1(3)">will recover</span> with basic RICE therapy.
+                    <div class="spy-input-wrap" id="wrap27-3">
+                        <input id="input27-3" placeholder="Correction..." onkeydown="if(event.key==='Enter')checkSpy27_1(3)">
+                        <button class="btn-check" onclick="checkSpy27_1(3)">Check</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const answersL27_1 = { 1: 'was', 2: 'had suffered', 3: 'would recover' };
+            const solvedL27_1 = {};
+            function revealSpy27_1(n) {
+                document.getElementById('wrap27-'+n).style.display = 'flex';
+                document.getElementById('input27-'+n).focus();
+            }
+            function checkSpy27_1(n) {
+                if(solvedL27_1[n]) return;
+                const inp = document.getElementById('input27-'+n).value.trim().toLowerCase();
+                const correct = answersL27_1[n].toLowerCase();
+                const item = document.getElementById('spy27-'+n);
+                
+                if (inp === correct || inp.includes(correct)) {
+                    item.classList.add('i-correct'); item.classList.remove('i-wrong');
+                    solvedL27_1[n] = true;
+                } else {
+                    item.classList.add('i-wrong'); item.classList.remove('i-correct');
+                }
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ TASK 7 — READING 2 ══════════ -->
+    <section class="section" id="task-7">
+        <div class="task-header">
+            <div class="task-num">07</div>
+            <h2 class="task-title" contenteditable="true">Reading: The Concussion Protocol</h2>
+        </div>
+
+        <div class="article-body" style="border-top-color: var(--teal);" contenteditable="false">
+            <div class="article-title" contenteditable="true">Under the Lights</div>
+            <span class="article-subtitle" contenteditable="true">Medical Ethics vs. The News Cycle</span>
+            <p>
+                When a quarterback takes a heavy hit, the medical staff has mere minutes to assess him. Last season, an independent neurologist pulled a star player from the game, citing a suspected <span class="vocab-hl">concussion</span>. Almost instantly, TV commentators began to argue that the doctor had overreacted and that the player had merely "gotten his bell rung."
+            </p>
+            <p>
+                The following day, the chief medical officer defended the decision. He explained to the press that brain tissue <span style="text-decoration:underline; font-weight:bold; color:var(--teal);">takes</span> time to manifest swelling, and that a secondary impact <span style="text-decoration:underline; font-weight:bold; color:var(--teal);">is</span> often fatal. He emphasized that the clinic <span style="font-weight:bold;">had followed</span> the strict protocol mandated by the league.
+            </p>
+            <p>
+                This highlights a major contention in sports medicine: doctors must base decisions on biology, which is slow and complex, while the media demands instant, dramatic answers. The doctor noted that navigating this <span class="vocab-hl">echo chamber</span> of impatient fans <span style="text-decoration:underline; font-weight:bold; color:var(--teal);">remains</span> one of the hardest parts of the job.
+            </p>
+        </div>
+    </section>
+
+  <!-- ══════════ TASK 8 — GRAMMAR 2: UNIVERSAL TRUTHS ══════════ -->
+    <section class="section" id="task-8">
+        <div class="task-header">
+            <div class="task-num">08</div>
+            <h2 class="task-title" contenteditable="true">Grammar: The "Universal Truth" Exception</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Did you notice the underlined verbs in the text above? Even though the reporting verb was in the past ("He explained"), the noun clauses remained in the <strong>Present Tense</strong>. Why?
+        </p>
+
+        <div class="card" style="border-top: 4px solid var(--teal);">
+            <h3 style="font-family:var(--font-serif); font-size:1.4rem; color:var(--dusk); margin-bottom:12px;" contenteditable="true">The Exception: General Facts & Scientific Realities</h3>
+            <p style="font-size:1rem; color:var(--text-main); margin-bottom:12px;" contenteditable="true">
+                If the reported information is a <strong>universal truth</strong>, a <strong>scientific fact</strong>, or a situation that is <strong>still true right now</strong>, we DO NOT backshift the tense. This is crucial in medical English to show that a biological fact hasn't changed since yesterday.
+            </p>
+            <div style="font-size:0.95rem; font-style:italic; border-left:2px solid var(--teal); padding-left:12px; color:var(--text-main); margin-bottom: 12px;" contenteditable="true">
+                <em>Standard Backshift:</em> He noted that the player <strong>had felt</strong> dizzy. (Specific past event).<br>
+                <em>Universal Truth:</em> He explained that brain tissue <strong>takes</strong> time to swell. (Biology is always true).<br>
+                <em>Still True:</em> She reminded them that tendinopathy <strong>is</strong> an overuse injury.
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 9 — TENSE DRILL ══════════ -->
+    <section class="section" id="task-9">
+        <div class="task-header">
+            <div class="task-num">09</div>
+            <h2 class="task-title" contenteditable="true">Interactive Tense Drill</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Read the doctor's past report. Decide if the noun clause should be backshifted (specific past event) or remain in the present tense (universal medical truth / still true). Click the correct option.
+        </p>
+
+        <div id="tenseDrill">
+            <div class="tense-row">
+                <span style="font-weight: 700; color: var(--indigo); width: 24px;">1.</span>
+                <div style="flex:1;">The surgeon explained yesterday that the ACL ________ the main stabilizing ligament of the knee.</div>
+                <div>
+                    <button class="select-btn" onclick="checkTenseDrill(this, true)">is</button>
+                    <button class="select-btn" onclick="checkTenseDrill(this, false)">was</button>
+                </div>
+            </div>
+            <div class="tense-row">
+                <span style="font-weight: 700; color: var(--indigo); width: 24px;">2.</span>
+                <div style="flex:1;">The pundit tweeted last night that the team ________ to warm up properly before the match.</div>
+                <div>
+                    <button class="select-btn" onclick="checkTenseDrill(this, false)">fails</button>
+                    <button class="select-btn" onclick="checkTenseDrill(this, true)">had failed</button>
+                </div>
+            </div>
+            <div class="tense-row">
+                <span style="font-weight: 700; color: var(--indigo); width: 24px;">3.</span>
+                <div style="flex:1;">Dr. Aris reminded the press that proprioception training ________ vital for preventing future sprains.</div>
+                <div>
+                    <button class="select-btn" onclick="checkTenseDrill(this, true)">is</button>
+                    <button class="select-btn" onclick="checkTenseDrill(this, false)">was</button>
+                </div>
+            </div>
+            <div class="tense-row">
+                <span style="font-weight: 700; color: var(--indigo); width: 24px;">4.</span>
+                <div style="flex:1;">The medical report confirmed that the player ________ a minor concussion in the second quarter.</div>
+                <div>
+                    <button class="select-btn" onclick="checkTenseDrill(this, false)">suffers</button>
+                    <button class="select-btn" onclick="checkTenseDrill(this, true)">had suffered</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function checkTenseDrill(btn, isCorrect) {
+                const parent = btn.parentElement;
+                parent.querySelectorAll('.select-btn').forEach(b => { b.disabled = true; });
+                if(isCorrect) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('wrong');
+                    Array.from(parent.children).forEach(b => {
+                        if(b !== btn) { b.classList.add('correct'); }
+                    });
+                }
+            }
+        </script>
+    </section>
+
+    <!-- ══════════ TASK 10 — THE ECHO CHAMBER ══════════ -->
+    <section class="section" id="task-10">
+        <div class="task-header">
+            <div class="task-num">10</div>
+            <h2 class="task-title" contenteditable="true">The Echo Chamber</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Connect the media's sensational claim (Misinformation) with the doctor's grounded response. Formulate a sentence verbally contrasting the two using tense alignment.
+            <br><br><em>Example: "While the media <strong>claimed</strong> the injury <strong>was</strong> catastrophic, the doctor <strong>explained</strong> that it <strong>is</strong> a standard tendinopathy."</em>
+        </p>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <div class="card" style="border-top:4px solid var(--coral); margin-bottom:0;">
+                <h3 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--coral); margin-bottom:12px;" contenteditable="true">The Media Echo Chamber (Yesterday)</h3>
+                <ul style="list-style:disc; margin-left: 20px; line-height: 1.8;">
+                    <li contenteditable="true">"His knee is completely destroyed!"</li>
+                    <li contenteditable="true">"He will never run the 100m sprint again."</li>
+                    <li contenteditable="true">"The coaches forced him to play with a concussion."</li>
+                </ul>
+            </div>
+
+            <div class="card" style="border-top:4px solid var(--teal); margin-bottom:0;">
+                <h3 style="font-family:var(--font-serif); font-size:1.3rem; color:var(--teal); margin-bottom:12px;" contenteditable="true">The Medical Reality (Today)</h3>
+                <ul style="list-style:disc; margin-left: 20px; line-height: 1.8;">
+                    <li contenteditable="true">Tendons take 3 weeks to repair with rest.</li>
+                    <li contenteditable="true">The player passed all neurological baseline tests.</li>
+                    <li contenteditable="true">The MRI showed an overuse injury, not a tear.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 11 — VOCAB APPLICATION ══════════ -->
+    <section class="section" id="task-11">
+        <div class="task-header">
+            <div class="task-num">11</div>
+            <h2 class="task-title" contenteditable="true">Vocabulary Application</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Complete the sentences using the vocabulary from Task 2. Change the word form if necessary.
+        </p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--text-main);">The internet can act as a massive <span class="blank-input" style="min-width:150px;"></span>, where bad medical advice is repeated until people believe it.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-main);">After the head collision, the referee initiated the <span class="blank-input" style="min-width:150px;"></span> protocol immediately.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-main);">Unfortunately, the MRI scan <span class="blank-input" style="min-width:150px;"></span> the pundit's theory: the ligament was torn.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-main);">Tennis elbow is a classic example of an <span class="blank-input" style="min-width:150px;"></span> injury caused by repetitive motion.</div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ══════════ TASK 12 — TRANSFORMATIONS ══════════ -->
+    <section class="section" id="task-12">
+        <div class="task-header">
+            <div class="task-num">12</div>
+            <h2 class="task-title" contenteditable="true">Headline Transformations</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Rewrite the sensational headlines into professional, medically accurate reported speech. Pay attention to tense alignment.
+        </p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:4px;">Headline: "THE COACH IGNORED HIS PAIN FOR WEEKS!" <strong>(The article falsely claimed that...)</strong></div>
+                <div contenteditable="true">The article falsely claimed that <span class="blank-input" style="min-width:350px;"></span> his pain for weeks.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:4px;">Headline: "CONCUSSIONS ALWAYS END CAREERS EARLY!" <strong>(The pundit incorrectly stated that...)</strong></div>
+                <div contenteditable="true">The pundit incorrectly stated that concussions <span class="blank-input" style="min-width:350px;"></span> careers early.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--text-muted); font-size:0.95rem; margin-bottom:4px;">Doctor's Quote: "Rest is the only cure for tendinopathy." <strong>(Dr. Aris reminded the press that...)</strong></div>
+                <div contenteditable="true">Dr. Aris reminded the press that <span class="blank-input" style="min-width:350px;"></span> the only cure for tendinopathy.</div>
+            </li>
+        </ul>
+    </section>
+
+    <!-- ══════════ TASK 13 — THE CLINICAL DILEMMA ══════════ -->
+    <section class="section" id="task-13">
+        <div class="task-header">
+            <div class="task-num">13</div>
+            <h2 class="task-title" contenteditable="true">The Clinical Dilemma</h2>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--indigo);">
+            <h3 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--dusk); margin-bottom:16px;" contenteditable="true">Dr. Google in the Clinic</h3>
+            <p style="font-size:1.1rem; color:var(--text-main); margin-bottom:20px;" contenteditable="true">
+                A 45-year-old amateur marathon runner comes to your clinic with chronic knee pain. You diagnose a simple <strong>overuse injury</strong> (patellar tendinopathy) and prescribe rest and physiotherapy. <br><br>
+                The patient refuses to believe you. They argue that a famous fitness <strong>pundit</strong> on YouTube claimed that knee pain is always a meniscus tear requiring surgery, and that rest is "outdated advice".
+            </p>
+            <div class="callout callout-sunset">
+                <strong>💬 Discussion:</strong> How do you handle this interaction? How do you gently correct the <strong>misinformation</strong> without making the patient feel foolish or defensive?
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 14 — ROLE-PLAY ══════════ -->
+    <section class="section" id="task-14">
+        <div class="task-header">
+            <div class="task-num">14</div>
+            <h2 class="task-title" contenteditable="true">The <em>Press Conference</em> Roleplay</h2>
+        </div>
+
+        <p style="color:var(--text-muted); margin-bottom:24px; font-size:1.1rem;" contenteditable="true">
+            Put your tense alignment and vocabulary to the test in a high-pressure media scenario.
+        </p>
+
+        <div style="background:var(--bg-panel); border:1px solid rgba(45,55,72,0.1); border-radius:var(--r-lg); padding:40px; box-shadow:var(--shadow-md);">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                
+                <div style="background:var(--sunset-pale); padding:24px; border-left:4px solid var(--sunset); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--sunset); margin-bottom:8px;" contenteditable="true">Role A: The Aggressive Sports Journalist</h3>
+                    <p style="color:var(--text-main); font-size:1rem;" contenteditable="true">
+                        You want a sensational headline. You are questioning the team doctor about a star player's head injury. You heard rumours (an <strong>echo chamber</strong>) that the player was pushed to play. <br><br>
+                        <strong>Prompting Question:</strong> "Doctor, anonymous sources reported last night that the player <em>had complained</em> of dizziness before the game. Why did you clear him?"
+                    </p>
+                </div>
+
+                <div style="text-align:center; color:var(--text-muted); font-size:1.5rem;">⬇</div>
+
+                <div style="background:var(--indigo-pale); padding:24px; border-left:4px solid var(--indigo); border-radius:var(--r-sm);">
+                    <h3 style="font-family:var(--font-serif); color:var(--indigo); margin-bottom:8px;" contenteditable="true">Role B: The Team Doctor</h3>
+                    <p style="color:var(--text-main); font-size:1rem;" contenteditable="true">
+                        You must defend your medical ethics and clarify the <strong>concussion</strong> protocol. You need to correct the <strong>misinformation</strong>.<br><br>
+                        <strong>Grammar Target:</strong> Use Tense Alignment. (e.g., "While blogs <em>claimed</em> that he <em>had</em> symptoms, I must remind you that medical protocol <em>requires</em> strict baseline testing...").
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 15 — PERSONAL REFLECTION ══════════ -->
+    <section class="section" id="task-15">
+        <div class="task-header">
+            <div class="task-num">15</div>
+            <h2 class="task-title" contenteditable="true">Personal Writing</h2>
+        </div>
+
+        <div class="card" style="border-top: 4px solid var(--teal);">
+            <h3 style="font-family:var(--font-serif); font-size:1.6rem; color:var(--dusk); margin-bottom:16px;" contenteditable="true">The Medical Press Release</h3>
+            <p style="font-size:1.1rem; color:var(--text-main); margin-bottom:20px;" contenteditable="true">
+                Write a short paragraph summarizing the outcome of the press conference (or the clinical dilemma from Task 13). <br><br>
+                <strong>Constraints:</strong> 
+                <br>• Use at least two vocabulary words (e.g., <em>corroborate, tendinopathy</em>). 
+                <br>• Use one sentence with standard backshifting (Past + Past Perfect).
+                <br>• Use one sentence expressing a Universal Truth exception (Past + Present).
+            </p>
+            <div style="background:var(--bg-base); border: 1px dashed var(--teal); border-radius: var(--r-sm); padding: 24px; min-height: 150px;" contenteditable="true">
+                <em>[Type your press release here...]</em>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ TASK 16 — WHITEBOARD ══════════ -->
+    <section class="section" id="task-16">
+        <div class="task-header">
+            <div class="task-num">16</div>
+            <h2 class="task-title" contenteditable="true">Teacher's <em>Whiteboard</em></h2>
+        </div>
+
+        <div style="border:1px solid rgba(45,55,72,0.1); border-radius:var(--r-lg); background:#FFFFFF; overflow:hidden; box-shadow:var(--shadow-lg);">
+            <div style="background:var(--dusk); padding:12px 20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                <button class="wb-btn active" data-tool="pencil" style="background:transparent; border:1px solid var(--indigo-lt); color:var(--indigo-lt); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" style="background:transparent; border:1px solid var(--indigo-pale); color:var(--indigo-pale); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Highlight</button>
+                <button class="wb-btn" data-tool="text" style="background:transparent; border:1px solid var(--indigo-pale); color:var(--indigo-pale); padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Text</button>
+                <div style="width:1px; height:24px; background:rgba(255,255,255,0.2); margin:0 8px;"></div>
+                <input type="color" id="wbColor" value="#2B6CB0" style="width:32px; height:32px; border:none; cursor:pointer; background:transparent;">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto; background:var(--coral); color:#FFFFFF; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:600;">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas" style="display:block; width:100%; height:500px; cursor:crosshair;"></canvas>
+        </div>
+    </section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ══════════ HOMEWORK PORTAL (HIDDEN BY DEFAULT) ══════════ -->
+<div id="homework-portal" style="display: none; position: fixed; inset: 0; background: var(--bg-base); z-index: 500; overflow-y: auto; padding: 40px;">
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; margin-top: 10vh;">
+            <div class="module-badge" style="background:var(--sunset-pale);color:var(--sunset);">Homework Assessment</div>
+            <h2 class="dashboard-title">Lesson 27 Test</h2>
+            <p style="color:var(--text-muted); margin-bottom:30px; font-size:1.1rem;">
+                <strong>Rules:</strong> You have exactly <strong>10 minutes</strong>. <br>
+                <span style="color:var(--coral);">Anti-Cheat:</span> Leaving this tab twice will terminate your test automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter your full name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--bg-panel);border:1px solid rgba(45,55,72,0.1);color:var(--dusk);border-radius:8px;margin-bottom:24px;outline:none;">
+            <br>
+            <button onclick="startHW()" style="background:var(--sunset);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 10px 25px rgba(221, 107, 32, 0.3);transition:transform 0.2s;">Begin Test</button>
+            <button onclick="closeHomework()" style="background:transparent;color:var(--text-muted);border:none;display:block;margin:20px auto;cursor:pointer;">Cancel & Return</button>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <span style="font-family:var(--font-mono); color:var(--dusk); font-weight:700;" id="hwQuestionCounter">Question 1 / 10</span>
+                <div style="font-family:var(--font-mono); color:var(--coral); background:rgba(229,62,62,0.1); padding:8px 16px; border-radius:8px; border:1px solid rgba(229,62,62,0.3); font-weight:700;">
+                    ⏱️ <span id="hwTimerDisplay">10:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:8px; background:var(--bg-panel); border-radius:4px; overflow:hidden; margin-bottom:40px; border:1px solid rgba(45,55,72,0.05);">
+                <div id="hwProgressFill" style="height:100%; background:var(--sunset); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border:1px solid rgba(45,55,72,0.1); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:700; margin-bottom:30px; line-height:1.5; color:var(--dusk); font-family:var(--font-serif);">Loading question...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--text-muted); border:1px solid rgba(45,55,72,0.2); padding:12px 24px; border-radius:50px; cursor:pointer; transition:all 0.2s;">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen" style="display:none; margin-top: 5vh;">
+            <div id="hw-pdf-content" style="background:var(--bg-base); padding:20px;">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 class="dashboard-title" style="font-size:2.5rem;">Test Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--text-muted);"></p>
+                </div>
+
+                <div style="background:var(--bg-panel); padding:40px; border-radius:var(--r-lg); border-top:4px solid var(--teal); text-align:center; margin-bottom:40px; box-shadow:var(--shadow-sm);">
+                    <div style="font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem;">Final Score</div>
+                    <div id="hwScoreDetail" style="font-size:4rem; font-weight:700; color:var(--dusk); margin:10px 0; font-family:var(--font-serif);">0/10</div>
+                    <div id="hwTerminationReason" style="font-weight:700;"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--teal); color:white; border:none; padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Download PDF</button>
+                <button onclick="closeHomework()" style="background:transparent; color:var(--dusk); border:1px solid var(--dusk); padding:16px 32px; font-weight:700; border-radius:50px; cursor:pointer;">Exit Portal</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ══════════ FLOATING CONTROLS & MODALS ══════════ -->
+<div style="position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;z-index:1000;" id="floatingActions">
+    <button onclick="toggleLaser()" id="laserBtn" style="width:56px;height:56px;border-radius:50%;background:var(--coral);color:white;border:2px solid white;font-size:1.4rem;cursor:pointer;box-shadow:var(--shadow-md); transition:all 0.2s;" title="Toggle Laser Pointer">🔴</button>
+    <button onclick="window.scrollToWhiteboard()" style="width:56px;height:56px;border-radius:50%;background:var(--dusk);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(26,32,44,0.4); transition:transform 0.2s;" title="Whiteboard">🖍️</button>
+    <button onclick="openQuizletModal()" style="width:56px;height:56px;border-radius:50%;background:#4255FF;color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(66,85,255,0.4); transition:transform 0.2s;" title="Export Quizlet">📝</button>
+    <button onclick="openAdmin()" style="width:56px;height:56px;border-radius:50%;background:var(--indigo);color:white;border:none;font-size:1.4rem;cursor:pointer;box-shadow:0 4px 15px rgba(43,108,176,0.4); transition:transform 0.2s;" title="Teacher Dashboard">📋</button>
+</div>
+
+<!-- Local Laser Cursor -->
+<div id="myLocalLaser" style="display:none; position:fixed; width:12px; height:12px; background:red; border-radius:50%; box-shadow:0 0 15px 5px rgba(255,0,0,0.8); pointer-events:none; z-index:1000000; transform:translate(-50%,-50%);"></div>
+
+<!-- Admin Modal -->
+<div id="adminModal" style="display:none;position:fixed;inset:0;background:rgba(26,32,44,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:800px;max-height:90vh;overflow-y:auto;border:1px solid rgba(26,32,44,0.1);box-shadow:var(--shadow-lg);">
+        <span onclick="closeAdmin()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:10px; font-family:var(--font-serif); color:var(--dusk);">Teacher Dashboard</h2>
+        <p style="color:var(--text-muted); margin-bottom:20px;">Review recent submissions.</p>
+        <table style="width:100%;border-collapse:collapse;text-align:left;">
+            <thead style="background:var(--dusk);color:#FFFFFF;font-family:var(--font-mono);font-size:0.85rem;">
+                <tr><th style="padding:12px;">Date</th><th style="padding:12px;">Student</th><th style="padding:12px;">Score</th><th style="padding:12px;">Status</th></tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+        </table>
+        <button style="background:transparent;color:var(--coral);border:1px solid var(--coral);padding:10px 20px;border-radius:50px;margin-top:20px;cursor:pointer;font-weight:600;" onclick="clearData()">Clear Data</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" style="display:none;position:fixed;inset:0;background:rgba(26,32,44,0.8);backdrop-filter:blur(8px);z-index:2000;justify-content:center;align-items:center;">
+    <div style="background:var(--bg-panel);padding:40px;border-radius:var(--r-lg);width:90%;max-width:600px;border:1px solid rgba(26,32,44,0.1);box-shadow:var(--shadow-lg);">
+        <span onclick="closeQuizletModal()" style="position:absolute;top:20px;right:24px;font-size:2rem;color:var(--text-muted);cursor:pointer;">&times;</span>
+        <h2 style="font-size:1.8rem; margin-bottom:8px; font-family:var(--font-serif); color:var(--dusk);">Quizlet Exporter</h2>
+        <div id="wordList" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-top:24px;">
+            <div style="display:flex;gap:12px;">
+                <input type="text" placeholder="Term (e.g. Tendinopathy)" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(26,32,44,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">
+                <input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(26,32,44,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">
+            </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:24px;">
+            <button onclick="addWordRow()" style="flex:1;background:var(--bg-card);color:var(--dusk);border:1px solid rgba(26,32,44,0.1);padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" style="flex:2;background:#4255FF;color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;font-weight:600;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+    // ─── NAV LOGIC & TAB SWITCHING ───
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick') && !e.target.classList.contains('hw-btn')) {
+            e.preventDefault();
+            document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            const id = e.target.getAttribute('href');
+            if (id && id.startsWith('#')) {
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                const el = document.querySelector(id);
+                if (el) el.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+    });
+
+    // ─── GENERAL UI LOGIC ───
+    document.addEventListener('keydown', e => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault(); const sel = window.getSelection();
+            if (!sel.rangeCount || sel.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(221, 107, 32, 0.25)'); 
+        }
+    });
+
+    window.scrollToWhiteboard = () => {
+        document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById('task-16');
+        if(el) {
+            el.classList.add('active');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    };
+
+    // ─── QUIZLET MODAL ───
+    window.openQuizletModal = () => document.getElementById('quizletModal').style.display = 'flex';
+    window.closeQuizletModal = () => document.getElementById('quizletModal').style.display = 'none';
+    window.addWordRow = () => {
+        const wl = document.getElementById('wordList');
+        const div = document.createElement('div'); div.style.display = 'flex'; div.style.gap = '12px';
+        div.innerHTML = `<input type="text" placeholder="Term" class="q-word" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(26,32,44,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);"><input type="text" placeholder="Definition" class="q-trans" style="flex:1;padding:12px;border-radius:var(--r-sm);border:1px solid rgba(26,32,44,0.1);background:var(--bg-card);color:var(--dusk);font-family:var(--font-ui);">`;
+        wl.appendChild(div); wl.scrollTop = wl.scrollHeight;
+    };
+    window.copyForQuizlet = () => {
+        let out='';
+        document.querySelectorAll('.q-word').forEach((w, i) => {
+            const t = document.querySelectorAll('.q-trans')[i];
+            if(w.value.trim() || t.value.trim()) out += `${w.value.trim()}\t${t.value.trim()}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        if(out){ navigator.clipboard.writeText(out).then(()=>{ btn.innerText = '✓ Copied!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }); } 
+        else { btn.innerText = '⚠ Empty!'; setTimeout(()=> btn.innerText = '📋 Copy Data', 3000); }
+    };
+
+    // ─── WHITEBOARD LOGIC ───
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() {
+        const saved = canvas.toDataURL();
+        canvas.width = canvas.parentElement.clientWidth; canvas.height = 500;
+        const img = new Image(); img.onload = () => ctx.drawImage(img, 0, 0); img.src = saved;
+    }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    let isDrawing=false, pendingDraw=false, startX, startY, currentTool='pencil', currentColor='#2B6CB0', savedImageData;
+
+    document.querySelectorAll('.wb-btn[data-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.wb-btn[data-tool]').forEach(b => { b.classList.remove('active'); b.style.borderColor='var(--indigo-pale)'; b.style.color='var(--indigo-pale)'; });
+            btn.classList.add('active'); btn.style.borderColor='var(--indigo-lt)'; btn.style.color='var(--indigo-lt)';
+            currentTool = btn.dataset.tool; canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+
+    document.getElementById('wbColor').addEventListener('change', e => currentColor = e.target.value);
+    document.getElementById('wbClear').addEventListener('click', () => { ctx.clearRect(0,0,canvas.width,canvas.height); if(window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+    canvas.addEventListener('mousedown', e => {
+        const p = getPos(e); startX = p.x; startY = p.y;
+        if (currentTool === 'text') {
+            const txt = prompt('Enter text:');
+            if (txt) { ctx.font = "18px 'Figtree', sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(txt, startX, startY); if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); } }
+            return;
+        }
+        isDrawing=true; savedImageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX,startY);
+    });
+
+    canvas.addEventListener('mousemove', e => {
+        if (!isDrawing) return; const p = getPos(e);
+        if (['pencil','highlight'].includes(currentTool)) {
+            ctx.lineTo(p.x,p.y); ctx.strokeStyle=currentTool==='highlight'?currentColor+'40':currentColor;
+            ctx.lineWidth=currentTool==='highlight'?16:2; ctx.lineCap=currentTool==='highlight'?'square':'round';
+            ctx.lineJoin='round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData,0,0); drawShape(p.x,p.y); }
+    });
+
+    canvas.addEventListener('mouseup', e => {
+        if (!isDrawing) return; isDrawing=false;
+        if (!['pencil','highlight'].includes(currentTool)) { const p=getPos(e); drawShape(p.x,p.y); }
+        if(window.syncWhiteboardDraw) { pendingDraw=true; window.syncWhiteboardDraw(); }
+    });
+
+    function drawShape(ex,ey) {
+        ctx.beginPath(); ctx.strokeStyle=currentColor; ctx.lineWidth=2;
+        if (currentTool==='square') ctx.strokeRect(startX,startY,ex-startX,ey-startY);
+        else if (currentTool==='circle') { const r=Math.sqrt((ex-startX)**2+(ey-startY)**2); ctx.arc(startX,startY,r,0,2*Math.PI); ctx.stroke(); }
+    }
+
+    // ─── HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "The pundit claimed that the athlete ___ his ACL before the season started.", options: ["has torn", "had torn", "tears", "is tearing"], correct: 1 },
+        { text: "Dr. Aris explained that a tendon ___ time to adapt to load (Universal truth).", options: ["takes", "took", "had taken", "is taking"], correct: 0 },
+        { text: "False or inaccurate information deliberately intended to deceive is ___.", options: ["echo chamber", "pundit", "misinformation", "proprioception"], correct: 2 },
+        { text: "The body's ability to sense its location and movements is called ___.", options: ["concussion", "proprioception", "tendinopathy", "corroboration"], correct: 1 },
+        { text: "The media reported that he ___ a concussion during the final.", options: ["suffers", "has suffered", "had suffered", "will suffer"], correct: 2 },
+        { text: "To confirm or give support to a statement or finding is to ___ it.", options: ["misinform", "corroborate", "overuse", "pundit"], correct: 1 },
+        { text: "She noted that the MRI ___ her initial sideline assessment (still true).", options: ["corroborates", "had corroborated", "is corroborating", "corroborate"], correct: 0 },
+        { text: "An expert frequently called on to give opinions in the media is a ___.", options: ["corroborator", "pundit", "chamber", "proprioceptor"], correct: 1 },
+        { text: "The team doctor stated that the athlete ___ return in three weeks.", options: ["will", "would", "had to", "must"], correct: 1 },
+        { text: "Tissue damage resulting from repetitive demand over time is an ___ injury.", options: ["echo", "overuse", "misinformed", "acute"], correct: 1 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 10 * 60, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    window.openHomework = () => {
+        document.querySelector('.main-content').style.display = 'none';
+        document.getElementById('homework-portal').style.display = 'block';
+    };
+
+    window.closeHomework = () => {
+        document.querySelector('.main-content').style.display = 'block';
+        document.getElementById('homework-portal').style.display = 'none';
+        if(isTestActive) endHWQuiz(true, "Terminated (Manually Exited)");
+    };
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) {
+                alert("TEST TERMINATED. You have left the testing tab multiple times.");
+                endHWQuiz(true, "Terminated (Anti-Cheat Violation)");
+            } else alert("WARNING: Do not leave the test tab.");
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "10:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            let s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('hwTimerDisplay').innerText = `${m}:${s}`;
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = [];
+        cheatWarnings = 0; timeLeft = 10 * 60; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5);
+        
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 10) { endHWQuiz(false, "Completed Successfully"); return; }
+        const currentQuestionObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 10`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 10) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = currentQuestionObj.text;
+
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        currentQuestionObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:var(--bg-card);border:1px solid rgba(45,55,72,0.1);padding:16px 24px;text-align:left;font-family:var(--font-ui);font-size:1.05rem;color:var(--dusk);border-radius:8px;cursor:pointer;transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "rgba(221, 107, 32, 0.1)";
+            btn.onmouseout = () => btn.style.background = "var(--bg-card)";
+            btn.onclick = () => handleHWAnswer(index, currentQuestionObj);
+            grid.appendChild(btn);
+        });
+    }
+
+    function handleHWAnswer(selectedIndex, currentQuestionObj) {
+        const isSkip = selectedIndex === -1;
+        const isCorrect = !isSkip && selectedIndex === currentQuestionObj.correct;
+        const userAnsText = isSkip ? "Skipped" : currentQuestionObj.options[selectedIndex];
+        questionHistory.push({ text: currentQuestionObj.text, userAns: userAnsText, correctAns: currentQuestionObj.options[currentQuestionObj.correct], isCorrect: isCorrect });
+        if (isCorrect) score++;
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function skipHWQuestion() { handleHWAnswer(-1, hwQuestionBank[currentQuestionIndex]); }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your homework is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerText = `Status: ${statusMsg}`;
+        if(forcedExit) document.getElementById('hwTerminationReason').style.color = "var(--coral)";
+        else document.getElementById('hwTerminationReason').style.color = "var(--teal)";
+
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.cssText = `padding:20px; border:1px solid rgba(45,55,72,0.05); border-left:4px solid ${item.isCorrect ? 'var(--teal)' : 'var(--coral)'}; background:var(--bg-panel); border-radius:8px;`;
+            div.innerHTML = `<div style="font-size:1.1rem;font-weight:600;margin-bottom:10px;font-family:var(--font-serif);color:var(--dusk);">${index + 1}. ${item.text}</div><div style="font-size:0.95rem;color:var(--text-muted);">Your answer: <span style="color:${item.isCorrect ? 'var(--teal)' : 'var(--coral)'};font-weight:700;">${item.userAns}</span></div>${!item.isCorrect ? `<div style="font-size:0.95rem;color:var(--text-muted);">Correct answer: <span style="color:var(--teal);font-weight:700;">${item.correctAns}</span></div>` : ''}`;
+            grid.appendChild(div);
+        });
+
+        document.querySelectorAll('.hw-screen').forEach(sec => sec.style.display='none');
+        document.getElementById('hw-results').style.display='block';
+        saveHWResult(currentStudent, score, currentQuestionIndex, statusMsg);
+    }
+
+    function downloadHWPDF() {
+        const element = document.getElementById('hw-pdf-content');
+        const opt = { margin: 0, filename: `${currentStudent.replace(/\s+/g, '_')}_L27_Homework.pdf`, image: { type: 'jpeg', quality: 1 }, html2canvas: { scale: 2, backgroundColor: '#F0F4F8' }, jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function saveHWResult(name, finalScore, totalAsked, status) {
+        const results = JSON.parse(localStorage.getItem('lesson27HomeworkData')) || [];
+        results.push({ date: new Date().toLocaleString(), name: name, score: finalScore, total: totalAsked, status: status });
+        localStorage.setItem('lesson27HomeworkData', JSON.stringify(results));
+    }
+
+    // ─── ADMIN DASHBOARD ───
+    window.openAdmin = () => {
+        const results = JSON.parse(localStorage.getItem('lesson27HomeworkData')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='padding:12px;text-align:center;'>No submissions.</td></tr>";
+        else {
+            results.reverse().forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td style="padding:12px;border-bottom:1px solid rgba(45,55,72,0.05);">${r.date}</td><td style="padding:12px;border-bottom:1px solid rgba(45,55,72,0.05);font-weight:700;color:var(--dusk);">${r.name}</td><td style="padding:12px;border-bottom:1px solid rgba(45,55,72,0.05);font-family:var(--font-mono);">${r.score}/${r.total}</td><td style="padding:12px;border-bottom:1px solid rgba(45,55,72,0.05);color:${r.status.includes('Completed') ? 'var(--teal)' : 'var(--coral)'};">${r.status}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+    };
+    window.closeAdmin = () => document.getElementById('adminModal').style.display = 'none';
+    window.clearData = () => { if(confirm("Delete all homework records?")) { localStorage.removeItem('lesson27HomeworkData'); openAdmin(); } };
+
+</script>
+
+<!-- ══════════ FIREBASE LIVE SYNC & LASER POINTER ══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac"
+    };
+
+    const appId = 'lesson27-sports-media-v1';
+
+    const statusDiv = document.createElement('div');
+    statusDiv.id = 'syncStatus';
+    statusDiv.style.cssText = "position:fixed; top:14px; left:50%; transform:translateX(-50%); background:rgba(26,32,44,0.92); color:white; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:600; z-index:10000; display:flex; align-items:center; gap:8px; backdrop-filter:blur(4px); border:1px solid rgba(43,108,176,0.3); font-family:var(--font-ui);";
+    statusDiv.innerHTML = `<span id="syncDot" style="display:block;width:8px;height:8px;background:var(--sunset);border-radius:50%;box-shadow:0 0 8px var(--sunset);"></span><span id="syncText">Connecting Session...</span>`;
+    document.body.appendChild(statusDiv);
+
+    function setStatus(t,c){document.getElementById('syncText').innerText=t; document.getElementById('syncDot').style.background=c; document.getElementById('syncDot').style.boxShadow=`0 0 8px ${c}`;}
+
+    const app=initializeApp(firebaseConfig);
+    const auth=getAuth(app);
+    const db=getFirestore(app);
+    let currentUser=null, isSyncSetup=false;
+    const myCursorColor='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');
+    let myCursorName='Doc';
+
+    // LASER POINTER STATE
+    let myLaserMode = false;
+    const localLaser = document.getElementById('myLocalLaser');
+    window.toggleLaser = function() {
+        myLaserMode = !myLaserMode;
+        const btn = document.getElementById('laserBtn');
+        if(myLaserMode) {
+            document.body.classList.add('laser-active');
+            btn.style.boxShadow = "0 0 20px 5px rgba(229,62,62,0.8)";
+            localLaser.style.display = 'block';
+        } else {
+            document.body.classList.remove('laser-active');
+            btn.style.boxShadow = "var(--shadow-md)";
+            localLaser.style.display = 'none';
+        }
+    };
+
+    const editables=document.querySelectorAll('[contenteditable="true"]');
+    editables.forEach((el,i)=>{el.dataset.syncId='edit-'+i;});
+    let isEditing=null;
+
+    function debounce(fn,wait){let t;return function(...args){clearTimeout(t);t=setTimeout(()=>fn(...args),wait);};}
+
+    signInAnonymously(auth).catch(()=>setStatus('Auth Failed','#E53E3E'));
+
+    onAuthStateChanged(auth,user=>{
+        currentUser=user;
+        if(user&&!isSyncSetup){
+            isSyncSetup=true;
+            getDocs(collection(db,'artifacts',appId,'public','data','cursors')).then(snap=>{
+                myCursorName='Doc '+(snap.size+1);
+                setStatus('Session Active 🌙','#2B6CB0');
+                setupSync(); setupCursors();
+            }).catch(()=>{
+                myCursorName='Doc '+(Math.floor(Math.random()*99)+1);
+                setStatus('Session Active 🌙','#2B6CB0');
+                setupSync(); setupCursors();
+            });
+        } else if(!user){setStatus('Disconnected','#E53E3E');}
+    });
+
+    function setupSync(){
+        const textRef=doc(db,'artifacts',appId,'public','data','lesson_state','text_edits');
+        const wbRef=doc(db,'artifacts',appId,'public','data','lesson_state','whiteboard');
+
+        window.saveTextUpdate=el=>{if(!currentUser)return;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});};
+
+        window.attachEditableListeners=el=>{
+            el.addEventListener('focus',()=>isEditing=el.dataset.syncId);
+            el.addEventListener('blur',()=>{isEditing=null;window.saveTextUpdate(el);});
+            el.addEventListener('input',debounce(()=>{if(isEditing===el.dataset.syncId)window.saveTextUpdate(el);},500));
+        };
+
+        editables.forEach(el=>window.attachEditableListeners(el));
+
+        onSnapshot(textRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            for(const [syncId,html] of Object.entries(data)){
+                if(isEditing!==syncId){const el=document.querySelector(`[data-sync-id="${syncId}"]`);if(el&&el.innerHTML!==html)el.innerHTML=html;}
+            }
+        });
+
+        window.syncWhiteboardDraw=debounce(()=>{if(!currentUser)return;const c=document.getElementById('boardCanvas');setDoc(wbRef,{image:c.toDataURL('image/png',0.5),clearTimestamp:window.lastClear||0},{merge:true});pendingDraw=false;},800);
+        window.syncWhiteboardClear=()=>{if(!currentUser)return;const ts=Date.now();window.lastClear=ts;setDoc(wbRef,{clearTimestamp:ts,image:null},{merge:true});};
+
+        onSnapshot(wbRef,snap=>{
+            if(!snap.exists())return;
+            const data=snap.data();
+            const c=document.getElementById('boardCanvas'),x=c.getContext('2d');
+            if(data.clearTimestamp>(window.lastClear||0)){x.clearRect(0,0,c.width,c.height);window.lastClear=data.clearTimestamp;return;}
+            if(data.image&&!pendingDraw){const img=new Image();img.onload=()=>{x.clearRect(0,0,c.width,c.height);x.drawImage(img,0,0);};img.src=data.image;}
+        });
+    }
+
+    function setupCursors(){
+        const cursorsCol=collection(db,'artifacts',appId,'public','data','cursors');
+        const myRef=doc(db,'artifacts',appId,'public','data','cursors',currentUser.uid);
+        const container = document.getElementById('liveLaserContainer');
+
+        document.addEventListener('mousemove',debounce(e=>{
+            if(myLaserMode) {
+                localLaser.style.left = e.clientX + 'px';
+                localLaser.style.top = e.clientY + 'px';
+            }
+            if(!currentUser) return;
+            setDoc(myRef,{
+                xOffset: e.pageX - window.innerWidth/2, 
+                y: e.pageY, 
+                color: myCursorColor, 
+                name: myCursorName, 
+                isLaser: myLaserMode,
+                timestamp: Date.now()
+            });
+        }, 30));
+
+        onSnapshot(cursorsCol,snap=>{
+            snap.docChanges().forEach(change=>{
+                const id=change.doc.id;
+                if(id===currentUser.uid)return;
+                
+                if(change.type==='removed'){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                const data=change.doc.data();
+                if(Date.now()-data.timestamp>60000){const el=document.getElementById('cursor-'+id);if(el)el.remove();return;}
+                
+                let el=document.getElementById('cursor-'+id);
+                if(!el){
+                    el = document.createElement('div');
+                    el.id = 'cursor-'+id;
+                    el.style.position = 'absolute'; el.style.pointerEvents = 'none'; el.style.zIndex = '999999';
+                    el.style.transition = 'top 0.1s linear, left 0.1s linear';
+                    container.appendChild(el);
+                }
+
+                if (data.isLaser) {
+                    el.innerHTML = `
+                        <div style="width:14px;height:14px;background:red;border-radius:50%;box-shadow:0 0 15px 5px rgba(255,0,0,0.8);transform:translate(-50%,-50%);"></div>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(255,0,0,0.8);color:white;font-size:0.75rem;font-weight:700;padding:2px 6px;border-radius:4px;white-space:nowrap;font-family:var(--font-mono);">${data.name}</div>
+                    `;
+                } else {
+                    el.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="${data.color}" style="width:24px;height:24px;transform:rotate(-15deg);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+                        <div style="background:${data.color};color:white;font-size:0.75rem;font-weight:700;padding:4px 8px;border-radius:4px;margin-left:-4px;margin-top:14px;white-space:nowrap;font-family:var(--font-ui);box-shadow:0 2px 6px rgba(0,0,0,0.2);">${data.name}</div>
+                    `;
+                }
+                
+                el.style.left = (window.innerWidth/2 + data.xOffset) + 'px';
+                el.style.top = data.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload',()=>{if(currentUser)deleteDoc(myRef);});
+    }
+</script>
+</body>
+</html>
