@@ -11,7 +11,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    /* Clean & Professional Clinic Management Theme */
+    /* Elite Clinic Management Theme */
     --teal-900: #042F2E;
     --teal-800: #064E3B;
     --teal-700: #047857;
@@ -54,6 +54,8 @@ body {
     line-height: 1.7;
     color: var(--gray-800);
     background-color: var(--gray-50);
+    background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+    background-size: 24px 24px;
     overflow-x: hidden;
 }
 
@@ -61,7 +63,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 
 [contenteditable="true"] { outline: none; transition: all 0.2s; border-radius: 4px; padding: 0 4px; margin: 0 -4px; border-bottom: 1px dashed transparent; }
 [contenteditable="true"]:focus, [contenteditable="true"]:hover {
-    background-color: var(--gold-50);
+    background-color: rgba(217,119,6,0.1);
     border-bottom: 1px dashed var(--gold-500);
 }
 
@@ -129,10 +131,24 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 
 /* ====== INPUTS & LISTS ====== */
 .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: practice-counter; }
-.practice-list li { background: white; padding: 20px 24px 20px 60px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); font-size: 1.05rem; position: relative; box-shadow: var(--shadow-sm); }
+.practice-list li { background: white; padding: 20px 24px 20px 60px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); font-size: 1.05rem; position: relative; box-shadow: var(--shadow-sm); transition: border-color 0.2s; }
+.practice-list li:hover { border-color: var(--teal-800); }
 .practice-list li::before { counter-increment: practice-counter; content: counter(practice-counter, decimal-leading-zero) "."; position: absolute; left: 20px; top: 22px; font-weight: 800; color: var(--gold-500); font-family: var(--font-mono); }
-.blank-input { display: inline-block; min-width: 100px; border: none; border-bottom: 2px solid var(--gray-400); color: var(--teal-800); font-weight: 700; padding: 0 8px; text-align: left; background: transparent; font-family: var(--font-mono); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+.blank-input { display: inline-block; min-width: 100px; border: none; border-bottom: 2px dashed var(--gray-400); color: var(--teal-800); font-weight: 700; padding: 0 8px; text-align: left; background: transparent; font-family: var(--font-mono); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
 .blank-input:focus { border-bottom-color: var(--teal-700); background: var(--teal-50); }
+
+.drill-input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: 1rem; color: var(--teal-900); background: var(--gray-50); transition: all 0.2s; outline: none; }
+.drill-input:focus { border-color: var(--teal-700); box-shadow: 0 0 0 3px var(--teal-100); background: white; }
+.btn-verify { background: var(--teal-900); color: white; border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; transition: background 0.2s; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.85rem; }
+.btn-verify:hover { background: var(--teal-700); }
+
+/* ====== HUB NAVIGATION (Task 4) ====== */
+.hub-nav { display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 2px solid var(--gray-200); padding-bottom: 16px; overflow-x: auto; }
+.hub-tab { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); padding: 10px 20px; border-radius: 50px; font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.hub-tab:hover { background: var(--gray-200); color: var(--teal-900); }
+.hub-tab.active { background: var(--teal-900); color: white; border-color: var(--teal-900); }
+.hub-content { display: none; animation: fadeIn 0.3s ease; }
+.hub-content.active { display: block; }
 
 /* ====== MFP VOCABULARY ELICITATION UI ====== */
 .mfp-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md); }
@@ -156,13 +172,13 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 .reveal-trigger { font-size: 0.8rem; color: var(--gold-600); cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 .reveal-trigger:hover { color: var(--gold-500); }
 
-/* ====== VOCAB TEASERS ====== */
-.vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-top: 30px; }
-.vocab-teaser { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm); }
-.vocab-icon { width: 64px; height: 64px; margin: 0 auto 20px; color: var(--teal-800); }
-.vocab-icon svg { width: 100%; height: 100%; }
-.vocab-guess-input { width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--teal-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none; transition: border-color 0.2s; }
-.vocab-guess-input:focus { border-color: var(--teal-700); }
+/* ====== MATCHING GAME ====== */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.match-item { background: white; border: 2px solid var(--gray-200); padding: 16px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: center; box-shadow: var(--shadow-sm); }
+.match-item:hover { border-color: var(--gold-400); transform: translateY(-2px); }
+.match-item.selected { background: var(--teal-900); color: white; border-color: var(--teal-900); }
+.match-item.matched { background: var(--teal-50); border-color: var(--teal-100); color: var(--teal-800); opacity: 0.6; cursor: default; transform: none; }
 
 </style>
 </head>
@@ -172,8 +188,6 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--gold-500); border-radius: 50%; box-shadow: 0 0 8px var(--gold-500);"></span>
     <span id="syncText">Link Established</span>
 </div>
-
-<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
 
 <!-- ====== HERO ====== -->
 <section class="hero">
@@ -198,10 +212,11 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
             <li><a href="#t1" contenteditable="true">01. Recap</a></li>
             <li><a href="#t2" contenteditable="true">02. Warm-Up</a></li>
             <li><a href="#t3" contenteditable="true">03. Discovery</a></li>
-            <li><a href="#t4" contenteditable="true">04. Vocab 1</a></li>
-            <li><a href="#t5" contenteditable="true">05. Vocab 2</a></li>
-            <li><a href="#t6" contenteditable="true">06. Vocab 3</a></li>
-            <li><a href="#t7" contenteditable="true">07. Vocab 4</a></li>
+            <li><a href="#t4" contenteditable="true">04. Lexicon Hub</a></li>
+            <li><a href="#t5" contenteditable="true">05. Match</a></li>
+            <li><a href="#t6" contenteditable="true">06. Reading</a></li>
+            <li><a href="#t7" contenteditable="true">07. Theory 1</a></li>
+            <li><a href="#t8" contenteditable="true">08. Drill 1</a></li>
         </ul>
     </div>
 </nav>
@@ -264,9 +279,9 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
             <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Four C2 words related to clinic management and hierarchy are hidden below. Look at the icons and context, then type your best guess.</p>
         </div>
 
-        <div class="vocab-grid">
-            <div class="vocab-teaser">
-                <div class="vocab-icon">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="width: 64px; height: 64px; margin: 0 auto 20px; color: var(--teal-800);">
                     <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
                         <rect x="20" y="20" width="60" height="60" rx="8"/>
                         <path d="M40 50 L60 50 M50 40 L50 60"/>
@@ -274,257 +289,229 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
                     </svg>
                 </div>
                 <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">"The new clinic manager is an absolute <strong>___</strong>; she timed our lunch breaks with a stopwatch."</p>
-                <input type="text" class="vocab-guess-input" placeholder="guess...">
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--teal-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
             </div>
-            <div class="vocab-teaser">
-                <div class="vocab-icon">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="width: 64px; height: 64px; margin: 0 auto 20px; color: var(--teal-800);">
                     <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M30 70 Q 50 20 70 70"/>
                         <circle cx="70" cy="20" r="10" fill="currentColor"/>
                     </svg>
                 </div>
                 <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">"He never offers honest feedback; he just acts like a <strong>___</strong> to get a promotion."</p>
-                <input type="text" class="vocab-guess-input" placeholder="guess...">
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--teal-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
             </div>
-            <div class="vocab-teaser">
-                <div class="vocab-icon">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="width: 64px; height: 64px; margin: 0 auto 20px; color: var(--teal-800);">
                     <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 50 L40 50 M60 50 L80 50"/>
                         <path d="M45 40 L55 60"/>
                     </svg>
                 </div>
                 <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">"The Head Surgeon refuses to <strong>___</strong> control over the ordering of new composites."</p>
-                <input type="text" class="vocab-guess-input" placeholder="guess...">
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--teal-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
             </div>
-            <div class="vocab-teaser">
-                <div class="vocab-icon">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="width: 64px; height: 64px; margin: 0 auto 20px; color: var(--teal-800);">
                     <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M30 20 L30 40 L45 60 L45 80"/>
                         <path d="M70 20 L70 40 L55 60 L55 80"/>
                     </svg>
                 </div>
                 <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">"Because we only have one sterilization machine, it creates a massive workflow <strong>___</strong>."</p>
-                <input type="text" class="vocab-guess-input" placeholder="guess...">
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--teal-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
             </div>
         </div>
     </div>
 </section>
 
-<!-- ====== TASK 4: VOCAB 1 - MARTINET ====== -->
+<!-- ====== TASK 4: THE LEXICON HUB ====== -->
 <section class="section" id="t4">
     <div class="section-inner">
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 04</span>
-            <h2 class="task-title" contenteditable="true">The Strict Ruler — <span class="uk-tooltip" data-uk="суворий керівник / педант">martinet</span></h2>
+            <h2 class="task-title" contenteditable="true">The Lexicon <em>Hub</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Click through the tabs to unpack the Meaning, Form, and Pronunciation of our target C2 management vocabulary.</p>
         </div>
-        
-        <div class="mfp-container">
-            <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80');"></div>
-            
-            <div class="mfp-content">
-                <div>
-                    <button class="word-reveal-btn" onclick="revealWord(this, 'Martinet')">
-                        Click to reveal the word... <span>👀</span>
-                    </button>
-                </div>
 
-                <div class="mfp-row">
-                    <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                    <div class="mfp-data">
-                        <ul class="ccq-list">
-                            <li contenteditable="true">If a clinic manager measures the exact distance between instruments on a tray and fires people for being 1 minute late, are they relaxed?</li>
-                            <li contenteditable="true">What C2 noun describes a strict disciplinarian, especially in the military or workplace?</li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="hub-nav" id="vocabTabs">
+            <div class="hub-tab active" onclick="switchHub('v-1', this)">1. The Ruler</div>
+            <div class="hub-tab" onclick="switchHub('v-2', this)">2. The Flatterer</div>
+            <div class="hub-tab" onclick="switchHub('v-3', this)">3. Letting Go</div>
+            <div class="hub-tab" onclick="switchHub('v-4', this)">4. The Delay</div>
+        </div>
 
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('form4').classList.add('visible')">Reveal</div>
+        <!-- Word 1: Martinet -->
+        <div class="hub-content active" id="v-1">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Martinet')">Click to reveal the word... <span>👀</span></button>
                     </div>
-                    <div class="mfp-data form-details" id="form4">
-                        <strong contenteditable="true">Noun (Countable)</strong><br>
-                        <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: an absolute ~, to act like a ~.</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If a clinic manager measures the exact distance between instruments on a tray and fires people for being 1 minute late, are they relaxed?</li>
+                                <li contenteditable="true">What C2 noun describes a strict disciplinarian, especially in the military or workplace?</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('pron4').classList.add('visible')">Reveal</div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f1">
+                            <strong contenteditable="true">Noun (Countable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: an absolute ~, to act like a <span class="uk-tooltip" data-uk="суворий керівник / педант">~</span>.</span>
+                        </div>
                     </div>
-                    <div class="mfp-data pron-details" id="pron4">
-                        <strong contenteditable="true">mar-ti-NET</strong><br>
-                        <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˌmɑːtɪˈnet/</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p1">
+                            <strong contenteditable="true">mar-ti-NET</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˌmɑːtɪˈnet/</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- ====== TASK 5: VOCAB 2 - SYCOPHANT ====== -->
-<section class="section" id="t5">
-    <div class="section-inner">
-        <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 05</span>
-            <h2 class="task-title" contenteditable="true">The Flatterer — <span class="uk-tooltip" data-uk="підлабузник">sycophant</span></h2>
-        </div>
-        
-        <div class="mfp-container">
-            <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80');"></div>
-            
-            <div class="mfp-content">
-                <div>
-                    <button class="word-reveal-btn" onclick="revealWord(this, 'Sycophant')">
-                        Click to reveal the word... <span>👀</span>
-                    </button>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                    <div class="mfp-data">
-                        <ul class="ccq-list">
-                            <li contenteditable="true">If an assistant agrees with every terrible idea the Chief Surgeon has just to get a promotion, are they being honest?</li>
-                            <li contenteditable="true">What formal, highly negative noun describes a person who flatters someone important to gain advantage?</li>
-                        </ul>
+        <!-- Word 2: Sycophant -->
+        <div class="hub-content" id="v-2">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Sycophant')">Click to reveal the word... <span>👀</span></button>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('form5').classList.add('visible')">Reveal</div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If an assistant agrees with every terrible idea the Chief Surgeon has just to get a promotion, are they being honest?</li>
+                                <li contenteditable="true">What highly negative noun describes a person who flatters someone important to gain advantage?</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="mfp-data form-details" id="form5">
-                        <strong contenteditable="true">Noun (Countable)</strong><br>
-                        <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: surrounded by ~s, a corporate ~. Adj: Sycophantic.</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f2">
+                            <strong contenteditable="true">Noun (Countable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: surrounded by <span class="uk-tooltip" data-uk="підлабузник">~s</span>. Adj: Sycophantic.</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('pron5').classList.add('visible')">Reveal</div>
-                    </div>
-                    <div class="mfp-data pron-details" id="pron5">
-                        <strong contenteditable="true">SIK-uh-fant</strong><br>
-                        <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈsɪk.ə.fænt/</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p2">
+                            <strong contenteditable="true">SIK-uh-fant</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈsɪk.ə.fænt/</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- ====== TASK 6: VOCAB 3 - RELINQUISH ====== -->
-<section class="section" id="t6">
-    <div class="section-inner">
-        <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 06</span>
-            <h2 class="task-title" contenteditable="true">Letting Go — <span class="uk-tooltip" data-uk="відмовлятися, передавати контроль">relinquish</span></h2>
-        </div>
-        
-        <div class="mfp-container">
-            <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80');"></div>
-            
-            <div class="mfp-content">
-                <div>
-                    <button class="word-reveal-btn" onclick="revealWord(this, 'Relinquish')">
-                        Click to reveal the word... <span>👀</span>
-                    </button>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                    <div class="mfp-data">
-                        <ul class="ccq-list">
-                            <li contenteditable="true">A micromanager wants to do everything themselves. What is the hardest thing for them to do with power or control?</li>
-                            <li contenteditable="true">What C2 verb means to voluntarily cease to keep or claim; to give up?</li>
-                        </ul>
+        <!-- Word 3: Relinquish -->
+        <div class="hub-content" id="v-3">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Relinquish')">Click to reveal the word... <span>👀</span></button>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('form6').classList.add('visible')">Reveal</div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">A micromanager wants to do everything themselves. What is the hardest thing for them to do with power or control?</li>
+                                <li contenteditable="true">What C2 verb means to voluntarily cease to keep or claim; to give up?</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="mfp-data form-details" id="form6">
-                        <strong contenteditable="true">Verb (Transitive)</strong><br>
-                        <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to ~ control, to ~ power, to ~ responsibility.</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f3">
+                            <strong contenteditable="true">Verb (Transitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to <span class="uk-tooltip" data-uk="відмовлятися, передавати контроль">~</span> control, to ~ power, to ~ responsibility.</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('pron6').classList.add('visible')">Reveal</div>
-                    </div>
-                    <div class="mfp-data pron-details" id="pron6">
-                        <strong contenteditable="true">ri-LING-kwish</strong><br>
-                        <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/rɪˈlɪŋ.kwɪʃ/</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p3">
+                            <strong contenteditable="true">ri-LING-kwish</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/rɪˈlɪŋ.kwɪʃ/</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- ====== TASK 7: VOCAB 4 - BOTTLENECK ====== -->
-<section class="section" id="t7">
-    <div class="section-inner">
-        <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 07</span>
-            <h2 class="task-title" contenteditable="true">The Delay — <span class="uk-tooltip" data-uk="вузьке місце / затримка">bottleneck</span></h2>
-        </div>
-        
-        <div class="mfp-container">
-            <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?auto=format&fit=crop&w=800&q=80');"></div>
-            
-            <div class="mfp-content">
-                <div>
-                    <button class="word-reveal-btn" onclick="revealWord(this, 'Bottleneck')">
-                        Click to reveal the word... <span>👀</span>
-                    </button>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                    <div class="mfp-data">
-                        <ul class="ccq-list">
-                            <li contenteditable="true">If four assistants can prep rooms, but only one slow doctor can check them, what does the doctor become in the workflow?</li>
-                            <li contenteditable="true">What noun refers to a point of congestion in a system that slows everything down?</li>
-                        </ul>
+        <!-- Word 4: Bottleneck -->
+        <div class="hub-content" id="v-4">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1506485338023-6ce5f36692df?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Bottleneck')">Click to reveal the word... <span>👀</span></button>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('form7').classList.add('visible')">Reveal</div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If four assistants can prep rooms, but only one slow doctor can check them, what does the doctor become in the workflow?</li>
+                                <li contenteditable="true">What noun (originating from the shape of a glass container) refers to a point of congestion in a system?</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="mfp-data form-details" id="form7">
-                        <strong contenteditable="true">Noun (Countable) / Verb</strong><br>
-                        <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to create a ~, a major ~, to eliminate ~s.</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--gold-50); color:var(--gold-600); border-color:var(--gold-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f4">
+                            <strong contenteditable="true">Noun (Countable) / Verb</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to create a <span class="uk-tooltip" data-uk="вузьке місце / затримка">~</span>, a major ~, to eliminate ~s.</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="mfp-row">
-                    <div class="mfp-label-col">
-                        <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
-                        <div class="reveal-trigger" onclick="document.getElementById('pron7').classList.add('visible')">Reveal</div>
-                    </div>
-                    <div class="mfp-data pron-details" id="pron7">
-                        <strong contenteditable="true">BOT-ul-nek</strong><br>
-                        <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈbɒt.əl.nek/</span>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p4">
+                            <strong contenteditable="true">BOT-ul-nek</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈbɒt.əl.nek/</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <script>
+            function switchHub(id, tabElement) {
+                document.querySelectorAll('.hub-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                tabElement.classList.add('active');
+            }
             function revealWord(btn, word) {
                 btn.innerHTML = word;
                 btn.classList.add('revealed');
@@ -533,12 +520,77 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     </div>
 </section>
 
-<!-- END OF PART 1 -->
-<!-- ====== TASK 8: READING ====== -->
-<section class="section" id="t8">
+<!-- ====== TASK 5: MATCHING GAME ====== -->
+<section class="section" id="t5">
     <div class="section-inner">
         <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 08</span>
+            <span class="task-label" contenteditable="true">Task 05</span>
+            <h2 class="task-title" contenteditable="true">Corporate <em>Connections</em></h2>
+            <p class="section-desc" contenteditable="true">Match the C2 management vocabulary on the left with the correct clinical consequence on the right.</p>
+        </div>
+
+        <div class="match-grid" id="matchGrid">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. The manager is an absolute martinet.</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. He refuses to relinquish control.</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. The Head Nurse acts like a sycophant.</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. Sterilization creates a workflow bottleneck.</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">A. ...therefore, clean instruments are always delayed, backing up the whole clinic.</div>
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">B. ...so he micromanages the assistants instead of trusting them to prep the trays.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">C. ...consequently, staff are terrified of being one minute late for their shift.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. ...she flatters the Chief Surgeon constantly and never offers honest feedback.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 6: READING ====== -->
+<section class="section" id="t6">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 06</span>
             <h2 class="task-title" contenteditable="true">The Clinical <em>Mutiny</em></h2>
             <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the confidential HR email below regarding a toxic clinic environment. Notice how the author uses <strong>Advanced Conditionals</strong> (highlighted in <span style="color:var(--gold-600); font-weight:bold;">gold</span>) to describe hypothetical consequences and past regrets.</p>
         </div>
@@ -548,10 +600,10 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
             <div class="card card-teal" style="padding: 40px; font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.9;">
                 <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--teal-700); letter-spacing: 1px; margin-bottom: 24px; text-transform: uppercase; font-weight: 700; border-bottom: 1px solid var(--gray-200); padding-bottom: 12px;" contenteditable="true">Confidential // HR Report</div>
                 <p contenteditable="true" style="margin-bottom: 20px;">
-                    <span style="float: left; font-size: 3.5rem; line-height: 0.8; padding-right: 12px; color: var(--teal-900);">T</span>he situation in Operatory B has become entirely untenable. Dr. Weber is an absolute <span class="uk-tooltip" data-uk="суворий керівник / педант">martinet</span>. He insists on personally inspecting every customized tray setup before a procedure begins. <span style="color:var(--gold-600); font-weight:bold;">Had he relinquished control to the senior assistants weeks ago, we wouldn't be facing this severe bottleneck today.</span> 
+                    <span style="float: left; font-size: 3.5rem; line-height: 0.8; padding-right: 12px; color: var(--teal-900);">T</span>he situation in Operatory B has become entirely untenable. Dr. Weber is an absolute martinet. He insists on personally inspecting every customized tray setup before a procedure begins. <span style="color:var(--gold-600); font-weight:bold;">Had he relinquished control to the senior assistants weeks ago, we wouldn't be facing this severe bottleneck today.</span> 
                 </p>
                 <p contenteditable="true" style="margin-bottom: 20px;">
-                    To make matters worse, the Head Nurse acts as his personal <span class="uk-tooltip" data-uk="підлабузник">sycophant</span>. <span style="color:var(--gold-600); font-weight:bold;">If she weren't so desperate for his approval, she would have stopped him from using the expired composites yesterday.</span> Instead, she simply nodded and handed him the syringe. 
+                    To make matters worse, the Head Nurse acts as his personal sycophant. <span style="color:var(--gold-600); font-weight:bold;">If she weren't so desperate for his approval, she would have stopped him from using the expired composites yesterday.</span> Instead, she simply nodded and handed him the syringe. 
                 </p>
                 <p contenteditable="true">
                     <span style="color:var(--gold-600); font-weight:bold;">Should management ignore this formal complaint, three of our best hygienists will resign by Friday.</span> <span style="color:var(--gold-600); font-weight:bold;">Were Dr. Weber to step down as Clinical Director, the department's efficiency would double overnight.</span> Immediate intervention is required.
@@ -572,51 +624,102 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
                 </div>
                 <div class="prompt-item" style="border-left-color: var(--teal-700);">
                     <strong contenteditable="true" style="color:var(--teal-900);">Clinical Ethics</strong>
-                    <p contenteditable="true">The Head Nurse allowed the doctor to use expired composites just to please him. How common is this kind of "sycophantic" behavior in highly rigid medical hierarchies?</p>
+                    <p contenteditable="true">The Head Nurse allowed the doctor to use expired composites just to please him. How common is this kind of behavior in highly rigid medical hierarchies?</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ====== TASK 9: GRAMMAR THEORY 1 ====== -->
-<section class="section" id="t9">
+<!-- ====== TASK 7: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t7">
     <div class="section-inner">
         <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 09</span>
+            <span class="task-label" contenteditable="true">Task 07</span>
             <h2 class="task-title" contenteditable="true">Mixed <em>Conditionals</em></h2>
             <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">At the C1/C2 level, we rarely use simple Type 2 or Type 3 conditionals. In the real world, past actions have present consequences, and present traits affect past events. We must <strong>mix</strong> them.</p>
         </div>
 
-        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
-            <h3 contenteditable="true" style="color: var(--teal-900); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.5rem;">1. Past Action → Present Consequence (Type 3 + 2)</h3>
-            <p style="color:var(--gray-600); margin-bottom:16px;" contenteditable="true"><strong>Formula:</strong> If + Past Perfect , <em>would + bare infinitive</em>.</p>
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <h3 contenteditable="true" style="color: var(--teal-900); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.6rem;">1. Past Action → Present Consequence (Type 3 + 2)</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true"><strong>Formula:</strong> If + Past Perfect , <em>would + bare infinitive</em>.</p>
             
-            <div style="background: var(--gray-50); padding: 20px; border-radius: var(--radius-sm); border-left: 4px solid var(--teal-700);">
-                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--danger); margin-bottom:8px;" contenteditable="true">CONTEXT: He didn't relinquish control yesterday. We are behind schedule now.</p>
-                <p style="font-size:1.1rem; color:var(--gray-900); font-weight:600;" contenteditable="true">"If he <strong>had relinquished</strong> control yesterday, we <strong>wouldn't be</strong> behind schedule now."</p>
+            <div style="background: var(--gray-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--teal-700);">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--danger); margin-bottom:12px; text-transform:uppercase;" contenteditable="true">Context: He didn't relinquish control yesterday. We are behind schedule now.</p>
+                <p style="font-size:1.15rem; color:var(--gray-900); font-weight:600;" contenteditable="true">"If he <strong>had relinquished</strong> control yesterday, we <strong>wouldn't be</strong> behind schedule now."</p>
             </div>
         </div>
 
-        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px; box-shadow: var(--shadow-sm);">
-            <h3 contenteditable="true" style="color: var(--gold-600); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.5rem;">2. Present Trait → Past Consequence (Type 2 + 3)</h3>
-            <p style="color:var(--gray-600); margin-bottom:16px;" contenteditable="true"><strong>Formula:</strong> If + Past Simple , <em>would + have + V3</em>.</p>
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm);">
+            <h3 contenteditable="true" style="color: var(--gold-600); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.6rem;">2. Present Trait → Past Consequence (Type 2 + 3)</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true"><strong>Formula:</strong> If + Past Simple , <em>would + have + V3</em>.</p>
             
-            <div style="background: var(--gold-50); padding: 20px; border-radius: var(--radius-sm); border-left: 4px solid var(--gold-500);">
-                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--danger); margin-bottom:8px;" contenteditable="true">CONTEXT: She is naturally a sycophant. She agreed with his terrible idea yesterday.</p>
-                <p style="font-size:1.1rem; color:var(--gold-600); font-weight:600;" contenteditable="true">"If she <strong>weren't</strong> a sycophant, she <strong>wouldn't have agreed</strong> with his idea yesterday."</p>
+            <div style="background: var(--gold-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--gold-500);">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--danger); margin-bottom:12px; text-transform:uppercase;" contenteditable="true">Context: She is naturally a sycophant. She agreed with his terrible idea yesterday.</p>
+                <p style="font-size:1.15rem; color:var(--gold-600); font-weight:600;" contenteditable="true">"If she <strong>weren't</strong> a sycophant, she <strong>wouldn't have agreed</strong> with his idea yesterday."</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ====== TASK 10: GRAMMAR THEORY 2 ====== -->
-<section class="section" id="t10">
+<!-- ====== TASK 8: GRAMMAR DRILL 1 ====== -->
+<section class="section" id="t8">
     <div class="section-inner">
         <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 10</span>
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">Mixed Conditional <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Combine the two facts into a single Mixed Conditional sentence. Type your answer and click verify.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--danger); margin-bottom:8px;" contenteditable="true">FACT: I didn't sleep last night. I am exhausted today. (Type 3 + 2)</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">If I</span>
+                    <input type="text" class="drill-input" id="drill8-1" placeholder="had slept last night, I wouldn't be exhausted today">
+                    <button class="btn-verify" onclick="checkDrill(8, 1, 'had slept last night, i wouldn\'t be exhausted')">Verify</button>
+                </div>
+                <div id="fb8-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--danger); margin-bottom:8px;" contenteditable="true">FACT: The clinic is understaffed (present). We lost three patients yesterday (past). (Type 2 + 3)</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">If the clinic</span>
+                    <input type="text" class="drill-input" id="drill8-2" placeholder="weren't understaffed, we wouldn't have lost...">
+                    <button class="btn-verify" onclick="checkDrill(8, 2, 'weren\'t understaffed, we wouldn\'t have lost')">Verify</button>
+                </div>
+                <div id="fb8-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            function checkDrill(task, num, target) {
+                const input = document.getElementById(`drill${task}-${num}`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                const val = input.value.toLowerCase().replace(/[^a-z0-9\s,']/g, '');
+                const t = target.toLowerCase().replace(/[^a-z0-9\s,']/g, '');
+                
+                fb.style.display = 'block';
+                if(val.includes(t) || t.includes(val) && val.length > 10) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct Syntax'; input.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: "${target}"`; input.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- END OF PART 1 -->
+
+    <!-- ====== TASK 9: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 09</span>
             <h2 class="task-title" contenteditable="true">Conditional <em>Inversion</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">To sound highly authoritative, formal, or demanding (especially in professional writing), we drop the word "If" entirely and <strong>invert</strong> the subject and the auxiliary verb.</p>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">To sound highly authoritative, formal, or demanding (especially in professional writing and emails), we drop the word "If" entirely and <strong>invert</strong> the subject and the auxiliary verb.</p>
         </div>
 
         <div class="split-layout">
@@ -642,7 +745,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
                 <h3 style="color:var(--teal-900); font-family:var(--font-serif); margin-bottom:20px;" contenteditable="true">Usage in Context</h3>
                 <ul style="list-style:none; display:flex; flex-direction:column; gap:20px;">
                     <li contenteditable="true">
-                        <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--gold-600); text-transform:uppercase; display:block; margin-bottom:4px;">Type 1 (Future)</span>
+                        <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--gold-600); text-transform:uppercase; display:block; margin-bottom:4px;">Type 1 (Future / Politeness)</span>
                         <strong>Should you require</strong> more composite, let me know.
                     </li>
                     <li contenteditable="true" style="border-top: 1px solid var(--gray-200); padding-top: 20px;">
@@ -650,7 +753,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
                         <strong>Were the martinet to relinquish</strong> control, we would be faster.
                     </li>
                     <li contenteditable="true" style="border-top: 1px solid var(--gray-200); padding-top: 20px;">
-                        <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--gold-600); text-transform:uppercase; display:block; margin-bottom:4px;">Type 3 (Past Regret)</span>
+                        <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--gold-600); text-transform:uppercase; display:block; margin-bottom:4px;">Type 3 (Past Regret/Reprimand)</span>
                         <strong>Had she not acted</strong> like a sycophant, he wouldn't have failed.
                     </li>
                 </ul>
@@ -659,35 +762,86 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     </div>
 </section>
 
-<!-- ====== TASK 11: SYNTAX APPLICATION ====== -->
+<!-- ====== TASK 10: GRAMMAR DRILL 2 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">Inversion <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Transform these standard "If" clauses into formal, inverted conditionals. Type your answer and check.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--teal-700); margin-bottom:8px;" contenteditable="true">STANDARD: If I had known he was a micromanager, I wouldn't have applied.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <input type="text" class="drill-input" id="drill10-1" placeholder="Type the inverted clause here...">
+                    <span style="font-weight:600; color:var(--gray-600);">, I wouldn't have applied.</span>
+                    <button class="btn-verify" onclick="checkDrill(10, 1, 'had i known he was a micromanager')">Verify</button>
+                </div>
+                <div id="fb10-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--teal-700); margin-bottom:8px;" contenteditable="true">STANDARD: If you should need any assistance with the sterilization logs, contact me.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <input type="text" class="drill-input" id="drill10-2" placeholder="Type the inverted clause here...">
+                    <span style="font-weight:600; color:var(--gray-600);">, contact me.</span>
+                    <button class="btn-verify" onclick="checkDrill(10, 2, 'should you need any assistance with the sterilization logs')">Verify</button>
+                </div>
+                <div id="fb10-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+            
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--teal-700); margin-bottom:8px;" contenteditable="true">STANDARD: If the manager were to resign, the bottleneck would vanish.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <input type="text" class="drill-input" id="drill10-3" placeholder="Type the inverted clause here...">
+                    <span style="font-weight:600; color:var(--gray-600);">, the bottleneck would vanish.</span>
+                    <button class="btn-verify" onclick="checkDrill(10, 3, 'were the manager to resign')">Verify</button>
+                </div>
+                <div id="fb10-3" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            function checkDrill(task, num, target) {
+                const input = document.getElementById(`drill${task}-${num}`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                const val = input.value.toLowerCase().replace(/[^a-z0-9\s,']/g, '').trim();
+                const t = target.toLowerCase().replace(/[^a-z0-9\s,']/g, '').trim();
+                
+                fb.style.display = 'block';
+                if(val === t || val.includes(t)) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct Syntax'; input.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: "${target}"`; input.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 11: SYNTAX CIRCUIT ====== -->
 <section class="section" id="t11">
     <div class="section-inner">
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 11</span>
             <h2 class="task-title" contenteditable="true">The Grammar <em>Circuit</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Apply your knowledge of Inversion and Mixed Conditionals. Rewrite the sentences below according to the bolded prompts.</p>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Combine your knowledge. Select the correct combination of inversion and mixed conditionals to complete the thoughts.</p>
         </div>
 
         <ul class="practice-list">
             <li>
-                <div contenteditable="true"><strong>Mixed (Type 3+2):</strong> He micromanaged the schedule yesterday. Now we have a bottleneck.<br>
-                If he hadn't micromanaged the schedule yesterday, we <span class="blank-input" style="min-width: 180px;"></span> a bottleneck now.</div>
+                <div contenteditable="true"><strong>Past Action → Present Effect:</strong> <br>
+                <span class="blank-input" style="min-width: 120px;"></span> <em>(If she hadn't)</em> acted like a sycophant yesterday, she <span class="blank-input" style="min-width: 120px;"></span> <em>(would not be)</em> in trouble with HR today.</div>
             </li>
             <li>
-                <div contenteditable="true"><strong>Inversion (Type 3):</strong> If I had known he was a martinet, I wouldn't have taken the job.<br>
-                <span class="blank-input" style="min-width: 150px;"></span> known he was a martinet, I wouldn't have taken the job.</div>
+                <div contenteditable="true"><strong>Present Trait → Past Effect:</strong> <br>
+                If the doctor <span class="blank-input" style="min-width: 120px;"></span> <em>(were not)</em> such a martinet, he <span class="blank-input" style="min-width: 120px;"></span> <em>(would have trusted)</em> us to prep the operatory this morning.</div>
             </li>
             <li>
-                <div contenteditable="true"><strong>Mixed (Type 2+3):</strong> She is a sycophant. She flattered the boss during the meeting yesterday.<br>
-                If she <span class="blank-input" style="min-width: 150px;"></span> a sycophant, she wouldn't have flattered the boss yesterday.</div>
-            </li>
-            <li>
-                <div contenteditable="true"><strong>Inversion (Type 1):</strong> If you experience any pain after the extraction, call the clinic.<br>
-                <span class="blank-input" style="min-width: 180px;"></span> experience any pain after the extraction, call the clinic.</div>
-            </li>
-            <li>
-                <div contenteditable="true"><strong>Inversion (Type 2):</strong> If management stepped in, the situation would improve.<br>
-                <span class="blank-input" style="min-width: 150px;"></span> management to step in, the situation would improve.</div>
+                <div contenteditable="true"><strong>Polite Future Inversion:</strong> <br>
+                <span class="blank-input" style="min-width: 120px;"></span> <em>(If you should)</em> encounter a scheduling bottleneck, please notify reception immediately.</div>
             </li>
         </ul>
     </div>
@@ -705,16 +859,16 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         <div class="split-layout">
             <div class="card card-teal">
                 <h3 style="color:var(--teal-900); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">The Lead Assistant</h3>
-                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You are fed up. The clinic's <strong>bottleneck</strong> is caused entirely by Dr. Weber's refusal to <strong>relinquish</strong> control over tray preps. You are confronting the Head Nurse (who always defends him). Warn her that staff will quit.</p>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You are fed up. The clinic's <strong>bottleneck</strong> is caused entirely by Dr. Weber's refusal to <strong>relinquish</strong> control over tray preps. You are confronting the Head Nurse (who always defends him). Warn her that the staff will quit.</p>
                 <div style="background: var(--gray-50); padding: 16px; border-radius: 8px; border-left: 3px solid var(--teal-700);">
                     <strong style="color:var(--teal-900); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
-                    <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">Use an Inverted Type 1 Conditional ("Should Dr. Weber refuse to...") and a Mixed Conditional ("If he had trusted us yesterday, we wouldn't be...").</span>
+                    <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">Use an Inverted Type 1 Conditional ("Should Dr. Weber refuse to...") and a Mixed Conditional ("Had he trusted us yesterday, we wouldn't be...").</span>
                 </div>
             </div>
 
             <div class="card card-gold">
                 <h3 style="color:var(--gold-600); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">The Head Nurse (Sycophant)</h3>
-                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You are a classic <strong>sycophant</strong>. You defend the <strong>martinet</strong> doctor because you believe his strictness equals excellence. You think the assistants are just lazy and complaining unnecessarily.</p>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You are a classic <strong>sycophant</strong>. You defend the <strong>martinet</strong> doctor because you believe his strictness equals clinical excellence. You think the assistants are just lazy and complaining unnecessarily.</p>
                 <div style="background: var(--gray-50); padding: 16px; border-radius: 8px; border-left: 3px solid var(--gold-500);">
                     <strong style="color:var(--gold-600); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
                     <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">Use an Inverted Type 2 Conditional ("Were you to work harder, he wouldn't need to...").</span>
@@ -730,25 +884,98 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 13</span>
             <h2 class="task-title" contenteditable="true">The Corporate <em>Scramble</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the letters to reveal the target C2 vocabulary words from today's lesson.</p>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the letters to reveal the target C2 vocabulary words from today's lesson. Type your answer and press Enter.</p>
         </div>
 
         <div style="background:white; border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:60px 40px; box-shadow:var(--shadow-md); text-align:center; max-width: 700px; margin: 0 auto;" id="scramble-container">
             <div id="scramble-word" style="font-family:var(--font-mono); font-size:3rem; letter-spacing:10px; color:var(--teal-900); margin-bottom:20px; font-weight:700;"></div>
             <div id="scramble-hint" style="color:var(--gray-600); font-style:italic; margin-bottom:40px; font-size:1.15rem;"></div>
-            <input type="text" id="scramble-input" placeholder="Type the word..." style="padding:16px 24px; border:2px solid var(--gray-200); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:700; color:var(--teal-900); transition:border-color 0.2s;" onkeydown="if(event.key==='Enter')checkScramble()">
+            
+            <input type="text" id="scramble-input" placeholder="Type the word..." style="padding:16px 24px; border:2px solid var(--gray-200); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:700; color:var(--teal-900); transition:border-color 0.2s;" onkeydown="if(event.key==='Enter') window.checkScrambleGame()">
             <br>
-            <button onclick="checkScramble()" style="background:var(--gold-500); color:white; border:none; padding:14px 40px; border-radius:50px; font-weight:700; cursor:pointer; font-size:1.1rem; transition: background 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px;">Submit</button>
+            <button onclick="window.checkScrambleGame()" style="background:var(--gold-500); color:white; border:none; padding:14px 40px; border-radius:50px; font-weight:700; cursor:pointer; font-size:1.1rem; transition: background 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px;">Submit</button>
             <div id="scramble-fb" style="margin-top:24px; font-weight:700; font-size:1.2rem; font-family:var(--font-mono); min-height: 30px;"></div>
         </div>
     </div>
 </section>
 
-<!-- ====== TASK 14: SUM UP ====== -->
-<section class="section" id="t14" style="border-bottom:none;">
+<!-- ====== TASK 14: PRONUNCIATION LAB ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">Pronunciation <em>Lab</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">These five words are notoriously difficult for Ukrainian speakers due to tricky consonant clusters, silent letters, and shifting stress. Practice them out loud with your instructor.</p>
+        </div>
+
+        <div class="split-layout">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 1 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--teal-900);" contenteditable="true">Hierarchy</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ˈhaɪə.rɑː.ki/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> Ukrainian speakers often say "gierarhia". Remember the "H" is soft, and the "ch" sounds like "k".</span>
+                    </div>
+                </div>
+
+                <!-- Word 2 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--teal-900);" contenteditable="true">Sycophant</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ˈsɪk.ə.fænt/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The 'y' sounds like 'i'. The 'ph' is an 'f' sound. Stress is heavily on the FIRST syllable.</span>
+                    </div>
+                </div>
+
+                <!-- Word 3 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--teal-900);" contenteditable="true">Relinquish</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/rɪˈlɪŋ.kwɪʃ/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The "qu" makes a /kw/ sound. Do not pronounce it like the Ukrainian /v/ or /kv/. Round your lips!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 4 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--teal-900);" contenteditable="true">Colleague</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ˈkɒl.iːɡ/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> Only TWO syllables. The "ue" at the end is completely silent. It is not "co-lee-gue".</span>
+                    </div>
+                </div>
+
+                <!-- Word 5 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--teal-900);" contenteditable="true">Bureaucracy</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/bjʊəˈrɒk.rə.si/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The vowels are a nightmare. It starts with /byoor/. Stress the second syllable heavily.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: FINAL SYNTHESIS ====== -->
+<section class="section" id="t15" style="border-bottom:none;">
     <div class="section-inner">
         <div class="task-header" style="text-align:center; margin-bottom:0;">
-            <span class="task-label" contenteditable="true">Task 14</span>
+            <span class="task-label" contenteditable="true">Task 15</span>
         </div>
         <div style="background: var(--teal-900); color: white; padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
             <div style="position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
@@ -761,7 +988,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
                     <li contenteditable="true"><strong style="color:var(--gold-400);">Lexicon:</strong> martinet, sycophant, relinquish, bottleneck.</li>
                     <li contenteditable="true"><strong style="color:var(--gold-400);">Grammar (Mixed Conditionals):</strong> Linking past actions to present realities (If he had... we wouldn't be...).</li>
                     <li contenteditable="true"><strong style="color:var(--gold-400);">Grammar (Inversion):</strong> Elevating formal hypotheticals (Had I known / Should you need / Were he to).</li>
-                    <li contenteditable="true"><strong style="color:var(--gold-400);">Speaking Skills:</strong> Challenging toxic clinic leadership and diagnosing management failures.</li>
+                    <li contenteditable="true"><strong style="color:var(--gold-400);">Pronunciation:</strong> Overcoming L1 interference on complex clinical/management vocabulary.</li>
                 </ul>
             </div>
         </div>
@@ -770,13 +997,13 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 
 </main> <!-- END MAIN CONTENT -->
 
-<!-- ====== HOMEWORK MODULE (Task 15: Anti-Cheat, 15 Mins, 15 Questions) ====== -->
+<!-- ====== HOMEWORK MODULE (15 Mins, 15 Questions) ====== -->
 <div id="task-hw" style="display:none; position: fixed; inset: 0; background: var(--gray-50); z-index: 2000; overflow-y: auto; padding: 60px 20px;">
     <div style="max-width: 800px; margin: 0 auto;">
         
         <!-- Welcome Screen -->
         <section id="hw-welcome" class="hw-screen active" style="text-align: center; background:white; padding:60px; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); border-top: 6px solid var(--teal-900);">
-            <div style="font-family:var(--font-mono); color:var(--teal-700); letter-spacing:2px; margin-bottom:16px; font-weight:700;">TASK 15: FINAL ASSESSMENT</div>
+            <div style="font-family:var(--font-mono); color:var(--teal-700); letter-spacing:2px; margin-bottom:16px; font-weight:700;">FINAL ASSESSMENT</div>
             <h2 style="font-family:var(--font-serif); font-size:3rem; color:var(--gray-900); margin-bottom:20px; font-weight:700;">Module 24 Protocol</h2>
             <p style="color:var(--gray-600); margin-bottom:40px; font-size:1.1rem; max-width:550px; margin-left:auto; margin-right:auto;">
                 <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 advanced syntax and vocabulary challenges. <br>
@@ -877,32 +1104,6 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 
 <!-- ══ SCRIPTS ══ -->
 <script>
-    // --- Navigation & Toggles ---
-    document.getElementById('navTabsContainer').addEventListener('click', e => {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
-            const id = e.target.getAttribute('href');
-            if (id === '#hw') {
-                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-                document.querySelector('.hero').style.display = 'none';
-                document.getElementById('task-hw').style.display = 'block';
-                window.scrollTo(0, 0);
-            } else if (id && id.startsWith('#')) {
-                exitHomework();
-                document.querySelectorAll('.nav-item a').forEach(a => a.classList.remove('active'));
-                e.target.classList.add('active');
-                const el = document.querySelector(id);
-                if (el) window.scrollTo({top: el.getBoundingClientRect().top - 80, behavior: 'smooth'});
-            }
-        }
-    });
-
-    function exitHomework() {
-        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
-        document.querySelector('.hero').style.display = 'block';
-        document.getElementById('task-hw').style.display = 'none';
-    }
-
     // --- Scramble Game Logic ---
     const scrambleWords = [
         { word: "MARTINET", hint: "A strict disciplinarian who demands absolute obedience to rules." },
@@ -934,7 +1135,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         document.getElementById('scramble-fb').innerText = "";
     }
     
-    window.checkScramble = function() {
+    window.checkScrambleGame = function() {
         let inputEl = document.getElementById('scramble-input');
         let input = inputEl.value.toUpperCase().replace(/[^A-Z]/g, '');
         let target = scrambleWords[scrambleIndex].word.replace(/[^A-Z]/g, '');
@@ -950,8 +1151,11 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
             fb.style.color = "var(--danger)";
             inputEl.style.borderColor = "var(--danger)";
             
-            inputEl.style.animation = 'shake 0.4s';
-            setTimeout(() => { inputEl.style.animation = ''; }, 400);
+            // Simple shake animation via style
+            inputEl.style.transform = 'translateX(5px)';
+            setTimeout(() => { inputEl.style.transform = 'translateX(-5px)'; }, 100);
+            setTimeout(() => { inputEl.style.transform = 'translateX(5px)'; }, 200);
+            setTimeout(() => { inputEl.style.transform = 'translateX(0)'; }, 300);
         }
     };
 
