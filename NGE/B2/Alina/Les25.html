@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 25: C1/C2 | Personal Finance & Investing</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    /* FinTech Dark Mode Theme */
+    --bg-base: #0B0F19;
+    --bg-surface: #131A2A;
+    --bg-elevated: #1C263B;
+    
+    --neon-cyan: #00E5FF;
+    --neon-cyan-dim: rgba(0, 229, 255, 0.15);
+    --neon-purple: #B400FF;
+    --neon-purple-dim: rgba(180, 0, 255, 0.15);
+    --neon-green: #00FF88;
+    --neon-green-dim: rgba(0, 255, 136, 0.15);
+    
+    --text-primary: #FFFFFF;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    
+    --danger: #FF3366;
+    --warning: #FFD600;
+    
+    --font-ui: 'Inter', sans-serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --shadow-glow-cyan: 0 0 20px rgba(0, 229, 255, 0.2);
+    --shadow-glow-purple: 0 0 20px rgba(180, 0, 255, 0.2);
+    
+    --border-thin: 1px solid rgba(255, 255, 255, 0.1);
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-ui);
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-base);
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.05), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(180, 0, 255, 0.05), transparent 25%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, .display-font { font-family: var(--font-display); }
+.mono-font { font-family: var(--font-mono); }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+
+[contenteditable="true"] { outline: none; transition: all 0.3s ease; border-bottom: 1px dashed transparent; }
+[contenteditable="true"]:focus, [contenteditable="true"]:hover {
+    background-color: var(--neon-cyan-dim);
+    border-bottom: 1px dashed var(--neon-cyan);
+    border-radius: 4px;
+}
+
+/* ====== UKRAINIAN HOVER TOOLTIP ====== */
+.uk-tooltip {
+    position: relative; cursor: help; border-bottom: 1px dashed var(--neon-cyan);
+    font-weight: 600; color: var(--neon-cyan); transition: text-shadow 0.2s;
+}
+.uk-tooltip:hover { text-shadow: 0 0 8px var(--neon-cyan); }
+.uk-tooltip::after {
+    content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+    transform: translateX(-50%); background: var(--bg-elevated); color: var(--text-primary);
+    padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.2s;
+    z-index: 50; border: 1px solid rgba(0, 229, 255, 0.3); box-shadow: var(--shadow-glow-cyan);
+}
+.uk-tooltip:hover::after { opacity: 1; bottom: 140%; }
+
+/* ====== HERO ====== */
+.hero {
+    position: relative; padding: 120px 24px 80px; text-align: center;
+    border-bottom: var(--border-thin); background: rgba(11, 15, 25, 0.8);
+    backdrop-filter: blur(10px);
+}
+.hero-badge {
+    display: inline-block; background: var(--neon-purple-dim);
+    border: 1px solid var(--neon-purple); color: var(--neon-purple); padding: 6px 16px;
+    border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    box-shadow: var(--shadow-glow-purple);
+}
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
+.hero h1 span { color: transparent; -webkit-text-stroke: 1px var(--neon-cyan); }
+.hero-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 30px; font-weight: 400; }
+.hero-stats { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.stat-box { background: var(--bg-surface); border: var(--border-thin); padding: 12px 24px; border-radius: var(--radius-md); text-align: center; }
+.stat-val { font-family: var(--font-mono); font-size: 1.2rem; color: var(--neon-green); font-weight: 700; }
+.stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ====== NAV ====== */
+.nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(11, 15, 25, 0.85); backdrop-filter: blur(16px); border-bottom: var(--border-thin); padding: 0 24px; }
+.nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+.nav-logo { font-weight: 700; font-size: 1.2rem; color: var(--text-primary); text-decoration: none; display: flex; align-items: center; gap: 8px; font-family: var(--font-display); letter-spacing: 1px;}
+.nav-logo .dot { display: inline-block; width: 10px; height: 10px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--neon-cyan); }
+.nav-links { display: flex; gap: 8px; list-style: none; overflow-x: auto; }
+.nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; padding: 8px 16px; border-radius: var(--radius-full); transition: all 0.2s; font-family: var(--font-mono); text-transform: uppercase;}
+.nav-links a:hover, .nav-links a.active { color: var(--bg-base); background: var(--neon-cyan); box-shadow: var(--shadow-glow-cyan); }
+
+/* ====== LAYOUT & SECTIONS ====== */
+.section { padding: 80px 24px; border-bottom: var(--border-thin); }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.task-header { margin-bottom: 40px; }
+.task-label { display: inline-block; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--neon-cyan); margin-bottom: 12px; font-family: var(--font-mono); border-left: 3px solid var(--neon-cyan); padding-left: 12px; }
+.task-title { font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 16px; line-height: 1.1; }
+.task-title em { color: var(--neon-purple); font-style: normal; font-weight: 400; }
+.section-desc { color: var(--text-secondary); font-size: 1.1rem; max-width: 750px; }
+
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+@media (max-width: 960px) { .split-layout { grid-template-columns: 1fr; } }
+
+/* ====== CARDS ====== */
+.card { background: var(--bg-surface); border: var(--border-thin); border-radius: var(--radius-lg); padding: 32px; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; }
+.card:hover { border-color: rgba(0, 229, 255, 0.3); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--neon-cyan); opacity: 0; transition: opacity 0.3s; }
+.card:hover::before { opacity: 1; }
+.card.purple::before { background: var(--neon-purple); }
+.card.purple:hover { border-color: rgba(180, 0, 255, 0.3); }
+
+/* ====== INPUTS & LISTS ====== */
+.practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+.practice-list li { background: var(--bg-surface); padding: 20px 24px; border-radius: var(--radius-md); border: var(--border-thin); font-size: 1.05rem; display: flex; gap: 16px; align-items: center; }
+.list-num { font-family: var(--font-mono); color: var(--neon-cyan); font-weight: 700; font-size: 1.2rem; }
+.blank-input { background: transparent; border: none; border-bottom: 1px solid var(--text-muted); color: var(--neon-green); font-family: var(--font-mono); font-size: 1rem; padding: 4px 8px; text-align: center; width: 150px; outline: none; transition: all 0.2s; }
+.blank-input:focus { border-bottom-color: var(--neon-green); background: var(--neon-green-dim); }
+
+/* ====== INTERACTIVE VOCAB GRID (T03-T06) ====== */
+.vocab-dashboard { display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
+@media (max-width: 960px) { .vocab-dashboard { grid-template-columns: 1fr; } }
+
+.vocab-list { display: flex; flex-direction: column; gap: 12px; }
+.vocab-btn { background: var(--bg-surface); border: var(--border-thin); padding: 16px 20px; border-radius: var(--radius-md); color: var(--text-primary); font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; text-align: left; cursor: pointer; transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; }
+.vocab-btn:hover { background: var(--bg-elevated); border-color: var(--neon-cyan); }
+.vocab-btn.active { background: var(--neon-cyan-dim); border-color: var(--neon-cyan); box-shadow: var(--shadow-glow-cyan); color: var(--neon-cyan); }
+
+.vocab-display { background: var(--bg-surface); border: var(--border-thin); border-radius: var(--radius-lg); padding: 40px; position: relative; min-height: 400px; }
+.vocab-panel { display: none; animation: slideIn 0.3s ease; }
+.vocab-panel.active { display: block; }
+
+@keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+.v-word { font-size: 3rem; font-family: var(--font-display); font-weight: 700; color: var(--neon-cyan); margin-bottom: 8px; line-height: 1; }
+.v-pron { font-family: var(--font-mono); color: var(--text-secondary); margin-bottom: 24px; display: block; }
+.v-def { font-size: 1.2rem; color: var(--text-primary); margin-bottom: 30px; border-left: 3px solid var(--neon-purple); padding-left: 16px; }
+.v-ccq { background: var(--bg-elevated); padding: 20px; border-radius: var(--radius-md); margin-bottom: 20px; }
+.v-ccq-title { font-family: var(--font-mono); font-size: 0.85rem; color: var(--neon-purple); text-transform: uppercase; margin-bottom: 12px; display: block; }
+
+/* ====== MATCHING GAME ====== */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+.match-col { display: flex; flex-direction: column; gap: 16px; }
+.match-item { background: var(--bg-surface); border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s; font-weight: 500; font-size: 1.05rem; }
+.match-item:hover { border-color: var(--neon-cyan); background: var(--bg-elevated); }
+.match-item.selected { background: var(--neon-cyan-dim); border-color: var(--neon-cyan); box-shadow: var(--shadow-glow-cyan); }
+.match-item.matched { background: var(--neon-green-dim); border-color: var(--neon-green); color: var(--text-secondary); opacity: 0.6; cursor: default; }
+
+</style>
+</head>
+<body>
+
+<div id="syncStatus" style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: rgba(11,15,25,0.9); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); padding: 8px 20px; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(8px); font-family: var(--font-mono); text-transform: uppercase; box-shadow: var(--shadow-glow-cyan);">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan);"></span>
+    <span id="syncText">Terminal Active</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 25 • C1/C2 Global English</div>
+        <h1 contenteditable="true">Personal Finance <span>&</span> Investing</h1>
+        <p class="hero-subtitle" contenteditable="true">Transitioning into your residency brings your first real salary. Master the vocabulary of wealth management and the complex syntax of financial regrets and urgencies.</p>
+        <div class="hero-stats">
+            <div class="stat-box">
+                <div class="stat-val" contenteditable="true">Subjunctive</div>
+                <div class="stat-label" contenteditable="true">Syntax Rule</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-val" contenteditable="true">Wish / If Only</div>
+                <div class="stat-label" contenteditable="true">Mixed Patterns</div>
+            </div>
+            <div class="stat-box" style="border-color: var(--neon-purple);">
+                <div class="stat-val" style="color: var(--neon-purple);" contenteditable="true">4 High-Yield</div>
+                <div class="stat-label" contenteditable="true">Lexical Items</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">FinEng C1</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1" contenteditable="true">01. Warm-Up</a></li>
+            <li><a href="#t2" contenteditable="true">02. Lexical IPO</a></li>
+            <li><a href="#t3" contenteditable="true">03. Vocab Hub</a></li>
+            <li><a href="#t7" contenteditable="true">07. Portfolio Match</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: WARM-UP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 01</span>
+            <h2 class="task-title" contenteditable="true">The Financial <em>Pulse</em></h2>
+            <p class="section-desc" contenteditable="true">Now that you've transitioned into your surgical internship, the reality of managing a resident's salary—and planning for the future—is front and center. Discuss these prompts.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card">
+                <h3 class="display-font" style="color:var(--neon-cyan); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">The Resident's Dilemma</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;" contenteditable="true">Many young doctors graduate with significant debt or zero savings, and upon receiving their first real paycheck, they immediately upgrade their lifestyle (buying a car, expensive clothes) instead of investing.</p>
+                <div style="background:var(--bg-elevated); padding:16px; border-radius:8px;">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px; font-size:0.95rem; font-family:var(--font-mono);">QUERY:</strong>
+                    <span style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">Have you observed this "lifestyle creep" among your peers? How do you plan to handle your initial income spikes?</span>
+                </div>
+            </div>
+            
+            <div class="card purple">
+                <h3 class="display-font" style="color:var(--neon-purple); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Risk Tolerance</h3>
+                <p style="color:var(--text-secondary); margin-bottom:20px;" contenteditable="true">In the operating room, risk must be mitigated at all costs. In the stock market, taking zero risk means your money loses value to inflation over time.</p>
+                <div style="background:var(--bg-elevated); padding:16px; border-radius:8px;">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px; font-size:0.95rem; font-family:var(--font-mono);">QUERY:</strong>
+                    <span style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">Does your clinical training make you overly cautious with personal finances? Would you rather invest in a safe, slow index fund or a volatile tech startup?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: VOCABULARY GUESS ====== -->
+<section class="section" id="t2">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 02</span>
+            <h2 class="task-title" contenteditable="true">Lexical <em>IPO</em></h2>
+            <p class="section-desc" contenteditable="true">Four C1/C2 financial terms are hidden below. Read the contextual hints from a young doctor's financial diary and guess the missing word.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <span class="list-num">1</span>
+                <div style="flex:1;">
+                    <p contenteditable="true" style="margin-bottom:8px;">"Private practice plastic surgery is incredibly <strong>___</strong>, generating massive profits compared to a standard hospital salary."</p>
+                    <input type="text" class="blank-input" placeholder="Guess word..." style="width:200px;">
+                </div>
+            </li>
+            <li>
+                <span class="list-num">2</span>
+                <div style="flex:1;">
+                    <p contenteditable="true" style="margin-bottom:8px;">"I watched my colleague completely <strong>___</strong> his first bonus on a luxury watch instead of paying off his loans."</p>
+                    <input type="text" class="blank-input" placeholder="Guess word..." style="width:200px;">
+                </div>
+            </li>
+            <li>
+                <span class="list-num">3</span>
+                <div style="flex:1;">
+                    <p contenteditable="true" style="margin-bottom:8px;">"Crypto markets are known for extreme <strong>___</strong>; your portfolio can drop 40% in a single afternoon."</p>
+                    <input type="text" class="blank-input" placeholder="Guess word..." style="width:200px;">
+                </div>
+            </li>
+            <li>
+                <span class="list-num">4</span>
+                <div style="flex:1;">
+                    <p contenteditable="true" style="margin-bottom:8px;">"To afford the down payment on the clinic space, I had to <strong>___</strong> all my stock assets and turn them into cash."</p>
+                    <input type="text" class="blank-input" placeholder="Guess word..." style="width:200px;">
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASKS 3-6: VOCAB HUB ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Tasks 03 - 06</span>
+            <h2 class="task-title" contenteditable="true">The Asset <em>Tracker</em></h2>
+            <p class="section-desc" contenteditable="true">Explore the definitive meanings, forms, and phonetic structures of the target vocabulary.</p>
+        </div>
+
+        <div class="vocab-dashboard">
+            <!-- Sidebar Navigation -->
+            <div class="vocab-list" id="vList">
+                <button class="vocab-btn active" onclick="openVocab('v1', this)">1. Lucrative <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">Adj</span></button>
+                <button class="vocab-btn" onclick="openVocab('v2', this)">2. Squander <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">Verb</span></button>
+                <button class="vocab-btn" onclick="openVocab('v3', this)">3. Volatility <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">Noun</span></button>
+                <button class="vocab-btn" onclick="openVocab('v4', this)">4. Liquidate <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);">Verb</span></button>
+            </div>
+
+            <!-- Display Panels -->
+            <div class="vocab-display">
+                <!-- V1 -->
+                <div class="vocab-panel active" id="v1">
+                    <div class="v-word" contenteditable="true">Lucrative</div>
+                    <span class="v-pron" contenteditable="true">/ˈluː.krə.tɪv/</span>
+                    <div class="v-def" contenteditable="true">Producing a great deal of profit; highly financially rewarding.</div>
+                    
+                    <div class="v-ccq">
+                        <span class="v-ccq-title">Concept Checking</span>
+                        <ul class="ccq-list">
+                            <li contenteditable="true">If an investment pays you $5 a year, is it lucrative? (No).</li>
+                            <li contenteditable="true">Is becoming a specialized surgeon generally considered a <span class="uk-tooltip" data-uk="прибутковий">lucrative</span> career?</li>
+                        </ul>
+                    </div>
+                    <div style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">
+                        <strong style="color:var(--neon-cyan);">Collocations:</strong> a highly ~ business, a ~ contract, prove ~.
+                    </div>
+                </div>
+
+                <!-- V2 -->
+                <div class="vocab-panel" id="v2">
+                    <div class="v-word" contenteditable="true">Squander</div>
+                    <span class="v-pron" contenteditable="true">/ˈskwɒn.dər/</span>
+                    <div class="v-def" contenteditable="true">To waste (money, time, or an opportunity) in a reckless and foolish manner.</div>
+                    
+                    <div class="v-ccq">
+                        <span class="v-ccq-title">Concept Checking</span>
+                        <ul class="ccq-list">
+                            <li contenteditable="true">If you buy shares in an S&P 500 index fund, are you squandering your money?</li>
+                            <li contenteditable="true">If you spend your entire resident stipend on designer shoes, did you <span class="uk-tooltip" data-uk="розтринькати / змарнувати">squander</span> it?</li>
+                        </ul>
+                    </div>
+                    <div style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">
+                        <strong style="color:var(--neon-cyan);">Collocations:</strong> to ~ a fortune, to ~ an opportunity, ~ savings.
+                    </div>
+                </div>
+
+                <!-- V3 -->
+                <div class="vocab-panel" id="v3">
+                    <div class="v-word" contenteditable="true">Volatility</div>
+                    <span class="v-pron" contenteditable="true">/ˌvɒl.əˈtɪl.ə.ti/</span>
+                    <div class="v-def" contenteditable="true">Liability to change rapidly and unpredictably, especially for the worse (in markets or emotions).</div>
+                    
+                    <div class="v-ccq">
+                        <span class="v-ccq-title">Concept Checking</span>
+                        <ul class="ccq-list">
+                            <li contenteditable="true">If a stock's price stays at exactly $10 for a year, does it have high volatility?</li>
+                            <li contenteditable="true">Why does high market <span class="uk-tooltip" data-uk="мінливість / нестабільність">volatility</span> make conservative investors nervous?</li>
+                        </ul>
+                    </div>
+                    <div style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">
+                        <strong style="color:var(--neon-cyan);">Collocations:</strong> market ~, high ~, price ~. Adj: Volatile.
+                    </div>
+                </div>
+
+                <!-- V4 -->
+                <div class="vocab-panel" id="v4">
+                    <div class="v-word" contenteditable="true">Liquidate</div>
+                    <span class="v-pron" contenteditable="true">/ˈlɪk.wɪ.deɪt/</span>
+                    <div class="v-def" contenteditable="true">To convert assets (like stocks or property) into cash, often to pay off debts or make a large purchase.</div>
+                    
+                    <div class="v-ccq">
+                        <span class="v-ccq-title">Concept Checking</span>
+                        <ul class="ccq-list">
+                            <li contenteditable="true">If you own an apartment, can you buy groceries with it directly? (No).</li>
+                            <li contenteditable="true">You must <span class="uk-tooltip" data-uk="ліквідувати (перетворити в готівку)">liquidate</span> the asset first. What do you get in return? (Cash).</li>
+                        </ul>
+                    </div>
+                    <div style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">
+                        <strong style="color:var(--neon-cyan);">Collocations:</strong> to ~ assets, to ~ a company, forced liquidation.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function openVocab(id, btn) {
+                document.querySelectorAll('.vocab-panel').forEach(p => p.classList.remove('active'));
+                document.querySelectorAll('.vocab-btn').forEach(b => b.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                btn.classList.add('active');
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 7: MATCHING GAME ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 07</span>
+            <h2 class="task-title" contenteditable="true">The Investment <em>Portfolio</em></h2>
+            <p class="section-desc" contenteditable="true">Match the financial terminology on the left with the correct clinical or life context on the right.</p>
+        </div>
+
+        <div class="match-grid" id="matchGrid">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. Squander</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. Volatility</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. Lucrative</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. Liquidate</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">A. Selling your stocks instantly to pay for an emergency surgery.</div>
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">B. A biotech stock soaring 20% on Monday and crashing 30% on Tuesday.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">C. Blowing your entire signing bonus on a sports car.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. Opening a highly successful specialized clinic in a wealthy neighborhood.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+</section>
+
+<!-- END OF PART 1 -->
+
+  <!-- ====== TASK 8: READING ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">The Resident's <em>Ledger</em></h2>
+            <p class="section-desc" contenteditable="true">Read this personal journal entry from a surgical resident reflecting on their first year of income. Notice the grammatical structures used to express <strong>regrets</strong>, <strong>urgency</strong>, and <strong>demands</strong> (highlighted in <span style="color:var(--neon-cyan);">cyan</span> and <span style="color:var(--neon-purple);">purple</span>).</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card" style="padding: 40px; font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.9; border-top: 4px solid var(--neon-cyan);">
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 24px; text-transform: uppercase; font-weight: 700; border-bottom: var(--border-thin); padding-bottom: 12px;" contenteditable="true">Personal Log // Year 1 Residency</div>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    <span style="float: left; font-size: 3.5rem; line-height: 0.8; padding-right: 12px; color: var(--neon-cyan); font-family: var(--font-display); font-weight: 700;">I</span>t’s funny how a resident's salary feels massive until you look at the tax deductions. Looking back at my first six months, <span style="color:var(--neon-cyan); font-weight:bold;">I wish I hadn't squandered</span> my signing bonus on that luxury apartment upgrade. <span style="color:var(--neon-cyan); font-weight:bold;">If only I had understood</span> the power of compound interest earlier.
+                </p>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    Yesterday, my financial advisor warned me about the extreme <span class="uk-tooltip" data-uk="мінливість">volatility</span> in the crypto market. He insisted that <span style="color:var(--neon-purple); font-weight:bold;">I liquidate</span> those assets immediately to pay off my high-interest medical school loans. It is absolutely crucial that <span style="color:var(--neon-purple); font-weight:bold;">a young doctor avoid</span> high-risk trades before securing an emergency fund. 
+                </p>
+                <p contenteditable="true">
+                    I see my colleagues driving leased sports cars, but they are drowning in hidden debt. <span style="color:var(--neon-cyan); font-weight:bold;">It’s high time they stopped</span> pretending to be rich. As for me, it is imperative that <span style="color:var(--neon-purple); font-weight:bold;">I build</span> a highly <span class="uk-tooltip" data-uk="прибутковий">lucrative</span>, long-term portfolio now, so I have options when the clinical burnout inevitably hits.
+                </p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card" style="padding: 24px; border-left: 4px solid var(--neon-cyan);">
+                    <strong contenteditable="true" style="color:var(--neon-cyan); display:block; margin-bottom:8px; font-family:var(--font-display);">Syntax Analysis 1: Unreal Pasts</strong>
+                    <p contenteditable="true" style="color:var(--text-secondary); font-size:0.95rem;">Look at <em>"I wish I hadn't squandered"</em>. Did the author squander the money? What tense follows the word "wish" when talking about the past?</p>
+                </div>
+                <div class="card" style="padding: 24px; border-left: 4px solid var(--neon-cyan);">
+                    <strong contenteditable="true" style="color:var(--neon-cyan); display:block; margin-bottom:8px; font-family:var(--font-display);">Syntax Analysis 2: Urgency</strong>
+                    <p contenteditable="true" style="color:var(--text-secondary); font-size:0.95rem;">Look at <em>"It's high time they stopped"</em>. Have they stopped? Even though the verb is "stopped" (past), does it refer to the past or the present/future?</p>
+                </div>
+                <div class="card" style="padding: 24px; border-left: 4px solid var(--neon-purple);">
+                    <strong contenteditable="true" style="color:var(--neon-purple); display:block; margin-bottom:8px; font-family:var(--font-display);">Syntax Analysis 3: The Subjunctive</strong>
+                    <p contenteditable="true" style="color:var(--text-secondary); font-size:0.95rem;">Look at <em>"It is crucial that a young doctor avoid..."</em>. Why isn't there an 's' on the end of 'avoid' (avoids), since "a doctor" is singular?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 09</span>
+            <h2 class="task-title" contenteditable="true">Unreal Time: <em>Wish & It's Time</em></h2>
+            <p style="color:var(--text-secondary); font-size:1.1rem; max-width:700px;" contenteditable="true">We use specific verb patterns to talk about regrets, desires, and urgent complaints. In these structures, the tense steps backwards to show that the situation is <strong>unreal</strong> or hypothetical.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 32px;">
+            <h3 contenteditable="true" style="color: var(--neon-cyan); font-family: var(--font-display); margin-bottom: 16px; font-size: 1.5rem;">1. Wish / If Only</h3>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <div style="background: var(--bg-elevated); padding: 20px; border-radius: var(--radius-sm); border-left: 3px solid var(--neon-cyan);">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px;">Present Dissatisfaction</strong>
+                    <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;" contenteditable="true">Wish / If only + <strong>Past Simple</strong></p>
+                    <p style="font-size:1rem; color:var(--text-secondary);" contenteditable="true">"I wish I <strong>earned</strong> a higher salary right now." <br><em style="font-size:0.85rem;">(Reality: I don't earn a high salary)</em></p>
+                </div>
+                <div style="background: var(--bg-elevated); padding: 20px; border-radius: var(--radius-sm); border-left: 3px solid var(--neon-purple);">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px;">Past Regret</strong>
+                    <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;" contenteditable="true">Wish / If only + <strong>Past Perfect</strong></p>
+                    <p style="font-size:1rem; color:var(--text-secondary);" contenteditable="true">"If only I <strong>hadn't squandered</strong> my bonus last year." <br><em style="font-size:0.85rem;">(Reality: I did squander it)</em></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 contenteditable="true" style="color: var(--neon-cyan); font-family: var(--font-display); margin-bottom: 16px; font-size: 1.5rem;">2. It's (high / about) time</h3>
+            <p style="color:var(--text-secondary); margin-bottom:16px;" contenteditable="true">Used to say that something should be done urgently, or should have been done already. <strong>Even though it refers to the present/future, we use the Past Simple.</strong></p>
+            
+            <div style="background: var(--bg-elevated); padding: 20px; border-radius: var(--radius-sm); border-left: 3px solid var(--warning);">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--warning); margin-bottom:12px; text-transform:uppercase;" contenteditable="true">Formula: It's (high) time + Subject + Past Simple</p>
+                <p style="font-size:1.1rem; color:var(--text-primary); font-weight:600;" contenteditable="true">"It's high time you <strong>started</strong> investing your money."</p>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-top:8px;" contenteditable="true"><em>(Wrong: It's high time you start)</em></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">The <em>Subjunctive</em> Mood</h2>
+            <p style="color:var(--text-secondary); font-size:1.1rem; max-width:700px;" contenteditable="true">In formal, academic, or professional English, when we use verbs of command or adjectives of urgency, the following verb drops all conjugation (no 's', no '-ed', no 'ing'). It remains in its raw, <strong>base form</strong>.</p>
+        </div>
+
+        <div class="split-layout">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div class="card" style="padding: 24px; border: 1px solid rgba(180, 0, 255, 0.3);">
+                    <div style="font-weight: 600; color:var(--text-secondary); margin-bottom:8px;" contenteditable="true"><span style="text-decoration:line-through; color:var(--danger);">Normal:</span> The doctor insists that she <strong>liquidates</strong> the asset.</div>
+                    <div style="font-size:1.5rem; color:var(--text-muted); margin-bottom:8px;">↓</div>
+                    <div style="font-weight: 700; color: var(--neon-purple); font-size: 1.1rem;" contenteditable="true"><span style="color:var(--success);">Subjunctive:</span> The doctor insists that she <strong>liquidate</strong> the asset.</div>
+                </div>
+                
+                <div class="card" style="padding: 24px; border: 1px solid rgba(180, 0, 255, 0.3);">
+                    <div style="font-weight: 600; color:var(--text-secondary); margin-bottom:8px;" contenteditable="true"><span style="text-decoration:line-through; color:var(--danger);">Normal:</span> It is crucial that he <strong>is</strong> careful.</div>
+                    <div style="font-size:1.5rem; color:var(--text-muted); margin-bottom:8px;">↓</div>
+                    <div style="font-weight: 700; color: var(--neon-purple); font-size: 1.1rem;" contenteditable="true"><span style="color:var(--success);">Subjunctive:</span> It is crucial that he <strong>be</strong> careful.</div>
+                </div>
+            </div>
+
+            <div class="card purple" style="padding: 30px;">
+                <h3 style="color:var(--text-primary); font-family:var(--font-display); margin-bottom:20px;" contenteditable="true">Trigger Words</h3>
+                <p style="color:var(--text-secondary); font-size:0.95rem; margin-bottom:16px;" contenteditable="true">The subjunctive is triggered by a specific set of words followed by "that":</p>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:16px;">
+                    <li contenteditable="true" style="padding-bottom: 12px; border-bottom: var(--border-thin);">
+                        <strong style="color:var(--neon-purple);">Verbs:</strong> demand, insist, propose, recommend, suggest, request.
+                    </li>
+                    <li contenteditable="true" style="padding-bottom: 12px; border-bottom: var(--border-thin);">
+                        <strong style="color:var(--neon-purple);">Adjectives:</strong> crucial, essential, imperative, important, vital.
+                    </li>
+                    <li contenteditable="true">
+                        <strong style="color:var(--neon-purple);">Negatives:</strong> Simply put "not" before the base verb (e.g., "I suggest she <strong>not sell</strong> the stocks").
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: SYNTAX APPLICATION ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 11</span>
+            <h2 class="task-title" contenteditable="true">The Syntax <em>Terminal</em></h2>
+            <p style="color:var(--text-secondary); font-size:1.1rem; max-width:700px;" contenteditable="true">Type the correct verb form into the console to compile the sentence. Use your knowledge of Unreal Time and the Subjunctive.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true"><strong>Present Dissatisfaction:</strong> The market volatility is terrifying right now.<br>
+                I wish the market <span class="blank-input" style="min-width: 140px;"></span> <em>(not be)</em> so volatile right now.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Subjunctive (Be):</strong> It is absolutely vital that the hospital <span class="blank-input" style="min-width: 140px;"></span> <em>(be)</em> transparent about resident salaries.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Urgency:</strong> You have been avoiding your student loans for a year.<br>
+                It is high time you <span class="blank-input" style="min-width: 140px;"></span> <em>(start)</em> paying off your loans.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Past Regret:</strong> He liquidated his assets right before the stock went up.<br>
+                If only he <span class="blank-input" style="min-width: 180px;"></span> <em>(not liquidate)</em> his assets so early.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Subjunctive (Negative):</strong> The financial advisor strongly recommended that she <span class="blank-input" style="min-width: 140px;"></span> <em>(not squander)</em> her bonus.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 12: WORD SCRAMBLE ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 12</span>
+            <h2 class="task-title" contenteditable="true">The Cryptographic <em>Scramble</em></h2>
+            <p style="color:var(--text-secondary); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the letters to decrypt the target C1/C2 financial vocabulary. Type your answer and hit Enter.</p>
+        </div>
+
+        <div class="card" style="text-align:center; max-width: 700px; margin: 0 auto; padding: 60px 40px; position: relative;" id="scramble-container">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--neon-cyan); box-shadow: var(--shadow-glow-cyan);"></div>
+            
+            <div id="scramble-word" style="font-family:var(--font-mono); font-size:3rem; letter-spacing:10px; color:var(--text-primary); margin-bottom:20px; font-weight:700; text-shadow: 0 0 10px rgba(255,255,255,0.3);"></div>
+            <div id="scramble-hint" style="color:var(--neon-purple); font-family:var(--font-mono); font-size:1rem; margin-bottom:40px; text-transform:uppercase; letter-spacing:1px;"></div>
+            
+            <input type="text" id="scramble-input" placeholder="DECRYPT SEQUENCE..." style="padding:16px 24px; border:1px solid rgba(0, 229, 255, 0.3); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:700; color:var(--neon-cyan); background: var(--bg-elevated); transition:all 0.2s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);" onkeydown="if(event.key==='Enter') window.checkScrambleGame()">
+            <br>
+            <button onclick="window.checkScrambleGame()" style="background:var(--neon-cyan); color:var(--bg-base); border:none; padding:14px 40px; border-radius:50px; font-weight:700; cursor:pointer; font-size:1.1rem; transition: all 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px; box-shadow: var(--shadow-glow-cyan);">Decrypt</button>
+            <div id="scramble-fb" style="margin-top:24px; font-weight:700; font-size:1.2rem; font-family:var(--font-mono); min-height: 30px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: PRONUNCIATION LAB ====== -->
+<section class="section" id="t13">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 13</span>
+            <h2 class="task-title" contenteditable="true">Phonetic <em>Firewall</em></h2>
+            <p style="color:var(--text-secondary); font-size:1.1rem; max-width:700px;" contenteditable="true">These five financial/medical terms are notoriously difficult for Ukrainian speakers due to silent letters and shifting stress. Practice them out loud with your instructor.</p>
+        </div>
+
+        <div class="split-layout">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 1 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between; border-left: 3px solid var(--danger);">
+                    <div>
+                        <div style="font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--text-primary);" contenteditable="true">Debt</div>
+                        <div style="font-family:var(--font-mono); color:var(--text-muted); font-size:0.9rem;" contenteditable="true">/det/</div>
+                    </div>
+                    <div style="background:var(--bg-elevated); padding:10px 16px; border-radius:8px; max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--text-secondary);" contenteditable="true"><strong style="color:var(--danger);">Trap:</strong> The 'b' is completely 100% silent. Do not say "debt". It sounds exactly like "det".</span>
+                    </div>
+                </div>
+
+                <!-- Word 2 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between; border-left: 3px solid var(--danger);">
+                    <div>
+                        <div style="font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--text-primary);" contenteditable="true">Receipt</div>
+                        <div style="font-family:var(--font-mono); color:var(--text-muted); font-size:0.9rem;" contenteditable="true">/rɪˈsiːt/</div>
+                    </div>
+                    <div style="background:var(--bg-elevated); padding:10px 16px; border-radius:8px; max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--text-secondary);" contenteditable="true"><strong style="color:var(--danger);">Trap:</strong> The 'p' is silent. The 'ei' sounds like a long 'ee'. Re-SEET.</span>
+                    </div>
+                </div>
+
+                <!-- Word 3 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between; border-left: 3px solid var(--neon-cyan);">
+                    <div>
+                        <div style="font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--text-primary);" contenteditable="true">Lucrative</div>
+                        <div style="font-family:var(--font-mono); color:var(--text-muted); font-size:0.9rem;" contenteditable="true">/ˈluː.krə.tɪv/</div>
+                    </div>
+                    <div style="background:var(--bg-elevated); padding:10px 16px; border-radius:8px; max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--text-secondary);" contenteditable="true"><strong style="color:var(--neon-cyan);">Trap:</strong> The stress is heavily on the FIRST syllable. LU-cra-tive. Not lu-CRA-tive.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 4 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between; border-left: 3px solid var(--neon-cyan);">
+                    <div>
+                        <div style="font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--text-primary);" contenteditable="true">Squander</div>
+                        <div style="font-family:var(--font-mono); color:var(--text-muted); font-size:0.9rem;" contenteditable="true">/ˈskwɒn.dər/</div>
+                    </div>
+                    <div style="background:var(--bg-elevated); padding:10px 16px; border-radius:8px; max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--text-secondary);" contenteditable="true"><strong style="color:var(--neon-cyan);">Trap:</strong> The 'qu' makes a /kw/ sound. Round your lips! Do not substitute with a /v/.</span>
+                    </div>
+                </div>
+
+                <!-- Word 5 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between; border-left: 3px solid var(--neon-cyan);">
+                    <div>
+                        <div style="font-family:var(--font-display); font-size:1.6rem; font-weight:700; color:var(--text-primary);" contenteditable="true">Volatility</div>
+                        <div style="font-family:var(--font-mono); color:var(--text-muted); font-size:0.9rem;" contenteditable="true">/ˌvɒl.əˈtɪl.ə.ti/</div>
+                    </div>
+                    <div style="background:var(--bg-elevated); padding:10px 16px; border-radius:8px; max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--text-secondary);" contenteditable="true"><strong style="color:var(--neon-cyan);">Trap:</strong> The 'v' is a hard bite on the lower lip. Do not confuse it with a 'w'. Stress shifts to 'til'.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: ROLEPLAY ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">The Wealth <em>Intervention</em></h2>
+            <p class="section-desc" contenteditable="true">Work with your partner to navigate this financial dispute. Use the required grammatical structures and vocabulary.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card">
+                <h3 style="color:var(--neon-cyan); font-family:var(--font-display); margin-bottom:16px;" contenteditable="true">The Sensible Resident</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--text-secondary);">You are looking at your colleague's financial choices. They are heavily invested in highly <strong>volatile</strong> assets and just bought a luxury car instead of paying off their clinic loans. You think they are <strong>squandering</strong> their money. You want to intervene before they go bankrupt.</p>
+                <div style="background: var(--bg-elevated); padding: 16px; border-radius: 8px; border-left: 3px solid var(--neon-cyan);">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">Use "It's high time you..." and the Subjunctive ("I strongly suggest you liquidate...").</span>
+                </div>
+            </div>
+
+            <div class="card purple">
+                <h3 style="color:var(--neon-purple); font-family:var(--font-display); margin-bottom:16px;" contenteditable="true">The Reckless Doctor</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--text-secondary);">You just got your first massive paycheck. You feel like you deserve a reward after years of studying. You believe your investments will be incredibly <strong>lucrative</strong>, and you refuse to <strong>liquidate</strong> them. You think your colleague is just jealous.</p>
+                <div style="background: var(--bg-elevated); padding: 16px; border-radius: 8px; border-left: 3px solid var(--neon-purple);">
+                    <strong style="color:var(--text-primary); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--text-secondary);" contenteditable="true">Express a present dissatisfaction ("I wish you were more...").</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: FINAL SYNTHESIS ====== -->
+<section class="section" id="t15" style="border-bottom:none;">
+    <div class="section-inner">
+        <div class="card" style="background: var(--bg-surface); padding: 60px 40px; text-align: center; position: relative; overflow: hidden; border: 1px solid var(--neon-cyan); box-shadow: var(--shadow-glow-cyan);">
+            <div style="position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; background: var(--neon-cyan-dim); border-radius: 50%; filter: blur(40px);"></div>
+            <div style="position: absolute; bottom: -50px; right: -50px; width: 200px; height: 200px; background: var(--neon-purple-dim); border-radius: 50%; filter: blur(40px);"></div>
+            
+            <div style="position:relative; z-index:1;">
+                <h2 contenteditable="true" style="color: var(--text-primary); margin-bottom: 16px; font-family: var(--font-display); font-size: 3rem;">Module Complete! ✨</h2>
+                <p contenteditable="true" style="font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 30px;"><strong>What we've secured today:</strong></p>
+                <ul style="list-style: none; font-size: 1.1rem; line-height: 2.2; text-align: left; max-width: 650px; margin: 0 auto; color: var(--text-secondary);">
+                    <li contenteditable="true"><strong style="color:var(--neon-cyan);">Lexicon:</strong> lucrative, squander, volatility, liquidate.</li>
+                    <li contenteditable="true"><strong style="color:var(--neon-cyan);">Grammar (Unreal Time):</strong> Expressing regrets and urgency (Wish / If only / It's high time + Past).</li>
+                    <li contenteditable="true"><strong style="color:var(--neon-cyan);">Grammar (Subjunctive):</strong> Using base verbs after commands (imperative that she sell).</li>
+                    <li contenteditable="true"><strong style="color:var(--neon-cyan);">Pronunciation:</strong> Overcoming L1 interference on complex financial vocabulary (Debt, Receipt).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ====== HOMEWORK MODULE (15 Mins, 15 Questions) ====== -->
+<div id="task-hw" style="display:none; position: fixed; inset: 0; background: var(--bg-base); z-index: 2000; overflow-y: auto; padding: 60px 20px;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <!-- Welcome Screen -->
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; background:var(--bg-surface); padding:60px; border-radius:var(--radius-lg); box-shadow:var(--shadow-glow-cyan); border-top: 4px solid var(--neon-cyan);">
+            <div style="font-family:var(--font-mono); color:var(--neon-cyan); letter-spacing:2px; margin-bottom:16px; font-weight:700;">FINAL ASSESSMENT</div>
+            <h2 style="font-family:var(--font-display); font-size:3rem; color:var(--text-primary); margin-bottom:20px; font-weight:700;">Module 25 Protocol</h2>
+            <p style="color:var(--text-secondary); margin-bottom:40px; font-size:1.1rem; max-width:550px; margin-left:auto; margin-right:auto;">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 advanced syntax and vocabulary challenges. <br>
+                <span style="color:var(--danger); font-weight:600;">Security Alert:</span> Leaving this tab twice will lock the assessment automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter Agent ID/Name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--bg-elevated);border:1px solid rgba(255,255,255,0.2);color:var(--text-primary);border-radius:8px;margin-bottom:24px;outline:none;font-family:var(--font-mono);text-align:center;">
+            <br>
+            <button onclick="startHW()" style="background:var(--neon-cyan);color:var(--bg-base);border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:var(--font-ui);border-radius:50px;box-shadow:var(--shadow-glow-cyan);">INITIATE</button>
+            <button onclick="exitHomework()" style="background:transparent;color:var(--text-muted);border:none;display:block;margin:20px auto;cursor:pointer;font-family:var(--font-ui);text-decoration:underline;">Abort</button>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="hw-quiz" class="hw-screen" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:var(--text-primary);">
+                <span style="font-family:var(--font-mono); font-weight:700;" id="hwQuestionCounter">Q 1 / 15</span>
+                <div id="timerContainer" style="font-family:var(--font-mono); color:var(--neon-cyan); font-weight:700; font-size:1.2rem; background:var(--neon-cyan-dim); padding:6px 16px; border-radius:50px; border:1px solid var(--neon-cyan);">
+                    ⏱️ <span id="hwTimerDisplay">15:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:6px; background:var(--bg-elevated); margin-bottom:40px; border-radius:3px; overflow:hidden;">
+                <div id="hwProgressFill" style="height:100%; background:var(--neon-cyan); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:var(--bg-surface); padding:40px; border-radius:var(--radius-lg); margin-bottom:30px; border:1px solid rgba(255,255,255,0.1);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:500; margin-bottom:30px; line-height:1.5; color:var(--text-primary); font-family:var(--font-display);">Loading data...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--text-muted); border:1px solid var(--text-muted); padding:10px 24px; cursor:pointer; border-radius:50px; transition:all 0.2s; font-family:var(--font-ui); font-weight:600;">Skip Question</button>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="hw-results" class="hw-screen" style="display:none;">
+            <div id="hw-pdf-content" style="background:var(--bg-surface); padding:50px; border-radius:var(--radius-lg); border:1px solid rgba(255,255,255,0.1);">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 style="font-family:var(--font-display); font-size:3.5rem; color:var(--text-primary); margin-bottom:10px; font-weight:700;">Protocol Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--text-secondary); font-size:1.1rem;"></p>
+                </div>
+
+                <div style="background:var(--bg-elevated); padding:40px; border-radius:var(--radius-md); text-align:center; margin-bottom:40px;">
+                    <div style="font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem; font-weight:700;">Final Evaluation</div>
+                    <div id="hwScoreDetail" style="font-size:5rem; font-weight:800; color:var(--neon-cyan); margin:10px 0; line-height:1; text-shadow:var(--shadow-glow-cyan);">0/15</div>
+                    <div id="hwTerminationReason" style="font-weight:700; font-family:var(--font-mono); margin-top:20px; color:var(--text-primary);"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--neon-cyan); color:var(--bg-base); border:none; padding:16px 36px; font-weight:700; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Export PDF</button>
+                <button onclick="exitHomework()" style="background:transparent; color:var(--text-primary); border:1px solid var(--text-muted); padding:16px 36px; font-weight:700; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Exit Protocol</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions" style="position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:15px; z-index:1000;">
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet" style="background:var(--neon-purple); color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-glow-purple); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📝</button>
+    <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--bg-elevated); color:var(--neon-cyan); border:1px solid var(--neon-cyan); width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-glow-cyan); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📋</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(11,15,25,0.8); backdrop-filter:blur(8px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:var(--bg-surface); padding:40px; border-radius:var(--radius-lg); width:90%; max-width:800px; position:relative; border-top:4px solid var(--neon-cyan); border:1px solid rgba(255,255,255,0.1);">
+        <span onclick="closeAdmin()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--text-muted);">×</span>
+        <h2 style="font-family:var(--font-display); color:var(--text-primary); margin-bottom:10px; font-size:2.2rem;">Instructor Terminal</h2>
+        <p style="color:var(--text-secondary); margin-bottom:20px;">Review recent submissions.</p>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left;">
+                <thead style="background:var(--bg-elevated); font-family:var(--font-mono); font-size:0.85rem; color:var(--text-secondary);"><tr><th style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1);">Date</th><th style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1);">Agent</th><th style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1);">Score</th><th style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1);">Status</th></tr></thead>
+                <tbody id="adminTableBody" style="color:var(--text-primary);"></tbody>
+            </table>
+        </div>
+        <button style="background:var(--danger); color:white; border:none; padding:10px 20px; border-radius:8px; margin-top:20px; cursor:pointer; font-weight:700;" onclick="clearData()">Purge Records</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(11,15,25,0.8); backdrop-filter:blur(8px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:var(--bg-surface); padding:40px; border-radius:var(--radius-lg); width:90%; max-width:600px; position:relative; border-top:4px solid var(--neon-purple); border:1px solid rgba(255,255,255,0.1);">
+        <span onclick="closeQuizletModal()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--text-muted);">×</span>
+        <h2 style="font-family:var(--font-display); color:var(--text-primary); margin-bottom:20px; font-size:2.2rem;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="lucrative" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="прибутковий" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="squander" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="розтринькати" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="volatility" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="мінливість / нестабільність" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="liquidate" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="ліквідувати (активи в готівку)" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" style="flex:1; background:transparent; border:1px solid var(--text-muted); color:var(--text-primary); padding:12px; border-radius:8px; cursor:pointer; font-weight:700;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" style="flex:2; background:var(--neon-purple); color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700; box-shadow:var(--shadow-glow-purple);">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // --- Navigation & Toggles ---
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id === '#hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.querySelector('.hero').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                exitHomework();
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                e.target.classList.add('active');
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.querySelector('.hero').style.display = 'block';
+        document.getElementById('task-hw').style.display = 'none';
+    }
+
+    // --- Scramble Game Logic ---
+    const scrambleWords = [
+        { word: "LUCRATIVE", hint: "Producing a great deal of profit." },
+        { word: "SQUANDER", hint: "To waste money or an opportunity in a foolish manner." },
+        { word: "VOLATILITY", hint: "Liability to change rapidly and unpredictably." },
+        { word: "LIQUIDATE", hint: "To convert assets into cash." }
+    ];
+    let scrambleIndex = 0;
+    
+    function scrambleString(str) {
+        let arr = str.split('');
+        for(let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join(' ');
+    }
+    
+    function loadScramble() {
+        if(scrambleIndex >= scrambleWords.length) {
+            document.getElementById('scramble-container').innerHTML = "<h3 style='color:var(--neon-cyan); font-size:2.2rem; font-family:var(--font-display); margin-bottom:0;'>All assets decrypted! Excellent work.</h3>";
+            return;
+        }
+        let item = scrambleWords[scrambleIndex];
+        document.getElementById('scramble-word').innerText = scrambleString(item.word);
+        document.getElementById('scramble-hint').innerText = "Hint: " + item.hint;
+        document.getElementById('scramble-input').value = "";
+        document.getElementById('scramble-input').style.borderColor = "rgba(0, 229, 255, 0.3)";
+        document.getElementById('scramble-fb').innerText = "";
+    }
+    
+    window.checkScrambleGame = function() {
+        let inputEl = document.getElementById('scramble-input');
+        let input = inputEl.value.toUpperCase().replace(/[^A-Z]/g, '');
+        let target = scrambleWords[scrambleIndex].word.replace(/[^A-Z]/g, '');
+        let fb = document.getElementById('scramble-fb');
+
+        if(input === target) {
+            fb.innerText = "✓ Decrypted";
+            fb.style.color = "var(--neon-cyan)";
+            inputEl.style.borderColor = "var(--neon-cyan)";
+            setTimeout(() => { scrambleIndex++; loadScramble(); }, 1200);
+        } else {
+            fb.innerText = "✗ Access Denied";
+            fb.style.color = "var(--danger)";
+            inputEl.style.borderColor = "var(--danger)";
+            
+            inputEl.style.transform = 'translateX(5px)';
+            setTimeout(() => { inputEl.style.transform = 'translateX(-5px)'; }, 100);
+            setTimeout(() => { inputEl.style.transform = 'translateX(5px)'; }, 200);
+            setTimeout(() => { inputEl.style.transform = 'translateX(0)'; }, 300);
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", loadScramble);
+
+    // --- Quizlet ---
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() { document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"><input type="text" placeholder="Translation" style="flex:1; padding:10px 14px; background:var(--bg-elevated); color:var(--text-primary); border:1px solid rgba(255,255,255,0.2); border-radius:8px; outline:none;"></div>`; }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
+        if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
+    const hwQuestionBank = [
+        { text: "A career in specialized surgery is known to be highly _______.", options: ["squandered", "lucrative", "liquidated", "subjuncted"], correct: 1 },
+        { text: "It is foolish to _______ your signing bonus on luxury clothes.", options: ["liquidate", "volatility", "lucrative", "squander"], correct: 3 },
+        { text: "To pay for the clinic space, I had to _______ all my stocks into cash.", options: ["squander", "volatility", "liquidate", "insist"], correct: 2 },
+        { text: "The crypto market is famous for its extreme _______.", options: ["lucrative", "volatility", "liquidation", "subjunctive"], correct: 1 },
+        { text: "Past Regret: If only I _______ that car last year.", options: ["didn't buy", "haven't bought", "wouldn't buy", "hadn't bought"], correct: 3 },
+        { text: "Present Dissatisfaction: I wish my salary _______ higher right now.", options: ["is", "was", "were", "had been"], correct: 2 },
+        { text: "Urgency: It's high time you _______ taking your investments seriously.", options: ["start", "will start", "started", "have started"], correct: 2 },
+        { text: "Urgency: It's about time he _______ his loans.", options: ["pay", "pays", "paid", "has paid"], correct: 2 },
+        { text: "Past Regret: I wish I _______ so much money on rent during my internship.", options: ["didn't spend", "hadn't spent", "haven't spent", "wouldn't spend"], correct: 1 },
+        { text: "Present Dissatisfaction: If only the market _______ so volatile today.", options: ["isn't", "wasn't", "weren't", "hadn't been"], correct: 2 },
+        { text: "Subjunctive: The financial advisor insists that she _______ her portfolio.", options: ["diversifies", "diversify", "diversified", "will diversify"], correct: 1 },
+        { text: "Subjunctive: It is crucial that a young doctor _______ high-risk trades.", options: ["avoids", "avoid", "avoided", "will avoid"], correct: 1 },
+        { text: "Subjunctive: We recommend that he _______ his assets immediately.", options: ["liquidates", "liquidate", "liquidated", "is liquidating"], correct: 1 },
+        { text: "Negative Subjunctive: It is imperative that she _______ the contract without reading it.", options: ["doesn't sign", "not sign", "not signs", "didn't sign"], correct: 1 },
+        { text: "Subjunctive 'Be': It is absolutely vital that the budget _______ approved by Friday.", options: ["is", "be", "was", "will be"], correct: 1 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.getElementById('timerContainer').style.background = "var(--danger)"; document.getElementById('timerContainer').style.color = "white"; document.getElementById('timerContainer').style.borderColor = "var(--danger)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:var(--bg-elevated); border:1px solid rgba(255,255,255,0.1); padding:16px 24px; border-radius:8px; font-size:1.1rem; text-align:left; cursor:pointer; font-family:var(--font-ui); color:var(--text-primary); transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "var(--neon-cyan-dim)";
+            btn.onmouseout = () => btn.style.background = "var(--bg-elevated)";
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your protocol is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--danger)' : 'var(--neon-cyan)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div style="background:var(--bg-elevated); border-radius:8px; border-left:6px solid ${item.isCorrect ? 'var(--neon-green)' : 'var(--danger)'}; padding:20px;">
+                <div style="font-size:1.1rem; color:var(--text-primary); margin-bottom:10px; font-weight:600;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--text-secondary);">Your answer: <span style="color: ${item.isCorrect ? 'var(--neon-green)' : 'var(--danger)'}; font-weight:700;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--text-secondary);">Correct answer: <span style="color: var(--neon-green); font-weight:700;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson25HW')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson25HW', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L25_Assessment.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save();
+    }
+
+    // --- Admin ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson25HW')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px; color:var(--text-secondary);'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1); font-size:0.85rem; font-family:var(--font-mono); color:var(--text-secondary);">${r.date}</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:700;">${r.name}</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:bold; color:var(--neon-cyan);">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.1); font-weight:700; color:${r.status.includes('Completed') ? 'var(--neon-green)' : 'var(--danger)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson25HW'); openAdmin(); } }
+
+    // --- Firebase Sync (Realtime Text Edits & Cursors) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
+    const appId = 'alina-l25-finance-c1';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let user = null, isSync = false;
+    let editingId = null;
+
+    signInAnonymously(auth).catch(console.error);
+
+    onAuthStateChanged(auth, u => {
+        user = u;
+        if (user && !isSync) {
+            isSync = true;
+            document.getElementById('syncText').innerText = "SYNC ACTIVE";
+            setupSync(); setupCursors();
+        }
+    });
+
+    function fastDebounce(f, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; }
+
+    function setupSync() {
+        const txtRef = doc(db, 'artifacts', appId, 'data', 'text');
+
+        document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
+            el.dataset.sid = 'ed_' + i;
+            el.addEventListener('focus', () => editingId = el.dataset.sid);
+            el.addEventListener('blur', () => { 
+                editingId = null; 
+                if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            });
+            el.addEventListener('input', fastDebounce(() => { 
+                if (editingId === el.dataset.sid && user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            }, 150));
+        });
+
+        onSnapshot(txtRef, snap => {
+            if (!snap.exists()) return;
+            for (const [id, html] of Object.entries(snap.data())) {
+                if (editingId !== id) {
+                    const el = document.querySelector(`[data-sid="${id}"]`);
+                    if (el && el.innerHTML !== html) el.innerHTML = html;
+                }
+            }
+        });
+    }
+
+    function setupCursors() {
+        const curRef = collection(db, 'artifacts', appId, 'cursors');
+        const myDoc = doc(curRef, user.uid);
+        const container = document.getElementById('liveCursorsContainer');
+        const colors = ['#00E5FF','#B400FF','#00FF88','#FFD600'];
+        const myColor = colors[Math.floor(Math.random() * colors.length)];
+        const myName = "Resident " + Math.floor(Math.random() * 99);
+        
+        document.addEventListener('mousemove', fastDebounce(e => {
+            if(user && document.getElementById('task-hw').style.display !== 'block') {
+                setDoc(myDoc, { x: e.pageX - window.innerWidth/2, y: e.pageY, color: myColor, name: myName, ts: Date.now() });
+            }
+        }, 100));
+
+        onSnapshot(curRef, snap => {
+            snap.docChanges().forEach(ch => {
+                if(ch.doc.id === user.uid) return;
+                const d = ch.doc.data();
+                let el = document.getElementById('cur-'+ch.doc.id);
+                
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
+                
+                if(!el) {
+                    el = document.createElement('div'); el.id = 'cur-'+ch.doc.id; el.className = 'remote-cursor';
+                    el.style = 'position:absolute; transition: top 0.15s, left 0.15s; pointer-events:none; z-index:999999;';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24" style="filter:drop-shadow(0 0 8px ${d.color})"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><div style="background:${d.color}; color:#000; font-size:10px; font-family:var(--font-mono); padding:2px 6px; border-radius:4px; margin-top:2px; font-weight:bold; box-shadow:0 0 8px ${d.color};">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth/2 + d.x) + 'px'; el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if(user) deleteDoc(myDoc); });
+    }
+</script>
+</body>
+</html>
