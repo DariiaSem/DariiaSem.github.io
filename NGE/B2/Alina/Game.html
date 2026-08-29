@@ -3,43 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mixed Conditionals Master</title>
+    <title>Mixed Conditionals: Advanced Practice</title>
     <style>
         :root {
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --success: #10B981;
-            --danger: #EF4444;
-            --background: #F3F4F6;
+            --primary: #2563EB;
+            --primary-hover: #1D4ED8;
+            --secondary: #047857;
+            --danger: #DC2626;
+            --background: #F8FAFC;
             --card-bg: #FFFFFF;
-            --text-main: #1F2937;
-            --text-muted: #6B7280;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--background);
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         #game-container {
             background-color: var(--card-bg);
             width: 100%;
-            max-width: 600px;
+            max-width: 750px;
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            padding: 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             box-sizing: border-box;
-            text-align: center;
         }
 
-        h1 {
+        h1, h2 {
             color: var(--primary);
+            text-align: center;
             margin-top: 0;
         }
 
@@ -47,18 +49,60 @@
             display: none !important;
         }
 
+        /* Explanations & Tables */
+        .grammar-section {
+            background-color: #EFF6FF;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 30px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
         /* Buttons */
         button {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 12px 24px;
             font-size: 16px;
             border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
-            margin: 5px;
-            font-weight: bold;
+            transition: all 0.2s;
+            font-weight: 600;
+            display: block;
+            margin: 20px auto 0;
         }
 
         button:hover {
@@ -66,27 +110,25 @@
             transform: translateY(-2px);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
         .option-btn {
             display: block;
             width: 100%;
-            background-color: #E5E7EB;
+            background-color: #F1F5F9;
             color: var(--text-main);
             margin: 10px 0;
             padding: 15px;
             text-align: left;
             font-weight: normal;
+            border-radius: 8px;
         }
 
         .option-btn:hover {
-            background-color: #D1D5DB;
+            background-color: #E2E8F0;
+            transform: none;
         }
 
         .option-btn.correct {
-            background-color: var(--success);
+            background-color: var(--secondary);
             color: white;
         }
 
@@ -95,51 +137,67 @@
             color: white;
         }
 
-        /* Question Area */
-        #question-text {
-            font-size: 20px;
-            font-weight: 600;
+        /* Quiz Area */
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
             margin: 20px 0;
+        }
+
+        .question-emoji {
+            font-size: 40px;
+        }
+
+        #question-text {
+            font-size: 18px;
+            font-weight: 600;
             line-height: 1.5;
+            margin: 0;
         }
 
         /* Explanation Box */
         #explanation-box {
-            margin-top: 20px;
+            margin-top: 25px;
             padding: 20px;
             border-radius: 8px;
-            background-color: #EFF6FF;
-            border-left: 4px solid var(--primary);
-            text-align: left;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
             animation: fadeIn 0.4s ease-in-out;
         }
 
-        #explanation-box h3 {
-            margin-top: 0;
-            color: var(--primary);
-        }
-
-        .structure {
+        .structure-tag {
             font-family: monospace;
             background: #DBEAFE;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 4px;
-            display: inline-block;
-            margin: 10px 0;
-            font-weight: bold;
             color: #1E40AF;
+            font-weight: bold;
         }
 
-        .progress {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* Student Practice Area */
+        .practice-area {
+            background-color: #F0FDF4;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #BBF7D0;
+            margin-top: 30px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            font-family: inherit;
+            margin-top: 10px;
+            box-sizing: border-box;
+            resize: vertical;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
+            from { opacity: 0; transform: translateY(-5px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
@@ -148,77 +206,131 @@
 
     <div id="game-container">
         <div id="start-screen">
-            <h1>Mixed Conditionals Master</h1>
-            <p>Test your knowledge of Mixed Conditionals!</p>
-            <p><strong>Type 3+2:</strong> Past Condition ➔ Present Result</p>
-            <p><strong>Type 2+3:</strong> Present/General Condition ➔ Past Result</p>
-            <button onclick="startGame()">Start Game</button>
+            <h1>Mixed Conditionals Theory & Practice</h1>
+            
+            <div class="grammar-section">
+                <h3>Why can't we just use the 2nd or 3rd Conditional?</h3>
+                <p>Standard conditionals assume the condition and the result happen in the <strong>same timeframe</strong>.</p>
+                <ul>
+                    <li><strong>2nd Conditional:</strong> Present/Future Condition ➔ Present/Future Result. <em>(If I had a car, I would drive.)</em></li>
+                    <li><strong>3rd Conditional:</strong> Past Condition ➔ Past Result. <em>(If I had studied, I would have passed.)</em></li>
+                </ul>
+                <p><strong>But life is messy!</strong> Sometimes a past decision affects the present, or a general fact alters a past event. When the timelines don't match, we are forced to mix them.</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>If-Clause (Condition)</th>
+                        <th>Main Clause (Result)</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Type 3 + 2</strong></td>
+                        <td>Past Perfect<br><span class="structure-tag">If + had + V3</span></td>
+                        <td>Present Conditional<br><span class="structure-tag">would + V1</span></td>
+                        <td>A <strong>past</strong> action has a result in the <strong>present</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type 2 + 3</strong></td>
+                        <td>Past Simple<br><span class="structure-tag">If + V2 / weren't</span></td>
+                        <td>Perfect Conditional<br><span class="structure-tag">would have + V3</span></td>
+                        <td>A <strong>general present fact</strong> changed something in the <strong>past</strong>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onclick="startGame()">Start Interactive Practice ➔</button>
         </div>
 
         <div id="quiz-screen" class="hidden">
-            <div class="progress" id="progress-text">Question 1 of 5</div>
-            <div id="question-text">Question goes here</div>
+            <div style="text-align: center; color: var(--text-muted); font-weight: 600;" id="progress-text">Question 1 of 5</div>
+            
+            <div class="question-header">
+                <div class="question-emoji" id="question-emoji">🩺</div>
+                <div id="question-text">Question goes here</div>
+            </div>
+
             <div id="options-container">
                 </div>
             
             <div id="explanation-box" class="hidden">
-                <h3 id="result-title">Correct!</h3>
-                <p><strong>Type:</strong> <span id="exp-type"></span></p>
-                <div class="structure" id="exp-structure"></div>
+                <h3 id="result-title" style="margin-top: 0;"></h3>
+                <p><strong>Logic:</strong> <span id="exp-type"></span></p>
+                <p><strong>Grammar:</strong> <span class="structure-tag" id="exp-structure"></span></p>
                 <p id="exp-text"></p>
                 <button id="next-btn" onclick="nextQuestion()">Next Question ➔</button>
             </div>
         </div>
 
         <div id="end-screen" class="hidden">
-            <h1>Game Over!</h1>
-            <p id="final-score" style="font-size: 24px; font-weight: bold;"></p>
-            <p id="final-message"></p>
-            <button onclick="resetGame()">Play Again</button>
+            <h1>Practice Complete!</h1>
+            <p id="final-score" style="font-size: 20px; text-align: center; font-weight: bold;"></p>
+            
+            <div class="practice-area">
+                <h3 style="color: var(--secondary); margin-top: 0;">Your Turn: Create Your Own</h3>
+                <p>Now apply what you've learned. Write a mixed conditional sentence for this scenario:</p>
+                <p><em>"You didn't update the clinic's software last week (Past). Now, the patient database is offline (Present)."</em></p>
+                <textarea id="student-input" placeholder="Type your sentence here... (e.g., If I had...)"></textarea>
+                <button style="background-color: var(--secondary); margin-left: 0; margin-top: 15px;" onclick="checkStudentText()">Reveal Example Answer</button>
+                <p id="example-answer" class="hidden" style="margin-top: 15px; font-weight: 600; color: var(--text-main);">
+                    Example: "If I had updated the clinic's software last week, the patient database wouldn't be offline right now." (Type 3+2)
+                </p>
+            </div>
+
+            <button onclick="resetGame()" style="margin-top: 30px;">Restart Quiz</button>
         </div>
     </div>
 
     <script>
         const questions = [
             {
-                text: "If I had won the lottery last year, I _____ on a tropical beach right now.",
-                options: ["would be relaxing", "would have relaxed", "will relax"],
+                emoji: "🏥",
+                text: "If the surgeon had used the revised protocol yesterday, the patient _____ in less pain right now.",
+                options: ["would be", "would have been", "is"],
                 correctAnswer: 0,
-                type: "Type 3+2 (Past Condition ➔ Present Result)",
-                structure: "If + Past Perfect, would + bare infinitive (or would be + V-ing)",
-                explanation: "The condition happened in the PAST (winning the lottery last year), but the result is happening RIGHT NOW (relaxing on a beach). Therefore, we mix the 3rd conditional (If I had won) with the 2nd conditional (I would be relaxing)."
+                type: "Past Condition ➔ Present Result (Type 3+2)",
+                structure: "If + Past Perfect | would + bare infinitive",
+                explanation: "The condition happened in the PAST (using the protocol yesterday), but the result is happening RIGHT NOW (the patient's current pain levels)."
             },
             {
-                text: "If she weren't so afraid of heights, she _____ skydiving with us last weekend.",
-                options: ["would go", "went", "would have gone"],
+                emoji: "💻",
+                text: "If our IT manager actually understood Python, she _____ the server crash last night.",
+                options: ["would prevent", "prevented", "would have prevented"],
                 correctAnswer: 2,
-                type: "Type 2+3 (Present/General Condition ➔ Past Result)",
-                structure: "If + Past Simple, would have + Past Participle (V3)",
-                explanation: "Her fear of heights is a GENERAL, ongoing present fact (2nd conditional: If she weren't...). However, the result we are talking about happened in the PAST (3rd conditional: ...she would have gone last weekend)."
+                type: "Present/General Fact ➔ Past Result (Type 2+3)",
+                structure: "If + Past Simple | would have + V3",
+                explanation: "The IT manager's lack of Python skills is a GENERAL, ongoing present fact. However, the result we are discussing—the server crash—happened in the PAST."
             },
             {
-                text: "If they hadn't missed their flight, they _____ here with us right now.",
+                emoji: "📈",
+                text: "If the marketing team hadn't delayed the campaign launch, our quarterly sales _____ much higher today.",
                 options: ["would have been", "would be", "are"],
                 correctAnswer: 1,
-                type: "Type 3+2 (Past Condition ➔ Present Result)",
-                structure: "If + Past Perfect, would + bare infinitive",
-                explanation: "The action of missing the flight is in the PAST (If they hadn't missed). The result is their absence in the PRESENT (they would be here right now)."
+                type: "Past Condition ➔ Present Result (Type 3+2)",
+                structure: "If + Past Perfect | would + bare infinitive",
+                explanation: "The delay is an action fully in the PAST (hadn't delayed). The consequence is their financial status in the PRESENT (sales would be higher today)."
             },
             {
-                text: "If I spoke French fluently, I _____ the job in Paris last month.",
-                options: ["would get", "would have gotten", "had gotten"],
+                emoji: "✈️",
+                text: "If I weren't on call at the hospital this weekend, I _____ the summit in Geneva with you yesterday.",
+                options: ["would attend", "would have attended", "had attended"],
                 correctAnswer: 1,
-                type: "Type 2+3 (Present/General Condition ➔ Past Result)",
-                structure: "If + Past Simple, would have + Past Participle (V3)",
-                explanation: "Speaking French is a GENERAL ability you currently lack (If I spoke...). The missed opportunity (getting the job) happened in the PAST (...I would have gotten it last month)."
+                type: "Present/General Fact ➔ Past Result (Type 2+3)",
+                structure: "If + Past Simple | would have + V3",
+                explanation: "Being on call is an ongoing schedule state for this weekend (general condition). The missed opportunity (the summit) already concluded yesterday (past result)."
             },
             {
-                text: "If you had gone to bed earlier last night, you _____ so tired today.",
-                options: ["wouldn't be", "wouldn't have been", "aren't"],
+                emoji: "🤝",
+                text: "If the clients had signed the contract on Monday, we _____ official business partners right now.",
+                options: ["would be", "would have been", "will be"],
                 correctAnswer: 0,
-                type: "Type 3+2 (Past Condition ➔ Present Result)",
-                structure: "If + Past Perfect, would + bare infinitive",
-                explanation: "Going to bed earlier is an unreal PAST action (If you had gone...). Being tired is the PRESENT result (...you wouldn't be tired today)."
+                type: "Past Condition ➔ Present Result (Type 3+2)",
+                structure: "If + Past Perfect | would + bare infinitive",
+                explanation: "Signing the contract is a missed PAST action. Being partners is the unreal PRESENT reality."
             }
         ];
 
@@ -230,6 +342,7 @@
         const quizScreen = document.getElementById('quiz-screen');
         const endScreen = document.getElementById('end-screen');
         const questionText = document.getElementById('question-text');
+        const questionEmoji = document.getElementById('question-emoji');
         const optionsContainer = document.getElementById('options-container');
         const explanationBox = document.getElementById('explanation-box');
         const progressText = document.getElementById('progress-text');
@@ -248,6 +361,7 @@
             const q = questions[currentQuestionIndex];
             progressText.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
             questionText.innerText = q.text;
+            questionEmoji.innerText = q.emoji;
 
             q.options.forEach((option, index) => {
                 const btn = document.createElement('button');
@@ -264,10 +378,8 @@
 
             const q = questions[currentQuestionIndex];
             const isCorrect = selectedIndex === q.correctAnswer;
-            
             const buttons = optionsContainer.getElementsByClassName('option-btn');
             
-            // Highlight answers
             for (let i = 0; i < buttons.length; i++) {
                 buttons[i].disabled = true;
                 if (i === q.correctAnswer) {
@@ -278,27 +390,20 @@
             }
 
             if (isCorrect) score++;
-
             showExplanation(isCorrect, q);
         }
 
         function showExplanation(isCorrect, q) {
             const title = document.getElementById('result-title');
-            title.innerText = isCorrect ? "🎉 Correct!" : "❌ Not Quite!";
-            title.style.color = isCorrect ? "var(--success)" : "var(--danger)";
+            title.innerText = isCorrect ? "Excellent!" : "Not Quite.";
+            title.style.color = isCorrect ? "var(--secondary)" : "var(--danger)";
 
             document.getElementById('exp-type').innerText = q.type;
             document.getElementById('exp-structure').innerText = q.structure;
             document.getElementById('exp-text').innerText = q.explanation;
 
-            // Change button text if it's the last question
             const nextBtn = document.getElementById('next-btn');
-            if (currentQuestionIndex === questions.length - 1) {
-                nextBtn.innerText = "See Results ➔";
-            } else {
-                nextBtn.innerText = "Next Question ➔";
-            }
-
+            nextBtn.innerText = currentQuestionIndex === questions.length - 1 ? "See Results & Practice ➔" : "Next Question ➔";
             explanationBox.classList.remove('hidden');
         }
 
@@ -314,25 +419,25 @@
         function showResults() {
             quizScreen.classList.add('hidden');
             endScreen.classList.remove('hidden');
-            
             document.getElementById('final-score').innerText = `You scored ${score} out of ${questions.length}!`;
-            
-            let message = "";
-            if (score === questions.length) {
-                message = "Perfect! You are a Mixed Conditionals Master!";
-            } else if (score >= 3) {
-                message = "Great job! You have a solid grasp of complex conditional structures.";
+        }
+
+        function checkStudentText() {
+            const input = document.getElementById('student-input').value.trim();
+            if(input === "") {
+                alert("Give it a try first! Type your sentence in the box.");
             } else {
-                message = "Keep practicing! Mixed conditionals can be tricky to wrap your head around.";
+                document.getElementById('example-answer').classList.remove('hidden');
             }
-            document.getElementById('final-message').innerText = message;
         }
 
         function resetGame() {
             currentQuestionIndex = 0;
             score = 0;
+            document.getElementById('student-input').value = "";
+            document.getElementById('example-answer').classList.add('hidden');
             endScreen.classList.add('hidden');
-            startGame();
+            startScreen.classList.remove('hidden'); // Go back to theory first
         }
     </script>
 </body>
