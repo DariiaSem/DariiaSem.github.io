@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Synonym Surge: Advanced Vocabulary</title>
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-hover: #7C3AED;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --bg-dark: #1E293B;
+            --card-bg: #FFFFFF;
+            --text-main: #334155;
+            --text-light: #F8FAFC;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #game-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 800px;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Header & Progress */
+        .game-header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-header h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background: #F1F5F9;
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--primary);
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .streak-fire {
+            color: var(--warning);
+            transition: transform 0.2s;
+        }
+
+        /* Timer Bar */
+        #timer-container {
+            width: 100%;
+            height: 8px;
+            background-color: #E2E8F0;
+        }
+
+        #timer-bar {
+            height: 100%;
+            width: 100%;
+            background-color: var(--success);
+            transition: width 0.1s linear, background-color 0.3s;
+        }
+
+        .content-area {
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        /* Target Word */
+        #target-word {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--bg-dark);
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+            text-transform: capitalize;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #F8FAFC;
+            border: 2px solid #CBD5E1;
+            color: var(--text-main);
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: capitalize;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background-color: #F3F4F6;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .option-btn.correct {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .option-btn.wrong {
+            background-color: var(--danger);
+            border-color: var(--danger);
+            color: white;
+            animation: shake 0.4s;
+        }
+
+        /* Buttons */
+        .primary-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            margin-top: 20px;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Review Table */
+        .review-table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+            margin-top: 20px;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        th {
+            background-color: #F1F5F9;
+            position: sticky;
+            top: 0;
+            font-weight: 700;
+        }
+
+        .example-sentence {
+            font-style: italic;
+            color: #64748B;
+            font-size: 14px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .hidden { display: none !important; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="start-screen" class="content-area">
+            <h1 style="color: var(--primary); font-size: 36px; margin-bottom: 10px;">Synonym Surge</h1>
+            <p style="font-size: 18px; color: #64748B; margin-bottom: 30px;">Match the advanced vocabulary words with their correct synonyms before the timer runs out. Build your streak for massive points!</p>
+            <button class="primary-btn" onclick="startGame()">Start Challenge ➔</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <div class="game-header">
+                <h1>Find the Synonym!</h1>
+            </div>
+            
+            <div id="timer-container">
+                <div id="timer-bar"></div>
+            </div>
+
+            <div class="stats-bar">
+                <div>Score: <span id="score-display">0</span></div>
+                <div>Streak: <span id="streak-display" class="streak-fire">0 🔥</span></div>
+                <div><span id="question-counter">1/12</span></div>
+            </div>
+
+            <div class="content-area">
+                <div id="target-word">Word</div>
+                <div class="options-grid" id="options-container">
+                    </div>
+            </div>
+        </div>
+
+        <div id="end-screen" class="content-area hidden">
+            <h1 style="color: var(--primary);">Challenge Complete!</h1>
+            <h2>Final Score: <span id="final-score">0</span></h2>
+            
+            <p style="text-align: left; font-weight: bold; margin-top: 30px;">Vocabulary Review Context:</p>
+            <div class="review-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Target Word</th>
+                            <th>Synonym</th>
+                            <th>Professional Context & Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="review-table-body">
+                        </tbody>
+                </table>
+            </div>
+            
+            <button class="primary-btn" onclick="resetGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        // Advanced vocabulary list tailored for medical, IT, and business contexts
+        const vocabulary = [
+            { word: "iatrogenic", synonym: "physician-induced", wrong: ["beneficial", "congenital", "preventative"], example: "The patient developed an iatrogenic complication following the reconstructive surgical procedure." },
+            { word: "equivocal", synonym: "ambiguous", wrong: ["certain", "transparent", "resolute"], example: "The biopsy results were equivocal, requiring the medical board to request further testing." },
+            { word: "palliative", synonym: "alleviating", wrong: ["curative", "aggravating", "diagnostic"], example: "The burn care unit focused on palliative measures to manage the patient's severe discomfort." },
+            { word: "exacerbate", synonym: "aggravate", wrong: ["soothe", "resolve", "ameliorate"], example: "Failing to update the clinical protocols will only exacerbate the current administrative issues." },
+            { word: "martinet", synonym: "authoritarian", wrong: ["supporter", "innovator", "sycophant"], example: "The head of the department is a bit of a martinet when it comes to following sterile protocols." },
+            { word: "sycophant", synonym: "flatterer", wrong: ["leader", "critic", "rebel"], example: "Effective management requires honest feedback, not a team of sycophants who simply agree with the director." },
+            { word: "relinquish", synonym: "surrender", wrong: ["acquire", "dominate", "hoard"], example: "Upon accepting her new role, she had to relinquish her duties at the regional department of health." },
+            { word: "bottleneck", synonym: "obstruction", wrong: ["catalyst", "expansion", "highway"], example: "We identified a major bottleneck in the IT department that was delaying the database synchronization." },
+            { word: "ameliorate", synonym: "improve", wrong: ["worsen", "ignore", "destroy"], example: "The new emergency trauma management guidelines greatly ameliorated patient survival rates." },
+            { word: "meticulous", synonym: "thorough", wrong: ["careless", "hasty", "sloppy"], example: "Surgical oncology requires a meticulous approach to ensure all affected tissue is removed." },
+            { word: "pragmatic", synonym: "practical", wrong: ["idealistic", "theoretical", "irrational"], example: "The ministry presented a pragmatic solution to the funding shortage during the round-table discussion." },
+            { word: "ubiquitous", synonym: "omnipresent", wrong: ["rare", "isolated", "scarce"], example: "Smartphones have become ubiquitous in modern clinical settings for rapid communication." }
+        ];
+
+        let gameVocab = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let streak = 0;
+        let timerInterval;
+        let timeLeft = 100; // Percentage
+        const TIME_LIMIT = 10000; // 10 seconds per question in ms
+        const UPDATE_INTERVAL = 50; 
+        const DECREMENT = (UPDATE_INTERVAL / TIME_LIMIT) * 100;
+        let canAnswer = false;
+
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const timerBar = document.getElementById('timer-bar');
+        const targetWordEl = document.getElementById('target-word');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreDisplay = document.getElementById('score-display');
+        const streakDisplay = document.getElementById('streak-display');
+        const questionCounter = document.getElementById('question-counter');
+
+        // Utility to shuffle arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function startGame() {
+            // Shuffle the vocabulary for a fresh game
+            gameVocab = shuffleArray([...vocabulary]);
+            currentQuestionIndex = 0;
+            score = 0;
+            streak = 0;
+            updateStats();
+            
+            startScreen.classList.add('hidden');
+            endScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= gameVocab.length) {
+                endGame();
+                return;
+            }
+
+            canAnswer = true;
+            timeLeft = 100;
+            timerBar.style.width = '100%';
+            timerBar.style.backgroundColor = 'var(--success)';
+            
+            const currentItem = gameVocab[currentQuestionIndex];
+            targetWordEl.innerText = currentItem.word;
+            questionCounter.innerText = `${currentQuestionIndex + 1}/${gameVocab.length}`;
+
+            // Prepare options
+            let options = [currentItem.synonym, ...currentItem.wrong];
+            options = shuffleArray(options);
+            optionsContainer.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(opt === currentItem.synonym, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(updateTimer, UPDATE_INTERVAL);
+        }
+
+        function updateTimer() {
+            timeLeft -= DECREMENT;
+            timerBar.style.width = `${timeLeft}%`;
+
+            if (timeLeft <= 50 && timeLeft > 20) {
+                timerBar.style.backgroundColor = 'var(--warning)';
+            } else if (timeLeft <= 20) {
+                timerBar.style.backgroundColor = 'var(--danger)';
+            }
+
+            if (timeLeft <= 0) {
+                handleAnswer(false, null, true);
+            }
+        }
+
+        function handleAnswer(isCorrect, selectedBtn, timeOut = false) {
+            if (!canAnswer) return;
+            canAnswer = false;
+            clearInterval(timerInterval);
+
+            const currentItem = gameVocab[currentQuestionIndex];
+            const buttons = optionsContainer.getElementsByClassName('option-btn');
+
+            // Visual feedback
+            for (let btn of buttons) {
+                if (btn.innerText === currentItem.synonym) {
+                    btn.classList.add('correct');
+                } else if (btn === selectedBtn) {
+                    btn.classList.add('wrong');
+                }
+                btn.style.pointerEvents = 'none'; // Disable clicking
+            }
+
+            if (isCorrect) {
+                streak++;
+                const timeBonus = Math.floor(timeLeft / 10);
+                const streakMultiplier = Math.min(streak, 5); // Max 5x multiplier
+                const pointsEarned = (10 + timeBonus) * streakMultiplier;
+                score += pointsEarned;
+                
+                streakDisplay.style.animation = 'none';
+                streakDisplay.offsetHeight; // trigger reflow
+                streakDisplay.style.animation = 'pop 0.3s ease';
+            } else {
+                streak = 0;
+            }
+
+            updateStats();
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1200);
+        }
+
+        function updateStats() {
+            scoreDisplay.innerText = score;
+            streakDisplay.innerText = `${streak} 🔥`;
+        }
+
+        function endGame() {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            document.getElementById('final-score').innerText = score;
+            buildReviewTable();
+        }
+
+        function buildReviewTable() {
+            const tbody = document.getElementById('review-table-body');
+            tbody.innerHTML = '';
+            
+            // Sort alphabetically for the review table
+            const sortedVocab = [...vocabulary].sort((a, b) => a.word.localeCompare(b.word));
+
+            sortedVocab.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="font-weight: bold; text-transform: capitalize; color: var(--primary);">${item.word}</td>
+                    <td style="font-weight: 600; text-transform: capitalize;">${item.synonym}</td>
+                    <td>
+                        <span class="example-sentence">"${item.example}"</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function resetGame() {
+            startGame();
+        }
+    </script>
+</body>
+</html>
