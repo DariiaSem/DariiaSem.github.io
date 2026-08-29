@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mixed Conditionals Master</title>
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --success: #10B981;
+            --danger: #EF4444;
+            --background: #F3F4F6;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        #game-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Buttons */
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            background-color: #E5E7EB;
+            color: var(--text-main);
+            margin: 10px 0;
+            padding: 15px;
+            text-align: left;
+            font-weight: normal;
+        }
+
+        .option-btn:hover {
+            background-color: #D1D5DB;
+        }
+
+        .option-btn.correct {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Question Area */
+        #question-text {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        /* Explanation Box */
+        #explanation-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #EFF6FF;
+            border-left: 4px solid var(--primary);
+            text-align: left;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        #explanation-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .structure {
+            font-family: monospace;
+            background: #DBEAFE;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #1E40AF;
+        }
+
+        .progress {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <div id="start-screen">
+            <h1>Mixed Conditionals Master</h1>
+            <p>Test your knowledge of Mixed Conditionals!</p>
+            <p><strong>Type 3+2:</strong> Past Condition ➔ Present Result</p>
+            <p><strong>Type 2+3:</strong> Present/General Condition ➔ Past Result</p>
+            <button onclick="startGame()">Start Game</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div class="progress" id="progress-text">Question 1 of 5</div>
+            <div id="question-text">Question goes here</div>
+            <div id="options-container">
+                </div>
+            
+            <div id="explanation-box" class="hidden">
+                <h3 id="result-title">Correct!</h3>
+                <p><strong>Type:</strong> <span id="exp-type"></span></p>
+                <div class="structure" id="exp-structure"></div>
+                <p id="exp-text"></p>
+                <button id="next-btn" onclick="nextQuestion()">Next Question ➔</button>
+            </div>
+        </div>
+
+        <div id="end-screen" class="hidden">
+            <h1>Game Over!</h1>
+            <p id="final-score" style="font-size: 24px; font-weight: bold;"></p>
+            <p id="final-message"></p>
+            <button onclick="resetGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "If I had won the lottery last year, I _____ on a tropical beach right now.",
+                options: ["would be relaxing", "would have relaxed", "will relax"],
+                correctAnswer: 0,
+                type: "Type 3+2 (Past Condition ➔ Present Result)",
+                structure: "If + Past Perfect, would + bare infinitive (or would be + V-ing)",
+                explanation: "The condition happened in the PAST (winning the lottery last year), but the result is happening RIGHT NOW (relaxing on a beach). Therefore, we mix the 3rd conditional (If I had won) with the 2nd conditional (I would be relaxing)."
+            },
+            {
+                text: "If she weren't so afraid of heights, she _____ skydiving with us last weekend.",
+                options: ["would go", "went", "would have gone"],
+                correctAnswer: 2,
+                type: "Type 2+3 (Present/General Condition ➔ Past Result)",
+                structure: "If + Past Simple, would have + Past Participle (V3)",
+                explanation: "Her fear of heights is a GENERAL, ongoing present fact (2nd conditional: If she weren't...). However, the result we are talking about happened in the PAST (3rd conditional: ...she would have gone last weekend)."
+            },
+            {
+                text: "If they hadn't missed their flight, they _____ here with us right now.",
+                options: ["would have been", "would be", "are"],
+                correctAnswer: 1,
+                type: "Type 3+2 (Past Condition ➔ Present Result)",
+                structure: "If + Past Perfect, would + bare infinitive",
+                explanation: "The action of missing the flight is in the PAST (If they hadn't missed). The result is their absence in the PRESENT (they would be here right now)."
+            },
+            {
+                text: "If I spoke French fluently, I _____ the job in Paris last month.",
+                options: ["would get", "would have gotten", "had gotten"],
+                correctAnswer: 1,
+                type: "Type 2+3 (Present/General Condition ➔ Past Result)",
+                structure: "If + Past Simple, would have + Past Participle (V3)",
+                explanation: "Speaking French is a GENERAL ability you currently lack (If I spoke...). The missed opportunity (getting the job) happened in the PAST (...I would have gotten it last month)."
+            },
+            {
+                text: "If you had gone to bed earlier last night, you _____ so tired today.",
+                options: ["wouldn't be", "wouldn't have been", "aren't"],
+                correctAnswer: 0,
+                type: "Type 3+2 (Past Condition ➔ Present Result)",
+                structure: "If + Past Perfect, would + bare infinitive",
+                explanation: "Going to bed earlier is an unreal PAST action (If you had gone...). Being tired is the PRESENT result (...you wouldn't be tired today)."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let canAnswer = true;
+
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const endScreen = document.getElementById('end-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanationBox = document.getElementById('explanation-box');
+        const progressText = document.getElementById('progress-text');
+
+        function startGame() {
+            startScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            canAnswer = true;
+            explanationBox.classList.add('hidden');
+            optionsContainer.innerHTML = '';
+            
+            const q = questions[currentQuestionIndex];
+            progressText.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            questionText.innerText = q.text;
+
+            q.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = option;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, selectedBtn) {
+            if (!canAnswer) return;
+            canAnswer = false;
+
+            const q = questions[currentQuestionIndex];
+            const isCorrect = selectedIndex === q.correctAnswer;
+            
+            const buttons = optionsContainer.getElementsByClassName('option-btn');
+            
+            // Highlight answers
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                if (i === q.correctAnswer) {
+                    buttons[i].classList.add('correct');
+                } else if (i === selectedIndex && !isCorrect) {
+                    buttons[i].classList.add('wrong');
+                }
+            }
+
+            if (isCorrect) score++;
+
+            showExplanation(isCorrect, q);
+        }
+
+        function showExplanation(isCorrect, q) {
+            const title = document.getElementById('result-title');
+            title.innerText = isCorrect ? "🎉 Correct!" : "❌ Not Quite!";
+            title.style.color = isCorrect ? "var(--success)" : "var(--danger)";
+
+            document.getElementById('exp-type').innerText = q.type;
+            document.getElementById('exp-structure').innerText = q.structure;
+            document.getElementById('exp-text').innerText = q.explanation;
+
+            // Change button text if it's the last question
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.innerText = "See Results ➔";
+            } else {
+                nextBtn.innerText = "Next Question ➔";
+            }
+
+            explanationBox.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            
+            document.getElementById('final-score').innerText = `You scored ${score} out of ${questions.length}!`;
+            
+            let message = "";
+            if (score === questions.length) {
+                message = "Perfect! You are a Mixed Conditionals Master!";
+            } else if (score >= 3) {
+                message = "Great job! You have a solid grasp of complex conditional structures.";
+            } else {
+                message = "Keep practicing! Mixed conditionals can be tricky to wrap your head around.";
+            }
+            document.getElementById('final-message').innerText = message;
+        }
+
+        function resetGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            endScreen.classList.add('hidden');
+            startGame();
+        }
+    </script>
+</body>
+</html>
