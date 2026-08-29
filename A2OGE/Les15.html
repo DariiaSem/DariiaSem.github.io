@@ -11,23 +11,23 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    /* Rainforest & Wildlife Theme: Deep Forest Green, Emerald, Amber Gold, Coral */
-    --mint: #10B981; /* Emerald */
+    /* Rainforest & Wildlife Theme */
+    --mint: #10B981; 
     --mint-dark: #047857;
     --mint-light: #D1FAE5;
     
-    --deep-blue: #064E3B; /* Deep Rainforest Green */
+    --deep-blue: #064E3B; 
     --slate-blue: #065F46;
     
-    --coral: #EF4444; /* Warning Red / Endangered */
+    --coral: #EF4444; 
     --coral-light: #FEE2E2;
     
-    --gold: #F59E0B; /* Amber / Sun */
+    --gold: #F59E0B; 
     --gold-light: #FEF3C7;
     --gold-600: #D97706;
     
     --cream: #F8FAFC;
-    --light-bg: #F0FDF4; /* Very soft forest tint */
+    --light-bg: #F0FDF4; 
     --white: #FFFFFF;
     
     --gray-100: #F1F5F9;
@@ -105,8 +105,6 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.15; margin-bottom: 20px; }
 .hero h1 span { color: var(--mint); font-style: italic; }
 .hero-subtitle { font-size: 1.15rem; color: var(--gray-200); max-width: 700px; margin: 0 auto 24px; font-weight: 400; }
-.hero-meta { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin-top: 24px; }
-.hero-pill { background: rgba(16,185,129,0.15); border: 1px solid var(--mint); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: var(--mint-light); }
 
 /* ====== NAV ====== */
 .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; box-shadow: var(--shadow-sm); }
@@ -194,19 +192,19 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
 .grammar-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--gray-200); vertical-align: middle; font-family: var(--font-ui);}
 .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
 
-/* ====== CHAT UI ====== */
-.chat-container { background: #F1F5F9; border-radius: var(--radius-lg); padding: 30px; box-shadow: inset 0 4px 20px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; border: 1px solid var(--gray-200); }
-.chat-msg { max-width: 80%; padding: 14px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 500; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.5; font-family: var(--font-ui); }
-.chat-msg.received { background: var(--white); color: var(--text-main); align-self: flex-start; border-top-left-radius: 4px; }
-.chat-msg.sent { background: var(--deep-blue); color: #FFFFFF; align-self: flex-end; border-top-right-radius: 4px; }
-.chat-name { font-size: 0.8rem; font-weight: 800; margin-bottom: 4px; color: var(--gray-600); }
-.chat-msg.sent .chat-name { text-align: right; color: var(--mint-light); }
-
+/* ====== INTERACTIVE GAME ====== */
+.game-container { background: var(--deep-blue); border-radius: var(--radius-lg); padding: 50px 30px; color: var(--white); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; margin-top: 30px; border: 4px solid var(--mint); }
+.game-question { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 30px; font-weight: 400; position: relative; z-index: 2; line-height: 1.3; }
+.game-options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 2; }
+.game-btn { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: var(--white); padding: 14px 28px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-ui); }
+.game-btn:hover { background: var(--mint); border-color: var(--mint); transform: translateY(-2px); }
+.game-feedback { margin-top: 24px; font-size: 1.2rem; font-weight: 800; height: 30px; transition: all 0.3s; }
+.game-progress { position: absolute; top: 0; left: 0; height: 6px; background: var(--gold); width: 0%; transition: width 0.3s; }
 </style>
 </head>
 <body>
 
-<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(6,78,59, 0.9); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); font-family: var(--font-mono); text-transform: uppercase;">
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(6,78,59, 0.9); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); font-family: var(--font-mono); text-transform: uppercase;">
     <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--mint); border-radius: 50%; box-shadow: 0 0 8px var(--mint);"></span>
     <span id="syncText">Link Established</span>
 </div>
@@ -217,7 +215,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     <div class="hero-content">
         <div class="hero-badge" contenteditable="true">Module 15 • General English B1+</div>
         <h1 contenteditable="true">Endangered Species <span>&</span> Habitats</h1>
-        <p class="hero-subtitle" contenteditable="true">Explore wildlife conservation through an investigative lens. Master in-depth Second Conditionals for hypothetical scenarios and review Modals of Deduction.</p>
+        <p class="hero-subtitle" contenteditable="true">Explore wildlife conservation through an investigative lens. Master in-depth Second Conditionals for hypothetical scenarios and expand your core lexicon.</p>
         <div class="hero-meta">
             <span class="hero-pill" contenteditable="true">Second Conditional</span>
             <span class="hero-pill" contenteditable="true">Modals of Deduction</span>
@@ -231,61 +229,65 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     <div class="nav-inner">
         <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">Level B1+</span></a>
         <ul class="nav-links" id="navTabsContainer">
-            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--mint-light); color: var(--deep-blue); padding: 4px 10px; font-weight: 800; border-radius: 50px;" title="Add Custom Tab">+</a></li>
-            <li><a href="#t1" contenteditable="true">1. Read</a></li>
-            <li><a href="#t3" contenteditable="true">3. Vocab</a></li>
-            <li><a href="#t4" contenteditable="true">4. Lexicon</a></li>
-            <li><a href="#t5" contenteditable="true">5. Discuss</a></li>
-            <li><a href="#t6" contenteditable="true">6. Gram 1</a></li>
-            <li><a href="#t8" contenteditable="true">8. Match</a></li>
-            <li><a href="#t9" contenteditable="true">9. Read 2</a></li>
-            <li><a href="#t10" contenteditable="true">10. Gram 2</a></li>
-            <li><a href="#t12" contenteditable="true">12. Game</a></li>
-            <li><a href="#t13" contenteditable="true">13. Roleplay</a></li>
-            <li><a href="#task-hw" class="hw-tab" contenteditable="false">📝 Test</a></li>
+            <li><a href="#t1" contenteditable="true">01</a></li>
+            <li><a href="#t2" contenteditable="true">02</a></li>
+            <li><a href="#t3" contenteditable="true">03</a></li>
+            <li><a href="#t4" contenteditable="true">04</a></li>
+            <li><a href="#t5" contenteditable="true">05</a></li>
+            <li><a href="#t6" contenteditable="true">06</a></li>
+            <li><a href="#t7" contenteditable="true">07</a></li>
+            <li><a href="#t8" contenteditable="true">08</a></li>
+            <li><a href="#t9" contenteditable="true">09</a></li>
+            <li><a href="#t10" contenteditable="true">10</a></li>
+            <li><a href="#t11" contenteditable="true">11</a></li>
+            <li><a href="#t12" contenteditable="true">12</a></li>
+            <li><a href="#t13" contenteditable="true">13</a></li>
+            <li><a href="#t14" contenteditable="true">14</a></li>
+            <li><a href="#t15" contenteditable="true">15</a></li>
+            <li><a href="#t16" contenteditable="true">16</a></li>
+            <li><a href="#task-hw" class="hw-tab" contenteditable="false">📝 Assessment</a></li>
         </ul>
     </div>
 </nav>
 
-<!-- ====== TASK 1: READING 1 ====== -->
+<!-- ====== TASK 1: RECAP ====== -->
 <section class="section" id="t1">
     <div class="section-inner">
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 01</span>
-            <h2 class="task-title" contenteditable="true">Field Report: <em>Guardians of the Wild</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the mini-documentary transcript below. Hover over the dotted text to reveal Ukrainian translations!</p>
+            <h2 class="task-title" contenteditable="true">Recap Relay: <em>Modals of Deduction</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Before heading into the wild, let's test your logical deductions from Lesson 14 using <strong>must be</strong>, <strong>might be</strong>, or <strong>can't be</strong>.</p>
         </div>
 
-        <div class="card card-teal" style="padding: 50px 60px; font-size: 1.15rem; line-height: 2.2;">
-            <p contenteditable="true" style="margin-bottom: 20px;">
-                <span class="uk-tooltip" data-uk="Планета стикається з серйозною кризою біорізноманіття.">The planet is currently facing a severe biodiversity crisis.</span> 
-                <span class="uk-tooltip" data-uk="Тисячі унікальних видів зараз знаходяться під загрозою зникнення.">Thousands of unique <strong>species</strong> are now classified as endangered.</span> 
-            </p>
-            <p contenteditable="true" style="margin-bottom: 20px;">
-                <span class="uk-tooltip" data-uk="Головна причина — це знищення їхнього природного середовища існування.">The primary driver is the destruction of their natural <strong>habitat</strong>.</span> 
-                <span class="uk-tooltip" data-uk="Коли вирубують тропічні ліси, тварини не можуть вижити в дикій природі.">When tropical rainforests are cleared, animals cannot survive in the <strong>wild</strong>.</span> 
-                <span class="uk-tooltip" data-uk="Без захисту багато дивовижних істот незабаром вимруть.">Without legal protection, many magnificent creatures will soon become <strong>extinct</strong>.</span> 
-            </p>
-            <p contenteditable="true">
-                <span class="uk-tooltip" data-uk="Якби уряди захищали більше територій, популяція диких тварин швидко б відновилася.">If governments protected more land, <strong>wild</strong> populations would recover rapidly.</span>
-            </p>
-        </div>
+        <ul class="practice-list">
+            <li><div contenteditable="true">1. Look at those giant paw prints! It <span class="blank-input" style="min-width:140px;"></span> a bear; no dog is that large! <em>(99% Certain - True)</em></div></li>
+            <li><div contenteditable="true">2. I hear a rustling in the bushes. It <span class="blank-input" style="min-width:140px;"></span> a bird or a small squirrel. <em>(50% Possible)</em></div></li>
+            <li><div contenteditable="true">3. That animal has scales and no legs. It <span class="blank-input" style="min-width:140px;"></span> a mammal! <em>(99% Certain - False)</em></div></li>
+            <li><div contenteditable="true">4. The safari guide has lived in Kenya for 30 years. He <span class="blank-input" style="min-width:140px;"></span> an expert on lions. <em>(99% Certain - True)</em></div></li>
+        </ul>
     </div>
 </section>
 
-<!-- ====== TASK 2: COMPREHENSION ====== -->
+<!-- ====== TASK 2: WARM-UP ====== -->
 <section class="section" id="t2">
     <div class="section-inner">
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 02</span>
-            <h2 class="task-title" contenteditable="true">Fact Check & <em>Analysis</em></h2>
+            <h2 class="task-title" contenteditable="true">The Global <em>Ecosystem</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Human expansion affects wilderness every day. Discuss these conservation dilemmas with your instructor.</p>
         </div>
 
-        <ul class="practice-list">
-            <li><div contenteditable="true">1. What is the number one cause of species becoming endangered according to the text? <span class="blank-input" style="min-width: 250px;"></span></div></li>
-            <li><div contenteditable="true">2. The word "species" has the same spelling in singular and plural. (True / False) <span class="blank-input" style="width: 60px;"></span></div></li>
-            <li><div contenteditable="true">3. An animal that is "extinct" can be bred back to life in a zoo. (True / False) <span class="blank-input" style="width: 60px;"></span></div></li>
-        </ul>
+        <div class="split-layout">
+            <div class="card card-teal">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.8rem; margin-bottom:16px;" contenteditable="true">The Value of Survival</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Why should humans spend millions of dollars saving small insects or rare plants from dying out? Does every creature matter equally?</p>
+            </div>
+            
+            <div class="card card-gold">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.8rem; margin-bottom:16px;" contenteditable="true">Zoos vs. Real Nature</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Do modern zoos play an essential role in breeding endangered animals, or is keeping them in cages unethical?</p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -295,7 +297,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 03</span>
             <h2 class="task-title" contenteditable="true">Lexical <em>Discovery</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Based on the reading and the icons below, guess the four core wildlife terms.</p>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Four core wildlife terms are hidden below. Look at the icons and context, then type your best guess.</p>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
@@ -518,127 +520,11 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     </div>
 </section>
 
-<!-- ====== TASK 5: WARM-UP DISCUSSION ====== -->
+<!-- ====== TASK 5: MATCHING GAME ====== -->
 <section class="section" id="t5">
     <div class="section-inner">
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 05</span>
-            <h2 class="task-title" contenteditable="true">The Global <em>Ecosystem</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Now that we have the vocabulary, discuss these conservation dilemmas with your instructor.</p>
-        </div>
-
-        <div class="split-layout">
-            <div class="card card-teal">
-                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.8rem; margin-bottom:16px;" contenteditable="true">The Value of Survival</h3>
-                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Why should humans spend millions of dollars saving small insects or rare plants from dying out? Does every creature matter equally?</p>
-            </div>
-            
-            <div class="card card-gold">
-                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.8rem; margin-bottom:16px;" contenteditable="true">Zoos vs. Real Nature</h3>
-                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Do modern zoos play an essential role in breeding endangered animals, or is keeping them in cages unethical?</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ====== TASK 6: GRAMMAR THEORY 1 ====== -->
-<section class="section" id="t6">
-    <div class="section-inner">
-        <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 06</span>
-            <h2 class="task-title" contenteditable="true">Deduction in <em>Wildlife Tracking</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Wildlife biologists often track animals using clues. They use Modals of Deduction to analyze the evidence.</p>
-        </div>
-        
-        <table class="grammar-table">
-            <thead><tr><th contenteditable="true">Evidence</th><th contenteditable="true">Modal Deduction</th><th contenteditable="true">Meaning</th></tr></thead>
-            <tbody>
-                <tr>
-                    <td contenteditable="true">Fresh warm tracks in the mud</td>
-                    <td contenteditable="true">The tiger <strong>must be</strong> close by.</td>
-                    <td contenteditable="true">99% Certain (True)</td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">Broken branches high up a tree</td>
-                    <td contenteditable="true">It <strong>might be</strong> an elephant or a storm.</td>
-                    <td contenteditable="true">50% Possible</td>
-                </tr>
-                <tr>
-                    <td contenteditable="true">No wolves seen in 80 years</td>
-                    <td contenteditable="true">The species <strong>can't be</strong> alive in this region.</td>
-                    <td contenteditable="true">99% Certain (False / Impossible)</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
-
-<!-- ====== TASK 7: GRAMMAR DRILL 1 ====== -->
-<section class="section" id="t7">
-    <div class="section-inner">
-        <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 07</span>
-            <h2 class="task-title" contenteditable="true">Deduction <em>Drill</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Type <strong>must be</strong>, <strong>might be</strong>, or <strong>can't be</strong> to complete the sentences.</p>
-        </div>
-
-        <div style="display:flex; flex-direction:column; gap:20px;">
-            <div class="card" style="padding: 24px;">
-                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">Context: Look at the nest! The eggs are warm. (99% True)</p>
-                <div style="display:flex; gap:12px; align-items:center;">
-                    <span style="font-weight:600;">The mother bird</span>
-                    <input type="text" class="drill-input" id="drill7-1" style="max-width: 150px;" placeholder="...">
-                    <span style="font-weight:600; color:var(--gray-600);">hunting nearby.</span>
-                    <button class="btn-verify" onclick="checkDrill(7, 1, 'must be')">Verify</button>
-                </div>
-                <div id="fb7-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
-            </div>
-
-            <div class="card" style="padding: 24px;">
-                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">Context: That animal has no legs and scales. (99% False)</p>
-                <div style="display:flex; gap:12px; align-items:center;">
-                    <span style="font-weight:600;">It</span>
-                    <input type="text" class="drill-input" id="drill7-2" style="max-width: 150px;" placeholder="...">
-                    <span style="font-weight:600; color:var(--gray-600);">a mammal!</span>
-                    <button class="btn-verify" onclick="checkDrill(7, 2, 'can\'t be')">Verify</button>
-                </div>
-                <div id="fb7-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
-            </div>
-            
-            <div class="card" style="padding: 24px;">
-                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">Context: I hear something in the bushes. (50% Possible)</p>
-                <div style="display:flex; gap:12px; align-items:center;">
-                    <span style="font-weight:600;">It</span>
-                    <input type="text" class="drill-input" id="drill7-3" style="max-width: 150px;" placeholder="...">
-                    <span style="font-weight:600; color:var(--gray-600);">a rabbit or a deer.</span>
-                    <button class="btn-verify" onclick="checkDrill(7, 3, 'might be')">Verify</button>
-                </div>
-                <div id="fb7-3" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
-            </div>
-        </div>
-
-        <script>
-            function checkDrill(task, num, target) {
-                const input = document.getElementById(`drill${task}-${num}`);
-                const fb = document.getElementById(`fb${task}-${num}`);
-                const val = input.value.toLowerCase().trim().replace(/[']/g, "'");
-                
-                fb.style.display = 'block';
-                if(val === target) {
-                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct'; input.style.borderColor = 'var(--success)';
-                } else {
-                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: "${target}"`; input.style.borderColor = 'var(--danger)';
-                }
-            }
-        </script>
-    </div>
-</section>
-
-<!-- ====== TASK 8: MATCHING GAME ====== -->
-<section class="section" id="t8">
-    <div class="section-inner">
-        <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 08</span>
             <h2 class="task-title" contenteditable="true">Conservation <em>Connections</em></h2>
             <p class="section-desc" contenteditable="true">Match the conservation concept on the left with the correct situation on the right.</p>
         </div>
@@ -700,34 +586,54 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     </div>
 </section>
 
-<!-- ====== TASK 9: READING 2 ====== -->
-<section class="section" id="t9">
+<!-- ====== TASK 6: READING 1 ====== -->
+<section class="section" id="t6">
     <div class="section-inner">
         <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 09</span>
-            <h2 class="task-title" contenteditable="true">Case Study: <em>The Return of the Wolf</em></h2>
+            <span class="task-label" contenteditable="true">Task 06</span>
+            <h2 class="task-title" contenteditable="true">Field Report: <em>Guardians of the Wild</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the mini-documentary transcript below. Hover over the dotted text to reveal Ukrainian translations!</p>
         </div>
-        
-        <div class="card card-gold" style="padding: 50px 60px; font-size: 1.15rem; line-height: 2.2;">
+
+        <div class="card card-teal" style="padding: 50px 60px; font-size: 1.15rem; line-height: 2.2;">
             <p contenteditable="true" style="margin-bottom: 20px;">
-                In 1995, gray wolves were reintroduced to Yellowstone National Park after being absent for nearly 70 years. Scientists wanted to see what would happen if a top predator returned.
+                <span class="uk-tooltip" data-uk="Планета стикається з серйозною кризою біорізноманіття.">The planet is currently facing a severe biodiversity crisis.</span> 
+                <span class="uk-tooltip" data-uk="Тисячі унікальних видів зараз знаходяться під загрозою зникнення.">Thousands of unique <strong>species</strong> are now classified as endangered.</span> 
             </p>
             <p contenteditable="true" style="margin-bottom: 20px;">
-                The results were astonishing. Without wolves, deer had overpopulated the park and eaten all the young trees. When wolves returned, deer changed their behavior and avoided open valleys. Consequently, forests regenerated, birds returned, and beaver populations multiplied by ten!
+                <span class="uk-tooltip" data-uk="Головна причина — це знищення їхнього природного середовища існування.">The primary driver is the destruction of their natural <strong>habitat</strong>.</span> 
+                <span class="uk-tooltip" data-uk="Коли вирубують тропічні ліси, тварини не можуть вижити в дикій природі.">When tropical rainforests are cleared, animals cannot survive in the <strong>wild</strong>.</span> 
+                <span class="uk-tooltip" data-uk="Без захисту багато дивовижних істот незабаром вимруть.">Without legal protection, many magnificent creatures will soon become <strong>extinct</strong>.</span> 
             </p>
             <p contenteditable="true">
-                This proves that if you restore one key <strong>species</strong>, the entire natural <strong>habitat</strong> heals itself.
+                <span class="uk-tooltip" data-uk="Якби уряди захищали більше територій, популяція диких тварин швидко б відновилася.">If governments protected more land, <strong>wild</strong> populations would recover rapidly.</span>
             </p>
         </div>
     </div>
 </section>
 
-<!-- ====== TASK 10: GRAMMAR THEORY 2 ====== -->
-<section class="section" id="t10">
+<!-- ====== TASK 7: COMPREHENSION ====== -->
+<section class="section" id="t7">
     <div class="section-inner">
         <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 10</span>
-            <h2 class="task-title" contenteditable="true">Second Conditional <em>(Hypothetical & Unreal)</em></h2>
+            <span class="task-label" contenteditable="true">Task 07</span>
+            <h2 class="task-title" contenteditable="true">Fact Check & <em>Analysis</em></h2>
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">1. What is the number one cause of species becoming endangered according to the text? <span class="blank-input" style="min-width: 250px;"></span></div></li>
+            <li><div contenteditable="true">2. The word "species" has the same spelling in singular and plural. (True / False) <span class="blank-input" style="width: 60px;"></span></div></li>
+            <li><div contenteditable="true">3. An animal that is "extinct" can be bred back to life in a zoo. (True / False) <span class="blank-input" style="width: 60px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">Second Conditional <em>(Hypothetical)</em></h2>
             <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">We use the <strong>Second Conditional</strong> to imagine unreal, impossible, or unlikely situations in the present or future.</p>
         </div>
 
@@ -748,11 +654,11 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     </div>
 </section>
 
-<!-- ====== TASK 11: GRAMMAR DRILL 2 ====== -->
-<section class="section" id="t11">
+<!-- ====== TASK 9: GRAMMAR DRILL 1 ====== -->
+<section class="section" id="t9">
     <div class="section-inner">
         <div class="task-header">
-            <span class="task-label" contenteditable="true">Task 11</span>
+            <span class="task-label" contenteditable="true">Task 09</span>
             <h2 class="task-title" contenteditable="true">Second Conditional <em>Drill</em></h2>
             <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Complete the hypothetical conservation sentences. Type your answer and click verify.</p>
         </div>
@@ -762,54 +668,115 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
                 <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">1. If people (not / cut down) forests, animals (not / lose) their habitats.</p>
                 <div style="display:flex; gap:12px; align-items:center;">
                     <span style="font-weight:600;">If people</span>
-                    <input type="text" class="drill-input" id="drill11-1" placeholder="didn't cut down forests, animals wouldn't lose...">
-                    <button class="btn-verify" onclick="checkDrill(11, 1, 'didn\'t cut down forests, animals wouldn\'t lose')">Verify</button>
+                    <input type="text" class="drill-input" id="drill9-1" placeholder="didn't cut down forests, animals wouldn't lose...">
+                    <button class="btn-verify" onclick="checkDrill(9, 1, 'didn\'t cut down forests, animals wouldn\'t lose')">Verify</button>
                 </div>
-                <div id="fb11-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+                <div id="fb9-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
             </div>
 
             <div class="card" style="padding: 24px;">
                 <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">2. If I (be) a park ranger, I (protect) wild elephants from poachers.</p>
                 <div style="display:flex; gap:12px; align-items:center;">
                     <span style="font-weight:600;">If I</span>
-                    <input type="text" class="drill-input" id="drill11-2" placeholder="were a park ranger, I would protect">
-                    <button class="btn-verify" onclick="checkDrill(11, 2, 'were a park ranger, i would protect')">Verify</button>
+                    <input type="text" class="drill-input" id="drill9-2" placeholder="were a park ranger, I would protect">
+                    <button class="btn-verify" onclick="checkDrill(9, 2, 'were a park ranger, i would protect')">Verify</button>
                 </div>
-                <div id="fb11-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
-            </div>
-            
-            <div class="card" style="padding: 24px;">
-                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">3. If a panda escaped from the reserve, it (struggle) to find bamboo in the city.</p>
-                <div style="display:flex; gap:12px; align-items:center;">
-                    <span style="font-weight:600;">If a panda escaped,</span>
-                    <input type="text" class="drill-input" id="drill11-3" placeholder="it would struggle to find bamboo">
-                    <button class="btn-verify" onclick="checkDrill(11, 3, 'it would struggle')">Verify</button>
-                </div>
-                <div id="fb11-3" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+                <div id="fb9-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
             </div>
         </div>
 
+        <script>
+            function checkDrill(task, num, target) {
+                const input = document.getElementById(`drill${task}-${num}`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                const val = input.value.toLowerCase().replace(/[^a-z0-9\s,']/g, '').trim();
+                const t = target.toLowerCase().replace(/[^a-z0-9\s,']/g, '').trim();
+                
+                fb.style.display = 'block';
+                if(val.includes(t) || t.includes(val) && val.length > 8) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct Syntax'; input.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: "${target}"`; input.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
     </div>
 </section>
 
-<!-- ====== TASK 12: WORD SCRAMBLE (FIXED) ====== -->
+<!-- ====== TASK 10: READING 2 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">Case Study: <em>The Return of the Wolf</em></h2>
+        </div>
+        
+        <div class="card card-gold" style="padding: 50px 60px; font-size: 1.15rem; line-height: 2.2;">
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                In 1995, gray wolves were reintroduced to Yellowstone National Park after being absent for nearly 70 years. Scientists wanted to see what would happen if a top predator returned.
+            </p>
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                The results were astonishing. Without wolves, deer had overpopulated the park and eaten all the young trees. When wolves returned, deer changed their behavior and avoided open valleys. Consequently, forests regenerated, birds returned, and beaver populations multiplied by ten!
+            </p>
+            <p contenteditable="true">
+                This proves that if you restore one key <strong>species</strong>, the entire natural <strong>habitat</strong> heals itself.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 11</span>
+            <h2 class="task-title" contenteditable="true">Deduction in <em>Wildlife Tracking</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Wildlife biologists often track animals using clues. They use Modals of Deduction to analyze the evidence.</p>
+        </div>
+        
+        <table class="grammar-table">
+            <thead><tr><th contenteditable="true">Evidence</th><th contenteditable="true">Modal Deduction</th><th contenteditable="true">Meaning</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Fresh warm tracks in the mud</td>
+                    <td contenteditable="true">The tiger <strong>must be</strong> close by.</td>
+                    <td contenteditable="true">99% Certain (True)</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Broken branches high up a tree</td>
+                    <td contenteditable="true">It <strong>might be</strong> an elephant or a storm.</td>
+                    <td contenteditable="true">50% Possible</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">No wolves seen in 80 years</td>
+                    <td contenteditable="true">The species <strong>can't be</strong> alive in this region.</td>
+                    <td contenteditable="true">99% Certain (False / Impossible)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ====== TASK 12: GRAMMAR DRILL 2 ====== -->
 <section class="section" id="t12">
     <div class="section-inner">
         <div class="task-header">
             <span class="task-label" contenteditable="true">Task 12</span>
-            <h2 class="task-title" contenteditable="true">The Wildlife <em>Scramble</em></h2>
-            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the letters to reveal the target conservation vocabulary from today's lesson. Type your answer and press Submit.</p>
+            <h2 class="task-title" contenteditable="true">Deduction & <em>Conditionals Combined</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Choose the correct grammatical form to complete each conservation statement.</p>
         </div>
 
-        <div style="background:white; border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:60px 40px; box-shadow:var(--shadow-md); text-align:center; max-width: 700px; margin: 0 auto;" id="scramble-container">
-            <div id="scramble-word" style="font-family:var(--font-mono); font-size:3rem; letter-spacing:10px; color:var(--deep-blue); margin-bottom:20px; font-weight:700; min-height: 50px;"></div>
-            <div id="scramble-hint" style="color:var(--gray-600); font-style:italic; margin-bottom:40px; font-size:1.15rem; min-height: 30px;"></div>
-            
-            <input type="text" id="scramble-input" placeholder="Type the word..." style="padding:16px 24px; border:2px solid var(--gray-200); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:700; color:var(--deep-blue); transition:border-color 0.2s;" onkeydown="if(event.key==='Enter') window.checkScrambleGame()">
-            <br>
-            <button onclick="window.checkScrambleGame()" style="background:var(--mint-dark); color:white; border:none; padding:14px 40px; border-radius:50px; font-weight:700; cursor:pointer; font-size:1.1rem; transition: background 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px;">Submit</button>
-            <div id="scramble-fb" style="margin-top:24px; font-weight:700; font-size:1.2rem; font-family:var(--font-mono); min-height: 30px;"></div>
-        </div>
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true">1. If a panda escaped from the reserve, it <span class="blank-input" style="min-width: 140px;"></span> <em>(would / will)</em> struggle to find bamboo in the city.</div>
+            </li>
+            <li>
+                <div contenteditable="true">2. Look at the nest! The eggs are warm, so the mother bird <span class="blank-input" style="min-width: 140px;"></span> <em>(must be / can't be)</em> hunting nearby.</div>
+            </li>
+            <li>
+                <div contenteditable="true">3. If we <span class="blank-input" style="min-width: 140px;"></span> <em>(ban / banned)</em> plastic completely, marine life would be much safer.</div>
+            </li>
+        </ul>
     </div>
 </section>
 
@@ -844,11 +811,144 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     </div>
 </section>
 
-<!-- ====== TASK 14: FINALE ====== -->
-<section class="section" id="t14" style="border-bottom:none;">
+<!-- ====== TASK 14: SYNONYM GAME ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">Synonym <em>Survivor</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Let's review vocabulary from this lesson and previous lessons! Choose the correct synonym to survive.</p>
+        </div>
+
+        <div style="background: var(--deep-blue); border-radius: var(--radius-lg); padding: 50px 30px; color: var(--white); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; border: 4px solid var(--mint);">
+            <div id="synProgress" style="position: absolute; top: 0; left: 0; height: 6px; background: var(--mint); width: 0%; transition: width 0.3s;"></div>
+            
+            <div style="font-size: 4rem; margin-bottom: 20px;" id="synIcon">🧠</div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 30px; font-weight: 400; position: relative; z-index: 2; line-height: 1.4;" id="synQuestion">Loading game...</h3>
+            
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 2;" id="synOptions">
+                <!-- Buttons injected here -->
+            </div>
+            
+            <div style="margin-top: 24px; font-size: 1.2rem; font-weight: 800; height: 30px; transition: all 0.3s;" id="synFeedback"></div>
+            
+            <button style="width: auto; height: auto; padding: 12px 24px; border-radius: 50px; margin: 20px auto 0; background: var(--gold); border: none; font-weight: bold; cursor: pointer; display: none;" id="nextSynBtn" onclick="nextSynQuestion()">Next Word ➡️</button>
+            <button style="width: auto; height: auto; padding: 12px 24px; border-radius: 50px; margin: 20px auto 0; background: var(--mint-dark); color: white; border: none; font-weight: bold; cursor: pointer; display: none;" id="resetSynBtn" onclick="resetSynGame()">Play Again 🔄</button>
+        </div>
+
+        <script>
+            const synData = [
+                { q: "What is a synonym for EXTINCT? (Lesson 15)", ops: [{t:"Alive", c:false}, {t:"Vanished", c:true}, {t:"Endangered", c:false}], icon: "💀" },
+                { q: "What is a synonym for HABITAT? (Lesson 15)", ops: [{t:"Environment", c:true}, {t:"Weather", c:false}, {t:"Species", c:false}], icon: "🌲" },
+                { q: "What is a synonym for RELIABLE? (Lesson 14)", ops: [{t:"Stubborn", c:false}, {t:"Dependable", c:true}, {t:"Shy", c:false}], icon: "🤝" },
+                { q: "What is a synonym for OUTGOING? (Lesson 14)", ops: [{t:"Sociable", c:true}, {t:"Nervous", c:false}, {t:"Angry", c:false}], icon: "👋" },
+                { q: "What is a synonym for VENUE? (Lesson 11)", ops: [{t:"Band", c:false}, {t:"Song", c:false}, {t:"Location", c:true}], icon: "🏟️" },
+                { q: "What is a synonym for WILD? (Lesson 15)", ops: [{t:"Untamed", c:true}, {t:"Domesticated", c:false}, {t:"Calm", c:false}], icon: "🦁" }
+            ];
+
+            let sIndex = 0;
+
+            function updateSynProgress() {
+                const progress = ((sIndex) / synData.length) * 100;
+                document.getElementById('synProgress').style.width = `${progress}%`;
+            }
+
+            window.checkSynAnswer = function(btn, isCorrect) {
+                const btns = document.getElementById('synOptions').querySelectorAll('button');
+                btns.forEach(b => b.style.pointerEvents = 'none'); 
+                
+                const fb = document.getElementById('synFeedback');
+                
+                if(isCorrect) {
+                    btn.style.background = 'var(--success)';
+                    btn.style.borderColor = 'var(--success)';
+                    fb.innerText = "Correct! ✅";
+                    fb.style.color = 'var(--success)';
+                } else {
+                    btn.style.background = 'var(--danger)';
+                    btn.style.borderColor = 'var(--danger)';
+                    fb.innerText = "Oops! ❌ Incorrect.";
+                    fb.style.color = '#FFA8A8';
+                }
+                
+                updateSynProgress();
+
+                if(sIndex < synData.length - 1) {
+                    document.getElementById('nextSynBtn').style.display = 'inline-block';
+                } else {
+                    document.getElementById('synProgress').style.width = `100%`;
+                    setTimeout(() => { 
+                        fb.innerText = "Survivor Complete! 🏆 Impressive Vocabulary!"; 
+                        document.getElementById('resetSynBtn').style.display = 'inline-block';
+                    }, 1500);
+                }
+            }
+
+            window.nextSynQuestion = function() {
+                sIndex++;
+                document.getElementById('nextSynBtn').style.display = 'none';
+                document.getElementById('synFeedback').innerText = '';
+                
+                document.getElementById('synIcon').innerText = synData[sIndex].icon;
+                document.getElementById('synQuestion').innerText = synData[sIndex].q;
+                
+                const opsContainer = document.getElementById('synOptions');
+                opsContainer.innerHTML = '';
+                synData[sIndex].ops.forEach(op => {
+                    opsContainer.innerHTML += `<button style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 14px 28px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-ui);" onclick="checkSynAnswer(this, ${op.c})" onmouseover="this.style.background='var(--mint)'; this.style.borderColor='var(--mint)';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.3)';">${op.t}</button>`;
+                });
+            }
+
+            window.resetSynGame = function() {
+                sIndex = -1;
+                document.getElementById('resetSynBtn').style.display = 'none';
+                nextSynQuestion();
+                document.getElementById('synProgress').style.width = `0%`;
+            }
+
+            function initSynGame() {
+                sIndex = 0;
+                document.getElementById('synIcon').innerText = synData[sIndex].icon;
+                document.getElementById('synQuestion').innerText = synData[sIndex].q;
+                const opsContainer = document.getElementById('synOptions');
+                opsContainer.innerHTML = '';
+                synData[sIndex].ops.forEach(op => {
+                    opsContainer.innerHTML += `<button style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 14px 28px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-ui);" onclick="checkSynAnswer(this, ${op.c})" onmouseover="this.style.background='var(--mint)'; this.style.borderColor='var(--mint)';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.3)';">${op.t}</button>`;
+                });
+            }
+            document.addEventListener("DOMContentLoaded", initSynGame);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 15: DISCUSSION ====== -->
+<section class="section" id="t15">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 15</span>
+            <h2 class="task-title" contenteditable="true">Fact vs. <em>Fiction</em></h2>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Use the Second Conditional and Modals to answer these questions.</p>
+
+        <div class="split-layout">
+            <div class="card card-gold">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Question 1</h3>
+                <p style="color:var(--gray-800);" contenteditable="true">If you discovered a new animal species in the wild, what would you name it and why?</p>
+            </div>
+            
+            <div class="card card-teal">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Question 2</h3>
+                <p style="color:var(--gray-800);" contenteditable="true">Do you think scientists should try to bring extinct animals (like the Woolly Mammoth) back to life? What might be the consequences?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 16: FINAL SYNTHESIS ====== -->
+<section class="section" id="t16" style="border-bottom:none;">
     <div class="section-inner">
         <div class="task-header" style="text-align:center; margin-bottom:0;">
-            <span class="task-label" contenteditable="true">Task 14</span>
+            <span class="task-label" contenteditable="true">Task 16</span>
         </div>
         <div style="background: var(--deep-blue); color: white; padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
             <div style="position:relative; z-index:1;">
@@ -997,63 +1097,6 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         document.getElementById('task-hw').style.display = 'none';
     }
 
-    // --- Scramble Game Logic ---
-    const scrambleWords = [
-        { word: "SPECIES", hint: "A group of living organisms consisting of similar individuals." },
-        { word: "HABITAT", hint: "The natural home or environment of an animal or plant." },
-        { word: "EXTINCT", hint: "A species that has no living members remaining on Earth." },
-        { word: "WILDLIFE", hint: "Native animals and plants living in their natural conditions." }
-    ];
-    let scrambleIndex = 0;
-    
-    function scrambleString(str) {
-        let arr = str.split('');
-        for(let i = arr.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr.join(' ');
-    }
-    
-    function loadScramble() {
-        if(scrambleIndex >= scrambleWords.length) {
-            document.getElementById('scramble-container').innerHTML = "<h3 style='color:var(--deep-blue); font-size:2.2rem; font-family:var(--font-serif); margin-bottom:0;'>All conservation vocabulary decoded! Outstanding work.</h3>";
-            return;
-        }
-        let item = scrambleWords[scrambleIndex];
-        document.getElementById('scramble-word').innerText = scrambleString(item.word);
-        document.getElementById('scramble-hint').innerText = "Hint: " + item.hint;
-        document.getElementById('scramble-input').value = "";
-        document.getElementById('scramble-input').style.borderColor = "var(--gray-200)";
-        document.getElementById('scramble-fb').innerText = "";
-    }
-    
-    window.checkScrambleGame = function() {
-        let inputEl = document.getElementById('scramble-input');
-        let input = inputEl.value.toUpperCase().replace(/[^A-Z]/g, '');
-        let target = scrambleWords[scrambleIndex].word.replace(/[^A-Z]/g, '');
-        let fb = document.getElementById('scramble-fb');
-
-        if(input === target) {
-            fb.innerText = "✓ Validated";
-            fb.style.color = "var(--success)";
-            inputEl.style.borderColor = "var(--success)";
-            setTimeout(() => { scrambleIndex++; loadScramble(); }, 1200);
-        } else {
-            fb.innerText = "✗ Incorrect Sequence";
-            fb.style.color = "var(--danger)";
-            inputEl.style.borderColor = "var(--danger)";
-            
-            inputEl.style.transform = 'translateX(5px)';
-            setTimeout(() => { inputEl.style.transform = 'translateX(-5px)'; }, 100);
-            setTimeout(() => { inputEl.style.transform = 'translateX(5px)'; }, 200);
-            setTimeout(() => { inputEl.style.transform = 'translateX(0)'; }, 300);
-        }
-    };
-
-    // Execute immediately so the game loads right away
-    loadScramble();
-
     // --- Quizlet ---
     function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
     function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
@@ -1063,6 +1106,16 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         const inputs = document.querySelectorAll('#wordList input');
         for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
         if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+
+    // --- Word Reveal ---
+    function revealWord(btn, word) {
+        btn.innerHTML = word;
+        btn.classList.add('revealed');
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--deep-blue)';
+        btn.style.border = '2px solid var(--deep-blue)';
+        btn.style.cursor = 'default';
     }
 
     // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
@@ -1104,7 +1157,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         }, 1000);
     }
 
-    function startHW() {
+    window.startHW = function() {
         const nameInput = document.getElementById('hwStudentName').value.trim();
         if (!nameInput) { alert("Please enter your name."); return; }
         currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
@@ -1135,7 +1188,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         });
     }
 
-    function skipHWQuestion() {
+    window.skipHWQuestion = function() {
         questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
         currentQuestionIndex++; renderHWQuestion();
     }
@@ -1162,21 +1215,21 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
         localStorage.setItem('lesson15HW_B1', JSON.stringify(results));
     }
 
-    function downloadHWPDF() {
+    window.downloadHWPDF = function() {
         const el = document.getElementById('hw-pdf-content');
         html2pdf().set({ margin:0, filename:`${currentStudent}_L15_Assessment.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save();
     }
 
     // --- Admin ---
-    function openAdmin() {
+    window.openAdmin = function() {
         const results = JSON.parse(localStorage.getItem('lesson15HW_B1')) || [];
         const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
         if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px;'>No submissions yet.</td></tr>";
         else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-size:0.85rem; font-family:var(--font-ui);">${r.date}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:700;">${r.name}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:bold;">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:700; color:${r.status.includes('Completed') ? 'var(--mint-dark)' : 'var(--coral)'}">${r.status}</td></tr>`);
         document.getElementById('adminModal').style.display = 'flex';
     }
-    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
-    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson15HW_B1'); openAdmin(); } }
+    window.closeAdmin = function() { document.getElementById('adminModal').style.display = 'none'; }
+    window.clearData = function() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson15HW_B1'); openAdmin(); } }
 
     // --- Firebase Sync (Realtime Text Edits & Cursors) ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -1184,7 +1237,7 @@ h1, h2, h3, .serif { font-family: var(--font-serif); }
     import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
-    const appId = 'lesson-15-b1-endangered-animals-v3';
+    const appId = 'lesson-15-b1-endangered-animals-v4';
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
