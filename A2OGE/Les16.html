@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 16: B1+ | Science & Space</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    /* Space & Mars Theme: Cosmic Blue, Cyan, Mars Orange */
+    --mint: #06B6D4; /* Neon Cyan */
+    --mint-dark: #0891B2;
+    --mint-light: #CFFAFE;
+    
+    --deep-blue: #020617; /* Very Dark Space */
+    --slate-blue: #0F172A; /* Space Slate */
+    
+    --coral: #F97316; /* Mars Orange */
+    --coral-light: #FFEDD5;
+    
+    --gold: #EAB308; /* Star Yellow */
+    --gold-light: #FEF08A;
+    --gold-600: #CA8A04;
+    
+    --cream: #F8FAFC;
+    --light-bg: #F8FAFC; 
+    --white: #FFFFFF;
+    
+    --gray-100: #F1F5F9;
+    --gray-200: #E2E8F0;
+    --gray-400: #94A3B8;
+    --gray-600: #475569;
+    --gray-800: #0F172A;
+    
+    --shadow-sm: 0 1px 3px rgba(8, 145, 178, 0.08);
+    --shadow-md: 0 4px 16px rgba(8, 145, 178, 0.10);
+    --shadow-lg: 0 12px 40px rgba(8, 145, 178, 0.14);
+    --shadow-xl: 0 20px 60px rgba(8, 145, 178, 0.16);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    --font-ui: 'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Instrument Serif', serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --danger: #E11D48;
+    --success: #10B981;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-ui);
+    line-height: 1.7;
+    color: var(--gray-800);
+    background-color: var(--light-bg);
+    background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+    background-size: 24px 24px;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, .serif { font-family: var(--font-serif); }
+
+[contenteditable="true"] { outline: none; transition: all 0.2s; border-radius: 4px; padding: 0 4px; margin: 0 -4px; border-bottom: 1px dashed transparent; }
+[contenteditable="true"]:focus, [contenteditable="true"]:hover {
+    background-color: rgba(6, 182, 212, 0.1);
+    border-bottom: 1px dashed var(--mint);
+}
+
+/* ====== UKRAINIAN HOVER TOOLTIP ====== */
+.uk-tooltip {
+    position: relative; cursor: help; border-bottom: 2px dotted var(--mint-dark);
+    font-weight: 700; color: var(--mint-dark); transition: color 0.2s;
+}
+.uk-tooltip:hover { color: var(--coral); }
+.uk-tooltip::after {
+    content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+    transform: translateX(-50%); background: var(--deep-blue); color: white;
+    padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    z-index: 50; font-family: var(--font-ui); box-shadow: var(--shadow-md);
+}
+.uk-tooltip:hover::after { opacity: 1; }
+
+/* ====== HERO ====== */
+.hero {
+    position: relative;
+    background: var(--deep-blue);
+    color: white; padding: 100px 24px 80px; text-align: center; overflow: hidden;
+}
+.hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+.hero-badge {
+    display: inline-block; background: rgba(255,255,255,0.1); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.2); color: var(--mint-light); padding: 6px 20px;
+    border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 24px; font-family: var(--font-mono);
+}
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 500; line-height: 1.15; margin-bottom: 20px; }
+.hero h1 span { color: var(--coral); font-style: italic; }
+.hero-subtitle { font-size: 1.15rem; color: var(--gray-200); max-width: 700px; margin: 0 auto 24px; font-weight: 400; }
+.hero-meta { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin-top: 24px; }
+.hero-pill { background: rgba(6,182,212,0.15); border: 1px solid var(--mint); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: var(--mint-light); }
+
+/* ====== NAV ====== */
+.nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; box-shadow: var(--shadow-sm); }
+.nav-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--deep-blue); text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px;}
+.nav-logo .dot { display: inline-block; width: 8px; height: 8px; background: var(--mint); border-radius: 50%; }
+.nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.85rem; font-weight: 700; padding: 8px 14px; border-radius: 6px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px;}
+.nav-links a:hover { color: var(--deep-blue); background: var(--gray-100); }
+.nav-links a.active { color: var(--deep-blue); background: var(--mint-light); }
+
+/* ====== SPLIT LAYOUT & SECTIONS ====== */
+.section { padding: 80px 24px; border-bottom: 1px solid var(--gray-200); }
+.section:nth-child(even) { background: white; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+
+.task-header { margin-bottom: 40px; text-align: left; }
+.task-label { display: inline-block; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--mint-dark); margin-bottom: 12px; font-family: var(--font-mono);}
+.task-title { font-size: 2.5rem; font-weight: 400; color: var(--deep-blue); margin-bottom: 16px; line-height: 1.1; }
+.task-title em { color: var(--coral); font-style: italic; }
+
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+@media (max-width: 960px) { .split-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+/* ====== CARDS & BOXES ====== */
+.card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); }
+.card-teal { border-top: 4px solid var(--mint-dark); }
+.card-gold { border-top: 4px solid var(--coral); }
+
+/* ====== INPUTS & LISTS ====== */
+.practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: practice-counter; }
+.practice-list li { background: white; padding: 20px 24px 20px 60px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); font-size: 1.05rem; position: relative; box-shadow: var(--shadow-sm); transition: border-color 0.2s; }
+.practice-list li:hover { border-color: var(--deep-blue); }
+.practice-list li::before { counter-increment: practice-counter; content: counter(practice-counter, decimal-leading-zero) "."; position: absolute; left: 20px; top: 22px; font-weight: 800; color: var(--mint-dark); font-family: var(--font-mono); }
+.blank-input { display: inline-block; min-width: 100px; border: none; border-bottom: 2px dashed var(--gray-400); color: var(--deep-blue); font-weight: 700; padding: 0 8px; text-align: left; background: transparent; font-family: var(--font-mono); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+.blank-input:focus { border-bottom-color: var(--mint-dark); background: var(--mint-light); }
+
+.drill-input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: 1rem; color: var(--deep-blue); background: var(--gray-50); transition: all 0.2s; outline: none; font-weight: 600;}
+.drill-input:focus { border-color: var(--mint-dark); box-shadow: 0 0 0 3px var(--mint-light); background: white; }
+.btn-verify { background: var(--deep-blue); color: white; border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; transition: background 0.2s; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.85rem; }
+.btn-verify:hover { background: var(--slate-blue); }
+
+/* ====== HUB NAVIGATION ====== */
+.hub-nav { display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 2px solid var(--gray-200); padding-bottom: 16px; overflow-x: auto; }
+.hub-tab { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); padding: 10px 20px; border-radius: 50px; font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.hub-tab:hover { background: var(--gray-200); color: var(--deep-blue); }
+.hub-tab.active { background: var(--deep-blue); color: white; border-color: var(--deep-blue); }
+.hub-content { display: none; animation: fadeIn 0.3s ease; }
+.hub-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ====== MFP VOCABULARY ELICITATION UI ====== */
+.mfp-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md); }
+@media (max-width: 960px) { .mfp-container { grid-template-columns: 1fr; } }
+.mfp-image { width: 100%; height: 300px; border-radius: var(--radius-md); background-size: cover; background-position: center; border: 1px solid var(--gray-200); }
+.mfp-content { display: flex; flex-direction: column; gap: 24px; }
+.mfp-row { display: flex; gap: 20px; align-items: flex-start; }
+.mfp-label-col { width: 100px; text-align: right; flex-shrink: 0; }
+.mfp-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--deep-blue); background: var(--gray-100); padding: 6px 10px; border-radius: 4px; display: inline-block; font-family: var(--font-mono); border: 1px solid var(--gray-200); }
+.mfp-data { flex: 1; font-size: 1.05rem; color: var(--gray-800); padding-top: 4px; }
+.ccq-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+.ccq-list li { color: var(--deep-blue); font-weight: 500; font-size: 1.05rem; position: relative; padding-left: 20px; }
+.ccq-list li::before { content: "›"; position: absolute; left: 0; color: var(--mint); font-weight: 800; font-size: 1.2rem; line-height: 1; }
+
+.word-reveal-btn { background: var(--deep-blue); color: white; border: none; padding: 16px 24px; border-radius: 8px; font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; cursor: pointer; transition: all 0.3s; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; font-style: italic; box-shadow: var(--shadow-sm); }
+.word-reveal-btn:hover { background: var(--slate-blue); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.word-reveal-btn.revealed { background: var(--gray-50); color: var(--deep-blue); border: 1px solid var(--gray-200); cursor: default; box-shadow: none; transform: none; font-weight: 700; font-style: normal; }
+
+.form-details, .pron-details { opacity: 0; filter: blur(4px); transform: translateX(-10px); transition: all 0.4s ease; pointer-events: none; }
+.form-details.visible, .pron-details.visible { opacity: 1; filter: blur(0); transform: translateX(0); pointer-events: auto; }
+.reveal-trigger { font-size: 0.8rem; color: var(--mint-dark); cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.reveal-trigger:hover { color: var(--mint); }
+
+/* ====== MATCHING GAME ====== */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.match-item { background: white; border: 2px solid var(--gray-200); padding: 16px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: center; box-shadow: var(--shadow-sm); }
+.match-item:hover { border-color: var(--mint); transform: translateY(-2px); }
+.match-item.selected { background: var(--deep-blue); color: white; border-color: var(--deep-blue); }
+.match-item.matched { background: var(--gray-100); border-color: var(--gray-200); color: var(--gray-400); opacity: 0.6; cursor: default; transform: none; }
+
+/* ====== GRAMMAR VISUALS ====== */
+.grammar-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 0.94rem; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--gray-200); background: var(--white); }
+.grammar-table thead th { background: var(--deep-blue); color: var(--white); padding: 14px 18px; text-align: left; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-transform: uppercase; font-family: var(--font-ui);}
+.grammar-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--gray-200); vertical-align: middle; font-family: var(--font-ui);}
+.grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+
+/* ====== CHAT UI ====== */
+.chat-container { background: #F1F5F9; border-radius: var(--radius-lg); padding: 30px; box-shadow: inset 0 4px 20px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; border: 1px solid var(--gray-200); }
+.chat-msg { max-width: 80%; padding: 14px 20px; border-radius: 20px; font-size: 1.05rem; font-weight: 500; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.5; font-family: var(--font-ui); }
+.chat-msg.received { background: var(--white); color: var(--text-main); align-self: flex-start; border-top-left-radius: 4px; }
+.chat-msg.sent { background: var(--deep-blue); color: #FFFFFF; align-self: flex-end; border-top-right-radius: 4px; }
+.chat-name { font-size: 0.8rem; font-weight: 800; margin-bottom: 4px; color: var(--gray-600); }
+.chat-msg.sent .chat-name { text-align: right; color: var(--mint-light); }
+
+</style>
+</head>
+<body>
+
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(2, 6, 23, 0.9); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); font-family: var(--font-mono); text-transform: uppercase;">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--mint); border-radius: 50%; box-shadow: 0 0 8px var(--mint);"></span>
+    <span id="syncText">Link Established</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<div id="lesson-content">
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 16 • General English B1+</div>
+        <h1 contenteditable="true">Science <span>&</span> Space</h1>
+        <p class="hero-subtitle" contenteditable="true">Blast off into the language of space exploration. Master the Past Perfect to sequence historical events and use the Second Conditional to imagine life on the Red Planet.</p>
+        <div class="hero-meta">
+            <span class="hero-pill" contenteditable="true">Past Perfect (had done)</span>
+            <span class="hero-pill" contenteditable="true">Second Conditional</span>
+            <span class="hero-pill" contenteditable="true">Space Lexicon</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">Level B1+</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1" contenteditable="true">01</a></li>
+            <li><a href="#t2" contenteditable="true">02</a></li>
+            <li><a href="#t3" contenteditable="true">03</a></li>
+            <li><a href="#t4" contenteditable="true">04</a></li>
+            <li><a href="#t5" contenteditable="true">05</a></li>
+            <li><a href="#t6" contenteditable="true">06</a></li>
+            <li><a href="#t7" contenteditable="true">07</a></li>
+            <li><a href="#t8" contenteditable="true">08</a></li>
+            <li><a href="#t9" contenteditable="true">09</a></li>
+            <li><a href="#t10" contenteditable="true">10</a></li>
+            <li><a href="#t11" contenteditable="true">11</a></li>
+            <li><a href="#t12" contenteditable="true">12</a></li>
+            <li><a href="#t13" contenteditable="true">13</a></li>
+            <li><a href="#t14" contenteditable="true">14</a></li>
+            <li><a href="#t15" contenteditable="true">15</a></li>
+            <li><a href="#t16" contenteditable="true">16</a></li>
+            <li><a href="#task-hw" class="hw-tab" contenteditable="false">📝 Assessment</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 01</span>
+            <h2 class="task-title" contenteditable="true">Recap Relay: <em>Modals of Deduction</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Before we launch into space, let's review your logical deductions from Lesson 15 using <strong>must be</strong>, <strong>might be</strong>, or <strong>can't be</strong>.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">1. Look at those giant paw prints! It <span class="blank-input" style="min-width:140px;"></span> a bear; no dog is that large! <em>(99% Certain - True)</em></div></li>
+            <li><div contenteditable="true">2. I hear a rustling in the bushes. It <span class="blank-input" style="min-width:140px;"></span> a bird or a small squirrel. <em>(50% Possible)</em></div></li>
+            <li><div contenteditable="true">3. That animal has scales and no legs. It <span class="blank-input" style="min-width:140px;"></span> a mammal! <em>(99% Certain - False)</em></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="t2">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 02</span>
+            <h2 class="task-title" contenteditable="true">The Mission to <em>Mars</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Humanity is looking toward the stars. Discuss these space exploration dilemmas with your instructor.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card card-teal">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.8rem; margin-bottom:16px;" contenteditable="true">The Value of Space</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Why should governments and billionaires spend billions of dollars trying to reach Mars when we have so many problems (like poverty and climate change) here on Earth?</p>
+            </div>
+            
+            <div class="card card-gold">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.8rem; margin-bottom:16px;" contenteditable="true">The One-Way Ticket</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">If you were offered a free ticket to be one of the first colonists on Mars, but you could never return to Earth, would you accept it?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY GUESS ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 03</span>
+            <h2 class="task-title" contenteditable="true">Lexical <em>Discovery</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Four core space terms are hidden below. Look at the icons and context, then type your best guess.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3.5rem; margin-bottom: 16px;">🚀</div>
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.5; color:var(--gray-600);">"The countdown has started. The rocket will <strong>___</strong> in exactly ten seconds."</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--deep-blue); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3.5rem; margin-bottom: 16px;">🌍</div>
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.5; color:var(--gray-600);">"The satellite was designed to circle the Earth and stay in <strong>___</strong> for five years."</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--deep-blue); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3.5rem; margin-bottom: 16px;">🪐</div>
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.5; color:var(--gray-600);">"Mars is the fourth <strong>___</strong> from the Sun and is covered in red dust."</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--deep-blue); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3.5rem; margin-bottom: 16px;">🧲</div>
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.5; color:var(--gray-600);">"Astronauts float around inside the space station because there is zero <strong>___</strong>."</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--deep-blue); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: THE LEXICON HUB ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 04</span>
+            <h2 class="task-title" contenteditable="true">The Lexicon <em>Hub</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Click through the tabs to unpack the Meaning, Form, and Pronunciation of our target space vocabulary.</p>
+        </div>
+
+        <div class="hub-nav" id="vocabTabs">
+            <div class="hub-tab active" onclick="switchHub('v-1', this)">1. Blast-off</div>
+            <div class="hub-tab" onclick="switchHub('v-2', this)">2. The Path</div>
+            <div class="hub-tab" onclick="switchHub('v-3', this)">3. The World</div>
+            <div class="hub-tab" onclick="switchHub('v-4', this)">4. The Pull</div>
+        </div>
+
+        <!-- Word 1: Launch -->
+        <div class="hub-content active" id="v-1">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Launch')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">Is the rocket landing or going up into the sky? (Going up).</li>
+                                <li contenteditable="true">What verb describes sending a spacecraft into space?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--mint-light); color:var(--mint-dark); border-color:var(--mint);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f1">
+                            <strong contenteditable="true">Verb / Noun</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: a successful <span class="uk-tooltip" data-uk="запуск">~</span>, to ~ a rocket, a ~ pad.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--coral-light); color:var(--danger); border-color:var(--danger);">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p1">
+                            <strong contenteditable="true">LAWNCH</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/lɔːntʃ/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 2: Orbit -->
+        <div class="hub-content" id="v-2">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Orbit')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">Does the Moon travel in a straight line or in a circle around the Earth? (A circle).</li>
+                                <li contenteditable="true">What noun describes this circular path?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--mint-light); color:var(--mint-dark); border-color:var(--mint);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f2">
+                            <strong contenteditable="true">Noun / Verb</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to enter <span class="uk-tooltip" data-uk="орбіта">~</span>, in ~, Earth's ~.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--coral-light); color:var(--danger); border-color:var(--danger);">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p2">
+                            <strong contenteditable="true">OR-bit</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈɔː.bɪt/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 3: Planet -->
+        <div class="hub-content" id="v-3">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1614730321146-b6fa6a46bcb4?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Planet')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">Is the Sun a planet? (No, it's a star).</li>
+                                <li contenteditable="true">What word describes Earth, Mars, and Jupiter?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--mint-light); color:var(--mint-dark); border-color:var(--mint);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f3">
+                            <strong contenteditable="true">Noun (Countable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: a <span class="uk-tooltip" data-uk="планета">~</span>, multi~ary species, the Red ~.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--coral-light); color:var(--danger); border-color:var(--danger);">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p3">
+                            <strong contenteditable="true">PLAN-it</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈplæn.ɪt/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 4: Gravity -->
+        <div class="hub-content" id="v-4">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Gravity')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If you drop a pen, why does it fall to the floor?</li>
+                                <li contenteditable="true">What noun describes the force that attracts a body toward the center of the earth?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--mint-light); color:var(--mint-dark); border-color:var(--mint);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f4">
+                            <strong contenteditable="true">Noun (Uncountable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: zero <span class="uk-tooltip" data-uk="гравітація">~</span>, the pull of ~.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--coral-light); color:var(--danger); border-color:var(--danger);">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p4">
+                            <strong contenteditable="true">GRAV-i-tee</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈɡræv.ə.ti/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function switchHub(id, tabElement) {
+                document.querySelectorAll('.hub-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                tabElement.classList.add('active');
+            }
+            function revealWord(btn, word) {
+                btn.innerHTML = word;
+                btn.classList.add('revealed');
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 5: MATCHING GAME ====== -->
+<section class="section" id="t5">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 05</span>
+            <h2 class="task-title" contenteditable="true">Space <em>Connections</em></h2>
+            <p class="section-desc" contenteditable="true">Match the space vocabulary on the left with the correct definition on the right.</p>
+        </div>
+
+        <div class="match-grid" id="matchGrid">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. Launch</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. Orbit</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. Planet</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. Gravity</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">A. To fly in a circle around a larger object in space.</div>
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">B. The invisible force that pulls things to the ground.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">C. To send a rocket from the ground into the sky.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. A large, round world that travels around a star.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 6: READING 1 ====== -->
+<section class="section" id="t6">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 06</span>
+            <h2 class="task-title" contenteditable="true">Live Broadcast: <em>SpaceX Starship</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the transcript from a historic rocket launch. Hover over the dotted text to reveal Ukrainian translations!</p>
+        </div>
+
+        <div class="card card-teal" style="padding: 50px 60px; font-size: 1.15rem; line-height: 2.2;">
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                <span class="uk-tooltip" data-uk="T-мінус десять секунд. Головні двигуни запущені.">"T-minus ten seconds. The main engines are ignited."</span> 
+                <span class="uk-tooltip" data-uk="Масивна ракета відірвалася від стартового майданчика.">The massive rocket successfully lifted off from the <strong>launch</strong> pad.</span> 
+            </p>
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                <span class="uk-tooltip" data-uk="На той час, як ракета досягла верхніх шарів атмосфери, бічні прискорювачі вже успішно відокремилися.">By the time the rocket reached the upper atmosphere, the side boosters <strong>had already detached</strong>.</span> 
+                <span class="uk-tooltip" data-uk="Вони поверталися на Землю, борючись із гравітацією.">They were returning to Earth, fighting against <strong>gravity</strong>.</span> 
+                <span class="uk-tooltip" data-uk="Перед сьогоднішнім днем багато людей вважали, що багаторазові ракети неможливі.">Before today, many people <strong>had thought</strong> reusable rockets were impossible.</span> 
+            </p>
+            <p contenteditable="true">
+                <span class="uk-tooltip" data-uk="Корабель увійшов на орбіту.">"The ship has entered <strong>orbit</strong>.</span>
+                <span class="uk-tooltip" data-uk="Наступна зупинка: Червона планета.">Next stop: The Red <strong>Planet</strong>."</span>
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: COMPREHENSION ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 07</span>
+            <h2 class="task-title" contenteditable="true">Fact Check & <em>Analysis</em></h2>
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">1. Did the boosters detach before or after the rocket reached the upper atmosphere? <span class="blank-input" style="min-width: 150px;"></span></div></li>
+            <li><div contenteditable="true">2. The side boosters were destroyed in space. (True / False) <span class="blank-input" style="width: 60px;"></span></div></li>
+            <li><div contenteditable="true">3. The ship's final destination is the Moon. (True / False) <span class="blank-input" style="width: 60px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">The Past Perfect <em>(had + V3)</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">We use the <strong>Past Perfect</strong> to make it clear that one action happened <em>before</em> another action in the past.</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <h3 contenteditable="true" style="color: var(--deep-blue); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.6rem;">Formula & Structure</h3>
+            <div style="background: var(--gray-100); padding: 20px; border-radius: 8px; font-family: var(--font-mono); font-size: 1.1rem; color: var(--deep-blue); margin-bottom: 20px;" contenteditable="true">
+                Subject + had + Past Participle (V3)
+            </div>
+            
+            <p style="font-size: 1.05rem; margin-bottom: 12px;">✅ "When the astronauts arrived at the viewing pad, the rocket <strong>had</strong> already <strong>launched</strong>."</p>
+            <p style="font-size: 1.05rem; color: var(--gray-600); margin-bottom: 24px;"><em>(Action 1: The rocket launched. Action 2: The astronauts arrived. Past Perfect shows which one was first).</em></p>
+            
+            <div style="display:flex; justify-content: space-between; align-items: center; background: var(--slate-blue); color: white; padding: 20px; border-radius: 8px; font-family: var(--font-mono); font-weight: 700; text-align: center;">
+                <div>[Had launched] <br><span style="font-size: 0.8rem; color: var(--mint);">(Earlier Past)</span></div>
+                <div>━━━━▶</div>
+                <div>[Arrived] <br><span style="font-size: 0.8rem; color: var(--gold);">(Past)</span></div>
+                <div>━━━━▶</div>
+                <div>[Now] <br><span style="font-size: 0.8rem; color: var(--gray-400);">(Present)</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR DRILL 1 ====== -->
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 09</span>
+            <h2 class="task-title" contenteditable="true">Past Perfect <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Choose which verb needs the Past Simple and which needs the Past Perfect.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">1. By the time I (turn) on the TV, the rocket (already / launch).</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">By the time I</span>
+                    <input type="text" class="drill-input" id="drill9-1" style="max-width: 120px;" placeholder="turned">
+                    <span style="font-weight:600;">on the TV, the rocket</span>
+                    <input type="text" class="drill-input" id="drill9-1b" style="max-width: 180px;" placeholder="had already launched">
+                    <button class="btn-verify" onclick="checkDoubleDrill(9, 1, 'turned', 'had already launched')">Verify</button>
+                </div>
+                <div id="fb9-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--deep-blue); margin-bottom:8px;" contenteditable="true">2. I couldn't enter the facility because I (forget) my ID badge at home.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">I couldn't enter the facility because I</span>
+                    <input type="text" class="drill-input" id="drill9-2" style="max-width: 200px;" placeholder="...">
+                    <span style="font-weight:600;">my ID badge.</span>
+                    <button class="btn-verify" onclick="checkDrill(9, 2, 'had forgotten')">Verify</button>
+                </div>
+                <div id="fb9-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            function checkDrill(task, num, target) {
+                const input = document.getElementById(`drill${task}-${num}`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                const val = input.value.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const t = target.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                
+                fb.style.display = 'block';
+                if(val === t) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct'; input.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: "${target}"`; input.style.borderColor = 'var(--danger)';
+                }
+            }
+            function checkDoubleDrill(task, num, target1, target2) {
+                const input1 = document.getElementById(`drill${task}-${num}`);
+                const input2 = document.getElementById(`drill${task}-${num}b`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                
+                const val1 = input1.value.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const val2 = input2.value.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const t1 = target1.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const t2 = target2.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                
+                fb.style.display = 'block';
+                if(val1 === t1 && val2 === t2) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct'; input1.style.borderColor = 'var(--success)'; input2.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again.`; input1.style.borderColor = 'var(--danger)'; input2.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 10: READING 2 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">Vision: <em>Making Life Multiplanetary</em></h2>
+        </div>
+        
+        <div class="card card-gold" style="padding: 50px 60px; font-size: 1.15rem; line-height: 2.2;">
+            <p contenteditable="true" style="margin-bottom: 20px;">
+                <span class="uk-tooltip" data-uk="Ілон Маск вірить, що людство має стати мультипланетним видом.">Elon Musk believes that humanity must become a multiplanetary species.</span> 
+                <span class="uk-tooltip" data-uk="Якби астероїд впав на Землю, люди зіткнулися б з вимиранням.">If an asteroid hit the Earth, humans <strong>would</strong> face extinction.</span> 
+                <span class="uk-tooltip" data-uk="Тому нам потрібен запасний план.">Therefore, we need a backup plan.</span> 
+            </p>
+            <p contenteditable="true">
+                <span class="uk-tooltip" data-uk="Щоб вижити на Марсі, людям довелося б жити у скляних куполах...">To survive on Mars, humans <strong>would have to</strong> live in glass domes,</span> 
+                <span class="uk-tooltip" data-uk="тому що планета має дуже малу гравітацію і не має кисню.">because the <strong>planet</strong> has very little <strong>gravity</strong> and no oxygen.</span> 
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 11</span>
+            <h2 class="task-title" contenteditable="true">Second Conditional <em>(Review)</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Just like we learned in Lesson 15, we use the <strong>Second Conditional</strong> to imagine unreal, impossible, or unlikely situations in the present or future.</p>
+        </div>
+        
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <div style="background: var(--gray-100); padding: 20px; border-radius: 8px; font-family: var(--font-mono); font-size: 1.1rem; color: var(--deep-blue); margin-bottom: 20px;" contenteditable="true">
+                If + Past Simple , would + Base Verb (V1)
+            </div>
+            
+            <p style="font-size: 1.05rem; margin-bottom: 12px;">✅ "If humans <strong>went</strong> to Mars, we <strong>would need</strong> to build greenhouses."</p>
+            <p style="font-size: 1.05rem; margin-bottom: 12px;">✅ "If there <strong>were</strong> no gravity, we <strong>would float</strong> away."</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: GRAMMAR DRILL 2 ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 12</span>
+            <h2 class="task-title" contenteditable="true">Conditional <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Choose the correct grammatical form to complete each space statement.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true">1. What <span class="blank-input" style="min-width: 100px;"></span> <em>(would / will)</em> you do if you met an alien?</div>
+            </li>
+            <li>
+                <div contenteditable="true">2. If I <span class="blank-input" style="min-width: 100px;"></span> <em>(have / had)</em> a spaceship, I would travel to Jupiter.</div>
+            </li>
+            <li>
+                <div contenteditable="true">3. They <span class="blank-input" style="min-width: 100px;"></span> <em>(won't / wouldn't)</em> survive on Mars if they didn't have oxygen tanks.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 13: ROLEPLAY ====== -->
+<section class="section" id="t13">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 13</span>
+            <h2 class="task-title" contenteditable="true">Houston, We Have a <em>Problem</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">A crisis has occurred during a space mission. Roleplay the radio conversation between Mission Control and the Astronaut.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card card-teal">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">Mission Control (Earth)</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">Inform the astronaut that the boosters failed to detach after the <strong>launch</strong>. Warn them about the consequences.</p>
+                <div style="background: var(--gray-100); padding: 16px; border-radius: 8px; border-left: 3px solid var(--mint-dark);">
+                    <strong style="color:var(--deep-blue); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">"If they didn't detach, the ship <strong>would</strong> be too heavy to reach <strong>orbit</strong>."</span>
+                </div>
+            </div>
+
+            <div class="card card-gold">
+                <h3 style="color:var(--gold-600); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">The Astronaut (Space)</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You are panicking. Ask for a solution. Remind them of what was planned before you left.</p>
+                <div style="background: var(--gray-100); padding: 16px; border-radius: 8px; border-left: 3px solid var(--gold-600);">
+                    <strong style="color:var(--gold-600); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">"But you told me the engineers <strong>had tested</strong> everything! What <strong>would</strong> happen if we turned the engines off?"</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: SYNONYM GAME ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">Synonym <em>Survivor</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Let's review vocabulary from this lesson and previous lessons! Choose the correct synonym to survive.</p>
+        </div>
+
+        <div style="background: var(--deep-blue); border-radius: var(--radius-lg); padding: 50px 30px; color: var(--white); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; border: 4px solid var(--mint);">
+            <div id="synProgress" style="position: absolute; top: 0; left: 0; height: 6px; background: var(--mint); width: 0%; transition: width 0.3s;"></div>
+            
+            <div style="font-size: 4rem; margin-bottom: 20px;" id="synIcon">🚀</div>
+            <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 30px; font-weight: 400; position: relative; z-index: 2; line-height: 1.4;" id="synQuestion">Loading game...</h3>
+            
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 2;" id="synOptions">
+                <!-- Buttons injected here -->
+            </div>
+            
+            <div style="margin-top: 24px; font-size: 1.2rem; font-weight: 800; height: 30px; transition: all 0.3s;" id="synFeedback"></div>
+            
+            <button style="width: auto; height: auto; padding: 12px 24px; border-radius: 50px; margin: 20px auto 0; background: var(--gold); color: var(--deep-blue); border: none; font-weight: bold; cursor: pointer; display: none;" id="nextSynBtn" onclick="nextSynQuestion()">Next Word ➡️</button>
+            <button style="width: auto; height: auto; padding: 12px 24px; border-radius: 50px; margin: 20px auto 0; background: var(--mint-dark); color: white; border: none; font-weight: bold; cursor: pointer; display: none;" id="resetSynBtn" onclick="resetSynGame()">Play Again 🔄</button>
+        </div>
+
+        <script>
+            const synData = [
+                { q: "What is a synonym for LAUNCH? (Lesson 16)", ops: [{t:"Land", c:false}, {t:"Blast-off", c:true}, {t:"Float", c:false}], icon: "🚀" },
+                { q: "What is a synonym for ORBIT? (Lesson 16)", ops: [{t:"Revolve", c:true}, {t:"Fall", c:false}, {t:"Stop", c:false}], icon: "🌍" },
+                { q: "What is a synonym for GRAVITY? (Lesson 16)", ops: [{t:"Speed", c:false}, {t:"Pull", c:true}, {t:"Light", c:false}], icon: "🧲" },
+                { q: "What is a synonym for EXTINCT? (Lesson 15)", ops: [{t:"Vanished", c:true}, {t:"Alive", c:false}, {t:"Wild", c:false}], icon: "💀" },
+                { q: "What is a synonym for OUTGOING? (Lesson 14)", ops: [{t:"Sociable", c:true}, {t:"Shy", c:false}, {t:"Stubborn", c:false}], icon: "👋" },
+                { q: "What is a synonym for RELIABLE? (Lesson 14)", ops: [{t:"Dependable", c:true}, {t:"Nervous", c:false}, {t:"Trendy", c:false}], icon: "🤝" }
+            ];
+
+            let sIndex = 0;
+
+            function updateSynProgress() {
+                const progress = ((sIndex) / synData.length) * 100;
+                document.getElementById('synProgress').style.width = `${progress}%`;
+            }
+
+            window.checkSynAnswer = function(btn, isCorrect) {
+                const btns = document.getElementById('synOptions').querySelectorAll('button');
+                btns.forEach(b => b.style.pointerEvents = 'none'); 
+                
+                const fb = document.getElementById('synFeedback');
+                
+                if(isCorrect) {
+                    btn.style.background = 'var(--success)';
+                    btn.style.borderColor = 'var(--success)';
+                    fb.innerText = "Correct! ✅";
+                    fb.style.color = 'var(--success)';
+                } else {
+                    btn.style.background = 'var(--danger)';
+                    btn.style.borderColor = 'var(--danger)';
+                    fb.innerText = "Oops! ❌ Incorrect.";
+                    fb.style.color = '#FFA8A8';
+                }
+                
+                updateSynProgress();
+
+                if(sIndex < synData.length - 1) {
+                    document.getElementById('nextSynBtn').style.display = 'inline-block';
+                } else {
+                    document.getElementById('synProgress').style.width = `100%`;
+                    setTimeout(() => { 
+                        fb.innerText = "Survivor Complete! 🏆 Impressive Vocabulary!"; 
+                        document.getElementById('resetSynBtn').style.display = 'inline-block';
+                    }, 1500);
+                }
+            }
+
+            window.nextSynQuestion = function() {
+                sIndex++;
+                document.getElementById('nextSynBtn').style.display = 'none';
+                document.getElementById('synFeedback').innerText = '';
+                
+                document.getElementById('synIcon').innerText = synData[sIndex].icon;
+                document.getElementById('synQuestion').innerText = synData[sIndex].q;
+                
+                const opsContainer = document.getElementById('synOptions');
+                opsContainer.innerHTML = '';
+                synData[sIndex].ops.forEach(op => {
+                    opsContainer.innerHTML += `<button style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 14px 28px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-ui);" onclick="checkSynAnswer(this, ${op.c})" onmouseover="this.style.background='var(--mint)'; this.style.borderColor='var(--mint)';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.3)';">${op.t}</button>`;
+                });
+            }
+
+            window.resetSynGame = function() {
+                sIndex = -1;
+                document.getElementById('resetSynBtn').style.display = 'none';
+                nextSynQuestion();
+                document.getElementById('synProgress').style.width = `0%`;
+            }
+
+            function initSynGame() {
+                sIndex = 0;
+                document.getElementById('synIcon').innerText = synData[sIndex].icon;
+                document.getElementById('synQuestion').innerText = synData[sIndex].q;
+                const opsContainer = document.getElementById('synOptions');
+                opsContainer.innerHTML = '';
+                synData[sIndex].ops.forEach(op => {
+                    opsContainer.innerHTML += `<button style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; padding: 14px 28px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: var(--font-ui);" onclick="checkSynAnswer(this, ${op.c})" onmouseover="this.style.background='var(--mint)'; this.style.borderColor='var(--mint)';" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.borderColor='rgba(255,255,255,0.3)';">${op.t}</button>`;
+                });
+            }
+            document.addEventListener("DOMContentLoaded", initSynGame);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 15: DISCUSSION ====== -->
+<section class="section" id="t15">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 15</span>
+            <h2 class="task-title" contenteditable="true">The Final <em>Frontier</em></h2>
+        </div>
+        <p class="section-desc" contenteditable="true" style="margin-bottom: 20px;">Use the Second Conditional and space vocabulary to answer these questions.</p>
+
+        <div class="split-layout">
+            <div class="card card-gold">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Question 1</h3>
+                <p style="color:var(--gray-800);" contenteditable="true">If you discovered a new habitable <strong>planet</strong>, what would you name it and what would be the first law you created there?</p>
+            </div>
+            
+            <div class="card card-teal">
+                <h3 style="color:var(--deep-blue); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Question 2</h3>
+                <p style="color:var(--gray-800);" contenteditable="true">If you were the commander of a Mars colony, how would you keep people from going crazy in a small glass dome with low <strong>gravity</strong>?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 16: FINALE ====== -->
+<section class="section" id="t16" style="border-bottom:none;">
+    <div class="section-inner">
+        <div class="task-header" style="text-align:center; margin-bottom:0;">
+            <span class="task-label" contenteditable="true">Task 16</span>
+        </div>
+        <div style="background: var(--deep-blue); color: white; padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
+            <div style="position:relative; z-index:1;">
+                <h2 contenteditable="true" style="color: var(--mint); margin-bottom: 16px; font-family: var(--font-serif); font-size: 3rem;">Lesson Complete! 🚀</h2>
+                <p contenteditable="true" style="font-size: 1.15rem; color: var(--gray-200); margin-bottom: 30px;"><strong>What we've mastered today:</strong></p>
+                <ul style="list-style: none; font-size: 1.1rem; line-height: 2.2; text-align: left; max-width: 650px; margin: 0 auto;">
+                    <li contenteditable="true">✅ <strong style="color:var(--mint);">Vocabulary:</strong> Planet, launch, orbit, gravity.</li>
+                    <li contenteditable="true">✅ <strong style="color:var(--mint);">Grammar (Past Perfect):</strong> Sequencing historical and mission events (had + V3).</li>
+                    <li contenteditable="true">✅ <strong style="color:var(--mint);">Grammar (Second Conditional):</strong> Imagining life on Mars (If + Past, would + V1).</li>
+                    <li contenteditable="true">✅ <strong style="color:var(--mint);">Science & Culture:</strong> Multiplanetary colonization and SpaceX terminology.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ====== HOMEWORK MODULE (Anti-Cheat, 15 Mins, 15 Questions) ====== -->
+<div id="task-hw" style="display:none; position: fixed; inset: 0; background: var(--light-bg); z-index: 2000; overflow-y: auto; padding: 60px 20px;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; background:white; padding:60px; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); border-top: 6px solid var(--deep-blue);">
+            <div style="font-family:var(--font-mono); color:var(--mint-dark); letter-spacing:2px; margin-bottom:16px; font-weight:700;">FINAL ASSESSMENT</div>
+            <h2 style="font-family:var(--font-serif); font-size:3rem; color:var(--gray-800); margin-bottom:20px; font-weight:800;">Lesson 16 Protocol</h2>
+            <p style="color:var(--gray-600); margin-bottom:40px; font-size:1.1rem; max-width:500px; margin-left:auto; margin-right:auto;">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 questions covering the Past Perfect, Second Conditionals, and Space Lexicon. <br>
+                <span style="color:var(--coral); font-weight:600;">Security Alert:</span> Leaving this tab twice will lock the assessment automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter Agent ID/Name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--gray-100);border:1px solid var(--gray-200);color:var(--gray-800);border-radius:6px;margin-bottom:24px;outline:none;font-family:var(--font-ui);text-align:center;">
+            <br>
+            <button onclick="startHW()" style="background:var(--deep-blue);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;font-family:var(--font-ui);border-radius:50px;">INITIATE</button>
+            <button onclick="exitHomework()" style="background:transparent;color:var(--gray-600);border:none;display:block;margin:20px auto;cursor:pointer;font-family:var(--font-ui);text-decoration:underline;">Abort</button>
+        </section>
+
+        <section id="hw-quiz" class="hw-screen" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:var(--gray-800);">
+                <span style="font-family:var(--font-ui); font-weight:700;" id="hwQuestionCounter">Q 1 / 15</span>
+                <div style="font-family:var(--font-ui); color:var(--coral); font-weight:700; font-size:1.2rem; background:var(--coral-light); padding:4px 12px; border-radius:4px;">
+                    ⏱️ <span id="hwTimerDisplay">15:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:6px; background:var(--gray-200); margin-bottom:40px; border-radius:3px; overflow:hidden;">
+                <div id="hwProgressFill" style="height:100%; background:var(--mint); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:white; padding:40px; border-radius:var(--radius-lg); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:500; margin-bottom:30px; line-height:1.5; color:var(--gray-800); font-family:var(--font-serif);">Loading data...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--gray-600); border:1px solid var(--gray-400); padding:10px 24px; cursor:pointer; border-radius:50px; transition:all 0.2s; font-family:var(--font-ui); font-weight:600;">Skip Question</button>
+        </section>
+
+        <section id="hw-results" class="hw-screen" style="display:none;">
+            <div id="hw-pdf-content" style="background:white; padding:50px; border-radius:var(--radius-lg); box-shadow:var(--shadow-md);">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 style="font-family:var(--font-serif); font-size:3.5rem; color:var(--deep-blue); margin-bottom:10px; font-weight:500;">Protocol Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--gray-600); font-size:1.1rem;"></p>
+                </div>
+
+                <div style="background:var(--light-bg); padding:40px; border-radius:var(--radius-md); text-align:center; margin-bottom:40px;">
+                    <div style="font-family:var(--font-ui); color:var(--gray-600); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem; font-weight:700;">Final Evaluation</div>
+                    <div id="hwScoreDetail" style="font-size:5rem; font-weight:800; color:var(--mint-dark); margin:10px 0; line-height:1;">0/15</div>
+                    <div id="hwTerminationReason" style="font-weight:700; font-family:var(--font-ui); margin-top:20px; color:var(--gray-800);"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--deep-blue); color:white; border:none; padding:16px 36px; font-weight:700; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Export PDF</button>
+                <button onclick="exitHomework()" style="background:transparent; color:var(--gray-800); border:2px solid var(--gray-400); padding:16px 36px; font-weight:700; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Exit Protocol</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions" style="position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:15px; z-index:1000;">
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet" style="background:#4255FF; color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center;">📝</button>
+    <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--deep-blue); color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center;">📋</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:800px; box-shadow:var(--shadow-xl); position:relative; border-top:4px solid var(--deep-blue);">
+        <span onclick="closeAdmin()" style="position:absolute; top:15px; right:20px; font-size:1.8rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--deep-blue); margin-bottom:10px; font-size:2.2rem;">Instructor Dashboard</h2>
+        <p style="color:var(--gray-600); margin-bottom:20px;">Review recent submissions.</p>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left;">
+                <thead style="background:var(--gray-100); font-family:var(--font-ui); font-size:0.85rem;"><tr><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Date</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Agent</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Score</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button style="background:var(--coral); color:white; border:none; padding:10px 20px; border-radius:6px; margin-top:20px; cursor:pointer; font-weight:700;" onclick="clearData()">Purge Records</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(2,6,23,0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:600px; box-shadow:var(--shadow-xl); position:relative; border-top:4px solid #4255FF;">
+        <span onclick="closeQuizletModal()" style="position:absolute; top:15px; right:20px; font-size:1.8rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--deep-blue); margin-bottom:20px; font-size:2.2rem;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="Launch" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation" class="q-trans" value="запуск" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="Orbit" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation" class="q-trans" value="орбіта" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="Gravity" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation" class="q-trans" value="гравітація" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="Planet" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation" class="q-trans" value="планета" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" style="flex:1; background:transparent; border:2px solid var(--gray-400); color:var(--gray-800); padding:12px; border-radius:8px; cursor:pointer; font-weight:700;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" style="flex:2; background:#4255FF; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // --- Navigation & Toggles ---
+    document.getElementById('navTabsContainer').addEventListener('click', e => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const id = e.target.getAttribute('href');
+            if (id === '#task-hw') {
+                document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+                document.querySelector('.hero').style.display = 'none';
+                document.getElementById('task-hw').style.display = 'block';
+                window.scrollTo(0, 0);
+            } else if (id && id.startsWith('#')) {
+                exitHomework();
+                document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                e.target.classList.add('active');
+                const el = document.querySelector(id);
+                if (el) window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth'});
+            }
+        }
+    });
+
+    function exitHomework() {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'block');
+        document.querySelector('.hero').style.display = 'block';
+        document.getElementById('task-hw').style.display = 'none';
+    }
+
+    // --- Quizlet ---
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() { document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>`; }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
+        if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+
+    // --- Word Reveal ---
+    function revealWord(btn, word) {
+        btn.innerHTML = word;
+        btn.classList.add('revealed');
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--deep-blue)';
+        btn.style.border = '2px solid var(--deep-blue)';
+        btn.style.cursor = 'default';
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
+    const hwQuestionBank = [
+        { text: "The force that pulls objects toward the center of the Earth is called ___.", options: ["gravity", "orbit", "launch", "planet"], correct: 0 },
+        { text: "The spacecraft will ___ from the Kennedy Space Center tomorrow.", options: ["planet", "orbit", "gravity", "launch"], correct: 3 },
+        { text: "The Moon completes one ___ around the Earth every 27 days.", options: ["launch", "gravity", "orbit", "planet"], correct: 1 },
+        { text: "Mars is the fourth ___ from the Sun.", options: ["gravity", "launch", "orbit", "planet"], correct: 3 },
+        { text: "By the time I turned on the TV, the rocket ___ already launched.", options: ["was", "had", "have", "has"], correct: 1 },
+        { text: "When the astronomers looked through the telescope, the comet ___ disappeared.", options: ["had", "has", "was", "have"], correct: 0 },
+        { text: "I couldn't enter the facility because I ___ my ID badge at home.", options: ["had forgotten", "have forgotten", "forgotten", "was forgetting"], correct: 0 },
+        { text: "The mission ___ before we even realized there was a problem.", options: ["had failed", "fails", "has failed", "was fail"], correct: 0 },
+        { text: "2nd Conditional: If humans ___ to Mars, we would need to build greenhouses.", options: ["will go", "go", "went", "gone"], correct: 2 },
+        { text: "2nd Conditional: If there ___ no gravity, we would float away.", options: ["was", "were", "is", "be"], correct: 1 },
+        { text: "2nd Conditional: What ___ you do if you met an alien?", options: ["will", "did", "do", "would"], correct: 3 },
+        { text: "2nd Conditional: If I ___ a spaceship, I would travel to Jupiter.", options: ["have", "had", "will have", "would have"], correct: 1 },
+        { text: "2nd Conditional: If she ___ an astronaut, she would be very famous.", options: ["were", "was", "is", "be"], correct: 0 },
+        { text: "They ___ survive on Mars if they didn't have oxygen tanks.", options: ["won't", "wouldn't", "didn't", "don't"], correct: 1 },
+        { text: "Which is a synonym for 'Launch'?", options: ["Blast-off", "Land", "Float", "Revolve"], correct: 0 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.querySelector('#timerContainer').style.background = "var(--coral)"; document.querySelector('#timerContainer').style.color = "white"; document.querySelector('#timerContainer').style.borderColor = "var(--coral)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:white; border:1px solid var(--gray-200); padding:16px 24px; border-radius:8px; font-size:1.1rem; text-align:left; cursor:pointer; font-family:var(--font-ui); color:var(--gray-800); transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "var(--gray-100)";
+            btn.onmouseout = () => btn.style.background = "white";
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your protocol is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / 15`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--coral)' : 'var(--mint-dark)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div style="background:var(--gray-100); border-radius:8px; border-left:6px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; padding:20px;">
+                <div style="font-size:1.1rem; color:var(--gray-800); margin-bottom:10px; font-weight:600;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--gray-600);">Your answer: <span style="color: ${item.isCorrect ? 'var(--mint-dark)' : 'var(--coral)'}; font-weight:700;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--gray-600);">Correct answer: <span style="color: var(--mint-dark); font-weight:700;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson16HW_B1')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson16HW_B1', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L16_Assessment.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save();
+    }
+
+    // --- Admin ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson16HW_B1')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px;'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-size:0.85rem; font-family:var(--font-ui);">${r.date}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:700;">${r.name}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:bold;">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:700; color:${r.status.includes('Completed') ? 'var(--mint-dark)' : 'var(--coral)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson16HW_B1'); openAdmin(); } }
+
+    // --- Firebase Sync (Realtime Text Edits & Cursors) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
+    const appId = 'lesson-16-b1-space-v1';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let user = null, isSync = false;
+    let editingId = null;
+
+    signInAnonymously(auth).catch(console.error);
+
+    onAuthStateChanged(auth, u => {
+        user = u;
+        if (user && !isSync) {
+            isSync = true;
+            document.getElementById('syncText').innerText = "SYSTEM ACTIVE";
+            setupSync(); setupCursors();
+        }
+    });
+
+    function fastDebounce(f, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; }
+
+    function setupSync() {
+        const txtRef = doc(db, 'artifacts', appId, 'data', 'text');
+
+        document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
+            el.dataset.sid = 'ed_' + i;
+            el.addEventListener('focus', () => editingId = el.dataset.sid);
+            el.addEventListener('blur', () => { 
+                editingId = null; 
+                if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            });
+            el.addEventListener('input', fastDebounce(() => { 
+                if (editingId === el.dataset.sid && user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            }, 150));
+        });
+
+        onSnapshot(txtRef, snap => {
+            if (!snap.exists()) return;
+            for (const [id, html] of Object.entries(snap.data())) {
+                if (editingId !== id) {
+                    const el = document.querySelector(`[data-sid="${id}"]`);
+                    if (el && el.innerHTML !== html) el.innerHTML = html;
+                }
+            }
+        });
+    }
+
+    function setupCursors() {
+        const curRef = collection(db, 'artifacts', appId, 'cursors');
+        const myDoc = doc(curRef, user.uid);
+        const container = document.getElementById('liveCursorsContainer');
+        const colors = ['#06B6D4','#0F172A','#F97316','#EAB308'];
+        const myColor = colors[Math.floor(Math.random() * colors.length)];
+        const myName = "Astronaut " + Math.floor(Math.random() * 99);
+        
+        document.addEventListener('mousemove', fastDebounce(e => {
+            if(user && document.getElementById('task-hw').style.display !== 'block') {
+                setDoc(myDoc, { x: e.pageX - window.innerWidth/2, y: e.pageY, color: myColor, name: myName, ts: Date.now() });
+            }
+        }, 100));
+
+        onSnapshot(curRef, snap => {
+            snap.docChanges().forEach(ch => {
+                if(ch.doc.id === user.uid) return;
+                const d = ch.doc.data();
+                let el = document.getElementById('cur-'+ch.doc.id);
+                
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
+                
+                if(!el) {
+                    el = document.createElement('div'); el.id = 'cur-'+ch.doc.id; el.className = 'remote-cursor';
+                    el.style = 'position:absolute; transition: top 0.15s, left 0.15s; pointer-events:none; z-index:999999;';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><div style="background:${d.color}; color:#fff; font-size:10px; font-family:var(--font-ui); padding:2px 6px; border-radius:3px; margin-top:2px; font-weight:bold;">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth/2 + d.x) + 'px'; el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if(user) deleteDoc(myDoc); });
+    }
+</script>
+</body>
+</html>
