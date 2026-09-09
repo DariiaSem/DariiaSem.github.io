@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2 to Advanced | Nursing & London Life</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #101820;
+            --parchment: #F0F4F8;
+            --parchment-dark: #D9E2EC;
+            --rust: #9E2A2B;
+            --rust-light: #C14A4C;
+            --gold: #D4AF37;
+            --gold-light: #E6C25A;
+            --sage: #2A5A55;
+            --charcoal: #24292E;
+            --mist: #7A8B99;
+            --cream: #F9FAFB;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 8px rgba(16,24,32,0.06);
+            --shadow-md: 0 6px 24px rgba(16,24,32,0.1);
+            --radius-md: 12px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: var(--ink);
+            color: var(--white);
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(42,90,85,0.2) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 80% 70%, rgba(158,42,43,0.15) 0%, transparent 60%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(212,175,55,0.15);
+            border: 1px solid rgba(212,175,55,0.35);
+            color: var(--gold-light);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em { color: var(--gold-light); font-style: italic; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--cream);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--white);
+            border: 1px solid var(--parchment-dark);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-rust { border-top: 4px solid var(--rust); }
+        .card-gold { border-top: 4px solid var(--gold); }
+        .card-sage { border-top: 4px solid var(--sage); }
+
+        .lesson-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--mist);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .lesson-tag {
+            background: var(--parchment);
+            color: var(--charcoal);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+        }
+
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .lesson-detail {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .lesson-detail strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--ink);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1;
+            margin: 16px 0;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--sage), var(--gold), var(--rust));
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(16,24,32,0.25);
+        }
+
+        .test-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .test-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+        }
+
+        .test-desc {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📋 Intensive B2 to C1 · British English</div>
+            <h1>Nursing & <em>London Life</em></h1>
+            <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 600px; margin: 0 auto;">A 3-month ambitious course (3 lessons/week) designed for a future NHS nurse living in London. Mastering advanced grammar, professional medical communication, and British daily life.</p>
+        </div>
+        <div class="hero-ribbon"></div>
+    </header>
+
+    <main class="container">
+        <div class="syllabus-grid">
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 1</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Welcome to the NHS</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Present Tenses Review</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Basic Medical Vocabulary</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 2</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Settling into London Life</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Past Tenses Review</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Present Tenses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 3</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Taking Patient Histories</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Present Perfect Simple & Cont.</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Past Tenses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 4</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">British Pub Culture & Socialising</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Narrative Tenses</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Present Perfect</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 5</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Explaining Procedures & Consent</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Future Forms & Continuous</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Narrative Tenses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 6</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Renting & Housing in the UK</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Future Perfect & Perfect Cont.</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Future Continuous</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 7</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Anatomy & Pain Assessment</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Zero, 1st & 2nd Conditionals</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Future Forms</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 8</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Navigating the Tube & Transport</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> 3rd & Mixed Conditionals</div>
+                <div class="lesson-detail"><strong>Revision:</strong> 1st & 2nd Conditionals</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 9</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Handover & Shift Reports</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reported Speech (Advanced)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Mixed Conditionals</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 10</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">British Politeness & Small Talk</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modals of Deduction/Speculation</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Reported Speech</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">📝</div>
+                <h2 class="test-title">Progress Test 1</h2>
+                <div class="test-desc">Comprehensive review of Lessons 1 – 10 (Tenses & Initial Conditionals)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 11</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Dealing with Medical Emergencies</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Passives</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Modals of Deduction</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 12</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Supermarket Shopping & Food</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Articles & Determiners</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Passives</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 13</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Medication & Dosages</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Gerunds & Infinitives</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Articles</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 14</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Bank Accounts & UK Bureaucracy</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Causative Have/Get</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Gerunds & Infinitives</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 15</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Mental Health & Wellbeing</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Wishes & Regrets (I wish / If only)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Causative</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 16</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Weekend Getaways in the UK</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Relative Clauses (Defining/Non-Defining)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Wishes & Regrets</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 17</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Palliative Care & Empathy</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Participle Clauses</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Relative Clauses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 18</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">British Weather & Seasons</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> So/Such/Too/Enough (Advanced)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Participle Clauses</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 19</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Ward Management & Prioritisation</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Inversion for Emphasis</div>
+                <div class="lesson-detail"><strong>Revision:</strong> So/Such/Too/Enough</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 20</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">UK Accents & Slang</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Discourse Markers</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Inversion</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">⚖️</div>
+                <h2 class="test-title">Progress Test 2</h2>
+                <div class="test-desc">Comprehensive review of Lessons 11 – 20 (Passives, Gerunds & Complex Clauses)</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 21</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Public Health & NHS Structure</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Complex Noun Phrases</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Discourse Markers</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 22</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Dating & Relationships in the UK</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Phrasal Verbs</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Noun Phrases</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 23</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Dealing with Difficult Patients</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Cleft Sentences (It was X that...)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Phrasal Verbs</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 24</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">British Media & News</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Conjunctions & Linkers</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Cleft Sentences</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 25</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Infection Control</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Prepositions in Medical Contexts</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Linkers</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 26</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Arts, Culture & the West End</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Adverb Position & Modification</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Prepositions</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 27</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Ethics in Nursing</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Modals (ought to have, needn't have)</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Adverbs</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 28</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Cost of Living & Finance</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Conditionals Review</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Advanced Modals</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">
+                    <span>Lesson 29</span>
+                    <span class="lesson-tag">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Career Progression & Interviews</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Tense Review for Interviews</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Conditionals</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">
+                    <span>Lesson 30</span>
+                    <span class="lesson-tag">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Life as a Londoner: Looking Back</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Overall Grammar Synthesis</div>
+                <div class="lesson-detail"><strong>Revision:</strong> Interview Skills</div>
+            </a>
+
+            <a href="#" class="test-card">
+                <div class="test-icon">🏆</div>
+                <h2 class="test-title">Final Course Exam</h2>
+                <div class="test-desc">Ultimate review: Readiness for C1 Advanced and the NHS workplace</div>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
