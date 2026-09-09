@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C1 Executive English | Course Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Kept the elegant, professional theme from your original hub */
+            --ink: #1A1209;
+            --parchment: #F5EDD8;
+            --parchment-dark: #EAD9B5;
+            --rust: #B84C1C;
+            --rust-light: #D4673A;
+            --gold: #C9933A;
+            --gold-light: #E2B55A;
+            --sage: #3D6B4F;
+            --charcoal: #2E2922;
+            --mist: #8C8070;
+            --cream: #FAF4E8;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 8px rgba(26,18,9,0.08);
+            --shadow-md: 0 6px 24px rgba(26,18,9,0.12);
+            --radius-md: 12px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: var(--ink);
+            color: var(--white);
+            padding: 100px 24px 80px;
+            text-align: center;
+            overflow: hidden;
+            margin-bottom: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 50% at 20% 30%, rgba(201,147,58,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 80% 70%, rgba(184,76,28,0.1) 0%, transparent 60%);
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(201,147,58,0.15);
+            border: 1px solid rgba(201,147,58,0.35);
+            color: var(--gold-light);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .hero h1 em { color: var(--gold-light); font-style: italic; }
+
+        .hero-ribbon {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--cream);
+            clip-path: ellipse(55% 100% at 50% 100%);
+        }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--white);
+            border: 1px solid var(--parchment-dark);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-rust { border-top: 4px solid var(--rust); }
+        .card-gold { border-top: 4px solid var(--gold); }
+        .card-sage { border-top: 4px solid var(--sage); }
+
+        .lesson-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--mist);
+            margin-bottom: 8px;
+        }
+
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .lesson-detail {
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .lesson-detail strong {
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--ink);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1; 
+            margin: 16px 0;
+        }
+
+        .test-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--rust), var(--sage));
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(26,18,9,0.25);
+        }
+
+        .test-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .test-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin-bottom: 8px;
+        }
+
+        .test-desc {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📋 Corporate & Lifestyle · C1</div>
+            <h1>Executive <em>Syllabus</em></h1>
+            <p style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 500px; margin: 0 auto;">A 50/50 balance of high-stakes corporate banking communication and dynamic lifestyle fluency.</p>
+        </div>
+        <div class="hero-ribbon"></div>
+    </header>
+
+    <main class="container">
+        <div class="syllabus-grid">
+
+            <!-- MODULE 1: Laying the Foundation -->
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 1 (Biz)</div>
+                <h2 class="lesson-title">Client Onboarding</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Present Perfect vs. Past Simple</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Tense Alignment in Introductions</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 2 (Social)</div>
+                <h2 class="lesson-title">The World of F1</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Dependent Prepositions (Verbs)</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Speed, Strategy, and Technical Talk</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 3 (Biz)</div>
+                <h2 class="lesson-title">Market Forecasting</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Future Perfect & Continuous</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Projecting Banking Trends</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 4 (Social)</div>
+                <h2 class="lesson-title">Cinema & Storytelling</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Narrative Tenses Alignment</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Reviewing and Summarizing Plots</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 5 (Biz)</div>
+                <h2 class="lesson-title">High-Stakes Negotiations</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Prepositions in Business Idioms</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Persuasion and Compromise</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 6 (Social)</div>
+                <h2 class="lesson-title">Travel & Immersion</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Past Perfect vs. Past Simple</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Sharing Complex Travel Experiences</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 7 (Biz)</div>
+                <h2 class="lesson-title">Managing Corporate Risk</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Mixed Conditionals</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Analyzing Past Decisions & Current Impact</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 8 (Social)</div>
+                <h2 class="lesson-title">Literature & Reading</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Participle Clauses</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Discussing Themes and Author Intent</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 9 (Biz)</div>
+                <h2 class="lesson-title">Networking & Small Talk</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Prepositions of Time & Place</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Formal vs. Informal Boundaries</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 10 (Social)</div>
+                <h2 class="lesson-title">HIIT & Gym Culture</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Phrasal Verbs with Prepositions</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Health, Discipline, and Routine</div>
+            </a>
+
+            <a href="test1.html" class="test-card">
+                <div class="test-icon">📈</div>
+                <h2 class="test-title">Quarter 1 Review</h2>
+                <div class="test-desc">Assessment of Baseline Tenses and Prepositional Accuracy</div>
+            </a>
+
+            <!-- MODULE 2: Nuance and Complexity -->
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 11 (Biz)</div>
+                <h2 class="lesson-title">Mergers & Acquisitions</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Advanced Passive Structures</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Shifting Focus to the Action</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 12 (Social)</div>
+                <h2 class="lesson-title">Padel & Court Strategy</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Prepositions of Movement</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Spatial Awareness and Tactics</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 13 (Biz)</div>
+                <h2 class="lesson-title">Cross-Cultural Comms</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Tense Backshifting</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Indirect Questions & Politeness</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 14 (Social)</div>
+                <h2 class="lesson-title">The Art of Itineraries</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Future in the Past</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Changed Plans and Expectations</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 15 (Biz)</div>
+                <h2 class="lesson-title">Delivering Bad News</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Evasive Prepositions & Softeners</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Client Retention during Crises</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 16 (Social)</div>
+                <h2 class="lesson-title">Swimming & Endurance</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Gerunds vs. Infinitives (+ Prep)</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Mental Stamina and Technique</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 17 (Biz)</div>
+                <h2 class="lesson-title">Banking Compliance</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Modal Verbs & Tense Alignment</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Ethics, Rules, and Obligations</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 18 (Social)</div>
+                <h2 class="lesson-title">Book vs. Movie</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Comparative Structures & Preps</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Critiquing Adaptations</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 19 (Biz)</div>
+                <h2 class="lesson-title">Pitching Strategy</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Cleft Sentences</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Emphasizing Key Financial Points</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 20 (Social)</div>
+                <h2 class="lesson-title">Basketball Dynamics</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Adjective + Preposition Combos</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Teamwork and Leadership</div>
+            </a>
+
+            <a href="test2.html" class="test-card">
+                <div class="test-icon">⚖️</div>
+                <h2 class="test-title">Quarter 2 Review</h2>
+                <div class="test-desc">Mastery of Complex Syntax and Advanced Prepositions</div>
+            </a>
+
+            <!-- MODULE 3: Mastery and Polish -->
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 21 (Biz)</div>
+                <h2 class="lesson-title">Resolving Conflicts</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Reported Speech (Advanced)</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Mediating Client Disputes</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 22 (Social)</div>
+                <h2 class="lesson-title">Global Travel Disasters</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> 3rd Conditional & Prepositional Phrases</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Navigating Unforeseen Circumstances</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 23 (Biz)</div>
+                <h2 class="lesson-title">Future of Banking</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Perfect Continuous Tenses</div>
+                <div class="lesson-detail"><strong>Focus:</strong> AI and Market Evolution</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 24 (Social)</div>
+                <h2 class="lesson-title">F1 Engineering</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Noun + Preposition Collocations</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Discussing Technical Innovations</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 25 (Biz)</div>
+                <h2 class="lesson-title">Contracts & Red Tape</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Inversion with Prepositions</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Highly Formal Legal Jargon</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 26 (Social)</div>
+                <h2 class="lesson-title">Analyzing Directing</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Passive Reporting Verbs</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Cinematography and Style</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 27 (Biz)</div>
+                <h2 class="lesson-title">The Annual Review</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Perfect Participles</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Structuring Performance Feedback</div>
+            </a>
+
+            <a href="#" class="lesson-card card-rust">
+                <div class="lesson-num">Lesson 28 (Social)</div>
+                <h2 class="lesson-title">Fitness Trends</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Verb + Object + Preposition</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Nutrition, Data, and Wearables</div>
+            </a>
+
+            <a href="#" class="lesson-card card-gold">
+                <div class="lesson-num">Lesson 29 (Biz)</div>
+                <h2 class="lesson-title">Closing the Megadeal</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Comprehensive Tense Alignment</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Finalizing the Pitch</div>
+            </a>
+
+            <a href="#" class="lesson-card card-sage">
+                <div class="lesson-num">Lesson 30 (Social)</div>
+                <h2 class="lesson-title">The Perfect Weekend</h2>
+                <div class="lesson-detail"><strong>Grammar:</strong> Comprehensive Preposition Review</div>
+                <div class="lesson-detail"><strong>Focus:</strong> Fluid, Natural Conversation</div>
+            </a>
+
+            <a href="test3.html" class="test-card">
+                <div class="test-icon">🏆</div>
+                <h2 class="test-title">Final Executive Exam</h2>
+                <div class="test-desc">Ultimate Evaluation of C1 Fluency, Accuracy, and Tone</div>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
