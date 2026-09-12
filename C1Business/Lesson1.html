@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 1: C1/C2 | The Psychology of Panic</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    /* Lively & Bright Professional Theme (NO DARK THEMES) */
+    --primary-900: #1E3A8A; /* Deep Blue for Text */
+    --primary-800: #1E40AF;
+    --primary-700: #1D4ED8; /* Vibrant Blue for Buttons */
+    --primary-100: #DBEAFE;
+    --primary-50:  #EFF6FF; /* Very Light Blue BG */
+    
+    --accent-600: #EA580C; /* Sunset Orange */
+    --accent-500: #F97316; /* Vibrant Orange */
+    --accent-400: #FB923C;
+    --accent-50:  #FFF7ED; /* Light Orange BG */
+    
+    --gray-900: #0F172A;
+    --gray-800: #1E293B;
+    --gray-600: #475569;
+    --gray-400: #94A3B8;
+    --gray-200: #E2E8F0;
+    --gray-100: #F1F5F9;
+    --gray-50:  #F8FAFC;
+    
+    --danger:   #E11D48;
+    --success:  #059669;
+    
+    --font-ui:    'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Libre Baskerville', serif;
+    --font-mono:  'JetBrains Mono', monospace;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-ui);
+    line-height: 1.7;
+    color: var(--gray-800);
+    background-color: var(--gray-50);
+    background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+    background-size: 24px 24px;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, .serif { font-family: var(--font-serif); }
+
+[contenteditable="true"] { outline: none; transition: all 0.2s; border-radius: 4px; padding: 0 4px; margin: 0 -4px; border-bottom: 1px dashed transparent; }
+[contenteditable="true"]:focus, [contenteditable="true"]:hover {
+    background-color: rgba(249,115,22,0.1);
+    border-bottom: 1px dashed var(--accent-500);
+}
+
+/* ====== UKRAINIAN HOVER TOOLTIP ====== */
+.uk-tooltip {
+    position: relative; cursor: help; border-bottom: 2px dotted var(--accent-500);
+    font-weight: 700; color: var(--primary-700); transition: color 0.2s;
+}
+.uk-tooltip:hover { color: var(--accent-600); }
+.uk-tooltip::after {
+    content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+    transform: translateX(-50%); background: var(--primary-900); color: white;
+    padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    z-index: 50; font-family: var(--font-ui); box-shadow: var(--shadow-md);
+}
+.uk-tooltip:hover::after { opacity: 1; }
+
+/* ====== HERO (LIGHT & VIBRANT) ====== */
+.hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--primary-50) 0%, #FFFFFF 100%);
+    color: var(--primary-900); padding: 120px 24px 80px; text-align: center;
+    border-bottom: 2px solid var(--primary-100);
+}
+.hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+.hero-badge {
+    display: inline-block; background: var(--primary-100); border: 1px solid var(--primary-700);
+    color: var(--primary-800); padding: 6px 20px; border-radius: 50px; font-size: 0.85rem;
+    font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    font-family: var(--font-mono);
+}
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 700; line-height: 1.15; margin-bottom: 20px; color: var(--primary-900); }
+.hero h1 span { color: var(--accent-500); font-style: italic; font-weight: 400; }
+.hero-subtitle { font-size: 1.2rem; color: var(--gray-600); max-width: 700px; margin: 0 auto 24px; font-weight: 400; }
+.hero-meta { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin-top: 24px; }
+.hero-pill { background: var(--accent-50); border: 1px solid var(--accent-500); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: var(--accent-600); }
+
+/* ====== NAV ====== */
+.nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; box-shadow: var(--shadow-sm); }
+.nav-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--primary-900); text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px;}
+.nav-logo .dot { display: inline-block; width: 8px; height: 8px; background: var(--accent-500); border-radius: 50%; }
+.nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.85rem; font-weight: 700; padding: 8px 14px; border-radius: 6px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px;}
+.nav-links a:hover { color: var(--primary-700); background: var(--primary-50); }
+.nav-links a.active { color: var(--primary-900); background: var(--primary-100); }
+
+/* ====== SPLIT LAYOUT & SECTIONS ====== */
+.section { padding: 80px 24px; border-bottom: 1px solid var(--gray-200); }
+.section:nth-child(even) { background: white; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+
+.task-header { margin-bottom: 40px; text-align: left; }
+.task-label { display: inline-block; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-600); margin-bottom: 12px; font-family: var(--font-mono);}
+.task-title { font-size: 2.5rem; font-weight: 700; color: var(--primary-900); margin-bottom: 16px; line-height: 1.1; }
+.task-title em { color: var(--accent-500); font-style: italic; font-weight: 400;}
+
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+@media (max-width: 960px) { .split-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+/* ====== CARDS & BOXES ====== */
+.card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); }
+.card-primary { border-top: 4px solid var(--primary-500); }
+.card-accent { border-top: 4px solid var(--accent-500); }
+
+/* ====== INPUTS & LISTS ====== */
+.practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: practice-counter; }
+.practice-list li { background: white; padding: 20px 24px 20px 60px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); font-size: 1.05rem; position: relative; box-shadow: var(--shadow-sm); transition: border-color 0.2s; }
+.practice-list li:hover { border-color: var(--primary-500); }
+.practice-list li::before { counter-increment: practice-counter; content: counter(practice-counter, decimal-leading-zero) "."; position: absolute; left: 20px; top: 22px; font-weight: 800; color: var(--accent-500); font-family: var(--font-mono); }
+.blank-input { display: inline-block; min-width: 100px; border: none; border-bottom: 2px dashed var(--gray-400); color: var(--primary-700); font-weight: 800; padding: 0 8px; text-align: left; background: transparent; font-family: var(--font-mono); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+.blank-input:focus { border-bottom-color: var(--primary-600); background: var(--primary-50); }
+
+.drill-input { width: 100%; padding: 12px 16px; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: 1rem; color: var(--primary-900); background: white; transition: all 0.2s; outline: none; font-weight: 600;}
+.drill-input:focus { border-color: var(--primary-500); box-shadow: 0 0 0 3px var(--primary-100); }
+.btn-verify { background: var(--primary-700); color: white; border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 800; cursor: pointer; transition: background 0.2s; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.85rem; }
+.btn-verify:hover { background: var(--primary-800); }
+
+/* ====== HUB NAVIGATION ====== */
+.hub-nav { display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 2px solid var(--gray-200); padding-bottom: 16px; overflow-x: auto; }
+.hub-tab { background: white; color: var(--gray-600); border: 2px solid var(--gray-200); padding: 10px 20px; border-radius: 50px; font-weight: 800; font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.hub-tab:hover { background: var(--gray-100); border-color: var(--gray-300); }
+.hub-tab.active { background: var(--primary-700); color: white; border-color: var(--primary-700); }
+.hub-content { display: none; animation: fadeIn 0.3s ease; }
+.hub-content.active { display: block; }
+
+/* ====== MFP VOCABULARY ELICITATION UI ====== */
+.mfp-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md); }
+@media (max-width: 960px) { .mfp-container { grid-template-columns: 1fr; } }
+.mfp-image { width: 100%; height: 300px; border-radius: var(--radius-md); background-size: cover; background-position: center; border: 1px solid var(--gray-200); }
+.mfp-content { display: flex; flex-direction: column; gap: 24px; }
+.mfp-row { display: flex; gap: 20px; align-items: flex-start; }
+.mfp-label-col { width: 100px; text-align: right; flex-shrink: 0; }
+.mfp-label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-800); background: var(--primary-100); padding: 6px 10px; border-radius: 4px; display: inline-block; font-family: var(--font-mono); }
+.mfp-data { flex: 1; font-size: 1.05rem; color: var(--gray-800); padding-top: 4px; }
+.ccq-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+.ccq-list li { color: var(--primary-900); font-weight: 600; font-size: 1.05rem; position: relative; padding-left: 20px; }
+.ccq-list li::before { content: "›"; position: absolute; left: 0; color: var(--accent-500); font-weight: 800; font-size: 1.2rem; line-height: 1; }
+
+.word-reveal-btn { background: var(--primary-700); color: white; border: none; padding: 16px 24px; border-radius: 8px; font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; cursor: pointer; transition: all 0.3s; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; font-style: italic; box-shadow: var(--shadow-sm); }
+.word-reveal-btn:hover { background: var(--primary-800); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.word-reveal-btn.revealed { background: var(--gray-50); color: var(--primary-900); border: 2px solid var(--gray-200); cursor: default; box-shadow: none; transform: none; font-weight: 700; font-style: normal; }
+
+.form-details, .pron-details { opacity: 0; filter: blur(4px); transform: translateX(-10px); transition: all 0.4s ease; pointer-events: none; }
+.form-details.visible, .pron-details.visible { opacity: 1; filter: blur(0); transform: translateX(0); pointer-events: auto; }
+.reveal-trigger { font-size: 0.8rem; color: var(--accent-600); cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+.reveal-trigger:hover { color: var(--accent-500); }
+
+/* ====== MATCHING GAME ====== */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.match-item { background: white; border: 2px solid var(--gray-200); padding: 16px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: center; box-shadow: var(--shadow-sm); color: var(--primary-900); }
+.match-item:hover { border-color: var(--accent-400); transform: translateY(-2px); }
+.match-item.selected { background: var(--primary-700); color: white; border-color: var(--primary-700); }
+.match-item.matched { background: var(--primary-50); border-color: var(--primary-100); color: var(--primary-700); opacity: 0.6; cursor: default; transform: none; }
+
+</style>
+</head>
+<body>
+
+<!-- Sync Tool from previous architecture[cite: 3] -->
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.95); border: 2px solid var(--gray-200); color: var(--primary-900); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 800; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); font-family: var(--font-mono); text-transform: uppercase; box-shadow: var(--shadow-sm);">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success);"></span>
+    <span id="syncText">Link Established</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 01 • Global Banking C1/C2</div>
+        <h1 contenteditable="true">The Psychology of <span>Panic</span></h1>
+        <p class="hero-subtitle" contenteditable="true">Deconstruct the anatomy of a market crash. Master the subtle but critical difference between historical facts (Past Simple) and ongoing economic relevance (Present Perfect).</p>
+        <div class="hero-meta">
+            <span class="hero-pill" contenteditable="true">Present Perfect Simple & Continuous</span>
+            <span class="hero-pill" contenteditable="true">Historical Past Simple</span>
+            <span class="hero-pill" contenteditable="true">C2 Crisis Lexicon</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">Level C1/C2</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1">01. Warm-Up</a></li>
+            <li><a href="#t2">02. Discovery</a></li>
+            <li><a href="#t3">03. Lexicon</a></li>
+            <li><a href="#t4">04. Match</a></li>
+            <li><a href="#t5">05. Reading</a></li>
+            <li><a href="#t6">06. Grammar 1</a></li>
+            <li><a href="#t7">07. Drill 1</a></li>
+            <li><a href="#t8">08. Grammar 2</a></li>
+            <li><a href="#t9">09. Drill 2</a></li>
+            <li><a href="#t10">10. Speaking</a></li>
+            <li><a href="#t11">11. Pronunciation</a></li>
+            <li><a href="#t12">12. Roleplay</a></li>
+            <li><a href="#t13">13. Scramble</a></li>
+            <li><a href="#t14">14. Collocations</a></li>
+            <li><a href="#t15">15. Wrap-Up</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: WARM-UP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 01</span>
+            <h2 class="task-title" contenteditable="true">The Anatomy of <em>Fear</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Market crashes are rarely purely mathematical; they are deeply psychological. Discuss these concepts with your instructor.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card card-primary" style="border-top-color: var(--primary-500);">
+                <h3 style="color:var(--primary-900); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">The Rational Sell-Off</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Driven by poor earnings reports, sudden regulatory changes, or genuine shifts in monetary policy. Investors calculate the risk and exit methodically.</p>
+                <div style="background:var(--primary-50); padding:16px; border-radius:8px; border-left:3px solid var(--primary-500);">
+                    <strong style="color:var(--primary-900); display:block; margin-bottom:8px; font-size:0.95rem;">Discussion:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-700);" contenteditable="true">In your experience managing portfolios, how often do clients react to data versus media headlines?</span>
+                </div>
+            </div>
+            
+            <div class="card" style="border-top-color: var(--accent-500); border-top-width: 4px; border-top-style: solid;">
+                <h3 style="color:var(--accent-600); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">The Irrational Panic</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">Driven by rumor, herd mentality, and algorithms triggering massive, automated sell-orders. Fundamentals are entirely ignored.</p>
+                <div style="background:var(--accent-50); padding:16px; border-radius:8px; border-left:3px solid var(--accent-500);">
+                    <strong style="color:var(--accent-600); display:block; margin-bottom:8px; font-size:0.95rem;">Discussion:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-700);" contenteditable="true">What is the psychology behind "catching a falling knife"? Why is it so hard to convince clients to hold during a flash crash?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: VOCABULARY GUESS ====== -->
+<section class="section" id="t2">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 02</span>
+            <h2 class="task-title" contenteditable="true">Lexical <em>Discovery</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Four C2 words related to economic collapse are hidden below. Look at the context, then type your best guess.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">"The collapse of the housing market in 2008 was the <strong>___</strong> of a global recession."</p>
+                <p style="font-size: 0.8rem; color: var(--gray-400); margin-top: 10px;">(Hint: An omen or sign of things to come)</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--primary-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">"Once the tech stocks crashed, financial <strong>___</strong> spread rapidly to the banking sector."</p>
+                <p style="font-size: 0.8rem; color: var(--gray-400); margin-top: 10px;">(Hint: The rapid spread of an economic crisis)</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--primary-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">"After days of resisting, retail investors finally reached the point of total <strong>___</strong> and sold everything."</p>
+                <p style="font-size: 0.8rem; color: var(--gray-400); margin-top: 10px;">(Hint: Surrendering; giving up resistance)</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--primary-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <p contenteditable="true" style="font-size:0.95rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">"Following the CEO's arrest, the company's valuation went into a rapid <strong>___</strong>."</p>
+                <p style="font-size: 0.8rem; color: var(--gray-400); margin-top: 10px;">(Hint: A rapid and often chaotic descent or decline)</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--primary-900); background: var(--gray-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: THE LEXICON HUB ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 03</span>
+            <h2 class="task-title" contenteditable="true">The Lexicon <em>Hub</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Click through the tabs to unpack the Meaning, Form, and Pronunciation of our target C2 financial vocabulary. Adapted from advanced teaching methodology[cite: 3].</p>
+        </div>
+
+        <div class="hub-nav" id="vocabTabs">
+            <div class="hub-tab active" onclick="switchHub('v-1', this)">1. The Omen</div>
+            <div class="hub-tab" onclick="switchHub('v-2', this)">2. The Spread</div>
+            <div class="hub-tab" onclick="switchHub('v-3', this)">3. The Surrender</div>
+            <div class="hub-tab" onclick="switchHub('v-4', this)">4. The Plunge</div>
+        </div>
+
+        <!-- Word 1: Harbinger -->
+        <div class="hub-content active" id="v-1">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Harbinger')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If rising inflation is a sign that a recession is coming, is inflation a result or a warning?</li>
+                                <li contenteditable="true">What C2 noun refers to a person or thing that announces or signals the approach of another?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-600); border: 1px solid var(--accent-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f1">
+                            <strong contenteditable="true">Noun (Countable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: a <span class="uk-tooltip" data-uk="провісник / передвісник">~</span> of doom, a ~ of economic collapse.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border: 1px solid #FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p1">
+                            <strong contenteditable="true">HAR-bin-jer</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈhɑː.bɪn.dʒər/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 2: Contagion -->
+        <div class="hub-content" id="v-2">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Contagion')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If a bank fails in London, and causes banks in Tokyo to panic and fail, what is spreading?</li>
+                                <li contenteditable="true">What C2 noun, usually used for diseases, describes the rapid spread of an economic crisis?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-600); border: 1px solid var(--accent-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f2">
+                            <strong contenteditable="true">Noun (Uncountable/Countable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: financial <span class="uk-tooltip" data-uk="економічна інфекція / поширення кризи">~</span>, to contain the ~.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border: 1px solid #FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p2">
+                            <strong contenteditable="true">kun-TAY-jun</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/kənˈteɪ.dʒən/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 3: Capitulation -->
+        <div class="hub-content" id="v-3">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1612015900186-0498a44d49a4?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Capitulation')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">When investors who were holding onto losing stocks finally panic, give up, and sell at the absolute bottom, what is this act of surrender called?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-600); border: 1px solid var(--accent-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f3">
+                            <strong contenteditable="true">Noun (Uncountable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: market <span class="uk-tooltip" data-uk="капітуляція / здача позицій">~</span>, absolute ~. Verb: Capitulate.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border: 1px solid #FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p3">
+                            <strong contenteditable="true">kuh-pit-choo-LAY-shun</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/kəˌpɪtʃ.əˈleɪ.ʃən/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 4: Tailspin -->
+        <div class="hub-content" id="v-4">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Tailspin')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If a plane loses its engine and falls rapidly while spinning, what is it in? How does this apply to a currency's value?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-600); border: 1px solid var(--accent-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f4">
+                            <strong contenteditable="true">Noun (Countable)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to go into a <span class="uk-tooltip" data-uk="стрімке падіння / штопор">~</span>, send the market into a ~.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#BE123C; border: 1px solid #FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p4">
+                            <strong contenteditable="true">TAYL-spin</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈteɪl.spɪn/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function switchHub(id, tabElement) {
+                document.querySelectorAll('.hub-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                tabElement.classList.add('active');
+            }
+            function revealWord(btn, word) {
+                btn.innerHTML = word;
+                btn.classList.add('revealed');
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 4: MATCHING GAME ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 04</span>
+            <h2 class="task-title" contenteditable="true">Corporate <em>Connections</em></h2>
+            <p class="section-desc" contenteditable="true">Match the C2 financial vocabulary on the left with the correct market scenario on the right. Framework derived from[cite: 3].</p>
+        </div>
+
+        <div class="match-grid" id="matchGrid">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. A harbinger of recession.</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. Containing the contagion.</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. Total market capitulation.</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. Sending the pound into a tailspin.</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">A. The currency lost 15% of its value in under two hours.</div>
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">B. Central banks intervened to stop the panic from reaching Europe.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">C. Yield curve inversions usually signal that a downturn is imminent.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. The last remaining retail bulls finally gave up and liquidated.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 5: READING ====== -->
+<section class="section" id="t5">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 05</span>
+            <h2 class="task-title" contenteditable="true">The Anatomy of a <em>Sell-Off</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the macro-economic briefing below. Notice the strict division between <strong style="color:var(--primary-700);">Present Perfect</strong> (ongoing relevance) and <strong style="color:var(--accent-600);">Past Simple</strong> (isolated historical facts).</p>
+        </div>
+
+        <div class="split-layout">
+            <!-- Left Side: The Briefing -->
+            <div class="card" style="padding: 40px; font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.9; border-top: 4px solid var(--primary-700);">
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--primary-700); letter-spacing: 1px; margin-bottom: 24px; text-transform: uppercase; font-weight: 800; border-bottom: 1px solid var(--gray-200); padding-bottom: 12px;" contenteditable="true">Macro Briefing // Q3 Volatility</div>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    <span style="float: left; font-size: 3.5rem; line-height: 0.8; padding-right: 12px; color: var(--primary-900);">G</span>lobal markets <strong style="color:var(--primary-700);">have experienced</strong> unprecedented volatility this quarter. Consequently, institutional investors <strong style="color:var(--primary-700);">have begun</strong> reallocating assets toward safe havens, fearing that recent tech-sector layoffs are a harbinger of a broader recession.
+                </p>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    We saw similar patterns during the Dot-Com bubble. In 2000, irrational exuberance <strong style="color:var(--accent-600);">sent</strong> the NASDAQ into a tailspin. Back then, it <strong style="color:var(--accent-600);">took</strong> nearly a decade for portfolios to recover. When the contagion <strong style="color:var(--accent-600);">hit</strong> European markets shortly after, absolute capitulation <strong style="color:var(--accent-600);">followed</strong>.
+                </p>
+                <p contenteditable="true">
+                    However, the regulatory landscape <strong style="color:var(--primary-700);">has shifted</strong> significantly since 2008. Central banks <strong style="color:var(--primary-700);">have implemented</strong> robust circuit breakers, meaning a direct repeat of historical crashes is unlikely today.
+                </p>
+            </div>
+
+            <!-- Right Side: Discussion Prompts -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card" style="padding:24px; border-left: 4px solid var(--primary-700); box-shadow: var(--shadow-sm);">
+                    <strong contenteditable="true" style="color:var(--primary-900);">Syntax Check 1</strong>
+                    <p contenteditable="true" style="margin-top: 8px;">Why does the author use <em>"markets have experienced"</em> but later uses <em>"irrational exuberance sent"</em>?</p>
+                </div>
+                <div class="card" style="padding:24px; border-left: 4px solid var(--accent-500); box-shadow: var(--shadow-sm);">
+                    <strong contenteditable="true" style="color:var(--accent-600);">Syntax Check 2</strong>
+                    <p contenteditable="true" style="margin-top: 8px;">What specific time-markers lock the second paragraph firmly into the Past Simple?</p>
+                </div>
+                <div class="card" style="padding:24px; border-left: 4px solid var(--success); box-shadow: var(--shadow-sm);">
+                    <strong contenteditable="true" style="color:var(--success);">Corporate Insight</strong>
+                    <p contenteditable="true" style="margin-top: 8px;">When speaking to a panicked international client today, which tense is more effective for reassuring them? Why?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t6">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 06</span>
+            <h2 class="task-title" contenteditable="true">The Conceptual <em>Divide</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">In corporate banking, using the wrong tense can confuse clients regarding risk. Let's isolate the mechanics.</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <h3 contenteditable="true" style="color: var(--primary-900); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.6rem;">1. Present Perfect (The "Bridge" Tense)</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true">Used when an action connects the past to the <strong>current moment</strong>. It implies ongoing relevance, an unfinished time period, or recent news without a specific date.</p>
+            
+            <div style="background: var(--primary-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--primary-700);">
+                <p style="font-size:1.15rem; color:var(--primary-900); font-weight:700;" contenteditable="true">"The ECB <strong>has raised</strong> interest rates three times this year."</p>
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--primary-700); margin-top:8px; text-transform:uppercase;" contenteditable="true">Effect: The year is not over; more raises might happen; it affects our portfolio right now.</p>
+            </div>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm);">
+            <h3 contenteditable="true" style="color: var(--accent-600); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.6rem;">2. Past Simple (The "Archive" Tense)</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true">Used when an action is fully completed in a <strong>finished, defined time period</strong>. It is historical fact.</p>
+            
+            <div style="background: var(--accent-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--accent-500);">
+                <p style="font-size:1.15rem; color:var(--accent-600); font-weight:700;" contenteditable="true">"The ECB <strong>raised</strong> interest rates sharply in 2008."</p>
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--accent-600); margin-top:8px; text-transform:uppercase;" contenteditable="true">Effect: 2008 is finished. The action is closed. It is purely historical data.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR DRILL 1 ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 07</span>
+            <h2 class="task-title" contenteditable="true">Syntax <em>Drill 1</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Complete the client updates using either Present Perfect or Past Simple. Type your answer and verify.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--primary-700); margin-bottom:8px; font-weight: 700;" contenteditable="true">Context: Unfinished Time vs Finished Date</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">The tech sector</span>
+                    <input type="text" class="drill-input" id="drill7-1" placeholder="(lose) 15% of its value in Q1 of 2022.">
+                    <button class="btn-verify" onclick="checkDrill(7, 1, 'lost')">Verify</button>
+                </div>
+                <div id="fb7-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--primary-700); margin-bottom:8px; font-weight: 700;" contenteditable="true">Context: Relevance to present crisis</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">Due to inflation, the central bank</span>
+                    <input type="text" class="drill-input" id="drill7-2" placeholder="(refuse) to lower rates so far this year.">
+                    <button class="btn-verify" onclick="checkDrill(7, 2, 'has refused')">Verify</button>
+                </div>
+                <div id="fb7-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            // Generalized drill checker
+            function checkDrill(task, num, target) {
+                const input = document.getElementById(`drill${task}-${num}`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                const val = input.value.toLowerCase().trim();
+                const t = target.toLowerCase().trim();
+                
+                fb.style.display = 'block';
+                if(val === t) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Accurate Syntax'; input.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: "${target}"`; input.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">Advanced Time <em>Markers</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">At the C1 level, you must master the nuanced transition words that dictate which tense to use during financial reports.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card" style="border-top: 4px solid var(--primary-500);">
+                <h3 style="color:var(--primary-900); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">Signals for Present Perfect</h3>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-weight: 600; color: var(--gray-700);">
+                    <li contenteditable="true">› Thus far...</li>
+                    <li contenteditable="true">› Up to this point...</li>
+                    <li contenteditable="true">› Over the last decade... <em>(Note: "last decade" implies leading up to now)</em></li>
+                    <li contenteditable="true">› In the wake of recent events...</li>
+                </ul>
+            </div>
+
+            <div class="card" style="border-top: 4px solid var(--accent-500);">
+                <h3 style="color:var(--accent-600); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">Signals for Past Simple</h3>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:12px; font-weight: 600; color: var(--gray-700);">
+                    <li contenteditable="true">› At the time...</li>
+                    <li contenteditable="true">› Initially...</li>
+                    <li contenteditable="true">› During the 2008 crisis...</li>
+                    <li contenteditable="true">› Prior to the collapse...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR DRILL 2 ====== -->
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 09</span>
+            <h2 class="task-title" contenteditable="true">Marker <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Apply the correct tense based on the advanced time markers. Type your answer and check.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--primary-700); margin-bottom:8px; font-weight: 700;" contenteditable="true">MARKER: "Over the last decade"</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">Over the last decade, our commodities portfolio</span>
+                    <input type="text" class="drill-input" id="drill9-1" placeholder="(outperform) the market baseline.">
+                    <button class="btn-verify" onclick="checkDrill(9, 1, 'has outperformed')">Verify</button>
+                </div>
+                <div id="fb9-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--accent-600); margin-bottom:8px; font-weight: 700;" contenteditable="true">MARKER: "Initially"</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">Initially, the Board of Directors</span>
+                    <input type="text" class="drill-input" id="drill9-2" placeholder="(ignore) the warning signs of a liquidity crisis.">
+                    <button class="btn-verify" onclick="checkDrill(9, 2, 'ignored')">Verify</button>
+                </div>
+                <div id="fb9-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+            
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--primary-700); margin-bottom:8px; font-weight: 700;" contenteditable="true">MARKER: "Thus far"</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">We are monitoring the contagion, but thus far, it</span>
+                    <input type="text" class="drill-input" id="drill9-3" placeholder="(not spread) to Asian markets.">
+                    <button class="btn-verify" onclick="checkDrill(9, 3, 'has not spread')">Verify</button>
+                </div>
+                <div id="fb9-3" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: SPEAKING ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">Historical <em>Precedents</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">In corporate banking, you must draw on history to justify current strategies. Discuss the following utilizing both tenses dynamically.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true"><strong>The 2008 Housing Crisis vs. Today:</strong> <br>
+                How did the contagion spread in 2008? How <em>have regulations changed</em> since then to prevent a repeat tailspin?</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>The Crypto Crash (Recent):</strong> <br>
+                Why did retail investors capitulate so rapidly? How <em>has the institutional view</em> of digital assets evolved since that crash?</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Your Professional Experience:</strong> <br>
+                Think of a highly volatile week you experienced in your career. What happened? How <em>has that event shaped</em> your risk appetite today?</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 11: PRONUNCIATION ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 11</span>
+            <h2 class="task-title" contenteditable="true">Pronunciation <em>Lab</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Financial lexicon contains tricky syllable stresses. Master these five terms out loud to ensure executive presence.</p>
+        </div>
+
+        <div class="split-layout">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 1 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--primary-900);" contenteditable="true">Volatility</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ˌvɒl.əˈtɪl.ə.ti/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The primary stress is firmly on "TIL". vol-a-TIL-i-ty.</span>
+                    </div>
+                </div>
+
+                <!-- Word 2 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--primary-900);" contenteditable="true">Precipitous</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/prɪˈsɪp.ɪ.təs/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> Meaning "dangerously high/steep". Stress the second syllable: pre-SIP-i-tous.</span>
+                    </div>
+                </div>
+
+                <!-- Word 3 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--primary-900);" contenteditable="true">Systemic</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/sɪˈstem.ɪk/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> Do not say "systematic". Systemic refers to the entire system (e.g. systemic risk).</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 4 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--primary-900);" contenteditable="true">Catastrophe</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/kəˈtæs.trə.fi/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The 'e' at the end is pronounced as an /i/ sound. ca-TAS-tro-phee.</span>
+                    </div>
+                </div>
+
+                <!-- Word 5 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--primary-900);" contenteditable="true">Epoch</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ˈiː.pɒk/</div>
+                    </div>
+                    <div style="background:var(--gray-50); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> A distinct period in history. Pronounced "EE-pock", not "eh-poach".</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: ROLEPLAY ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 12</span>
+            <h2 class="task-title" contenteditable="true">The Client <em>Crisis</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Work with your instructor to navigate this high-pressure corporate banking scenario.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card" style="border-top: 4px solid var(--primary-500);">
+                <h3 style="color:var(--primary-900); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">You: The Senior Advisor</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">A major international client is calling you in a panic. The market dropped 6% this morning, and they want to liquidate their entire portfolio before a full <strong>tailspin</strong>. You need to talk them off the ledge.</p>
+                <div style="background: var(--primary-50); padding: 16px; border-radius: 8px; border-left: 3px solid var(--primary-700);">
+                    <strong style="color:var(--primary-900); display:block; margin-bottom:8px; font-size:0.95rem;">Linguistic Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-700);" contenteditable="true">Use <strong>Past Simple</strong> to remind them of historical crashes they survived (e.g., "In 2020, the market dipped, but we held..."). Use <strong>Present Perfect</strong> to show ongoing strategy (e.g., "We have already diversified to protect you...").</span>
+                </div>
+            </div>
+
+            <div class="card" style="border-top: 4px solid var(--accent-500);">
+                <h3 style="color:var(--accent-600); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">Teacher: The Panicking Client</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You are convinced this is the <strong>harbinger</strong> of a total economic depression. You see the <strong>contagion</strong> spreading on the news, and you want to <strong>capitulate</strong> immediately to save cash.</p>
+                <div style="background: var(--accent-50); padding: 16px; border-radius: 8px; border-left: 3px solid var(--accent-500);">
+                    <strong style="color:var(--accent-600); display:block; margin-bottom:8px; font-size:0.95rem;">Linguistic Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-700);" contenteditable="true">Push back aggressively. Ask "What if it goes to zero?" Force the Advisor to use strong, definitive C1 syntax to calm you down.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: WORD SCRAMBLE ====== -->
+<section class="section" id="t13">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 13</span>
+            <h2 class="task-title" contenteditable="true">The Corporate <em>Scramble</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the letters to reveal the target C2 vocabulary words from today's lesson.</p>
+        </div>
+
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:60px 40px; box-shadow:var(--shadow-md); text-align:center; max-width: 700px; margin: 0 auto;" id="scramble-container">
+            <div id="scramble-word" style="font-family:var(--font-mono); font-size:3rem; letter-spacing:10px; color:var(--primary-900); margin-bottom:20px; font-weight:800;"></div>
+            <div id="scramble-hint" style="color:var(--gray-600); font-style:italic; margin-bottom:40px; font-size:1.15rem;"></div>
+            
+            <input type="text" id="scramble-input" placeholder="Type the word..." style="padding:16px 24px; border:2px solid var(--gray-200); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:800; color:var(--primary-900); transition:border-color 0.2s;" onkeydown="if(event.key==='Enter') window.checkScrambleGame()">
+            <br>
+            <button onclick="window.checkScrambleGame()" style="background:var(--primary-700); color:white; border:none; padding:14px 40px; border-radius:50px; font-weight:800; cursor:pointer; font-size:1.1rem; transition: background 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px;">Submit</button>
+            <div id="scramble-fb" style="margin-top:24px; font-weight:800; font-size:1.2rem; font-family:var(--font-mono); min-height: 30px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: COLLOCATIONS ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">Financial <em>Collocations</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">To sound truly native in corporate banking, you must pair the right verb with the crisis noun.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true"><strong>1. To ____ off a collapse.</strong> <br>
+                <span class="blank-input" style="min-width: 120px;"></span> <em>(Meaning: To prevent something bad from happening temporarily. Starts with 'S'.)</em></div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>2. To ____ the storm.</strong> <br>
+                <span class="blank-input" style="min-width: 120px;"></span> <em>(Meaning: To safely get through a difficult financial period. Starts with 'W'.)</em></div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>3. To ____ a sell-off.</strong> <br>
+                <span class="blank-input" style="min-width: 120px;"></span> <em>(Meaning: To cause an event to begin. Starts with 'T'.)</em></div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>4. To ____ risk.</strong> <br>
+                <span class="blank-input" style="min-width: 120px;"></span> <em>(Meaning: To make something less severe or painful. Starts with 'M'.)</em></div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 15: FINAL SYNTHESIS ====== -->
+<section class="section" id="t15" style="border-bottom:none;">
+    <div class="section-inner">
+        <div class="task-header" style="text-align:center; margin-bottom:0;">
+            <span class="task-label" contenteditable="true">Task 15</span>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-900) 100%); color: white; padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+            <div style="position: absolute; bottom: -50px; right: -50px; width: 200px; height: 200px; background: rgba(249,115,22,0.2); border-radius: 50%;"></div>
+            
+            <div style="position:relative; z-index:1;">
+                <h2 contenteditable="true" style="color: var(--accent-400); margin-bottom: 16px; font-family: var(--font-serif); font-size: 3rem; font-weight: 700;">Module Complete! 📈</h2>
+                <p contenteditable="true" style="font-size: 1.15rem; color: var(--primary-100); margin-bottom: 30px;"><strong>What we've mastered today:</strong></p>
+                <ul style="list-style: none; font-size: 1.1rem; line-height: 2.2; text-align: left; max-width: 650px; margin: 0 auto;">
+                    <li contenteditable="true"><strong style="color:var(--accent-400);">C2 Lexicon:</strong> harbinger, contagion, capitulation, tailspin.</li>
+                    <li contenteditable="true"><strong style="color:var(--accent-400);">Grammar (The Divide):</strong> Firmly separating Present Perfect (ongoing relevance) from Past Simple (archived facts).</li>
+                    <li contenteditable="true"><strong style="color:var(--accent-400);">Grammar (Time Markers):</strong> Using <em>Thus far</em> vs. <em>Initially</em> to control the narrative.</li>
+                    <li contenteditable="true"><strong style="color:var(--accent-400);">Corporate Fluency:</strong> De-escalating client panic using historical market precedents.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ====== HOMEWORK MODULE (15 Mins, 15 Questions)[cite: 3] ====== -->
+<div id="task-hw" style="display:none; position: fixed; inset: 0; background: var(--gray-50); z-index: 2000; overflow-y: auto; padding: 60px 20px;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <!-- Welcome Screen -->
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; background:white; padding:60px; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); border-top: 6px solid var(--primary-700);">
+            <div style="font-family:var(--font-mono); color:var(--primary-700); letter-spacing:2px; margin-bottom:16px; font-weight:800;">FINAL ASSESSMENT</div>
+            <h2 style="font-family:var(--font-serif); font-size:3rem; color:var(--primary-900); margin-bottom:20px; font-weight:700;">Module 01 Protocol</h2>
+            <p style="color:var(--gray-600); margin-bottom:40px; font-size:1.1rem; max-width:550px; margin-left:auto; margin-right:auto;">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 advanced syntax and vocabulary challenges regarding market psychology. <br>
+                <span style="color:var(--danger); font-weight:700;">Security Alert:</span> Leaving this tab twice will lock the assessment automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter Banker ID/Name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--gray-50);border:2px solid var(--gray-200);color:var(--gray-900);border-radius:6px;margin-bottom:24px;outline:none;font-family:var(--font-mono);text-align:center;font-weight:700;">
+            <br>
+            <button onclick="startHW()" style="background:var(--primary-700);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:800;cursor:pointer;transition:background 0.2s;font-family:var(--font-ui);border-radius:50px;">INITIATE</button>
+            <button onclick="exitHomework()" style="background:transparent;color:var(--gray-600);border:none;display:block;margin:20px auto;cursor:pointer;font-family:var(--font-ui);text-decoration:underline;">Abort</button>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="hw-quiz" class="hw-screen" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:var(--primary-900);">
+                <span style="font-family:var(--font-mono); font-weight:800;" id="hwQuestionCounter">Q 1 / 15</span>
+                <div id="timerContainer" style="font-family:var(--font-mono); color:var(--accent-600); font-weight:800; font-size:1.2rem; background:var(--accent-50); padding:6px 16px; border-radius:50px; border:2px solid var(--accent-400);">
+                    ⏱️ <span id="hwTimerDisplay">15:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:8px; background:var(--gray-200); margin-bottom:40px; border-radius:4px; overflow:hidden;">
+                <div id="hwProgressFill" style="height:100%; background:var(--primary-600); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:white; padding:40px; border-radius:var(--radius-lg); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:600; margin-bottom:30px; line-height:1.5; color:var(--primary-900); font-family:var(--font-serif);">Loading data...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--gray-600); border:2px solid var(--gray-300); padding:10px 24px; cursor:pointer; border-radius:50px; transition:all 0.2s; font-family:var(--font-ui); font-weight:700;">Skip Question</button>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="hw-results" class="hw-screen" style="display:none;">
+            <div id="hw-pdf-content" style="background:white; padding:50px; border-radius:var(--radius-lg); box-shadow:var(--shadow-md);">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 style="font-family:var(--font-serif); font-size:3.5rem; color:var(--primary-900); margin-bottom:10px; font-weight:700;">Protocol Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--gray-600); font-size:1.1rem; font-weight: 500;"></p>
+                </div>
+
+                <div style="background:var(--gray-50); padding:40px; border-radius:var(--radius-md); text-align:center; margin-bottom:40px; border: 2px solid var(--gray-200);">
+                    <div style="font-family:var(--font-mono); color:var(--gray-600); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem; font-weight:800;">Final Evaluation</div>
+                    <div id="hwScoreDetail" style="font-size:5rem; font-weight:800; color:var(--primary-700); margin:10px 0; line-height:1;">0/15</div>
+                    <div id="hwTerminationReason" style="font-weight:800; font-family:var(--font-mono); margin-top:20px; color:var(--primary-900);"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--primary-700); color:white; border:none; padding:16px 36px; font-weight:800; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Export PDF</button>
+                <button onclick="exitHomework()" style="background:transparent; color:var(--gray-800); border:2px solid var(--gray-300); padding:16px 36px; font-weight:800; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Exit Protocol</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ====== FLOATING ACTIONS[cite: 3] ====== -->
+<div class="floating-actions" id="floatingActions" style="position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:15px; z-index:1000;">
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet" style="background:#4255FF; color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📝</button>
+    <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--primary-900); color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📋</button>
+</div>
+
+<!-- Admin Dashboard[cite: 3] -->
+<div id="adminModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:800px; box-shadow:var(--shadow-lg); position:relative; border-top:4px solid var(--primary-700);">
+        <span onclick="closeAdmin()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--primary-900); margin-bottom:10px; font-size:2.2rem; font-weight:700;">Instructor Dashboard</h2>
+        <p style="color:var(--gray-600); margin-bottom:20px;">Review recent submissions.</p>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left;">
+                <thead style="background:var(--gray-100); font-family:var(--font-mono); font-size:0.85rem; font-weight: 800; color:var(--primary-900);"><tr><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Date</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Agent</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Score</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button style="background:var(--danger); color:white; border:none; padding:10px 20px; border-radius:6px; margin-top:20px; cursor:pointer; font-weight:700;" onclick="clearData()">Purge Records</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal[cite: 3] -->
+<div id="quizletModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:600px; box-shadow:var(--shadow-lg); position:relative; border-top:4px solid #4255FF;">
+        <span onclick="closeQuizletModal()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--gray-900); margin-bottom:20px; font-size:2.2rem; font-weight:700;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="harbinger" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px; font-weight:600;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="провісник / передвісник" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="contagion" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px; font-weight:600;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="економічна інфекція / поширення кризи" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="capitulation" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px; font-weight:600;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="капітуляція / здача позицій" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="tailspin" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px; font-weight:600;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="стрімке падіння / штопор" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" style="flex:1; background:transparent; border:2px solid var(--gray-300); color:var(--gray-800); padding:12px; border-radius:8px; cursor:pointer; font-weight:800;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" style="flex:2; background:#4255FF; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:800;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // --- Scramble Game Logic ---
+    const scrambleWords = [
+        { word: "HARBINGER", hint: "A person or thing that announces or signals the approach of a crisis." },
+        { word: "CONTAGION", hint: "The rapid spread of market disturbances from one country/sector to another." },
+        { word: "CAPITULATION", hint: "When investors finally give up, surrender, and sell off their losing assets." },
+        { word: "TAILSPIN", hint: "A rapid, chaotic, and often uncontrollable downward trend." }
+    ];
+    let scrambleIndex = 0;
+    
+    function scrambleString(str) {
+        let arr = str.split('');
+        for(let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join(' ');
+    }
+    
+    function loadScramble() {
+        if(scrambleIndex >= scrambleWords.length) {
+            document.getElementById('scramble-container').innerHTML = "<h3 style='color:var(--primary-900); font-size:2.2rem; font-family:var(--font-serif); margin-bottom:0;'>All financial terminology decoded! Excellent work.</h3>";
+            return;
+        }
+        let item = scrambleWords[scrambleIndex];
+        document.getElementById('scramble-word').innerText = scrambleString(item.word);
+        document.getElementById('scramble-hint').innerText = "Hint: " + item.hint;
+        document.getElementById('scramble-input').value = "";
+        document.getElementById('scramble-input').style.borderColor = "var(--gray-200)";
+        document.getElementById('scramble-fb').innerText = "";
+    }
+    
+    window.checkScrambleGame = function() {
+        let inputEl = document.getElementById('scramble-input');
+        let input = inputEl.value.toUpperCase().replace(/[^A-Z]/g, '');
+        let target = scrambleWords[scrambleIndex].word.replace(/[^A-Z]/g, '');
+        let fb = document.getElementById('scramble-fb');
+
+        if(input === target) {
+            fb.innerText = "✓ Validated";
+            fb.style.color = "var(--primary-700)";
+            inputEl.style.borderColor = "var(--primary-700)";
+            setTimeout(() => { scrambleIndex++; loadScramble(); }, 1200);
+        } else {
+            fb.innerText = "✗ Incorrect Sequence";
+            fb.style.color = "var(--danger)";
+            inputEl.style.borderColor = "var(--danger)";
+            
+            inputEl.style.transform = 'translateX(5px)';
+            setTimeout(() => { inputEl.style.transform = 'translateX(-5px)'; }, 100);
+            setTimeout(() => { inputEl.style.transform = 'translateX(5px)'; }, 200);
+            setTimeout(() => { inputEl.style.transform = 'translateX(0)'; }, 300);
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", loadScramble);
+
+    // --- Quizlet[cite: 3] ---
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() { document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px; font-weight:600;"><input type="text" placeholder="Translation" style="flex:1; padding:10px 14px; border:2px solid var(--gray-200); border-radius:6px;"></div>`; }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
+        if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC[cite: 3] ───
+    const hwQuestionBank = [
+        { text: "A sign that warns of a coming economic collapse is called a:", options: ["harbinger", "contagion", "bottleneck", "capitulation"], correct: 0 },
+        { text: "When investors finally give up hope and sell their stocks at massive losses, it is called:", options: ["contagion", "capitulation", "tailspin", "volatility"], correct: 1 },
+        { text: "The rapid spread of a financial crisis across borders is known as financial _______.", options: ["harbinger", "tailspin", "contagion", "precipitous"], correct: 2 },
+        { text: "After the CEO's scandal, the company's stock went into a rapid _______.", options: ["harbinger", "capitulation", "contagion", "tailspin"], correct: 3 },
+        { text: "Which sentence uses the correct tense? 'The Federal Reserve _______ interest rates three times so far this year.'", options: ["raised", "has raised", "raises", "had raised"], correct: 1 },
+        { text: "Which sentence uses the correct tense? 'In 2008, the global economy _______ a severe recession.'", options: ["has entered", "was entering", "entered", "had entered"], correct: 2 },
+        { text: "Select the correct verb to complete the collocation: To _______ the storm.", options: ["stave", "mitigate", "weather", "trigger"], correct: 2 },
+        { text: "Select the correct verb to complete the collocation: To _______ off a collapse.", options: ["weather", "stave", "mitigate", "trigger"], correct: 1 },
+        { text: "Which time marker strongly indicates the need for Present Perfect?", options: ["Initially", "During the 1990s", "Thus far", "At the time"], correct: 2 },
+        { text: "Which time marker strongly indicates the need for Past Simple?", options: ["Over the last decade", "So far", "In the wake of", "Prior to the crash"], correct: 3 },
+        { text: "The word 'precipitous' is pronounced:", options: ["pre-SIP-i-tous", "PRE-cip-i-tous", "pre-cip-I-tous", "pre-ci-pi-TOUS"], correct: 0 },
+        { text: "Because the time period is not yet finished, which sentence is correct?", options: ["Markets have experienced high volatility this quarter.", "Markets experienced high volatility this quarter."], correct: 0 },
+        { text: "Because the action is completely finished and historical, which is correct?", options: ["The Dot-Com bubble has burst in 2000.", "The Dot-Com bubble burst in 2000."], correct: 1 },
+        { text: "To make a risk less severe is to _______ it.", options: ["trigger", "capitulate", "mitigate", "stave"], correct: 2 },
+        { text: "An event that causes a massive sell-off to begin is said to _______ the sell-off.", options: ["weather", "trigger", "mitigate", "harbinger"], correct: 1 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.getElementById('timerContainer').style.background = "var(--danger)"; document.getElementById('timerContainer').style.color = "white"; document.getElementById('timerContainer').style.borderColor = "var(--danger)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:white; border:2px solid var(--gray-200); padding:16px 24px; border-radius:8px; font-size:1.1rem; text-align:left; cursor:pointer; font-family:var(--font-ui); color:var(--gray-900); font-weight: 600; transition:all 0.2s;";
+            btn.onmouseover = () => { btn.style.background = "var(--primary-50)"; btn.style.borderColor = "var(--primary-700)"; }
+            btn.onmouseout = () => { btn.style.background = "white"; btn.style.borderColor = "var(--gray-200)"; }
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your protocol is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--danger)' : 'var(--primary-700)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div style="background:var(--gray-50); border-radius:8px; border-left:6px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; padding:20px; border-top: 1px solid var(--gray-200); border-right: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200);">
+                <div style="font-size:1.1rem; color:var(--gray-900); margin-bottom:10px; font-weight:700;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--gray-600); font-weight:500;">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; font-weight:800;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--gray-600); font-weight:500;">Correct answer: <span style="color: var(--success); font-weight:800;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson1BankingHW')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson1BankingHW', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L1_Assessment.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save();
+    }
+
+    // --- Admin[cite: 3] ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson1BankingHW')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px; font-weight:600;'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-size:0.85rem; font-family:var(--font-mono);">${r.date}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:800; color:var(--gray-900);">${r.name}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:bold; color:var(--primary-700);">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:800; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson1BankingHW'); openAdmin(); } }
+
+    // --- Firebase Sync[cite: 3] ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
+    const appId = 'banking-panic-c1-lesson1';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let user = null, isSync = false;
+    let editingId = null;
+
+    signInAnonymously(auth).catch(console.error);
+
+    onAuthStateChanged(auth, u => {
+        user = u;
+        if (user && !isSync) {
+            isSync = true;
+            document.getElementById('syncText').innerText = "SYSTEM ACTIVE";
+            setupSync(); setupCursors();
+        }
+    });
+
+    function fastDebounce(f, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; }
+
+    function setupSync() {
+        const txtRef = doc(db, 'artifacts', appId, 'data', 'text');
+
+        document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
+            el.dataset.sid = 'ed_' + i;
+            el.addEventListener('focus', () => editingId = el.dataset.sid);
+            el.addEventListener('blur', () => { 
+                editingId = null; 
+                if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            });
+            el.addEventListener('input', fastDebounce(() => { 
+                if (editingId === el.dataset.sid && user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            }, 150));
+        });
+
+        onSnapshot(txtRef, snap => {
+            if (!snap.exists()) return;
+            for (const [id, html] of Object.entries(snap.data())) {
+                if (editingId !== id) {
+                    const el = document.querySelector(`[data-sid="${id}"]`);
+                    if (el && el.innerHTML !== html) el.innerHTML = html;
+                }
+            }
+        });
+    }
+
+    function setupCursors() {
+        const curRef = collection(db, 'artifacts', appId, 'cursors');
+        const myDoc = doc(curRef, user.uid);
+        const container = document.body;
+        const colors = ['#1D4ED8','#F97316','#E11D48','#059669'];
+        const myColor = colors[Math.floor(Math.random() * colors.length)];
+        const myName = "Analyst " + Math.floor(Math.random() * 99);
+        
+        document.addEventListener('mousemove', fastDebounce(e => {
+            if(user && document.getElementById('task-hw').style.display !== 'block') {
+                setDoc(myDoc, { x: e.pageX - window.innerWidth/2, y: e.pageY, color: myColor, name: myName, ts: Date.now() });
+            }
+        }, 100));
+
+        onSnapshot(curRef, snap => {
+            snap.docChanges().forEach(ch => {
+                if(ch.doc.id === user.uid) return;
+                const d = ch.doc.data();
+                let el = document.getElementById('cur-'+ch.doc.id);
+                
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
+                
+                if(!el) {
+                    el = document.createElement('div'); el.id = 'cur-'+ch.doc.id; el.className = 'remote-cursor';
+                    el.style = 'position:absolute; transition: top 0.15s, left 0.15s; pointer-events:none; z-index:999999;';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><div style="background:${d.color}; color:#fff; font-size:10px; font-family:var(--font-mono); padding:2px 6px; border-radius:3px; margin-top:2px; font-weight:bold;">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth/2 + d.x) + 'px'; el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if(user) deleteDoc(myDoc); });
+    }
+</script>
+</body>
+</html>
