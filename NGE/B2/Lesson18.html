@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 18: C1/C2 | Memory & Nostalgia</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    /* Memory & Nostalgia Theme - Light & Airy */
+    --indigo-900: #312E81;
+    --indigo-800: #3730A3;
+    --indigo-700: #4338CA;
+    --indigo-100: #E0E7FF;
+    --indigo-50:  #EEF2FF;
+    
+    --amber-600: #D97706;
+    --amber-500: #F59E0B;
+    --amber-400: #FBBF24;
+    --amber-50:  #FFFBEB;
+
+    --ivory-50:  #FDFBF7;
+    --ivory-100: #F5F3EC;
+    
+    --gray-900: #111827;
+    --gray-800: #1F2937;
+    --gray-600: #4B5563;
+    --gray-400: #9CA3AF;
+    --gray-200: #E5E7EB;
+    --gray-100: #F3F4F6;
+    --gray-50:  #F9FAFB;
+    
+    --danger:   #E11D48;
+    --success:  #059669;
+    
+    --font-ui:    'Plus Jakarta Sans', sans-serif;
+    --font-serif: 'Libre Baskerville', serif;
+    --font-mono:  'JetBrains Mono', monospace;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-ui);
+    line-height: 1.7;
+    color: var(--gray-800);
+    background-color: var(--ivory-50);
+    background-image: radial-gradient(var(--ivory-100) 2px, transparent 2px);
+    background-size: 32px 32px;
+    overflow-x: hidden;
+}
+
+#liveCursorsContainer {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;
+}
+
+h1, h2, h3, .serif { font-family: var(--font-serif); }
+
+[contenteditable="true"] { outline: none; transition: all 0.2s; border-radius: 4px; padding: 0 4px; margin: 0 -4px; border-bottom: 1px dashed transparent; }
+[contenteditable="true"]:focus, [contenteditable="true"]:hover {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-bottom: 1px dashed var(--amber-500);
+}
+
+/* ====== UKRAINIAN HOVER TOOLTIP ====== */
+.uk-tooltip {
+    position: relative; cursor: help; border-bottom: 2px dotted var(--amber-500);
+    font-weight: 700; color: var(--indigo-800); transition: color 0.2s;
+}
+.uk-tooltip:hover { color: var(--indigo-700); }
+.uk-tooltip::after {
+    content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+    transform: translateX(-50%); background: var(--ivory-100); color: var(--indigo-900);
+    padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 700;
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    z-index: 50; font-family: var(--font-ui); box-shadow: var(--shadow-md);
+    border: 1px solid var(--indigo-100);
+}
+.uk-tooltip:hover::after { opacity: 1; }
+
+/* ====== HERO ====== */
+.hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--ivory-50) 0%, var(--indigo-50) 100%);
+    color: var(--indigo-900); padding: 100px 24px 80px; text-align: center;
+    border-bottom: 1px solid var(--indigo-100);
+}
+.hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+.hero-badge {
+    display: inline-block; background: white; border: 1px solid var(--indigo-100);
+    color: var(--amber-600); padding: 6px 20px; border-radius: 50px; font-size: 0.85rem;
+    font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+    font-family: var(--font-mono); box-shadow: var(--shadow-sm);
+}
+.hero h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 400; line-height: 1.15; margin-bottom: 20px; }
+.hero h1 span { color: var(--amber-500); font-style: italic; }
+.hero-subtitle { font-size: 1.15rem; color: var(--gray-600); max-width: 700px; margin: 0 auto 24px; font-weight: 400; }
+.hero-meta { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin-top: 24px; }
+.hero-pill { background: white; border: 1px solid var(--indigo-100); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; color: var(--indigo-800); box-shadow: var(--shadow-sm); }
+
+/* ====== NAV ====== */
+.nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(253,251,247,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; box-shadow: var(--shadow-sm); }
+.nav-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--indigo-900); text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px;}
+.nav-logo .dot { display: inline-block; width: 8px; height: 8px; background: var(--amber-500); border-radius: 50%; }
+.nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+.nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.85rem; font-weight: 700; padding: 8px 14px; border-radius: 6px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px;}
+.nav-links a:hover { color: var(--indigo-800); background: var(--indigo-50); }
+.nav-links a.active { color: var(--indigo-900); background: var(--indigo-100); }
+
+/* ====== SPLIT LAYOUT & SECTIONS ====== */
+.section { padding: 80px 24px; border-bottom: 1px solid var(--gray-200); }
+.section:nth-child(even) { background: white; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+
+.task-header { margin-bottom: 40px; text-align: left; }
+.task-label { display: inline-block; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--amber-600); margin-bottom: 12px; font-family: var(--font-mono);}
+.task-title { font-size: 2.5rem; font-weight: 400; color: var(--indigo-900); margin-bottom: 16px; line-height: 1.1; }
+.task-title em { color: var(--amber-600); font-style: italic; }
+
+.split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+@media (max-width: 960px) { .split-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+/* ====== CARDS & BOXES ====== */
+.card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); }
+.card-indigo { border-top: 4px solid var(--indigo-700); }
+.card-amber { border-top: 4px solid var(--amber-500); }
+
+/* ====== INPUTS & LISTS ====== */
+.practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: practice-counter; }
+.practice-list li { background: white; padding: 20px 24px 20px 60px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); font-size: 1.05rem; position: relative; box-shadow: var(--shadow-sm); transition: border-color 0.2s; }
+.practice-list li:hover { border-color: var(--indigo-800); }
+.practice-list li::before { counter-increment: practice-counter; content: counter(practice-counter, decimal-leading-zero) "."; position: absolute; left: 20px; top: 22px; font-weight: 800; color: var(--amber-500); font-family: var(--font-mono); }
+.blank-input { display: inline-block; min-width: 100px; border: none; border-bottom: 2px dashed var(--gray-400); color: var(--indigo-800); font-weight: 700; padding: 0 8px; text-align: left; background: transparent; font-family: var(--font-mono); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+.blank-input:focus { border-bottom-color: var(--indigo-700); background: var(--indigo-50); }
+
+.drill-input { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: 1rem; color: var(--indigo-900); background: var(--ivory-50); transition: all 0.2s; outline: none; }
+.drill-input:focus { border-color: var(--indigo-700); box-shadow: 0 0 0 3px var(--indigo-100); background: white; }
+.btn-verify { background: var(--indigo-900); color: white; border: none; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; transition: background 0.2s; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.85rem; }
+.btn-verify:hover { background: var(--indigo-700); }
+
+/* ====== HUB NAVIGATION (Task 4) ====== */
+.hub-nav { display: flex; gap: 10px; margin-bottom: 24px; border-bottom: 2px solid var(--gray-200); padding-bottom: 16px; overflow-x: auto; }
+.hub-tab { background: white; color: var(--gray-600); border: 1px solid var(--gray-200); padding: 10px 20px; border-radius: 50px; font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; box-shadow: var(--shadow-sm); }
+.hub-tab:hover { background: var(--gray-50); color: var(--indigo-900); }
+.hub-tab.active { background: var(--indigo-900); color: white; border-color: var(--indigo-900); }
+.hub-content { display: none; animation: fadeIn 0.3s ease; }
+.hub-content.active { display: block; }
+
+/* ====== MFP VOCABULARY ELICITATION UI ====== */
+.mfp-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md); }
+@media (max-width: 960px) { .mfp-container { grid-template-columns: 1fr; } }
+.mfp-image { width: 100%; height: 300px; border-radius: var(--radius-md); background-size: cover; background-position: center; border: 1px solid var(--gray-200); }
+.mfp-content { display: flex; flex-direction: column; gap: 24px; }
+.mfp-row { display: flex; gap: 20px; align-items: flex-start; }
+.mfp-label-col { width: 100px; text-align: right; flex-shrink: 0; }
+.mfp-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--indigo-800); background: var(--indigo-50); padding: 6px 10px; border-radius: 4px; display: inline-block; font-family: var(--font-mono); border: 1px solid var(--indigo-100); }
+.mfp-data { flex: 1; font-size: 1.05rem; color: var(--gray-800); padding-top: 4px; }
+.ccq-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+.ccq-list li { color: var(--indigo-900); font-weight: 500; font-size: 1.05rem; position: relative; padding-left: 20px; }
+.ccq-list li::before { content: "›"; position: absolute; left: 0; color: var(--amber-500); font-weight: 800; font-size: 1.2rem; line-height: 1; }
+
+.word-reveal-btn { background: var(--ivory-100); color: var(--indigo-900); border: 1px solid var(--indigo-100); padding: 16px 24px; border-radius: 8px; font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; cursor: pointer; transition: all 0.3s; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; font-style: italic; box-shadow: var(--shadow-sm); }
+.word-reveal-btn:hover { background: white; box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--amber-400); }
+.word-reveal-btn.revealed { background: white; color: var(--indigo-900); border: 1px solid var(--gray-200); cursor: default; box-shadow: none; transform: none; font-weight: 700; font-style: normal; }
+
+.form-details, .pron-details { opacity: 0; filter: blur(4px); transform: translateX(-10px); transition: all 0.4s ease; pointer-events: none; }
+.form-details.visible, .pron-details.visible { opacity: 1; filter: blur(0); transform: translateX(0); pointer-events: auto; }
+.reveal-trigger { font-size: 0.8rem; color: var(--amber-600); cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.reveal-trigger:hover { color: var(--amber-500); }
+
+/* ====== MATCHING GAME ====== */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+.match-col { display: flex; flex-direction: column; gap: 12px; }
+.match-item { background: white; border: 2px solid var(--gray-200); padding: 16px 20px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-weight: 600; text-align: center; box-shadow: var(--shadow-sm); color: var(--gray-800); }
+.match-item:hover { border-color: var(--amber-400); transform: translateY(-2px); }
+.match-item.selected { background: var(--indigo-900); color: white; border-color: var(--indigo-900); }
+.match-item.matched { background: var(--ivory-100); border-color: var(--gray-200); color: var(--gray-400); opacity: 0.6; cursor: default; transform: none; }
+
+</style>
+</head>
+<body>
+
+<div id="liveCursorsContainer"></div>
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(253, 251, 247, 0.95); color: var(--indigo-900); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); font-family: var(--font-mono); text-transform: uppercase; border: 1px solid var(--indigo-100); box-shadow: var(--shadow-sm);">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--amber-500); border-radius: 50%; box-shadow: 0 0 8px var(--amber-500);"></span>
+    <span id="syncText">Link Established</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 18 • Global English C1/C2</div>
+        <h1 contenteditable="true">Memory <span>&</span> Nostalgia</h1>
+        <p class="hero-subtitle" contenteditable="true">Explore the fragile architecture of the human mind. Master Narrative Tenses and the Pluperfect to share complex histories and untangle timelines.</p>
+        <div class="hero-meta">
+            <span class="hero-pill" contenteditable="true">Narrative Syntax</span>
+            <span class="hero-pill" contenteditable="true">The Pluperfect</span>
+            <span class="hero-pill" contenteditable="true">Neurological Lexicon</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">Level C1/C2</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1" contenteditable="true">01. Recap</a></li>
+            <li><a href="#t2" contenteditable="true">02. Warm-Up</a></li>
+            <li><a href="#t3" contenteditable="true">03. Discovery</a></li>
+            <li><a href="#t4" contenteditable="true">04. Lexicon Hub</a></li>
+            <li><a href="#t5" contenteditable="true">05. Match</a></li>
+            <li><a href="#t6" contenteditable="true">06. Reading</a></li>
+            <li><a href="#t7" contenteditable="true">07. Theory 1</a></li>
+            <li><a href="#t8" contenteditable="true">08. Drill 1</a></li>
+            <li><a href="#t9" contenteditable="true">09. Theory 2</a></li>
+            <li><a href="#t10" contenteditable="true">10. Drill 2</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 01</span>
+            <h2 class="task-title" contenteditable="true">Recap Relay: <em>Participles</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Before diving into memories, let us refine sentences using the Perfect Participles learned in Lesson 17.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true"><strong>Perfect Participle:</strong> After she had found the old photograph, she started to cry. <span class="blank-input" style="min-width:220px;"></span> <em>(Having found...)</em> the old photograph, she started to cry.</div></li>
+            <li><div contenteditable="true"><strong>Negative Perfect:</strong> Because he had not visited his hometown for a decade, he felt like a stranger. <span class="blank-input" style="min-width:220px;"></span> <em>(Not having visited...)</em> his hometown for a decade, he felt like a stranger.</div></li>
+            <li><div contenteditable="true"><strong>Present Participle:</strong> Because it hopes to preserve the past, the museum archives everything. <span class="blank-input" style="min-width:220px;"></span> <em>(Hoping to...)</em> preserve the past, the museum archives everything.</div></li>
+            <li><div contenteditable="true"><strong>Past Participle:</strong> Because he was exhausted by the memories, he closed the journal. <span class="blank-input" style="min-width:200px;"></span> <em>(Exhausted by...)</em> the memories, he closed the journal.</div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="t2">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 02</span>
+            <h2 class="task-title" contenteditable="true">Diagnosing the <em>Past</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Humans interact with their histories in profoundly different ways. Discuss these two archetypes with your partner.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card card-indigo">
+                <h3 style="color:var(--indigo-900); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Archetype A: The Archivist</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">They keep every ticket stub, every handwritten note, and every blurry photograph. Their physical space is heavily cluttered with tangible anchors to bygone eras.</p>
+                <div style="background:var(--indigo-50); padding:16px; border-radius:8px; border-left:3px solid var(--indigo-700);">
+                    <strong style="color:var(--indigo-900); display:block; margin-bottom:8px; font-size:0.95rem;">Discussion:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-800);" contenteditable="true">Does keeping physical objects genuinely preserve memory, or does it prevent a person from moving forward?</span>
+                </div>
+            </div>
+            
+            <div class="card card-amber">
+                <h3 style="color:var(--amber-600); font-family:var(--font-serif); font-size:1.5rem; margin-bottom:16px;" contenteditable="true">Archetype B: The Eraser</h3>
+                <p style="color:var(--gray-600); margin-bottom:20px;" contenteditable="true">They regularly purge their camera roll. They throw away old letters and prefer living strictly in the present moment. They rely solely on internal recall.</p>
+                <div style="background:var(--amber-50); padding:16px; border-radius:8px; border-left:3px solid var(--amber-500);">
+                    <strong style="color:var(--amber-600); display:block; margin-bottom:8px; font-size:0.95rem;">Discussion:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-800);" contenteditable="true">Is this approach healthy detachment, or does it risk a complete loss of personal history over time?</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY GUESS ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 03</span>
+            <h2 class="task-title" contenteditable="true">Lexical <em>Discovery</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Four C1/C2 words related to memory are hidden below. Look at the icons and context, then type your best guess.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;">
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3rem; margin-bottom: 16px;">✒️</div>
+                <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">The childhood trauma left an <em>___</em> mark on his psyche; it simply could not be erased.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--indigo-900); background: var(--ivory-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3rem; margin-bottom: 16px;">🎻</div>
+                <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">The scent of pine needles is highly <em>___</em> of my winters spent in the Carpathian mountains.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--indigo-900); background: var(--ivory-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3rem; margin-bottom: 16px;">☕</div>
+                <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">We sat by the fire for hours, choosing to <em>___</em> about our university days.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--indigo-900); background: var(--ivory-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+            <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px 24px; text-align: center; box-shadow: var(--shadow-sm);">
+                <div style="font-size: 3rem; margin-bottom: 16px;">🕶️</div>
+                <p contenteditable="true" style="font-size:0.9rem; line-height: 1.5; color:var(--gray-600);">He views his past through <em>___</em> glasses, ignoring all the hardships we actually faced.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 2px solid var(--gray-300); text-align: center; font-weight: 700; color: var(--indigo-900); background: var(--ivory-50); font-size: 1rem; font-family: var(--font-mono); outline: none;" placeholder="guess...">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: THE LEXICON HUB ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 04</span>
+            <h2 class="task-title" contenteditable="true">The Lexicon <em>Hub</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Click through the tabs to unpack the Meaning, Form, and Pronunciation of our target vocabulary.</p>
+        </div>
+
+        <div class="hub-nav" id="vocabTabs">
+            <div class="hub-tab active" onclick="switchHub('v-1', this)">1. Permanent</div>
+            <div class="hub-tab" onclick="switchHub('v-2', this)">2. Triggering</div>
+            <div class="hub-tab" onclick="switchHub('v-3', this)">3. Recall</div>
+            <div class="hub-tab" onclick="switchHub('v-4', this)">4. Idealized</div>
+        </div>
+
+        <!-- Word 1: Indelible -->
+        <div class="hub-content active" id="v-1">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Indelible')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If a memory is described this way, is it easy to forget over time?</li>
+                                <li contenteditable="true">What adjective describes a mark or memory that cannot be removed or washed away?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--amber-50); color:var(--amber-600); border-color:var(--amber-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f1">
+                            <strong contenteditable="true">Adjective</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: an ~ mark, an ~ impression. <span class="uk-tooltip" data-uk="незгладимий / незабутній">UK Translation</span></span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#E11D48; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p1">
+                            <strong contenteditable="true">in-DEL-uh-bul</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ɪnˈdel.ə.bəl/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 2: Evocative -->
+        <div class="hub-content" id="v-2">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Evocative')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If a piece of music makes you instantly remember your childhood home, what is that music doing?</li>
+                                <li contenteditable="true">What adjective describes something that brings strong images, memories, or feelings to mind?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--amber-50); color:var(--amber-600); border-color:var(--amber-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f2">
+                            <strong contenteditable="true">Adjective</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: highly ~, ~ of the past. <span class="uk-tooltip" data-uk="той, що викликає спогади">UK Translation</span></span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#E11D48; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p2">
+                            <strong contenteditable="true">ih-VOK-uh-tiv</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ɪˈvɒk.ə.tɪv/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 3: Reminisce -->
+        <div class="hub-content" id="v-3">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953eb1b5ce?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Reminisce')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If you are sitting with old friends discussing funny stories from school, are you planning the future?</li>
+                                <li contenteditable="true">What verb means to indulge in enjoyable recollection of past events?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--amber-50); color:var(--amber-600); border-color:var(--amber-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f3">
+                            <strong contenteditable="true">Verb (Intransitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: to ~ about something. <span class="uk-tooltip" data-uk="віддаватися спогадам">UK Translation</span></span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#E11D48; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p3">
+                            <strong contenteditable="true">rem-uh-NIS</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˌrem.ɪˈnɪs/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 4: Rose-tinted -->
+        <div class="hub-content" id="v-4">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Rose-tinted')">Click to reveal the word... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If you only remember the sunny days of a holiday and forget the terrible food and arguments, how are you viewing it?</li>
+                                <li contenteditable="true">What compound adjective describes viewing things in an overly optimistic or idealized way?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--amber-50); color:var(--amber-600); border-color:var(--amber-400);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f4">
+                            <strong contenteditable="true">Adjective</strong><br>
+                            <span style="color:var(--gray-600); font-size:0.95rem;" contenteditable="true">Collocations: through ~ glasses, a ~ view. <span class="uk-tooltip" data-uk="ідеалізований (крізь рожеві окуляри)">UK Translation</span></span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FCE7F3; color:#E11D48; border-color:#FDA4AF;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p4">
+                            <strong contenteditable="true">ROHZ-tin-tid</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--gray-400);" contenteditable="true">/ˈrəʊzˌtɪn.tɪd/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function switchHub(id, tabElement) {
+                document.querySelectorAll('.hub-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                tabElement.classList.add('active');
+            }
+            function revealWord(btn, word) {
+                btn.innerHTML = word;
+                btn.classList.add('revealed');
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 5: MATCHING GAME ====== -->
+<section class="section" id="t5">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 05</span>
+            <h2 class="task-title" contenteditable="true">Neurological <em>Connections</em></h2>
+            <p class="section-desc" contenteditable="true">Match the memory-related vocabulary on the left with the correct scenario on the right.</p>
+        </div>
+
+        <div class="match-grid" id="matchGrid">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. The song is highly evocative.</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. We sat and reminisced for hours.</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. She has a rose-tinted view of the past.</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. It left an indelible impression on me.</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">A. ...therefore, I will never forget the lesson I learned that day.</div>
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">B. ...so we talked warmly about our shared university adventures.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">C. ...consequently, hearing it immediately transports me back to 1999.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. ...she completely ignores all the financial struggles we endured.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 6: READING ====== -->
+<section class="section" id="t6">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 06</span>
+            <h2 class="task-title" contenteditable="true">The Attic <em>Archive</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the narrative below. Notice how the author uses <strong>Narrative Tenses</strong> (highlighted in <span style="color:var(--indigo-700); font-weight:bold;">indigo</span>) to organize timelines.</p>
+        </div>
+
+        <div class="split-layout">
+            <!-- Left Side: The Narrative -->
+            <div class="card card-indigo" style="padding: 40px; font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.9;">
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    <span style="float: left; font-size: 3.5rem; line-height: 0.8; padding-right: 12px; color: var(--indigo-900);">T</span>he rain <span style="color:var(--indigo-700); font-weight:bold;">was drumming</span> heavily against the roof when I finally <span style="color:var(--indigo-700); font-weight:bold;">found</span> the old wooden box. I <span style="color:var(--indigo-700); font-weight:bold;">had been searching</span> for it all afternoon in my grandmother's attic. 
+                </p>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    Inside, beneath a stack of letters, lay a highly evocative photograph. I realized immediately that I <span style="color:var(--indigo-700); font-weight:bold;">had seen</span> this picture before, many years ago. It showed two young women laughing in a sunlit park. They <span style="color:var(--indigo-700); font-weight:bold;">had clearly just finished</span> a long journey, as their boots were covered in mud. 
+                </p>
+                <p contenteditable="true">
+                    As I stared at the indelible image, I began to reminisce. I <span style="color:var(--indigo-700); font-weight:bold;">knew</span> that memory is often rose-tinted, but in that moment, the joy captured on paper <span style="color:var(--indigo-700); font-weight:bold;">felt</span> absolute and real.
+                </p>
+            </div>
+
+            <!-- Right Side: Discussion Prompts -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="prompt-item" style="border-left: 3px solid var(--indigo-500); padding-left:16px;">
+                    <strong contenteditable="true" style="color:var(--indigo-800);">Syntax Analysis 1</strong>
+                    <p contenteditable="true">Look at the phrase <em>was drumming</em>. Why is this in the Past Continuous instead of Past Simple (drummed)? What function does it serve in the story?</p>
+                </div>
+                <div class="prompt-item" style="border-left: 3px solid var(--indigo-500); padding-left:16px;">
+                    <strong contenteditable="true" style="color:var(--indigo-800);">Syntax Analysis 2</strong>
+                    <p contenteditable="true">Look at <em>had been searching</em>. How is this different from <em>had searched</em>? Does it emphasize a quick action or an ongoing duration before another past event?</p>
+                </div>
+                <div class="prompt-item" style="border-left: 3px solid var(--amber-500); padding-left:16px;">
+                    <strong contenteditable="true" style="color:var(--amber-600);">The Nature of Recall</strong>
+                    <p contenteditable="true">The author mentions that memory is often idealized. Do you agree that photographs capture the truth, or do they only capture the best moments?</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 07</span>
+            <h2 class="task-title" contenteditable="true">Setting the <em>Scene</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">At the C1 level, weaving narrative tenses seamlessly is essential. The foundation consists of the Past Continuous (for background) and the Past Simple (for main events).</p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); margin-bottom: 32px;">
+            <h3 contenteditable="true" style="color: var(--indigo-900); font-family: var(--font-serif); margin-bottom: 12px; font-size: 1.6rem;">1. Background vs. Action</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true">We use the <strong>Past Continuous</strong> (was/were + V-ing) to paint the picture, and the <strong>Past Simple</strong> (V2) for the actions that interrupt or move the story forward.</p>
+            
+            <div style="background: var(--indigo-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--indigo-700);">
+                <p style="font-size:1.15rem; color:var(--gray-900); font-weight:600;" contenteditable="true">The wind <strong>was howling</strong> through the trees when I finally <strong>opened</strong> the diary.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR DRILL 1 ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">Narrative <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Complete the sentences by choosing between Past Simple and Past Continuous. Type your answer and click verify.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--indigo-700); margin-bottom:8px;" contenteditable="true">CONTEXT: A background action interrupted by a sudden event.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">We</span>
+                    <input type="text" class="drill-input" id="drill8-1" placeholder="(reminisce) ...">
+                    <span style="font-weight:600;">about our youth when the phone rang.</span>
+                    <button class="btn-verify" onclick="checkDrill(8, 1, 'were reminiscing')">Verify</button>
+                </div>
+                <div id="fb8-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--indigo-700); margin-bottom:8px;" contenteditable="true">CONTEXT: A sequence of main events in order.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600;">I unlocked the box, took out the letter, and</span>
+                    <input type="text" class="drill-input" id="drill8-2" placeholder="(read) ...">
+                    <span style="font-weight:600;">it carefully.</span>
+                    <button class="btn-verify" onclick="checkDrill(8, 2, 'read')">Verify</button>
+                </div>
+                <div id="fb8-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            function checkDrill(task, num, target) {
+                const input = document.getElementById(`drill${task}-${num}`);
+                const fb = document.getElementById(`fb${task}-${num}`);
+                const val = input.value.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const t = target.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                
+                fb.style.display = 'block';
+                if(val === t || val.includes(t)) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Correct Syntax'; input.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Expected: ${target}`; input.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 09</span>
+            <h2 class="task-title" contenteditable="true">The <em>Pluperfect</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">To jump backward in a story, we use the Pluperfect (Past Perfect). It clarifies which action happened <em>before</em> the main past time.</p>
+        </div>
+
+        <div class="split-layout">
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <div style="display:flex; align-items:center; gap:16px; background: white; padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);">
+                    <div style="font-weight: 700; color:var(--gray-400);" contenteditable="true">Action 1: She locked the door.<br>Action 2: I arrived.</div>
+                    <div style="font-size:1.5rem; color:var(--gray-400);">→</div>
+                    <div style="font-weight: 700; color: var(--indigo-900);" contenteditable="true">When I arrived, she <strong>had locked</strong> the door.</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:16px; background: white; padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);">
+                    <div style="font-weight: 700; color:var(--gray-400);" contenteditable="true">Action 1: He was waiting for hours.<br>Action 2: I found him.</div>
+                    <div style="font-size:1.5rem; color:var(--gray-400);">→</div>
+                    <div style="font-weight: 700; color: var(--indigo-900);" contenteditable="true">When I found him, he <strong>had been waiting</strong> for hours.</div>
+                </div>
+            </div>
+
+            <div class="card card-amber" style="padding: 30px;">
+                <h3 style="color:var(--amber-600); font-family:var(--font-serif); margin-bottom:20px;" contenteditable="true">Simple vs. Continuous</h3>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:20px;">
+                    <li contenteditable="true">
+                        <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--amber-600); text-transform:uppercase; display:block; margin-bottom:4px;">Past Perfect Simple (had + V3)</span>
+                        Focuses on the <strong>completion</strong> or the <strong>result</strong> before a past moment. (e.g. I realized I had seen the photo before.)
+                    </li>
+                    <li contenteditable="true" style="border-top: 1px solid var(--gray-200); padding-top: 20px;">
+                        <span style="font-family:var(--font-mono); font-size:0.8rem; color:var(--amber-600); text-transform:uppercase; display:block; margin-bottom:4px;">Past Perfect Continuous (had been + V-ing)</span>
+                        Focuses on the <strong>duration</strong> of an activity leading up to a past moment. (e.g. I had been searching for it all afternoon.)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: GRAMMAR DRILL 2 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">Pluperfect <em>Drill</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Complete the narrative using the Past Perfect Simple or Past Perfect Continuous.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--amber-600); margin-bottom:8px;" contenteditable="true">FOCUS: Completion of an action before discovering it.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600; color:var(--gray-600);">When I opened the diary, I saw that someone</span>
+                    <input type="text" class="drill-input" id="drill10-1" placeholder="(tear) ...">
+                    <span style="font-weight:600; color:var(--gray-600);">out the last page.</span>
+                    <button class="btn-verify" onclick="checkDrill(10, 1, 'had torn')">Verify</button>
+                </div>
+                <div id="fb10-1" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 24px;">
+                <p style="font-family:var(--font-mono); font-size:0.85rem; color:var(--amber-600); margin-bottom:8px;" contenteditable="true">FOCUS: Duration of an activity leading up to a past event.</p>
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <span style="font-weight:600; color:var(--gray-600);">Her eyes were red because she</span>
+                    <input type="text" class="drill-input" id="drill10-2" placeholder="(cry) ...">
+                    <span style="font-weight:600; color:var(--gray-600);">for hours.</span>
+                    <button class="btn-verify" onclick="checkDrill(10, 2, 'had been crying')">Verify</button>
+                </div>
+                <div id="fb10-2" style="font-family:var(--font-mono); font-size:0.85rem; font-weight:700; margin-top:8px; display:none;"></div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: SYNTAX CIRCUIT ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 11</span>
+            <h2 class="task-title" contenteditable="true">The Narrative <em>Circuit</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Combine your knowledge. Select the correct tense to complete the story.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true"><strong>Scene Setting:</strong> <br>
+                The sun <span class="blank-input" style="min-width: 120px;"></span> <em>(was setting)</em> when I arrived at the old house.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Prior Action (Duration):</strong> <br>
+                The house looked terrible because nobody <span class="blank-input" style="min-width: 120px;"></span> <em>(had been living)</em> there for decades.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Main Event sequence:</strong> <br>
+                I pushed the door open, walked inside, and suddenly <span class="blank-input" style="min-width: 120px;"></span> <em>(smelled)</em> the evocative scent of my childhood.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 12: ROLEPLAY ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 12</span>
+            <h2 class="task-title" contenteditable="true">The Reunion <em>Standoff</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Work with your partner to navigate this nostalgic dispute at a 10-year reunion.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card card-indigo">
+                <h3 style="color:var(--indigo-900); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">The Realist</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You remember high school exactly as it was: stressful, difficult, and full of drama. You think your friend has an entirely <strong>rose-tinted</strong> view of the past. Correct their memories.</p>
+                <div style="background: var(--indigo-50); padding: 16px; border-radius: 8px; border-left: 3px solid var(--indigo-700);">
+                    <strong style="color:var(--indigo-900); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">Use the Past Perfect to establish facts before other events (e.g., By the time we graduated, we had already stopped speaking).</span>
+                </div>
+            </div>
+
+            <div class="card card-amber">
+                <h3 style="color:var(--amber-600); font-family:var(--font-serif); margin-bottom:16px;" contenteditable="true">The Nostalgic</h3>
+                <p contenteditable="true" style="margin-bottom: 20px; color:var(--gray-800);">You love to <strong>reminisce</strong>. You believe your youth was a golden era of friendship and fun. Certain songs are highly <strong>evocative</strong> for you, and the memories are <strong>indelible</strong>.</p>
+                <div style="background: var(--amber-50); padding: 16px; border-radius: 8px; border-left: 3px solid var(--amber-500);">
+                    <strong style="color:var(--amber-600); display:block; margin-bottom:8px; font-size:0.95rem;">Grammar Target:</strong>
+                    <span style="font-size:0.95rem; color:var(--gray-600);" contenteditable="true">Use the Past Continuous to set beautiful scenes (e.g., We were always laughing while we were studying).</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: WORD SCRAMBLE ====== -->
+<section class="section" id="t13">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 13</span>
+            <h2 class="task-title" contenteditable="true">The Memory <em>Scramble</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the letters to reveal the target C2 vocabulary words from today's lesson. Type your answer and press Enter.</p>
+        </div>
+
+        <div style="background:white; border:1px solid var(--gray-200); border-radius:var(--radius-lg); padding:60px 40px; box-shadow:var(--shadow-md); text-align:center; max-width: 700px; margin: 0 auto;" id="scramble-container">
+            <div id="scramble-word" style="font-family:var(--font-mono); font-size:3rem; letter-spacing:10px; color:var(--indigo-900); margin-bottom:20px; font-weight:700;"></div>
+            <div id="scramble-hint" style="color:var(--gray-600); font-style:italic; margin-bottom:40px; font-size:1.15rem;"></div>
+            
+            <input type="text" id="scramble-input" placeholder="Type the word..." style="padding:16px 24px; border:2px solid var(--gray-200); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:700; color:var(--indigo-900); transition:border-color 0.2s;" onkeydown="if(event.key==='Enter') window.checkScrambleGame()">
+            <br>
+            <button onclick="window.checkScrambleGame()" style="background:var(--amber-500); color:white; border:none; padding:14px 40px; border-radius:50px; font-weight:700; cursor:pointer; font-size:1.1rem; transition: background 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px;">Submit</button>
+            <div id="scramble-fb" style="margin-top:24px; font-weight:700; font-size:1.2rem; font-family:var(--font-mono); min-height: 30px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: PRONUNCIATION LAB ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">Pronunciation <em>Lab</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">These academic memory words are notoriously difficult due to shifting stress patterns. Practice them out loud with your instructor.</p>
+        </div>
+
+        <div class="split-layout">
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 1 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--indigo-900);" contenteditable="true">Indelible</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ɪnˈdel.ə.bəl/</div>
+                    </div>
+                    <div style="background:var(--ivory-100); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> Stress is heavily on the second syllable DEL. It is not IN-de-li-ble.</span>
+                    </div>
+                </div>
+
+                <!-- Word 2 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--indigo-900);" contenteditable="true">Reminisce</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ˌrem.ɪˈnɪs/</div>
+                    </div>
+                    <div style="background:var(--ivory-100); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The main stress is at the very end (NIS). Avoid stressing the first syllable heavily.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <!-- Word 3 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--indigo-900);" contenteditable="true">Evocative</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/ɪˈvɒk.ə.tɪv/</div>
+                    </div>
+                    <div style="background:var(--ivory-100); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The v is strong. It is ih-VOK-uh-tiv, not e-VO-ca-tiv.</span>
+                    </div>
+                </div>
+
+                <!-- Word 4 -->
+                <div class="card" style="padding: 24px; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <div style="font-family:var(--font-serif); font-size:1.8rem; font-weight:700; color:var(--indigo-900);" contenteditable="true">Nostalgia</div>
+                        <div style="font-family:var(--font-mono); color:var(--gray-400); font-size:0.9rem;" contenteditable="true">/nɒsˈtæl.dʒə/</div>
+                    </div>
+                    <div style="background:var(--ivory-100); padding:10px 16px; border-radius:8px; border-left:3px solid var(--danger); max-width: 250px;">
+                        <span style="font-size:0.85rem; color:var(--gray-600);" contenteditable="true"><strong>Trap:</strong> The g makes a soft j sound. It is not a hard g like in go.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: FINAL SYNTHESIS ====== -->
+<section class="section" id="t15" style="border-bottom:none;">
+    <div class="section-inner">
+        <div class="task-header" style="text-align:center; margin-bottom:0;">
+            <span class="task-label" contenteditable="true">Task 15</span>
+        </div>
+        <div style="background: var(--indigo-900); color: white; padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+            <div style="position: absolute; bottom: -50px; right: -50px; width: 200px; height: 200px; background: rgba(245,158,11,0.1); border-radius: 50%;"></div>
+            
+            <div style="position:relative; z-index:1;">
+                <h2 contenteditable="true" style="color: var(--amber-400); margin-bottom: 16px; font-family: var(--font-serif); font-size: 3rem;">Module Complete! ✨</h2>
+                <p contenteditable="true" style="font-size: 1.15rem; color: var(--indigo-100); margin-bottom: 30px;"><strong>What we mastered today:</strong></p>
+                <ul style="list-style: none; font-size: 1.1rem; line-height: 2.2; text-align: left; max-width: 650px; margin: 0 auto;">
+                    <li contenteditable="true"><strong style="color:var(--amber-400);">Lexicon:</strong> indelible, evocative, reminisce, rose-tinted.</li>
+                    <li contenteditable="true"><strong style="color:var(--amber-400);">Grammar (Narrative Tenses):</strong> Weaving Past Simple and Past Continuous for storytelling.</li>
+                    <li contenteditable="true"><strong style="color:var(--amber-400);">Grammar (Pluperfect):</strong> Using Past Perfect Simple and Continuous to establish prior timelines.</li>
+                    <li contenteditable="true"><strong style="color:var(--amber-400);">Pronunciation:</strong> Overcoming L1 interference on complex memory vocabulary.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ====== HOMEWORK MODULE (15 Mins, 15 Questions) ====== -->
+<div id="task-hw" style="display:none; position: fixed; inset: 0; background: var(--ivory-50); z-index: 2000; overflow-y: auto; padding: 60px 20px;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <!-- Welcome Screen -->
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; background:white; padding:60px; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); border-top: 6px solid var(--indigo-900);">
+            <div style="font-family:var(--font-mono); color:var(--indigo-700); letter-spacing:2px; margin-bottom:16px; font-weight:700;">FINAL ASSESSMENT</div>
+            <h2 style="font-family:var(--font-serif); font-size:3rem; color:var(--gray-900); margin-bottom:20px; font-weight:700;">Module 18 Protocol</h2>
+            <p style="color:var(--gray-600); margin-bottom:40px; font-size:1.1rem; max-width:550px; margin-left:auto; margin-right:auto;">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 advanced syntax and vocabulary challenges. <br>
+                <span style="color:var(--danger); font-weight:600;">Security Alert:</span> Leaving this tab twice will lock the assessment automatically.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter Agent ID/Name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--gray-50);border:1px solid var(--gray-200);color:var(--gray-900);border-radius:6px;margin-bottom:24px;outline:none;font-family:var(--font-mono);text-align:center;">
+            <br>
+            <button onclick="startHW()" style="background:var(--indigo-900);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:background 0.2s;font-family:var(--font-ui);border-radius:50px;">INITIATE</button>
+            <button onclick="exitHomework()" style="background:transparent;color:var(--gray-600);border:none;display:block;margin:20px auto;cursor:pointer;font-family:var(--font-ui);text-decoration:underline;">Abort</button>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="hw-quiz" class="hw-screen" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:var(--gray-900);">
+                <span style="font-family:var(--font-mono); font-weight:700;" id="hwQuestionCounter">Q 1 / 15</span>
+                <div id="timerContainer" style="font-family:var(--font-mono); color:var(--amber-600); font-weight:700; font-size:1.2rem; background:var(--amber-50); padding:6px 16px; border-radius:50px; border:1px solid var(--amber-400);">
+                    ⏱️ <span id="hwTimerDisplay">15:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:6px; background:var(--gray-200); margin-bottom:40px; border-radius:3px; overflow:hidden;">
+                <div id="hwProgressFill" style="height:100%; background:var(--indigo-700); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:white; padding:40px; border-radius:var(--radius-lg); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:500; margin-bottom:30px; line-height:1.5; color:var(--gray-900); font-family:var(--font-serif);">Loading data...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--gray-600); border:1px solid var(--gray-400); padding:10px 24px; cursor:pointer; border-radius:50px; transition:all 0.2s; font-family:var(--font-ui); font-weight:600;">Skip Question</button>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="hw-results" class="hw-screen" style="display:none;">
+            <div id="hw-pdf-content" style="background:white; padding:50px; border-radius:var(--radius-lg); box-shadow:var(--shadow-md);">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 style="font-family:var(--font-serif); font-size:3.5rem; color:var(--indigo-900); margin-bottom:10px; font-weight:400;">Protocol Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--gray-600); font-size:1.1rem;"></p>
+                </div>
+
+                <div style="background:var(--ivory-50); padding:40px; border-radius:var(--radius-md); text-align:center; margin-bottom:40px;">
+                    <div style="font-family:var(--font-mono); color:var(--gray-600); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem; font-weight:700;">Final Evaluation</div>
+                    <div id="hwScoreDetail" style="font-size:5rem; font-weight:800; color:var(--indigo-700); margin:10px 0; line-height:1;">0/15</div>
+                    <div id="hwTerminationReason" style="font-weight:700; font-family:var(--font-mono); margin-top:20px; color:var(--gray-900);"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--indigo-900); color:white; border:none; padding:16px 36px; font-weight:700; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Export PDF</button>
+                <button onclick="exitHomework()" style="background:transparent; color:var(--gray-800); border:2px solid var(--gray-400); padding:16px 36px; font-weight:700; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Exit Protocol</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions" style="position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:15px; z-index:1000;">
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet" style="background:#4255FF; color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📝</button>
+    <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--indigo-900); color:var(--amber-400); border:1px solid var(--amber-500); width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📋</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(49,46,129,0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:800px; box-shadow:var(--shadow-xl); position:relative; border-top:4px solid var(--indigo-900);">
+        <span onclick="closeAdmin()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--indigo-900); margin-bottom:10px; font-size:2.2rem;">Instructor Dashboard</h2>
+        <p style="color:var(--gray-600); margin-bottom:20px;">Review recent submissions.</p>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left;">
+                <thead style="background:var(--gray-100); font-family:var(--font-mono); font-size:0.85rem;"><tr><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Date</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Agent</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Score</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button style="background:var(--danger); color:white; border:none; padding:10px 20px; border-radius:6px; margin-top:20px; cursor:pointer; font-weight:700;" onclick="clearData()">Purge Records</button>
+    </div>
+</div>
+
+<!-- Quizlet Modal -->
+<div id="quizletModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(49,46,129,0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:600px; box-shadow:var(--shadow-xl); position:relative; border-top:4px solid #4255FF;">
+        <span onclick="closeQuizletModal()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--gray-900); margin-bottom:20px; font-size:2.2rem;">Extract Lexicon</h2>
+        <div id="wordList" style="max-height:400px; overflow-y:auto; padding-right:10px;">
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="indelible" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="незгладимий / незабутній" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="evocative" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="той, що викликає спогади" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="reminisce" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="віддаватися спогадам" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+            <div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" class="q-word" value="rose-tinted" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation (UK)" class="q-trans" value="ідеалізований (крізь рожеві окуляри)" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="addWordRow()" style="flex:1; background:transparent; border:2px solid var(--gray-400); color:var(--gray-800); padding:12px; border-radius:8px; cursor:pointer; font-weight:700;">+ Add Row</button>
+            <button onclick="copyForQuizlet()" id="copyQuizletBtn" style="flex:2; background:#4255FF; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700;">📋 Copy Data</button>
+        </div>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // --- Scramble Game Logic ---
+    const scrambleWords = [
+        { word: "INDELIBLE", hint: "A mark or memory that cannot be removed or forgotten." },
+        { word: "EVOCATIVE", hint: "Bringing strong images, memories, or feelings to mind." },
+        { word: "REMINISCE", hint: "To indulge in enjoyable recollection of past events." },
+        { word: "ROSETINTED", hint: "Viewing things in an overly optimistic or idealized way." }
+    ];
+    let scrambleIndex = 0;
+    
+    function scrambleString(str) {
+        let arr = str.split('');
+        for(let i = arr.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join(' ');
+    }
+    
+    function loadScramble() {
+        if(scrambleIndex >= scrambleWords.length) {
+            document.getElementById('scramble-container').innerHTML = "<h3 style='color:var(--indigo-900); font-size:2.2rem; font-family:var(--font-serif); margin-bottom:0;'>All vocabulary decoded! Excellent work.</h3>";
+            return;
+        }
+        let item = scrambleWords[scrambleIndex];
+        document.getElementById('scramble-word').innerText = scrambleString(item.word);
+        document.getElementById('scramble-hint').innerText = "Hint: " + item.hint;
+        document.getElementById('scramble-input').value = "";
+        document.getElementById('scramble-input').style.borderColor = "var(--gray-200)";
+        document.getElementById('scramble-fb').innerText = "";
+    }
+    
+    window.checkScrambleGame = function() {
+        let inputEl = document.getElementById('scramble-input');
+        let input = inputEl.value.toUpperCase().replace(/[^A-Z]/g, '');
+        let target = scrambleWords[scrambleIndex].word.replace(/[^A-Z]/g, '');
+        let fb = document.getElementById('scramble-fb');
+
+        if(input === target) {
+            fb.innerText = "✓ Validated";
+            fb.style.color = "var(--indigo-700)";
+            inputEl.style.borderColor = "var(--indigo-700)";
+            setTimeout(() => { scrambleIndex++; loadScramble(); }, 1200);
+        } else {
+            fb.innerText = "✗ Incorrect Sequence";
+            fb.style.color = "var(--danger)";
+            inputEl.style.borderColor = "var(--danger)";
+            
+            inputEl.style.transform = 'translateX(5px)';
+            setTimeout(() => { inputEl.style.transform = 'translateX(-5px)'; }, 100);
+            setTimeout(() => { inputEl.style.transform = 'translateX(5px)'; }, 200);
+            setTimeout(() => { inputEl.style.transform = 'translateX(0)'; }, 300);
+        }
+    };
+
+    document.addEventListener("DOMContentLoaded", loadScramble);
+
+    // --- Quizlet ---
+    function openQuizletModal() { document.getElementById('quizletModal').style.display='flex'; }
+    function closeQuizletModal() { document.getElementById('quizletModal').style.display='none'; }
+    function addWordRow() { document.getElementById('wordList').innerHTML += `<div style="display:flex; gap:10px; margin-bottom:12px;"><input type="text" placeholder="English Word" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"><input type="text" placeholder="Translation" style="flex:1; padding:10px 14px; border:1px solid var(--gray-200); border-radius:6px;"></div>`; }
+    function copyForQuizlet() {
+        let out = '';
+        const inputs = document.querySelectorAll('#wordList input');
+        for(let i=0; i<inputs.length; i+=2) { const w = inputs[i].value.trim(), t = inputs[i+1].value.trim(); if(w || t) out += `${w}\t${t}\n`; }
+        if(out) { const ta = document.createElement('textarea'); ta.value = out; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); document.getElementById('copyQuizletBtn').innerText = '✓ Copied'; setTimeout(() => document.getElementById('copyQuizletBtn').innerText = '📋 Copy Data', 3000); }
+    }
+
+    // ─── ANTI-CHEAT HOMEWORK LOGIC (15 Questions, 15 Mins) ───
+    const hwQuestionBank = [
+        { text: "Which adjective means something is unforgettable or permanent?", options: ["Evocative", "Indelible", "Rose-tinted", "Nostalgic"], correct: 1 },
+        { text: "If you view the past in an overly positive way, ignoring the bad parts, you have a ________ view.", options: ["rose-tinted", "evocative", "indelible", "reminiscent"], correct: 0 },
+        { text: "To indulge in enjoyable recollection of past events is to:", options: ["reminisce", "evoke", "archive", "indelible"], correct: 0 },
+        { text: "Choose the correct past continuous form: While we ________ the old house, we found a box.", options: ["cleaned", "had cleaned", "were cleaning", "have cleaned"], correct: 2 },
+        { text: "When I arrived at the station, the train ________.", options: ["had already left", "already left", "was already leaving", "leaves"], correct: 0 },
+        { text: "She ________ for two hours before she finally found her keys.", options: ["was searching", "had been searching", "searched", "has searched"], correct: 1 },
+        { text: "Which sentence correctly uses the Past Simple and Past Continuous?", options: ["I read a book when the phone rang.", "I was reading a book when the phone was ringing.", "I was reading a book when the phone rang.", "I had read a book when the phone rang."], correct: 2 },
+        { text: "Because he ________ the town for ten years, he did not recognize anyone.", options: ["had not visited", "was not visiting", "did not visit", "has not visited"], correct: 0 },
+        { text: "The scent of vanilla is highly ________ of my grandmother's kitchen.", options: ["indelible", "reminisced", "evocative", "rose-tinted"], correct: 2 },
+        { text: "I realized that I ________ him before at a conference.", options: ["met", "was meeting", "had met", "have met"], correct: 2 },
+        { text: "The roads were wet because it ________ all night.", options: ["rained", "was raining", "had been raining", "had rained"], correct: 2 },
+        { text: "Which sentence uses the Pluperfect (Past Perfect) correctly?", options: ["After I finished the report, I was leaving.", "After I had finished the report, I left.", "After I was finishing the report, I left.", "After I finish the report, I had left."], correct: 1 },
+        { text: "His harsh words left an ________ mark on her confidence.", options: ["evocative", "indelible", "rose-tinted", "idealized"], correct: 1 },
+        { text: "We ________ old photographs when suddenly the power went out.", options: ["looked at", "were looking at", "had looked at", "had been looking at"], correct: 1 },
+        { text: "By the time we got to the cinema, the film ________.", options: ["had started", "was starting", "started", "has started"], correct: 0 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.getElementById('timerContainer').style.background = "var(--danger)"; document.getElementById('timerContainer').style.color = "white"; document.getElementById('timerContainer').style.borderColor = "var(--danger)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:white; border:1px solid var(--gray-200); padding:16px 24px; border-radius:8px; font-size:1.1rem; text-align:left; cursor:pointer; font-family:var(--font-ui); color:var(--gray-800); transition:all 0.2s;";
+            btn.onmouseover = () => btn.style.background = "var(--ivory-50)";
+            btn.onmouseout = () => btn.style.background = "white";
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you, ${currentStudent}. Your protocol is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--danger)' : 'var(--indigo-700)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div style="background:var(--ivory-50); border-radius:8px; border-left:6px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; padding:20px;">
+                <div style="font-size:1.1rem; color:var(--gray-800); margin-bottom:10px; font-weight:600;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--gray-600);">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; font-weight:700;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--gray-600);">Correct answer: <span style="color: var(--success); font-weight:700;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson18HW')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson18HW', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L18_Assessment.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save();
+    }
+
+    // --- Admin ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson18HW')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px;'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-size:0.85rem; font-family:var(--font-mono);">${r.date}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:700;">${r.name}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:bold;">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:700; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson18HW'); openAdmin(); } }
+
+    // --- Firebase Sync (Realtime Text Edits & Cursors ONLY - No Whiteboard) ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
+    const appId = 'alina-l18-memory-nostalgia';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let user = null, isSync = false;
+    let editingId = null;
+
+    signInAnonymously(auth).catch(console.error);
+
+    onAuthStateChanged(auth, u => {
+        user = u;
+        if (user && !isSync) {
+            isSync = true;
+            document.getElementById('syncText').innerText = "SYSTEM ACTIVE";
+            setupSync(); setupCursors();
+        }
+    });
+
+    function fastDebounce(f, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; }
+
+    function setupSync() {
+        const txtRef = doc(db, 'artifacts', appId, 'data', 'text');
+
+        document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
+            el.dataset.sid = 'ed_' + i;
+            el.addEventListener('focus', () => editingId = el.dataset.sid);
+            el.addEventListener('blur', () => { 
+                editingId = null; 
+                if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            });
+            el.addEventListener('input', fastDebounce(() => { 
+                if (editingId === el.dataset.sid && user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            }, 150));
+        });
+
+        onSnapshot(txtRef, snap => {
+            if (!snap.exists()) return;
+            for (const [id, html] of Object.entries(snap.data())) {
+                if (editingId !== id) {
+                    const el = document.querySelector(`[data-sid="${id}"]`);
+                    if (el && el.innerHTML !== html) el.innerHTML = html;
+                }
+            }
+        });
+    }
+
+    function setupCursors() {
+        const curRef = collection(db, 'artifacts', appId, 'cursors');
+        const myDoc = doc(curRef, user.uid);
+        const container = document.getElementById('liveCursorsContainer');
+        const colors = ['#312E81','#D97706','#E11D48','#059669'];
+        const myColor = colors[Math.floor(Math.random() * colors.length)];
+        const myName = "Student " + Math.floor(Math.random() * 99);
+        
+        document.addEventListener('mousemove', fastDebounce(e => {
+            if(user && document.getElementById('task-hw').style.display !== 'block') {
+                setDoc(myDoc, { x: e.pageX - window.innerWidth/2, y: e.pageY, color: myColor, name: myName, ts: Date.now() });
+            }
+        }, 100));
+
+        onSnapshot(curRef, snap => {
+            snap.docChanges().forEach(ch => {
+                if(ch.doc.id === user.uid) return;
+                const d = ch.doc.data();
+                let el = document.getElementById('cur-'+ch.doc.id);
+                
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
+                
+                if(!el) {
+                    el = document.createElement('div'); el.id = 'cur-'+ch.doc.id; el.className = 'remote-cursor';
+                    el.style = 'position:absolute; transition: top 0.15s, left 0.15s; pointer-events:none; z-index:999999;';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><div style="background:${d.color}; color:#fff; font-size:10px; font-family:var(--font-mono); padding:2px 6px; border-radius:3px; margin-top:2px; font-weight:bold;">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth/2 + d.x) + 'px'; el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if(user) deleteDoc(myDoc); });
+    }
+</script>
+</body>
+</html>
