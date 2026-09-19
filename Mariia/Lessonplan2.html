@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Revision Syllabus | Nursing & London Life</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --nhs-blue: #005EB8;
+            --nhs-dark: #003087;
+            --nhs-light: #E6F3FF;
+            --coral: #FF5C5C;
+            --coral-dark: #CC0000;
+            --coral-light: #FFF0F0;
+            --mint: #00CC99;
+            --mint-dark: #007A5C;
+            --mint-light: #E6FFF9;
+            --yellow: #FFD166;
+            --charcoal: #333333;
+            --mist: #888888;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+            
+            --shadow-sm: 0 4px 6px rgba(0, 94, 184, 0.05);
+            --shadow-md: 0 8px 15px rgba(0, 94, 184, 0.1);
+            --radius-md: 16px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(var(--nhs-light) 2px, transparent 2px);
+            background-size: 30px 30px;
+            color: var(--charcoal);
+            line-height: 1.75;
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--nhs-light) 0%, #FFF9E6 100%);
+            color: var(--charcoal);
+            padding: 100px 24px 80px;
+            text-align: center;
+            border-bottom: 4px solid var(--nhs-blue);
+            margin-bottom: 60px;
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--nhs-blue);
+            color: var(--white);
+            padding: 8px 24px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            color: var(--nhs-dark);
+        }
+
+        .hero h1 em { color: var(--coral); font-style: italic; }
+
+        /* ── GRID & CARDS ── */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .lesson-card {
+            background: var(--white);
+            border: 2px solid #EEEEEE;
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--nhs-light);
+        }
+
+        .card-nursing { border-top: 6px solid var(--mint); }
+        .card-social { border-top: 6px solid var(--coral); }
+
+        .lesson-num {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .lesson-id {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--mist);
+        }
+
+        .lesson-tag {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tag-nursing { background: var(--mint-light); color: var(--mint-dark); }
+        .tag-social { background: var(--coral-light); color: var(--coral-dark); }
+
+        .lesson-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--nhs-dark);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .lesson-detail {
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+            line-height: 1.5;
+            padding-left: 12px;
+            border-left: 3px solid var(--nhs-light);
+        }
+
+        .lesson-detail strong {
+            color: var(--nhs-blue);
+            font-weight: 700;
+        }
+
+        /* ── TEST CARDS ── */
+        .test-card {
+            background: var(--nhs-blue);
+            color: var(--white);
+            border-radius: var(--radius-md);
+            padding: 30px 24px;
+            text-decoration: none;
+            box-shadow: var(--shadow-md);
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            grid-column: 1 / -1;
+            margin: 20px 0;
+            border: 4px solid var(--nhs-dark);
+        }
+
+        .test-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,94,184,0.25);
+        }
+
+        .test-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .test-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--yellow);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .test-desc {
+            font-size: 1.05rem;
+            color: var(--nhs-light);
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📋 B2 to C1 · Deep Revision Syllabus</div>
+            <h1>Nursing & <em>London Life</em></h1>
+            <p style="color: var(--charcoal); font-size: 1.15rem; max-width: 650px; margin: 0 auto; font-weight: 500;">An intensive 3-month course mastering exactly <strong>one grammatical structure per lesson</strong> to achieve true fluency. Alternating strictly between adult nursing scenarios and daily London survival.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="syllabus-grid">
+
+            <!-- LESSON 1 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 1</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Welcome to the Ward</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> NHS rules, fixed protocols, and hospital facts.</div>
+            </a>
+
+            <!-- LESSON 2 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 2</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">London Routines</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> Tube timetables, daily habits, and housing facts.</div>
+            </a>
+
+            <!-- LESSON 3 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 3</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Patient Histories</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> Taking medical histories and charting past incidents.</div>
+            </a>
+
+            <!-- LESSON 4 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 4</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">My First Weekend</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> Recounting flat viewings and pub nights in London.</div>
+            </a>
+
+            <!-- LESSON 5 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 5</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Ward Trends & Shifts</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Temporary staffing, current patient conditions.</div>
+            </a>
+
+            <!-- LESSON 6 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 6</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Surviving the City</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Changing living situations, complaining about prices.</div>
+            </a>
+
+            <!-- LESSON 7 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 7</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">The Night Shift</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Setting the scene for medical emergencies.</div>
+            </a>
+
+            <!-- LESSON 8 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 8</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Transport Disasters</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Interrupted journeys and London anecdotes.</div>
+            </a>
+
+            <!-- LESSON 9 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 9</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Completed Procedures</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Perfect Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> Handovers, recent results, and drug administration.</div>
+            </a>
+
+            <!-- LESSON 10 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 10</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Life Experiences</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Perfect Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> What you have achieved in the UK so far.</div>
+            </a>
+
+            <!-- TEST 1 -->
+            <a href="#" class="test-card">
+                <div class="test-icon">📝</div>
+                <h2 class="test-title">Progress Test 1</h2>
+                <div class="test-desc">Comprehensive Assessment: Simple & Continuous Tenses (Present & Past) + Perfect Simple.</div>
+            </a>
+
+            <!-- LESSON 11 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 11</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Symptom Duration</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Perfect Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> "How long has the patient been feeling this?"</div>
+            </a>
+
+            <!-- LESSON 12 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 12</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">UK Bureaucracy</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Present Perfect Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Waiting for bank accounts, visas, and ongoing admin.</div>
+            </a>
+
+            <!-- LESSON 13 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 13</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Before Admission</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Perfect Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> Sequencing medical events before hospital arrival.</div>
+            </a>
+
+            <!-- LESSON 14 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 14</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Realizations & Regrets</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Perfect Simple</div>
+                <div class="lesson-detail"><strong>Context:</strong> Things you realized after moving to a new country.</div>
+            </a>
+
+            <!-- LESSON 15 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 15</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Prolonged States</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Perfect Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Discussing causes of collapse or extended deterioration.</div>
+            </a>
+
+            <!-- LESSON 16 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 16</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">The Backstory</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Past Perfect Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Storytelling and giving background to social events.</div>
+            </a>
+
+            <!-- LESSON 17 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 17</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Decisions & Promises</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Simple (Will)</div>
+                <div class="lesson-detail"><strong>Context:</strong> Spontaneous reactions on the ward, reassuring patients.</div>
+            </a>
+
+            <!-- LESSON 18 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 18</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Making Plans</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Simple (Will)</div>
+                <div class="lesson-detail"><strong>Context:</strong> Predictions about London life, organizing pub meets.</div>
+            </a>
+
+            <!-- LESSON 19 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 19</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Care Plans</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Intentions (Going to)</div>
+                <div class="lesson-detail"><strong>Context:</strong> Explaining scheduled treatments and discharge plans.</div>
+            </a>
+
+            <!-- LESSON 20 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 20</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">The Weekend Itinerary</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Intentions (Going to)</div>
+                <div class="lesson-detail"><strong>Context:</strong> Fixed plans, flat viewings, and social commitments.</div>
+            </a>
+
+            <!-- TEST 2 -->
+            <a href="#" class="test-card">
+                <div class="test-icon">⚖️</div>
+                <h2 class="test-title">Progress Test 2</h2>
+                <div class="test-desc">Comprehensive Assessment: Perfect Continuous forms and Future structures.</div>
+            </a>
+
+            <!-- LESSON 21 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 21</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Anticipating Shifts</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Actions in progress at specific times on the ward.</div>
+            </a>
+
+            <!-- LESSON 22 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 22</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Envisioning Life</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Continuous</div>
+                <div class="lesson-detail"><strong>Context:</strong> Polite inquiries and visualizing the UK future.</div>
+            </a>
+
+            <!-- LESSON 23 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 23</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Shift Deadlines</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Perfect</div>
+                <div class="lesson-detail"><strong>Context:</strong> Actions completed before a deadline ("By 5 PM, I will have...").</div>
+            </a>
+
+            <!-- LESSON 24 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 24</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Personal Goals</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Future Perfect</div>
+                <div class="lesson-detail"><strong>Context:</strong> Saving money, career milestones, settling in timelines.</div>
+            </a>
+
+            <!-- LESSON 25 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 25</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Medical Facts</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Zero Conditional</div>
+                <div class="lesson-detail"><strong>Context:</strong> Absolute truths, anatomy, dosage rules and reactions.</div>
+            </a>
+
+            <!-- LESSON 26 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 26</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">London Realities</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> First Conditional</div>
+                <div class="lesson-detail"><strong>Context:</strong> Real possibilities (Weather, Tube strikes, flat hunting).</div>
+            </a>
+
+            <!-- LESSON 27 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 27</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Hypotheticals & Ethics</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Second Conditional</div>
+                <div class="lesson-detail"><strong>Context:</strong> Medical ethics, improbable scenarios, "What would you do?".</div>
+            </a>
+
+            <!-- LESSON 28 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 28</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Culture Shock</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Second Conditional</div>
+                <div class="lesson-detail"><strong>Context:</strong> Imagining different cultural norms and giving advice.</div>
+            </a>
+
+            <!-- LESSON 29 -->
+            <a href="#" class="lesson-card card-nursing">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 29</span>
+                    <span class="lesson-tag tag-nursing">Adult Nursing</span>
+                </div>
+                <h2 class="lesson-title">Clinical Review</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Third Conditional</div>
+                <div class="lesson-detail"><strong>Context:</strong> Evaluating past medical decisions and altered outcomes.</div>
+            </a>
+
+            <!-- LESSON 30 -->
+            <a href="#" class="lesson-card card-social">
+                <div class="lesson-num">
+                    <span class="lesson-id">Lesson 30</span>
+                    <span class="lesson-tag tag-social">Social & Daily Life</span>
+                </div>
+                <h2 class="lesson-title">Looking Back</h2>
+                <div class="lesson-detail"><strong>Focus:</strong> Third Conditional</div>
+                <div class="lesson-detail"><strong>Context:</strong> Reflecting on past mistakes and summarizing the London journey.</div>
+            </a>
+
+            <!-- TEST 3 -->
+            <a href="#" class="test-card">
+                <div class="test-icon">🏆</div>
+                <h2 class="test-title">Final Course Exam</h2>
+                <div class="test-desc">Ultimate Mastery Review: All 12 Tenses and 4 Conditionals seamlessly applied.</div>
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
