@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C1 Full-Stack &amp; Abstract English | Course Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        --ink: #0B1120;
+        --panel: #101B33;
+        --panel-2: #16213F;
+        --mint: #35D19E;
+        --mint-dark: #1F9E77;
+        --amber: #F5A623;
+        --amber-light: #FFCB6B;
+        --violet: #8B7CF6;
+        --cream: #F7F5EF;
+        --light-bg: #F3F5F8;
+        --white: #FFFFFF;
+        --gray-200: #E3E7EE;
+        --gray-400: #9AA4B2;
+        --gray-600: #55606F;
+        --gray-800: #1C2333;
+        --shadow-sm: 0 1px 3px rgba(11,17,32,0.08);
+        --shadow-md: 0 6px 20px rgba(11,17,32,0.10);
+        --shadow-lg: 0 16px 40px rgba(11,17,32,0.14);
+        --radius-sm: 8px;
+        --radius-md: 14px;
+        --radius-lg: 22px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.7;
+        color: var(--gray-800);
+        background: var(--light-bg);
+    }
+
+    code, .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* ====== HERO ====== */
+    .hero {
+        position: relative;
+        background:
+            radial-gradient(circle at 15% 20%, rgba(53,209,158,0.18) 0%, transparent 45%),
+            radial-gradient(circle at 85% 0%, rgba(139,124,246,0.18) 0%, transparent 45%),
+            linear-gradient(160deg, var(--ink) 0%, var(--panel) 55%, var(--panel-2) 100%);
+        color: var(--white);
+        padding: 96px 24px 76px;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '{ }';
+        position: absolute;
+        top: 10%;
+        left: -20px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9rem;
+        font-weight: 800;
+        color: rgba(255,255,255,0.04);
+        pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        background: rgba(53,209,158,0.12);
+        border: 1px solid rgba(53,209,158,0.4);
+        color: var(--mint);
+        padding: 6px 18px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        margin-bottom: 26px;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.1rem, 4.8vw, 3.6rem);
+        font-weight: 800;
+        line-height: 1.18;
+        margin-bottom: 14px;
+        letter-spacing: -1px;
+    }
+
+    .hero h1 em { font-style: normal; color: var(--amber-light); }
+
+    .hero-subtitle {
+        font-size: clamp(1.02rem, 1.9vw, 1.2rem);
+        color: rgba(255,255,255,0.72);
+        max-width: 620px;
+        margin: 0 auto 8px;
+    }
+
+    .hero-meta {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .meta-chip {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 50px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.14);
+        color: rgba(255,255,255,0.85);
+    }
+
+    /* ====== NAV ====== */
+    .nav-bar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(255,255,255,0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--gray-200);
+        padding: 0 24px;
+    }
+
+    .nav-inner {
+        max-width: 1080px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 54px;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .nav-logo {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        white-space: nowrap;
+    }
+
+    .nav-logo .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); display: inline-block; }
+
+    .legend {
+        display: flex;
+        gap: 14px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--gray-600);
+        flex-wrap: wrap;
+    }
+
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend .sw { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+
+    /* ====== LAYOUT ====== */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 56px 24px 100px; }
+
+    .section-label {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--mint-dark);
+        background: rgba(53,209,158,0.1);
+        padding: 4px 12px;
+        border-radius: 50px;
+        margin-bottom: 14px;
+    }
+
+    .intro-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-lg);
+        padding: 32px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 48px;
+    }
+
+    .intro-card h2 { font-size: 1.5rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; letter-spacing: -0.3px; }
+    .intro-card p { color: var(--gray-600); margin-bottom: 14px; max-width: 720px; }
+    .intro-card p:last-child { margin-bottom: 0; }
+    .intro-card strong { color: var(--gray-800); }
+
+    .track-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        margin-top: 20px;
+    }
+
+    .track-box {
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-md);
+        padding: 16px 18px;
+    }
+
+    .track-box.tech { border-top: 4px solid var(--mint); }
+    .track-box.social { border-top: 4px solid var(--violet); }
+    .track-box.review { border-top: 4px solid var(--amber); }
+
+    .track-box h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-800); margin-bottom: 6px; }
+    .track-box p { font-size: 0.88rem; color: var(--gray-600); margin: 0; }
+
+    /* ====== SYLLABUS GRID ====== */
+    .syllabus { display: flex; flex-direction: column; gap: 14px; }
+
+    .lesson-card {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 18px;
+        align-items: stretch;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
+        text-decoration: none;
+        color: inherit;
+        overflow: hidden;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .lesson-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gray-400);
+    }
+
+    .lesson-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        writing-mode: horizontal-tb;
+    }
+
+    .lesson-card.tech .lesson-num { background: linear-gradient(180deg, var(--mint) 0%, var(--mint-dark) 100%); }
+    .lesson-card.social .lesson-num { background: linear-gradient(180deg, #A79BFA 0%, var(--violet) 100%); }
+
+    .lesson-body { padding: 16px 20px 16px 0; }
+
+    .lesson-tag {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 2px 9px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+    }
+
+    .lesson-card.tech .lesson-tag { background: rgba(53,209,158,0.12); color: var(--mint-dark); }
+    .lesson-card.social .lesson-tag { background: rgba(139,124,246,0.12); color: var(--violet); }
+
+    .lesson-title { font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.2px; }
+
+    .lesson-meta { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 0.86rem; color: var(--gray-600); }
+    .lesson-meta strong { color: var(--gray-800); font-weight: 600; }
+
+    /* ====== PHASE BREAK ====== */
+    .phase-break {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        background: linear-gradient(120deg, var(--ink) 0%, var(--panel-2) 100%);
+        color: var(--white);
+        border-radius: var(--radius-lg);
+        padding: 22px 28px;
+        margin: 8px 0;
+        box-shadow: var(--shadow-md);
+        text-decoration: none;
+    }
+
+    .phase-icon {
+        font-size: 1.8rem;
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255,255,255,0.08);
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .phase-break h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 3px; color: var(--amber-light); }
+    .phase-break p { font-size: 0.88rem; color: rgba(255,255,255,0.72); margin: 0; }
+
+    .phase-break.final { background: linear-gradient(120deg, #2A1F4D 0%, var(--ink) 100%); }
+
+    footer.note {
+        margin-top: 48px;
+        text-align: center;
+        color: var(--gray-400);
+        font-size: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+        .legend { display: none; }
+        .track-grid { grid-template-columns: 1fr; }
+        .lesson-card { grid-template-columns: 44px 1fr; }
+        .lesson-num { font-size: 0.9rem; }
+        .phase-break { flex-direction: row; padding: 18px; }
+    }
+</style>
+</head>
+<body>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">💻 Full-Stack &amp; Abstract English · C1</div>
+        <h1>Deploy<em>ed</em> Abroad: <em>The Developer's</em> Syllabus</h1>
+        <p class="hero-subtitle">A 30-lesson C1 course pairing the world of software engineering with the philosophy, psychology, and culture of building a new life in Spain.</p>
+        <div class="hero-meta">
+            <span class="meta-chip">🇺🇦 → 🇪🇸 Relocation Context</span>
+            <span class="meta-chip">15 Tech / 15 Social</span>
+            <span class="meta-chip">3 Review Checkpoints</span>
+            <span class="meta-chip">Grammar-in-Discourse Track</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <div class="nav-logo"><span class="dot"></span> C1 Dev English</div>
+        <div class="legend">
+            <span><span class="sw" style="background: var(--mint);"></span> Tech</span>
+            <span><span class="sw" style="background: var(--violet);"></span> Social</span>
+            <span><span class="sw" style="background: var(--amber);"></span> Review</span>
+        </div>
+    </div>
+</nav>
+
+<div class="wrap">
+
+    <!-- ====== COURSE OVERVIEW ====== -->
+    <div class="intro-card">
+        <span class="section-label">Course Overview</span>
+        <h2>Built on the same architecture as the Executive Syllabus</h2>
+        <p>This course keeps the <strong>50/50 split</strong> and the C1 grammar arc that worked well for the corporate-banking track, re-platformed for a <strong>software developer's</strong> world. Odd lessons dig into the profession — architecture, ethics, incident response, startup culture, AI's impact on the job. Even lessons stay deliberately <strong>career-agnostic</strong>: philosophy, psychology, cinema, sport, and — where it's genuinely useful rather than a gimmick — the lived experience of relocating from Ukraine to Spain.</p>
+        <p>Grammar is not front-loaded: each lesson's structure should be discovered through the reading and case material first, then consolidated. The three review checkpoints (after L10, L20, and L30) audit tense accuracy, prepositional precision, and complex syntax in that order — mirroring the original course's escalation from <strong>baseline accuracy → structural mastery → abstraction and fluency</strong>.</p>
+        <div class="track-grid">
+            <div class="track-box tech">
+                <h4>Tech Track (15)</h4>
+                <p>Software architecture, AI &amp; automation, cybersecurity, startup/corporate culture, incident response, tech ethics.</p>
+            </div>
+            <div class="track-box social">
+                <h4>Social Track (15)</h4>
+                <p>Philosophy, psychology, cinema, sport, and identity — occasionally threaded with expat life in Spain, never forced.</p>
+            </div>
+            <div class="track-box review">
+                <h4>Checkpoints (3)</h4>
+                <p>Phase I: tense/preposition baseline · Phase II: complex syntax · Final: comprehensive C1/C2 fluency review.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== SYLLABUS ====== -->
+    <div class="syllabus">
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">01</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">The Anatomy of a Bug Hunt</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Present Perfect vs. Past Simple</span><span><strong>Focus:</strong> Reconstructing a production outage — timeline, root cause, postmortem.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">02</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Stoicism of Starting Over</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Dependent Prepositions (Verbs)</span><span><strong>Focus:</strong> Resilience, uprooting, and rebuilding a routine in an unfamiliar country.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">03</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">The Ethics of the Black Box</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Future Perfect &amp; Continuous</span><span><strong>Focus:</strong> Projecting the long-term fallout of opaque AI decision-making.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">04</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Illusion of Authenticity</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Narrative Tenses Alignment</span><span><strong>Focus:</strong> Deconstructing modern tourism, "third culture" identity, and the digital-nomad myth.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">05</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Game Theory in Sprint Planning</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Prepositions in Strategic Idioms</span><span><strong>Focus:</strong> Negotiating scope, story points, and stakeholder trade-offs.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">06</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Existentialism in Cinema</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Past Perfect vs. Past Simple</span><span><strong>Focus:</strong> Analyzing character motivation and cinematic societal critique.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">07</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">AI &amp; The Death of the Junior Developer</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Mixed Conditionals</span><span><strong>Focus:</strong> Hypothesizing alternative career timelines in an increasingly automated industry.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">08</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Dystopian Parallels</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Participle Clauses</span><span><strong>Focus:</strong> How speculative fiction mirrors modern anxieties about surveillance and control.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">09</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Corporate Espionage &amp; Open Source</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Prepositions of Time &amp; Place</span><span><strong>Focus:</strong> Licensing ethics, supply-chain attacks, and the boundaries of intellectual property.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">10</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Philosophy of Belonging</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Phrasal Verbs with Prepositions</span><span><strong>Focus:</strong> Language, accent, and the search for home between two cultures.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="phase-break">
+            <div class="phase-icon">🧠</div>
+            <div>
+                <h3>Phase I: System Check</h3>
+                <p>Assessment of baseline tense accuracy and abstract prepositional precision (Lessons 1–10).</p>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">11</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Too Big to Fail: The Monolith</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Advanced Passive Structures</span><span><strong>Focus:</strong> Obfuscating blame in legacy-system failures and painful migrations.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">12</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Human Limit vs. Machine</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Prepositions of Movement &amp; Constraint</span><span><strong>Focus:</strong> Endurance sport, engineering extremes, and safety ethics.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">13</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Pragmatics &amp; Hidden Requirements</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Tense Backshifting</span><span><strong>Focus:</strong> Decoding what a client "actually" meant in a vague specification.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">14</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Commodification of Leisure</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Future in the Past</span><span><strong>Focus:</strong> How free time became an industry and the pressure to "optimize" rest.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">15</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">The Architecture of a Postmortem</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Evasive Prepositions &amp; Softeners</span><span><strong>Focus:</strong> Incident communication and retaining user trust after an outage.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">16</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Solitude of the Swimmer</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Gerunds vs. Infinitives (+ Prep)</span><span><strong>Focus:</strong> Sensory deprivation, flow states, and mental endurance.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">17</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Compliance &amp; The GDPR Maze</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Modal Verbs &amp; Tense Alignment</span><span><strong>Focus:</strong> Navigating obligation and liability across EU data regulation.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">18</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Death of the Author</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Comparative Structures &amp; Prepositions</span><span><strong>Focus:</strong> Who owns the narrative? Literary theory and adaptation.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">19</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">The Cult of the 10x Engineer</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Cleft Sentences</span><span><strong>Focus:</strong> Startup culture, technical charisma, and the myth of the lone genius.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">20</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Psychology of the "Clutch"</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Adjective + Preposition Combos</span><span><strong>Focus:</strong> Why some people thrive under pressure — on the field and against a deadline.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="phase-break">
+            <div class="phase-icon">⚖️</div>
+            <div>
+                <h3>Phase II: Structural Mastery</h3>
+                <p>Evaluating complex syntax and cohesive discourse in high-level, technical, and abstract topics (Lessons 11–20).</p>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">21</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Corporate Warfare: The Acquihire</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Reported Speech (Advanced)</span><span><strong>Focus:</strong> Hostile takeovers, talent wars, and media spin in Big Tech.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">22</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Rootedness vs. Reinvention</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> 3rd Conditional &amp; Prepositional Phrases</span><span><strong>Focus:</strong> The psychological cost and gift of becoming a "global citizen."</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">23</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Post-Scarcity Code</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Perfect Continuous Tenses</span><span><strong>Focus:</strong> Generative AI, universal basic income, and the future of paid labor.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">24</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Aesthetics of Speed</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Noun + Preposition Collocations</span><span><strong>Focus:</strong> How aerodynamics and engineering shape our sense of modern design.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">25</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Loophole Culture: Dark Patterns</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Inversion with Prepositions</span><span><strong>Focus:</strong> Deconstructing manipulative UX design and the ethics of growth hacking.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">26</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Cinema as Societal Collapse</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Passive Reporting Verbs</span><span><strong>Focus:</strong> How disaster and dystopia genres mirror generational fears.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">27</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">The Meritocracy Myth in Tech</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Perfect Participles</span><span><strong>Focus:</strong> Unpacking gatekeeping, privilege, and access in the industry.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">28</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">The Quantified Self</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Verb + Object + Preposition</span><span><strong>Focus:</strong> Biohacking, wearables, and the obsession with data-driven living.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card tech">
+            <div class="lesson-num">29</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Tech</span>
+                <div class="lesson-title">Anatomy of a Zero-Day</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Comprehensive Tense Alignment</span><span><strong>Focus:</strong> Preparing for the unpredictable in cybersecurity and crisis response.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="lesson-card social">
+            <div class="lesson-num">30</div>
+            <div class="lesson-body">
+                <span class="lesson-tag">Social</span>
+                <div class="lesson-title">Hedonism vs. Eudaimonia</div>
+                <div class="lesson-meta"><span><strong>Grammar:</strong> Comprehensive Preposition Review</span><span><strong>Focus:</strong> The philosophical pursuit of happiness vs. meaning — closing the course.</span></div>
+            </div>
+        </a>
+
+        <a href="#" class="phase-break final">
+            <div class="phase-icon">🚀</div>
+            <div>
+                <h3>The Final Deploy</h3>
+                <p>Ultimate evaluation of C1/C2 fluency, persuasion, and abstraction across technical and philosophical registers.</p>
+            </div>
+        </a>
+
+    </div>
+
+    <footer class="note">Lesson links are placeholders (#) until each file is built and pushed to GitHub Pages, matching the workflow of the corporate-banking course.</footer>
+</div>
+
+</body>
+</html>
