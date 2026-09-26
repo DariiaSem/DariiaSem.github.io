@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 27: C1/C2 | Ageing, Longevity & Preventive Care</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        --coral: #FF6B6B; --coral-dark: #E8505B;
+        --sun: #FFC145; --sun-dark: #F2A429; --sun-light: #FFE1A8;
+        --turquoise: #2EC4B6; --turquoise-dark: #1AA398; --turquoise-light: #CFF5F1;
+        --grape: #7D5BA6; --grape-light: #EAE1F5;
+        --ink: #22223B; --cream: #FFFDF7; --light-bg: #F6F8FB; --white: #FFFFFF;
+        --gray-100: #F1F3F9; --gray-200: #E7E9F0; --gray-400: #A9AFC3; --gray-600: #5C6178; --gray-800: #2B2E42;
+        --shadow-sm: 0 1px 3px rgba(34,34,59,0.08);
+        --shadow-md: 0 6px 20px rgba(34,34,59,0.10);
+        --shadow-lg: 0 14px 36px rgba(34,34,59,0.14);
+        --radius-sm: 10px; --radius-md: 16px; --radius-lg: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.7;
+        color: var(--gray-800);
+        background: var(--light-bg);
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+
+    [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 4px; }
+    [contenteditable="true"]:focus, [contenteditable="true"]:hover { background-color: rgba(46,196,182,0.08); box-shadow: 0 0 0 2px rgba(46,196,182,0.15); }
+
+    /* ====== UKRAINIAN HOVER TOOLTIP ====== */
+    .uk-tooltip {
+        position: relative; cursor: help; border-bottom: 2px dotted var(--coral-dark);
+        font-weight: 700; color: var(--turquoise-dark); transition: color 0.2s;
+    }
+    .uk-tooltip:hover { color: var(--coral-dark); }
+    .uk-tooltip::after {
+        content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+        transform: translateX(-50%); background: var(--ink); color: var(--white);
+        padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+        white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        z-index: 50; font-family: 'Inter', sans-serif; box-shadow: var(--shadow-md);
+    }
+    .uk-tooltip:hover::after { opacity: 1; }
+
+    /* ====== HERO ====== */
+    .hero {
+        position: relative;
+        background: linear-gradient(120deg, var(--coral) 0%, var(--sun) 52%, var(--turquoise) 100%);
+        color: var(--white);
+        padding: 88px 24px 96px;
+        text-align: center;
+        overflow: hidden;
+    }
+    .hero::before, .hero::after {
+        content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.16);
+    }
+    .hero::before { width: 220px; height: 220px; top: -60px; left: -60px; }
+    .hero::after { width: 160px; height: 160px; bottom: -50px; right: -30px; background: rgba(255,255,255,0.12); }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+    .hero-badge {
+        display: inline-block; background: rgba(255,255,255,0.22); backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.35); color: var(--white);
+        padding: 6px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+        letter-spacing: 1px; text-transform: uppercase; margin-bottom: 22px;
+    }
+    .hero h1 { font-size: clamp(2rem, 4.8vw, 3.3rem); font-weight: 800; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.5px; text-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .hero-subtitle { font-size: clamp(1rem, 1.9vw, 1.2rem); color: rgba(255,255,255,0.95); max-width: 650px; margin: 0 auto 8px; font-weight: 500; }
+    .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: var(--light-bg); clip-path: ellipse(55% 100% at 50% 100%); }
+
+    /* ====== NAV ====== */
+    .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { font-weight: 800; font-size: 1rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .nav-logo .dot { width: 9px; height: 9px; background: var(--coral); border-radius: 50%; display: inline-block; }
+    .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 700; padding: 6px 11px; border-radius: 8px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+    .nav-links a:hover { color: var(--turquoise-dark); background: var(--turquoise-light); }
+
+    /* ====== SECTIONS ====== */
+    .section { padding: 68px 24px; }
+    .section:nth-child(even) { background: var(--white); }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    .section-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--coral-dark); background: rgba(255,107,107,0.1); padding: 5px 14px; border-radius: 50px; margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.4px; }
+    .section-desc { color: var(--gray-600); font-size: 1.03rem; margin-bottom: 32px; max-width: 660px; }
+
+    /* ====== SHARED CARDS ====== */
+    .scenario-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 32px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--turquoise); }
+    .prompt-list { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+    .prompt-item { background: var(--white); border-left: 5px solid var(--turquoise); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 18px 24px; box-shadow: var(--shadow-sm); }
+    .prompt-item strong { display: block; color: var(--ink); margin-bottom: 4px; }
+
+    .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 22px; }
+    .board-tile { background: var(--white); border: 2px solid var(--sun); border-radius: var(--radius-md); padding: 18px 20px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); display: flex; align-items: center; }
+
+    .grammar-table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.95rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--gray-200); background: var(--white); }
+    .grammar-table thead th { background: var(--ink); color: var(--white); padding: 13px 16px; text-align: left; font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    .grammar-table tbody td { padding: 13px 16px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+    .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+    .prep-chip { display: inline-block; font-weight: 800; color: var(--white); background: var(--coral); padding: 2px 12px; border-radius: 50px; font-size: 0.85rem; }
+
+    .practice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 22px; counter-reset: pc; }
+    .practice-list li { background: var(--white); padding: 15px 20px 15px 46px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); position: relative; }
+    .practice-list li::before { counter-increment: pc; content: counter(pc) "."; position: absolute; left: 18px; top: 14px; font-weight: 800; color: var(--turquoise-dark); }
+    .blank-input { display: inline-block; min-width: 70px; border: none; border-bottom: 3px dashed var(--sun-dark); color: var(--coral-dark); font-weight: 700; padding: 0 8px; text-align: center; background: rgba(255,193,69,0.08); }
+    .blank-input:focus { border-bottom-color: var(--coral); outline: none; background: rgba(255,107,107,0.1); }
+
+    .watch-out { background: rgba(255,193,69,0.18); border-left: 4px solid var(--sun-dark); padding: 14px 18px; margin-top: 16px; border-radius: 0 8px 8px 0; }
+
+    .flowchart { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 28px 0; background: var(--cream); padding: 36px; border-radius: var(--radius-lg); border: 3px dashed var(--sun); }
+    .flow-bubble { background: var(--white); padding: 12px 22px; border-radius: 50px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); border: 2px solid var(--turquoise); text-align: center; max-width: 520px; }
+    .flow-bubble.b-side { border-color: var(--coral); background: var(--coral); color: var(--white); }
+    .flow-arrow { color: var(--gray-400); font-size: 1.4rem; }
+
+    /* ====== VOCAB FLIP CARDS ====== */
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 22px; }
+    .vocab-card { position: relative; height: 140px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 2px solid var(--grape-light); cursor: pointer; }
+    .vocab-front { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, var(--grape) 0%, var(--coral) 100%); color: var(--white); font-weight: 800; font-size: 1.15rem; padding: 12px; transition: opacity 0.3s ease; z-index: 2; }
+    .vocab-card:hover .vocab-front { opacity: 0; pointer-events: none; }
+    .vocab-def { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--white); color: var(--gray-800); font-size: 0.9rem; padding: 16px; z-index: 1; flex-direction: column;}
+    .vocab-def .type { font-size: 0.75rem; color: var(--grape); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+
+    /* ====== ERROR SPY ====== */
+    .errorspy-sentence { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; font-size: 1.05rem;}
+    .es-word { cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: background 0.2s; border-bottom: 2px dashed var(--gray-400); }
+    .es-word:hover { background: rgba(255,107,107,0.18); border-bottom-color: var(--coral); }
+    .es-word.correct-click { background: var(--turquoise); color: var(--white); font-weight: 700; border-bottom: none; }
+    .es-word.wrong-click { background: var(--coral); color: var(--white); border-bottom: none; }
+    .es-fixed { color: var(--ink); font-weight: 800; }
+
+    /* ====== TRUE/FALSE ====== */
+    .tf-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 1.05rem;}
+    .tf-buttons button { border: 2px solid var(--gray-200); background: var(--white); padding: 6px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 6px; font-family: 'Inter', sans-serif;}
+    .tf-buttons button.correct { background: var(--turquoise); border-color: var(--turquoise-dark); color: var(--white); }
+    .tf-buttons button.wrong { background: var(--coral); border-color: var(--coral-dark); color: var(--white); }
+    .tf-explain { font-size: 0.9rem; color: var(--gray-600); width: 100%; display: none; margin-top: 10px; background: var(--gray-100); padding: 10px 14px; border-radius: 6px; border-left: 3px solid var(--turquoise);}
+
+    /* ====== REVEAL TOGGLE ====== */
+    .reveal-btn { background: var(--grape); color: var(--white); border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.9rem; margin-top: 14px; font-family: 'Inter', sans-serif;}
+    .reveal-box { display: none; background: var(--grape-light); border-left: 4px solid var(--grape); padding: 14px 20px; margin-top: 14px; border-radius: 0 8px 8px 0; font-size: 1rem; color: var(--ink); }
+
+    /* ====== PRONUNCIATION ====== */
+    .pron-item { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 10px; flex-wrap: wrap; }
+    .listen-btn { background: var(--turquoise); color: var(--white); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; flex-shrink: 0; }
+
+    @media (max-width: 768px) {
+        .hero { padding: 64px 20px 56px; }
+        .section { padding: 48px 16px; }
+        .nav-links { display: none; }
+    }
+</style>
+</head>
+<body>
+
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(34,34,59,0.88); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--sun); border-radius: 50%; box-shadow: 0 0 8px var(--sun);"></span>
+    <span id="syncText">Connecting Classroom...</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 27 • C1/C2 Global English</div>
+        <h1 contenteditable="true">Ageing, Longevity <span>&</span> Preventive Care</h1>
+        <p class="hero-subtitle" contenteditable="true">Navigate the clinical realities of a shifting demographic. Master Narrative Tenses to document complex patient histories and report progressive deterioration accurately.</p>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">Clinical Eng C1</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1" contenteditable="true">01. Recap</a></li>
+            <li><a href="#t2" contenteditable="true">02. Warm-Up</a></li>
+            <li><a href="#t3" contenteditable="true">03. Lexicon</a></li>
+            <li><a href="#t4" contenteditable="true">04. Narrative</a></li>
+            <li><a href="#t5" contenteditable="true">05. Verify</a></li>
+            <li><a href="#t6" contenteditable="true">06. Grammar 1</a></li>
+            <li><a href="#t7" contenteditable="true">07. Grammar 2</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 1 · Recap</span>
+        <h2 class="section-title" contenteditable="true">System Reboot: Syntax Fix</h2>
+        <p class="section-desc" contenteditable="true">Before diving into geriatric care, let's debug these sentences using the Advanced Participles and Narrative Inversion from Lesson 26. Click the grammatical error in each sentence to correct it.</p>
+
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">1. <span class="es-word" data-correct="Not knowing" onclick="fixError(this)">Didn't knowing</span> about the infection risk, the 19th-century surgeon proceeded with bare hands.</span>
+        </div>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">2. <span class="es-word" data-correct="Having extracted" onclick="fixError(this)">Having extract</span> the molar, the doctor immediately packed the socket.</span>
+        </div>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">3. <span class="es-word" data-correct="Seldom had I seen" onclick="fixError(this)">Seldom I had seen</span> such severe decay before working in this clinic.</span>
+        </div>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">4. Not until the patient awoke <span class="es-word" data-correct="did the surgeon realize" onclick="fixError(this)">the surgeon realized</span> the anesthetic had worked perfectly.</span>
+        </div>
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-top:6px;" contenteditable="true"><em>💡 Click the specific bug to deploy the syntax patch.</em></p>
+    </div>
+</section>
+
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="t2">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 2 · Warm-Up</span>
+        <h2 class="section-title" contenteditable="true">The Demographic Shift</h2>
+        <p class="section-desc" contenteditable="true">The global population is ageing rapidly. Discuss these realities of modern healthcare and geriatric dentistry.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true"><strong>Reactive vs. Preventive:</strong> Is the current medical system built to keep people healthy, or just to fix them when they break?</div>
+            <div class="board-tile" contenteditable="true"><strong>The Longevity Dividend:</strong> If people routinely live to 100, how does this change the goals of a dental treatment plan at age 65?</div>
+            <div class="board-tile" contenteditable="true"><strong>Polypharmacy:</strong> Elderly patients often take 5+ medications daily. How does this complicate even simple dental procedures?</div>
+            <div class="board-tile" contenteditable="true"><strong>Quality vs. Quantity:</strong> Should medical science focus on extending lifespan (living longer) or healthspan (living healthier)?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 3 · Vocabulary</span>
+        <h2 class="section-title" contenteditable="true">The Geriatric Lexicon</h2>
+        <p class="section-desc" contenteditable="true">Hover over each card to reveal the definition of these C1/C2 medical terms related to ageing and preventive care.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Senescence</div><div class="vocab-def" contenteditable="true"><span class="type">Noun</span>The condition or process of deterioration with age; biological ageing.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Prophylactic</div><div class="vocab-def" contenteditable="true"><span class="type">Adjective</span>Intended to prevent disease. (e.g., a prophylactic cleaning).</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Edentulism</div><div class="vocab-def" contenteditable="true"><span class="type">Noun</span>The state of being completely toothless.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Degenerative</div><div class="vocab-def" contenteditable="true"><span class="type">Adjective</span>(Of a disease) characterized by progressive deterioration of tissue or function.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Susceptibility</div><div class="vocab-def" contenteditable="true"><span class="type">Noun</span>The state or fact of being likely or liable to be influenced or harmed by a particular thing.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Centenarian</div><div class="vocab-def" contenteditable="true"><span class="type">Noun</span>A person who is one hundred or more years old.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Geriatric</div><div class="vocab-def" contenteditable="true"><span class="type">Adjective</span>Relating to old people, especially with regard to their health care.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Resorption</div><div class="vocab-def" contenteditable="true"><span class="type">Noun</span>The process or action by which something is absorbed back (e.g., bone loss in the jaw).</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: READING ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 4 · Reading</span>
+        <h2 class="section-title" contenteditable="true">The Case of Mrs. Kovalenko</h2>
+        <p class="section-desc" contenteditable="true">Read this clinical narrative. Pay close attention to how the tenses shift to establish a precise timeline of the patient's deterioration before she arrived at the clinic.</p>
+
+        <div class="scenario-card">
+            <p contenteditable="true" style="line-height: 2;">
+                By the time Mrs. Kovalenko, a sprightly 92-year-old, <strong>arrived</strong> at our clinic on Tuesday, she <strong>had been experiencing</strong> severe discomfort under her lower denture for three weeks. She <strong>told</strong> us that she <strong>had noticed</strong> a slight looseness initially, but she <strong>had ignored</strong> it, assuming it was a normal part of <span class="uk-tooltip" data-uk="старіння (біологічне)">senescence</span>. 
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                While Dr. Aris <strong>was examining</strong> her oral mucosa, he <strong>noted</strong> that the alveolar bone <span class="uk-tooltip" data-uk="резорбція (розсмоктування)">resorption</span> <strong>had progressed</strong> significantly since her last visit two years prior. We <strong>were looking</strong> at a classic case of neglected <span class="uk-tooltip" data-uk="геріатричний">geriatric</span> maintenance. For years, she <strong>had been relying</strong> on over-the-counter adhesives rather than seeking <span class="uk-tooltip" data-uk="профілактичний">prophylactic</span> care.
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                Because her <span class="uk-tooltip" data-uk="схильність / вразливість">susceptibility</span> to infection <strong>had increased</strong> due to a recent bout of pneumonia, immediate intervention <strong>was</strong> required. We <strong>decided</strong> to initiate a soft reline procedure to prevent further <span class="uk-tooltip" data-uk="дегенеративний">degenerative</span> tissue damage before complete <span class="uk-tooltip" data-uk="втрата всіх зубів">edentulism</span> complications made a new prosthesis impossible. 
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: TRUE/FALSE ====== -->
+<section class="section" id="t5">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 5 · Verification</span>
+        <h2 class="section-title" contenteditable="true">Clinical Chart Review</h2>
+        <p class="section-desc" contenteditable="true">Verify the timeline of events based on the clinical narrative.</p>
+
+        <div class="tf-item"><span contenteditable="true">1. Mrs. Kovalenko came to the clinic immediately after noticing the loose denture.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False. She had been experiencing discomfort for three weeks and had initially ignored it.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">2. The bone loss (resorption) happened while the doctor was examining her.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False. The resorption "had progressed" over the previous two years.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">3. She had been using pharmacy adhesives instead of getting professional adjustments.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
+            <div class="tf-explain" contenteditable="true">True. "She had been relying on over-the-counter adhesives..."</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">4. Her recent pneumonia made her more vulnerable to oral infections.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
+            <div class="tf-explain" contenteditable="true">True. Her "susceptibility to infection had increased due to a recent bout of pneumonia."</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: GRAMMAR DISCOVERY ====== -->
+<section class="section" id="t6">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 6 · Grammar Discovery</span>
+        <h2 class="section-title" contenteditable="true">Dissecting the Timeline</h2>
+        <p class="section-desc" contenteditable="true">Look back at the bolded verbs in the reading. Which tense is used for which purpose? Match the grammatical form to its narrative function.</p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true"><strong>Past Simple</strong> (arrived, noted, decided) → Used for the main events that move the story <span class="blank-input" style="min-width:120px;"></span> in the past.</div></li>
+            <li><div contenteditable="true"><strong>Past Continuous</strong> (was examining) → Used to set the <span class="blank-input" style="min-width:120px;"></span> or describe an action interrupted by a main event.</div></li>
+            <li><div contenteditable="true"><strong>Past Perfect</strong> (had noticed, had progressed) → Used to show that an action was completely finished <span class="blank-input" style="min-width:120px;"></span> another action in the past.</div></li>
+            <li><div contenteditable="true"><strong>Past Perfect Continuous</strong> (had been experiencing, had been relying) → Used to emphasize the <span class="blank-input" style="min-width:120px;"></span> of an action that started in the past and continued up to another point in the past.</div></li>
+        </ul>
+        <button class="reveal-btn" onclick="toggleReveal('reveal-t6')">💡 Reveal Answers</button>
+        <div class="reveal-box" id="reveal-t6" contenteditable="true">
+            1. forward<br>
+            2. scene / background<br>
+            3. before<br>
+            4. duration / length
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 7 · System Rules</span>
+        <h2 class="section-title" contenteditable="true">Narrative Tenses <em>Matrix</em></h2>
+        <p class="section-desc" contenteditable="true">To write accurate medical histories or tell a compelling story, you must interlock these four tenses to map out exactly *when* things happened relative to each other.</p>
+
+        <table class="grammar-table">
+            <thead><tr><th contenteditable="true">Tense</th><th contenteditable="true">Structure</th><th contenteditable="true">Clinical Use Case</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true"><strong>Past Simple</strong></td>
+                    <td contenteditable="true">V2 / -ed</td>
+                    <td contenteditable="true"><strong>The anchor point.</strong> The specific event that happened.<br><em>"The patient arrived at 9 AM."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Continuous</strong></td>
+                    <td contenteditable="true">was/were + V-ing</td>
+                    <td contenteditable="true"><strong>The background.</strong> What was happening when the main event occurred.<br><em>"While I was preparing the tray, the patient arrived."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Perfect</strong></td>
+                    <td contenteditable="true">had + V3</td>
+                    <td contenteditable="true"><strong>The 'Before' Past.</strong> An event completed *before* the anchor point.<br><em>"He arrived at 9 AM. He had forgotten his X-rays."</em></td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Past Perfect Cont.</strong></td>
+                    <td contenteditable="true">had been + V-ing</td>
+                    <td contenteditable="true"><strong>The build-up.</strong> A continuous action leading up to the anchor point.<br><em>"He had been ignoring the pain for months before he arrived."</em></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="watch-out" contenteditable="true">
+            <strong>⚠️ The Golden Rule:</strong> You almost never use the Past Perfect on its own. It needs a Past Simple "anchor point" to reference. Without a Past Simple event, you are just floating in time!
+        </div>
+    </div>
+</section>
+
+<!-- Scripts for Part 1 Interactive Elements -->
+<script>
+    function fixError(el) {
+        el.classList.add('correct-click');
+        el.innerHTML = '<span class="es-fixed">' + el.dataset.correct + '</span> ✅';
+        el.onclick = null;
+    }
+
+    function checkTF(btn, isCorrect) {
+        const group = btn.parentElement;
+        group.querySelectorAll('button').forEach(b => b.classList.remove('correct', 'wrong'));
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        const explain = group.parentElement.querySelector('.tf-explain');
+        if (explain) explain.style.display = 'block';
+    }
+
+    function toggleReveal(id) {
+        const box = document.getElementById(id);
+        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
+<!-- END OF PART 1 -->
