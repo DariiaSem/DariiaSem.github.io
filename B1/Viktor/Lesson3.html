@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 3: B1.1 | A Day in Two Rooms — OR & ICU</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        --coral: #FF6B6B;
+        --coral-dark: #E5484D;
+        --sunny: #FFC93C;
+        --sunny-dark: #F2A900;
+        --mint: #06D6A0;
+        --mint-dark: #05B589;
+        --sky: #4CC9F0;
+        --sky-dark: #2A9FD6;
+        --grape: #8D6BFF;
+        --grape-dark: #6C4CE0;
+        --ink: #1F2937;
+        --cream: #FFFDF7;
+        --white: #FFFFFF;
+        --gray-100: #F5F7FA;
+        --gray-200: #E7ECF1;
+        --gray-400: #A6B1BE;
+        --gray-600: #5A6472;
+        --shadow-sm: 0 2px 10px rgba(31,41,55,0.08);
+        --shadow-md: 0 8px 24px rgba(31,41,55,0.10);
+        --shadow-lg: 0 16px 40px rgba(31,41,55,0.14);
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'DM Sans', sans-serif;
+        line-height: 1.7;
+        color: var(--ink);
+        background: var(--cream);
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 6px; }
+    [contenteditable="true"]:focus, [contenteditable="true"]:hover {
+        background-color: rgba(76, 201, 240, 0.10);
+        box-shadow: 0 0 0 2px rgba(76, 201, 240, 0.25);
+    }
+
+    /* ====== HERO ====== */
+    .hero {
+        position: relative;
+        background: linear-gradient(120deg, #FFEFD1 0%, #FFD9E6 45%, #D3F3FF 100%);
+        color: var(--ink);
+        padding: 90px 24px 76px;
+        text-align: center;
+        overflow: hidden;
+    }
+    .hero::before {
+        content: '🫧'; position: absolute; top: 30px; left: 8%; font-size: 3rem; opacity: 0.35; transform: rotate(-10deg);
+    }
+    .hero::after {
+        content: '💉'; position: absolute; bottom: 40px; right: 10%; font-size: 2.6rem; opacity: 0.3; transform: rotate(15deg);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+    .hero-badge {
+        display: inline-block; background: var(--white); border: 2px solid var(--coral);
+        color: var(--coral-dark); padding: 6px 20px; border-radius: 50px; font-size: 0.85rem;
+        font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 22px; box-shadow: var(--shadow-sm);
+    }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; line-height: 1.2; margin-bottom: 14px; }
+    .hero h1 span { color: var(--coral-dark); }
+    .hero-subtitle { font-size: clamp(1rem, 2vw, 1.2rem); color: #3B4757; max-width: 620px; margin: 0 auto 30px; }
+    .hero-pills { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .hero-pill { background: rgba(255,255,255,0.75); padding: 6px 16px; border-radius: 50px; font-size: 0.82rem; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); }
+    .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: var(--cream); clip-path: ellipse(55% 100% at 50% 100%); }
+
+    /* ====== NAV ====== */
+    .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); border-bottom: 2px solid var(--gray-200); padding: 0 20px; }
+    .nav-inner { max-width: 1150px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 58px; }
+    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; font-family: 'Space Grotesk', sans-serif; }
+    .nav-logo .dot { width: 10px; height: 10px; background: var(--coral); border-radius: 50%; }
+    .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 700; padding: 7px 12px; border-radius: 8px; white-space: nowrap; transition: 0.2s; }
+    .nav-links a:hover { color: var(--white); background: var(--coral); }
+
+    /* ====== SECTIONS ====== */
+    .section { padding: 68px 20px; }
+    .section:nth-child(even) { background: var(--white); }
+    .section-inner { max-width: 920px; margin: 0 auto; }
+    .section-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.74rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white); background: var(--coral); padding: 5px 14px; border-radius: 50px; margin-bottom: 14px; }
+    .section-label.lbl-mint { background: var(--mint); }
+    .section-label.lbl-sky { background: var(--sky-dark); }
+    .section-label.lbl-sunny { background: var(--sunny-dark); }
+    .section-label.lbl-grape { background: var(--grape); }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+    .section-desc { color: var(--gray-600); font-size: 1.03rem; margin-bottom: 30px; max-width: 680px; }
+
+    /* ====== PROMPT LIST ====== */
+    .prompt-list { display: flex; flex-direction: column; gap: 18px; margin-top: 22px; }
+    .prompt-item { background: var(--white); border-left: 5px solid var(--coral); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 22px 26px; box-shadow: var(--shadow-sm); }
+    .prompt-item strong { display: block; color: var(--ink); margin-bottom: 6px; font-size: 1.02rem; }
+
+    /* ====== SCENARIO CARDS ====== */
+    .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 22px; }
+    .scenario-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); padding: 26px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--sky); }
+    .scenario-card h3 { color: var(--ink); font-size: 1.1rem; margin-bottom: 12px; }
+    .scenario-card.c-coral { border-top-color: var(--coral); }
+    .scenario-card.c-mint { border-top-color: var(--mint); }
+    .scenario-card.c-sunny { border-top-color: var(--sunny-dark); }
+    .scenario-card.c-grape { border-top-color: var(--grape); }
+
+    /* ====== BOARD GAME ====== */
+    .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-top: 22px; }
+    .board-tile { background: var(--white); border: 2px solid var(--sky); border-radius: var(--radius-md); padding: 18px; text-align: center; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); min-height: 100px; display: flex; flex-direction: column; justify-content: center; transition: transform 0.15s; }
+    .board-tile:hover { transform: translateY(-3px) rotate(-0.5deg); border-color: var(--coral); }
+    .board-tile span.tile-num { display: block; font-size: 0.75rem; color: var(--gray-400); margin-bottom: 6px; font-weight: 700; }
+
+    /* ====== GRAMMAR TABLE ====== */
+    .grammar-table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.95rem; overflow: hidden; border-radius: var(--radius-md); border: 2px solid var(--gray-200); background: var(--white); }
+    .grammar-table thead th { background: var(--ink); color: var(--white); padding: 14px 18px; text-align: left; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    .grammar-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+    .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+    .watch-out { background: rgba(255,201,60,0.2); border-left: 4px solid var(--sunny-dark); padding: 14px 18px; margin-top: 16px; border-radius: 0 8px 8px 0; }
+
+    /* ====== TIMELINE ====== */
+    .timeline-box { background: var(--gray-100); border-radius: var(--radius-lg); padding: 34px 24px; margin-top: 24px; }
+    .timeline-track { position: relative; height: 4px; background: var(--gray-400); border-radius: 4px; margin: 50px 20px 30px; }
+    .timeline-point { position: absolute; top: -10px; width: 24px; height: 24px; border-radius: 50%; background: var(--coral); border: 3px solid var(--white); box-shadow: var(--shadow-sm); }
+    .timeline-label { position: absolute; top: -46px; transform: translateX(-50%); font-size: 0.78rem; font-weight: 700; color: var(--ink); background: var(--white); padding: 3px 10px; border-radius: 6px; white-space: nowrap; box-shadow: var(--shadow-sm); }
+    .timeline-cloud { position: absolute; bottom: -46px; transform: translateX(-50%); background: var(--mint); color: white; font-size: 0.75rem; font-weight: 700; padding: 5px 12px; border-radius: 50px; white-space: nowrap; }
+
+    /* ====== PRACTICE LIST ====== */
+    .practice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 22px; counter-reset: practice-counter; }
+    .practice-list li { background: var(--white); padding: 16px 20px; border-radius: var(--radius-sm); border: 2px solid var(--gray-200); position: relative; padding-left: 46px; }
+    .practice-list li::before { counter-increment: practice-counter; content: counter(practice-counter) "."; position: absolute; left: 18px; top: 15px; font-weight: 800; color: var(--coral); }
+    .blank-input { display: inline-block; min-width: 70px; border-bottom: 3px dotted var(--sky-dark); color: var(--coral-dark); font-weight: 700; padding: 0 8px; text-align: center; background: rgba(76,201,240,0.08); }
+    .blank-input:focus { border-bottom-style: solid; background: rgba(76,201,240,0.16); }
+
+    /* ====== VOCAB HOVER-FLIP CARDS ====== */
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin-top: 24px; }
+    .vocab-card { position: relative; height: 150px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); cursor: pointer; border: 2px solid var(--gray-200); }
+    .vocab-front { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; background: linear-gradient(135deg, var(--sky), var(--mint)); color: white; transition: opacity 0.3s; padding: 12px; text-align: center; }
+    .vocab-card:hover .vocab-front { opacity: 0; pointer-events: none; }
+    .vocab-front .emoji { font-size: 1.8rem; }
+    .vocab-front strong { font-size: 1.05rem; }
+    .vocab-def { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; text-align: center; background: var(--white); font-size: 0.88rem; color: var(--ink); }
+
+    /* ====== DRAG MATCH ====== */
+    .match-board { display: flex; gap: 18px; align-items: stretch; margin-top: 22px; }
+    .drag-column, .static-column { flex: 1; display: flex; flex-direction: column; gap: 12px; list-style: none; }
+    .arrows-column { display: flex; flex-direction: column; gap: 12px; justify-content: space-between; }
+    .drag-item { background: var(--white); border: 2px solid var(--coral); border-radius: var(--radius-sm); cursor: grab; display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); height: 74px; padding: 0 16px; font-size: 0.95rem; }
+    .drag-item.dragging { opacity: 0.4; border-style: dashed; }
+    .drag-handle { color: var(--coral-dark); font-size: 1.3rem; user-select: none; }
+    .static-item { background: var(--gray-100); border: 2px solid var(--gray-200); border-radius: var(--radius-sm); color: var(--ink); height: 74px; display: flex; align-items: center; padding: 0 16px; line-height: 1.3; font-size: 0.9rem; }
+    .match-arrow { color: var(--coral); font-weight: 800; font-size: 1.4rem; height: 74px; display: flex; align-items: center; justify-content: center; }
+
+    /* ====== ERROR SPY GAME ====== */
+    .spy-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px 22px; margin-bottom: 14px; box-shadow: var(--shadow-sm); }
+    .spy-word { background: rgba(255,107,107,0.18); border-bottom: 2px dashed var(--coral-dark); padding: 1px 4px; border-radius: 4px; cursor: pointer; font-weight: 700; color: var(--coral-dark); }
+    .spy-word.found { background: rgba(6,214,160,0.2); border-bottom-color: var(--mint-dark); color: var(--mint-dark); }
+    .spy-fix-row { display: none; align-items: center; gap: 10px; margin-top: 12px; }
+    .spy-fix-row.active { display: flex; flex-wrap: wrap; }
+    .spy-fix-row input { border: 2px solid var(--sky); border-radius: 8px; padding: 6px 12px; font-size: 0.95rem; flex: 1; min-width: 140px; }
+    .spy-check-btn, .fun-btn { background: var(--coral); color: white; border: none; padding: 7px 16px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+    .spy-check-btn:hover, .fun-btn:hover { background: var(--coral-dark); transform: translateY(-1px); }
+    .spy-feedback { font-size: 0.85rem; font-weight: 700; margin-left: 4px; }
+
+    /* ====== PRONUNCIATION ====== */
+    .pron-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 22px; }
+    .pron-card { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px; box-shadow: var(--shadow-sm); text-align: center; }
+    .pron-word { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+    .pron-syll { color: var(--gray-600); font-size: 0.85rem; margin-bottom: 10px; }
+    .pron-syll .stressed { color: var(--coral-dark); font-weight: 800; }
+    .speak-btn { background: var(--sky-dark); color: white; border: none; width: 42px; height: 42px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; box-shadow: var(--shadow-sm); }
+    .speak-btn:hover { background: var(--coral); }
+
+    /* ====== LISTENING ====== */
+    .listen-box { background: linear-gradient(135deg, #EAFBF6, #E6F7FF); border-radius: var(--radius-lg); padding: 28px; margin-top: 22px; border: 2px dashed var(--mint); }
+    .listen-controls { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+    .big-play-btn { background: var(--mint); color: white; border: none; padding: 12px 26px; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 8px; }
+    .big-play-btn:hover { background: var(--mint-dark); }
+
+    /* ====== FLOWCHART ====== */
+    .flowchart { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 28px 0; background: linear-gradient(135deg, #FFF7E8, #FFEFF6); padding: 34px; border-radius: var(--radius-lg); border: 2px dashed var(--sunny); }
+    .flow-bubble { background: var(--white); padding: 12px 22px; border-radius: 50px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); border: 2px solid var(--sky); text-align: center; min-width: 240px; }
+    .flow-bubble.b-side { border-color: var(--coral); background: var(--coral); color: var(--white); }
+    .flow-arrow { color: var(--gray-400); font-size: 1.4rem; }
+
+    /* ====== GAME: TWO TRUTHS ====== */
+    .truth-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-sm); padding: 10px 16px; }
+    .truth-row input[type="text"] { flex: 1; border: none; font-size: 0.95rem; padding: 6px; }
+    .truth-row input[type="text"]:focus { outline: none; }
+    .lie-check-label { font-size: 0.78rem; font-weight: 700; color: var(--coral-dark); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    #truthReveal { display: none; margin-top: 14px; padding: 14px; background: rgba(255,201,60,0.2); border-radius: var(--radius-sm); font-weight: 700; }
+
+    /* ====== CONFIDENCE SLIDER ====== */
+    .confidence-box { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); padding: 26px; margin-top: 26px; text-align: center; }
+    .confidence-emoji { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+    .confidence-box input[type="range"] { width: 100%; max-width: 400px; accent-color: var(--coral); }
+
+    /* ====== WHITEBOARD ====== */
+    .whiteboard-container { border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; margin-top: 22px; box-shadow: var(--shadow-md); }
+    .wb-toolbar { background: var(--ink); padding: 12px 18px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .wb-btn { background: #3B4757; color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.82rem; font-weight: 600; }
+    .wb-btn:hover, .wb-btn.active { background: var(--coral); }
+    .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--white); cursor: pointer; padding: 0; }
+    canvas { display: block; width: 100%; height: 460px; background: var(--white); cursor: crosshair; }
+
+    /* ====== SUM UP ====== */
+    .sum-up-box { background: linear-gradient(135deg, var(--mint), var(--sky-dark)); color: var(--white); padding: 34px; border-radius: var(--radius-lg); text-align: center; margin-top: 40px; }
+    .sum-up-box h2 { margin-bottom: 16px; }
+
+    /* ====== HOMEWORK ====== */
+    .homework-section { background: linear-gradient(180deg, #FFF9EC 0%, var(--cream) 100%); }
+    .hw-card { background: var(--white); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); margin-bottom: 22px; border: 2px solid var(--gray-200); }
+    .hw-card h3 { margin-bottom: 16px; color: var(--ink); font-size: 1.15rem; }
+    .hw-q { margin-bottom: 20px; }
+    .hw-q p { font-weight: 600; margin-bottom: 8px; }
+    .hw-options { display: flex; flex-direction: column; gap: 8px; }
+    .hw-option { display: flex; align-items: center; gap: 8px; background: var(--gray-100); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.92rem; }
+    .hw-option:hover { background: #ECF3FF; }
+    .hw-fill input[type="text"] { border: 2px solid var(--sky); border-radius: 8px; padding: 6px 12px; font-size: 0.95rem; margin-left: 6px; }
+    #hwCheckBtn { background: var(--coral); color: white; border: none; padding: 12px 28px; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow-sm); }
+    #hwCheckBtn:hover { background: var(--coral-dark); }
+    #hwResult { margin-top: 18px; font-weight: 700; font-size: 1.1rem; }
+    .hw-open-box { border: 2px dashed var(--sky); border-radius: var(--radius-md); padding: 18px; min-height: 100px; background: var(--gray-100); }
+
+    /* ====== FLOATING ACTIONS ====== */
+    .floating-actions { position: fixed; bottom: 28px; right: 28px; display: flex; flex-direction: column; gap: 14px; z-index: 1000; }
+    .fab-btn { background: var(--coral); color: var(--white); border: none; width: 54px; height: 54px; border-radius: 50%; font-size: 1.4rem; cursor: pointer; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .fab-btn:hover { transform: translateY(-3px) scale(1.05); background: var(--coral-dark); }
+    .quizlet-btn { background: #4255FF; } .quizlet-btn:hover { background: #2839d0; }
+
+    /* ====== MODAL ====== */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(31,41,55,0.55); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+    .modal-content { background: var(--white); padding: 30px; border-radius: var(--radius-lg); width: 90%; max-width: 600px; box-shadow: var(--shadow-lg); position: relative; }
+    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); }
+    .close-modal:hover { color: var(--coral); }
+    .word-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .word-row input { flex: 1; padding: 10px 14px; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 1rem; }
+    #wordList { max-height: 340px; overflow-y: auto; margin: 20px 0; padding-right: 8px; }
+
+    /* ====== SYNC & CURSORS ====== */
+    #syncStatus { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--ink); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 8px; box-shadow: var(--shadow-sm); }
+    #syncDot { width: 8px; height: 8px; background: var(--sunny); border-radius: 50%; }
+    .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.4s linear, left 0.4s linear; opacity: 0; animation: fadeInCursor 0.3s forwards; }
+    @keyframes fadeInCursor { to { opacity: 1; } }
+    .remote-cursor svg { width: 22px; height: 22px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); }
+    .remote-cursor-label { color: white; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: -4px; margin-top: 15px; white-space: nowrap; }
+
+    /* confetti */
+    .confetti-piece { position: fixed; top: -10px; font-size: 1.4rem; z-index: 99999; pointer-events: none; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(105vh) rotate(360deg); opacity: 0.2; } }
+
+    @media (max-width: 768px) {
+        .hero { padding: 64px 18px 54px; }
+        .section { padding: 48px 16px; }
+        .nav-links { display: none; }
+        canvas { height: 380px; }
+        .match-board { flex-direction: column; }
+        .arrows-column { display: none; }
+        .drag-item, .static-item { height: auto; min-height: 60px; padding: 12px 16px; }
+        .floating-actions { bottom: 18px; right: 18px; }
+    }
+</style>
+</head>
+<body>
+
+<div id="syncStatus"><span id="syncDot"></span><span id="syncText">Connecting Classroom...</span></div>
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Lesson 3 · B1.1 · Anesthesiology English</div>
+        <h1 contenteditable="true">A Day in <span>Two Rooms</span>: The OR & The ICU</h1>
+        <p class="hero-subtitle" contenteditable="true">Talking about experience, telling the story of a shift, and finally making friends with the Present Perfect.</p>
+        <div class="hero-pills">
+            <span class="hero-pill" contenteditable="true">🗣️ Speaking</span>
+            <span class="hero-pill" contenteditable="true">🧩 Grammar: Present Perfect (experience)</span>
+            <span class="hero-pill" contenteditable="true">📚 Vocabulary: OR & ICU</span>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">Anesthesiology English</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--sky); color:white; padding: 4px 10px; font-weight:800; border-radius:50px;" title="Add Custom Tab">+</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#games" contenteditable="true">Games</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#pronunciation" contenteditable="true">Pronunciation</a></li>
+            <li><a href="#roleplay" contenteditable="true">Role-Play</a></li>
+            <li><a href="#whiteboard" contenteditable="true">Whiteboard</a></li>
+            <li><a href="#homework" contenteditable="true">Homework</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: WARM-UP ====== -->
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 1 · Warm-Up</span>
+        <h2 class="section-title" contenteditable="true">Two Rooms, One Job</h2>
+        <p class="section-desc" contenteditable="true">Before we open any books — let's just talk. Answer these questions about your own working life.</p>
+
+        <div class="prompt-list">
+            <div class="prompt-item">
+                <strong contenteditable="true">Your Typical Day</strong>
+                <p contenteditable="true">1. Was yesterday mostly an "OR day" or an "ICU day" for you? Describe it in two or three sentences.</p>
+                <p contenteditable="true">2. What's the biggest difference in atmosphere between the operating room and the ICU?</p>
+                <p contenteditable="true">3. Which environment do you personally prefer working in — and why?</p>
+            </div>
+            <div class="prompt-item" style="border-color: var(--mint);">
+                <strong contenteditable="true">First Impressions</strong>
+                <p contenteditable="true">4. What was your very first day in an OR like? Were you nervous?</p>
+                <p contenteditable="true">5. Do you remember your first night shift in the ICU? What surprised you?</p>
+            </div>
+            <div class="prompt-item" style="border-color: var(--sunny-dark);">
+                <strong contenteditable="true">Explain It Simply</strong>
+                <p contenteditable="true">6. If a friend who isn't a doctor asked, "What do you actually do all day?" — how would you explain it in plain English?</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 2: READING ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label lbl-sky" contenteditable="true">Task 2 · Reading</span>
+        <h2 class="section-title" contenteditable="true">Two Rooms</h2>
+        <p class="section-desc" contenteditable="true">Read Dr. Olena's story about one ordinary shift. Don't worry about grammar labels yet — just enjoy the story and notice how she talks about her experience.</p>
+
+        <div class="scenario-card c-sky">
+            <h3 contenteditable="true">🏥 Two Rooms — by Dr. Olena</h3>
+            <p contenteditable="true">7:45 AM. I walk into Operating Room 3. The nurses have already prepared the equipment, and my resident has checked the machine twice — he's still nervous, even after six months. "Have you ever intubated a patient with a difficult airway?" he asks me quietly. I smile. "Many times," I say. "But every airway is different — never assume it will be easy."</p>
+            <br>
+            <p contenteditable="true">At 9:15, the surgery starts. I have never gotten used to how quiet the room becomes at that moment — even after ten years. The surgeon works, the monitors beep steadily, and I watch every number like it's the only thing in the world.</p>
+            <br>
+            <p contenteditable="true">By 1:00 PM, the operation is finished. I walked the patient down to the ICU myself — something I don't always do, but this case was complicated, and I wanted to hand him over personally.</p>
+            <br>
+            <p contenteditable="true">The ICU feels completely different. It's quieter, but somehow more intense. Nurse Kateryna is already waiting. "How did the surgery go?" she asks. "Better than we expected," I tell her, and I give her the full report.</p>
+            <br>
+            <p contenteditable="true">I have worked in this hospital for eight years, and I have seen hundreds of patients move between these two rooms. But I have never stopped feeling that small moment of relief when a patient finally opens their eyes in the ICU, safe.</p>
+        </div>
+
+        <h3 contenteditable="true" style="margin-top: 30px; margin-bottom: 6px; color: var(--ink);">Quick Check: True or False?</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">The resident has been working with Dr. Olena for six months. <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">Dr. Olena always walks patients to the ICU herself. <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">Dr. Olena has worked at this hospital for eight years. <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">The surgery went worse than expected. <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">Dr. Olena says she never feels relief anymore after ten years of experience. <span class="blank-input"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 3: GRAMMAR DETECTIVE (DISCOVERY) ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="section-label lbl-mint" contenteditable="true">Task 3 · Grammar Detective</span>
+        <h2 class="section-title" contenteditable="true">Spot the Pattern</h2>
+        <p class="section-desc" contenteditable="true">Go back to the story. Find sentences that talk about <strong>experience with no exact time</strong>, and sentences with a <strong>specific past moment</strong>. Copy them into the right box below, then try to write your own rule.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card c-mint">
+                <h3 contenteditable="true">🌫️ No exact time (experience)</h3>
+                <p contenteditable="true">Example: <span class="blank-input" style="min-width:280px;">I have never gotten used to...</span></p>
+                <p contenteditable="true">Your example 2: <span class="blank-input" style="min-width:220px;"></span></p>
+                <p contenteditable="true">Your example 3: <span class="blank-input" style="min-width:220px;"></span></p>
+            </div>
+            <div class="scenario-card c-coral">
+                <h3 contenteditable="true">📍 Exact moment (finished action)</h3>
+                <p contenteditable="true">Example: <span class="blank-input" style="min-width:280px;">I walked the patient down to the ICU.</span></p>
+                <p contenteditable="true">Your example 2: <span class="blank-input" style="min-width:220px;"></span></p>
+                <p contenteditable="true">Your example 3: <span class="blank-input" style="min-width:220px;"></span></p>
+            </div>
+        </div>
+
+        <div class="watch-out" contenteditable="true">
+            <strong>My rule:</strong> We use the "have/has + past participle" form when <span class="blank-input" style="min-width:260px;"></span>. We use the simple past form when <span class="blank-input" style="min-width:260px;"></span>.
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: GRAMMAR THEORY + TIMELINE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label lbl-mint" contenteditable="true">Task 4 · Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">Present Perfect for Experience vs. Past Simple</h2>
+        <p class="section-desc" contenteditable="true">Now let's check your rule against the real one — and see it on a timeline.</p>
+
+        <div class="timeline-box">
+            <div class="timeline-track">
+                <div class="timeline-point" style="left: 15%;"></div>
+                <div class="timeline-label" style="left: 15%;">2019 — my first day</div>
+                <div class="timeline-point" style="left: 55%;"></div>
+                <div class="timeline-label" style="left: 55%;">Yesterday, 2 PM</div>
+                <div class="timeline-point" style="left: 92%;background:var(--mint);"></div>
+                <div class="timeline-label" style="left: 92%;">NOW</div>
+                <div class="timeline-cloud" style="left: 55%; width: 220px; text-align:center;">"I have worked here for 8 years" — the whole cloudy period up to now, no exact point</div>
+            </div>
+        </div>
+
+        <table class="grammar-table">
+            <thead><tr><th contenteditable="true">Form</th><th contenteditable="true">Structure</th><th contenteditable="true">Example</th></tr></thead>
+            <tbody>
+                <tr><td contenteditable="true" style="font-weight:800;color:var(--mint-dark);">Present Perfect</td><td contenteditable="true">have/has + past participle (V3)</td><td contenteditable="true">She <strong>has managed</strong> difficult airways before.</td></tr>
+                <tr><td contenteditable="true" style="font-weight:800;color:var(--coral-dark);">Past Simple</td><td contenteditable="true">V2 (regular -ed / irregular)</td><td contenteditable="true">She <strong>managed</strong> a difficult airway yesterday.</td></tr>
+            </tbody>
+        </table>
+
+        <table class="grammar-table" style="margin-top: 20px;">
+            <thead><tr><th contenteditable="true">Signal Words → Present Perfect</th><th contenteditable="true">Signal Words → Past Simple</th></tr></thead>
+            <tbody>
+                <tr><td contenteditable="true">ever, never, already, before, so far, in my life, for + period, since + point</td><td contenteditable="true">yesterday, last week, in 2019, when I was a student, two hours ago, at 2 PM</td></tr>
+            </tbody>
+        </table>
+
+        <div class="watch-out" contenteditable="true">
+            ⚠️ <strong>Watch out:</strong> "Have you ever...?" asks about your whole life up to now. "Did you...?" asks about one specific, finished moment. Compare: <em>"Have you ever worked a night shift?"</em> vs. <em>"Did you work a night shift last Tuesday?"</em>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: GRAMMAR PRACTICE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label lbl-mint" contenteditable="true">Task 5 · Grammar Practice</span>
+        <h2 class="section-title" contenteditable="true">Fill the Gaps</h2>
+        <p class="section-desc" contenteditable="true">Choose Present Perfect or Past Simple. Write the correct form of the verb in brackets.</p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true"><span class="blank-input" style="min-width:40px;"></span> you ever <span class="blank-input" style="min-width:110px;"></span> <em>(manage)</em> a patient with a difficult airway?</div></li>
+            <li><div contenteditable="true">I <span class="blank-input" style="min-width:110px;"></span> <em>(work)</em> as an anesthesiologist for eight years.</div></li>
+            <li><div contenteditable="true">Last month, I <span class="blank-input" style="min-width:110px;"></span> <em>(attend)</em> a conference in Vienna.</div></li>
+            <li><div contenteditable="true">She has never <span class="blank-input" style="min-width:110px;"></span> <em>(lose)</em> a patient during surgery.</div></li>
+            <li><div contenteditable="true">We <span class="blank-input" style="min-width:110px;"></span> <em>(finish)</em> the operation at 2 PM yesterday.</div></li>
+            <li><div contenteditable="true">Have you ever <span class="blank-input" style="min-width:110px;"></span> <em>(travel)</em> abroad for a medical conference?</div></li>
+            <li><div contenteditable="true">I <span class="blank-input" style="min-width:110px;"></span> <em>(start)</em> my shift at 7 AM this morning.</div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 6: VOCABULARY LAB ====== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="section-label lbl-sunny" contenteditable="true">Task 6 · Vocabulary Lab</span>
+        <h2 class="section-title" contenteditable="true">The Language of the OR & ICU</h2>
+        <p class="section-desc" contenteditable="true">Hover over each card to flip it and see the definition. Try covering the definitions and testing yourself first!</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">🫁</span><strong>ventilator</strong></div><div class="vocab-def" contenteditable="true">a machine that helps a patient breathe when they can't breathe on their own</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">🧵</span><strong>extubate</strong></div><div class="vocab-def" contenteditable="true">to remove the breathing tube from a patient's throat</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">📟</span><strong>monitor</strong></div><div class="vocab-def" contenteditable="true">the screen that shows heart rate, blood pressure, and oxygen levels</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">😴</span><strong>sedation</strong></div><div class="vocab-def" contenteditable="true">a calm, sleep-like state produced by medication</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">❤️</span><strong>vital signs</strong></div><div class="vocab-def" contenteditable="true">key measurements like pulse, blood pressure, temperature, and breathing rate</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">🩸</span><strong>central line</strong></div><div class="vocab-def" contenteditable="true">a tube placed into a large vein, often in the neck or chest, for medication or fluids</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">🔄</span><strong>handover</strong></div><div class="vocab-def" contenteditable="true">passing information about a patient from one team to the next</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true"><span class="emoji">🚨</span><strong>alarm</strong></div><div class="vocab-def" contenteditable="true">a sound the monitor makes when something needs attention immediately</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GAME — ERROR SPY ====== -->
+<section class="section" id="games">
+    <div class="section-inner">
+        <span class="section-label lbl-coral" style="background:var(--coral);" contenteditable="true">Task 7 · Game — Grammar Detective</span>
+        <h2 class="section-title" contenteditable="true">🕵️ Error Spy</h2>
+        <p class="section-desc" contenteditable="true">Each sentence has ONE mistake. Click the highlighted word, then type the correction and check yourself.</p>
+
+        <div id="spyGame">
+            <div class="spy-card" contenteditable="true">1. I have <span class="spy-word" data-correct="visited">visit</span> three different ICUs this year.
+                <div class="spy-fix-row"><input type="text" placeholder="Type the correction..."><button class="spy-check-btn" onclick="checkSpy(this)">Check</button><span class="spy-feedback"></span></div>
+            </div>
+            <div class="spy-card" contenteditable="true">2. She <span class="spy-word" data-correct="has">have</span> never worked a night shift before.
+                <div class="spy-fix-row"><input type="text" placeholder="Type the correction..."><button class="spy-check-btn" onclick="checkSpy(this)">Check</button><span class="spy-feedback"></span></div>
+            </div>
+            <div class="spy-card" contenteditable="true">3. Yesterday, I <span class="spy-word" data-correct="extubated">have extubated</span> a very difficult patient.
+                <div class="spy-fix-row"><input type="text" placeholder="Type the correction..."><button class="spy-check-btn" onclick="checkSpy(this)">Check</button><span class="spy-feedback"></span></div>
+            </div>
+            <div class="spy-card" contenteditable="true">4. He has <span class="spy-word" data-correct="intubated">intubate</span> more than five hundred patients.
+                <div class="spy-fix-row"><input type="text" placeholder="Type the correction..."><button class="spy-check-btn" onclick="checkSpy(this)">Check</button><span class="spy-feedback"></span></div>
+            </div>
+            <div class="spy-card" contenteditable="true">5. Have you ever <span class="spy-word" data-correct="seen">saw</span> a patient crash on the table?
+                <div class="spy-fix-row"><input type="text" placeholder="Type the correction..."><button class="spy-check-btn" onclick="checkSpy(this)">Check</button><span class="spy-feedback"></span></div>
+            </div>
+            <div class="spy-card" contenteditable="true">6. Last week, I <span class="spy-word" data-correct="handed over">have handed over</span> twelve patients to the ICU.
+                <div class="spy-fix-row"><input type="text" placeholder="Type the correction..."><button class="spy-check-btn" onclick="checkSpy(this)">Check</button><span class="spy-feedback"></span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: SPEAKING BOARD GAME ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <span class="section-label lbl-sky" contenteditable="true">Task 8 · Speaking Game</span>
+        <h2 class="section-title" contenteditable="true">"Have You Ever...?" Board</h2>
+        <p class="section-desc" contenteditable="true">Pick any tile and answer honestly! Use "I have..." / "I have never..." and add one extra detail with Past Simple.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true"><span class="tile-num">1</span>...calmed a panicking patient before surgery?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">2</span>...worked more than 24 hours in a row?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">3</span>...traveled abroad for a conference?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">4</span>...forgotten something important before a shift?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">5</span>...had a patient thank you personally?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">6</span>...disagreed with a surgeon about a decision?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">7</span>...trained a new resident?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">8</span>...fallen asleep during a night shift?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">9</span>...used English at an international conference?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">10</span>...made a mistake and learned from it?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">11</span>...worked in a hospital outside Ukraine?</div>
+            <div class="board-tile" contenteditable="true"><span class="tile-num">12</span>...comforted a patient's family?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: LISTENING ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label lbl-mint" contenteditable="true">Task 9 · Listening</span>
+        <h2 class="section-title" contenteditable="true">The Handover</h2>
+        <p class="section-desc" contenteditable="true">Press play and listen to the handover conversation between Dr. Olena and Nurse Kateryna. Fill in the missing words as you listen (you can play it more than once).</p>
+
+        <div class="listen-box">
+            <div class="listen-controls">
+                <button class="big-play-btn" onclick="playHandover()">▶️ Play Dialogue</button>
+                <button class="big-play-btn" style="background:var(--sky-dark);" onclick="window.speechSynthesis.cancel()">⏹️ Stop</button>
+            </div>
+            <ul class="practice-list">
+                <li><div contenteditable="true">Nurse: "Has the patient <span class="blank-input"></span> up yet?"</div></li>
+                <li><div contenteditable="true">Doctor: "Not yet, he's still under <span class="blank-input"></span>."</div></li>
+                <li><div contenteditable="true">Nurse: "<span class="blank-input"></span> you given him any pain medication?"</div></li>
+                <li><div contenteditable="true">Doctor: "Yes, I've <span class="blank-input"></span> him a dose about twenty minutes ago."</div></li>
+                <li><div contenteditable="true">Nurse: "Okay, I'll check his vital signs every <span class="blank-input"></span> minutes."</div></li>
+            </ul>
+        </div>
+
+        <h3 contenteditable="true" style="margin-top:24px; margin-bottom: 6px;">Comprehension</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">Did the surgery go smoothly? What evidence supports your answer? <span class="blank-input" style="min-width:150px;"></span></div></li>
+            <li><div contenteditable="true">Is the patient awake yet? <span class="blank-input" style="min-width:150px;"></span></div></li>
+            <li><div contenteditable="true">What will the nurse do every fifteen minutes? <span class="blank-input" style="min-width:150px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 10: PRONUNCIATION ====== -->
+<section class="section" id="pronunciation">
+    <div class="section-inner">
+        <span class="section-label lbl-sunny" contenteditable="true">Task 10 · Pronunciation Lab</span>
+        <h2 class="section-title" contenteditable="true">Stress & Fast Speech</h2>
+        <p class="section-desc" contenteditable="true">Click each speaker to hear the word. Notice which syllable is the loudest (the STRESSED one).</p>
+
+        <div class="pron-grid">
+            <div class="pron-card"><div class="pron-word" contenteditable="true">anesthesiologist</div><div class="pron-syll" contenteditable="true">a‑nes‑thesi‑<span class="stressed">OL</span>‑o‑gist</div><button class="speak-btn" onclick="speakText('anesthesiologist', 0.75)">🔊</button></div>
+            <div class="pron-card"><div class="pron-word" contenteditable="true">ventilator</div><div class="pron-syll" contenteditable="true"><span class="stressed">VEN</span>‑ti‑lay‑tor</div><button class="speak-btn" onclick="speakText('ventilator', 0.8)">🔊</button></div>
+            <div class="pron-card"><div class="pron-word" contenteditable="true">intubation</div><div class="pron-syll" contenteditable="true">in‑tu‑<span class="stressed">BAY</span>‑shun</div><button class="speak-btn" onclick="speakText('intubation', 0.8)">🔊</button></div>
+            <div class="pron-card"><div class="pron-word" contenteditable="true">recovery</div><div class="pron-syll" contenteditable="true">re‑<span class="stressed">COV</span>‑er‑y</div><button class="speak-btn" onclick="speakText('recovery', 0.8)">🔊</button></div>
+        </div>
+
+        <div class="watch-out" style="margin-top: 24px;" contenteditable="true">
+            🌬️ <strong>Fast speech:</strong> In natural speech, "Have you ever...?" often sounds like <em>"/həvjuˈɛvɚ/"</em> — the words blend together! Click below to hear it slow, then fast.
+        </div>
+        <div style="display:flex; gap:14px; margin-top: 14px; flex-wrap: wrap;">
+            <button class="fun-btn" onclick="speakText('Have you ever worked a night shift?', 0.6)">🐢 Slow version</button>
+            <button class="fun-btn" onclick="speakText('Have you ever worked a night shift?', 1.15)">🐇 Natural speed</button>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: VOCABULARY EXPANSION — DRAG MATCH ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label lbl-sunny" contenteditable="true">Task 11 · Vocabulary Game</span>
+        <h2 class="section-title" contenteditable="true">Drag & Match</h2>
+        <p class="section-desc" contenteditable="true">Drag the words on the left using the handles so each one lines up with its correct definition on the right.</p>
+
+        <div class="match-board">
+            <ul class="drag-column" id="vocabMatchColumn">
+                <li class="drag-item" id="dm-4" draggable="true"><span class="drag-handle" contenteditable="true">⋮⋮</span><span contenteditable="true">discharge</span></li>
+                <li class="drag-item" id="dm-1" draggable="true"><span class="drag-handle" contenteditable="true">⋮⋮</span><span contenteditable="true">dose</span></li>
+                <li class="drag-item" id="dm-5" draggable="true"><span class="drag-handle" contenteditable="true">⋮⋮</span><span contenteditable="true">surgeon</span></li>
+                <li class="drag-item" id="dm-2" draggable="true"><span class="drag-handle" contenteditable="true">⋮⋮</span><span contenteditable="true">recovery room</span></li>
+                <li class="drag-item" id="dm-6" draggable="true"><span class="drag-handle" contenteditable="true">⋮⋮</span><span contenteditable="true">crash</span></li>
+                <li class="drag-item" id="dm-3" draggable="true"><span class="drag-handle" contenteditable="true">⋮⋮</span><span contenteditable="true">airway</span></li>
+            </ul>
+            <div class="arrows-column"><div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div><div class="match-arrow">↔</div></div>
+            <ul class="static-column">
+                <li class="static-item" contenteditable="true">a) the doctor who performs the operation itself</li>
+                <li class="static-item" contenteditable="true">b) the exact amount of medication given at one time</li>
+                <li class="static-item" contenteditable="true">c) the path air takes to and from the lungs</li>
+                <li class="static-item" contenteditable="true">d) the place where a patient wakes up right after surgery</li>
+                <li class="static-item" contenteditable="true">e) when a patient suddenly becomes critically unstable</li>
+                <li class="static-item" contenteditable="true">f) officially letting a patient leave hospital care</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: ROLE-PLAY (FLOWCHART) ====== -->
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="section-label lbl-grape" contenteditable="true">Task 12 · Role-Play</span>
+        <h2 class="section-title" contenteditable="true">OR → ICU Handover</h2>
+        <p class="section-desc" contenteditable="true">Act out this dialogue. One person is the Anesthesiologist, the other is the ICU Nurse. Try to use Present Perfect at least twice!</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>Nurse:</strong> Ask how the surgery went.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Doctor:</strong> Give a short summary. Mention one thing that happened during surgery (Past Simple).</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Nurse:</strong> Ask whether the patient has woken up yet.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Doctor:</strong> Answer, and mention any medication you have already given (Present Perfect).</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Nurse:</strong> Confirm you will monitor vital signs, and thank the doctor.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: GAME — TWO TRUTHS AND A MEDICAL LIE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" style="background:var(--coral);" contenteditable="true">Task 13 · Speaking Game</span>
+        <h2 class="section-title" contenteditable="true">🎭 Two Truths & a Medical Lie</h2>
+        <p class="section-desc" contenteditable="true">Write three sentences about your career using "I have..." — two must be TRUE, one must be a LIE. Mark the lie secretly, then read all three aloud. Can your teacher guess?</p>
+
+        <div id="truthGame">
+            <div class="truth-row"><input type="text" placeholder="Statement 1: I have..."><label class="lie-check-label"><input type="checkbox" name="lieMark" onclick="markLie(this)"> This is the lie</label></div>
+            <div class="truth-row"><input type="text" placeholder="Statement 2: I have..."><label class="lie-check-label"><input type="checkbox" name="lieMark" onclick="markLie(this)"> This is the lie</label></div>
+            <div class="truth-row"><input type="text" placeholder="Statement 3: I have..."><label class="lie-check-label"><input type="checkbox" name="lieMark" onclick="markLie(this)"> This is the lie</label></div>
+        </div>
+        <button class="fun-btn" onclick="revealTruth()">🔍 Reveal the Lie</button>
+        <div id="truthReveal"></div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: COMPARING TWO WORLDS ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label lbl-sky" contenteditable="true">Task 14 · Speaking</span>
+        <h2 class="section-title" contenteditable="true">Comparing Two Worlds</h2>
+        <p class="section-desc" contenteditable="true">Discuss each theme below, comparing the OR and the ICU.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card c-coral"><h3 contenteditable="true">⏱️ Pace</h3><p contenteditable="true">Which room moves faster? Does the pace ever suddenly change in either place?</p></div>
+            <div class="scenario-card c-mint"><h3 contenteditable="true">🔊 Sounds</h3><p contenteditable="true">What sounds do you associate with each room? Which sounds make you feel alert?</p></div>
+            <div class="scenario-card c-sunny"><h3 contenteditable="true">💛 Emotions</h3><p contenteditable="true">Where do you feel more emotional connection with patients — the OR or the ICU?</p></div>
+            <div class="scenario-card c-grape"><h3 contenteditable="true">🤝 Teamwork</h3><p contenteditable="true">How is teamwork different between a surgical team and an ICU team?</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: GRAND FINALE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" style="background:var(--coral);" contenteditable="true">Task 15 · Grand Finale</span>
+        <h2 class="section-title" contenteditable="true">Bringing It All Together</h2>
+        <p class="section-desc" contenteditable="true">Complete Dr. Olena's final thought with the correct verb forms, then discuss the questions below.</p>
+
+        <div class="scenario-card c-coral">
+            <p contenteditable="true" style="line-height: 2.1;">
+                In eight years, I <span class="blank-input" style="min-width:110px;"></span> <em>(see)</em> hundreds of patients move between these two rooms. Last night, I <span class="blank-input" style="min-width:110px;"></span> <em>(handle)</em> a very difficult case — a patient with a complicated airway. I <span class="blank-input" style="min-width:110px;"></span> <em>(never/lose)</em> a patient during a handover, and I hope I never will. This morning, before the operation, I <span class="blank-input" style="min-width:110px;"></span> <em>(check)</em> the ventilator twice, just to be sure.
+            </p>
+        </div>
+
+        <h3 contenteditable="true" style="margin-top: 26px; margin-bottom: 6px;">Final Discussion</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">What is the most memorable handover you have ever experienced?</div></li>
+            <li><div contenteditable="true">How do you think the language you use with patients differs from the language you use with colleagues?</div></li>
+            <li><div contenteditable="true">If you could change one thing about how the OR and ICU communicate, what would it be?</div></li>
+        </ul>
+
+        <div class="confidence-box">
+            <span class="confidence-emoji" id="confEmoji" contenteditable="false">😐</span>
+            <p contenteditable="true" style="margin-bottom: 12px; font-weight: 600;">How confident do you feel using Present Perfect for experience today?</p>
+            <input type="range" min="1" max="5" value="3" oninput="updateConfidence(this.value)">
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 16: WHITEBOARD ====== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" style="background:var(--ink);" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Draw timelines, map out grammar, or jot down notes together.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text (Click canvas)</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width:1px;height:24px;background:rgba(255,255,255,0.3);margin:0 10px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#1F2937" title="Change Color">
+                <button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--coral);">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== SUM UP ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="sum-up-box">
+            <h2 contenteditable="true">Lesson Complete! 🎉</h2>
+            <p contenteditable="true"><strong>What we've covered today:</strong></p>
+            <ul style="list-style: none; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">
+                <li contenteditable="true">✅ <strong>Grammar:</strong> Present Perfect for experience vs. Past Simple for a specific finished time.</li>
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> ventilator, extubate, monitor, sedation, vital signs, central line, handover, dose, surgeon, discharge, crash, airway.</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> Talking about your career experience, comparing two very different rooms, and telling a handover story.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Word stress in long medical words + fast-speech reduction in "Have you ever...?"</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== HOMEWORK ====== -->
+<section class="section homework-section" id="homework">
+    <div class="section-inner">
+        <span class="section-label" style="background:var(--sunny-dark);" contenteditable="true">🏠 Homework · Self-Test</span>
+        <h2 class="section-title" contenteditable="true">A Day in Two Rooms — Self-Test</h2>
+        <p class="section-desc" contenteditable="true">Complete this on your own after the lesson. Check your score, then write your two short texts below for your teacher to read.</p>
+
+        <div class="hw-card">
+            <h3 contenteditable="true">Part 1 — Choose the correct answer</h3>
+            <div class="hw-q" data-answer="a">
+                <p contenteditable="true">1. I ___ this hospital for eight years.</p>
+                <div class="hw-options">
+                    <label class="hw-option"><input type="radio" name="q1" value="a"> have worked</label>
+                    <label class="hw-option"><input type="radio" name="q1" value="b"> worked</label>
+                    <label class="hw-option"><input type="radio" name="q1" value="c"> has worked</label>
+                </div>
+            </div>
+            <div class="hw-q" data-answer="b">
+                <p contenteditable="true">2. ___ you ever assisted in an emergency C-section?</p>
+                <div class="hw-options">
+                    <label class="hw-option"><input type="radio" name="q2" value="a"> Did</label>
+                    <label class="hw-option"><input type="radio" name="q2" value="b"> Have</label>
+                    <label class="hw-option"><input type="radio" name="q2" value="c"> Has</label>
+                </div>
+            </div>
+            <div class="hw-q" data-answer="b">
+                <p contenteditable="true">3. Yesterday, we ___ a very long operation.</p>
+                <div class="hw-options">
+                    <label class="hw-option"><input type="radio" name="q3" value="a"> have finished</label>
+                    <label class="hw-option"><input type="radio" name="q3" value="b"> finished</label>
+                    <label class="hw-option"><input type="radio" name="q3" value="c"> has finished</label>
+                </div>
+            </div>
+            <div class="hw-q" data-answer="b">
+                <p contenteditable="true">4. She ___ never intubated a child before yesterday.</p>
+                <div class="hw-options">
+                    <label class="hw-option"><input type="radio" name="q4" value="a"> have</label>
+                    <label class="hw-option"><input type="radio" name="q4" value="b"> has</label>
+                    <label class="hw-option"><input type="radio" name="q4" value="c"> did</label>
+                </div>
+            </div>
+            <div class="hw-q" data-answer="c">
+                <p contenteditable="true">5. Have you ever ___ a patient crash on the table?</p>
+                <div class="hw-options">
+                    <label class="hw-option"><input type="radio" name="q5" value="a"> see</label>
+                    <label class="hw-option"><input type="radio" name="q5" value="b"> saw</label>
+                    <label class="hw-option"><input type="radio" name="q5" value="c"> seen</label>
+                </div>
+            </div>
+            <div class="hw-q" data-answer="b">
+                <p contenteditable="true">6. Last week, I ___ twelve patients to the ICU.</p>
+                <div class="hw-options">
+                    <label class="hw-option"><input type="radio" name="q6" value="a"> have handed over</label>
+                    <label class="hw-option"><input type="radio" name="q6" value="b"> handed over</label>
+                    <label class="hw-option"><input type="radio" name="q6" value="c"> has handed over</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="hw-card">
+            <h3 contenteditable="true">Part 2 — Fill in the vocabulary word</h3>
+            <div class="hw-q hw-fill" data-answer="ventilator"><p contenteditable="true">7. The machine that helps a patient breathe is called a <input type="text" id="hwFill1"></p></div>
+            <div class="hw-q hw-fill" data-answer="extubate"><p contenteditable="true">8. To remove the breathing tube after surgery is to <input type="text" id="hwFill2"> the patient.</p></div>
+            <div class="hw-q hw-fill" data-answer="vital"><p contenteditable="true">9. Before surgery, doctors check the patient's <input type="text" id="hwFill3"> signs.</p></div>
+            <div class="hw-q hw-fill" data-answer="handover"><p contenteditable="true">10. When one team passes patient information to another, it's called a <input type="text" id="hwFill4">.</p></div>
+        </div>
+
+        <div style="text-align:center; margin: 20px 0 40px;">
+            <button id="hwCheckBtn" onclick="checkHomework()">✅ Check My Answers</button>
+            <div id="hwResult"></div>
+        </div>
+
+        <div class="hw-card">
+            <h3 contenteditable="true">Part 3 — Writing (for your teacher to read)</h3>
+            <p contenteditable="true" style="margin-bottom: 10px; font-weight: 600;">A. Describe your most memorable day in the OR or ICU (4–6 sentences). Use at least 2 Present Perfect and 2 Past Simple sentences.</p>
+            <div class="hw-open-box" contenteditable="true"></div>
+            <p contenteditable="true" style="margin: 24px 0 10px; font-weight: 600;">B. Write a short handover dialogue (6–8 lines) between an anesthesiologist and an ICU nurse.</p>
+            <div class="hw-open-box" contenteditable="true"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Go to Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet">📝</button>
+    <button class="fab-btn save-btn" onclick="window.saveAsPDF()" title="Save as PDF">💾</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background: var(--sky-dark);" title="Reset Lesson">🔄</button>
+</div>
+
+<!-- ====== QUIZLET MODAL ====== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2>Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.95rem; color: var(--gray-600);">Add English words and translations, then copy and paste into Quizlet's import tool.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word" value="ventilator"><input type="text" placeholder="Translation (UA)" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word" value="extubate"><input type="text" placeholder="Translation (UA)" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word" value="handover"><input type="text" placeholder="Translation (UA)" class="q-trans"></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1; text-align: center; background:var(--sky-dark);">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex: 2; text-align: center; background: #4255FF; border-color: #4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Highlight shortcut ---
+    document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(255, 201, 60, 0.4)');
+        }
+    });
+
+    // --- Whiteboard ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 460; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing = false, pendingDraw = false, startX, startY, currentTool = 'pencil', currentColor = '#1F2937', savedImageData;
+    const tools = document.querySelectorAll('.wb-btn[data-tool]');
+    const colorPicker = document.getElementById('wbColor');
+    const clearBtn = document.getElementById('wbClear');
+
+    tools.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tools.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    colorPicker.addEventListener('change', (e) => { currentColor = e.target.value; });
+    clearBtn.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear();
+    });
+
+    function getMousePos(e) { const rect = canvas.getBoundingClientRect(); return { x: e.clientX - rect.left, y: e.clientY - rect.top }; }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const pos = getMousePos(e); startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const text = prompt("Enter text:");
+            if (text) {
+                ctx.font = "20px 'DM Sans', Arial, sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(text, startX, startY);
+                if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+            }
+            return;
+        }
+        isDrawing = true; savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height); ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 15 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+        } else { ctx.putImageData(savedImageData, 0, 0); drawShape(pos.x, pos.y); }
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+        if (!isDrawing) return; isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') { const pos = getMousePos(e); drawShape(pos.x, pos.y); }
+        if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+    });
+    canvas.addEventListener('mouseout', () => { if (isDrawing) { isDrawing = false; if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } } });
+
+    function drawShape(endX, endY) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 2;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, endX - startX, endY - startY); }
+        else if (currentTool === 'circle') { const r = Math.sqrt((endX-startX)**2 + (endY-startY)**2); ctx.arc(startX, startY, r, 0, 2*Math.PI); ctx.stroke(); }
+        else if (currentTool === 'arrow') {
+            const headlen = 15; const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(endX, endY); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(endX, endY); ctx.lineTo(endX - headlen*Math.cos(angle-Math.PI/6), endY - headlen*Math.sin(angle-Math.PI/6));
+            ctx.moveTo(endX, endY); ctx.lineTo(endX - headlen*Math.cos(angle+Math.PI/6), endY - headlen*Math.sin(angle+Math.PI/6)); ctx.stroke();
+        }
+    }
+
+    // --- Generic Drag & Drop ---
+    function setupDragAndDrop(columnId) {
+        const dragColumn = document.getElementById(columnId);
+        if (!dragColumn) return;
+        const dragItems = dragColumn.querySelectorAll('.drag-item');
+        dragItems.forEach(item => {
+            item.addEventListener('dragstart', () => { item.classList.add('dragging'); });
+            item.addEventListener('dragend', () => { item.classList.remove('dragging'); if (window.syncDragOrder) window.syncDragOrder(columnId); });
+        });
+        dragColumn.addEventListener('dragover', e => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(dragColumn, e.clientY);
+            const draggable = document.querySelector('.dragging');
+            if (draggable) { if (afterElement == null) dragColumn.appendChild(draggable); else dragColumn.insertBefore(draggable, afterElement); }
+        });
+        function getDragAfterElement(container, y) {
+            const els = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+            return els.reduce((closest, child) => {
+                const box = child.getBoundingClientRect(); const offset = y - box.top - box.height/2;
+                if (offset < 0 && offset > closest.offset) return { offset, element: child }; else return closest;
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    }
+    setupDragAndDrop('vocabMatchColumn');
+
+    // --- Error Spy Game ---
+    document.querySelectorAll('.spy-word').forEach(word => {
+        word.setAttribute('contenteditable', 'false');
+        word.addEventListener('click', () => {
+            const row = word.closest('.spy-card').querySelector('.spy-fix-row');
+            row.classList.add('active');
+            row.querySelector('input').focus();
+        });
+    });
+    function checkSpy(btn) {
+        const row = btn.closest('.spy-fix-row');
+        const card = btn.closest('.spy-card');
+        const word = card.querySelector('.spy-word');
+        const input = row.querySelector('input');
+        const feedback = row.querySelector('.spy-feedback');
+        const correct = word.dataset.correct.trim().toLowerCase();
+        const given = input.value.trim().toLowerCase();
+        if (given === correct) {
+            feedback.textContent = '✅ Correct!'; feedback.style.color = 'var(--mint-dark)';
+            word.classList.add('found'); input.disabled = true; btn.disabled = true;
+        } else {
+            feedback.textContent = '❌ Try again'; feedback.style.color = 'var(--coral-dark)';
+        }
+    }
+
+    // --- Two Truths & a Lie ---
+    function markLie(checkbox) {
+        document.querySelectorAll('input[name="lieMark"]').forEach(cb => { if (cb !== checkbox) cb.checked = false; });
+    }
+    function revealTruth() {
+        const rows = document.querySelectorAll('.truth-row');
+        let lieText = '';
+        rows.forEach(row => { const cb = row.querySelector('input[type="checkbox"]'); if (cb.checked) lieText = row.querySelector('input[type="text"]').value || '(no text written)'; });
+        const revealBox = document.getElementById('truthReveal');
+        revealBox.style.display = 'block';
+        revealBox.textContent = lieText ? ('🤥 The lie was: "' + lieText + '"') : 'Mark one statement as the lie first!';
+    }
+
+    // --- Confidence slider ---
+    function updateConfidence(val) {
+        const emojiMap = { '1': '😬', '2': '😕', '3': '😐', '4': '🙂', '5': '😎' };
+        document.getElementById('confEmoji').textContent = emojiMap[val];
+    }
+
+    // --- Text-to-Speech ---
+    function speakText(text, rate) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US'; u.rate = rate || 0.95;
+        window.speechSynthesis.speak(u);
+    }
+    function playHandover() {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const lines = [
+            "How did the surgery go?",
+            "It went well. We had a small drop in blood pressure, but we've managed it.",
+            "Has the patient woken up yet?",
+            "Not yet. He's still under sedation.",
+            "Have you given him any pain medication?",
+            "Yes, I've given him a dose about twenty minutes ago.",
+            "Okay, I'll check his vital signs every fifteen minutes.",
+            "Perfect. Call me if anything changes."
+        ];
+        lines.forEach(line => { const u = new SpeechSynthesisUtterance(line); u.lang = 'en-US'; u.rate = 0.92; window.speechSynthesis.speak(u); });
+    }
+
+    // --- Homework grading ---
+    function confettiBurst() {
+        const emojis = ['🎉','✨','🎊','⭐','💚'];
+        for (let i = 0; i < 24; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+            piece.style.left = Math.random()*100 + 'vw';
+            piece.style.animationDuration = (2 + Math.random()*1.5) + 's';
+            document.body.appendChild(piece);
+            setTimeout(() => piece.remove(), 3800);
+        }
+    }
+    function checkHomework() {
+        let score = 0; const total = 10;
+        document.querySelectorAll('.hw-q[data-answer]:not(.hw-fill)').forEach(q => {
+            const name = q.querySelector('input[type="radio"]').name;
+            const selected = q.querySelector('input[name="' + name + '"]:checked');
+            const card = q.closest('.hw-card');
+            if (selected && selected.value === q.dataset.answer) score++;
+        });
+        const fillMap = [['hwFill1','ventilator'],['hwFill2','extubate'],['hwFill3','vital'],['hwFill4','handover']];
+        fillMap.forEach(([id, ans]) => {
+            const val = document.getElementById(id).value.trim().toLowerCase();
+            if (val === ans) score++;
+        });
+        const resultBox = document.getElementById('hwResult');
+        let msg = '';
+        if (score >= 9) { msg = '🌟 Excellent! ' + score + '/' + total + ' — you have really mastered this!'; confettiBurst(); }
+        else if (score >= 6) { msg = '👍 Good job! ' + score + '/' + total + ' — a quick review of the mistakes will help.'; }
+        else { msg = '💪 ' + score + '/' + total + ' — no worries, let\\'s go over this together next lesson.'; }
+        resultBox.textContent = msg;
+        resultBox.style.color = score >= 9 ? 'var(--mint-dark)' : (score >= 6 ? 'var(--sunny-dark)' : 'var(--coral-dark)');
+    }
+
+    // --- PDF Generation ---
+    window.saveAsPDF = function() {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const element = document.body;
+        const totalHeight = element.scrollHeight, totalWidth = element.scrollWidth;
+        const opt = { margin: 0, filename: 'Lesson-3-OR-and-ICU-Completed.pdf', image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, windowWidth: totalWidth, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [totalWidth, totalHeight], orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    }
+
+    // --- Quizlet Modal ---
+    window.openQuizletModal = function() { document.getElementById('quizletModal').style.display = 'flex'; }
+    window.closeQuizletModal = function() { document.getElementById('quizletModal').style.display = 'none'; }
+    window.addWordRow = function() {
+        const row = document.createElement('div'); row.className = 'word-row';
+        row.innerHTML = '<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation (UA)" class="q-trans">';
+        document.getElementById('wordList').appendChild(row);
+        const wl = document.getElementById('wordList'); wl.scrollTop = wl.scrollHeight;
+    }
+    window.copyForQuizlet = function() {
+        const rows = document.querySelectorAll('.word-row'); let output = '';
+        rows.forEach(row => { const w = row.querySelector('.q-word').value.trim(); const t = row.querySelector('.q-trans').value.trim(); if (w || t) output += w + '\t' + t + '\n'; });
+        if (output) {
+            const ta = document.createElement("textarea"); ta.value = output; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+            const btn = document.getElementById('copyQuizletBtn'); const orig = btn.innerText;
+            btn.innerText = "✅ Copied! Ready to Paste"; setTimeout(() => { btn.innerText = orig; }, 3000);
+        } else {
+            const btn = document.getElementById('copyQuizletBtn'); const orig = btn.innerText;
+            btn.innerText = "⚠️ Add some words first!"; setTimeout(() => { btn.innerText = orig; }, 3000);
+        }
+    }
+
+    // --- Nav & Whiteboard scroll ---
+    document.getElementById('navTabsContainer').addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    const headerOffset = 100;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }
+        }
+    });
+    window.scrollToWhiteboard = function() {
+        const wbSection = document.getElementById('whiteboard');
+        if (wbSection) {
+            const headerOffset = 100;
+            const elementPosition = wbSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+    }
+</script>
+
+<!-- ====== FIREBASE LIVE SYNC ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac",
+        measurementId: "G-K12KF1N7YS"
+    };
+
+    const appId = 'lesson-3-anesthesiology-or-icu-b1';
+
+    const statusText = document.getElementById('syncText');
+    const statusDot = document.getElementById('syncDot');
+    function setStatus(text, color) { if(statusText) statusText.innerText = text; if(statusDot) statusDot.style.background = color; }
+
+    if (!firebaseConfig) { setStatus('Offline Mode', '#A6B1BE'); }
+    else {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null, isSyncSetup = false;
+        const myCursorColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        let myCursorName = "Student";
+
+        const editables = document.querySelectorAll('[contenteditable="true"]');
+        const originalStates = {};
+        editables.forEach((el, index) => { el.dataset.syncId = 'edit-' + index; originalStates['edit-' + index] = el.innerHTML; });
+        const originalDragOrders = { 'vocabMatchColumn': ['dm-4','dm-1','dm-5','dm-2','dm-6','dm-3'] };
+        let isEditing = null;
+
+        function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; }
+
+        const initAuth = async () => { try { await signInAnonymously(auth); } catch (e) { setStatus('Auth Failed', '#E5484D'); } };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user && !isSyncSetup) {
+                isSyncSetup = true;
+                getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                    myCursorName = "Student " + (snap.size + 1);
+                    setStatus('Live Sync On', '#06D6A0');
+                    setupRealtimeSync(db, appId); setupLiveCursors(db, appId);
+                }).catch(() => {
+                    myCursorName = "Student " + (Math.floor(Math.random()*99)+1);
+                    setStatus('Live Sync On', '#06D6A0');
+                    setupRealtimeSync(db, appId); setupLiveCursors(db, appId);
+                });
+            } else if (!user) { setStatus('Disconnected', '#E5484D'); }
+        });
+        initAuth();
+
+        function setupRealtimeSync(db, appId) {
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+            window.saveTextUpdate = (el) => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+            window.attachEditableListeners = (el) => {
+                el.addEventListener('focus', () => { isEditing = el.dataset.syncId; });
+                el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+                el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+            };
+            editables.forEach(el => window.attachEditableListeners(el));
+
+            window.addNewTab = (e) => {
+                e.preventDefault();
+                const container = document.getElementById('navTabsContainer');
+                const newLi = document.createElement('li');
+                const newId = 'edit-tab-' + Date.now();
+                newLi.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+                container.appendChild(newLi);
+                const newAnchor = newLi.querySelector('a');
+                window.attachEditableListeners(newAnchor);
+                if (currentUser) setDoc(textRef, { 'nav_tabs_structure': container.innerHTML }, { merge: true });
+            };
+
+            onSnapshot(textRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    for (const [syncId, html] of Object.entries(data)) {
+                        if (syncId === 'nav_tabs_structure') {
+                            const container = document.getElementById('navTabsContainer');
+                            if (!container.contains(document.activeElement)) {
+                                container.innerHTML = html;
+                                container.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a));
+                            }
+                            continue;
+                        }
+                        if (isEditing !== syncId) {
+                            const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                            if (el && el.innerHTML !== html) el.innerHTML = html;
+                        }
+                    }
+                } else {
+                    Object.entries(originalStates).forEach(([syncId, html]) => {
+                        const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                        if (el && el.innerHTML !== html) el.innerHTML = html;
+                    });
+                }
+            });
+
+            // Media paste interceptor
+            document.addEventListener('paste', function(e) {
+                const target = e.target;
+                if (!target.closest('[contenteditable="true"]')) return;
+                const items = (e.clipboardData || window.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        e.preventDefault();
+                        const blob = item.getAsFile();
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = new Image();
+                            img.onload = function() {
+                                const c = document.createElement('canvas');
+                                const MAX_WIDTH = 800; let width = img.width, height = img.height;
+                                if (width > MAX_WIDTH) { height *= MAX_WIDTH/width; width = MAX_WIDTH; }
+                                c.width = width; c.height = height;
+                                const cctx = c.getContext('2d'); cctx.drawImage(img, 0, 0, width, height);
+                                const dataUrl = c.toDataURL('image/jpeg', 0.8);
+                                const wrapper = `<div contenteditable="false" style="margin: 16px 0; text-align: center;"><img src="${dataUrl}" style="max-width: 100%; border-radius: 8px;"></div><p><br></p>`;
+                                target.focus(); document.execCommand('insertHTML', false, wrapper);
+                                target.dispatchEvent(new Event('input', { bubbles: true }));
+                            };
+                            img.src = event.target.result;
+                        };
+                        reader.readAsDataURL(blob); return;
+                    }
+                }
+                const pasteText = (e.clipboardData || window.clipboardData).getData('text');
+                if (pasteText) {
+                    const ytMatch = pasteText.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                    if (ytMatch && ytMatch[1]) {
+                        e.preventDefault();
+                        const iframeWrapper = `<div contenteditable="false" style="margin: 16px 0; text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; max-width: 100%;"></iframe></div><p><br></p>`;
+                        document.execCommand('insertHTML', false, iframeWrapper);
+                        target.dispatchEvent(new Event('input', { bubbles: true })); return;
+                    }
+                    const urlRegex = /^(https?:\/\/[^\s]+)$/i;
+                    if (urlRegex.test(pasteText.trim())) {
+                        e.preventDefault();
+                        const link = `<a href="${pasteText.trim()}" target="_blank" style="color: var(--sky-dark); text-decoration: underline;" contenteditable="false">${pasteText.trim()}</a>`;
+                        document.execCommand('insertHTML', false, link);
+                        target.dispatchEvent(new Event('input', { bubbles: true })); return;
+                    }
+                }
+            });
+
+            window.syncDragOrder = (columnId) => {
+                if (!currentUser) return;
+                const dragContainer = document.getElementById(columnId);
+                if (!dragContainer) return;
+                const currentOrder = Array.from(dragContainer.children).map(child => child.id);
+                setDoc(dragRef, { [columnId]: currentOrder }, { merge: true });
+            };
+            onSnapshot(dragRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    ['vocabMatchColumn'].forEach(columnId => {
+                        const dc = document.getElementById(columnId); if (!dc) return;
+                        if (data[columnId]) data[columnId].forEach(id => { const el = document.getElementById(id); if (el) dc.appendChild(el); });
+                    });
+                } else {
+                    ['vocabMatchColumn'].forEach(columnId => {
+                        const dc = document.getElementById(columnId); if (!dc) return;
+                        originalDragOrders[columnId].forEach(id => { const el = document.getElementById(id); if (el) dc.appendChild(el); });
+                    });
+                }
+            });
+
+            window.syncWhiteboardDraw = debounce(() => {
+                if (!currentUser) return;
+                const c = document.getElementById('boardCanvas');
+                const dataUrl = c.toDataURL('image/png', 0.5);
+                setDoc(wbRef, { image: dataUrl, clearTimestamp: window.lastClear || 0 }, { merge: true });
+                pendingDraw = false;
+            }, 800);
+            window.syncWhiteboardClear = () => {
+                if (!currentUser) return;
+                const ts = Date.now(); window.lastClear = ts;
+                setDoc(wbRef, { clearTimestamp: ts, image: null }, { merge: true });
+            };
+            onSnapshot(wbRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const c = document.getElementById('boardCanvas'); const cctx = c.getContext('2d');
+                    if (data.clearTimestamp > (window.lastClear || 0)) { cctx.clearRect(0,0,c.width,c.height); window.lastClear = data.clearTimestamp; return; }
+                    if (data.image && !pendingDraw) {
+                        const img = new Image();
+                        img.onload = () => { cctx.clearRect(0,0,c.width,c.height); cctx.drawImage(img,0,0); };
+                        img.src = data.image;
+                    }
+                }
+            });
+        }
+
+        function setupLiveCursors(db, appId) {
+            const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+            const myCursorRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+            const container = document.getElementById('liveCursorsContainer');
+
+            document.addEventListener('mousemove', debounce((e) => {
+                if (!currentUser) return;
+                const xOffset = e.pageX - (window.innerWidth/2);
+                setDoc(myCursorRef, { xOffset, y: e.pageY, color: myCursorColor, name: myCursorName, timestamp: Date.now() });
+            }, 400));
+
+            onSnapshot(cursorsCol, (snap) => {
+                snap.docChanges().forEach(change => {
+                    const id = change.doc.id;
+                    if (id === currentUser.uid) return;
+                    if (change.type === 'removed') { const el = document.getElementById('cursor-'+id); if (el) el.remove(); }
+                    else {
+                        const data = change.doc.data();
+                        if (Date.now() - data.timestamp > 60000) { const el = document.getElementById('cursor-'+id); if (el) el.remove(); return; }
+                        let cursorEl = document.getElementById('cursor-'+id);
+                        if (!cursorEl) {
+                            cursorEl = document.createElement('div'); cursorEl.id = 'cursor-'+id; cursorEl.className = 'remote-cursor';
+                            cursorEl.innerHTML = `<svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background:${data.color}">${data.name}</div>`;
+                            container.appendChild(cursorEl);
+                        }
+                        const adjustedX = (window.innerWidth/2) + data.xOffset;
+                        cursorEl.style.left = adjustedX + 'px'; cursorEl.style.top = data.y + 'px';
+                    }
+                });
+            });
+            window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myCursorRef); });
+        }
+
+        window.resetLesson = async () => {
+            if (!currentUser) return;
+            if (!confirm("Reset the lesson? This clears all text edits, the whiteboard, and the drag order for everyone.")) return;
+            setStatus('Resetting...', '#FFC93C');
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            await deleteDoc(textRef); await deleteDoc(dragRef);
+            const ts = Date.now(); window.lastClear = ts;
+            await setDoc(wbRef, { clearTimestamp: ts, image: null });
+            setTimeout(() => setStatus('Live Sync On', '#06D6A0'), 1000);
+        };
+    }
+</script>
+</body>
+</html>
