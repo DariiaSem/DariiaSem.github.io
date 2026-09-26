@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 3: C1 | The Ethics of the Black Box</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        --coral: #FF6B6B; --coral-dark: #E8505B;
+        --sun: #FFC145; --sun-dark: #F2A429; --sun-light: #FFE1A8;
+        --turquoise: #2EC4B6; --turquoise-dark: #1AA398; --turquoise-light: #CFF5F1;
+        --grape: #7D5BA6; --grape-light: #EAE1F5;
+        --ink: #22223B; --cream: #FFFDF7; --light-bg: #F6F8FB; --white: #FFFFFF;
+        --gray-100: #F1F3F9; --gray-200: #E7E9F0; --gray-400: #A9AFC3; --gray-600: #5C6178; --gray-800: #2B2E42;
+        --shadow-sm: 0 1px 3px rgba(34,34,59,0.08);
+        --shadow-md: 0 6px 20px rgba(34,34,59,0.10);
+        --shadow-lg: 0 14px 36px rgba(34,34,59,0.14);
+        --radius-sm: 10px; --radius-md: 16px; --radius-lg: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.7;
+        color: var(--gray-800);
+        background: var(--light-bg);
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+
+    [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 4px; }
+    [contenteditable="true"]:focus, [contenteditable="true"]:hover { background-color: rgba(46,196,182,0.08); box-shadow: 0 0 0 2px rgba(46,196,182,0.15); }
+
+    /* ====== HERO ====== */
+    .hero {
+        position: relative;
+        background: linear-gradient(120deg, var(--grape) 0%, var(--coral) 52%, var(--sun) 100%);
+        color: var(--white);
+        padding: 88px 24px 96px;
+        text-align: center;
+        overflow: hidden;
+    }
+    .hero::before, .hero::after { content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.16); }
+    .hero::before { width: 220px; height: 220px; top: -60px; left: -60px; }
+    .hero::after { width: 160px; height: 160px; bottom: -50px; right: -30px; background: rgba(255,255,255,0.12); }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.22); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.35); color: var(--white); padding: 6px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 22px; }
+    .hero h1 { font-size: clamp(2rem, 4.8vw, 3.3rem); font-weight: 800; line-height: 1.2; margin-bottom: 14px; letter-spacing: -0.5px; text-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+    .hero-subtitle { font-size: clamp(1rem, 1.9vw, 1.2rem); color: rgba(255,255,255,0.95); max-width: 650px; margin: 0 auto 8px; font-weight: 500; }
+    .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 50px; background: var(--light-bg); clip-path: ellipse(55% 100% at 50% 100%); }
+
+    /* ====== NAV ====== */
+    .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; }
+    .nav-inner { max-width: 1080px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+    .nav-logo { font-weight: 800; font-size: 1rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .nav-logo .dot { width: 9px; height: 9px; background: var(--coral); border-radius: 50%; display: inline-block; }
+    .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 700; padding: 6px 11px; border-radius: 8px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
+    .nav-links a:hover { color: var(--turquoise-dark); background: var(--turquoise-light); }
+
+    /* ====== SECTIONS ====== */
+    .section { padding: 68px 24px; }
+    .section:nth-child(even) { background: var(--white); }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    .section-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--coral-dark); background: rgba(255,107,107,0.1); padding: 5px 14px; border-radius: 50px; margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 800; color: var(--ink); margin-bottom: 8px; letter-spacing: -0.4px; }
+    .section-desc { color: var(--gray-600); font-size: 1.03rem; margin-bottom: 32px; max-width: 660px; }
+
+    /* ====== SHARED CARDS ====== */
+    .scenario-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--turquoise); }
+    .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 22px; }
+    .board-tile { background: var(--white); border: 2px solid var(--sun); border-radius: var(--radius-md); padding: 18px 20px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); display: flex; align-items: center; }
+
+    .grammar-table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.95rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--gray-200); background: var(--white); }
+    .grammar-table thead th { background: var(--ink); color: var(--white); padding: 13px 16px; text-align: left; font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase; }
+    .grammar-table tbody td { padding: 13px 16px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+    .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+    .form-chip { display: inline-block; font-weight: 800; color: var(--white); background: var(--grape); padding: 2px 12px; border-radius: 50px; font-size: 0.82rem; }
+
+    .practice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 22px; counter-reset: pc; }
+    .practice-list li { background: var(--white); padding: 15px 20px 15px 46px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); position: relative; }
+    .practice-list li::before { counter-increment: pc; content: counter(pc) "."; position: absolute; left: 18px; top: 14px; font-weight: 800; color: var(--turquoise-dark); }
+    .blank-input { display: inline-block; min-width: 90px; border-bottom: 3px dashed var(--sun-dark); color: var(--coral-dark); font-weight: 700; padding: 0 8px; text-align: center; background: rgba(255,193,69,0.08); }
+    .blank-input:focus { border-bottom-color: var(--coral); outline: none; background: rgba(255,107,107,0.1); }
+
+    .watch-out { background: rgba(255,193,69,0.18); border-left: 4px solid var(--sun-dark); padding: 14px 18px; margin-top: 16px; border-radius: 0 8px 8px 0; }
+
+    .flowchart { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 28px 0; background: var(--cream); padding: 36px; border-radius: var(--radius-lg); border: 3px dashed var(--sun); }
+    .flow-bubble { background: var(--white); padding: 12px 22px; border-radius: 50px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); border: 2px solid var(--turquoise); text-align: center; max-width: 540px; }
+    .flow-bubble.b-side { border-color: var(--coral); background: var(--coral); color: var(--white); }
+    .flow-arrow { color: var(--gray-400); font-size: 1.4rem; }
+
+    /* ====== VOCAB FLIP CARDS ====== */
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 22px; }
+    .vocab-card { position: relative; height: 140px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 2px solid var(--grape-light); }
+    .vocab-front { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, var(--grape) 0%, var(--coral) 100%); color: var(--white); font-weight: 800; font-size: 1.1rem; padding: 12px; transition: opacity 0.3s ease; z-index: 2; }
+    .vocab-card:hover .vocab-front { opacity: 0; pointer-events: none; }
+    .vocab-def { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--white); color: var(--gray-800); font-size: 0.88rem; padding: 16px; z-index: 1; }
+
+    /* ====== ERROR SPY ====== */
+    .errorspy-sentence { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; }
+    .es-word { cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: background 0.2s; }
+    .es-word:hover { background: rgba(255,107,107,0.18); }
+    .es-word.correct-click { background: var(--turquoise); color: var(--white); font-weight: 700; }
+    .es-fixed { color: var(--turquoise-dark); font-weight: 800; }
+
+    /* ====== TRUE/FALSE ====== */
+    .tf-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .tf-buttons button { border: 2px solid var(--gray-200); background: var(--white); padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 6px; }
+    .tf-buttons button.correct { background: var(--turquoise); border-color: var(--turquoise-dark); color: var(--white); }
+    .tf-buttons button.wrong { background: var(--coral); border-color: var(--coral-dark); color: var(--white); }
+    .tf-explain { font-size: 0.85rem; color: var(--gray-600); width: 100%; display: none; margin-top: 6px; }
+
+    /* ====== REVEAL TOGGLE ====== */
+    .reveal-btn { background: var(--grape); color: var(--white); border: none; padding: 8px 16px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; margin-top: 10px; }
+    .reveal-box { display: none; background: var(--grape-light); border-left: 4px solid var(--grape); padding: 12px 16px; margin-top: 10px; border-radius: 0 8px 8px 0; font-size: 0.9rem; }
+
+    /* ====== TIMELINE VISUAL ====== */
+    .timeline-wrap { position: relative; height: 150px; margin: 30px 0 46px; }
+    .timeline-bar { position: absolute; top: 70px; left: 2%; right: 2%; height: 4px; background: var(--gray-200); border-radius: 2px; }
+    .timeline-point { position: absolute; top: 62px; width: 20px; height: 20px; border-radius: 50%; background: var(--coral); transform: translateX(-50%); border: 3px solid var(--white); box-shadow: var(--shadow-sm); }
+    .timeline-label { position: absolute; font-size: 0.78rem; font-weight: 800; color: var(--gray-800); transform: translateX(-50%); text-align: center; white-space: nowrap; }
+    .timeline-span { position: absolute; top: 66px; height: 12px; background: rgba(46,196,182,0.35); border: 2px solid var(--turquoise-dark); border-radius: 8px; }
+    .timeline-tag { position: absolute; font-size: 0.75rem; font-weight: 700; text-align: center; transform: translateX(-50%); padding: 3px 10px; border-radius: 50px; white-space: nowrap; }
+
+    /* ====== MATCHING GAME ====== */
+    .match-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 22px; }
+    .match-col { display: flex; flex-direction: column; gap: 10px; }
+    .match-chip { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-sm); padding: 12px 16px; cursor: pointer; font-weight: 600; font-size: 0.92rem; transition: all 0.15s; }
+    .match-chip.selected { border-color: var(--sun-dark); background: var(--sun-light); }
+    .match-chip.matched { border-color: var(--turquoise-dark); background: var(--turquoise-light); color: var(--turquoise-dark); cursor: default; opacity: 0.7; }
+    .match-chip.shake { animation: shake 0.4s; border-color: var(--coral-dark); background: #FFD9D9; }
+    @keyframes shake { 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+    .match-status { text-align: center; margin-top: 16px; font-weight: 700; color: var(--grape); }
+
+    /* ====== GAME CARD ====== */
+    .game-card-box { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); padding: 32px; text-align: center; box-shadow: var(--shadow-md); margin-top: 22px; }
+    .prompt-display { font-size: 1.25rem; font-weight: 700; color: var(--ink); min-height: 70px; display: flex; align-items: center; justify-content: center; padding: 10px; }
+    .timer-display { font-family: 'Poppins', sans-serif; font-size: 2.6rem; font-weight: 800; color: var(--coral); margin: 12px 0; }
+    .game-btn { background: linear-gradient(120deg, var(--coral) 0%, var(--sun) 100%); color: var(--white); border: none; padding: 12px 28px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow-sm); margin: 6px; }
+    .game-btn.alt { background: linear-gradient(120deg, var(--turquoise) 0%, var(--grape) 100%); }
+    .btn-secondary { background: var(--white); color: var(--gray-800); border: 2px solid var(--gray-200); padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; margin: 6px; }
+
+    /* ====== PRONUNCIATION ====== */
+    .pron-item { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 10px; flex-wrap: wrap; }
+    .listen-btn { background: var(--turquoise); color: var(--white); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; flex-shrink: 0; }
+    .syllable { cursor: pointer; padding: 1px 3px; border-radius: 3px; }
+    .syllable.stressed { color: var(--coral-dark); font-weight: 800; text-decoration: underline; }
+
+    /* ====== POLL ====== */
+    .poll-options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .poll-opt { background: var(--white); border: 2px solid var(--gray-200); padding: 10px 18px; border-radius: 50px; cursor: pointer; font-weight: 600; }
+    .poll-opt.selected { background: var(--sun-light); border-color: var(--sun-dark); }
+
+    /* ====== WHITEBOARD ====== */
+    .whiteboard-container { border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+    .wb-toolbar { background: var(--ink); padding: 12px 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .wb-btn { background: var(--gray-800); color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+    .wb-btn:hover, .wb-btn.active { background: var(--turquoise); }
+    .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--white); cursor: pointer; padding: 0; }
+    canvas { display: block; width: 100%; height: 480px; background: var(--white); cursor: crosshair; }
+
+    /* ====== HOMEWORK ====== */
+    .homework-section { background: linear-gradient(160deg, var(--ink) 0%, #3A3F63 100%); padding: 70px 24px; }
+    .homework-inner { max-width: 820px; margin: 0 auto; color: var(--white); }
+    .homework-inner .section-label { background: rgba(255,193,69,0.2); color: var(--sun-light); }
+    .homework-inner .section-title { color: var(--white); }
+    .homework-inner .section-desc { color: rgba(255,255,255,0.75); }
+    .hw-card { background: var(--white); color: var(--gray-800); border-radius: var(--radius-md); padding: 20px 22px; margin-bottom: 14px; }
+    .hw-card .hw-q { font-weight: 700; margin-bottom: 10px; }
+    .hw-options label { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; }
+    .hw-fill input[type=text] { border: 2px solid var(--gray-200); border-radius: 8px; padding: 8px 12px; font-size: 1rem; width: 220px; }
+    .hw-feedback { margin-top: 10px; font-weight: 700; font-size: 0.9rem; display: none; }
+    .hw-feedback.correct { color: var(--turquoise-dark); }
+    .hw-feedback.wrong { color: var(--coral-dark); }
+    .hw-score-box { text-align: center; background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 24px; margin-top: 24px; font-size: 1.4rem; font-weight: 800; display: none; }
+    .hw-check-btn { display: block; margin: 26px auto 0; background: var(--sun); color: var(--ink); border: none; padding: 14px 34px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+
+    /* ====== SUM UP ====== */
+    .sum-up-box { background: var(--turquoise); color: var(--white); padding: 32px; border-radius: var(--radius-lg); text-align: center; margin-top: 40px; }
+    .sum-up-box h2 { color: var(--sun-light); margin-bottom: 16px; }
+
+    /* ====== FABs & MODAL ====== */
+    .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
+    .fab-btn { background: var(--coral); color: var(--white); border: none; width: 56px; height: 56px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; }
+    .fab-btn:hover { transform: translateY(-3px); }
+    .quizlet-btn { background: #4255FF; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(34,34,59,0.6); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+    .modal-content { background: var(--white); padding: 30px; border-radius: var(--radius-lg); width: 90%; max-width: 600px; box-shadow: var(--shadow-lg); position: relative; }
+    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); }
+    .word-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .word-row input { flex: 1; padding: 10px 14px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 1rem; }
+    #wordList { max-height: 350px; overflow-y: auto; margin: 20px 0; padding-right: 10px; }
+
+    /* ====== LIVE CURSORS ====== */
+    .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.4s linear, left 0.4s linear; display: flex; align-items: flex-start; opacity: 0; animation: fadeInCursor 0.3s forwards; }
+    @keyframes fadeInCursor { to { opacity: 1; } }
+    .remote-cursor svg { width: 22px; height: 22px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); }
+    .remote-cursor-label { color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: -5px; margin-top: 15px; white-space: nowrap; box-shadow: var(--shadow-sm); }
+
+    /* ====== VIDEO ====== */
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 18px; background: var(--ink); }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    @media (max-width: 768px) {
+        .hero { padding: 64px 20px 56px; }
+        .section { padding: 48px 16px; }
+        .nav-links { display: none; }
+        canvas { height: 380px; }
+        .floating-actions { bottom: 20px; right: 20px; }
+        .match-columns { grid-template-columns: 1fr; }
+    }
+</style>
+</head>
+<body>
+
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(34,34,59,0.88); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--sun); border-radius: 50%; box-shadow: 0 0 8px var(--sun);"></span>
+    <span id="syncText">Connecting Classroom...</span>
+</div>
+
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">🕶️ C1 Tech English · Lesson 3</div>
+        <h1 contenteditable="true">The Ethics of the Black Box</h1>
+        <p class="hero-subtitle" contenteditable="true">Speaking, vocabulary, and Future Perfect &amp; Continuous — projecting the long-term consequences of opaque AI decision-making.</p>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">C1 Dev English</span></a>
+        <ul class="nav-links" id="navTabsContainer" style="list-style:none; display:flex; gap:4px; align-items:center;">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--turquoise); color: white; padding: 4px 10px; font-weight: 800; border-radius: 50px;" title="Add Custom Tab">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#video" contenteditable="true">Video</a></li>
+            <li><a href="#roleplay" contenteditable="true">Role-Play</a></li>
+            <li><a href="#homework" contenteditable="true">Homework</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section" id="recap">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 1 · Recap</span>
+        <h2 class="section-title" contenteditable="true">System Reboot: Lesson 2 Debug</h2>
+        <p class="section-desc" contenteditable="true">Before we start, let's check the logs from last lesson — dependent prepositions and the Stoic's toolkit. Click the wrong preposition in each sentence.</p>
+
+        <h3 contenteditable="true" style="margin-bottom: 10px; color: var(--grape);">🐞 Exercise A: Error Spy</h3>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">1. He's still trying to cope <span class="es-word" data-correct="with" onclick="fixError(this)">for</span> the stress of the new job.</span></div>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">2. She relies <span class="es-word" data-correct="on" onclick="fixError(this)">in</span> her mentor for advice.</span></div>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">3. I used to worry <span class="es-word" data-correct="about" onclick="fixError(this)">for</span> my accent all the time.</span></div>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">4. He hasn't recovered <span class="es-word" data-correct="from" onclick="fixError(this)">of</span> the shock yet.</span></div>
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-top:6px;" contenteditable="true"><em>💡 Click the wrong preposition to fix it.</em></p>
+
+        <h3 contenteditable="true" style="margin: 28px 0 10px; color: var(--grape);">🧠 Exercise B: Vocabulary Reboot</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">The capacity to recover quickly from difficulty is called <span class="blank-input"></span>.</div></li>
+            <li><div contenteditable="true">Calm composure under pressure is called <span class="blank-input"></span>.</div></li>
+            <li><div contenteditable="true">A difficult or unpleasant situation is called <span class="blank-input"></span>.</div></li>
+            <li><div contenteditable="true">Coming to terms with something as it is is called <span class="blank-input"></span>.</div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 2 · Warm-Up</span>
+        <h2 class="section-title" contenteditable="true">Who Do You Trust?</h2>
+        <p class="section-desc" contenteditable="true">Discuss these questions together before we open today's case file.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true">How much do you trust an algorithm to make a decision that affects your life — a loan, a job application, a diagnosis?</div>
+            <div class="board-tile" contenteditable="true">Should an AI be required to explain its decisions in plain language, even if that makes it less accurate?</div>
+            <div class="board-tile" contenteditable="true">Who should be legally responsible when an autonomous system causes harm — the company, the engineer, or no one?</div>
+            <div class="board-tile" contenteditable="true">Can a machine be "biased" the same way a person can be? Why or why not?</div>
+            <div class="board-tile" contenteditable="true">Would you rather be rejected by a human with a bad reason, or by an algorithm with no reason at all?</div>
+            <div class="board-tile" contenteditable="true">Do you think most people understand how the algorithms that affect their daily life actually work?</div>
+        </div>
+
+        <h3 contenteditable="true" style="margin: 30px 0 6px; color: var(--grape);">⚡ Quick Poll: How much do you trust AI-driven decisions about your own life?</h3>
+        <div class="poll-options" id="pollOptions">
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">🙌 Totally — bring it on</div>
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">🤔 Depends on the stakes</div>
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">😬 Not really, no</div>
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">🚫 Absolutely not</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 3 · Vocabulary</span>
+        <h2 class="section-title" contenteditable="true">The Ethics Toolkit</h2>
+        <p class="section-desc" contenteditable="true">Hover over each card to reveal the definition. These are your eight target words for today.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Opacity</div><div class="vocab-def" contenteditable="true">Lack of transparency; difficult to see through or understand.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Accountability</div><div class="vocab-def" contenteditable="true">Being responsible for one's actions and having to justify them.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Bias</div><div class="vocab-def" contenteditable="true">A systematic, often unintentional, favoritism in decision-making.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Autonomy</div><div class="vocab-def" contenteditable="true">The ability to act independently, making one's own decisions.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Interpretability</div><div class="vocab-def" contenteditable="true">The degree to which a human can understand why a decision was made.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Liability</div><div class="vocab-def" contenteditable="true">Legal responsibility for something, especially damage or loss.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Oversight</div><div class="vocab-def" contenteditable="true">Supervision to ensure correct, ethical behavior.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Scrutiny</div><div class="vocab-def" contenteditable="true">Close, careful examination.</div></div>
+        </div>
+
+        <div class="watch-out" contenteditable="true">⚠️ <strong>False friend alert:</strong> "oversight" has two very different meanings — careful <em>supervision</em> ("regulatory oversight") vs. an accidental <em>mistake</em> ("it was just an oversight"). Context decides which one you mean!</div>
+
+        <h3 contenteditable="true" style="margin: 30px 0 10px; color: var(--grape);">🔍 Guess the Word (No Peeking!)</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">"I'm the reason you can't see how the algorithm actually works." → <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">"I'm not intentional, but I still creep into the data — and then into every decision." → <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">"Ask me 'why', and if I'm high, you'll actually get a clear answer." → <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">"I'm what regulators put a company under when they don't fully trust its algorithm." → <span class="blank-input"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 4: READING ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 4 · Reading</span>
+        <h2 class="section-title" contenteditable="true">The Verdict Machine</h2>
+        <p class="section-desc" contenteditable="true">Read the case file below. Notice the highlighted future forms — we'll come back to them.</p>
+
+        <div class="scenario-card">
+            <p contenteditable="true" style="line-height: 2;">
+                By 2031, a fictional lender called Meridian Credit <strong>will have processed</strong> over forty million loan applications without a single human officer reviewing a case personally. Its algorithm — nicknamed "The Judge" — decides who receives a mortgage and who doesn't, and even its own engineers cannot fully explain why.
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                This is the essence of the "black box" problem: a system so complex that its <strong>opacity</strong> becomes a design feature, not a flaw. When a rejected applicant asked for a reason last year, Meridian's support team admitted they simply didn't know. Who, then, holds <strong>accountability</strong> when an algorithm inherits a hidden <strong>bias</strong> from decades of imperfect lending data?
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                Regulators are starting to demand <strong>interpretability</strong> — a legal right to a clear explanation. By next year, several governments <strong>will have passed</strong> laws requiring exactly that. Engineers, meanwhile, argue that real transparency would let competitors reverse-engineer the model, and that some <strong>autonomy</strong> for the algorithm is precisely what makes it accurate.
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                Within five years, most major banks <strong>will be relying</strong> on similar systems for nearly every lending decision. Nobody is fully certain who carries the <strong>liability</strong> if The Judge is proven to discriminate at scale, and until stronger <strong>oversight</strong> exists, these systems will remain under constant public <strong>scrutiny</strong>. Ten years from now, banks worldwide <strong>will be defending</strong> decisions that no human being can fully explain.
+            </p>
+        </div>
+
+        <h3 contenteditable="true" style="margin: 28px 0 10px; color: var(--grape);">💬 Comprehension</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">According to the text, what makes "The Judge" a black box? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">Why couldn't Meridian's support team explain the rejection? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">What are regulators starting to demand, and why? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">What's the engineers' counter-argument against full transparency? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">According to the last paragraph, what's still unresolved about liability? <span class="blank-input" style="min-width:200px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 5: TRUE/FALSE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 5 · Comprehension Check</span>
+        <h2 class="section-title" contenteditable="true">True or False?</h2>
+        <p class="section-desc" contenteditable="true">Click the button you think is correct for each statement.</p>
+
+        <div class="tf-item"><span contenteditable="true">1. Meridian Credit's algorithm is reviewed by a human for every loan decision.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">The text says no human officer reviews a case personally.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">2. The algorithm is nicknamed "The Judge."</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
+            <div class="tf-explain" contenteditable="true">Correct — stated directly in paragraph 1.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">3. Meridian's engineers can fully explain every decision the algorithm makes.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">The opposite — even the engineers can't fully explain it.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">4. Regulators want a legal right to a clear explanation for AI decisions.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
+            <div class="tf-explain" contenteditable="true">Correct — that's what "interpretability" means here.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">5. Engineers argue that more transparency has no downsides at all.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">They argue it would let competitors reverse-engineer the model.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">6. The question of who is liable for algorithmic discrimination is already fully resolved.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">The text says "nobody is fully certain" — it's unresolved.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: GRAMMAR DISCOVERY ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 6 · Grammar Discovery</span>
+        <h2 class="section-title" contenteditable="true">Spot the Pattern</h2>
+        <p class="section-desc" contenteditable="true">Scroll back to the reading. Four verb phrases are bolded. Copy each one, then decide: is it Future Perfect (an action finished before a point in time) or Future Continuous (an action in progress at a point in time)?</p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">"...will have processed over forty million applications..." → <span class="blank-input" style="min-width:180px;"></span></div></li>
+            <li><div contenteditable="true">"...several governments will have passed laws..." → <span class="blank-input" style="min-width:180px;"></span></div></li>
+            <li><div contenteditable="true">"...most major banks will be relying on similar systems..." → <span class="blank-input" style="min-width:180px;"></span></div></li>
+            <li><div contenteditable="true">"...banks worldwide will be defending decisions..." → <span class="blank-input" style="min-width:180px;"></span></div></li>
+        </ul>
+        <div class="watch-out" contenteditable="true">🧩 <strong>Your hypothesis:</strong> What's the real difference in meaning between "banks will have adopted AI" and "banks will be adopting AI"? Try to explain it in your own words.</div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 7 · Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">Future Perfect &amp; Future Continuous</h2>
+        <p class="section-desc" contenteditable="true">Both forms let us project ourselves into a specific moment in the future — but they answer different questions.</p>
+
+        <div class="timeline-wrap">
+            <div class="timeline-bar"></div>
+            <div class="timeline-point" style="left: 6%;"></div>
+            <div class="timeline-label" style="left: 6%; top: 92px;" contenteditable="true">NOW</div>
+            <div class="timeline-point" style="left: 65%; background: var(--grape);"></div>
+            <div class="timeline-label" style="left: 65%; top: 30px;" contenteditable="true">a specific future point<br>(e.g. "by 2030")</div>
+            <div class="timeline-span" style="left: 30%; width: 35%;"></div>
+            <div class="timeline-tag" style="left: 47%; top: 88px; background: var(--turquoise-light); color: var(--turquoise-dark);" contenteditable="true">will be + -ing (in progress AT that point)</div>
+            <div class="timeline-tag" style="left: 65%; top: 10px; background: var(--coral); color: var(--white); transform: translate(-50%, -100%);" contenteditable="true">will have + V3 (already finished BY that point) ✓</div>
+        </div>
+
+        <table class="grammar-table">
+            <thead><tr><th contenteditable="true">Form</th><th contenteditable="true">Structure</th><th contenteditable="true">Usage</th><th contenteditable="true">Example</th></tr></thead>
+            <tbody>
+                <tr><td contenteditable="true"><span class="form-chip">Future Perfect</span></td><td contenteditable="true">will have + V3</td><td contenteditable="true">An action completed <strong>before</strong> a specific future point.</td><td contenteditable="true">By 2030, most banks <strong>will have automated</strong> their entire loan process.</td></tr>
+                <tr><td contenteditable="true"><span class="form-chip">Future Continuous</span></td><td contenteditable="true">will be + V-ing</td><td contenteditable="true">An action <strong>in progress</strong> at a specific future point (or a predictable routine).</td><td contenteditable="true">This time next year, doctors <strong>will be relying</strong> on AI for most diagnoses.</td></tr>
+            </tbody>
+        </table>
+
+        <div class="watch-out" contenteditable="true">⚠️ <strong>Watch out:</strong> "By the time you read this, I'll have finished" (done first) vs. "By the time you read this, I'll be finishing" (still wrapping up, in progress) — the nuance really matters in status reports and incident updates.</div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR PRACTICE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 8 · Grammar Practice</span>
+        <h2 class="section-title" contenteditable="true">Fill the Gaps</h2>
+        <p class="section-desc" contenteditable="true">Complete each sentence with the correct Future Perfect or Future Continuous form of the verb in brackets.</p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">By the time this feature ships, our team <span class="blank-input"></span> <em>(test)</em> it for over three months.</div></li>
+            <li><div contenteditable="true">This time next week, the whole company <span class="blank-input"></span> <em>(migrate)</em> to the new database.</div></li>
+            <li><div contenteditable="true">By 2035, most hospitals <span class="blank-input"></span> <em>(adopt)</em> AI-assisted diagnostics as standard practice.</div></li>
+            <li><div contenteditable="true">Don't call me at 9am — I <span class="blank-input"></span> <em>(present)</em> the quarterly roadmap to the board.</div></li>
+            <li><div contenteditable="true">By the end of the sprint, the QA team <span class="blank-input"></span> <em>(find)</em> at least a dozen new bugs.</div></li>
+            <li><div contenteditable="true">In ten years, self-driving cars <span class="blank-input"></span> <em>(make)</em> split-second ethical decisions on real roads.</div></li>
+            <li><div contenteditable="true">By the time regulators catch up, the technology <span class="blank-input"></span> <em>(already / move)</em> three steps ahead.</div></li>
+            <li><div contenteditable="true">This time tomorrow, we <span class="blank-input"></span> <em>(still / argue)</em> about who's liable for the outage.</div></li>
+        </ul>
+
+        <h3 contenteditable="true" style="margin: 26px 0 10px; color: var(--grape);">🔄 Bonus: Sentence Transformation</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">"The team plans to finish the audit before Friday." → Rewrite using <strong>Future Perfect</strong>: <span class="blank-input" style="min-width:260px;"></span></div></li>
+            <li><div contenteditable="true">"I expect to be coding at midnight tonight." → Rewrite using <strong>Future Continuous</strong>: <span class="blank-input" style="min-width:260px;"></span></div></li>
+            <li><div contenteditable="true">"It's likely that the feature is already live by next quarter." → Rewrite using <strong>Future Perfect</strong>: <span class="blank-input" style="min-width:260px;"></span></div></li>
+        </ul>
+        <button class="reveal-btn" onclick="toggleReveal('reveal-t8')">💡 Reveal Model Answers</button>
+        <div class="reveal-box" id="reveal-t8" contenteditable="true">
+            1. By Friday, the team will have finished the audit.<br>
+            2. I will be coding at midnight tonight.<br>
+            3. By next quarter, the feature will have gone live.
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: MATCHING GAME ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 9 · Game</span>
+        <h2 class="section-title" contenteditable="true">🧩 Speed Match: Ethics Edition</h2>
+        <p class="section-desc" contenteditable="true">Click a word, then click its matching definition. A correct pair locks in green; a wrong pair shakes red and resets.</p>
+
+        <div class="match-columns">
+            <div class="match-col" id="matchWords">
+                <div class="match-chip" data-match="interpretability" onclick="selectMatch(this,'word')" contenteditable="true">Interpretability</div>
+                <div class="match-chip" data-match="oversight" onclick="selectMatch(this,'word')" contenteditable="true">Oversight</div>
+                <div class="match-chip" data-match="bias" onclick="selectMatch(this,'word')" contenteditable="true">Bias</div>
+                <div class="match-chip" data-match="liability" onclick="selectMatch(this,'word')" contenteditable="true">Liability</div>
+                <div class="match-chip" data-match="opacity" onclick="selectMatch(this,'word')" contenteditable="true">Opacity</div>
+                <div class="match-chip" data-match="autonomy" onclick="selectMatch(this,'word')" contenteditable="true">Autonomy</div>
+                <div class="match-chip" data-match="accountability" onclick="selectMatch(this,'word')" contenteditable="true">Accountability</div>
+                <div class="match-chip" data-match="scrutiny" onclick="selectMatch(this,'word')" contenteditable="true">Scrutiny</div>
+            </div>
+            <div class="match-col" id="matchDefs">
+                <div class="match-chip" data-match="accountability" onclick="selectMatch(this,'def')" contenteditable="true">Being responsible for and having to justify one's actions</div>
+                <div class="match-chip" data-match="opacity" onclick="selectMatch(this,'def')" contenteditable="true">Lack of transparency; difficult to see through</div>
+                <div class="match-chip" data-match="scrutiny" onclick="selectMatch(this,'def')" contenteditable="true">Close, careful examination</div>
+                <div class="match-chip" data-match="bias" onclick="selectMatch(this,'def')" contenteditable="true">Systematic, often unintentional, favoritism</div>
+                <div class="match-chip" data-match="autonomy" onclick="selectMatch(this,'def')" contenteditable="true">Ability to act independently</div>
+                <div class="match-chip" data-match="interpretability" onclick="selectMatch(this,'def')" contenteditable="true">How easily a human can understand a decision</div>
+                <div class="match-chip" data-match="liability" onclick="selectMatch(this,'def')" contenteditable="true">Legal responsibility for damage or loss</div>
+                <div class="match-chip" data-match="oversight" onclick="selectMatch(this,'def')" contenteditable="true">Supervision to ensure ethical behavior</div>
+            </div>
+        </div>
+        <div class="match-status" id="matchStatus" contenteditable="true">0 / 8 matched</div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: SPEAKING GAME ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 10 · Speaking Game</span>
+        <h2 class="section-title" contenteditable="true">🎙️ 60-Second Verdict</h2>
+        <p class="section-desc" contenteditable="true">Spin for a controversial statement, then argue for or against it for 60 seconds. Try to use at least one vocabulary word and one Future Perfect or Continuous form.</p>
+
+        <div class="game-card-box">
+            <div class="prompt-display" id="debatePrompt" contenteditable="true">Click "Spin" to get your first statement!</div>
+            <div class="timer-display" id="debateTimer">60</div>
+            <div>
+                <button class="game-btn" onclick="spinDebate()">🎲 Spin the Wheel</button>
+                <button class="game-btn alt" onclick="startDebateTimer()">▶️ Start 60s</button>
+                <button class="btn-secondary" onclick="resetDebateTimer()">⏹ Reset Timer</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: VIDEO ====== -->
+<section class="section" id="video">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 11 · Listening</span>
+        <h2 class="section-title" contenteditable="true">AI Ethics &amp; Fairness in 7 Minutes</h2>
+        <p class="section-desc" contenteditable="true">Watch this short animated explainer by Fair Bytes (7:00), then answer the questions below.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube-nocookie.com/embed/CampJppwgWU?rel=0&modestbranding=1" title="AI Ethics & Fairness in 7 Minutes" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="text-align: center; margin-bottom: 26px;" contenteditable="true">
+            <a href="https://www.youtube.com/watch?v=CampJppwgWU" target="_blank" style="color: var(--turquoise-dark); font-weight: 700; text-decoration: none;">🔗 Click here to watch directly on YouTube</a>
+        </p>
+
+        <h3 contenteditable="true" style="margin-bottom: 10px; color: var(--grape);">🎧 Deep-Dive Questions</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">According to the video, where does bias in an automated decision-making system usually come from? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">Give an example the video uses to illustrate biased automated decision-making. <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">What does "fairness" seem to mean in the context of AI, according to the video? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">What's one proposed way to reduce bias, according to the video? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">Did anything in the video surprise you or connect to today's reading? <span class="blank-input" style="min-width:200px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 12: PRONUNCIATION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 12 · Pronunciation</span>
+        <h2 class="section-title" contenteditable="true">Fast Speech: "Will Have" → "Will've"</h2>
+        <p class="section-desc" contenteditable="true">In natural speech, "will have" often contracts and reduces to something close to "will've" /wɪləv/ — the "ha" almost disappears. Click 🔊 to hear each phrase, then copy the rhythm.</p>
+
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('by then we will have shipped it')">🔊</button><span contenteditable="true">By then we <strong>will've</strong> shipped it.</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('they will have already decided')">🔊</button><span contenteditable="true">They <strong>will've</strong> already decided.</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('it will have changed everything')">🔊</button><span contenteditable="true">It <strong>will've</strong> changed everything.</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('we will be launching next quarter')">🔊</button><span contenteditable="true">We <strong>will be</strong> launching next quarter.</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('you will be hearing from us soon')">🔊</button><span contenteditable="true">You'll be hearing from us soon.</span></div>
+
+        <h3 contenteditable="true" style="margin: 26px 0 10px; color: var(--grape);">🎯 Stress-Marking Practice</h3>
+        <p class="section-desc" contenteditable="true" style="margin-bottom:14px;">These long tech-ethics words all carry stress in a slightly unexpected place. Click each syllable to mark where you think the primary stress falls.</p>
+        <p style="font-size: 1.25rem; font-weight: 700; line-height: 2.4;" contenteditable="false">
+            <span class="syllable" onclick="toggleStress(this)" contenteditable="true">ac</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">count</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">a</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">BIL</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">i</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">ty</span>
+            &nbsp;&nbsp;
+            <span class="syllable" onclick="toggleStress(this)" contenteditable="true">in</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">ter</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">pret</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">a</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">BIL</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">i</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">ty</span>
+            &nbsp;&nbsp;
+            <span class="syllable" onclick="toggleStress(this)" contenteditable="true">au</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">TON</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">o</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">my</span>
+        </p>
+    </div>
+</section>
+
+<!-- ====== TASK 13: ROLE-PLAY ====== -->
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 13 · Role-Play</span>
+        <h2 class="section-title" contenteditable="true">The Compliance Meeting</h2>
+        <p class="section-desc" contenteditable="true">Act out this branching conversation between a regulator and the engineer who built the system in question.</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>Regulator:</strong> Ask the engineer to explain exactly how the model reached its last controversial decision.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Engineer:</strong> Admit honestly what can and can't be explained, using "interpretability."</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Regulator:</strong> Push back — ask who will be held accountable if it happens again.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Engineer:</strong> Propose a compromise using "oversight" or "scrutiny."</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Regulator:</strong> Set a deadline, using a Future Perfect form ("By [date], you will have...").</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Engineer:</strong> Agree, but add a realistic caveat using a Future Continuous form ("We will be...").</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: TRIBUNAL GAME ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 14 · Game</span>
+        <h2 class="section-title" contenteditable="true">⚖️ The Ethics Tribunal</h2>
+        <p class="section-desc" contenteditable="true">Draw a case, read the scenario, and deliver your verdict using at least two vocabulary words and one Future Perfect or Continuous form. Reveal the model verdict only after you've tried.</p>
+
+        <div class="game-card-box">
+            <div class="prompt-display" id="tribunalCard" contenteditable="true">Click "Draw a Case" to begin.</div>
+            <div>
+                <button class="game-btn" onclick="drawTribunalCard()">⚖️ Draw a Case</button>
+                <button class="btn-secondary" onclick="toggleReveal('tribunalModel')">💡 Reveal Model Verdict</button>
+            </div>
+            <div class="reveal-box" id="tribunalModel" contenteditable="true" style="text-align:left; margin-top:16px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: SYNTHESIS ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 15 · Grand Finale</span>
+        <h2 class="section-title" contenteditable="true">Your Future Prediction</h2>
+        <p class="section-desc" contenteditable="true">Let's tie it all together — discussion, then a short piece of writing.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true">Which of today's eight vocabulary words feels most relevant to your own work as a developer?</div>
+            <div class="board-tile" contenteditable="true">Is "The Judge" from today's reading closer to today's reality or tomorrow's?</div>
+            <div class="board-tile" contenteditable="true">Should every company using AI be legally required to publish how their algorithms work?</div>
+            <div class="board-tile" contenteditable="true">If you had to predict one thing AI will have changed about your industry by 2035, what would it be?</div>
+        </div>
+
+        <h3 contenteditable="true" style="margin: 30px 0 10px; color: var(--grape);">✍️ Writing Task</h3>
+        <p class="section-desc" contenteditable="true">Write a short "future prediction" paragraph about AI in your industry, using at least 5 vocabulary words and 3 Future Perfect / Continuous forms from today.</p>
+        <div contenteditable="true" style="background: var(--white); border: 2px dashed var(--gray-400); border-radius: var(--radius-md); min-height: 140px; padding: 18px; font-style: italic; color: var(--gray-600);">Start writing here...</div>
+    </div>
+</section>
+
+<!-- ====== INTERACTIVE WHITEBOARD ====== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Use the tools below to draw, map out grammar rules, or take notes together, live.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text (Click canvas)</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.3); margin: 0 10px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#22223B" title="Change Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; background: var(--coral);" contenteditable="true">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+
+        <div class="sum-up-box">
+            <h2 contenteditable="true">Lesson Complete! ✨</h2>
+            <p contenteditable="true"><strong>What we've covered today:</strong></p>
+            <ul style="list-style: none; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> opacity, accountability, bias, autonomy, interpretability, liability, oversight, scrutiny.</li>
+                <li contenteditable="true">✅ <strong>Grammar:</strong> Future Perfect (will have + V3) vs. Future Continuous (will be + -ing).</li>
+                <li contenteditable="true">✅ <strong>Speaking:</strong> 60-second debates, ethics tribunal verdicts, branching role-play.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> Reduced "will have" in fast speech, stress in long tech-ethics words.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== HOMEWORK ====== -->
+<section class="homework-section" id="homework">
+    <div class="homework-inner">
+        <span class="section-label" contenteditable="true">🏠 Homework</span>
+        <h2 class="section-title" contenteditable="true">The Black Box Systems Check</h2>
+        <p class="section-desc" contenteditable="true">Complete this on your own after class. Answer everything, then click "Check My Answers" at the bottom to see your score.</p>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">1. By 2030, most hospitals ___ (adopt) AI diagnostics as standard practice.</div>
+            <div class="hw-options" data-correct="b">
+                <label><input type="radio" name="hw1" value="a"> <span contenteditable="true">a) will adopt</span></label>
+                <label><input type="radio" name="hw1" value="b"> <span contenteditable="true">b) will have adopted</span></label>
+                <label><input type="radio" name="hw1" value="c"> <span contenteditable="true">c) will be adopting</span></label>
+                <label><input type="radio" name="hw1" value="d"> <span contenteditable="true">d) adopt</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">2. This time next year, I ___ full-time on the new product line.</div>
+            <div class="hw-options" data-correct="c">
+                <label><input type="radio" name="hw2" value="a"> <span contenteditable="true">a) will work</span></label>
+                <label><input type="radio" name="hw2" value="b"> <span contenteditable="true">b) will have worked</span></label>
+                <label><input type="radio" name="hw2" value="c"> <span contenteditable="true">c) will be working</span></label>
+                <label><input type="radio" name="hw2" value="d"> <span contenteditable="true">d) work</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">3. By the time you read this report, the board ___ their final decision.</div>
+            <div class="hw-options" data-correct="b">
+                <label><input type="radio" name="hw3" value="a"> <span contenteditable="true">a) will make</span></label>
+                <label><input type="radio" name="hw3" value="b"> <span contenteditable="true">b) will have made</span></label>
+                <label><input type="radio" name="hw3" value="c"> <span contenteditable="true">c) will be making</span></label>
+                <label><input type="radio" name="hw3" value="d"> <span contenteditable="true">d) make</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">4. Don't call at 8pm — we ___ dinner then.</div>
+            <div class="hw-options" data-correct="c">
+                <label><input type="radio" name="hw4" value="a"> <span contenteditable="true">a) will have eaten</span></label>
+                <label><input type="radio" name="hw4" value="b"> <span contenteditable="true">b) will eat</span></label>
+                <label><input type="radio" name="hw4" value="c"> <span contenteditable="true">c) will be eating</span></label>
+                <label><input type="radio" name="hw4" value="d"> <span contenteditable="true">d) eat</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">5. "Opacity" most nearly means:</div>
+            <div class="hw-options" data-correct="b">
+                <label><input type="radio" name="hw5" value="a"> <span contenteditable="true">a) transparency</span></label>
+                <label><input type="radio" name="hw5" value="b"> <span contenteditable="true">b) lack of clarity</span></label>
+                <label><input type="radio" name="hw5" value="c"> <span contenteditable="true">c) speed</span></label>
+                <label><input type="radio" name="hw5" value="d"> <span contenteditable="true">d) fairness</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">6. "Accountability" most nearly means:</div>
+            <div class="hw-options" data-correct="a">
+                <label><input type="radio" name="hw6" value="a"> <span contenteditable="true">a) being responsible for one's actions</span></label>
+                <label><input type="radio" name="hw6" value="b"> <span contenteditable="true">b) being fast</span></label>
+                <label><input type="radio" name="hw6" value="c"> <span contenteditable="true">c) being wealthy</span></label>
+                <label><input type="radio" name="hw6" value="d"> <span contenteditable="true">d) being creative</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">7. "Autonomy" most nearly means:</div>
+            <div class="hw-options" data-correct="b">
+                <label><input type="radio" name="hw7" value="a"> <span contenteditable="true">a) dependence</span></label>
+                <label><input type="radio" name="hw7" value="b"> <span contenteditable="true">b) independence in decision-making</span></label>
+                <label><input type="radio" name="hw7" value="c"> <span contenteditable="true">c) confusion</span></label>
+                <label><input type="radio" name="hw7" value="d"> <span contenteditable="true">d) punishment</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-fill">
+            <div class="hw-q" contenteditable="true">8. A system so complex that even its own engineers can't explain its decisions is called a "______ box."</div>
+            <input type="text" id="hwfill1" data-answer="black">
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-fill">
+            <div class="hw-q" contenteditable="true">9. Complete with the correct verb form: By next year, several governments ______ (pass) new AI transparency laws.</div>
+            <input type="text" id="hwfill2" data-answer="will have passed">
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-fill">
+            <div class="hw-q" contenteditable="true">10. Complete with the correct verb form: Ten years from now, most banks ______ (rely) on algorithms for lending decisions.</div>
+            <input type="text" id="hwfill3" data-answer="will be relying">
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-reflection">
+            <div class="hw-q" contenteditable="true">Bonus reflection (not graded): In 2–3 sentences, describe one task at your job that you think will have been fully automated within the next ten years.</div>
+            <div contenteditable="true" style="font-style: italic; color: var(--gray-600);">Write your answer here...</div>
+        </div>
+
+        <button class="hw-check-btn" onclick="gradeHomework()">✅ Check My Answers</button>
+        <div class="hw-score-box" id="hwScoreBox"></div>
+    </div>
+</section>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Go to Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet">📝</button>
+    <button class="fab-btn save-btn" onclick="window.saveAsPDF()" title="Save as PDF">💾</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background: var(--coral-dark);" title="Reset Lesson">🔄</button>
+</div>
+
+<!-- ====== QUIZLET MODAL ====== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2>Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.95rem; color: var(--gray-600);">Add English words and their translations, then copy and paste into Quizlet's import tool.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1; text-align: center;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex: 2; text-align: center; background: #4255FF; border-color: #4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // --- Text Highlighting ---
+    document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(255,193,69,0.4)');
+        }
+    });
+
+    // --- Error Spy (Task 1) ---
+    function fixError(el) {
+        el.classList.add('correct-click');
+        el.innerHTML = '<span class="es-fixed">' + el.dataset.correct + '</span> ✅';
+        el.onclick = null;
+    }
+
+    // --- Poll (Task 2) ---
+    function selectPoll(el) {
+        document.querySelectorAll('.poll-opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    // --- True/False (Task 5) ---
+    function checkTF(btn, isCorrect) {
+        const group = btn.parentElement;
+        group.querySelectorAll('button').forEach(b => b.classList.remove('correct', 'wrong'));
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        const explain = group.parentElement.querySelector('.tf-explain');
+        if (explain) explain.style.display = 'block';
+    }
+
+    // --- Generic Reveal Toggle ---
+    function toggleReveal(id) {
+        const box = document.getElementById(id);
+        box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // --- Speed Match Game (Task 9) ---
+    let selectedWord = null, selectedDef = null, matchedCount = 0;
+    function selectMatch(el, type) {
+        if (el.classList.contains('matched')) return;
+        if (type === 'word') {
+            if (selectedWord) selectedWord.classList.remove('selected');
+            selectedWord = el; el.classList.add('selected');
+        } else {
+            if (selectedDef) selectedDef.classList.remove('selected');
+            selectedDef = el; el.classList.add('selected');
+        }
+        if (selectedWord && selectedDef) {
+            if (selectedWord.dataset.match === selectedDef.dataset.match) {
+                selectedWord.classList.add('matched'); selectedDef.classList.add('matched');
+                selectedWord.classList.remove('selected'); selectedDef.classList.remove('selected');
+                matchedCount++;
+                document.getElementById('matchStatus').innerText = matchedCount + ' / 8 matched' + (matchedCount === 8 ? ' 🎉 All done!' : '');
+                selectedWord = null; selectedDef = null;
+            } else {
+                const w = selectedWord, d = selectedDef;
+                w.classList.add('shake'); d.classList.add('shake');
+                setTimeout(() => {
+                    w.classList.remove('selected', 'shake'); d.classList.remove('selected', 'shake');
+                }, 450);
+                selectedWord = null; selectedDef = null;
+            }
+        }
+    }
+
+    // --- 60-Second Verdict Debate Game (Task 10) ---
+    const debatePrompts = [
+        "Companies should be legally required to explain every automated decision that affects a customer.",
+        "It's acceptable for an AI to be less accurate if it's more transparent.",
+        "A biased algorithm is still better than a biased human.",
+        "Engineers, not companies, should be personally liable for algorithmic harm.",
+        "Fully autonomous AI decision-making should be banned in hiring.",
+        "The 'black box' problem is exaggerated by the media.",
+        "Humans should always have the final say over an AI's decision.",
+        "Bias in AI is impossible to fully eliminate.",
+        "Governments are always too slow to regulate new technology.",
+        "In ten years, most people won't care whether a decision was made by a human or an AI."
+    ];
+    function spinDebate() {
+        const p = debatePrompts[Math.floor(Math.random() * debatePrompts.length)];
+        document.getElementById('debatePrompt').innerText = p;
+        resetDebateTimer();
+    }
+    let debateInterval = null, debateTimeLeft = 60;
+    function startDebateTimer() {
+        clearInterval(debateInterval);
+        debateTimeLeft = 60;
+        document.getElementById('debateTimer').innerText = debateTimeLeft;
+        debateInterval = setInterval(() => {
+            debateTimeLeft--;
+            document.getElementById('debateTimer').innerText = debateTimeLeft;
+            if (debateTimeLeft <= 0) { clearInterval(debateInterval); document.getElementById('debateTimer').innerText = "Time's up! 🎉"; }
+        }, 1000);
+    }
+    function resetDebateTimer() {
+        clearInterval(debateInterval);
+        debateTimeLeft = 60;
+        document.getElementById('debateTimer').innerText = 60;
+    }
+
+    // --- Pronunciation TTS (Task 12) ---
+    function speakPhrase(text) {
+        if (!('speechSynthesis' in window)) { alert('Text-to-speech is not supported in this browser.'); return; }
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utter);
+    }
+    function toggleStress(el) { el.classList.toggle('stressed'); }
+
+    // --- Ethics Tribunal Game (Task 14) ---
+    const tribunalCards = [
+        { scenario: "An AI hiring tool automatically rejected every candidate over 50.", model: "By next quarter, the company will have retrained the model on a fairer dataset — but real accountability means a human signs off on the fix, not just the algorithm." },
+        { scenario: "A self-driving car's software has to choose between hitting a pedestrian or swerving into a wall.", model: "This is exactly why full autonomy without human oversight is so contested — by the time it's tested at scale, we will have discovered edge cases no one predicted." },
+        { scenario: "A hospital's AI consistently underestimates pain in one demographic group due to biased training data.", model: "This is bias baked into the data, not the code. Interpretability tools should have flagged this before deployment, and hospitals will soon have to prove they've checked for it." },
+        { scenario: "A bank's credit algorithm can't explain why it rejected a loan, and the customer is suing.", model: "This is the liability question in its purest form. Until interpretability improves, expect courts — not engineers — to be defining the rules." },
+        { scenario: "A social media algorithm boosts outrage content because it drives more engagement.", model: "That's opacity working exactly as designed, for profit rather than transparency. Scrutiny from regulators will be the only real check here." },
+        { scenario: "An AI resume-screener favors candidates from certain universities, unintentionally excluding qualified applicants.", model: "Bias doesn't need bad intentions to cause real harm. By the time this is caught, thousands of applications will have already been filtered unfairly." },
+        { scenario: "A predictive policing algorithm sends more patrols to neighborhoods based on historical arrest data.", model: "This is a feedback loop of bias, not prediction. Real oversight means questioning the data itself, not just the output." },
+        { scenario: "An AI content moderator removes a journalist's war-reporting video, mistaking it for violent content.", model: "This is exactly why full autonomy without a human appeals process is risky — accountability requires someone besides the algorithm to make the final call." }
+    ];
+    function drawTribunalCard() {
+        const card = tribunalCards[Math.floor(Math.random() * tribunalCards.length)];
+        document.getElementById('tribunalCard').innerText = '"' + card.scenario + '"';
+        document.getElementById('tribunalModel').innerText = card.model;
+        document.getElementById('tribunalModel').style.display = 'none';
+    }
+
+    // --- Homework Grading ---
+    function gradeHomework() {
+        let score = 0;
+        const total = 10;
+        document.querySelectorAll('.hw-options').forEach((group) => {
+            const selected = group.querySelector('input:checked');
+            const feedback = group.parentElement.querySelector('.hw-feedback');
+            feedback.style.display = 'block';
+            if (selected && selected.value === group.dataset.correct) {
+                score++;
+                feedback.className = 'hw-feedback correct';
+                feedback.innerText = '✅ Correct!';
+            } else {
+                feedback.className = 'hw-feedback wrong';
+                const correctLabel = group.querySelector('input[value="' + group.dataset.correct + '"]').parentElement.innerText;
+                feedback.innerText = selected ? '❌ Not quite — correct answer: ' + correctLabel : '⚠️ Not answered — correct answer: ' + correctLabel;
+            }
+        });
+        document.querySelectorAll('.hw-fill').forEach(card => {
+            const input = card.querySelector('input[type=text]');
+            const feedback = card.querySelector('.hw-feedback');
+            feedback.style.display = 'block';
+            const userVal = (input.value || '').trim().toLowerCase();
+            const correctVal = input.dataset.answer.toLowerCase();
+            if (userVal === correctVal) {
+                score++;
+                feedback.className = 'hw-feedback correct';
+                feedback.innerText = '✅ Correct!';
+            } else {
+                feedback.className = 'hw-feedback wrong';
+                feedback.innerText = '❌ Correct answer: ' + input.dataset.answer;
+            }
+        });
+        const box = document.getElementById('hwScoreBox');
+        box.style.display = 'block';
+        box.innerText = '🎉 Your Score: ' + score + ' / ' + total;
+    }
+
+    // --- Interactive Whiteboard ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 480; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing = false, pendingDraw = false, startX, startY, currentTool = 'pencil', currentColor = '#22223B', savedImageData;
+    const tools = document.querySelectorAll('.wb-btn[data-tool]');
+    const colorPicker = document.getElementById('wbColor');
+    const clearBtn = document.getElementById('wbClear');
+
+    tools.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tools.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    colorPicker.addEventListener('change', (e) => { currentColor = e.target.value; });
+    clearBtn.addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); if (window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getMousePos(e) { const rect = canvas.getBoundingClientRect(); return { x: e.clientX - rect.left, y: e.clientY - rect.top }; }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const pos = getMousePos(e); startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const text = prompt("Enter text:");
+            if (text) {
+                ctx.font = "20px 'Inter', Arial, sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(text, startX, startY);
+                if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+            }
+            return;
+        }
+        isDrawing = true;
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 15 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        } else { ctx.putImageData(savedImageData, 0, 0); drawShape(pos.x, pos.y); }
+    });
+    canvas.addEventListener('mouseup', (e) => {
+        if (!isDrawing) return;
+        isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') { const pos = getMousePos(e); drawShape(pos.x, pos.y); }
+        if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+    });
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing = false; if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } }
+    });
+    function drawShape(endX, endY) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 2;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, endX - startX, endY - startY); }
+        else if (currentTool === 'circle') {
+            const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            ctx.arc(startX, startY, radius, 0, 2 * Math.PI); ctx.stroke();
+        } else if (currentTool === 'arrow') {
+            const headlen = 15; const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(endX, endY); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.stroke();
+        }
+    }
+
+    // --- PDF Generation ---
+    window.saveAsPDF = function() {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const element = document.body;
+        const totalHeight = element.scrollHeight, totalWidth = element.scrollWidth;
+        const opt = { margin: 0, filename: 'Lesson-3-Black-Box-Completed.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, windowWidth: totalWidth, scrollY: 0 }, jsPDF: { unit: 'px', format: [totalWidth, totalHeight], orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    }
+
+    // --- Quizlet Modal ---
+    window.openQuizletModal = function() { document.getElementById('quizletModal').style.display = 'flex'; }
+    window.closeQuizletModal = function() { document.getElementById('quizletModal').style.display = 'none'; }
+    window.addWordRow = function() {
+        const row = document.createElement('div'); row.className = 'word-row';
+        row.innerHTML = '<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation" class="q-trans">';
+        document.getElementById('wordList').appendChild(row);
+        const wordList = document.getElementById('wordList'); wordList.scrollTop = wordList.scrollHeight;
+    }
+    window.copyForQuizlet = function() {
+        const rows = document.querySelectorAll('.word-row'); let output = '';
+        rows.forEach(row => {
+            const word = row.querySelector('.q-word').value.trim();
+            const trans = row.querySelector('.q-trans').value.trim();
+            if (word || trans) output += `${word}\t${trans}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn'); const originalText = btn.innerText;
+        if (output) {
+            const textArea = document.createElement("textarea"); textArea.value = output;
+            document.body.appendChild(textArea); textArea.select(); document.execCommand("copy"); document.body.removeChild(textArea);
+            btn.innerText = "✅ Copied! Ready to Paste";
+        } else { btn.innerText = "⚠️ Add some words first!"; }
+        setTimeout(() => { btn.innerText = originalText; }, 3000);
+    }
+
+    // --- Nav Link Fix ---
+    document.getElementById('navTabsContainer').addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    const headerOffset = 100;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }
+        }
+    });
+
+    window.scrollToWhiteboard = function() {
+        const wbSection = document.getElementById('whiteboard');
+        if (wbSection) {
+            const headerOffset = 100;
+            const elementPosition = wbSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+    }
+</script>
+
+<!-- ====== FIREBASE & ADVANCED SYNC SCRIPT ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac",
+        measurementId: "G-K12KF1N7YS"
+    };
+
+    const appId = 'lesson-3-c1-dev-the-ethics-of-the-black-box';
+
+    const statusText = document.getElementById('syncText');
+    const statusDot = document.getElementById('syncDot');
+    function setStatus(text, color) { if (statusText) statusText.innerText = text; if (statusDot) statusDot.style.background = color; }
+
+    if (!firebaseConfig) {
+        setStatus('Offline Mode', '#A9AFC3');
+    } else {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null, isSyncSetup = false;
+        const myCursorColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+        let myCursorName = "Student";
+
+        const editables = document.querySelectorAll('[contenteditable="true"]');
+        const originalStates = {};
+        editables.forEach((el, index) => { el.dataset.syncId = 'edit-' + index; originalStates['edit-' + index] = el.innerHTML; });
+        let isEditing = null;
+
+        function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; }
+
+        const initAuth = async () => { try { await signInAnonymously(auth); } catch (e) { setStatus('Auth Failed', '#FF6B6B'); } };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user && !isSyncSetup) {
+                isSyncSetup = true;
+                getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                    myCursorName = "Student " + (snap.size + 1);
+                    setStatus('Live Sync On', '#2EC4B6');
+                    setupRealtimeSync(db, appId);
+                    setupLiveCursors(db, appId);
+                }).catch(err => {
+                    myCursorName = "Student " + (Math.floor(Math.random() * 99) + 1);
+                    setStatus('Live Sync On', '#2EC4B6');
+                    setupRealtimeSync(db, appId);
+                    setupLiveCursors(db, appId);
+                });
+            } else if (!user) { setStatus('Disconnected', '#FF6B6B'); }
+        });
+        initAuth();
+
+        function setupRealtimeSync(db, appId) {
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+
+            window.saveTextUpdate = (el) => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
+            window.attachEditableListeners = (el) => {
+                el.addEventListener('focus', () => { isEditing = el.dataset.syncId; });
+                el.addEventListener('blur', () => { isEditing = null; window.saveTextUpdate(el); });
+                el.addEventListener('input', debounce(() => { if (isEditing === el.dataset.syncId) window.saveTextUpdate(el); }, 500));
+            };
+            editables.forEach(el => window.attachEditableListeners(el));
+
+            window.addNewTab = (e) => {
+                e.preventDefault();
+                const container = document.getElementById('navTabsContainer');
+                const newLi = document.createElement('li');
+                const newId = 'edit-tab-' + Date.now();
+                newLi.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+                container.appendChild(newLi);
+                const newAnchor = newLi.querySelector('a');
+                window.attachEditableListeners(newAnchor);
+                if (currentUser) setDoc(textRef, { 'nav_tabs_structure': container.innerHTML }, { merge: true });
+            };
+
+            onSnapshot(textRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    for (const [syncId, html] of Object.entries(data)) {
+                        if (syncId === 'nav_tabs_structure') {
+                            const container = document.getElementById('navTabsContainer');
+                            if (!container.contains(document.activeElement)) {
+                                container.innerHTML = html;
+                                container.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a));
+                            }
+                            continue;
+                        }
+                        if (isEditing !== syncId) {
+                            const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                            if (el && el.innerHTML !== html) el.innerHTML = html;
+                        }
+                    }
+                } else {
+                    Object.entries(originalStates).forEach(([syncId, html]) => {
+                        const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                        if (el && el.innerHTML !== html) el.innerHTML = html;
+                    });
+                }
+            });
+
+            document.addEventListener('paste', function(e) {
+                const target = e.target;
+                if (!target.closest('[contenteditable="true"]')) return;
+                const items = (e.clipboardData || window.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        e.preventDefault();
+                        const blob = item.getAsFile();
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = new Image();
+                            img.onload = function() {
+                                const canvasImg = document.createElement('canvas');
+                                const MAX_WIDTH = 800;
+                                let width = img.width, height = img.height;
+                                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                                canvasImg.width = width; canvasImg.height = height;
+                                const ctx2 = canvasImg.getContext('2d');
+                                ctx2.drawImage(img, 0, 0, width, height);
+                                const dataUrl = canvasImg.toDataURL('image/jpeg', 0.8);
+                                const imgWrapper = `<div contenteditable="false" style="margin: 16px 0; text-align: center;"><img src="${dataUrl}" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);"></div><p><br></p>`;
+                                target.focus();
+                                document.execCommand('insertHTML', false, imgWrapper);
+                                target.dispatchEvent(new Event('input', { bubbles: true }));
+                            };
+                            img.src = event.target.result;
+                        };
+                        reader.readAsDataURL(blob);
+                        return;
+                    }
+                }
+                const pasteText = (e.clipboardData || window.clipboardData).getData('text');
+                if (pasteText) {
+                    const ytMatch = pasteText.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                    if (ytMatch && ytMatch[1]) {
+                        e.preventDefault();
+                        const iframeWrapper = `<div contenteditable="false" style="margin: 16px 0; user-select: none; text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; max-width: 100%;"></iframe></div><p><br></p>`;
+                        document.execCommand('insertHTML', false, iframeWrapper);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+                    const urlRegex = /^(https?:\/\/[^\s]+)$/i;
+                    if (urlRegex.test(pasteText.trim())) {
+                        e.preventDefault();
+                        const link = `<a href="${pasteText.trim()}" target="_blank" style="color: var(--turquoise-dark); text-decoration: underline;" contenteditable="false">${pasteText.trim()}</a>`;
+                        document.execCommand('insertHTML', false, link);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+                }
+            });
+
+            window.syncWhiteboardDraw = debounce(() => {
+                if (!currentUser) return;
+                const canvasEl = document.getElementById('boardCanvas');
+                const dataUrl = canvasEl.toDataURL('image/png', 0.5);
+                setDoc(wbRef, { image: dataUrl, clearTimestamp: window.lastClear || 0 }, { merge: true });
+                pendingDraw = false;
+            }, 800);
+            window.syncWhiteboardClear = () => {
+                if (!currentUser) return;
+                const ts = Date.now(); window.lastClear = ts;
+                setDoc(wbRef, { clearTimestamp: ts, image: null }, { merge: true });
+            };
+            onSnapshot(wbRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const canvasEl = document.getElementById('boardCanvas');
+                    const ctx2 = canvasEl.getContext('2d');
+                    if (data.clearTimestamp > (window.lastClear || 0)) {
+                        ctx2.clearRect(0, 0, canvasEl.width, canvasEl.height);
+                        window.lastClear = data.clearTimestamp;
+                        return;
+                    }
+                    if (data.image && !pendingDraw) {
+                        const img = new Image();
+                        img.onload = () => { ctx2.clearRect(0, 0, canvasEl.width, canvasEl.height); ctx2.drawImage(img, 0, 0); };
+                        img.src = data.image;
+                    }
+                }
+            });
+        }
+
+        function setupLiveCursors(db, appId) {
+            const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+            const myCursorRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+            const container = document.getElementById('liveCursorsContainer');
+
+            document.addEventListener('mousemove', debounce((e) => {
+                if (!currentUser) return;
+                const xOffset = e.pageX - (window.innerWidth / 2);
+                setDoc(myCursorRef, { xOffset: xOffset, y: e.pageY, color: myCursorColor, name: myCursorName, timestamp: Date.now() });
+            }, 400));
+
+            onSnapshot(cursorsCol, (snap) => {
+                snap.docChanges().forEach(change => {
+                    const id = change.doc.id;
+                    if (id === currentUser.uid) return;
+                    if (change.type === 'removed') {
+                        const cursorEl = document.getElementById('cursor-' + id);
+                        if (cursorEl) cursorEl.remove();
+                    } else {
+                        const data = change.doc.data();
+                        if (Date.now() - data.timestamp > 60000) {
+                            const cursorEl = document.getElementById('cursor-' + id);
+                            if (cursorEl) cursorEl.remove();
+                            return;
+                        }
+                        let cursorEl = document.getElementById('cursor-' + id);
+                        if (!cursorEl) {
+                            cursorEl = document.createElement('div');
+                            cursorEl.id = 'cursor-' + id;
+                            cursorEl.className = 'remote-cursor';
+                            cursorEl.innerHTML = `<svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div class="remote-cursor-label" style="background: ${data.color}">${data.name}</div>`;
+                            container.appendChild(cursorEl);
+                        }
+                        const adjustedX = (window.innerWidth / 2) + data.xOffset;
+                        cursorEl.style.left = adjustedX + 'px';
+                        cursorEl.style.top = data.y + 'px';
+                    }
+                });
+            });
+
+            window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myCursorRef); });
+        }
+
+        window.resetLesson = async () => {
+            if (!currentUser) return;
+            if (!confirm("Are you sure you want to reset the lesson? This will clear all text edits and the whiteboard for everyone.")) return;
+            setStatus('Resetting...', '#FFC145');
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            await deleteDoc(textRef);
+            const ts = Date.now(); window.lastClear = ts;
+            await setDoc(wbRef, { clearTimestamp: ts, image: null });
+            setTimeout(() => setStatus('Live Sync On', '#2EC4B6'), 1000);
+        };
+    }
+</script>
+</body>
+</html>
