@@ -1,5 +1,4 @@
-def generate_lesson_6():
-    html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -40,6 +39,20 @@ def generate_lesson_6():
     [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 4px; }
     [contenteditable="true"]:focus, [contenteditable="true"]:hover { background-color: rgba(46,196,182,0.08); box-shadow: 0 0 0 2px rgba(46,196,182,0.15); }
 
+    .uk-tooltip {
+        position: relative; cursor: help; border-bottom: 2px dotted var(--turquoise-dark);
+        font-weight: 700; color: var(--ink); transition: color 0.2s;
+    }
+    .uk-tooltip:hover { color: var(--turquoise-dark); }
+    .uk-tooltip::after {
+        content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+        transform: translateX(-50%); background: var(--ink); color: white;
+        padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+        white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        z-index: 50; font-family: Inter, sans-serif; box-shadow: var(--shadow-md);
+    }
+    .uk-tooltip:hover::after { opacity: 1; }
+
     .hero {
         position: relative;
         background: linear-gradient(120deg, var(--coral) 0%, var(--sun) 52%, var(--turquoise) 100%);
@@ -49,7 +62,7 @@ def generate_lesson_6():
         overflow: hidden;
     }
     .hero::before, .hero::after {
-        content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.16);
+        content: attr(data-empty); position: absolute; border-radius: 50%; background: rgba(255,255,255,0.16);
     }
     .hero::before { width: 220px; height: 220px; top: -60px; left: -60px; }
     .hero::after { width: 160px; height: 160px; bottom: -50px; right: -30px; background: rgba(255,255,255,0.12); }
@@ -73,7 +86,6 @@ def generate_lesson_6():
     .nav-links::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 4px; }
     .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 700; padding: 6px 11px; border-radius: 8px; white-space: nowrap; transition: color 0.2s, background 0.2s; }
     .nav-links a:hover { color: var(--turquoise-dark); background: var(--turquoise-light); }
-    .nav-links a.active { color: var(--white); background: var(--turquoise-dark); }
 
     .section { padding: 68px 24px; }
     .section:nth-child(even) { background: var(--white); }
@@ -83,10 +95,7 @@ def generate_lesson_6():
     .section-desc { color: var(--gray-600); font-size: 1.03rem; margin-bottom: 32px; max-width: 660px; }
 
     .scenario-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--turquoise); }
-    .prompt-list { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
-    .prompt-item { background: var(--white); border-left: 5px solid var(--turquoise); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 18px 24px; box-shadow: var(--shadow-sm); }
-    .prompt-item strong { display: block; color: var(--ink); margin-bottom: 4px; }
-
+    
     .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 22px; }
     .board-tile { background: var(--white); border: 2px solid var(--sun); border-radius: var(--radius-md); padding: 18px 20px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); display: flex; align-items: center; }
 
@@ -97,16 +106,14 @@ def generate_lesson_6():
     
     .practice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 22px; counter-reset: pc; }
     .practice-list li { background: var(--white); padding: 15px 20px 15px 46px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); position: relative; }
-    .practice-list li::before { counter-increment: pc; content: counter(pc); position: absolute; left: 18px; top: 14px; font-weight: 800; color: var(--turquoise-dark); }
+    .practice-list li::before { counter-increment: pc; content: counter(pc) ; position: absolute; left: 18px; top: 14px; font-weight: 800; color: var(--turquoise-dark); }
     
     .blank-input { display: inline-block; min-width: 70px; border: none; border-bottom: 3px dashed var(--sun-dark); color: var(--coral-dark); font-weight: 700; padding: 0 8px; text-align: center; background: rgba(255,193,69,0.08); font-family: Inter, sans-serif; font-size: 1.05rem;}
     .blank-input:focus { border-bottom-color: var(--coral); outline: none; background: rgba(255,107,107,0.1); }
     
     .drill-input { width: 100%; padding: 14px 20px; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: Inter, sans-serif; font-size: 1.1rem; color: var(--gray-900); background: var(--white); transition: all 0.2s; outline: none; font-weight: 600;}
     .drill-input:focus { border-color: var(--turquoise); box-shadow: 0 0 0 4px var(--turquoise-light); }
-    .inline-drill { display: inline-block; width: auto; min-width: 150px; padding: 6px 12px; border: 2px dashed var(--accent-500); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 1rem; color: var(--accent-700); background: var(--accent-50); transition: all 0.2s; outline: none; font-weight: 700; text-align: center; margin: 0 4px;}
-    .inline-drill:focus { border-style: solid; box-shadow: 0 0 0 3px var(--accent-100); background: white; }
-
+    
     .watch-out { background: rgba(255,193,69,0.18); border-left: 4px solid var(--sun-dark); padding: 14px 18px; margin-top: 16px; border-radius: 0 8px 8px 0; }
 
     .flowchart { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 28px 0; background: var(--cream); padding: 36px; border-radius: var(--radius-lg); border: 3px dashed var(--sun); }
@@ -114,15 +121,34 @@ def generate_lesson_6():
     .flow-bubble.b-side { border-color: var(--coral); background: var(--coral); color: var(--white); }
     .flow-arrow { color: var(--gray-400); font-size: 1.4rem; }
 
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 22px; }
+    .vocab-card { position: relative; height: 140px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 2px solid var(--grape-light); cursor: pointer; }
+    .vocab-front { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, var(--grape) 0%, var(--coral) 100%); color: var(--white); font-weight: 800; font-size: 1.15rem; padding: 12px; transition: opacity 0.3s ease; z-index: 2; }
+    .vocab-card:hover .vocab-front { opacity: 0; }
+    .vocab-def { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--white); color: var(--gray-800); font-size: 0.95rem; padding: 16px; z-index: 1; font-weight: 500; }
+
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+    .match-col { display: flex; flex-direction: column; gap: 12px; }
+    .match-item { background: white; border: 3px solid var(--gray-200); padding: 18px 24px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-weight: 700; text-align: center; box-shadow: var(--shadow-sm); color: var(--gray-900); font-size: 1.1rem;}
+    .match-item:hover { border-color: var(--turquoise); transform: translateY(-2px); }
+    .match-item.selected { background: var(--turquoise); color: white; border-color: var(--turquoise-dark); }
+    .match-item.matched { background: var(--gray-100); border-color: var(--gray-200); color: var(--gray-400); opacity: 0.5; cursor: default; transform: none; }
+
+    .errorspy-sentence { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; }
+    .es-word { cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: background 0.2s; border-bottom: 2px dashed var(--coral); }
+    .es-word:hover { background: rgba(255,107,107,0.18); }
+    .es-word.correct-click { background: var(--turquoise); color: var(--white); font-weight: 700; border: none; }
+    .es-fixed { color: var(--white); font-weight: 800; }
+
     .tf-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
     .tf-buttons button { border: 2px solid var(--gray-200); background: var(--white); padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 6px; }
     .tf-buttons button.correct { background: var(--turquoise); border-color: var(--turquoise-dark); color: var(--white); }
     .tf-buttons button.wrong { background: var(--coral); border-color: var(--coral-dark); color: var(--white); }
-    .tf-explain { font-size: 0.85rem; color: var(--gray-600); width: 100%; display: none; margin-top: 6px; }
+    .tf-explain { font-size: 0.9rem; color: var(--gray-600); width: 100%; display: none; margin-top: 6px; font-weight: 500; }
 
     .bucket-game { margin-top: 24px; }
     .word-bank { display: flex; flex-wrap: wrap; gap: 10px; padding: 18px; background: var(--white); border: 2px dashed var(--gray-400); border-radius: var(--radius-md); min-height: 60px; margin-bottom: 20px; }
-    .chip { background: var(--sun-light); border: 2px solid var(--sun-dark); color: var(--ink); font-weight: 700; padding: 8px 16px; border-radius: 50px; cursor: grab; font-size: 0.88rem; }
+    .chip { background: var(--sun-light); border: 2px solid var(--sun-dark); color: var(--ink); font-weight: 700; padding: 8px 16px; border-radius: 50px; cursor: grab; font-size: 0.95rem; }
     .chip.dragging { opacity: 0.4; border-style: dashed; }
     .chip.chip-correct { background: var(--turquoise-light); border-color: var(--turquoise-dark); }
     .chip.chip-wrong { background: #FFD9D9; border-color: var(--coral-dark); }
@@ -131,6 +157,7 @@ def generate_lesson_6():
     .bucket-label { font-family: Poppins, sans-serif; font-weight: 800; text-align: center; color: var(--grape); margin-bottom: 10px; font-size: 0.95rem; }
     .bucket .chip { display: block; margin-bottom: 8px; text-align: center; }
     .game-controls { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+
     .btn-primary { background: var(--turquoise-dark); color: var(--white); border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; cursor: pointer; font-family: Poppins, sans-serif;}
     .btn-secondary { background: var(--white); color: var(--gray-800); border: 2px solid var(--gray-200); padding: 12px 24px; border-radius: 50px; font-weight: 700; cursor: pointer; font-family: Poppins, sans-serif;}
 
@@ -140,18 +167,14 @@ def generate_lesson_6():
     .game-btn { background: linear-gradient(120deg, var(--coral) 0%, var(--sun) 100%); color: var(--white); border: none; padding: 12px 28px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow-sm); margin: 6px; }
     .game-btn.alt { background: linear-gradient(120deg, var(--turquoise) 0%, var(--grape) 100%); color: var(--white); }
 
+    .pron-item { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 10px; flex-wrap: wrap; }
+    .listen-btn { background: var(--turquoise); color: var(--white); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; flex-shrink: 0; }
+
     .translation-hub { background: var(--white); border: 2px solid var(--turquoise-light); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; }
     .ukr-text { font-size: 1.15rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; }
     .translation-input { width: 100%; padding: 14px 20px; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 1.1rem; font-family: Inter, sans-serif; margin-bottom: 12px; outline: none; transition: border-color 0.2s;}
     .translation-input:focus { border-color: var(--turquoise); }
     .translation-fb { font-weight: 700; font-size: 0.95rem; display: none; margin-bottom: 12px;}
-
-    .whiteboard-container { border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
-    .wb-toolbar { background: var(--ink); padding: 12px 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .wb-btn { background: var(--gray-800); color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
-    .wb-btn:hover, .wb-btn.active { background: var(--turquoise); }
-    .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--white); cursor: pointer; padding: 0; }
-    canvas { display: block; width: 100%; height: 480px; background: var(--white); cursor: crosshair; }
 
     .homework-section { background: linear-gradient(160deg, var(--ink) 0%, #3A3F63 100%); padding: 70px 24px; }
     .homework-inner { max-width: 820px; margin: 0 auto; color: var(--white); }
@@ -175,40 +198,10 @@ def generate_lesson_6():
     .fab-btn { background: var(--coral); color: var(--white); border: none; width: 56px; height: 56px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; }
     .fab-btn:hover { transform: translateY(-3px); }
 
-    .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.4s linear, left 0.4s linear; display: flex; align-items: flex-start; opacity: 0; animation: fadeInCursor 0.3s forwards; }
-    @keyframes fadeInCursor { to { opacity: 1; } }
-    .remote-cursor svg { width: 22px; height: 22px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); }
-    .remote-cursor-label { color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: -5px; margin-top: 15px; white-space: nowrap; box-shadow: var(--shadow-sm); }
-
-    .hub-nav { display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 2px solid var(--gray-200); padding-bottom: 16px; overflow-x: auto; }
-    .hub-tab { background: white; color: var(--gray-600); border: 2px solid var(--gray-200); padding: 12px 24px; border-radius: 50px; font-weight: 800; font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-    .hub-tab:hover { background: var(--gray-50); border-color: var(--gray-400); }
-    .hub-tab.active { background: var(--turquoise); color: white; border-color: var(--turquoise); box-shadow: var(--shadow-md); }
-    .hub-content { display: none; animation: fadeIn 0.3s ease; }
-    .hub-content.active { display: block; }
-
-    .mfp-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: white; border: 2px solid var(--gray-100); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md); }
-    @media (max-width: 960px) { .mfp-container { grid-template-columns: 1fr; } }
-    .mfp-image { width: 100%; height: 320px; border-radius: var(--radius-md); background-size: cover; background-position: center; border: 1px solid var(--gray-200); }
-    .mfp-content { display: flex; flex-direction: column; gap: 24px; }
-    .mfp-row { display: flex; gap: 20px; align-items: flex-start; }
-    .mfp-label-col { width: 110px; text-align: right; flex-shrink: 0; }
-    .mfp-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--turquoise-dark); background: var(--turquoise-light); padding: 6px 12px; border-radius: 6px; display: inline-block; font-family: var(--font-mono); }
-    .mfp-data { flex: 1; font-size: 1.1rem; color: var(--gray-800); padding-top: 4px; }
-    .ccq-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
-    .ccq-list li { color: var(--gray-900); font-weight: 600; font-size: 1.1rem; position: relative; padding-left: 24px; }
-
-    .word-reveal-btn { background: var(--turquoise-dark); color: white; border: none; padding: 18px 28px; border-radius: 12px; font-family: var(--font-serif); font-size: 2rem; font-weight: 700; cursor: pointer; transition: all 0.3s; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; font-style: italic; box-shadow: var(--shadow-sm); }
-    .word-reveal-btn:hover { background: var(--turquoise); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-    .word-reveal-btn.revealed { background: var(--turquoise-light); color: var(--turquoise-dark); border: 2px solid var(--turquoise); cursor: default; box-shadow: none; transform: none; font-weight: 800; font-style: normal; }
-
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
     @media (max-width: 768px) {
         .hero { padding: 64px 20px 56px; }
         .section { padding: 48px 16px; }
         .nav-links { display: none; }
-        canvas { height: 380px; }
         .floating-actions { bottom: 20px; right: 20px; }
     }
 </style>
@@ -222,36 +215,34 @@ def generate_lesson_6():
 
 <div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
 
-<!-- ====== HERO ====== -->
 <section class="hero">
     <div class="hero-content">
-        <div class="hero-badge" contenteditable="true">Lesson 6 • Social & Daily Life</div>
-        <h1 contenteditable="true">Surviving the <span>City</span></h1>
+        <div class="hero-badge" contenteditable="true">Lesson 6 • Social Life</div>
+        <h1 contenteditable="true">Surviving the City</h1>
         <p class="hero-subtitle" contenteditable="true">Master the essential difference between permanent facts and temporary chaos. Learn to complain about prices, navigate London housing, and express your current frustrations using the Present Continuous.</p>
     </div>
     <div class="hero-ribbon"></div>
 </section>
 
-<!-- ====== NAV ====== -->
 <nav class="nav-bar">
     <div class="nav-inner">
         <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">B2 English Dev</span></a>
         <ul class="nav-links" id="navTabsContainer" style="list-style:none; display:flex; gap:4px; align-items:center;">
             <li><a href="#t1">01. Warm-Up</a></li>
-            <li><a href="#t2">02. Error Spy</a></li>
-            <li><a href="#t3">03. Lexicon</a></li>
-            <li><a href="#t4">04. Grammar</a></li>
-            <li><a href="#t5">05. State Verbs</a></li>
-            <li><a href="#t6">06. Drill 1</a></li>
-            <li><a href="#t7">07. Drill 2</a></li>
-            <li><a href="#t8">08. Drill 3</a></li>
+            <li><a href="#t2">02. Vocab Flip</a></li>
+            <li><a href="#t3">03. Vocab Match</a></li>
+            <li><a href="#t4">04. Error Spy</a></li>
+            <li><a href="#t5">05. Reading</a></li>
+            <li><a href="#t6">06. True/False</a></li>
+            <li><a href="#t7">07. Grammar</a></li>
+            <li><a href="#t8">08. State Verbs</a></li>
             <li><a href="#t9">09. Sorting Game</a></li>
-            <li><a href="#t10">10. Reading</a></li>
-            <li><a href="#t11">11. True/False</a></li>
-            <li><a href="#t12">12. Translation</a></li>
-            <li><a href="#t13">13. Role-Play</a></li>
-            <li><a href="#t14">14. Roulette</a></li>
-            <li><a href="#t15">15. Writing</a></li>
+            <li><a href="#t10">10. Drill 1</a></li>
+            <li><a href="#t11">11. Translate</a></li>
+            <li><a href="#t12">12. Pron Lab</a></li>
+            <li><a href="#t13">13. Question Builder</a></li>
+            <li><a href="#t14">14. Role-Play</a></li>
+            <li><a href="#t15">15. Scramble</a></li>
         </ul>
     </div>
 </nav>
@@ -274,10 +265,94 @@ def generate_lesson_6():
     </div>
 </section>
 
-<!-- ====== TASK 2: ERROR SPY ====== -->
+<!-- ====== TASK 2: VOCABULARY FLIP CARDS ====== -->
 <section class="section" id="t2">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 02</span>
+        <h2 class="section-title" contenteditable="true">City Survival Lexicon</h2>
+        <p class="section-desc" contenteditable="true">Hover over each card to reveal the definition of these crucial B2/C1 verbs and adjectives.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Skyrocket</div><div class="vocab-def" contenteditable="true">To increase very rapidly and suddenly.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Commute</div><div class="vocab-def" contenteditable="true">To travel a long distance from home to work every day.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Overwhelmed</div><div class="vocab-def" contenteditable="true">Feeling buried or drowning under too much stress or emotion.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Adjust</div><div class="vocab-def" contenteditable="true">To slowly get used to a new situation or environment.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Temporary</div><div class="vocab-def" contenteditable="true">Lasting for only a limited period of time; not permanent.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Permanent</div><div class="vocab-def" contenteditable="true">Lasting or intended to last unchanged indefinitely.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Relocate</div><div class="vocab-def" contenteditable="true">To move to a new place and establish one's home or business there.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Flatmate</div><div class="vocab-def" contenteditable="true">A person who shares an apartment with you.</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY MATCH ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 03</span>
+        <h2 class="section-title" contenteditable="true">Lexicon Connections</h2>
+        <p class="section-desc" contenteditable="true">Match the vocabulary word on the left to the correct situational context on the right.</p>
+
+        <div class="match-grid" id="matchGrid1">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. Skyrocket</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. Commute</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. Overwhelmed</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. Adjust</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">A. Trying to learn the rules of a new hospital.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">B. Rent prices jumping from 800 to 1200 quid in one month.</div>
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">C. Taking the Central line for 45 minutes every morning.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. Having too many patients and not enough time to think.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 4: ERROR SPY ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 04</span>
         <h2 class="section-title" contenteditable="true">System Debug: Fact vs Trend</h2>
         <p class="section-desc" contenteditable="true">Every sentence below contains a bug because it uses the wrong present tense. Click the incorrect verb phrase to fix it.</p>
 
@@ -299,95 +374,54 @@ def generate_lesson_6():
     </div>
 </section>
 
-<!-- ====== TASK 3: THE LEXICON HUB ====== -->
-<section class="section" id="t3">
+<!-- ====== TASK 5: READING ====== -->
+<section class="section" id="t5">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 03</span>
-        <h2 class="task-title" contenteditable="true">The Lexicon <em>Hub</em></h2>
-        <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Click through to master these essential vocabulary words for navigating life in the UK.</p>
+        <span class="section-label" contenteditable="true">Task 05</span>
+        <h2 class="section-title" contenteditable="true">Reading: A London Diary</h2>
+        <p class="section-desc" contenteditable="true">Read this diary entry from a medical resident adjusting to life in London. Pay close attention to how they switch between tenses.</p>
 
-        <div class="hub-nav" id="vocabTabs">
-            <div class="hub-tab active" onclick="switchHub('v-1', this)">1. Skyrocket</div>
-            <div class="hub-tab" onclick="switchHub('v-2', this)">2. Commute</div>
-            <div class="hub-tab" onclick="switchHub('v-3', this)">3. Flatmate</div>
-            <div class="hub-tab" onclick="switchHub('v-4', this)">4. Adjust</div>
-        </div>
-
-        <div class="hub-content active" id="v-1">
-            <div class="mfp-container">
-                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1612144431180-2d672779556c?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="mfp-content">
-                    <div><button class="word-reveal-btn" onclick="revealWord(this, 'Skyrocket')">Click to reveal the target...</button></div>
-                    <div class="mfp-row">
-                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                        <div class="mfp-data">
-                            <ul class="ccq-list">
-                                <li contenteditable="true">If prices go up very slowly, do they do this? (No).</li>
-                                <li contenteditable="true">This verb means to increase very rapidly and suddenly.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="hub-content" id="v-2">
-            <div class="mfp-container">
-                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1520637102912-2df6bb2aec6d?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="mfp-content">
-                    <div><button class="word-reveal-btn" onclick="revealWord(this, 'Commute')">Click to reveal the target...</button></div>
-                    <div class="mfp-row">
-                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                        <div class="mfp-data">
-                            <ul class="ccq-list">
-                                <li contenteditable="true">When you travel from your home to your workplace every morning, what is the journey called?</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="hub-content" id="v-3">
-            <div class="mfp-container">
-                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="mfp-content">
-                    <div><button class="word-reveal-btn" onclick="revealWord(this, 'Flatmate')">Click to reveal the target...</button></div>
-                    <div class="mfp-row">
-                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                        <div class="mfp-data">
-                            <ul class="ccq-list">
-                                <li contenteditable="true">In the UK, what do you call the person you share an apartment with?</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="hub-content" id="v-4">
-            <div class="mfp-container">
-                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80');"></div>
-                <div class="mfp-content">
-                    <div><button class="word-reveal-btn" onclick="revealWord(this, 'Adjust')">Click to reveal the target...</button></div>
-                    <div class="mfp-row">
-                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
-                        <div class="mfp-data">
-                            <ul class="ccq-list">
-                                <li contenteditable="true">To slowly get used to a new situation or environment.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="scenario-card">
+            <p contenteditable="true" style="line-height: 2;">
+                Living in London is an absolute rollercoaster. Generally, I love the city. It possesses incredible history, and the transport network connects every single neighbourhood. I commute to the hospital every morning via the Northern Line, and I usually read a book on the way. These are the permanent realities of my life here.
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                However, things are getting extremely difficult right now. Rent prices are skyrocketing across the entire capital, and landlords are increasing deposits without warning. Because my old lease ended, I am currently sleeping on my friend's sofa. My flatmate and I are desperately searching for a new place, but every flat we view disappears instantly. I know that I need to be patient, but the stress is definitely building up this week!
+            </p>
         </div>
     </div>
 </section>
 
-<!-- ====== TASK 4: GRAMMAR THEORY ====== -->
-<section class="section" id="t4">
+<!-- ====== TASK 6: TRUE/FALSE ====== -->
+<section class="section" id="t6">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 04</span>
+        <span class="section-label" contenteditable="true">Task 06</span>
+        <h2 class="section-title" contenteditable="true">Comprehension Check</h2>
+        <p class="section-desc" contenteditable="true">Based on the diary, decide if the statements are True or False.</p>
+
+        <div class="tf-item"><span contenteditable="true">1. The author hates living in the city overall.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False — they say generally I love the city.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">2. Rent prices are stable at the moment.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False — they are skyrocketing.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">3. The author is temporarily staying with a friend.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
+            <div class="tf-explain" contenteditable="true">True — they are currently sleeping on a sofa.</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">4. The author does not understand why they need to be patient.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False — they say I know that I need to be patient.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 07</span>
         <h2 class="section-title" contenteditable="true">Grammar Rules: The Ultimate Division</h2>
         <p class="section-desc" contenteditable="true">The fundamental difference in English lies between what is permanent and what is temporary.</p>
 
@@ -415,57 +449,126 @@ def generate_lesson_6():
     </div>
 </section>
 
-<!-- ====== TASK 5: STATE VERBS ====== -->
-<section class="section" id="t5">
+<!-- ====== TASK 8: STATE VERBS ====== -->
+<section class="section" id="t8">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 05</span>
-        <h2 class="section-title" contenteditable="true">The State Verb Exception</h2>
-        <p class="section-desc" contenteditable="true">Even if something is happening exactly at this moment, you CANNOT use the continuous form if the verb describes a state of mind, possession, or a sense.</p>
+        <span class="section-label" contenteditable="true">Task 08</span>
+        <h2 class="section-title" contenteditable="true">The Advanced State Verb Rule</h2>
+        <p class="section-desc" contenteditable="true">Some verbs change completely depending on whether they act as a State (Simple) or an Action (Continuous). Study these dual-meaning verbs.</p>
 
         <table class="grammar-table">
-            <thead><tr><th contenteditable="true">Category</th><th contenteditable="true">Common State Verbs</th><th contenteditable="true">Correct Usage</th></tr></thead>
+            <thead><tr><th contenteditable="true">Verb</th><th contenteditable="true">As a State (Present Simple)</th><th contenteditable="true">As an Action (Present Continuous)</th></tr></thead>
             <tbody>
                 <tr>
-                    <td contenteditable="true"><strong style="color:var(--grape);">Thoughts & Feelings</strong></td>
-                    <td contenteditable="true">Know, believe, understand, want, prefer, like, hate.</td>
-                    <td contenteditable="true">I understand the problem now. <br><em style="color: var(--coral-dark);">Not: I am understanding.</em></td>
+                    <td contenteditable="true"><strong style="color:var(--grape);">THINK</strong></td>
+                    <td contenteditable="true">To have an opinion. <br><em style="color: var(--turquoise-dark);">I think London is expensive.</em></td>
+                    <td contenteditable="true">To consider a plan right now. <br><em style="color: var(--coral-dark);">I am thinking about moving out.</em></td>
                 </tr>
                 <tr>
-                    <td contenteditable="true"><strong style="color:var(--turquoise-dark);">Possession</strong></td>
-                    <td contenteditable="true">Have, own, belong.</td>
-                    <td contenteditable="true">This flat belongs to my friend. <br><em style="color: var(--coral-dark);">Not: This flat is belonging.</em></td>
+                    <td contenteditable="true"><strong style="color:var(--turquoise-dark);">HAVE</strong></td>
+                    <td contenteditable="true">To possess or own something. <br><em style="color: var(--turquoise-dark);">I have a great flatmate.</em></td>
+                    <td contenteditable="true">To experience an action. <br><em style="color: var(--coral-dark);">I am having a hard time today.</em></td>
                 </tr>
                 <tr>
-                    <td contenteditable="true"><strong style="color:var(--sun-dark);">Senses</strong></td>
-                    <td contenteditable="true">Seem, sound, smell, taste.</td>
-                    <td contenteditable="true">This coffee tastes terrible. <br><em style="color: var(--coral-dark);">Not: This coffee is tasting.</em></td>
+                    <td contenteditable="true"><strong style="color:var(--sun-dark);">SEE</strong></td>
+                    <td contenteditable="true">To understand or use your eyes. <br><em style="color: var(--turquoise-dark);">I see what you mean.</em></td>
+                    <td contenteditable="true">To meet someone. <br><em style="color: var(--coral-dark);">I am seeing the landlord later.</em></td>
                 </tr>
             </tbody>
         </table>
     </div>
 </section>
 
-<!-- ====== TASK 6: DRILL 1 ====== -->
-<section class="section" id="t6">
+<!-- ====== TASK 9: SORTING GAME ====== -->
+<section class="section" id="t9">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 06</span>
-        <h2 class="task-title" contenteditable="true">Syntax Drill 1: <em>Simple or Continuous?</em></h2>
+        <span class="section-label" contenteditable="true">Task 09 · Game</span>
+        <h2 class="section-title" contenteditable="true">The Dual-Verb Sorter</h2>
+        <p class="section-desc" contenteditable="true">Read the sentences. Drag the tile into the State Bucket (opinion/possession) or Action Bucket (activity happening now).</p>
+
+        <div class="bucket-game">
+            <div class="word-bank" id="wordBank2">
+                <div class="chip" id="chip2-1" draggable="true" data-answer="bucket-state2">I think it is too far.</div>
+                <div class="chip" id="chip2-2" draggable="true" data-answer="bucket-action2">I am having lunch.</div>
+                <div class="chip" id="chip2-3" draggable="true" data-answer="bucket-state2">She has two cars.</div>
+                <div class="chip" id="chip2-4" draggable="true" data-answer="bucket-action2">They are seeing the doctor.</div>
+                <div class="chip" id="chip2-5" draggable="true" data-answer="bucket-state2">I see the hospital from here.</div>
+                <div class="chip" id="chip2-6" draggable="true" data-answer="bucket-action2">We are thinking about it.</div>
+            </div>
+
+            <div class="buckets-row" style="grid-template-columns: 1fr 1fr;">
+                <div class="bucket" id="bucket-state2"><div class="bucket-label" contenteditable="true">STATE (Opinion / Fact)</div></div>
+                <div class="bucket" id="bucket-action2"><div class="bucket-label" contenteditable="true">ACTION (Happening Now)</div></div>
+            </div>
+
+            <div class="game-controls">
+                <button class="btn-primary" onclick="checkSorting2()">✅ Check My Sorting</button>
+                <button class="btn-secondary" onclick="resetSorting2()">🔄 Reset Game</button>
+            </div>
+        </div>
+
+        <script>
+            const gameColumns2 = ['wordBank2', 'bucket-state2', 'bucket-action2'];
+            const originalGameOrder2 = { wordBank2: ['chip2-1','chip2-2','chip2-3','chip2-4','chip2-5','chip2-6'], 'bucket-state2': [], 'bucket-action2': [] };
+
+            function setupBucketDrag2(columnId) {
+                const container = document.getElementById(columnId);
+                if (!container) return;
+                container.querySelectorAll('.chip').forEach(item => {
+                    item.addEventListener('dragstart', () => { item.classList.add('dragging'); });
+                    item.addEventListener('dragend', () => { item.classList.remove('dragging'); });
+                });
+                container.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    const dragging = document.querySelector('.chip.dragging');
+                    if (!dragging) return;
+                    const afterElement = getDragAfterChip(container, e.clientY);
+                    if (afterElement == null) container.appendChild(dragging);
+                    else container.insertBefore(dragging, afterElement);
+                });
+            }
+            gameColumns2.forEach(setupBucketDrag2);
+
+            function checkSorting2() {
+                document.querySelectorAll('#t9 .chip').forEach(chip => {
+                    chip.classList.remove('chip-correct', 'chip-wrong');
+                    const parentId = chip.parentElement.id;
+                    if (parentId === 'wordBank2') return;
+                    if (parentId === chip.dataset.answer) chip.classList.add('chip-correct');
+                    else chip.classList.add('chip-wrong');
+                });
+            }
+            function resetSorting2() {
+                originalGameOrder2.wordBank2.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) { el.classList.remove('chip-correct','chip-wrong'); document.getElementById('wordBank2').appendChild(el); }
+                });
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 10: DRILL 1 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 10</span>
+        <h2 class="task-title" contenteditable="true">Syntax Drill 1: <em>Context is Key</em></h2>
         <p style="color:var(--gray-600); font-size:1.1rem; margin-bottom:20px;" contenteditable="true">Choose the correct tense based on the context. Type the full verb form.</p>
 
         <ul class="practice-list">
-            <li><div contenteditable="true">I usually <input type="text" class="blank-input" id="drill6-1" placeholder="commute"> by train, but today I <input type="text" class="blank-input" id="drill6-2" placeholder="take"> the bus because of the strike.</div></li>
-            <li><div contenteditable="true">Right now, my flatmate <input type="text" class="blank-input" id="drill6-3" placeholder="look"> for a new job because living costs <input type="text" class="blank-input" id="drill6-4" placeholder="skyrocket"> across the city.</div></li>
-            <li><div contenteditable="true">I <input type="text" class="blank-input" id="drill6-5" placeholder="not / understand"> why the landlord <input type="text" class="blank-input" id="drill6-6" placeholder="increase"> the rent again this month. (Careful with state verbs!)</div></li>
+            <li><div contenteditable="true">I usually <input type="text" class="blank-input" id="drill10-1" placeholder="commute"> by train, but today I <input type="text" class="blank-input" id="drill10-2" placeholder="take"> the bus.</div></li>
+            <li><div contenteditable="true">Right now, my flatmate <input type="text" class="blank-input" id="drill10-3" placeholder="look"> for a new job because living costs <input type="text" class="blank-input" id="drill10-4" placeholder="skyrocket">.</div></li>
+            <li><div contenteditable="true">I <input type="text" class="blank-input" id="drill10-5" placeholder="not / understand"> why the landlord <input type="text" class="blank-input" id="drill10-6" placeholder="increase"> the rent again this month.</div></li>
         </ul>
-        <button class="btn-primary" style="margin-top: 16px;" onclick="checkDrill6()">Verify Answers</button>
-        <div id="fb6" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+        <button class="btn-primary" style="margin-top: 16px;" onclick="checkDrill10()">Verify Answers</button>
+        <div id="fb10" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
         
         <script>
-            function checkDrill6() {
+            function checkDrill10() {
                 const answers = ['commute', 'am taking', 'is looking', 'are skyrocketing', 'do not understand', 'is increasing'];
                 let correctCount = 0;
                 for(let i = 1; i <= 6; i++) {
-                    const input = document.getElementById(`drill6-${i}`);
+                    const input = document.getElementById(`drill10-${i}`);
                     const val = input.value.toLowerCase().replace(/[^a-z\s]/g, '').trim();
                     if(val === answers[i-1] || val === answers[i-1].replace('do not', 'don\'t')) {
                         input.style.borderColor = 'var(--turquoise)';
@@ -476,196 +579,22 @@ def generate_lesson_6():
                         input.style.color = 'var(--coral-dark)';
                     }
                 }
-                const fb = document.getElementById('fb6');
+                const fb = document.getElementById('fb10');
                 fb.style.display = 'block';
                 if(correctCount === 6) {
                     fb.style.color = 'var(--turquoise-dark)'; fb.innerText = '✅ Perfect Choice!';
                 } else {
-                    fb.style.color = 'var(--coral-dark)'; fb.innerText = `❌ ${correctCount}/6 correct. Remember state verbs!`;
+                    fb.style.color = 'var(--coral-dark)'; fb.innerText = `❌ ${correctCount}/6 correct. Check state verbs!`;
                 }
             }
         </script>
     </div>
 </section>
 
-<!-- ====== TASK 7: DRILL 2 ====== -->
-<section class="section" id="t7">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 07</span>
-        <h2 class="task-title" contenteditable="true">Syntax Drill 2: <em>Negations</em></h2>
-        <p style="color:var(--gray-600); font-size:1.1rem; margin-bottom:20px;" contenteditable="true">Rewrite the sentences to make them negative. Use full words (do not / is not).</p>
-
-        <ul class="practice-list">
-            <li>
-                <div contenteditable="true" style="margin-bottom: 8px;"><strong>I agree with the new policy. (Simple)</strong></div>
-                <input type="text" class="drill-input" id="drill7-1" placeholder="Type negative sentence here...">
-            </li>
-            <li>
-                <div contenteditable="true" style="margin-bottom: 8px; margin-top: 12px;"><strong>She is adjusting to the new city. (Continuous)</strong></div>
-                <input type="text" class="drill-input" id="drill7-2" placeholder="Type negative sentence here...">
-            </li>
-            <li>
-                <div contenteditable="true" style="margin-bottom: 8px; margin-top: 12px;"><strong>They want to share a flat. (Simple)</strong></div>
-                <input type="text" class="drill-input" id="drill7-3" placeholder="Type negative sentence here...">
-            </li>
-        </ul>
-        <button class="btn-primary" style="margin-top: 16px;" onclick="checkDrill7()">Verify Answers</button>
-        <div id="fb7_drill" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
-        
-        <script>
-            function checkDrill7() {
-                const answers = ['i do not agree with the new policy', 'she is not adjusting to the new city', 'they do not want to share a flat'];
-                let correctCount = 0;
-                for(let i = 1; i <= 3; i++) {
-                    const input = document.getElementById(`drill7-${i}`);
-                    const val = input.value.toLowerCase().replace(/[^a-z\s]/g, '').trim();
-                    if(val === answers[i-1]) {
-                        input.style.borderColor = 'var(--turquoise)';
-                        correctCount++;
-                    } else {
-                        input.style.borderColor = 'var(--coral)';
-                    }
-                }
-                const fb = document.getElementById('fb7_drill');
-                fb.style.display = 'block';
-                if(correctCount === 3) {
-                    fb.style.color = 'var(--turquoise-dark)'; fb.innerText = '✅ Perfect Syntax!';
-                } else {
-                    fb.style.color = 'var(--coral-dark)'; fb.innerText = '❌ Check your auxiliary verbs.';
-                }
-            }
-        </script>
-    </div>
-</section>
-
-<!-- ====== TASK 8: DRILL 3 ====== -->
-<section class="section" id="t8">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 08</span>
-        <h2 class="task-title" contenteditable="true">Syntax Drill 3: <em>Questions</em></h2>
-        <p style="color:var(--gray-600); font-size:1.1rem; margin-bottom:20px;" contenteditable="true">Formulate questions based on the prompt. Pay close attention to the tense required.</p>
-
-        <ul class="practice-list">
-            <li>
-                <div contenteditable="true" style="margin-bottom: 8px;"><strong>Prompt: Why / you / commute / by bus / today ? (Continuous)</strong></div>
-                <input type="text" class="drill-input" id="drill8-1" placeholder="Type question here...">
-            </li>
-            <li>
-                <div contenteditable="true" style="margin-bottom: 8px; margin-top: 12px;"><strong>Prompt: How often / the trains / run / on weekends ? (Simple)</strong></div>
-                <input type="text" class="drill-input" id="drill8-2" placeholder="Type question here...">
-            </li>
-            <li>
-                <div contenteditable="true" style="margin-bottom: 8px; margin-top: 12px;"><strong>Prompt: Where / your flatmate / work / right now ? (Continuous)</strong></div>
-                <input type="text" class="drill-input" id="drill8-3" placeholder="Type question here...">
-            </li>
-        </ul>
-        <button class="btn-primary" style="margin-top: 16px;" onclick="checkDrill8()">Verify Answers</button>
-        <div id="fb8_drill" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
-        
-        <script>
-            function checkDrill8() {
-                const answers = ['why are you commuting by bus today', 'how often do the trains run on weekends', 'where is your flatmate working right now'];
-                let correctCount = 0;
-                for(let i = 1; i <= 3; i++) {
-                    const input = document.getElementById(`drill8-${i}`);
-                    const val = input.value.toLowerCase().replace(/[^a-z\s]/g, '').trim();
-                    if(val === answers[i-1]) {
-                        input.style.borderColor = 'var(--turquoise)';
-                        correctCount++;
-                    } else {
-                        input.style.borderColor = 'var(--coral)';
-                    }
-                }
-                const fb = document.getElementById('fb8_drill');
-                fb.style.display = 'block';
-                if(correctCount === 3) {
-                    fb.style.color = 'var(--turquoise-dark)'; fb.innerText = '✅ Excellent Question Formation!';
-                } else {
-                    fb.style.color = 'var(--coral-dark)'; fb.innerText = '❌ Remember: Wh-word + auxiliary + subject + verb.';
-                }
-            }
-        </script>
-    </div>
-</section>
-
-<!-- ====== TASK 9: SORTING GAME ====== -->
-<section class="section" id="t9">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 09 · Game</span>
-        <h2 class="section-title" contenteditable="true">The Scenario Sorter</h2>
-        <p class="section-desc" contenteditable="true">Read the scenarios. Drag the tile into the Present Simple bucket if it describes a permanent fact/routine, or the Present Continuous bucket if it describes a temporary trend.</p>
-
-        <div class="bucket-game">
-            <div class="word-bank" id="wordBank">
-                <div class="chip" id="chip-1" draggable="true" data-answer="bucket-continuous">Prices are going up fast</div>
-                <div class="chip" id="chip-2" draggable="true" data-answer="bucket-simple">The sun sets in the west</div>
-                <div class="chip" id="chip-3" draggable="true" data-answer="bucket-continuous">I am sleeping on a sofa this week</div>
-                <div class="chip" id="chip-4" draggable="true" data-answer="bucket-simple">I hate loud noises</div>
-                <div class="chip" id="chip-5" draggable="true" data-answer="bucket-simple">Nurses work long shifts</div>
-                <div class="chip" id="chip-6" draggable="true" data-answer="bucket-continuous">She is looking for a flat</div>
-            </div>
-
-            <div class="buckets-row" style="grid-template-columns: 1fr 1fr;">
-                <div class="bucket" id="bucket-simple"><div class="bucket-label" contenteditable="true">PERMANENT / FACTS (Simple)</div></div>
-                <div class="bucket" id="bucket-continuous"><div class="bucket-label" contenteditable="true">TEMPORARY / TRENDS (Continuous)</div></div>
-            </div>
-
-            <div class="game-controls">
-                <button class="btn-primary" onclick="checkSorting()">✅ Check My Sorting</button>
-                <button class="btn-secondary" onclick="resetSorting()">🔄 Reset Game</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ====== TASK 10: READING ====== -->
-<section class="section" id="t10">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 10</span>
-        <h2 class="section-title" contenteditable="true">Reading: A London Blog</h2>
-        <p class="section-desc" contenteditable="true">Read this blog post from an expatriate adjusting to life in London. Pay close attention to how they switch between tenses.</p>
-
-        <div class="scenario-card">
-            <p contenteditable="true" style="line-height: 2;">
-                Living in London is an absolute rollercoaster. Generally, I love the city. It possesses incredible history, and the transport network connects every single neighbourhood. I commute to the hospital every morning via the Northern Line, and I usually read a book on the way. These are the permanent realities of my life here.
-            </p><br>
-            <p contenteditable="true" style="line-height: 2;">
-                However, things are getting extremely difficult right now. Rent prices are skyrocketing across the entire capital, and landlords are increasing deposits without warning. Because my old lease ended, I am currently sleeping on my friend's sofa. My flatmate and I are desperately searching for a new place, but every flat we view disappears instantly. I know that I need to be patient, but the stress is definitely building up this week!
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- ====== TASK 11: TRUE/FALSE ====== -->
+<!-- ====== TASK 11: TRANSLATION ====== -->
 <section class="section" id="t11">
     <div class="section-inner">
         <span class="section-label" contenteditable="true">Task 11</span>
-        <h2 class="section-title" contenteditable="true">Comprehension Check</h2>
-        <p class="section-desc" contenteditable="true">Based on the blog post, decide if the statements are True or False.</p>
-
-        <div class="tf-item"><span contenteditable="true">1. The author hates living in the city overall.</span>
-            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
-            <div class="tf-explain" contenteditable="true">False — they say generally I love the city.</div>
-        </div>
-        <div class="tf-item"><span contenteditable="true">2. Rent prices are stable at the moment.</span>
-            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
-            <div class="tf-explain" contenteditable="true">False — they are skyrocketing.</div>
-        </div>
-        <div class="tf-item"><span contenteditable="true">3. The author is temporarily staying with a friend.</span>
-            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
-            <div class="tf-explain" contenteditable="true">True — they are currently sleeping on a sofa.</div>
-        </div>
-        <div class="tf-item"><span contenteditable="true">4. The author does not understand why they need to be patient.</span>
-            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
-            <div class="tf-explain" contenteditable="true">False — they say I know that I need to be patient.</div>
-        </div>
-    </div>
-</section>
-
-<!-- ====== TASK 12: TRANSLATION ====== -->
-<section class="section" id="t12">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 12</span>
         <h2 class="task-title" contenteditable="true">Translation Hub</h2>
         <p style="color:var(--gray-600); font-size:1.1rem; margin-bottom:20px;" contenteditable="true">Translate the following Ukrainian sentences. You must actively decide whether to use Present Simple or Present Continuous.</p>
 
@@ -719,10 +648,88 @@ def generate_lesson_6():
     </div>
 </section>
 
-<!-- ====== TASK 13: ROLE-PLAY ====== -->
+<!-- ====== TASK 12: PRONUNCIATION ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 12</span>
+        <h2 class="section-title" contenteditable="true">Pronunciation Lab: Dropping the G</h2>
+        <p class="section-desc" contenteditable="true">In fast, natural British English speech, the final G in the -ing suffix is often swallowed or dropped completely. Click the audio to hear the difference between formal and casual pronunciation.</p>
+
+        <div class="pron-item">
+            <button class="listen-btn" onclick="speakPhrase('What are you doing?')">🔊</button>
+            <span contenteditable="true"><strong style="color:var(--turquoise-dark);">Formal:</strong> What are you do-ing?</span>
+        </div>
+        <div class="pron-item">
+            <button class="listen-btn" onclick="speakPhrase('What are you doin?')">🔊</button>
+            <span contenteditable="true"><strong style="color:var(--coral-dark);">Casual:</strong> What are you do-in?</span>
+        </div>
+        <div class="pron-item">
+            <button class="listen-btn" onclick="speakPhrase('She is struggling with it.')">🔊</button>
+            <span contenteditable="true"><strong style="color:var(--turquoise-dark);">Formal:</strong> She is struggl-ing.</span>
+        </div>
+        <div class="pron-item">
+            <button class="listen-btn" onclick="speakPhrase('She is strugglin with it.')">🔊</button>
+            <span contenteditable="true"><strong style="color:var(--coral-dark);">Casual:</strong> She is struggl-in.</span>
+        </div>
+        
+        <p style="margin-top: 16px; font-weight: 600;" contenteditable="true">Practice saying these sentences out loud with your teacher, using the casual dropped-G rhythm.</p>
+    </div>
+</section>
+
+<!-- ====== TASK 13: QUESTION BUILDER ====== -->
 <section class="section" id="t13">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 13 · Role-Play</span>
+        <span class="section-label" contenteditable="true">Task 13</span>
+        <h2 class="task-title" contenteditable="true">Question Builder</h2>
+        <p style="color:var(--gray-600); font-size:1.1rem; margin-bottom:20px;" contenteditable="true">Formulate questions based on the prompt. Pay close attention to the tense required.</p>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="margin-bottom: 8px;"><strong>Prompt: Why / you / commute / by bus / today ? (Continuous)</strong></div>
+                <input type="text" class="drill-input" id="drill13-1" placeholder="Type question here...">
+            </li>
+            <li>
+                <div contenteditable="true" style="margin-bottom: 8px; margin-top: 12px;"><strong>Prompt: How often / the trains / run / on weekends ? (Simple)</strong></div>
+                <input type="text" class="drill-input" id="drill13-2" placeholder="Type question here...">
+            </li>
+            <li>
+                <div contenteditable="true" style="margin-bottom: 8px; margin-top: 12px;"><strong>Prompt: Where / your flatmate / work / right now ? (Continuous)</strong></div>
+                <input type="text" class="drill-input" id="drill13-3" placeholder="Type question here...">
+            </li>
+        </ul>
+        <button class="btn-primary" style="margin-top: 16px;" onclick="checkDrill13()">Verify Answers</button>
+        <div id="fb13_drill" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+        
+        <script>
+            function checkDrill13() {
+                const answers = ['why are you commuting by bus today', 'how often do the trains run on weekends', 'where is your flatmate working right now'];
+                let correctCount = 0;
+                for(let i = 1; i <= 3; i++) {
+                    const input = document.getElementById(`drill13-${i}`);
+                    const val = input.value.toLowerCase().replace(/[^a-z\s]/g, '').trim();
+                    if(val === answers[i-1]) {
+                        input.style.borderColor = 'var(--turquoise)';
+                        correctCount++;
+                    } else {
+                        input.style.borderColor = 'var(--coral)';
+                    }
+                }
+                const fb = document.getElementById('fb13_drill');
+                fb.style.display = 'block';
+                if(correctCount === 3) {
+                    fb.style.color = 'var(--turquoise-dark)'; fb.innerText = '✅ Excellent Question Formation!';
+                } else {
+                    fb.style.color = 'var(--coral-dark)'; fb.innerText = '❌ Remember: Wh-word + auxiliary + subject + verb.';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 14: ROLE-PLAY ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 14 · Role-Play</span>
         <h2 class="section-title" contenteditable="true">The Landlord Complaint</h2>
         <p class="section-desc" contenteditable="true">You are calling your London landlord (played by your teacher). Your flat has a serious problem that is happening right now.</p>
 
@@ -740,33 +747,79 @@ def generate_lesson_6():
     </div>
 </section>
 
-<!-- ====== TASK 14: SPEAKING ROULETTE ====== -->
-<section class="section" id="t14">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 14 · Speaking Game</span>
-        <h2 class="section-title" contenteditable="true">60-Second Trend Roulette</h2>
-        <p class="section-desc" contenteditable="true">Spin for a random prompt, then speak for 60 seconds without stopping. Try to mix permanent facts with current trends.</p>
-
-        <div class="game-card-box">
-            <div class="prompt-display" id="roulettePrompt" contenteditable="true">Click Spin to get your prompt!</div>
-            <div class="timer-display" id="rouletteTimer">60</div>
-            <div>
-                <button class="game-btn" onclick="spinRoulette()">🎲 Spin the Wheel</button>
-                <button class="game-btn alt" onclick="startTimer()">▶️ Start 60s</button>
-                <button class="btn-secondary" onclick="resetTimer()">⏹ Reset Timer</button>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ====== TASK 15: WRITING ====== -->
+<!-- ====== TASK 15: WORD SCRAMBLE ====== -->
 <section class="section" id="t15">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Task 15 · Synthesis</span>
-        <h2 class="section-title" contenteditable="true">The Email Home</h2>
-        <p class="section-desc" contenteditable="true">Write a short email to your family back home. Tell them one permanent fact about your new life, and one temporary challenge you are facing right now.</p>
+        <span class="section-label" contenteditable="true">Task 15 · Game</span>
+        <h2 class="task-title" contenteditable="true">Vocabulary Scramble</h2>
+        <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Unscramble the target verbs and adjectives from today.</p>
 
-        <div contenteditable="true" style="background: var(--white); border: 2px dashed var(--gray-400); border-radius: var(--radius-md); min-height: 160px; padding: 20px; font-size: 1.1rem; color: var(--gray-800);">Dear family, ...</div>
+        <div style="background:white; border:2px solid var(--gray-200); border-radius:var(--radius-lg); padding:60px 40px; box-shadow:var(--shadow-md); text-align:center; max-width: 700px; margin: 0 auto;" id="scramble-container">
+            <div id="scramble-word" style="font-family:var(--font-mono); font-size:3rem; letter-spacing:10px; color:var(--turquoise-dark); margin-bottom:20px; font-weight:800;"></div>
+            <div id="scramble-hint" style="color:var(--gray-600); font-style:italic; margin-bottom:40px; font-size:1.15rem;"></div>
+            
+            <input type="text" id="scramble-input" placeholder="Type the word..." style="padding:16px 24px; border:2px solid var(--gray-200); border-radius:8px; font-size:1.2rem; outline:none; text-align:center; text-transform:uppercase; margin-bottom:24px; width:100%; max-width:400px; font-family:var(--font-mono); font-weight:800; color:var(--ink); transition:border-color 0.2s;" onkeydown="if(event.key==='Enter') window.checkScrambleGame()">
+            <br>
+            <button onclick="window.checkScrambleGame()" style="background:var(--turquoise); color:white; border:none; padding:14px 40px; border-radius:50px; font-weight:800; cursor:pointer; font-size:1.1rem; transition: background 0.2s; font-family:var(--font-ui); text-transform:uppercase; letter-spacing:1px;">Submit</button>
+            <div id="scramble-fb" style="margin-top:24px; font-weight:800; font-size:1.2rem; font-family:var(--font-mono); min-height: 30px;"></div>
+        </div>
+        
+        <script>
+            const scrambleWords = [
+                { word: "SKYROCKET", hint: "To increase very rapidly and suddenly." },
+                { word: "COMMUTE", hint: "To travel a long distance from home to work every day." },
+                { word: "OVERWHELMED", hint: "Feeling buried or drowning under too much stress." },
+                { word: "ADJUST", hint: "To slowly get used to a new situation." }
+            ];
+            let scrambleIndex = 0;
+            
+            function scrambleString(str) {
+                let arr = str.split('');
+                for(let i = arr.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr.join(' ');
+            }
+            
+            function loadScramble() {
+                if(scrambleIndex >= scrambleWords.length) {
+                    document.getElementById('scramble-container').innerHTML = "<h3 style='color:var(--turquoise-dark); font-size:2.2rem; font-family:var(--font-serif); margin-bottom:0;'>Vocabulary verified!</h3>";
+                    return;
+                }
+                let item = scrambleWords[scrambleIndex];
+                document.getElementById('scramble-word').innerText = scrambleString(item.word);
+                document.getElementById('scramble-hint').innerText = "Hint: " + item.hint;
+                document.getElementById('scramble-input').value = "";
+                document.getElementById('scramble-input').style.borderColor = "var(--gray-200)";
+                document.getElementById('scramble-fb').innerText = "";
+            }
+            
+            window.checkScrambleGame = function() {
+                let inputEl = document.getElementById('scramble-input');
+                let input = inputEl.value.toUpperCase().replace(/[^A-Z]/g, '');
+                let target = scrambleWords[scrambleIndex].word.replace(/[^A-Z]/g, '');
+                let fb = document.getElementById('scramble-fb');
+
+                if(input === target) {
+                    fb.innerText = "✅ Validated";
+                    fb.style.color = "var(--turquoise-dark)";
+                    inputEl.style.borderColor = "var(--turquoise)";
+                    setTimeout(() => { scrambleIndex++; loadScramble(); }, 1200);
+                } else {
+                    fb.innerText = "❌ Incorrect Sequence";
+                    fb.style.color = "var(--coral-dark)";
+                    inputEl.style.borderColor = "var(--coral)";
+                    
+                    inputEl.style.transform = 'translateX(5px)';
+                    setTimeout(() => { inputEl.style.transform = 'translateX(-5px)'; }, 100);
+                    setTimeout(() => { inputEl.style.transform = 'translateX(5px)'; }, 200);
+                    setTimeout(() => { inputEl.style.transform = 'translateX(0)'; }, 300);
+                }
+            };
+
+            document.addEventListener("DOMContentLoaded", loadScramble);
+        </script>
     </div>
 </section>
 
@@ -1425,10 +1478,3 @@ def generate_lesson_6():
 </script>
 </body>
 </html>
-"""
-    with open("lesson6_surviving_the_city.html", "w", encoding="utf-8") as f:
-        f.write(html_content)
-
-    print("HTML File successfully generated: lesson6_surviving_the_city.html")
-
-generate_lesson_6()
