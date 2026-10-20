@@ -3,294 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C1 Homework: Strategy, Tech, & Advanced Grammar</title>
+    <title>C1 Comprehensive Systems Check: Lesson 5</title>
     <style>
         :root {
-            --primary: #2EC4B6;
-            --primary-dark: #1AA398;
-            --accent: #FF6B6B;
-            --bg: #F6F8FB;
-            --card-bg: #FFFFFF;
-            --text: #2B2E42;
-            --text-light: #5C6178;
+            --primary: #2EC4B6; --primary-dark: #1AA398; --accent: #FF6B6B;
+            --grape: #7D5BA6; --bg: #F6F8FB; --card-bg: #FFFFFF;
+            --text: #2B2E42; --text-light: #5C6178; --border: #E7E9F0;
         }
-        body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1, h2 {
-            color: #22223B;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .task-container {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-            border-top: 4px solid var(--primary);
-        }
-        .question {
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
-        select, input[type="text"] {
-            padding: 8px;
-            border: 2px solid #E7E9F0;
-            border-radius: 6px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        select:focus, input[type="text"]:focus {
-            border-color: var(--primary);
-        }
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .btn-submit:hover {
-            background-color: var(--primary-dark);
-        }
-        .feedback {
-            display: none;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-        .correct { color: #1AA398; }
-        .incorrect { color: #FF6B6B; }
-        
-        #results-screen {
-            display: none;
-            text-align: center;
-            background: #22223B;
-            color: white;
-            padding: 40px;
-            border-radius: 12px;
-            margin-top: 20px;
-        }
+        body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.7; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+        h1, h2, h3 { color: #22223B; margin-top: 0; }
+        .header { text-align: center; margin-bottom: 40px; background: linear-gradient(120deg, var(--primary) 0%, var(--grape) 100%); color: white; padding: 40px; border-radius: 16px; }
+        .header h1 { color: white; font-size: 2.2rem; margin-bottom: 10px; }
+        .task-container { background: var(--card-bg); padding: 35px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 35px; border-top: 5px solid var(--primary); }
+        .task-desc { color: var(--text-light); margin-bottom: 25px; font-size: 1.05rem; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        .question { margin-bottom: 20px; font-weight: 500; font-size: 1.05rem; display: flex; flex-direction: column; }
+        .q-text { margin-bottom: 8px; }
+        select, input[type="text"] { padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; background-color: #FAFBFC; max-width: 300px; }
+        select:focus, input[type="text"]:focus { border-color: var(--primary); background-color: #fff; }
+        .inline-input { display: inline-block; margin: 0 5px; min-width: 150px; }
+        .btn-submit { display: block; width: 100%; padding: 18px; background: linear-gradient(120deg, var(--accent) 0%, #F2A429 100%); color: white; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 800; cursor: pointer; box-shadow: 0 6px 20px rgba(255,107,107,0.3); }
+        .feedback { display: none; margin-top: 8px; font-size: 0.95rem; font-weight: 700; padding: 10px 14px; border-radius: 6px; background: #f8f9fa; }
+        .correct-bg { background-color: rgba(46,196,182,0.1); color: var(--primary-dark); border-left: 4px solid var(--primary); }
+        .incorrect-bg { background-color: rgba(255,107,107,0.1); color: #D93838; border-left: 4px solid var(--accent); }
+        #results-screen { display: none; text-align: center; background: #22223B; color: white; padding: 50px; border-radius: 16px; margin-top: 30px; }
+        .student-info { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+        .student-info input { max-width: 100%; }
+        /* Teacher Dashboard Styles */
+        #teacherAccess { text-align: center; margin-top: 60px; opacity: 0.5; transition: opacity 0.3s; }
+        #teacherAccess:hover { opacity: 1; }
+        .btn-teacher { background: #22223B; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; }
+        #teacherDashboard { display: none; background: white; padding: 30px; border-radius: 12px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid var(--grape); }
+        .results-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .results-table th, .results-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .results-table th { background: var(--bg); color: var(--grape); font-weight: 800; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>C1 Systems Check: Lesson 5</h1>
-        <p>Complete all 4 tasks. Your results will be evaluated at the end.</p>
+        <h1>C1 Systems Check: Comprehensive Evaluation</h1>
+        <p>Estimated time: 15-20 minutes.</p>
     </div>
 
-    <!-- Task 1: Narrative & Future Perfect Tenses -->
-    <div class="task-container" id="task1">
-        <h2>Task 1: Advanced Tenses (Narrative & Future Perfect)</h2>
-        <p style="color: var(--text-light); margin-bottom: 20px;">Fill in the correct form of the verb in brackets.</p>
-        
-        <div class="question">
-            1. By the time we launch the new update next Friday, the developers <input type="text" data-answer="will have been working" placeholder="..."> (work) on it for six straight months.
-            <div class="feedback"></div>
+    <div id="homework-form">
+        <!-- Task 1: Grammar (Tenses) -->
+        <div class="task-container">
+            <h2>Task 1: Advanced Tenses (Narrative & Future Perfect)</h2>
+            <p class="task-desc">Type the correct form of the verb in brackets.</p>
+            <div class="question"><div class="q-text">1. By the time the PM arrived, the team <input type="text" class="inline-input" data-answer="had already decided" placeholder="(already / decide)"> the goals.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">2. I <input type="text" class="inline-input" data-answer="was fixing" placeholder="(fix)"> a critical bug when the server crashed.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">3. She <input type="text" class="inline-input" data-answer="had been reviewing" placeholder="(review)"> the pull request for an hour before noticing the leak.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">4. By next month, we <input type="text" class="inline-input" data-answer="will have deployed" placeholder="(deploy)"> the new architecture.</div><div class="feedback"></div></div>
         </div>
-        <div class="question">
-            2. Before the PM even suggested the change, Alex <input type="text" data-answer="had already decided" placeholder="..."> (already / decide) to reject it.
-            <div class="feedback"></div>
+
+        <!-- Task 2: Grammar (Prepositions) -->
+        <div class="task-container">
+            <h2>Task 2: Prepositions in Strategic Idioms</h2>
+            <p class="task-desc">Select the correct preposition.</p>
+            <div class="question"><div class="q-text">1. We decided to push back <select class="inline-input" data-answer="on"><option value="">-- Select --</option><option value="to">to</option><option value="on">on</option><option value="at">at</option></select> the request.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">2. Changing the UI this week is out <select class="inline-input" data-answer="of"><option value="">-- Select --</option><option value="from">from</option><option value="off">off</option><option value="of">of</option></select> scope.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">3. The company's reputation is <select class="inline-input" data-answer="at"><option value="">-- Select --</option><option value="in">in</option><option value="on">on</option><option value="at">at</option></select> stake.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">4. Did you factor <select class="inline-input" data-answer="in"><option value="">-- Select --</option><option value="out">out</option><option value="in">in</option><option value="up">up</option></select> the time for testing?</div><div class="feedback"></div></div>
         </div>
-        <div class="question">
-            3. By 5 PM tomorrow, I <input type="text" data-answer="will have finished" placeholder="..."> (finish) regression testing, so we can deploy.
-            <div class="feedback"></div>
+
+        <!-- Task 3: Vocabulary (Agile & Strategy) -->
+        <div class="task-container">
+            <h2>Task 3: The Strategist's Lexicon</h2>
+            <p class="task-desc">Type the correct word: <em>scope creep, trade-off, buy-in, zero-sum game, bottleneck</em></p>
+            <div class="question"><div class="q-text">1. Sprint capacity is a <input type="text" class="inline-input" data-answer="zero-sum game">; adding requires removing.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">2. Skipping tests is a dangerous <input type="text" class="inline-input" data-answer="trade-off">.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">3. The QA team is currently a <input type="text" class="inline-input" data-answer="bottleneck"> slowing down deployment.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">4. The uncontrolled addition of requirements is called <input type="text" class="inline-input" data-answer="scope creep">.</div><div class="feedback"></div></div>
         </div>
-        <div class="question">
-            4. I <input type="text" data-answer="was fixing" placeholder="..."> (fix) a critical bug in production when the server suddenly crashed.
-            <div class="feedback"></div>
+
+        <!-- Task 4: Vocabulary (Ethics, Philosophy & AI) -->
+        <div class="task-container">
+            <h2>Task 4: High-Level Concepts</h2>
+            <p class="task-desc">Select the correct advanced vocabulary word.</p>
+            <div class="question"><div class="q-text">1. Corporate support for causes is often merely <select class="inline-input" data-answer="performative"><option value="">-- Select --</option><option value="curated">curated</option><option value="performative">performative</option></select>.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">2. How a neural network makes decisions is known as algorithmic <select class="inline-input" data-answer="opacity"><option value="">-- Select --</option><option value="opacity">opacity</option><option value="autonomy">autonomy</option></select>.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">3. Turning emotions into products to sell is <select class="inline-input" data-answer="commodification"><option value="">-- Select --</option><option value="commodification">commodification</option><option value="authenticity">authenticity</option></select>.</div><div class="feedback"></div></div>
+            <div class="question"><div class="q-text">4. The dataset contained historical prejudices, leading to algorithmic <select class="inline-input" data-answer="bias"><option value="">-- Select --</option><option value="bias">bias</option><option value="fortitude">fortitude</option></select>.</div><div class="feedback"></div></div>
         </div>
+
+        <!-- Submit Section -->
+        <div class="task-container" style="padding-bottom: 20px;">
+            <h2>Final Step: Submit Work</h2>
+            <div class="student-info">
+                <div>
+                    <label style="display:block; margin-bottom:5px; font-weight:600;">Student Name:</label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" required style="width: 100%;">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="window.gradeHomework()">🚀 Submit Answers</button>
     </div>
 
-    <!-- Task 2: Strategic & Dependent Prepositions -->
-    <div class="task-container" id="task2">
-        <h2>Task 2: Prepositions in Strategy</h2>
-        <p style="color: var(--text-light); margin-bottom: 20px;">Select the correct preposition for each idiom or dependent verb.</p>
-
-        <div class="question">
-            1. You need to push back 
-            <select data-answer="on">
-                <option value="">---</option><option value="to">to</option><option value="on">on</option><option value="at">at</option>
-            </select> 
-            unrealistic demands from stakeholders.
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            2. If the API breaks, the entire Q3 release is 
-            <select data-answer="at">
-                <option value="">---</option><option value="in">in</option><option value="on">on</option><option value="at">at</option>
-            </select> 
-            stake.
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            3. Adding a new payment gateway right now is completely out 
-            <select data-answer="of">
-                <option value="">---</option><option value="off">off</option><option value="of">of</option><option value="from">from</option>
-            </select> 
-            scope.
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            4. Management insisted 
-            <select data-answer="on">
-                <option value="">---</option><option value="in">in</option><option value="on">on</option><option value="for">for</option>
-            </select> 
-            deploying the feature early despite the risks.
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- Task 3: Agile & Business Vocabulary -->
-    <div class="task-container" id="task3">
-        <h2>Task 3: The Strategist's Lexicon</h2>
-        <p style="color: var(--text-light); margin-bottom: 20px;">Type the correct vocabulary word based on the definition provided. <br><em>(Words to use: scope creep, trade-off, buy-in, leverage, bottleneck, zero-sum game)</em></p>
-
-        <div class="question">
-            1. A situation where one side's gain is exactly the other side's loss: <input type="text" data-answer="zero-sum game">
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            2. The continuous, uncontrolled growth in a project's requirements: <input type="text" data-answer="scope creep">
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            3. A point of congestion that slows down the entire system or team: <input type="text" data-answer="bottleneck">
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            4. Support or agreement from stakeholders for a proposed plan: <input type="text" data-answer="buy-in">
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- Task 4: Ethics, AI & Philosophy Vocabulary -->
-    <div class="task-container" id="task4">
-        <h2>Task 4: High-Level Concepts</h2>
-        <p style="color: var(--text-light); margin-bottom: 20px;">Type the correct vocabulary word. <br><em>(Words to use: opacity, resilience, performative, nostalgia, commodification, oversight)</em></p>
-
-        <div class="question">
-            1. Doing something merely for appearance or to show off on social media is considered <input type="text" data-answer="performative">.
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            2. The lack of transparency in how an AI model makes decisions is known as its <input type="text" data-answer="opacity">.
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            3. A sentimental longing for the past: <input type="text" data-answer="nostalgia">.
-            <div class="feedback"></div>
-        </div>
-        <div class="question">
-            4. The ability to recover quickly from adversity or difficult situations: <input type="text" data-answer="resilience">.
-            <div class="feedback"></div>
-        </div>
-    </div>
-
-    <!-- Student details for the webhook -->
-    <div class="task-container" style="padding-bottom: 10px;">
-        <div class="question">
-            Student Name: <input type="text" id="studentName" placeholder="Enter your name" required style="width: 100%;">
-        </div>
-    </div>
-
-    <button class="btn-submit" onclick="gradeHomework()">Submit & Evaluate</button>
-
+    <!-- Results Screen for Student -->
     <div id="results-screen">
         <h2>Evaluation Complete</h2>
-        <h1 id="final-score" style="color: #FFC145; font-size: 3rem; margin: 10px 0;"></h1>
-        <p>Your results have been sent to your teacher.</p>
+        <h1 id="final-score" style="color: #2EC4B6; font-size: 4rem; margin: 10px 0; font-weight: 800;"></h1>
+        <p id="final-percentage" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px;"></p>
+        <p>Your results have been securely synced with your instructor. Scroll up to review your mistakes.</p>
     </div>
 
-    <script>
-        function gradeHomework() {
-            const studentName = document.getElementById("studentName").value.trim();
-            if (!studentName) {
-                alert("Please enter your name before submitting.");
-                return;
-            }
+    <!-- Hidden Teacher Dashboard -->
+    <div id="teacherAccess">
+        <button class="btn-teacher" onclick="window.openTeacherDashboard()">👩‍🏫 Teacher View</button>
+    </div>
+    <div id="teacherDashboard">
+        <h2 style="color: var(--grape);">Homework Submissions</h2>
+        <p>Results are pulled live from your Firebase database.</p>
+        <table class="results-table">
+            <thead><tr><th>Student</th><th>Score</th><th>Percentage</th><th>Date</th></tr></thead>
+            <tbody id="resultsTableBody">
+                <tr><td colspan="4">Loading data...</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-            let score = 0;
-            let total = 0;
+    <!-- Firebase Script Connection -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Your existing Firebase credentials from Lesson 5
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+            authDomain: "b1-oge-l1.firebaseapp.com",
+            projectId: "b1-oge-l1",
+            storageBucket: "b1-oge-l1.firebasestorage.app",
+            messagingSenderId: "914766471365",
+            appId: "1:914766471365:web:11764d3942bc385f3cd0ac",
+            measurementId: "G-K12KF1N7YS"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const homeworkCollection = collection(db, 'artifacts', 'lesson-5-c1-tech-game-theory-sprint-planning', 'homework_submissions');
+
+        window.gradeHomework = async function() {
+            const studentName = document.getElementById("studentName").value.trim();
+            if (!studentName) return alert("Please enter your name before submitting.");
+
+            let score = 0, total = 0;
             const elements = document.querySelectorAll('input[data-answer], select[data-answer]');
             
-            let answersLog = [];
-
             elements.forEach(el => {
                 total++;
                 const userAnswer = el.value.trim().toLowerCase();
                 const correctAnswer = el.getAttribute('data-answer').toLowerCase();
-                const feedbackDiv = el.nextElementSibling;
+                const feedbackDiv = el.closest('.question').querySelector('.feedback');
                 
                 feedbackDiv.style.display = "block";
-                
                 if (userAnswer === correctAnswer) {
                     score++;
                     feedbackDiv.innerHTML = "✅ Correct";
-                    feedbackDiv.className = "feedback correct";
+                    feedbackDiv.className = "feedback correct-bg";
                     el.style.borderColor = "#1AA398";
-                    answersLog.push({ question: total, status: "Correct", answer: userAnswer });
                 } else {
-                    feedbackDiv.innerHTML = `❌ Incorrect. The correct answer is: <strong>${correctAnswer}</strong>`;
-                    feedbackDiv.className = "feedback incorrect";
+                    feedbackDiv.innerHTML = `❌ Incorrect. Correct answer: <strong>${correctAnswer}</strong>`;
+                    feedbackDiv.className = "feedback incorrect-bg";
                     el.style.borderColor = "#FF6B6B";
-                    answersLog.push({ question: total, status: "Incorrect", user: userAnswer, correct: correctAnswer });
                 }
-                
-                // Lock the inputs after submission
                 el.disabled = true;
             });
 
-            // Show results screen
+            const percentage = ((score / total) * 100).toFixed(1) + "%";
+
             document.getElementById("results-screen").style.display = "block";
             document.getElementById("final-score").innerText = `${score} / ${total}`;
+            document.getElementById("final-percentage").innerText = `Score: ${percentage}`;
             document.querySelector(".btn-submit").style.display = "none";
+            document.getElementById("results-screen").scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            // =========================================================
-            // TEACHER FEEDBACK (FIREWALL/WEBHOOK CONNECTION)
-            // Replace the 'WEBHOOK_URL_HERE' string with your actual 
-            // Zapier, Make.com, or Firebase endpoint.
-            // =========================================================
-            const webhookUrl = "WEBHOOK_URL_HERE"; 
-            
-            const payload = {
-                student: studentName,
-                score: score,
-                total: total,
-                percentage: ((score / total) * 100).toFixed(1) + "%",
-                timestamp: new Date().toISOString(),
-                details: answersLog
-            };
-
-            if(webhookUrl !== "WEBHOOK_URL_HERE") {
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }).then(response => {
-                    console.log("Results synced with teacher's firewall/dashboard.");
-                }).catch(error => {
-                    console.error("Error sending results:", error);
+            // Push result to your database
+            try {
+                await addDoc(homeworkCollection, {
+                    studentName: studentName,
+                    score: `${score}/${total}`,
+                    percentage: percentage,
+                    timestamp: new Date().toISOString()
                 });
+            } catch (e) {
+                console.error("Error saving to Firebase: ", e);
             }
-        }
+        };
+
+        window.openTeacherDashboard = async function() {
+            const pass = prompt("Enter Teacher Password:");
+            if (pass !== "C1") return alert("Incorrect password.");
+
+            document.getElementById("teacherDashboard").style.display = "block";
+            document.getElementById("homework-form").style.display = "none";
+            document.getElementById("results-screen").style.display = "none";
+            document.getElementById("teacherAccess").style.display = "none";
+
+            const tbody = document.getElementById("resultsTableBody");
+            
+            try {
+                const q = query(homeworkCollection, orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                if(querySnapshot.empty) {
+                    tbody.innerHTML = "<tr><td colspan='4'>No submissions yet.</td></tr>";
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const dateObj = new Date(data.timestamp);
+                    const formattedDate = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td style="font-weight:bold;">${data.studentName}</td>
+                        <td>${data.score}</td>
+                        <td style="color:var(--primary-dark); font-weight:bold;">${data.percentage}</td>
+                        <td style="font-size: 0.9rem; color: #555;">${formattedDate}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan='4' style='color:red;'>Error loading data: ${e.message}</td></tr>`;
+            }
+        };
     </script>
 </body>
 </html>
