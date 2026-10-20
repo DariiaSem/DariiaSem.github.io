@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C1 Comprehensive Systems Check: Lesson 5</title>
+    <style>
+        :root {
+            --primary: #2EC4B6;
+            --primary-dark: #1AA398;
+            --accent: #FF6B6B;
+            --grape: #7D5BA6;
+            --bg: #F6F8FB;
+            --card-bg: #FFFFFF;
+            --text: #2B2E42;
+            --text-light: #5C6178;
+            --border: #E7E9F0;
+        }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1, h2, h3 {
+            color: #22223B;
+            margin-top: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(120deg, var(--primary) 0%, var(--grape) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(34,34,59,0.1);
+        }
+        .header h1 {
+            color: white;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .task-container {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 35px;
+            border-top: 5px solid var(--primary);
+        }
+        .task-desc {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            font-size: 1.05rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+        }
+        .question {
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .q-text {
+            margin-bottom: 8px;
+        }
+        select, input[type="text"] {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+            background-color: #FAFBFC;
+            max-width: 300px;
+        }
+        select {
+            cursor: pointer;
+        }
+        select:focus, input[type="text"]:focus {
+            border-color: var(--primary);
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(46,196,182,0.15);
+        }
+        .inline-input {
+            display: inline-block;
+            margin: 0 5px;
+            min-width: 150px;
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(120deg, var(--accent) 0%, #F2A429 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 6px 20px rgba(255,107,107,0.3);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,107,107,0.4);
+        }
+        .feedback {
+            display: none;
+            margin-top: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 10px 14px;
+            border-radius: 6px;
+            background: #f8f9fa;
+        }
+        .correct-bg { background-color: rgba(46,196,182,0.1); color: var(--primary-dark); border-left: 4px solid var(--primary); }
+        .incorrect-bg { background-color: rgba(255,107,107,0.1); color: #D93838; border-left: 4px solid var(--accent); }
+        
+        #results-screen {
+            display: none;
+            text-align: center;
+            background: #22223B;
+            color: white;
+            padding: 50px;
+            border-radius: 16px;
+            margin-top: 30px;
+            box-shadow: 0 14px 36px rgba(34,34,59,0.2);
+        }
+        .student-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .student-info input {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>C1 Systems Check: Comprehensive Evaluation</h1>
+        <p>Estimated time: 15-20 minutes. Complete all 4 sections before submitting your answers for final evaluation.</p>
+    </div>
+
+    <!-- Task 1: Grammar (Tenses) -->
+    <div class="task-container" id="task1">
+        <h2>Task 1: Advanced Tenses (Narrative & Future Perfect)</h2>
+        <p class="task-desc">Type the correct form of the verb in brackets. Pay close attention to the timeline of events (Past Simple, Past Continuous, Past Perfect, Past Perfect Continuous, Future Perfect Simple/Continuous).</p>
+        
+        <div class="question">
+            <div class="q-text">1. By the time the PM arrived at the meeting, the development team <input type="text" class="inline-input" data-answer="had already decided" placeholder="(already / decide)"> the sprint goals.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">2. I <input type="text" class="inline-input" data-answer="was fixing" placeholder="(fix)"> a critical bug in the production environment when the server suddenly crashed.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">3. She <input type="text" class="inline-input" data-answer="had been reviewing" placeholder="(review)"> the pull request for an hour before she finally noticed the massive memory leak.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">4. By this time next month, we <input type="text" class="inline-input" data-answer="will have deployed" placeholder="(deploy)"> the new architecture to all enterprise clients.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">5. They <input type="text" class="inline-input" data-answer="realized" placeholder="(realize)"> the scope was too big right before they launched the first version.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">6. When the Q3 review comes around, I <input type="text" class="inline-input" data-answer="will have been leading" placeholder="(lead)"> this engineering pod for exactly two years.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">7. We couldn't integrate the API yesterday because the third-party provider <input type="text" class="inline-input" data-answer="had changed" placeholder="(change)"> their authentication protocols without warning us.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">8. Don't worry about the compliance audit; by Friday afternoon, the legal team <input type="text" class="inline-input" data-answer="will have finished" placeholder="(finish)"> reviewing all the user data logs.</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Task 2: Grammar (Prepositions) -->
+    <div class="task-container" id="task2">
+        <h2>Task 2: Prepositions in Strategic Idioms & Dependent Verbs</h2>
+        <p class="task-desc">Select the correct preposition to complete the idioms and dependent verb structures. Consider the physical concepts behind the strategic idioms.</p>
+
+        <div class="question">
+            <div class="q-text">1. The PM asked to add a new feature, but Alex decided to push back 
+                <select class="inline-input" data-answer="on">
+                    <option value="">-- Select --</option><option value="to">to</option><option value="on">on</option><option value="at">at</option><option value="against">against</option>
+                </select> 
+            the request to protect the sprint's momentum.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">2. We cannot completely rebuild the UI this week; that is entirely out 
+                <select class="inline-input" data-answer="of">
+                    <option value="">-- Select --</option><option value="from">from</option><option value="off">off</option><option value="of">of</option><option value="in">in</option>
+                </select> 
+            scope.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">3. If we don't fix this vulnerability tonight, the company's entire reputation is 
+                <select class="inline-input" data-answer="at">
+                    <option value="">-- Select --</option><option value="in">in</option><option value="on">on</option><option value="at">at</option><option value="with">with</option>
+                </select> 
+            stake.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">4. The engineering team strongly objected 
+                <select class="inline-input" data-answer="to">
+                    <option value="">-- Select --</option><option value="on">on</option><option value="to">to</option><option value="about">about</option><option value="with">with</option>
+                </select> 
+            the unrealistic timeline proposed by marketing.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">5. Before finalizing the estimate, did you factor 
+                <select class="inline-input" data-answer="in">
+                    <option value="">-- Select --</option><option value="out">out</option><option value="on">on</option><option value="in">in</option><option value="up">up</option>
+                </select> 
+            the time it takes to run regression tests?</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">6. If we include the payment gateway, we need to take the dashboard update 
+                <select class="inline-input" data-answer="off">
+                    <option value="">-- Select --</option><option value="from">from</option><option value="out">out</option><option value="off">off</option><option value="down">down</option>
+                </select> 
+            the table for this sprint.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">7. Our core architecture relies heavily 
+                <select class="inline-input" data-answer="on">
+                    <option value="">-- Select --</option><option value="in">in</option><option value="for">for</option><option value="on">on</option><option value="with">with</option>
+                </select> 
+            AWS microservices, so any outage affects us immediately.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">8. We ultimately decided to opt out 
+                <select class="inline-input" data-answer="of">
+                    <option value="">-- Select --</option><option value="from">from</option><option value="of">of</option><option value="off">off</option><option value="for">for</option>
+                </select> 
+            the beta test because our environment wasn't stable enough.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">9. As a senior developer, you will be primarily responsible 
+                <select class="inline-input" data-answer="for">
+                    <option value="">-- Select --</option><option value="of">of</option><option value="with">with</option><option value="about">about</option><option value="for">for</option>
+                </select> 
+            mentoring the junior engineers.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">10. The stakeholders are constantly complaining 
+                <select class="inline-input" data-answer="about">
+                    <option value="">-- Select --</option><option value="on">on</option><option value="about">about</option><option value="for">for</option><option value="over">over</option>
+                </select> 
+            the slow load times, but they refuse to approve the budget to fix it.</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Task 3: Vocabulary (Agile & Strategy) -->
+    <div class="task-container" id="task3">
+        <h2>Task 3: The Strategist's Lexicon (Tech & Agile)</h2>
+        <p class="task-desc">Type the correct business or agile vocabulary word to complete the sentence. <br>
+        <em>Word bank: scope creep, trade-off, buy-in, zero-sum game, leverage, bottleneck, velocity, pushback</em></p>
+
+        <div class="question">
+            <div class="q-text">1. Sprint capacity is a <input type="text" class="inline-input" data-answer="zero-sum game">; if you add ten story points of new work, you must remove ten story points of existing work.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">2. We can build it faster by skipping automated tests, but that <input type="text" class="inline-input" data-answer="trade-off"> will result in massive technical debt later.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">3. QA only has two engineers, so testing has become a massive <input type="text" class="inline-input" data-answer="bottleneck"> that is slowing down our deployment cycle.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">4. The continuous, uncontrolled addition of "tiny" new requirements to an active project is known as <input type="text" class="inline-input" data-answer="scope creep">.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">5. Before we propose completely changing the database structure, we need to get <input type="text" class="inline-input" data-answer="buy-in"> from the Chief Technology Officer.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">6. The team's average <input type="text" class="inline-input" data-answer="velocity"> is about 45 story points per sprint, so we shouldn't plan for 60.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">7. We received a lot of <input type="text" class="inline-input" data-answer="pushback"> from the client when we told them the feature would be delayed by a month.</div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">8. Because we own the proprietary algorithm they desperately need, we have significant <input type="text" class="inline-input" data-answer="leverage"> in these contract negotiations.</div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Task 4: Vocabulary (Ethics, Philosophy & AI) -->
+    <div class="task-container" id="task4">
+        <h2>Task 4: High-Level Concepts (Ethics, Philosophy, & Society)</h2>
+        <p class="task-desc">Select the most appropriate advanced vocabulary word from the dropdown to complete the sophisticated statements.</p>
+
+        <div class="question">
+            <div class="q-text">1. The lack of transparency in how a neural network arrives at its decisions is referred to as algorithmic 
+                <select class="inline-input" data-answer="opacity">
+                    <option value="">-- Select --</option><option value="scrutiny">scrutiny</option><option value="opacity">opacity</option><option value="autonomy">autonomy</option><option value="impermanence">impermanence</option>
+                </select>.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">2. Turning genuine human emotions or cultural artifacts into products just to sell them is called 
+                <select class="inline-input" data-answer="commodification">
+                    <option value="">-- Select --</option><option value="commodification">commodification</option><option value="displacement">displacement</option><option value="authenticity">authenticity</option><option value="liability">liability</option>
+                </select>.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">3. Many corporations express support for social causes, but critics argue their actions are merely 
+                <select class="inline-input" data-answer="performative">
+                    <option value="">-- Select --</option><option value="curated">curated</option><option value="performative">performative</option><option value="adaptable">adaptable</option><option value="nostalgic">nostalgic</option>
+                </select> 
+                rather than driven by actual values.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">4. Maintaining mental calmness and evenness of temper, especially in a difficult situation, is known as 
+                <select class="inline-input" data-answer="equanimity">
+                    <option value="">-- Select --</option><option value="oversight">oversight</option><option value="bias">bias</option><option value="resilience">resilience</option><option value="equanimity">equanimity</option>
+                </select>.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">5. When AI systems are deployed in healthcare, there must be rigorous human 
+                <select class="inline-input" data-answer="oversight">
+                    <option value="">-- Select --</option><option value="oversight">oversight</option><option value="nostalgia">nostalgia</option><option value="detachment">detachment</option><option value="rootlessness">rootlessness</option>
+                </select> 
+                to ensure patient safety.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">6. The dataset used to train the hiring algorithm contained historical prejudices, leading to a severe issue with 
+                <select class="inline-input" data-answer="bias">
+                    <option value="">-- Select --</option><option value="fortitude">fortitude</option><option value="accountability">accountability</option><option value="bias">bias</option><option value="interpretability">interpretability</option>
+                </select>.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">7. Facing severe economic 
+                <select class="inline-input" data-answer="adversity">
+                    <option value="">-- Select --</option><option value="adversity">adversity</option><option value="authenticity">authenticity</option><option value="belonging">belonging</option><option value="scrutiny">scrutiny</option>
+                </select>, 
+                the startup demonstrated incredible fortitude by pivoting their entire business model.
+            </div>
+            <div class="feedback"></div>
+        </div>
+        <div class="question">
+            <div class="q-text">8. Social media feeds are heavily 
+                <select class="inline-input" data-answer="curated">
+                    <option value="">-- Select --</option><option value="curated">curated</option><option value="displaced">displaced</option><option value="autonomous">autonomous</option><option value="liable">liable</option>
+                </select> 
+                to show only the most perfect, idealized versions of people's lives.
+            </div>
+            <div class="feedback"></div>
+        </div>
+    </div>
+
+    <!-- Student details for the webhook -->
+    <div class="task-container" style="padding-bottom: 20px;">
+        <h2>Final Step: Submit Work</h2>
+        <div class="student-info">
+            <div>
+                <label style="display:block; margin-bottom:5px; font-weight:600;">Student Name:</label>
+                <input type="text" id="studentName" placeholder="Enter your full name" required style="width: 100%;">
+            </div>
+            <div>
+                <label style="display:block; margin-bottom:5px; font-weight:600;">Email (Optional):</label>
+                <input type="text" id="studentEmail" placeholder="Enter email for copy of results" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-submit" onclick="gradeHomework()">🚀 Submit & Evaluate My Answers</button>
+
+    <div id="results-screen">
+        <h2>Evaluation Complete</h2>
+        <h1 id="final-score" style="color: #2EC4B6; font-size: 4rem; margin: 10px 0; font-weight: 800;"></h1>
+        <p id="final-percentage" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px;"></p>
+        <p>Your results have been securely synced with your instructor's dashboard. Please scroll up to review any mistakes marked in <span style="color:#FF6B6B; font-weight:bold;">red</span>.</p>
+    </div>
+
+    <script>
+        function gradeHomework() {
+            const studentName = document.getElementById("studentName").value.trim();
+            if (!studentName) {
+                alert("Please enter your name before submitting.");
+                document.getElementById("studentName").focus();
+                return;
+            }
+
+            let score = 0;
+            let total = 0;
+            const elements = document.querySelectorAll('input[data-answer], select[data-answer]');
+            
+            let answersLog = [];
+
+            elements.forEach(el => {
+                total++;
+                const userAnswer = el.value.trim().toLowerCase();
+                const correctAnswer = el.getAttribute('data-answer').toLowerCase();
+                const feedbackDiv = el.closest('.question').querySelector('.feedback');
+                
+                feedbackDiv.style.display = "block";
+                
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    feedbackDiv.innerHTML = "✅ Correct";
+                    feedbackDiv.className = "feedback correct-bg";
+                    el.style.borderColor = "#1AA398";
+                    el.style.backgroundColor = "rgba(46,196,182,0.05)";
+                    answersLog.push({ question: total, status: "Correct", answer: userAnswer });
+                } else {
+                    feedbackDiv.innerHTML = `❌ Incorrect. The correct answer is: <strong>${correctAnswer}</strong>`;
+                    feedbackDiv.className = "feedback incorrect-bg";
+                    el.style.borderColor = "#FF6B6B";
+                    el.style.backgroundColor = "rgba(255,107,107,0.05)";
+                    answersLog.push({ question: total, status: "Incorrect", user: userAnswer, correct: correctAnswer });
+                }
+                
+                // Lock the inputs after submission
+                el.disabled = true;
+            });
+
+            // Calculate percentage
+            const percentage = ((score / total) * 100).toFixed(1);
+
+            // Show results screen
+            const resultsScreen = document.getElementById("results-screen");
+            resultsScreen.style.display = "block";
+            document.getElementById("final-score").innerText = `${score} / ${total}`;
+            document.getElementById("final-percentage").innerText = `Score: ${percentage}%`;
+            document.querySelector(".btn-submit").style.display = "none";
+
+            // Scroll to results smoothly
+            resultsScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // =========================================================
+            // TEACHER FEEDBACK (FIREWALL/WEBHOOK CONNECTION)
+            // Replace the 'WEBHOOK_URL_HERE' string with your actual 
+            // Zapier, Make.com, or Firebase endpoint.
+            // =========================================================
+            const webhookUrl = "WEBHOOK_URL_HERE"; 
+            const studentEmail = document.getElementById("studentEmail").value.trim();
+            
+            const payload = {
+                student: studentName,
+                email: studentEmail,
+                score: score,
+                total: total,
+                percentage: percentage + "%",
+                timestamp: new Date().toISOString(),
+                details: answersLog
+            };
+
+            if(webhookUrl !== "WEBHOOK_URL_HERE") {
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(response => {
+                    console.log("Results synced with teacher's firewall/dashboard.");
+                }).catch(error => {
+                    console.error("Error sending results:", error);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
