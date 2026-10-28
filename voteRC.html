@@ -3,29 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WHO Regional Committee - Vote Counter</title>
+    <title>WHO Regional Committee - Rapid Vote Counter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Focus Animation */
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
-        /* Custom scrollbar for a cleaner look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
-        .modal-open {
-            overflow: hidden;
+        .active-country {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3) !important;
+            transform: scale(1.02);
+            z-index: 10;
         }
     </style>
 </head>
@@ -33,53 +33,56 @@
 
     <!-- APP VIEW -->
     <div id="app-view" class="flex-grow flex flex-col">
-        <!-- Sticky Header -->
+        
+        <!-- Sticky Header & Controls -->
         <header class="sticky top-0 z-20 bg-white border-b shadow-sm">
             <div class="max-w-7xl mx-auto px-4 py-4 space-y-4">
+                
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <h1 class="text-2xl font-bold text-blue-900 tracking-tight">
-                        WHO Regional Committee
-                    </h1>
+                    <div>
+                        <h1 class="text-2xl font-bold text-blue-900 tracking-tight">WHO Regional Committee</h1>
+                        <p class="text-sm text-slate-500 font-medium">Rapid Keyboard Entry Mode</p>
+                    </div>
                     <button onclick="showReportView()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-lg shadow transition-colors flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z" clip-rule="evenodd" />
                         </svg>
-                        Generate Report
+                        Finish & Generate Report
                     </button>
                 </div>
 
-                <!-- Search and Live Totals -->
-                <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
-                    <div class="relative w-full md:max-w-md border border-gray-300 rounded-lg shadow-inner bg-slate-50 flex items-center overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
-                        <div class="pl-3 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                        </div>
-                        <input type="text" id="search-input" placeholder="Search for country..." class="w-full py-3 px-3 outline-none bg-transparent text-gray-700 placeholder-gray-400" onkeyup="renderGrid()">
+                <!-- Keyboard Shortcuts Legend & Live Totals -->
+                <div class="flex flex-col lg:flex-row gap-4 justify-between items-center bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    
+                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                        <span class="font-semibold text-slate-700 mr-2">Shortcuts (Cmd+Key or Key):</span>
+                        <div class="flex items-center gap-1"><kbd class="bg-white border shadow-sm px-2 py-1 rounded text-green-700 font-bold">Y</kbd> = Yes</div>
+                        <div class="flex items-center gap-1"><kbd class="bg-white border shadow-sm px-2 py-1 rounded text-red-700 font-bold">H</kbd> = No</div>
+                        <div class="flex items-center gap-1"><kbd class="bg-white border shadow-sm px-2 py-1 rounded text-yellow-700 font-bold">A</kbd> = Abstain</div>
+                        <div class="flex items-center gap-1"><kbd class="bg-white border shadow-sm px-2 py-1 rounded text-slate-700 font-bold">S</kbd> = Absent</div>
+                        <div class="flex items-center gap-1 ml-4"><kbd class="bg-white border shadow-sm px-2 py-1 rounded text-slate-500 text-xs">←</kbd> <kbd class="bg-white border shadow-sm px-2 py-1 rounded text-slate-500 text-xs">→</kbd> = Move</div>
                     </div>
 
                     <div class="flex flex-wrap gap-2 text-sm font-semibold">
-                        <div class="px-3 py-1.5 bg-slate-100 rounded-md border text-slate-600 shadow-sm">Total: <span id="stat-total">53</span></div>
-                        <div class="px-3 py-1.5 bg-green-100 text-green-800 rounded-md border border-green-200 shadow-sm">Yes: <span id="stat-yes">0</span></div>
-                        <div class="px-3 py-1.5 bg-red-100 text-red-800 rounded-md border border-red-200 shadow-sm">No: <span id="stat-no">0</span></div>
-                        <div class="px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded-md border border-yellow-200 shadow-sm">Abstain: <span id="stat-abstain">0</span></div>
-                        <div class="px-3 py-1.5 bg-gray-200 text-gray-800 rounded-md border border-gray-300 shadow-sm">Absent: <span id="stat-absent">0</span></div>
+                        <div class="px-3 py-1 bg-white rounded-md border text-slate-600 shadow-sm">Total: <span id="stat-total">53</span></div>
+                        <div class="px-3 py-1 bg-green-100 text-green-800 rounded-md border border-green-200 shadow-sm">Yes: <span id="stat-yes">0</span></div>
+                        <div class="px-3 py-1 bg-red-100 text-red-800 rounded-md border border-red-200 shadow-sm">No: <span id="stat-no">0</span></div>
+                        <div class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md border border-yellow-200 shadow-sm">Abstain: <span id="stat-abstain">0</span></div>
+                        <div class="px-3 py-1 bg-gray-200 text-gray-800 rounded-md border border-gray-300 shadow-sm">Absent: <span id="stat-absent">0</span></div>
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- Main Grid -->
-        <main class="flex-grow max-w-7xl mx-auto w-full p-4">
+        <main class="flex-grow max-w-7xl mx-auto w-full p-4 pb-24">
             <div id="countries-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-                <!-- Countries will be injected here via JS -->
-            </div>
-            <div id="no-results" class="hidden text-center py-12 text-gray-500 text-lg">
-                No countries found matching your search.
+                <!-- Countries injected via JS -->
             </div>
         </main>
     </div>
 
-    <!-- REPORT VIEW (Hidden by default) -->
+    <!-- REPORT VIEW -->
     <div id="report-view" class="hidden flex-grow flex-col bg-white">
         <header class="sticky top-0 z-20 bg-slate-50 border-b shadow-sm">
             <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -95,56 +98,14 @@
         </header>
         
         <main class="flex-grow max-w-4xl mx-auto w-full p-8">
-            <div id="report-content" class="prose prose-blue max-w-none">
-                <!-- Report HTML will be injected here and used for Word export -->
+            <div id="report-content" class="prose max-w-none">
+                <!-- Report HTML -->
             </div>
         </main>
     </div>
 
-    <!-- VOTE SELECTION MODAL -->
-    <div id="vote-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-200">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm transform scale-95 transition-transform duration-200" id="vote-modal-content">
-            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-slate-50 rounded-t-2xl">
-                <h3 class="font-bold text-lg text-slate-800" id="modal-country-name">Country Name</h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 rounded-full p-1 hover:bg-gray-200 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
-            
-            <div class="p-6 space-y-3">
-                <p class="text-sm text-gray-500 mb-4">Record the vote status for this member state:</p>
-                
-                <button onclick="submitVote('yes')" class="w-full py-3 px-4 bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 rounded-xl font-bold flex justify-between items-center transition-colors">
-                    <span>Yes (In Favour)</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-                </button>
-                
-                <button onclick="submitVote('no')" class="w-full py-3 px-4 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 rounded-xl font-bold flex justify-between items-center transition-colors">
-                    <span>No (Against)</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
-                </button>
-                
-                <button onclick="submitVote('abstain')" class="w-full py-3 px-4 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-yellow-700 rounded-xl font-bold flex justify-between items-center transition-colors">
-                    <span>Abstain</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
-                </button>
-
-                <button onclick="submitVote('absent')" class="w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 rounded-xl font-bold flex justify-between items-center transition-colors">
-                    <span>Absent</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
-                </button>
-            </div>
-            <div class="p-4 bg-gray-50 border-t border-gray-100 rounded-b-2xl flex justify-center">
-                <button onclick="submitVote('none')" class="text-sm text-gray-500 hover:text-slate-800 underline decoration-gray-300 underline-offset-2">
-                    Clear Vote (Reset)
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Application Logic -->
     <script>
-        // 53 Countries of the WHO Regional Committee for Europe mapped to ISO Alpha-2 for flags
+        // 53 Countries of the WHO Regional Committee for Europe
         const initialCountriesData = [
             { name: "Albania", code: "al" }, { name: "Andorra", code: "ad" }, { name: "Armenia", code: "am" },
             { name: "Austria", code: "at" }, { name: "Azerbaijan", code: "az" }, { name: "Belarus", code: "by" },
@@ -166,75 +127,87 @@
             { name: "Ukraine", code: "ua" }, { name: "United Kingdom", code: "gb" }
         ];
 
-        // Initialize state
-        let state = initialCountriesData.map(c => ({
-            ...c,
-            status: 'none' // 'none', 'yes', 'no', 'abstain', 'absent'
+        let state = initialCountriesData.map((c, i) => ({
+            ...c, id: i, status: 'none'
         }));
+        
+        let activeIndex = 0; // The country currently focused for keyboard voting
+        let isReportMode = false;
 
-        let activeCountryForModal = null;
-
-        // Configuration for status UI
         const statusConfig = {
-            'none': { colorClass: 'border-gray-200 bg-white hover:border-gray-300', badge: '', shadow: 'shadow-sm hover:shadow-md' },
-            'yes': { colorClass: 'border-green-500 bg-green-50', badge: 'YES', badgeClass: 'bg-green-500 text-white', shadow: 'shadow-md ring-2 ring-green-200 ring-offset-1' },
-            'no': { colorClass: 'border-red-500 bg-red-50', badge: 'NO', badgeClass: 'bg-red-500 text-white', shadow: 'shadow-md ring-2 ring-red-200 ring-offset-1' },
-            'abstain': { colorClass: 'border-yellow-500 bg-yellow-50', badge: 'ABSTAIN', badgeClass: 'bg-yellow-500 text-white', shadow: 'shadow-md ring-2 ring-yellow-200 ring-offset-1' },
-            'absent': { colorClass: 'border-gray-400 bg-gray-100 opacity-75', badge: 'ABSENT', badgeClass: 'bg-gray-500 text-white', shadow: 'shadow-sm' }
+            'none': { colorClass: 'border-gray-200 bg-white hover:border-gray-300', badge: '' },
+            'yes': { colorClass: 'border-green-500 bg-green-50', badge: 'YES', badgeClass: 'bg-green-500' },
+            'no': { colorClass: 'border-red-500 bg-red-50', badge: 'NO', badgeClass: 'bg-red-500' },
+            'abstain': { colorClass: 'border-yellow-500 bg-yellow-50', badge: 'ABSTAIN', badgeClass: 'bg-yellow-500 text-black' },
+            'absent': { colorClass: 'border-slate-400 bg-slate-100 opacity-75', badge: 'ABSENT', badgeClass: 'bg-slate-500' }
         };
 
-        // Render the Grid
+        // Render the Grid entirely
         function renderGrid() {
             const grid = document.getElementById('countries-grid');
-            const noResults = document.getElementById('no-results');
-            const searchVal = document.getElementById('search-input').value.toLowerCase();
-            
             grid.innerHTML = '';
             
-            const filtered = state.filter(c => c.name.toLowerCase().includes(searchVal));
-            
-            if (filtered.length === 0) {
-                grid.classList.add('hidden');
-                noResults.classList.remove('hidden');
-            } else {
-                grid.classList.remove('hidden');
-                noResults.classList.add('hidden');
+            state.forEach((country, index) => {
+                const config = statusConfig[country.status];
+                const isActive = index === activeIndex;
                 
-                filtered.forEach(country => {
-                    const config = statusConfig[country.status];
-                    
-                    const card = document.createElement('div');
-                    card.className = `relative flex flex-col items-center p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 select-none h-full ${config.colorClass} ${config.shadow}`;
-                    card.onclick = () => openModal(country.code);
-                    
-                    // Badge Injection
-                    let badgeHTML = '';
-                    if (country.status !== 'none') {
-                        badgeHTML = `<div class="absolute -top-3 right-2 text-[10px] font-bold px-2 py-0.5 rounded shadow ${config.badgeClass}">${config.badge}</div>`;
-                    }
+                const card = document.createElement('div');
+                card.id = `card-${index}`;
+                // Apply active class if it's the currently focused country
+                card.className = `relative flex flex-col items-center p-4 rounded-xl cursor-pointer transition-all duration-150 border-2 select-none h-full 
+                                 ${config.colorClass} ${isActive ? 'active-country' : 'shadow-sm hover:shadow'}`;
+                card.onclick = () => setActiveIndex(index);
+                
+                let badgeHTML = '';
+                if (country.status !== 'none') {
+                    badgeHTML = `<div class="absolute -top-3 right-2 text-[10px] font-bold px-2 py-0.5 rounded text-white shadow-sm ${config.badgeClass}">${config.badge}</div>`;
+                }
 
-                    // Card Content
-                    card.innerHTML = `
-                        ${badgeHTML}
-                        <div class="h-14 w-full flex items-center justify-center mb-3">
-                            <img src="https://flagcdn.com/w160/${country.code}.png" 
-                                 alt="Flag of ${country.name}" 
-                                 class="max-h-full max-w-full object-contain rounded-[2px] shadow-sm border border-gray-200"
-                                 loading="lazy"
-                                 onerror="this.style.display='none'">
-                        </div>
-                        <span class="text-center font-medium text-sm leading-tight text-slate-800 flex-grow flex items-center justify-center">
-                            ${country.name}
-                        </span>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
+                card.innerHTML = `
+                    ${badgeHTML}
+                    <div class="h-14 w-full flex items-center justify-center mb-3">
+                        <img src="https://flagcdn.com/w160/${country.code}.png" 
+                             alt="${country.name}" 
+                             class="max-h-full max-w-full object-contain rounded-[2px] shadow-sm border border-slate-200"
+                             loading="lazy" onerror="this.style.display='none'">
+                    </div>
+                    <span class="text-center font-medium text-sm leading-tight text-slate-800 flex-grow flex items-center justify-center">
+                        ${country.name}
+                    </span>
+                `;
+                grid.appendChild(card);
+            });
             
             updateStats();
         }
 
-        // Update top statistics
+        // Change focus and scroll into view
+        function setActiveIndex(index) {
+            if (index < 0 || index >= state.length) return;
+            activeIndex = index;
+            renderGrid();
+            
+            // Ensure the active element is visible in the viewport
+            const activeElement = document.getElementById(`card-${activeIndex}`);
+            if (activeElement) {
+                activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Cast a vote for the current active index and auto-advance
+        function castVote(voteType) {
+            if (activeIndex < 0 || activeIndex >= state.length) return;
+            
+            state[activeIndex].status = voteType;
+            
+            // Auto advance to next unvoted or just next
+            if (activeIndex < state.length - 1) {
+                setActiveIndex(activeIndex + 1);
+            } else {
+                renderGrid(); // Just re-render if at the end
+            }
+        }
+
         function updateStats() {
             const counts = { 'yes': 0, 'no': 0, 'abstain': 0, 'absent': 0 };
             state.forEach(c => {
@@ -247,109 +220,108 @@
             document.getElementById('stat-absent').innerText = counts.absent;
         }
 
-        // Modal Logic
-        function openModal(countryCode) {
-            const country = state.find(c => c.code === countryCode);
-            if (!country) return;
-            
-            activeCountryForModal = countryCode;
-            document.getElementById('modal-country-name').innerText = country.name;
-            
-            const modal = document.getElementById('vote-modal');
-            const modalContent = document.getElementById('vote-modal-content');
-            
-            modal.classList.remove('hidden');
-            // Trigger reflow for animation
-            void modal.offsetWidth; 
-            modal.classList.remove('opacity-0');
-            modalContent.classList.remove('scale-95');
-            
-            document.body.classList.add('modal-open');
-        }
+        // --- GLOBAL KEYBOARD LISTENER ---
+        document.addEventListener('keydown', (e) => {
+            if (isReportMode) return; // Don't trigger if viewing report
 
-        function closeModal() {
-            const modal = document.getElementById('vote-modal');
-            const modalContent = document.getElementById('vote-modal-content');
-            
-            modal.classList.add('opacity-0');
-            modalContent.classList.add('scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                activeCountryForModal = null;
-                document.body.classList.remove('modal-open');
-            }, 200);
-        }
+            const key = e.key.toLowerCase();
+            const hasMeta = e.metaKey || e.ctrlKey;
 
-        function submitVote(status) {
-            if (activeCountryForModal) {
-                const index = state.findIndex(c => c.code === activeCountryForModal);
-                if (index !== -1) {
-                    state[index].status = status;
-                    renderGrid();
-                }
+            // Define target keys
+            const isY = key === 'y';
+            const isH = key === 'h';
+            const isS = key === 's';
+            const isA = key === 'a';
+
+            // Navigation
+            if (key === 'arrowright' || key === 'arrowdown') {
+                e.preventDefault();
+                setActiveIndex(activeIndex + 1);
+                return;
             }
-            closeModal();
-        }
+            if (key === 'arrowleft' || key === 'arrowup') {
+                e.preventDefault();
+                setActiveIndex(activeIndex - 1);
+                return;
+            }
 
-        // Report Logic
+            // Voting Logic
+            if (isY || isH || isS || isA) {
+                // Prevent browser defaults heavily for Cmd+S (Save), Cmd+A (Select All)
+                if (hasMeta) e.preventDefault(); 
+                
+                // OS-level intercepts like Cmd+H (Hide Window on Mac) cannot be fully prevented by JS, 
+                // but we preventDefault just in case. This is why bare keys (Y, H, S, A) are also supported.
+                if (hasMeta && isH) e.preventDefault();
+
+                if (isY) castVote('yes');
+                else if (isH) castVote('no');
+                else if (isS) castVote('absent');
+                else if (isA) castVote('abstain');
+            }
+        });
+
+        // --- REPORT LOGIC ---
         function showReportView() {
-            const appView = document.getElementById('app-view');
+            isReportMode = true;
+            document.getElementById('app-view').classList.add('hidden');
             const reportView = document.getElementById('report-view');
-            
-            appView.classList.add('hidden');
             reportView.classList.remove('hidden');
             reportView.classList.add('flex');
-            
             generateReportHTML();
         }
 
         function hideReportView() {
-            const appView = document.getElementById('app-view');
-            const reportView = document.getElementById('report-view');
-            
-            reportView.classList.add('hidden');
-            reportView.classList.remove('flex');
-            appView.classList.remove('hidden');
+            isReportMode = false;
+            document.getElementById('report-view').classList.add('hidden');
+            document.getElementById('report-view').classList.remove('flex');
+            document.getElementById('app-view').classList.remove('hidden');
         }
 
         function generateReportHTML() {
-            // Group countries by status
             const groups = {
-                yes: state.filter(c => c.status === 'yes').sort((a,b) => a.name.localeCompare(b.name)),
-                no: state.filter(c => c.status === 'no').sort((a,b) => a.name.localeCompare(b.name)),
-                abstain: state.filter(c => c.status === 'abstain').sort((a,b) => a.name.localeCompare(b.name)),
-                absent: state.filter(c => c.status === 'absent').sort((a,b) => a.name.localeCompare(b.name)),
-                none: state.filter(c => c.status === 'none').sort((a,b) => a.name.localeCompare(b.name))
+                yes: state.filter(c => c.status === 'yes'),
+                no: state.filter(c => c.status === 'no'),
+                abstain: state.filter(c => c.status === 'abstain'),
+                absent: state.filter(c => c.status === 'absent'),
+                none: state.filter(c => c.status === 'none')
             };
 
             const dateStr = new Date().toLocaleString();
 
-            // Build HTML string that is both styled for the web view and structured properly for MS Word
             let html = `
-                <div style="font-family: Arial, sans-serif; color: #333;">
+                <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.5;">
                     <h1 style="color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 20px;">WHO Regional Committee - Voting Report</h1>
                     <p style="color: #666; font-size: 14px;"><strong>Generated:</strong> ${dateStr}</p>
                     
-                    <h2 style="background-color: #f1f5f9; padding: 10px; border-radius: 4px; margin-top: 30px;">Summary</h2>
-                    <ul style="list-style-type: none; padding: 0; font-size: 16px; margin-bottom: 30px;">
-                        <li><strong style="color: #166534;">Yes (In Favour):</strong> ${groups.yes.length}</li>
-                        <li><strong style="color: #991b1b;">No (Against):</strong> ${groups.no.length}</li>
-                        <li><strong style="color: #854d0e;">Abstain:</strong> ${groups.abstain.length}</li>
-                        <li><strong style="color: #475569;">Absent:</strong> ${groups.absent.length}</li>
-                        <li><strong style="color: #94a3b8;">Not Recorded:</strong> ${groups.none.length}</li>
-                    </ul>
-                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 30px; margin-bottom: 30px; background-color: #f8fafc;">
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1;"><strong style="color: #166534;">Yes (In Favour)</strong></td>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1; font-weight: bold;">${groups.yes.length}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1;"><strong style="color: #991b1b;">No (Against)</strong></td>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1; font-weight: bold;">${groups.no.length}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1;"><strong style="color: #854d0e;">Abstain</strong></td>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1; font-weight: bold;">${groups.abstain.length}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1;"><strong style="color: #475569;">Absent</strong></td>
+                            <td style="padding: 12px; border: 1px solid #cbd5e1; font-weight: bold;">${groups.absent.length}</td>
+                        </tr>
+                    </table>
             `;
 
             const addSection = (title, list, colorStr) => {
-                html += `<h2 style="color: ${colorStr}; margin-top: 25px;">${title} (${list.length})</h2>`;
+                html += `<h3 style="color: ${colorStr}; margin-top: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px;">${title} (${list.length})</h3>`;
                 if (list.length === 0) {
                     html += `<p style="font-style: italic; color: #94a3b8;">None</p>`;
                 } else {
-                    html += `<ul style="margin-bottom: 20px;">`;
+                    html += `<ul style="margin-bottom: 20px; padding-left: 20px;">`;
                     list.forEach(c => {
-                        html += `<li style="margin-bottom: 5px;">${c.name}</li>`;
+                        html += `<li style="margin-bottom: 4px;">${c.name}</li>`;
                     });
                     html += `</ul>`;
                 }
@@ -368,18 +340,15 @@
             document.getElementById('report-content').innerHTML = html;
         }
 
-        // Export to Word functionality using Blob and Data URI
+        // Export to Word functionality using Blob
         function exportToWord() {
             const reportContent = document.getElementById('report-content').innerHTML;
             
-            // Required Microsoft Word XML namespace wrappers
+            // Required Microsoft Word XML namespaces
             const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head>
                 <meta charset='utf-8'>
                 <title>Vote Report</title>
-                <style>
-                    body { font-family: Arial, sans-serif; }
-                </style>
             </head><body>`;
             const postHtml = "</body></html>";
             const html = preHtml + reportContent + postHtml;
@@ -388,28 +357,27 @@
                 type: 'application/msword'
             });
             
-            // Create download link element
             const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
             const filename = 'WHO_Regional_Committee_Vote_Report.doc';
             
             const downloadLink = document.createElement("a");
             document.body.appendChild(downloadLink);
             
-            if(navigator.msSaveOrOpenBlob ){
+            if(navigator.msSaveOrOpenBlob){
                 navigator.msSaveOrOpenBlob(blob, filename);
-            }else{
-                // Create a link to the file
+            } else {
                 downloadLink.href = url;
                 downloadLink.download = filename;
                 downloadLink.click();
             }
-            
             document.body.removeChild(downloadLink);
         }
 
-        // Initialize Application
+        // Init
         window.onload = () => {
             renderGrid();
+            // Ensure first item is focused visually on load
+            setActiveIndex(0);
         };
     </script>
 </body>
