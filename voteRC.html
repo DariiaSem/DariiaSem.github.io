@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHO Regional Committee - Vote Counter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+        .modal-open {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- APP VIEW -->
+    <div id="app-view" class="flex-grow flex flex-col">
+        <!-- Sticky Header -->
+        <header class="sticky top-0 z-20 bg-white border-b shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 py-4 space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h1 class="text-2xl font-bold text-blue-900 tracking-tight">
+                        WHO Regional Committee
+                    </h1>
+                    <button onclick="showReportView()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-lg shadow transition-colors flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z" clip-rule="evenodd" />
+                        </svg>
+                        Generate Report
+                    </button>
+                </div>
+
+                <!-- Search and Live Totals -->
+                <div class="flex flex-col md:flex-row gap-4 justify-between items-center">
+                    <div class="relative w-full md:max-w-md border border-gray-300 rounded-lg shadow-inner bg-slate-50 flex items-center overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                        <div class="pl-3 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </div>
+                        <input type="text" id="search-input" placeholder="Search for country..." class="w-full py-3 px-3 outline-none bg-transparent text-gray-700 placeholder-gray-400" onkeyup="renderGrid()">
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 text-sm font-semibold">
+                        <div class="px-3 py-1.5 bg-slate-100 rounded-md border text-slate-600 shadow-sm">Total: <span id="stat-total">53</span></div>
+                        <div class="px-3 py-1.5 bg-green-100 text-green-800 rounded-md border border-green-200 shadow-sm">Yes: <span id="stat-yes">0</span></div>
+                        <div class="px-3 py-1.5 bg-red-100 text-red-800 rounded-md border border-red-200 shadow-sm">No: <span id="stat-no">0</span></div>
+                        <div class="px-3 py-1.5 bg-yellow-100 text-yellow-800 rounded-md border border-yellow-200 shadow-sm">Abstain: <span id="stat-abstain">0</span></div>
+                        <div class="px-3 py-1.5 bg-gray-200 text-gray-800 rounded-md border border-gray-300 shadow-sm">Absent: <span id="stat-absent">0</span></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Grid -->
+        <main class="flex-grow max-w-7xl mx-auto w-full p-4">
+            <div id="countries-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                <!-- Countries will be injected here via JS -->
+            </div>
+            <div id="no-results" class="hidden text-center py-12 text-gray-500 text-lg">
+                No countries found matching your search.
+            </div>
+        </main>
+    </div>
+
+    <!-- REPORT VIEW (Hidden by default) -->
+    <div id="report-view" class="hidden flex-grow flex-col bg-white">
+        <header class="sticky top-0 z-20 bg-slate-50 border-b shadow-sm">
+            <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+                <button onclick="hideReportView()" class="text-slate-600 hover:text-blue-600 font-medium flex items-center gap-1 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" /></svg>
+                    Back to Voting
+                </button>
+                <button onclick="exportToWord()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-5 rounded-lg shadow transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    Export to Word (.doc)
+                </button>
+            </div>
+        </header>
+        
+        <main class="flex-grow max-w-4xl mx-auto w-full p-8">
+            <div id="report-content" class="prose prose-blue max-w-none">
+                <!-- Report HTML will be injected here and used for Word export -->
+            </div>
+        </main>
+    </div>
+
+    <!-- VOTE SELECTION MODAL -->
+    <div id="vote-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4 opacity-0 transition-opacity duration-200">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm transform scale-95 transition-transform duration-200" id="vote-modal-content">
+            <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-slate-50 rounded-t-2xl">
+                <h3 class="font-bold text-lg text-slate-800" id="modal-country-name">Country Name</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 rounded-full p-1 hover:bg-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+            </div>
+            
+            <div class="p-6 space-y-3">
+                <p class="text-sm text-gray-500 mb-4">Record the vote status for this member state:</p>
+                
+                <button onclick="submitVote('yes')" class="w-full py-3 px-4 bg-green-50 hover:bg-green-100 border border-green-200 text-green-700 rounded-xl font-bold flex justify-between items-center transition-colors">
+                    <span>Yes (In Favour)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </button>
+                
+                <button onclick="submitVote('no')" class="w-full py-3 px-4 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 rounded-xl font-bold flex justify-between items-center transition-colors">
+                    <span>No (Against)</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>
+                </button>
+                
+                <button onclick="submitVote('abstain')" class="w-full py-3 px-4 bg-yellow-50 hover:bg-yellow-100 border border-yellow-200 text-yellow-700 rounded-xl font-bold flex justify-between items-center transition-colors">
+                    <span>Abstain</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clip-rule="evenodd" /></svg>
+                </button>
+
+                <button onclick="submitVote('absent')" class="w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 border border-gray-300 text-gray-700 rounded-xl font-bold flex justify-between items-center transition-colors">
+                    <span>Absent</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                </button>
+            </div>
+            <div class="p-4 bg-gray-50 border-t border-gray-100 rounded-b-2xl flex justify-center">
+                <button onclick="submitVote('none')" class="text-sm text-gray-500 hover:text-slate-800 underline decoration-gray-300 underline-offset-2">
+                    Clear Vote (Reset)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // 53 Countries of the WHO Regional Committee for Europe mapped to ISO Alpha-2 for flags
+        const initialCountriesData = [
+            { name: "Albania", code: "al" }, { name: "Andorra", code: "ad" }, { name: "Armenia", code: "am" },
+            { name: "Austria", code: "at" }, { name: "Azerbaijan", code: "az" }, { name: "Belarus", code: "by" },
+            { name: "Belgium", code: "be" }, { name: "Bosnia and Herzegovina", code: "ba" }, { name: "Bulgaria", code: "bg" },
+            { name: "Croatia", code: "hr" }, { name: "Cyprus", code: "cy" }, { name: "Czech Republic", code: "cz" },
+            { name: "Denmark", code: "dk" }, { name: "Estonia", code: "ee" }, { name: "Finland", code: "fi" },
+            { name: "France", code: "fr" }, { name: "Georgia", code: "ge" }, { name: "Germany", code: "de" },
+            { name: "Greece", code: "gr" }, { name: "Hungary", code: "hu" }, { name: "Iceland", code: "is" },
+            { name: "Ireland", code: "ie" }, { name: "Israel", code: "il" }, { name: "Italy", code: "it" },
+            { name: "Kazakhstan", code: "kz" }, { name: "Kyrgyzstan", code: "kg" }, { name: "Latvia", code: "lv" },
+            { name: "Lithuania", code: "lt" }, { name: "Luxembourg", code: "lu" }, { name: "Malta", code: "mt" },
+            { name: "Monaco", code: "mc" }, { name: "Montenegro", code: "me" }, { name: "Netherlands", code: "nl" },
+            { name: "North Macedonia", code: "mk" }, { name: "Norway", code: "no" }, { name: "Poland", code: "pl" },
+            { name: "Portugal", code: "pt" }, { name: "Republic of Moldova", code: "md" }, { name: "Republic of Uzbekistan", code: "uz" },
+            { name: "Romania", code: "ro" }, { name: "Russian Federation", code: "ru" }, { name: "San Marino", code: "sm" },
+            { name: "Serbia", code: "rs" }, { name: "Slovakia", code: "sk" }, { name: "Slovenia", code: "si" },
+            { name: "Spain", code: "es" }, { name: "Sweden", code: "se" }, { name: "Switzerland", code: "ch" },
+            { name: "Tajikistan", code: "tj" }, { name: "Türkiye", code: "tr" }, { name: "Turkmenistan", code: "tm" },
+            { name: "Ukraine", code: "ua" }, { name: "United Kingdom", code: "gb" }
+        ];
+
+        // Initialize state
+        let state = initialCountriesData.map(c => ({
+            ...c,
+            status: 'none' // 'none', 'yes', 'no', 'abstain', 'absent'
+        }));
+
+        let activeCountryForModal = null;
+
+        // Configuration for status UI
+        const statusConfig = {
+            'none': { colorClass: 'border-gray-200 bg-white hover:border-gray-300', badge: '', shadow: 'shadow-sm hover:shadow-md' },
+            'yes': { colorClass: 'border-green-500 bg-green-50', badge: 'YES', badgeClass: 'bg-green-500 text-white', shadow: 'shadow-md ring-2 ring-green-200 ring-offset-1' },
+            'no': { colorClass: 'border-red-500 bg-red-50', badge: 'NO', badgeClass: 'bg-red-500 text-white', shadow: 'shadow-md ring-2 ring-red-200 ring-offset-1' },
+            'abstain': { colorClass: 'border-yellow-500 bg-yellow-50', badge: 'ABSTAIN', badgeClass: 'bg-yellow-500 text-white', shadow: 'shadow-md ring-2 ring-yellow-200 ring-offset-1' },
+            'absent': { colorClass: 'border-gray-400 bg-gray-100 opacity-75', badge: 'ABSENT', badgeClass: 'bg-gray-500 text-white', shadow: 'shadow-sm' }
+        };
+
+        // Render the Grid
+        function renderGrid() {
+            const grid = document.getElementById('countries-grid');
+            const noResults = document.getElementById('no-results');
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+            
+            grid.innerHTML = '';
+            
+            const filtered = state.filter(c => c.name.toLowerCase().includes(searchVal));
+            
+            if (filtered.length === 0) {
+                grid.classList.add('hidden');
+                noResults.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noResults.classList.add('hidden');
+                
+                filtered.forEach(country => {
+                    const config = statusConfig[country.status];
+                    
+                    const card = document.createElement('div');
+                    card.className = `relative flex flex-col items-center p-4 rounded-xl cursor-pointer transition-all duration-200 border-2 select-none h-full ${config.colorClass} ${config.shadow}`;
+                    card.onclick = () => openModal(country.code);
+                    
+                    // Badge Injection
+                    let badgeHTML = '';
+                    if (country.status !== 'none') {
+                        badgeHTML = `<div class="absolute -top-3 right-2 text-[10px] font-bold px-2 py-0.5 rounded shadow ${config.badgeClass}">${config.badge}</div>`;
+                    }
+
+                    // Card Content
+                    card.innerHTML = `
+                        ${badgeHTML}
+                        <div class="h-14 w-full flex items-center justify-center mb-3">
+                            <img src="https://flagcdn.com/w160/${country.code}.png" 
+                                 alt="Flag of ${country.name}" 
+                                 class="max-h-full max-w-full object-contain rounded-[2px] shadow-sm border border-gray-200"
+                                 loading="lazy"
+                                 onerror="this.style.display='none'">
+                        </div>
+                        <span class="text-center font-medium text-sm leading-tight text-slate-800 flex-grow flex items-center justify-center">
+                            ${country.name}
+                        </span>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            
+            updateStats();
+        }
+
+        // Update top statistics
+        function updateStats() {
+            const counts = { 'yes': 0, 'no': 0, 'abstain': 0, 'absent': 0 };
+            state.forEach(c => {
+                if (counts[c.status] !== undefined) counts[c.status]++;
+            });
+            
+            document.getElementById('stat-yes').innerText = counts.yes;
+            document.getElementById('stat-no').innerText = counts.no;
+            document.getElementById('stat-abstain').innerText = counts.abstain;
+            document.getElementById('stat-absent').innerText = counts.absent;
+        }
+
+        // Modal Logic
+        function openModal(countryCode) {
+            const country = state.find(c => c.code === countryCode);
+            if (!country) return;
+            
+            activeCountryForModal = countryCode;
+            document.getElementById('modal-country-name').innerText = country.name;
+            
+            const modal = document.getElementById('vote-modal');
+            const modalContent = document.getElementById('vote-modal-content');
+            
+            modal.classList.remove('hidden');
+            // Trigger reflow for animation
+            void modal.offsetWidth; 
+            modal.classList.remove('opacity-0');
+            modalContent.classList.remove('scale-95');
+            
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('vote-modal');
+            const modalContent = document.getElementById('vote-modal-content');
+            
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                activeCountryForModal = null;
+                document.body.classList.remove('modal-open');
+            }, 200);
+        }
+
+        function submitVote(status) {
+            if (activeCountryForModal) {
+                const index = state.findIndex(c => c.code === activeCountryForModal);
+                if (index !== -1) {
+                    state[index].status = status;
+                    renderGrid();
+                }
+            }
+            closeModal();
+        }
+
+        // Report Logic
+        function showReportView() {
+            const appView = document.getElementById('app-view');
+            const reportView = document.getElementById('report-view');
+            
+            appView.classList.add('hidden');
+            reportView.classList.remove('hidden');
+            reportView.classList.add('flex');
+            
+            generateReportHTML();
+        }
+
+        function hideReportView() {
+            const appView = document.getElementById('app-view');
+            const reportView = document.getElementById('report-view');
+            
+            reportView.classList.add('hidden');
+            reportView.classList.remove('flex');
+            appView.classList.remove('hidden');
+        }
+
+        function generateReportHTML() {
+            // Group countries by status
+            const groups = {
+                yes: state.filter(c => c.status === 'yes').sort((a,b) => a.name.localeCompare(b.name)),
+                no: state.filter(c => c.status === 'no').sort((a,b) => a.name.localeCompare(b.name)),
+                abstain: state.filter(c => c.status === 'abstain').sort((a,b) => a.name.localeCompare(b.name)),
+                absent: state.filter(c => c.status === 'absent').sort((a,b) => a.name.localeCompare(b.name)),
+                none: state.filter(c => c.status === 'none').sort((a,b) => a.name.localeCompare(b.name))
+            };
+
+            const dateStr = new Date().toLocaleString();
+
+            // Build HTML string that is both styled for the web view and structured properly for MS Word
+            let html = `
+                <div style="font-family: Arial, sans-serif; color: #333;">
+                    <h1 style="color: #1e3a8a; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 20px;">WHO Regional Committee - Voting Report</h1>
+                    <p style="color: #666; font-size: 14px;"><strong>Generated:</strong> ${dateStr}</p>
+                    
+                    <h2 style="background-color: #f1f5f9; padding: 10px; border-radius: 4px; margin-top: 30px;">Summary</h2>
+                    <ul style="list-style-type: none; padding: 0; font-size: 16px; margin-bottom: 30px;">
+                        <li><strong style="color: #166534;">Yes (In Favour):</strong> ${groups.yes.length}</li>
+                        <li><strong style="color: #991b1b;">No (Against):</strong> ${groups.no.length}</li>
+                        <li><strong style="color: #854d0e;">Abstain:</strong> ${groups.abstain.length}</li>
+                        <li><strong style="color: #475569;">Absent:</strong> ${groups.absent.length}</li>
+                        <li><strong style="color: #94a3b8;">Not Recorded:</strong> ${groups.none.length}</li>
+                    </ul>
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+            `;
+
+            const addSection = (title, list, colorStr) => {
+                html += `<h2 style="color: ${colorStr}; margin-top: 25px;">${title} (${list.length})</h2>`;
+                if (list.length === 0) {
+                    html += `<p style="font-style: italic; color: #94a3b8;">None</p>`;
+                } else {
+                    html += `<ul style="margin-bottom: 20px;">`;
+                    list.forEach(c => {
+                        html += `<li style="margin-bottom: 5px;">${c.name}</li>`;
+                    });
+                    html += `</ul>`;
+                }
+            };
+
+            addSection('Yes (In Favour)', groups.yes, '#166534');
+            addSection('No (Against)', groups.no, '#991b1b');
+            addSection('Abstain', groups.abstain, '#854d0e');
+            addSection('Absent', groups.absent, '#475569');
+            
+            if (groups.none.length > 0) {
+                addSection('Not Recorded', groups.none, '#94a3b8');
+            }
+
+            html += `</div>`;
+            document.getElementById('report-content').innerHTML = html;
+        }
+
+        // Export to Word functionality using Blob and Data URI
+        function exportToWord() {
+            const reportContent = document.getElementById('report-content').innerHTML;
+            
+            // Required Microsoft Word XML namespace wrappers
+            const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <title>Vote Report</title>
+                <style>
+                    body { font-family: Arial, sans-serif; }
+                </style>
+            </head><body>`;
+            const postHtml = "</body></html>";
+            const html = preHtml + reportContent + postHtml;
+
+            const blob = new Blob(['\ufeff', html], {
+                type: 'application/msword'
+            });
+            
+            // Create download link element
+            const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+            const filename = 'WHO_Regional_Committee_Vote_Report.doc';
+            
+            const downloadLink = document.createElement("a");
+            document.body.appendChild(downloadLink);
+            
+            if(navigator.msSaveOrOpenBlob ){
+                navigator.msSaveOrOpenBlob(blob, filename);
+            }else{
+                // Create a link to the file
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                downloadLink.click();
+            }
+            
+            document.body.removeChild(downloadLink);
+        }
+
+        // Initialize Application
+        window.onload = () => {
+            renderGrid();
+        };
+    </script>
+</body>
+</html>
