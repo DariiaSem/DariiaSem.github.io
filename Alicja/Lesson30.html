@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 31: C1 | The Full Moon Shift</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        /* Vibrant, Energetic Palette */
+        --electric-violet: #8A2BE2;
+        --violet-light: #B768FF;
+        --violet-dark: #4B0092;
+        --coral-pink: #FF6B81;
+        --coral-dark: #E03E5A;
+        --cyan: #00CED1;
+        --cyan-dark: #009CA0;
+        --cyan-light: #E0FFFF;
+        
+        --dark-bg: #1A1A2E;
+        --light-bg: #F4F7FB; 
+        --white: #FFFFFF;
+        
+        --gray-200: #DCE1E8;
+        --gray-400: #A3AAB5;
+        --gray-600: #656C78;
+        --gray-800: #2C313A;
+        
+        --shadow-sm: 0 4px 6px rgba(138,43,226,0.1);
+        --shadow-md: 0 10px 25px rgba(138,43,226,0.15);
+        --shadow-glow: 0 0 15px rgba(0,206,209,0.6);
+        --radius-md: 16px; 
+        --radius-lg: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'DM Sans', sans-serif;
+        line-height: 1.7;
+        color: var(--gray-800);
+        background: var(--light-bg);
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, .outfit { font-family: 'Outfit', sans-serif; }
+
+    [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 4px; }
+    [contenteditable="true"]:focus, [contenteditable="true"]:hover { background-color: rgba(0,206,209,0.15); box-shadow: 0 0 0 2px var(--cyan); }
+
+    /* ====== POLISH HOVER TOOLTIP ====== */
+    .pl-tooltip { position: relative; cursor: help; border-bottom: 2px dashed var(--coral-pink); font-weight: 700; color: var(--electric-violet); }
+    .pl-tooltip::after {
+        content: attr(data-pl); position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%);
+        background: var(--gray-800); color: var(--cyan-light); padding: 6px 12px; border-radius: 8px;
+        font-size: 0.85rem; font-weight: 700; white-space: nowrap; opacity: 0; pointer-events: none;
+        transition: opacity 0.2s, transform 0.2s; z-index: 50; box-shadow: var(--shadow-sm);
+    }
+    .pl-tooltip:hover::after { opacity: 1; transform: translateX(-50%) translateY(-5px); }
+
+    /* ====== HERO ====== */
+    .hero {
+        position: relative;
+        background: linear-gradient(135deg, var(--electric-violet) 0%, var(--coral-pink) 100%);
+        color: var(--white);
+        padding: 90px 24px 100px;
+        text-align: center;
+        overflow: hidden;
+    }
+    .hero::before, .hero::after { content: ''; position: absolute; border-radius: 50%; background: rgba(255,255,255,0.15); filter: blur(20px); }
+    .hero::before { width: 300px; height: 300px; top: -50px; left: -100px; }
+    .hero::after { width: 200px; height: 200px; bottom: -50px; right: -50px; background: rgba(0,206,209,0.3); }
+    .hero-content { position: relative; z-index: 1; max-width: 820px; margin: 0 auto; }
+    .hero-badge { display: inline-block; background: var(--cyan); color: var(--gray-800); padding: 8px 24px; border-radius: 50px; font-size: 0.9rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 22px; box-shadow: var(--shadow-glow); }
+    .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 14px; letter-spacing: -1px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    .hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.3rem); color: rgba(255,255,255,0.95); max-width: 700px; margin: 0 auto; font-weight: 500; }
+    
+    /* ====== NAV ====== */
+    .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-logo { font-weight: 900; font-size: 1.1rem; color: var(--electric-violet); text-decoration: none; display: flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif;}
+    .nav-logo .dot { width: 10px; height: 10px; background: var(--cyan); border-radius: 50%; display: inline-block; box-shadow: var(--shadow-glow);}
+    .nav-links { display: flex; gap: 6px; list-style: none; overflow-x: auto; align-items: center; padding-bottom: 4px;}
+    .nav-links::-webkit-scrollbar { height: 4px; }
+    .nav-links::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 10px; }
+    .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.85rem; font-weight: 700; padding: 6px 12px; border-radius: 8px; white-space: nowrap; transition: all 0.2s; }
+    .nav-links a:hover { background: var(--cyan-light); color: var(--cyan-dark); }
+
+    /* ====== SECTIONS ====== */
+    .section { padding: 80px 24px; }
+    .section:nth-child(even) { background: var(--white); }
+    .section-inner { max-width: 900px; margin: 0 auto; }
+    .section-label { display: inline-flex; align-items: center; font-size: 0.8rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: var(--coral-pink); background: rgba(255,107,129,0.15); padding: 6px 16px; border-radius: 50px; margin-bottom: 16px; }
+    .section-title { font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800; color: var(--electric-violet); margin-bottom: 12px; letter-spacing: -0.5px; }
+    .section-desc { color: var(--gray-600); font-size: 1.1rem; margin-bottom: 36px; max-width: 700px; font-weight: 500; }
+
+    /* ====== SHARED CARDS & GRIDS ====== */
+    .scenario-card { background: var(--white); border-radius: var(--radius-lg); padding: 36px; box-shadow: var(--shadow-md); border-top: 6px solid var(--cyan); font-size: 1.1rem; position: relative; }
+    .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .board-tile { background: var(--white); border: 2px solid var(--violet-light); border-radius: var(--radius-md); padding: 24px; font-weight: 700; color: var(--gray-800); box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+    .board-tile:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--electric-violet); }
+    .btn-primary { background: linear-gradient(135deg, var(--electric-violet) 0%, var(--violet-light) 100%); color: var(--white); border: none; padding: 12px 28px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--shadow-sm); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn-secondary { background: var(--white); color: var(--electric-violet); border: 2px solid var(--electric-violet); padding: 12px 28px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+    .btn-secondary:hover { background: var(--cyan-light); border-color: var(--cyan-dark); color: var(--cyan-dark); }
+    
+    /* ====== LISTS & INPUTS ====== */
+    .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: p-count; }
+    .practice-list li { background: var(--white); padding: 20px 24px 20px 56px; border-radius: var(--radius-md); border: 2px solid var(--gray-200); position: relative; font-weight: 500; font-size: 1.05rem; }
+    .practice-list li::before { counter-increment: p-count; content: counter(p-count); position: absolute; left: 20px; top: 20px; font-weight: 900; color: var(--white); background: var(--coral-pink); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 0.85rem; }
+    .blank-input { display: inline-block; min-width: 100px; border-bottom: 3px solid var(--cyan); color: var(--electric-violet); font-weight: 800; padding: 0 10px; text-align: center; background: var(--cyan-light); border-radius: 4px 4px 0 0; }
+    .blank-input:focus { border-bottom-color: var(--electric-violet); outline: none; background: rgba(138,43,226,0.1); }
+
+    /* ====== T3: AI MIND MAP (DARK MODE) ====== */
+    .mindmap-container { position: relative; width: 100%; aspect-ratio: 16/10; background: var(--dark-bg); border-radius: var(--radius-lg); box-shadow: 0 15px 35px rgba(0,0,0,0.4); overflow: hidden; margin-top: 24px; font-family: 'Outfit', sans-serif;}
+    .mindmap-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    .mindmap-svg line { stroke: #4F5D75; stroke-width: 3; stroke-dasharray: 6; animation: dash 20s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -1000; } }
+    .node { position: absolute; z-index: 2; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center; }
+    .node:hover { transform: translate(-50%, -50%) scale(1.15); z-index: 10;}
+    
+    .node-center { background: radial-gradient(circle, var(--electric-violet) 0%, var(--dark-bg) 120%); border: 3px solid var(--cyan); border-radius: 20px; padding: 16px 24px; box-shadow: 0 0 25px rgba(0,206,209,0.8); color: var(--white); font-weight: 900; font-size: 1.3rem; letter-spacing: 1px; min-width: 160px;}
+    .node-center .icon { font-size: 2.5rem; margin-bottom: 8px; filter: drop-shadow(0 0 8px var(--coral-pink));}
+    
+    .node-branch { background: linear-gradient(145deg, #2A2A4A, #1A1A2E); border: 2px solid var(--violet-light); border-radius: 50%; width: 100px; height: 100px; color: var(--cyan-light); font-weight: 700; font-size: 0.9rem; box-shadow: 0 0 15px rgba(183,104,255,0.4); padding: 10px; display: flex; align-items: center; justify-content: center;}
+    .node-branch:hover { border-color: var(--cyan); box-shadow: 0 0 25px rgba(0,206,209,0.6); color: var(--white);}
+    
+    .node-leaf { background: #161625; border: 2px solid var(--coral-pink); border-radius: 12px; padding: 10px 16px; color: var(--white); font-size: 0.8rem; font-weight: 600; opacity: 0; pointer-events: none; transform: translateY(10px) translate(-50%, -50%); transition: all 0.3s; position: absolute; top: 120%; left: 50%; width: 140px;}
+    .node:hover .node-leaf { opacity: 1; transform: translateY(0) translate(-50%, -50%); pointer-events: auto; background: var(--coral-dark); box-shadow: 0 10px 20px rgba(224,62,90,0.5);}
+
+    /* ====== T4: FLASHCARDS ====== */
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .vocab-card { position: relative; height: 160px; border-radius: var(--radius-md); perspective: 1000px; cursor: pointer; }
+    .vocab-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+    .vocab-card:hover .vocab-card-inner { transform: rotateY(180deg); }
+    .vocab-front, .vocab-def { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: var(--radius-md); border: 2px solid var(--gray-200); box-shadow: var(--shadow-sm); }
+    .vocab-front { background: var(--white); color: var(--electric-violet); font-weight: 900; font-size: 1.4rem; font-family: 'Outfit', sans-serif;}
+    .vocab-def { background: var(--coral-pink); color: var(--white); font-size: 0.95rem; transform: rotateY(180deg); font-weight: 600; border: none; box-shadow: var(--shadow-md);}
+
+    /* ====== POLLS & TRUE/FALSE ====== */
+    .poll-opt, .tf-buttons button { background: var(--white); border: 2px solid var(--gray-200); padding: 12px 24px; border-radius: 50px; font-weight: 700; color: var(--gray-800); cursor: pointer; transition: all 0.2s; font-size: 1rem; }
+    .poll-opt:hover, .tf-buttons button:hover { border-color: var(--cyan); background: var(--cyan-light); color: var(--cyan-dark); }
+    .poll-opt.selected { background: var(--electric-violet); border-color: var(--violet-dark); color: var(--white); }
+    .tf-item { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; background: var(--white); padding: 20px; border-radius: var(--radius-md); border: 1px solid var(--gray-200); margin-bottom: 16px; font-weight: 600; box-shadow: var(--shadow-sm);}
+    .tf-buttons button.correct { background: var(--cyan); border-color: var(--cyan-dark); color: var(--white); }
+    .tf-buttons button.wrong { background: var(--coral-pink); border-color: var(--coral-dark); color: var(--white); }
+    .tf-explain { display: none; width: 100%; margin-top: 16px; padding: 12px; background: var(--light-bg); border-left: 4px solid var(--electric-violet); font-size: 0.95rem; border-radius: 0 8px 8px 0; }
+
+    /* ====== GRAMMAR TABLES ====== */
+    .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 24px; border-radius: var(--radius-md); overflow: hidden; border: 2px solid var(--cyan-light); }
+    .grammar-table thead th { background: var(--cyan); color: var(--gray-800); padding: 18px; text-align: left; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 900; }
+    .grammar-table tbody td { padding: 18px; border-bottom: 1px solid var(--gray-200); background: var(--white); font-weight: 500; font-size: 1.05rem;}
+    .grammar-table tbody tr:last-child td { border-bottom: none; }
+    
+    /* ====== ERROR SPY ====== */
+    .es-sentence { background: var(--white); padding: 20px 24px; border-radius: var(--radius-md); border: 2px solid var(--gray-200); margin-bottom: 16px; font-size: 1.1rem; box-shadow: var(--shadow-sm);}
+    .es-word { cursor: pointer; padding: 2px 8px; border-radius: 6px; font-weight: 700; background: rgba(255,107,129,0.15); color: var(--coral-dark); transition: all 0.2s;}
+    .es-word:hover { background: var(--coral-pink); color: var(--white); transform: scale(1.05); display: inline-block;}
+    .es-word.correct-click { background: var(--cyan); color: var(--gray-800); }
+
+    /* ====== SEQUENCING GAME ====== */
+    .story-strips { display: flex; flex-direction: column; gap: 14px; }
+    .story-strip { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-md); padding: 18px 24px; cursor: grab; font-weight: 600; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow-sm); font-size: 1.05rem;}
+    .story-strip:active { cursor: grabbing; }
+    .story-strip.dragging { opacity: 0.5; border: 2px dashed var(--electric-violet); }
+    .story-strip .handle { color: var(--violet-light); font-size: 1.5rem; }
+    .story-strip.story-correct { border-color: var(--cyan); background: var(--cyan-light); }
+    .story-strip.story-wrong { border-color: var(--coral-pink); background: rgba(255,107,129,0.1); }
+
+    /* ====== GAMES & MEDIA ====== */
+    .game-box { background: var(--white); border: 3px solid var(--electric-violet); border-radius: var(--radius-lg); padding: 40px; text-align: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden;}
+    .game-box::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,206,209,0.1) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+    .prompt-display { position: relative; z-index: 1; font-size: 1.6rem; font-weight: 800; color: var(--electric-violet); min-height: 100px; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; line-height: 1.3; }
+    .timer-display { position: relative; z-index: 1; font-size: 3.5rem; font-weight: 900; color: var(--coral-pink); margin: 20px 0; font-family: 'Outfit', sans-serif;}
+    
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); background: #000; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    /* ====== ROLEPLAY FLOWCHART ====== */
+    .flow-bubble { background: var(--white); border: 2px solid var(--cyan); border-radius: 50px; padding: 16px 30px; font-weight: 700; text-align: center; box-shadow: var(--shadow-sm); width: 80%; max-width: 500px; margin: 0 auto; position: relative; z-index: 2;}
+    .flow-bubble.doc { border-color: var(--electric-violet); background: var(--electric-violet); color: var(--white); }
+    .flow-arrow { text-align: center; color: var(--gray-400); font-size: 1.8rem; margin: -10px 0; position: relative; z-index: 1; font-weight: 900;}
+
+    /* ====== PRONUNCIATION ====== */
+    .listen-btn { background: var(--electric-violet); color: var(--white); border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); transition: transform 0.2s;}
+    .listen-btn:hover { transform: scale(1.1); background: var(--violet-dark); }
+    .syllable { cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: all 0.2s; font-weight: 700; font-size: 1.3rem;}
+    .syllable:hover { background: var(--gray-200); }
+    .syllable.stressed { background: var(--coral-pink); color: var(--white); transform: scale(1.1); display: inline-block; box-shadow: var(--shadow-sm);}
+
+    /* ====== WHITEBOARD ====== */
+    .canvas-wrap { border: 3px solid var(--electric-violet); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; box-shadow: var(--shadow-md); }
+    .wb-tools { background: var(--gray-800); padding: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .wb-tools button { background: var(--gray-600); color: var(--white); border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .wb-tools button.active { background: var(--cyan); color: var(--gray-800); }
+    canvas { width: 100%; height: 400px; cursor: crosshair; display: block;}
+
+    /* ====== FAB ====== */
+    .fab-container { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
+    .fab { width: 60px; height: 60px; border-radius: 50%; border: none; font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow-lg); transition: transform 0.2s; display: flex; align-items: center; justify-content: center; background: var(--electric-violet); color: white;}
+    .fab:hover { transform: scale(1.1); }
+
+</style>
+</head>
+<body data-new-gr-c-s-check-loaded="14.1343.0" data-gr-ext-installed="">
+
+<!-- Firebase UI overlay -->
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(26,26,46,0.9); color: white; padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; z-index: 10000; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px); box-shadow: var(--shadow-md);">
+    <span id="syncDot" style="display: block; width: 10px; height: 10px; background: var(--cyan); border-radius: 50%; box-shadow: var(--shadow-glow);"></span>
+    <span id="syncText">Live Sync Active</span>
+</div>
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true" data-sync-id="edit-0">C1 English • Lesson 31</div>
+        <h1 class="outfit" contenteditable="true" data-sync-id="edit-1">The Full Moon Shift</h1>
+        <p class="hero-subtitle" contenteditable="true" data-sync-id="edit-2">Superstitions, Luck, Medical Myths, and mastering Tense Alignment (Backshifting) for clinical reporting.</p>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true" data-sync-id="edit-3">Alicja · L31</span></a>
+        <ul class="nav-links">
+            <li><a href="#t1">T1-2: Polls</a></li>
+            <li><a href="#t3">T3: Mind Map</a></li>
+            <li><a href="#t5">T5: Story</a></li>
+            <li><a href="#t7">T7: Grammar</a></li>
+            <li><a href="#t10">T10: Games</a></li>
+            <li><a href="#t13">T13: Roleplay</a></li>
+            <li><a href="#t16">T16: Quiz</a></li>
+            <li><a href="#t18">T18: Canvas</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1 & 2: WARM-UP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-4">Tasks 1 & 2 · Warm Up</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-5">The ER Folklore</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-6">Before we dive into grammar, let's establish the reality of medical myths.</p>
+
+        <div style="margin-bottom: 40px;">
+            <h3 class="outfit" style="margin-bottom:16px; color:var(--electric-violet);" contenteditable="true" data-sync-id="edit-7">⚡ Quick Poll: Do you believe the "Full Moon" brings more chaos to the delivery room?</h3>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                <button class="poll-opt" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected')); this.classList.add('selected');">🌕 Yes, I've seen it!</button>
+                <button class="poll-opt" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected')); this.classList.add('selected');">🔬 No, it's just confirmation bias.</button>
+                <button class="poll-opt" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('selected')); this.classList.add('selected');">🤷‍♀️ I'm not sure, but I don't risk it.</button>
+            </div>
+        </div>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true" data-sync-id="edit-8">What is the most bizarre coincidence you've witnessed during a shift?</div>
+            <div class="board-tile" contenteditable="true" data-sync-id="edit-9">Why do highly educated doctors still say "knock on wood" or refuse to say "it's quiet today"?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: INTERACTIVE MIND MAP ====== -->
+<section class="section" id="t3">
+    <div class="section-inner" style="max-width: 1000px;">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-10">Task 3 · Vocabulary</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-11">The Psychology of Luck</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-12">Hover over the nodes in this AI-style mind map to uncover the core concepts we'll use today.</p>
+
+        <div class="mindmap-container">
+            <svg class="mindmap-svg" preserveAspectRatio="none">
+                <!-- Lines connecting center (50,50) to branches -->
+                <line x1="50%" y1="50%" x2="20%" y2="25%" />
+                <line x1="50%" y1="50%" x2="20%" y2="75%" />
+                <line x1="50%" y1="50%" x2="80%" y2="25%" />
+                <line x1="50%" y1="50%" x2="80%" y2="75%" />
+                <line x1="50%" y1="50%" x2="50%" y2="15%" />
+                <line x1="50%" y1="50%" x2="50%" y2="85%" />
+            </svg>
+            
+            <!-- Center Node -->
+            <div class="node" style="top: 50%; left: 50%;">
+                <div class="node-center">
+                    <div class="icon">🧠</div>
+                    Medical<br>Myths
+                </div>
+            </div>
+
+            <!-- Branch 1 (Top Left) -->
+            <div class="node" style="top: 25%; left: 20%;">
+                <div class="node-branch">Confirmation Bias</div>
+                <div class="node-leaf">Noticing only what proves your belief. (PL: efekt potwierdzenia)</div>
+            </div>
+
+            <!-- Branch 2 (Bottom Left) -->
+            <div class="node" style="top: 75%; left: 20%;">
+                <div class="node-branch">Jinx</div>
+                <div class="node-leaf">To bring bad luck by speaking prematurely. (PL: zapeszyć)</div>
+            </div>
+
+            <!-- Branch 3 (Top Right) -->
+            <div class="node" style="top: 25%; left: 80%;">
+                <div class="node-branch">Placebo</div>
+                <div class="node-leaf">A psychological benefit from a fake treatment.</div>
+            </div>
+
+            <!-- Branch 4 (Bottom Right) -->
+            <div class="node" style="top: 75%; left: 80%;">
+                <div class="node-branch">Self-Fulfilling Prophecy</div>
+                <div class="node-leaf">A prediction that causes itself to come true.</div>
+            </div>
+
+            <!-- Branch 5 (Top Center) -->
+            <div class="node" style="top: 15%; left: 50%;">
+                <div class="node-branch">Anomaly</div>
+                <div class="node-leaf">A bizarre deviation from the normal rules.</div>
+            </div>
+
+            <!-- Branch 6 (Bottom Center) -->
+            <div class="node" style="top: 85%; left: 50%;">
+                <div class="node-branch">Debunk</div>
+                <div class="node-leaf">To expose a myth as false using logic/science.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: FLASHCARDS ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-13">Task 4 · Context</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-14">More Quirky Concepts</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-15">Hover over the cards to flip them. How do these apply to your daily hospital life?</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-card-inner">
+                <div class="vocab-front" contenteditable="true" data-sync-id="edit-16">Quirk</div>
+                <div class="vocab-def" contenteditable="true" data-sync-id="edit-17">A peculiar behavioral habit. "Dr. Smith's quirk is tapping the door frame twice."</div>
+            </div></div>
+            <div class="vocab-card"><div class="vocab-card-inner">
+                <div class="vocab-front" contenteditable="true" data-sync-id="edit-18">Rationalize</div>
+                <div class="vocab-def" contenteditable="true" data-sync-id="edit-19">To justify illogical behavior with logic. "I rationalized checking the monitor again as just being thorough."</div>
+            </div></div>
+            <div class="vocab-card"><div class="vocab-card-inner">
+                <div class="vocab-front" contenteditable="true" data-sync-id="edit-20">Omen</div>
+                <div class="vocab-def" contenteditable="true" data-sync-id="edit-21">A sign of something about to happen (good or bad). "A broken coffee machine is a bad omen for the shift."</div>
+            </div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5 & 6: READING ====== -->
+<section class="section" id="t5">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-22">Tasks 5 & 6 · Reading & Comp</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-23">The Missing Scrub Cap</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-24">Read this anecdote from a senior surgeon. Notice how past speech is reported.</p>
+
+        <div class="scenario-card">
+            <p contenteditable="true" style="margin-bottom:16px;" data-sync-id="edit-25">
+                Dr. Miller was a brilliant surgeon, but he had one strange <span class="pl-tooltip" data-pl="dziwactwo">quirk</span>: he refused to operate without his faded blue cap. He told me that he <strong>had never lost</strong> a patient while wearing it. I tried to rationalize it as a psychological placebo.
+            </p>
+            <p contenteditable="true" style="margin-bottom:16px;" data-sync-id="edit-26">
+                One Friday, facing a full moon, he panicked. He exclaimed that someone <strong>had stolen</strong> his cap. I assured him that he <strong>was</strong> the best surgeon here and that a hat didn't dictate fate. "Don't <span class="pl-tooltip" data-pl="zapeszyć">jinx</span> it," he muttered, knocking on wood. He warned me that praising a good streak usually <strong>caused</strong> it to end.
+            </p>
+            <p contenteditable="true" data-sync-id="edit-27">
+                The surgery went perfectly. Afterward, I asked him if he realized his fear had just been a self-fulfilling prophecy that thankfully failed. He pulled the cap out of his own pocket where he <strong>had absentmindedly stuffed</strong> it, and said, "<strong>Confirmation bias</strong> is a hell of a drug, isn't it?"
+            </p>
+        </div>
+
+        <h3 class="outfit" style="margin: 36px 0 16px; color: var(--electric-violet);" contenteditable="true" data-sync-id="edit-28">True or False?</h3>
+        
+        <div class="tf-item">
+            <span contenteditable="true" data-sync-id="edit-29">1. Dr. Miller believed praising a perfect record brought good luck.</span>
+            <div><button onclick="checkTF(this, false)">True</button><button onclick="checkTF(this, true)">False</button></div>
+            <div class="tf-explain" contenteditable="true" data-sync-id="edit-30">False! He said praising it would "jinx" it (cause it to end).</div>
+        </div>
+        <div class="tf-item">
+            <span contenteditable="true" data-sync-id="edit-31">2. The narrator actually believed the cap had magical powers.</span>
+            <div><button onclick="checkTF(this, false)">True</button><button onclick="checkTF(this, true)">False</button></div>
+            <div class="tf-explain" contenteditable="true" data-sync-id="edit-32">False! The narrator tried to rationalize it as a "placebo".</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-33">Task 7 · Grammar</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-34">Tense Alignment (Backshifting)</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-35">When recounting stories, gossip, or medical histories, we shift tenses backward one step in time to reflect that the speech happened in the past.</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr><th contenteditable="true" data-sync-id="edit-36">Original (Direct Quote)</th><th contenteditable="true" data-sync-id="edit-37">Reported History (Backshifted)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td contenteditable="true" data-sync-id="edit-38">"I <strong>have</strong> never <strong>lost</strong> a patient." <br><span style="font-size:0.85rem; color:var(--gray-400);">Present Perfect</span></td><td contenteditable="true" data-sync-id="edit-39">He told me he <strong>had</strong> never <strong>lost</strong> a patient. <br><span style="font-size:0.85rem; color:var(--electric-violet); font-weight:700;">Past Perfect</span></td></tr>
+                <tr><td contenteditable="true" data-sync-id="edit-40">"Someone <strong>stole</strong> my cap!" <br><span style="font-size:0.85rem; color:var(--gray-400);">Past Simple</span></td><td contenteditable="true" data-sync-id="edit-41">He exclaimed that someone <strong>had stolen</strong> his cap. <br><span style="font-size:0.85rem; color:var(--electric-violet); font-weight:700;">Past Perfect</span></td></tr>
+                <tr><td contenteditable="true" data-sync-id="edit-42">"I <strong>am stuffing</strong> it in my pocket." <br><span style="font-size:0.85rem; color:var(--gray-400);">Present Continuous</span></td><td contenteditable="true" data-sync-id="edit-43">He admitted he <strong>was stuffing</strong> it in his pocket. <br><span style="font-size:0.85rem; color:var(--electric-violet); font-weight:700;">Past Continuous</span></td></tr>
+            </tbody>
+        </table>
+        
+        <div class="watch-out" contenteditable="true" data-sync-id="edit-44">
+            🚀 <strong>The "Universal Truth" Exception:</strong> If the fact is still biologically/universally true *now*, you don't backshift. <br><em>Example: "The doctor explained that full moons <strong>do not</strong> cause higher birth rates."</em>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8 & 9: GRAMMAR PRACTICE ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-45">Tasks 8 & 9 · Practice</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-46">Error Spy & Transformation</h2>
+        
+        <h3 class="outfit" style="margin-bottom:16px; color:var(--electric-violet);" contenteditable="true" data-sync-id="edit-47">🕵️‍♀️ Error Spy</h3>
+        <p class="section-desc" style="margin-bottom:16px;" contenteditable="true" data-sync-id="edit-48">Click the incorrect verb to backshift it correctly.</p>
+        <div class="es-sentence" contenteditable="false"><span contenteditable="true" data-sync-id="edit-49">1. The patient insisted that she <span class="es-word" onclick="fixSpy(this, 'had taken')">has taken</span> the placebo by mistake last night.</span></div>
+        <div class="es-sentence" contenteditable="false"><span contenteditable="true" data-sync-id="edit-50">2. The senior surgeon mentioned that he <span class="es-word" onclick="fixSpy(this, 'had never seen')">never saw</span> such a bizarre anomaly before.</span></div>
+
+        <h3 class="outfit" style="margin: 36px 0 16px; color: var(--electric-violet);" contenteditable="true" data-sync-id="edit-51">✍️ Transformation Drill</h3>
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true" style="color:var(--gray-600); font-size:0.95rem; margin-bottom:6px;" data-sync-id="edit-52">"I <strong>am feeling</strong> completely fine." (She insisted that...)</div>
+                <div contenteditable="true" data-sync-id="edit-53">She insisted that she <span class="blank-input" style="min-width:200px;"></span> completely fine.</div>
+            </li>
+            <li>
+                <div contenteditable="true" style="color:var(--gray-600); font-size:0.95rem; margin-bottom:6px;" data-sync-id="edit-54">"Humans <strong>rationalize</strong> their fears." (The psychologist noted that...)</div>
+                <div contenteditable="true" data-sync-id="edit-55">The psychologist noted that humans <span class="blank-input" style="min-width:200px;"></span> their fears. <em>(Hint: Universal Truth)</em></div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 10: SEQUENCING GAME ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-56">Task 10 · Game</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-57">The Unbelievable Coincidence</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-58">Drag these sentences into the correct chronological order to uncover a bizarre hospital story.</p>
+
+        <div class="story-strips" id="storyStrips">
+            <div class="story-strip" id="s3" draggable="true"><span class="handle">↕</span><span contenteditable="true" data-sync-id="edit-59">Both women gave birth to healthy baby girls within five minutes of each other.</span></div>
+            <div class="story-strip" id="s1" draggable="true"><span class="handle">↕</span><span contenteditable="true" data-sync-id="edit-60">Two pregnant women, both named Sarah Jenkins, arrived at the maternity ward on the same night.</span></div>
+            <div class="story-strip" id="s5" draggable="true"><span class="handle">↕</span><span contenteditable="true" data-sync-id="edit-61">It turned out they had both married men named Mark Jenkins, completely unrelated to each other!</span></div>
+            <div class="story-strip" id="s2" draggable="true"><span class="handle">↕</span><span contenteditable="true" data-sync-id="edit-62">The nursing staff thought it was a paperwork error and panicked about mixing up charts.</span></div>
+            <div class="story-strip" id="s4" draggable="true"><span class="handle">↕</span><span contenteditable="true" data-sync-id="edit-63">When filling out the birth certificates, the admin realized the coincidence went even deeper.</span></div>
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 24px; justify-content: center;">
+            <button class="btn-primary" onclick="checkStory()">Check Order</button>
+            <button class="btn-secondary" onclick="solveStory()">Reveal Correct</button>
+        </div>
+        <div id="storyMsg" style="text-align: center; margin-top: 16px; font-weight: 800; color: var(--electric-violet); font-size: 1.2rem;"></div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: SPEAKING ROULETTE ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-64">Task 11 · Speaking</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-65">60-Second Storyteller</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-66">Spin for a prompt. Try to use words like <em>jinx, quirk, rationalize,</em> or <em>confirmation bias.</em></p>
+
+        <div class="game-box">
+            <div class="prompt-display" id="roulettePrompt" contenteditable="true" data-sync-id="edit-67">Click "Spin" for your prompt!</div>
+            <div class="timer-display" id="rouletteTimer">60</div>
+            <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <button class="btn-secondary" onclick="spinRoulette()">🎲 Spin</button>
+                <button class="btn-primary" onclick="startTimer()">▶️ Start</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: VIDEO ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-68">Task 12 · Listening</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-69">The Science of Superstition</h2>
+        
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube.com/embed/cM0yYhMIt_s" title="YouTube video player" allowfullscreen></iframe>
+        </div>
+        
+        <ul class="practice-list">
+            <li><div contenteditable="true" data-sync-id="edit-70">How does the video explain the evolutionary benefit of assuming causality? (e.g., rustling leaves = tiger)</div></li>
+            <li><div contenteditable="true" data-sync-id="edit-71">In your own words, define the "illusion of control". Do surgeons suffer from this?</div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 13: ROLE-PLAY ====== -->
+<section class="section" id="t13">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-72">Task 13 · Role-Play</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-73">The Astrological Dilemma</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-74">A patient insists on delaying her scheduled C-section by two hours so her baby is born under a "lucky" star sign. You are the doctor.</p>
+
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:30px;">
+            <div class="flow-bubble" contenteditable="true" data-sync-id="edit-75"><strong>Patient:</strong> "Doctor, we need to wait. I don't want a Libra baby; it's a bad omen."</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble doc" contenteditable="true" data-sync-id="edit-76"><strong>Doctor:</strong> Validate her anxiety, but push back logically regarding OR scheduling.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true" data-sync-id="edit-77"><strong>Patient:</strong> "But it's a self-fulfilling prophecy! If I believe it's bad luck, it will be."</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble doc" contenteditable="true" data-sync-id="edit-78"><strong>Doctor:</strong> Refuse politely. Try to act as a 'placebo' of calm.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: PLOT TWIST GENERATOR ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-79">Task 14 · Game</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-80">The Shift Handover Twist</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-81">Click to generate a scenario. Finish the sentence out loud using Past Perfect (had + V3).</p>
+
+        <div class="game-box" style="background:var(--light-bg); border-color:var(--cyan);">
+            <div class="prompt-display" id="twistDisplay" style="color:var(--gray-800); min-height:80px;" contenteditable="true" data-sync-id="edit-82">Generate a plot twist...</div>
+            <button class="btn-primary" style="margin-top:20px; background:var(--cyan); color:var(--gray-800);" onclick="genTwist()">Generate Twist</button>
+            <div id="twistAnswer" style="margin-top:20px; font-weight:700; color:var(--electric-violet); display:none;" contenteditable="true" data-sync-id="edit-83"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: PRONUNCIATION ====== -->
+<section class="section" id="t15">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-84">Task 15 · Pronunciation</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-85">Syllable Stress</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-86">Click the syllable that carries the primary stress.</p>
+
+        <div style="display:flex; justify-content:space-around; flex-wrap:wrap; gap:30px; font-size:1.8rem; font-family:'Outfit', sans-serif;">
+            <div>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-87">a</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-88">NO</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-89">ma</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-90">ly</span>
+            </div>
+            <div>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-91">ra</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-92">TIO</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-93">na</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-94">lize</span>
+            </div>
+            <div>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-95">pla</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-96">CE</span>
+                <span class="syllable" onclick="this.classList.toggle('stressed')" contenteditable="true" data-sync-id="edit-97">bo</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 16: GRAMMAR RACE ====== -->
+<section class="section" id="t16">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-98">Task 16 · Quiz</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-99">The Grammar Race</h2>
+        <p class="section-desc" contenteditable="true" data-sync-id="edit-100">Choose the correct backshifted form.</p>
+
+        <div id="quizContainer" class="game-box" style="padding: 30px; text-align: left;">
+            <div id="qText" style="font-size:1.3rem; font-weight:700; margin-bottom:20px; color:var(--electric-violet);" contenteditable="true" data-sync-id="edit-101">1. "I saw the anomaly." ➔ He said he ____ the anomaly.</div>
+            <div style="display:flex; flex-direction:column; gap:10px;" id="qOpts">
+                <button class="btn-secondary" onclick="checkQ(false)">A) saw</button>
+                <button class="btn-secondary" onclick="checkQ(true)">B) had seen</button>
+                <button class="btn-secondary" onclick="checkQ(false)">C) has seen</button>
+            </div>
+            <div id="qFeedback" style="margin-top:20px; font-weight:800; display:none;" contenteditable="true" data-sync-id="edit-102"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 17: SYNTHESIS ====== -->
+<section class="section" id="t17">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-103">Task 17 · Discussion</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-104">Synthesis Debate</h2>
+        
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true" data-sync-id="edit-105">Is "confirmation bias" a bigger problem for patients on Google, or for doctors sticking to initial diagnoses?</div>
+            <div class="board-tile" contenteditable="true" data-sync-id="edit-106">If a patient's bizarre "quirk" acts as a placebo that genuinely calms them, should a doctor ever debunk it?</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 18: WHITEBOARD & HOMEWORK ====== -->
+<section class="section" id="t18">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true" data-sync-id="edit-107">Task 18 · Wrap Up</span>
+        <h2 class="section-title" contenteditable="true" data-sync-id="edit-108">Canvas & Homework</h2>
+
+        <div class="canvas-wrap">
+            <div class="wb-tools">
+                <button class="active" onclick="setTool('pencil')">✏️ Draw</button>
+                <button onclick="setTool('clear')" style="background:var(--coral-pink);">🗑️ Clear</button>
+                <input type="color" id="wbColor" value="#8A2BE2" style="border:none; border-radius:50%; width:35px; height:35px; cursor:pointer;">
+            </div>
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div style="background: var(--cyan-light); border-radius: var(--radius-md); padding: 30px; margin-top: 40px;">
+            <h3 class="outfit" style="color:var(--cyan-dark); margin-bottom:16px;" contenteditable="true" data-sync-id="edit-109">🏠 Homework: Short Writing</h3>
+            <p style="font-weight:600; margin-bottom:16px;" contenteditable="true" data-sync-id="edit-110">Write a short paragraph (3-4 sentences) describing a time a colleague 'jinxed' a situation. Use past perfect for the setup, and past simple for the result.</p>
+            <div contenteditable="true" style="background:white; border:2px dashed var(--cyan); padding:20px; min-height:100px; border-radius:8px;" data-sync-id="edit-111">Start writing here...</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FAB ACTIONS ====== -->
+<div class="fab-container">
+    <button class="fab" onclick="window.scrollTo(0, document.body.scrollHeight)" title="Go to Bottom">👇</button>
+    <button class="fab" style="background: #4255FF;" onclick="alert('Export to Quizlet feature triggered!')" title="Quizlet">📝</button>
+</div>
+
+<!-- ====== SCRIPTS ====== -->
+<script>
+    // --- Tooltips ---
+    // (Handled by CSS :hover)
+
+    // --- Error Spy (T8) ---
+    function fixSpy(el, correctWord) {
+        el.classList.add('correct-click');
+        el.innerText = correctWord + " ✅";
+        el.onclick = null;
+    }
+
+    // --- True/False (T6) ---
+    function checkTF(btn, isCorrect) {
+        let parent = btn.parentElement;
+        parent.querySelectorAll('button').forEach(b => b.classList.remove('correct', 'wrong'));
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        parent.parentElement.querySelector('.tf-explain').style.display = 'block';
+    }
+
+    // --- Story Sequencing (T10) ---
+    const correctOrder = ['s1', 's2', 's5', 's4', 's3'];
+    const storyContainer = document.getElementById('storyStrips');
+    
+    // Setup Drag & Drop
+    let draggedItem = null;
+    document.querySelectorAll('.story-strip').forEach(item => {
+        item.addEventListener('dragstart', () => { draggedItem = item; setTimeout(() => item.classList.add('dragging'), 0); });
+        item.addEventListener('dragend', () => { draggedItem = null; item.classList.remove('dragging'); });
+    });
+    
+    storyContainer.addEventListener('dragover', e => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(storyContainer, e.clientY);
+        if (afterElement == null) { storyContainer.appendChild(draggedItem); } 
+        else { storyContainer.insertBefore(draggedItem, afterElement); }
+    });
+    
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.story-strip:not(.dragging)')];
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+            else return closest;
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    function checkStory() {
+        let items = Array.from(storyContainer.children);
+        let score = 0;
+        items.forEach((el, index) => {
+            el.classList.remove('story-correct', 'story-wrong');
+            if(el.id === correctOrder[index]) { el.classList.add('story-correct'); score++; }
+            else { el.classList.add('story-wrong'); }
+        });
+        document.getElementById('storyMsg').innerText = score + " / 5 Correct!";
+    }
+
+    function solveStory() {
+        correctOrder.forEach(id => {
+            let el = document.getElementById(id);
+            el.classList.remove('story-wrong');
+            el.classList.add('story-correct');
+            storyContainer.appendChild(el);
+        });
+        document.getElementById('storyMsg').innerText = "Here is the correct sequence!";
+    }
+
+    // --- Roulette (T11) ---
+    const prompts = [
+        "A time you 'rationalized' a bad decision.",
+        "Your weirdest 'quirk'.",
+        "A 'self-fulfilling prophecy' you witnessed.",
+        "When someone 'jinxed' the shift."
+    ];
+    let rTimer;
+    function spinRoulette() {
+        clearInterval(rTimer);
+        document.getElementById('rouletteTimer').innerText = 60;
+        document.getElementById('roulettePrompt').innerText = prompts[Math.floor(Math.random() * prompts.length)];
+    }
+    function startTimer() {
+        clearInterval(rTimer);
+        let time = 60;
+        document.getElementById('rouletteTimer').innerText = time;
+        rTimer = setInterval(() => {
+            time--;
+            document.getElementById('rouletteTimer').innerText = time;
+            if(time <= 0) { clearInterval(rTimer); document.getElementById('rouletteTimer').innerText = "Time's up!"; }
+        }, 1000);
+    }
+
+    // --- Plot Twist (T14) ---
+    const twists = [
+        { setup: "The nurse said the vitals were fine, but...", twist: "...I realized she had read the wrong chart." },
+        { setup: "He never believed in the full moon myth, until...", twist: "...he admitted he had secretly worn lucky socks for years." }
+    ];
+    function genTwist() {
+        let t = twists[Math.floor(Math.random() * twists.length)];
+        document.getElementById('twistDisplay').innerText = t.setup;
+        let ans = document.getElementById('twistAnswer');
+        ans.innerText = t.twist;
+        ans.style.display = 'block';
+    }
+
+    // --- Grammar Race (T16) ---
+    const questions = [
+        { q: "\"I saw the anomaly.\" ➔ He said he ____ the anomaly.", opts: ["saw", "had seen", "has seen"], ans: 1 },
+        { q: "\"I am panicking.\" ➔ She admitted she ____ panicking.", opts: ["was", "had been", "is"], ans: 0 },
+        { q: "\"Water boils at 100C.\" ➔ The doctor noted water ____ at 100C.", opts: ["boiled", "had boiled", "boils"], ans: 2 }
+    ];
+    let currentQ = 0;
+    function loadQ() {
+        if(currentQ >= questions.length) {
+            document.getElementById('qText').innerText = "Quiz Complete! 🎉";
+            document.getElementById('qOpts').style.display = 'none';
+            return;
+        }
+        let q = questions[currentQ];
+        document.getElementById('qText').innerText = q.q;
+        let btns = document.getElementById('qOpts').querySelectorAll('button');
+        btns[0].innerText = "A) " + q.opts[0]; btns[0].onclick = () => checkQ(0 === q.ans);
+        btns[1].innerText = "B) " + q.opts[1]; btns[1].onclick = () => checkQ(1 === q.ans);
+        btns[2].innerText = "C) " + q.opts[2]; btns[2].onclick = () => checkQ(2 === q.ans);
+        document.getElementById('qFeedback').style.display = 'none';
+    }
+    function checkQ(isCorrect) {
+        let fb = document.getElementById('qFeedback');
+        fb.style.display = 'block';
+        if(isCorrect) {
+            fb.innerText = "✅ Correct!"; fb.style.color = "var(--cyan-dark)";
+            setTimeout(() => { currentQ++; loadQ(); }, 1000);
+        } else {
+            fb.innerText = "❌ Try again!"; fb.style.color = "var(--coral-dark)";
+        }
+    }
+    loadQ();
+
+    // --- Whiteboard (T18) ---
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let colorPicker = document.getElementById('wbColor');
+
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function setTool(t) {
+        if(t === 'clear') { ctx.clearRect(0,0, canvas.width, canvas.height); }
+    }
+
+    canvas.addEventListener('mousedown', e => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+    canvas.addEventListener('mousemove', e => {
+        if(!isDrawing) return;
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.strokeStyle = colorPicker.value;
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+    });
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+</script>
+
+<!-- ====== FIREBASE (Kept from original) ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1"
+    };
+
+    const appId = 'lesson-31-c1-quirks-fate';
+
+    if (firebaseConfig.apiKey) {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        
+        signInAnonymously(auth);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+                let isEditing = null;
+
+                const editables = document.querySelectorAll('[contenteditable="true"]');
+                editables.forEach(el => {
+                    el.addEventListener('focus', () => { isEditing = el.dataset.syncId; });
+                    el.addEventListener('blur', () => {
+                        isEditing = null;
+                        if(user) setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true });
+                    });
+                });
+
+                onSnapshot(textRef, (snap) => {
+                    if (snap.exists()) {
+                        const data = snap.data();
+                        for (const [syncId, html] of Object.entries(data)) {
+                            if (isEditing !== syncId) {
+                                const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                                if (el && el.innerHTML !== html) el.innerHTML = html;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
