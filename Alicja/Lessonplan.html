@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2/C1 English Syllabus for Alicja</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        --plum: #6B4C7A;
+        --plum-dark: #4A3356;
+        --plum-light: #9C82A6;
+        --slate-dark: #2D3142;
+        --slate: #4F5D75;
+        --slate-light: #7A879E;
+        --rose: #D08C8C;
+        --rose-dark: #B57474;
+        --cream: #FAF7F5;
+        --light-bg: #F4F1F4;
+        --white: #FFFFFF;
+        --gray-200: #D6CED4;
+        --gray-600: #6B6568;
+        --shadow-sm: 0 2px 4px rgba(45,49,66,0.06);
+        --shadow-md: 0 8px 24px rgba(45,49,66,0.12);
+        --radius-md: 12px;
+        --radius-lg: 24px;
+    }
+
+    body {
+        font-family: 'DM Sans', sans-serif;
+        line-height: 1.6;
+        color: var(--slate-dark);
+        background-color: var(--light-bg);
+        padding: 40px 20px;
+    }
+
+    h1, h2, h3, .serif { font-family: 'Instrument Serif', Georgia, serif; }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 50px;
+        background: linear-gradient(135deg, var(--slate-dark) 0%, var(--plum-dark) 50%, var(--rose) 140%);
+        color: var(--white);
+        padding: 70px 40px;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .header::before {
+        content: '';
+        position: absolute;
+        top: -50px; right: -50px;
+        width: 200px; height: 200px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+    }
+
+    .header h1 {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-style: italic;
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+    }
+
+    .header p {
+        font-size: 1.15rem;
+        color: rgba(255,255,255,0.9);
+        max-width: 600px;
+        margin: 0 auto;
+        font-weight: 500;
+    }
+
+    .syllabus-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 24px;
+    }
+
+    .lesson-card {
+        background: var(--white);
+        border-radius: var(--radius-md);
+        padding: 28px;
+        box-shadow: var(--shadow-sm);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.2s, box-shadow 0.2s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .lesson-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Top Accent Line */
+    .lesson-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 6px;
+    }
+    .card-medical::before { background-color: var(--plum); }
+    .card-casual::before { background-color: var(--slate); }
+    .card-eccentric::before { background-color: var(--rose); }
+
+    .lesson-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        gap: 12px;
+    }
+
+    .lesson-num {
+        font-weight: 800;
+        font-size: 0.85rem;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--gray-600);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .lesson-title {
+        font-size: 1.4rem;
+        color: var(--slate-dark);
+        line-height: 1.3;
+        font-weight: 600;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 4px 12px;
+        border-radius: 50px;
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    .badge-medical { background: rgba(107, 76, 122, 0.1); color: var(--plum); }
+    .badge-casual { background: rgba(79, 93, 117, 0.1); color: var(--slate); }
+    .badge-eccentric { background: rgba(208, 140, 140, 0.15); color: var(--rose-dark); }
+
+    .grammar-box {
+        margin-top: auto;
+        background: var(--light-bg);
+        border-radius: 8px;
+        padding: 16px;
+        border: 1px solid var(--gray-200);
+    }
+
+    .grammar-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--gray-600);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .grammar-focus {
+        font-size: 0.95rem;
+        color: var(--slate-dark);
+    }
+
+    .highlight-tense {
+        background: linear-gradient(120deg, rgba(107, 76, 122, 0.2) 0%, rgba(107, 76, 122, 0.0) 100%);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 700;
+        color: var(--plum-dark);
+        border-bottom: 2px solid var(--plum-light);
+    }
+
+    @media (max-width: 768px) {
+        body { padding: 20px 10px; }
+        .header { padding: 50px 20px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header class="header">
+        <h1>B2/C1 English Syllabus for Alicja</h1>
+        <p>Lessons 30 - 59 | Master Communication, Eccentricities & Medical English</p>
+    </header>
+
+    <main class="syllabus-grid">
+
+        <!-- L30 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 30</span>
+                    <h3 class="lesson-title">The "Difficult" Patient & De-escalation</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Reported Speech & <span class="highlight-tense">Tense Alignment</span> Review</p>
+            </div>
+        </article>
+
+        <!-- L31 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 31</span>
+                    <h3 class="lesson-title">The Bizarre History of Sleep</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Past Perfect vs Past Simple (<span class="highlight-tense">Narrative Alignment</span>)</p>
+            </div>
+        </article>
+
+        <!-- L32 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 32</span>
+                    <h3 class="lesson-title">The Myth of Work-Life Balance</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Mixed Conditionals</p>
+            </div>
+        </article>
+
+        <!-- L33 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 33</span>
+                    <h3 class="lesson-title">Breaking Bad News: The Aftermath</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Future in the Past (was going to, would)</p>
+            </div>
+        </article>
+
+        <!-- L34 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 34</span>
+                    <h3 class="lesson-title">The Psychology of Cults</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Verbs of perception + gerund/infinitive</p>
+            </div>
+        </article>
+
+        <!-- L35 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 35</span>
+                    <h3 class="lesson-title">Polish vs. Global Social Norms</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Modals of deduction (Present/Past)</p>
+            </div>
+        </article>
+
+        <!-- L36 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 36</span>
+                    <h3 class="lesson-title">Medical Histories & Hospital Gossip</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus"><span class="highlight-tense">Tense Alignment</span> Deep Dive & Universal Truth Exceptions</p>
+            </div>
+        </article>
+
+        <!-- L37 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 37</span>
+                    <h3 class="lesson-title">Unsolved Mysteries: The Voynich Manuscript</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Speculating about the past</p>
+            </div>
+        </article>
+
+        <!-- L38 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 38</span>
+                    <h3 class="lesson-title">Food & Childhood Memory</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Used to / Would / Past Continuous</p>
+            </div>
+        </article>
+
+        <!-- L39 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 39</span>
+                    <h3 class="lesson-title">The Ethics of Genetic Testing & IVF</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Advanced Passive Voice</p>
+            </div>
+        </article>
+
+        <!-- L40 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 40</span>
+                    <h3 class="lesson-title">Burnout & Compassion Fatigue</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">3rd Conditional & Wishes/Regrets</p>
+            </div>
+        </article>
+
+        <!-- L41 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 41</span>
+                    <h3 class="lesson-title">The Science of Superstitions</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Cause & Effect transitions</p>
+            </div>
+        </article>
+
+        <!-- L42 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 42</span>
+                    <h3 class="lesson-title">The "Russian Doll" Narrative</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus"><span class="highlight-tense">Tense Alignment</span> in stories within stories</p>
+            </div>
+        </article>
+
+        <!-- L43 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 43</span>
+                    <h3 class="lesson-title">Travel Disasters & Serendipity</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Past Perfect Continuous</p>
+            </div>
+        </article>
+
+        <!-- L44 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 44</span>
+                    <h3 class="lesson-title">Maternal Instinct: Biology or Construct?</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Cleft sentences for emphasis</p>
+            </div>
+        </article>
+
+        <!-- L45 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 45</span>
+                    <h3 class="lesson-title">The Economics of the Fine Art World</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Nominalization</p>
+            </div>
+        </article>
+
+        <!-- L46 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 46</span>
+                    <h3 class="lesson-title">Triage & Emergency Decisions</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Inversion (Hardly had I...)</p>
+            </div>
+        </article>
+
+        <!-- L47 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 47</span>
+                    <h3 class="lesson-title">The Renaissance Woman: Hobbies</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Advanced Gerunds vs Infinitives</p>
+            </div>
+        </article>
+
+        <!-- L48 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 48</span>
+                    <h3 class="lesson-title">Cryptids & Urban Legends</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus"><span class="highlight-tense">Tense Alignment</span> in Rumors & Hearsay</p>
+            </div>
+        </article>
+
+        <!-- L49 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 49</span>
+                    <h3 class="lesson-title">Summarizing Studies & Conferences</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Academic <span class="highlight-tense">Tense Alignment</span></p>
+            </div>
+        </article>
+
+        <!-- L50 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 50</span>
+                    <h3 class="lesson-title">The Rise of "Dr. Google"</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Relative Clauses</p>
+            </div>
+        </article>
+
+        <!-- L51 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 51</span>
+                    <h3 class="lesson-title">Time Travel Paradoxes</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Advanced Conditionals</p>
+            </div>
+        </article>
+
+        <!-- L52 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 52</span>
+                    <h3 class="lesson-title">The Concept of "Home" & Emigration</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Prepositions of movement</p>
+            </div>
+        </article>
+
+        <!-- L53 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 53</span>
+                    <h3 class="lesson-title">Networking at Medical Conferences</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Polite questions & Indirect speech (<span class="highlight-tense">Alignment</span>)</p>
+            </div>
+        </article>
+
+        <!-- L54 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 54</span>
+                    <h3 class="lesson-title">The History of Poisons</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Passive Voice (Past & Perfect)</p>
+            </div>
+        </article>
+
+        <!-- L55 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 55</span>
+                    <h3 class="lesson-title">The Interrogation Room Roleplay</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Ultimate <span class="highlight-tense">Tense Alignment</span> Challenge</p>
+            </div>
+        </article>
+
+        <!-- L56 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 56</span>
+                    <h3 class="lesson-title">The Psychology of Fashion</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Order of Adjectives</p>
+            </div>
+        </article>
+
+        <!-- L57 -->
+        <article class="lesson-card card-medical">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 57</span>
+                    <h3 class="lesson-title">Women's Health Taboos</h3>
+                </div>
+                <span class="badge badge-medical">Medical</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Concessive clauses</p>
+            </div>
+        </article>
+
+        <!-- L58 -->
+        <article class="lesson-card card-eccentric">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 58</span>
+                    <h3 class="lesson-title">Extreme Environments: Human Body in Space</h3>
+                </div>
+                <span class="badge badge-eccentric">Eccentric</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Participle Clauses</p>
+            </div>
+        </article>
+
+        <!-- L59 -->
+        <article class="lesson-card card-casual">
+            <div class="lesson-header">
+                <div>
+                    <span class="lesson-num">Lesson 59</span>
+                    <h3 class="lesson-title">Looking Back & Forward: Milestone Review</h3>
+                </div>
+                <span class="badge badge-casual">Casual</span>
+            </div>
+            <div class="grammar-box">
+                <span class="grammar-label">Grammar Focus</span>
+                <p class="grammar-focus">Future Perfect & Future Continuous</p>
+            </div>
+        </article>
+
+    </main>
+</div>
+
+</body>
+</html>
