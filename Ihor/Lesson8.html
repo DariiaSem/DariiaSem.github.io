@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 7: C1 | AI & The Death of the Junior Developer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--coral:#FF6B6B;--coral-dark:#E8505B;--sun:#FFC145;--sun-dark:#F2A429;--sun-light:#FFE1A8;--turquoise:#2EC4B6;--turquoise-dark:#1AA398;--turquoise-light:#CFF5F1;--grape:#7D5BA6;--grape-light:#EAE1F5;--ink:#22223B;--cream:#FFFDF7;--light-bg:#F6F8FB;--white:#FFFFFF;--gray-100:#F1F3F9;--gray-200:#E7E9F0;--gray-400:#A9AFC3;--gray-600:#5C6178;--gray-800:#2B2E42;--shadow-sm:0 1px 3px rgba(34,34,59,.08);--shadow-md:0 6px 20px rgba(34,34,59,.10);--shadow-lg:0 14px 36px rgba(34,34,59,.14);--radius-sm:10px;--radius-md:16px;--radius-lg:24px}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.7;color:var(--gray-800);background:var(--light-bg);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Poppins',sans-serif}
+[contenteditable="true"]{outline:none;transition:background-color .2s;border-radius:4px}
+[contenteditable="true"]:focus,[contenteditable="true"]:hover{background-color:rgba(46,196,182,.08);box-shadow:0 0 0 2px rgba(46,196,182,.15)}
+.hero{position:relative;background:linear-gradient(120deg,var(--ink) 0%,var(--grape) 50%,var(--coral) 100%);color:#fff;padding:88px 24px 96px;text-align:center;overflow:hidden}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero::before{width:220px;height:220px;top:-60px;left:-60px}.hero::after{width:160px;height:160px;bottom:-50px;right:-30px}
+.hero-content{position:relative;z-index:1;max-width:820px;margin:0 auto}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.35);padding:6px 20px;border-radius:50px;font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:22px}
+.hero h1{font-size:clamp(2rem,4.8vw,3.3rem);font-weight:800;line-height:1.2;margin-bottom:14px}
+.hero-subtitle{font-size:clamp(1rem,1.9vw,1.2rem);max-width:680px;margin:0 auto;font-weight:500}
+.hero-ribbon{position:absolute;bottom:0;left:0;right:0;height:50px;background:var(--light-bg);clip-path:ellipse(55% 100% at 50% 100%)}
+.nav-bar{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--gray-200);padding:0 24px}
+.nav-inner{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-logo{font-weight:800;color:var(--ink);display:flex;align-items:center;gap:6px}
+.nav-logo .dot{width:9px;height:9px;background:var(--coral);border-radius:50%;display:inline-block}
+.nav-links{display:flex;gap:4px;list-style:none;overflow-x:auto;align-items:center}
+.nav-links a{text-decoration:none;color:var(--gray-600);font-size:.8rem;font-weight:700;padding:6px 11px;border-radius:8px;white-space:nowrap}
+.nav-links a:hover{color:var(--turquoise-dark);background:var(--turquoise-light)}
+.section{padding:68px 24px}.section:nth-of-type(even){background:var(--white)}
+.section-inner{max-width:900px;margin:0 auto}
+.section-label{display:inline-flex;font-size:.72rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--coral-dark);background:rgba(255,107,107,.1);padding:5px 14px;border-radius:50px;margin-bottom:12px}
+.section-title{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;color:var(--ink);margin-bottom:8px}
+.section-desc{color:var(--gray-600);font-size:1.03rem;margin-bottom:32px;max-width:700px}
+.scenario-card{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);border-top:5px solid var(--grape)}
+.scenario-card p{line-height:2;margin-bottom:14px}
+.scenario-card strong{color:var(--coral-dark)}
+.board-game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+.board-tile{background:#fff;border:2px solid var(--sun);border-radius:var(--radius-md);padding:18px 20px;font-weight:600;color:var(--ink);box-shadow:var(--shadow-sm)}
+.grammar-table{width:100%;border-collapse:collapse;margin-top:22px;font-size:.92rem;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--gray-200);background:#fff}
+.grammar-table thead th{background:var(--ink);color:#fff;padding:13px 16px;text-align:left;font-size:.8rem;text-transform:uppercase}
+.grammar-table tbody td{padding:13px 16px;border-bottom:1px solid var(--gray-200);vertical-align:top}
+.grammar-table tbody tr:nth-child(even){background:var(--gray-100)}
+.form-chip{display:inline-block;font-weight:800;color:#fff;background:var(--grape);padding:2px 12px;border-radius:50px;font-size:.78rem}
+.practice-list{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:22px;counter-reset:pc}
+.practice-list li{background:#fff;padding:15px 20px 15px 46px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);position:relative}
+.practice-list li::before{counter-increment:pc;content:counter(pc) ".";position:absolute;left:18px;top:14px;font-weight:800;color:var(--turquoise-dark)}
+.blank-input{display:inline-block;min-width:90px;border-bottom:3px dashed var(--sun-dark);color:var(--coral-dark);font-weight:700;padding:0 8px;text-align:center;background:rgba(255,193,69,.08)}
+.watch-out{background:rgba(255,193,69,.18);border-left:4px solid var(--sun-dark);padding:14px 18px;margin-top:16px;border-radius:0 8px 8px 0}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px;margin-top:22px}
+.vocab-card{position:relative;height:150px;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm);border:2px solid var(--grape-light)}
+.vocab-front{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,var(--grape),var(--coral));color:#fff;font-weight:800;font-size:1.05rem;padding:12px;transition:opacity .3s;z-index:2}
+.vocab-card:hover .vocab-front{opacity:0;pointer-events:none}
+.vocab-def{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;background:#fff;font-size:.86rem;padding:14px;z-index:1}
+.errorspy-sentence{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:16px 20px;margin-bottom:12px}
+.es-word{cursor:pointer;padding:1px 4px;border-radius:4px;border-bottom:2px dotted var(--coral)}
+.es-word:hover{background:rgba(255,107,107,.18)}
+.es-fixed{color:var(--turquoise-dark);font-weight:800}
+.tf-item{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.tf-buttons button{border:2px solid var(--gray-200);background:#fff;padding:6px 14px;border-radius:8px;font-weight:700;cursor:pointer;margin-left:6px}
+.tf-buttons button.correct{background:var(--turquoise);border-color:var(--turquoise-dark);color:#fff}
+.tf-buttons button.wrong{background:var(--coral);border-color:var(--coral-dark);color:#fff}
+.tf-explain{font-size:.85rem;color:var(--gray-600);width:100%;display:none}
+.reveal-btn{background:var(--grape);color:#fff;border:none;padding:8px 16px;border-radius:50px;font-weight:700;cursor:pointer;font-size:.85rem;margin-top:10px}
+.reveal-box{display:none;background:var(--grape-light);border-left:4px solid var(--grape);padding:12px 16px;margin-top:10px;border-radius:0 8px 8px 0;font-size:.9rem}
+.timeline-wrap{position:relative;height:170px;margin:30px 0 30px;background:var(--cream);border:3px dashed var(--sun);border-radius:var(--radius-lg)}
+.timeline-bar{position:absolute;top:84px;left:4%;right:4%;height:4px;background:var(--gray-400);border-radius:2px}
+.tl-dot{position:absolute;top:76px;width:20px;height:20px;border-radius:50%;transform:translateX(-50%);border:3px solid #fff;box-shadow:var(--shadow-sm)}
+.tl-lab{position:absolute;font-size:.74rem;font-weight:700;transform:translateX(-50%);text-align:center;width:150px;line-height:1.35}
+.btn-primary{background:var(--turquoise-dark);color:#fff;border:none;padding:10px 20px;border-radius:50px;font-weight:700;cursor:pointer}
+.btn-secondary{background:#fff;color:var(--gray-800);border:2px solid var(--gray-200);padding:10px 20px;border-radius:50px;font-weight:700;cursor:pointer}
+.game-card-box{background:#fff;border:2px solid var(--gray-200);border-radius:var(--radius-lg);padding:32px;text-align:center;box-shadow:var(--shadow-md);margin-top:22px}
+.prompt-display{font-size:1.2rem;font-weight:700;color:var(--ink);min-height:70px;display:flex;align-items:center;justify-content:center;padding:10px}
+.timer-display{font-family:'Poppins',sans-serif;font-size:2.6rem;font-weight:800;color:var(--coral);margin:12px 0}
+.game-btn{background:linear-gradient(120deg,var(--coral),var(--sun));color:#fff;border:none;padding:12px 28px;border-radius:50px;font-weight:800;font-size:1rem;cursor:pointer;margin:6px}
+.game-btn.alt{background:linear-gradient(120deg,var(--turquoise),var(--grape))}
+.story-strips{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.story-strip{background:#fff;border:2px solid var(--gray-200);border-radius:var(--radius-sm);padding:14px 18px;cursor:grab;font-weight:600;display:flex;align-items:center;gap:12px}
+.story-strip.dragging{opacity:.4;border-style:dashed}
+.story-strip .handle{color:var(--turquoise);font-size:1.2rem}
+.story-strip.story-correct{border-color:var(--turquoise-dark);background:var(--turquoise-light)}
+.story-strip.story-wrong{border-color:var(--coral-dark);background:#FFD9D9}
+.match-status{text-align:center;margin-top:16px;font-weight:700;color:var(--grape)}
+.game-controls{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap;justify-content:center}
+.flowchart{display:flex;flex-direction:column;align-items:center;gap:14px;margin:28px 0;background:var(--cream);padding:36px;border-radius:var(--radius-lg);border:3px dashed var(--sun)}
+.flow-bubble{background:#fff;padding:12px 22px;border-radius:50px;font-weight:600;box-shadow:var(--shadow-sm);border:2px solid var(--turquoise);text-align:center;max-width:560px}
+.flow-bubble.b-side{border-color:var(--coral);background:var(--coral);color:#fff}
+.flow-arrow{color:var(--gray-400);font-size:1.4rem}
+/* DICTATION */
+.song-panel{background:linear-gradient(160deg,var(--ink),#3A3F63);color:#fff;border-radius:var(--radius-lg);padding:26px;margin-bottom:22px}
+.song-panel input[type=text]{width:100%;padding:10px 14px;border-radius:8px;border:none;font-size:.95rem;margin:8px 0}
+.song-panel .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.song-panel label{font-size:.85rem;font-weight:600}
+#ytWrap{margin-top:14px;max-width:560px}
+#ytWrap iframe{width:100%;aspect-ratio:16/9;border-radius:12px}
+.dict-row{background:#fff;border:1px solid var(--gray-200);border-radius:var(--radius-md);padding:16px 18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.dict-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.dict-num{font-family:'Poppins',sans-serif;font-weight:800;color:var(--grape);min-width:34px}
+.dict-head input[type=number]{width:78px;padding:6px 8px;border:2px solid var(--gray-200);border-radius:8px}
+.play-btn{background:var(--turquoise);color:#fff;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.1rem}
+.dict-row textarea{width:100%;min-height:54px;border:2px solid var(--gray-200);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:1rem;resize:vertical}
+.dict-key{margin-top:8px;border:2px dashed var(--grape);border-radius:10px;padding:8px 12px;min-height:38px;display:none;background:var(--grape-light)}
+.dict-result{margin-top:8px;font-size:1rem;line-height:1.9;display:none}
+.dict-result .ok{color:var(--turquoise-dark);font-weight:700}
+.dict-result .miss{background:#FFD9D9;color:var(--coral-dark);font-weight:700;border-radius:4px;padding:0 3px}
+.dict-actions{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.mini-btn{background:var(--gray-100);border:1px solid var(--gray-200);border-radius:50px;padding:5px 14px;font-weight:700;font-size:.8rem;cursor:pointer}
+.speed-pill{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:50px;padding:4px 12px;cursor:pointer;font-weight:700;font-size:.8rem}
+.speed-pill.on{background:var(--sun);color:var(--ink)}
+/* WB */
+.whiteboard-container{border:2px solid var(--gray-200);border-radius:var(--radius-lg);background:#fff;overflow:hidden;margin-top:24px;box-shadow:var(--shadow-md)}
+.wb-toolbar{background:var(--ink);padding:12px 20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.wb-btn{background:var(--gray-800);color:#fff;border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:4px;cursor:pointer;font-size:.85rem;font-weight:600}
+.wb-btn:hover,.wb-btn.active{background:var(--turquoise)}
+.wb-color{width:28px;height:28px;border-radius:50%;border:2px solid #fff;cursor:pointer;padding:0}
+canvas{display:block;width:100%;height:480px;background:#fff;cursor:crosshair}
+.homework-section{background:linear-gradient(160deg,var(--ink),#3A3F63);padding:70px 24px}
+.homework-inner{max-width:820px;margin:0 auto;color:#fff}
+.homework-inner .section-label{background:rgba(255,193,69,.2);color:var(--sun-light)}
+.homework-inner .section-title{color:#fff}.homework-inner .section-desc{color:rgba(255,255,255,.75)}
+.hw-card{background:#fff;color:var(--gray-800);border-radius:var(--radius-md);padding:20px 22px;margin-bottom:14px}
+.hw-q{font-weight:700;margin-bottom:10px}
+.hw-options label{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer}
+.hw-fill input[type=text]{border:2px solid var(--gray-200);border-radius:8px;padding:8px 12px;font-size:1rem;width:300px;max-width:100%}
+.hw-feedback{margin-top:10px;font-weight:700;font-size:.9rem;display:none}
+.hw-feedback.correct{color:var(--turquoise-dark)}.hw-feedback.wrong{color:var(--coral-dark)}
+.hw-score-box{text-align:center;background:rgba(255,255,255,.1);border-radius:var(--radius-md);padding:24px;margin-top:24px;font-size:1.4rem;font-weight:800;display:none}
+.hw-check-btn{display:block;margin:26px auto 0;background:var(--sun);color:var(--ink);border:none;padding:14px 34px;border-radius:50px;font-weight:800;font-size:1.05rem;cursor:pointer}
+.sum-up-box{background:var(--turquoise);color:#fff;padding:32px;border-radius:var(--radius-lg);text-align:center;margin-top:40px}
+.sum-up-box h2{color:var(--sun-light);margin-bottom:16px}
+.floating-actions{position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:15px;z-index:1000}
+.fab-btn{background:var(--coral);color:#fff;border:none;width:56px;height:56px;border-radius:50%;font-size:1.5rem;cursor:pointer;box-shadow:var(--shadow-lg)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(34,34,59,.6);z-index:2000;justify-content:center;align-items:center}
+.modal-content{background:#fff;padding:30px;border-radius:var(--radius-lg);width:90%;max-width:600px;position:relative}
+.close-modal{position:absolute;top:15px;right:20px;font-size:1.8rem;cursor:pointer}
+.word-row{display:flex;gap:10px;margin-bottom:12px}.word-row input{flex:1;padding:10px 14px;border:1px solid var(--gray-200);border-radius:6px}
+#wordList{max-height:350px;overflow-y:auto;margin:20px 0}
+.remote-cursor{position:absolute;pointer-events:none;z-index:999999;transition:top .4s linear,left .4s linear;display:flex}
+.remote-cursor svg{width:22px;height:22px}
+.remote-cursor-label{color:#fff;font-size:.75rem;font-weight:700;padding:3px 8px;border-radius:4px;margin-top:15px;white-space:nowrap}
+.video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius-lg);box-shadow:var(--shadow-md);margin-bottom:14px;background:var(--ink)}
+.video-container iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media(max-width:768px){.hero{padding:64px 20px 56px}.section{padding:48px 16px}.nav-links{display:none}canvas{height:380px}.tl-lab{font-size:.62rem;width:100px}}
+</style></head>
+<body>
+<div id="syncStatus" style="position:fixed;top:15px;left:50%;transform:translateX(-50%);background:rgba(34,34,59,.88);color:#fff;padding:6px 16px;border-radius:20px;font-size:.85rem;font-weight:600;z-index:10000;display:flex;align-items:center;gap:8px"><span id="syncDot" style="display:block;width:8px;height:8px;background:#A9AFC3;border-radius:50%"></span><span id="syncText">Offline Mode</span></div>
+<div id="liveCursorsContainer" style="position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:999999"></div>
+
+<section class="hero"><div class="hero-content">
+<div class="hero-badge" contenteditable="true">💻 C1 Tech English · Lesson 7</div>
+<h1 contenteditable="true">AI &amp; The Death of the Junior Developer</h1>
+<p class="hero-subtitle" contenteditable="true">Mixed conditionals — hypothesizing about how past decisions shape the present (and how present realities would have changed the past) in an increasingly automated industry.</p>
+</div><div class="hero-ribbon"></div></section>
+
+<nav class="nav-bar"><div class="nav-inner">
+<span class="nav-logo"><span class="dot"></span><span contenteditable="true">C1 Tech English</span></span>
+<ul class="nav-links">
+<li><a href="#recap">Recap</a></li><li><a href="#warmup">Warm-Up</a></li><li><a href="#vocab">Vocabulary</a></li><li><a href="#reading">Reading</a></li><li><a href="#grammar">Grammar</a></li><li><a href="#video">Video</a></li><li><a href="#speaking">Speaking</a></li><li><a href="#roleplay">Role-Play</a></li><li><a href="#homework">Homework</a></li>
+</ul></div></nav>
+
+<!-- RECAP -->
+<section class="section" id="recap"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 1 · Recap</span>
+<h2 class="section-title" contenteditable="true">System Reboot: Lesson 6 Debug</h2>
+<p class="section-desc" contenteditable="true">Last time: narrative tense alignment. Click the wrong form to fix the timeline.</p>
+<div class="errorspy-sentence"><span contenteditable="true">1. By the time the film ended, most people <span class="es-word" data-correct="had already left" onclick="fixError(this)">already left</span>.</span></div>
+<div class="errorspy-sentence"><span contenteditable="true">2. She was exhausted because she <span class="es-word" data-correct="had been working" onclick="fixError(this)">was working</span> all night.</span></div>
+<div class="errorspy-sentence"><span contenteditable="true">3. He promised that he <span class="es-word" data-correct="would call" onclick="fixError(this)">will call</span> the next day.</span></div>
+<div class="errorspy-sentence"><span contenteditable="true">4. No sooner <span class="es-word" data-correct="had he opened" onclick="fixError(this)">he had opened</span> the door than the alarm went off.</span></div>
+<h3 contenteditable="true" style="margin:28px 0 10px;color:var(--grape)">🧠 Vocabulary Reboot</h3>
+<ul class="practice-list">
+<li><div contenteditable="true">Feeling estranged from other people or your own work: <span class="blank-input">alienation</span>.</div></li>
+<li><div contenteditable="true">Looking inward at your own thoughts and motives: <span class="blank-input">introspection</span>.</div></li>
+<li><div contenteditable="true">The public face someone shows the world: a <span class="blank-input">persona</span>.</div></li>
+</ul></div></section>
+
+<!-- WARMUP -->
+<section class="section" id="warmup"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 2 · Warm-Up</span>
+<h2 class="section-title" contenteditable="true">Is the Ladder Still There?</h2>
+<p class="section-desc" contenteditable="true">Discuss. Notice how many answers naturally call for "if" sentences about the past and the present together.</p>
+<div class="board-game-grid">
+<div class="board-tile" contenteditable="true">Is entry-level coding work really disappearing, or is it just changing shape?</div>
+<div class="board-tile" contenteditable="true">If you had started your career today instead of when you did, what would be different?</div>
+<div class="board-tile" contenteditable="true">How did you learn the basics — by doing the boring work? Could AI have replaced that stage?</div>
+<div class="board-tile" contenteditable="true">If AI can write boilerplate, where will future seniors come from?</div>
+<div class="board-tile" contenteditable="true">Have you ever shipped code you didn't fully understand because a tool wrote it?</div>
+<div class="board-tile" contenteditable="true">Would you hire a junior developer in 2026 if you were a hiring manager?</div>
+</div>
+<h3 contenteditable="true" style="margin:30px 0 6px;color:var(--grape)">⚡ Quick Poll: What is the biggest threat to junior developers?</h3>
+<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px" id="pollOptions">
+<div class="board-tile" style="cursor:pointer;padding:10px 18px;border-radius:50px" onclick="selectPoll(this)" contenteditable="true">🤖 AI code generation</div>
+<div class="board-tile" style="cursor:pointer;padding:10px 18px;border-radius:50px" onclick="selectPoll(this)" contenteditable="true">💸 Hiring freezes</div>
+<div class="board-tile" style="cursor:pointer;padding:10px 18px;border-radius:50px" onclick="selectPoll(this)" contenteditable="true">🧱 No mentorship</div>
+<div class="board-tile" style="cursor:pointer;padding:10px 18px;border-radius:50px" onclick="selectPoll(this)" contenteditable="true">📉 Skill gaps</div>
+</div></div></section>
+
+<!-- VOCAB -->
+<section class="section" id="vocab"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 3 · Vocabulary</span>
+<h2 class="section-title" contenteditable="true">The Automation Lexicon</h2>
+<p class="section-desc" contenteditable="true">Hover over each card to reveal the definition. Twelve target words for today.</p>
+<div class="vocab-grid">
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Entry-level</div><div class="vocab-def" contenteditable="true">At the lowest level of a career; for people with little or no experience.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Boilerplate</div><div class="vocab-def" contenteditable="true">Repetitive, standard code that appears in many places with little change.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Displace</div><div class="vocab-def" contenteditable="true">To force someone or something out of its usual position or role.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Augment</div><div class="vocab-def" contenteditable="true">To make something greater by adding to it (AI augments, rather than replaces).</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Deskilling</div><div class="vocab-def" contenteditable="true">Losing skills because tools or processes do the thinking for you.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Upskill</div><div class="vocab-def" contenteditable="true">To learn new, more advanced skills so you stay valuable.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Talent pipeline</div><div class="vocab-def" contenteditable="true">The steady flow of new people who grow into senior roles.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Hallucination</div><div class="vocab-def" contenteditable="true">When an AI confidently produces false or invented output.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Commoditize</div><div class="vocab-def" contenteditable="true">To turn something unique into a cheap, interchangeable product.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Redundancy</div><div class="vocab-def" contenteditable="true">(UK) Losing your job because the role is no longer needed.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Moat</div><div class="vocab-def" contenteditable="true">A lasting advantage that protects a business or career from competition.</div></div>
+<div class="vocab-card"><div class="vocab-front" contenteditable="true">Oversight</div><div class="vocab-def" contenteditable="true">Careful supervision of work; also (confusingly) a mistake caused by not noticing.</div></div>
+</div>
+<h3 contenteditable="true" style="margin:30px 0 10px;color:var(--grape)">🔍 Guess the Word (No Peeking!)</h3>
+<ul class="practice-list">
+<li><div contenteditable="true">"Writing the same CRUD endpoints for the tenth time is pure ______." → <span class="blank-input"></span></div></li>
+<li><div contenteditable="true">"If nobody hires juniors, the whole ______ of future seniors dries up." → <span class="blank-input"></span></div></li>
+<li><div contenteditable="true">"The model confidently invented a library that doesn't exist — a classic ______." → <span class="blank-input"></span></div></li>
+<li><div contenteditable="true">"Learn system design now; it's the best way to ______ yourself before the market shifts." → <span class="blank-input"></span></div></li>
+</ul></div></section>
+
+<!-- READING -->
+<section class="section" id="reading"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 4 · Reading</span>
+<h2 class="section-title" contenteditable="true">The Missing Rung</h2>
+<p class="section-desc" contenteditable="true">Read the column. Notice the <strong style="color:var(--coral-dark)">highlighted</strong> conditional structures — some mix past and present.</p>
+<div class="scenario-card">
+<p contenteditable="true">Five years ago, Dana's company <strong>hired</strong> twelve junior developers every autumn. This year, it hired none. "If we <strong>hadn't adopted</strong> code assistants so quickly, we <strong>would still be</strong> training a new cohort," she admits. "But if we <strong>were</strong> less dependent on them now, we <strong>wouldn't have cut</strong> the programme so easily."</p>
+<p contenteditable="true">The logic seemed airtight: a tool that writes boilerplate in seconds <strong>makes</strong> the first-year engineer redundant. Yet senior engineers <strong>noticed</strong> a problem within months. "If I <strong>hadn't spent</strong> two years fixing tedious bugs as a junior, I <strong>wouldn't understand</strong> our legacy system today," says one veteran. "<strong>Had it not been for</strong> that grind, I <strong>wouldn't be</strong> able to spot the subtle errors the AI produces."</p>
+<p contenteditable="true">Critics call it the missing rung: if companies <strong>had kept</strong> a few entry-level roles, they <strong>would have</strong> a healthier talent pipeline now. Instead, <strong>were</strong> a senior engineer <strong>to leave</strong> tomorrow, nobody <strong>would be</strong> ready to replace her. Others disagree. "If I <strong>were</strong> a recent graduate, I <strong>would have started</strong> building products on my own long ago," argues a startup founder. "AI <strong>hasn't killed</strong> the junior role; it <strong>has</strong> only <strong>raised</strong> the bar."</p>
+<p contenteditable="true">The data is still unclear. If hiring <strong>had continued</strong> at the 2022 level, there <strong>would be</strong> roughly a third more early-career engineers in the market today. But if the industry <strong>weren't</strong> so cost-driven, it <strong>might have invested</strong> in apprenticeship instead of automation. Dana sighs: "If only we <strong>had thought</strong> about who would review the AI's work in ten years."</p>
+</div>
+<h3 contenteditable="true" style="margin:28px 0 10px;color:var(--grape)">💬 Comprehension</h3>
+<ul class="practice-list">
+<li><div contenteditable="true">What changed in Dana's company over five years? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">Why does the veteran engineer value his junior years? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">What is the "missing rung" and why is it a problem? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">What is the founder's counter-argument? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">What does Dana regret at the end? <span class="blank-input" style="min-width:200px"></span></div></li>
+</ul></div></section>
+
+<!-- TF -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 5 · Comprehension Check</span>
+<h2 class="section-title" contenteditable="true">True or False?</h2>
+<p class="section-desc" contenteditable="true">Click the button you think is correct.</p>
+<div class="tf-item"><span contenteditable="true">1. Dana's company still trains junior developers today.</span><span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span><div class="tf-explain" contenteditable="true">False — "if we hadn't adopted… we would still be training" means they are NOT training now.</div></div>
+<div class="tf-item"><span contenteditable="true">2. The veteran engineer thinks the junior grind helped him develop today's expertise.</span><span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span><div class="tf-explain" contenteditable="true">True — a past cause (the grind) → a present result (he can spot subtle errors).</div></div>
+<div class="tf-item"><span contenteditable="true">3. The company kept some entry-level roles.</span><span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span><div class="tf-explain" contenteditable="true">False — "if companies had kept a few entry-level roles" is an unreal past.</div></div>
+<div class="tf-item"><span contenteditable="true">4. The founder believes AI has only made the junior role harder, not extinct.</span><span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span><div class="tf-explain" contenteditable="true">True — "it has only raised the bar."</div></div>
+<div class="tf-item"><span contenteditable="true">5. Dana thinks the decision was fully planned for the long term.</span><span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span><div class="tf-explain" contenteditable="true">False — "If only we had thought about who would review the AI's work…"</div></div>
+</div></section>
+
+<!-- GRAMMAR DISCOVERY -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 6 · Grammar Discovery</span>
+<h2 class="section-title" contenteditable="true">Which "If" Is It?</h2>
+<p class="section-desc" contenteditable="true">Go back to the text. Match each sentence to the time frame of its condition and its result.</p>
+<ul class="practice-list">
+<li><div contenteditable="true">"If we hadn't adopted code assistants so quickly, we would still be training a new cohort." → condition: <span class="blank-input" style="min-width:70px">past</span> / result: <span class="blank-input" style="min-width:70px">present</span></div></li>
+<li><div contenteditable="true">"If we were less dependent on them now, we wouldn't have cut the programme so easily." → condition: <span class="blank-input" style="min-width:70px">present</span> / result: <span class="blank-input" style="min-width:70px">past</span></div></li>
+<li><div contenteditable="true">"Had it not been for that grind, I wouldn't be able to spot errors." → condition: <span class="blank-input" style="min-width:70px">past</span> / result: <span class="blank-input" style="min-width:70px">present</span></div></li>
+<li><div contenteditable="true">"If I were a recent graduate, I would have started building products long ago." → condition: <span class="blank-input" style="min-width:70px">present</span> / result: <span class="blank-input" style="min-width:70px">past</span></div></li>
+</ul>
+<div class="watch-out" contenteditable="true">🧩 <strong>Your hypothesis:</strong> Which verb form always appears after "if" when the condition is in the <em>past</em>? Which form appears when the condition is a <em>present state</em>? What happens to the result clause?</div>
+</div></section>
+
+<!-- GRAMMAR THEORY -->
+<section class="section" id="grammar"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 7 · Grammar Theory</span>
+<h2 class="section-title" contenteditable="true">Mixed Conditionals: Crossing Time Lines</h2>
+<p class="section-desc" contenteditable="true">Standard conditionals keep both clauses in the same time zone. Mixed conditionals cross the line: the "if" part and the result belong to different times.</p>
+
+<table class="grammar-table"><thead><tr><th>Type</th><th>Structure</th><th>Meaning</th><th>Tech example</th></tr></thead><tbody>
+<tr><td><span class="form-chip">Mixed A: past → present</span></td><td>If + <strong>past perfect</strong>, would / could / might + <strong>base verb</strong></td><td>A different past would mean a different present.</td><td>If I had learned Rust earlier, I would be a staff engineer now.</td></tr>
+<tr><td><span class="form-chip">Mixed B: present → past</span></td><td>If + <strong>past simple</strong>, would / could / might + <strong>have + past participle</strong></td><td>A different present state would have changed a past result.</td><td>If I were more confident, I would have asked for that promotion.</td></tr>
+<tr><td><span class="form-chip">Inverted (formal)</span></td><td><em>Had</em> + subject + p.p., would + base / <em>Were</em> + subject + <em>to</em> + base, would have p.p.</td><td>Same meaning, more formal; "if" is dropped.</td><td>Had we kept the juniors, we would have a pipeline today.</td></tr>
+<tr><td><span class="form-chip">Without / But for</span></td><td><em>If it hadn't been for / Had it not been for / But for / Were it not for</em> + noun</td><td>Refers to a factor that changed everything.</td><td>But for AI review, that bug would still be in production.</td></tr>
+<tr><td><span class="form-chip">Wishes &amp; regrets</span></td><td>wish / if only + past perfect (about the past); wish + past simple (about now)</td><td>Regret about the past or dissatisfaction with the present.</td><td>I wish I had learned system design. If only I knew more.</td></tr>
+<tr><td><span class="form-chip">Modal nuance</span></td><td>would = certain; could = ability / possibility; might = weaker possibility</td><td>Controls how strongly you hypothesize.</td><td>If I had upskilled, I might be safe from layoffs.</td></tr>
+</tbody></table>
+
+<div class="watch-out" contenteditable="true">⚠️ <strong>Watch out:</strong><br>1) Don't use <em>would</em> in the <em>if</em>-clause: ✗ "If I would have learned…" → ✓ "If I had learned…"<br>2) <em>Were</em> is preferred over <em>was</em> in formal English: "If I were more experienced…"<br>3) Check the time words: <em>yesterday, last year, back then</em> → past; <em>now, still, today, these days</em> → present.<br>4) Mixed conditionals often need a time word to make the cross-over clear: "…I would <em>still</em> be… <em>now</em>."<br>5) Use <em>unless</em> only with first-conditional logic — not with unreal pasts.</div>
+</div></section>
+
+<!-- CLASSIFY GAME -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 8 · Classification Game</span>
+<h2 class="section-title" contenteditable="true">🎯 Spot the Type</h2>
+<p class="section-desc" contenteditable="true">Click the right label for each sentence.</p>
+<div id="classify"></div>
+<div class="match-status" id="classScore" style="margin-top:14px"></div>
+</div></section>
+
+<!-- GRAMMAR PRACTICE -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 9 · Grammar Practice</span>
+<h2 class="section-title" contenteditable="true">Complete the Hypothesis — Hard Mode</h2>
+<p class="section-desc" contenteditable="true">Put the verbs in brackets into the correct form. First decide: what is the time of the "if" part, and what is the time of the result?</p>
+<ul class="practice-list">
+<li><div contenteditable="true">If the company (not / cut) the junior programme, it (still / have) a healthy pipeline today. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">If I (be) a better communicator, I (get) the senior role last spring. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">(Not / it / be) for the automated test suite, the release (be) full of bugs right now. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">I wish I (spend) more time learning algorithms when I (be) a student; I (not / struggle) so much in interviews now. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">If AI (not / become) so capable, we (probably / still / hire) interns this summer. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">(I / know) how fast the market would change, I (not / ignore) cloud skills back then. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">If she (not / be) so cautious by nature, she (take) the startup offer two years ago. <span class="blank-input" style="min-width:240px"></span></div></li>
+<li><div contenteditable="true">(Were / it) not for mentorship, many seniors (never / reach) their current level — and we (not / have) any leaders today. <span class="blank-input" style="min-width:240px"></span></div></li>
+</ul>
+<button class="reveal-btn" onclick="toggleReveal('key9')">💡 Reveal Answer Key</button>
+<div class="reveal-box" id="key9" contenteditable="true">
+1. hadn't cut / would still have<br>
+2. were / would have got (AmE: gotten)<br>
+3. Had it not been / would be<br>
+4. had spent / was / wouldn't be struggling (wouldn't struggle)<br>
+5. hadn't become / would probably still be hiring<br>
+6. Had I known / wouldn't have ignored<br>
+7. weren't / would have taken<br>
+8. Were it not / would never have reached / wouldn't have
+</div>
+
+<h3 contenteditable="true" style="margin:30px 0 10px;color:var(--grape)">🔄 Bonus: Sentence Upgrades</h3>
+<ul class="practice-list">
+<li><div contenteditable="true">"I didn't learn testing, so I'm not a tech lead now." → Rewrite as a mixed conditional: <span class="blank-input" style="min-width:260px"></span></div></li>
+<li><div contenteditable="true">"I'm not good at negotiation, so I didn't get the raise." → Rewrite as a mixed conditional: <span class="blank-input" style="min-width:260px"></span></div></li>
+<li><div contenteditable="true">"If the company hadn't automated QA, we would still have a QA team." → Rewrite with inversion: <span class="blank-input" style="min-width:260px"></span></div></li>
+</ul>
+<button class="reveal-btn" onclick="toggleReveal('key9b')">💡 Reveal Model Answers</button>
+<div class="reveal-box" id="key9b" contenteditable="true">
+1. If I had learned testing, I would be a tech lead now.<br>
+2. If I were good at negotiation, I would have got the raise.<br>
+3. Had the company not automated QA, we would still have a QA team.
+</div></div></section>
+
+<!-- STORY STRIPS -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 10 · Game</span>
+<h2 class="section-title" contenteditable="true">📖 How the Ladder Broke</h2>
+<p class="section-desc" contenteditable="true">Drag these five events into the correct cause-and-effect order.</p>
+<div class="story-strips" id="storyStrips">
+<div class="story-strip" id="strip-3" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Teams noticed they needed far fewer people to produce boilerplate code.</span></div>
+<div class="story-strip" id="strip-1" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">AI code assistants became fast, cheap and widely available.</span></div>
+<div class="story-strip" id="strip-5" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Seniors began to worry about who would replace them in ten years.</span></div>
+<div class="story-strip" id="strip-2" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Companies adopted them across their engineering departments.</span></div>
+<div class="story-strip" id="strip-4" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Entry-level hiring was frozen, and graduates struggled to find first jobs.</span></div>
+</div>
+<div class="game-controls"><button class="btn-primary" onclick="checkStoryOrder()">✅ Check My Order</button><button class="btn-secondary" onclick="revealStoryOrder()">💡 Reveal Correct Order</button></div>
+<div class="match-status" id="storyStatus" contenteditable="true">Drag the strips, then check your order.</div>
+<p class="section-desc" style="margin-top:18px" contenteditable="true">Now speak: "If A hadn't happened, B wouldn't have happened / C wouldn't be happening now." Make at least four mixed conditionals from the chain.</p>
+</div></section>
+
+<!-- VIDEO -->
+<section class="section" id="video"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 11 · Listening</span>
+<h2 class="section-title" contenteditable="true">Will AI Replace Programmers?</h2>
+<p class="section-desc" contenteditable="true">Paste the link to a talk, interview or video essay about AI and software careers. Watch, take notes, and answer the questions below.</p>
+<input type="text" id="vidUrl" placeholder="Paste a YouTube link here" style="width:100%;padding:10px 14px;border:2px solid var(--gray-200);border-radius:10px;margin-bottom:12px">
+<button class="btn-primary" onclick="loadVideo()">▶ Embed video</button>
+<div class="video-container" id="vidBox" style="display:none;margin-top:16px"><iframe id="vidFrame" allowfullscreen></iframe></div>
+<h3 contenteditable="true" style="margin:24px 0 10px;color:var(--grape)">🎧 Deep-Dive Questions</h3>
+<ul class="practice-list">
+<li><div contenteditable="true">What is the speaker's main claim about junior developers? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">Which examples or numbers does the speaker use? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">Write two mixed conditionals summarizing the video's argument (past → present, present → past). <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">Which skills does the speaker say will remain valuable? <span class="blank-input" style="min-width:200px"></span></div></li>
+<li><div contenteditable="true">Did the video change your view of your own career path? <span class="blank-input" style="min-width:200px"></span></div></li>
+</ul></div></section>
+
+<!-- PRONUNCIATION -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 12 · Pronunciation</span>
+<h2 class="section-title" contenteditable="true">Fast Speech: Contracted Conditionals</h2>
+<p class="section-desc" contenteditable="true">In natural speech, <em>had</em>, <em>would</em> and <em>have</em> shrink dramatically. Click 🔊, then copy the rhythm.</p>
+<div class="tf-item"><button class="play-btn" onclick="speakPhrase('If I had learned it earlier, I would be a lead by now')">🔊</button><span contenteditable="true">If I'd learned it earlier, I'd be a lead by now. (/aɪd/ · /aɪd/)</span></div>
+<div class="tf-item"><button class="play-btn" onclick="speakPhrase('If I were braver, I would have asked')">🔊</button><span contenteditable="true">If I were braver, I'd have asked. (/aɪdəv/)</span></div>
+<div class="tf-item"><button class="play-btn" onclick="speakPhrase('Had it not been for the tests, we would have shipped bugs')">🔊</button><span contenteditable="true">Had it not been for the tests, we'd have shipped bugs. (/wiːdəv/)</span></div>
+<div class="tf-item"><button class="play-btn" onclick="speakPhrase('She would not have taken the job if she had known')">🔊</button><span contenteditable="true">She wouldn't have taken the job if she'd known. (/wʊdntəv/)</span></div>
+<div class="tf-item"><button class="play-btn" onclick="speakPhrase('We might have hired more juniors')">🔊</button><span contenteditable="true">We might have hired more juniors. (/maɪtəv/)</span></div>
+<div class="watch-out" contenteditable="true">⚠️ <strong>Spelling trap:</strong> "would've" sounds like "would of" — but "of" is never correct in writing.</div>
+</div></section>
+
+<!-- SPEAKING -->
+<section class="section" id="speaking"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 13 · Speaking Game</span>
+<h2 class="section-title" contenteditable="true">🎙️ 60-Second "What If?"</h2>
+<p class="section-desc" contenteditable="true">Spin and speak for 60 seconds. Target: at least three mixed conditionals and two lexicon words.</p>
+<div class="game-card-box">
+<div class="prompt-display" id="storyPrompt" contenteditable="true">Click "Spin" to get your first prompt!</div>
+<div class="timer-display" id="storyTimer">60</div>
+<div><button class="game-btn" onclick="spinStory()">🎲 Spin</button><button class="game-btn alt" onclick="startStoryTimer()">▶️ Start 60s</button><button class="btn-secondary" onclick="resetStoryTimer()">⏹ Reset</button></div>
+</div></div></section>
+
+<!-- ROLEPLAY -->
+<section class="section" id="roleplay"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 14 · Role-Play</span>
+<h2 class="section-title" contenteditable="true">The Hiring Freeze Meeting</h2>
+<p class="section-desc" contenteditable="true">An engineering manager and a CTO discuss whether to reopen junior hiring. Both must use mixed conditionals.</p>
+<div class="flowchart">
+<div class="flow-bubble"><strong>CTO:</strong> Explain why you froze junior hiring last year: "If we hadn't automated X, we would…"</div><div class="flow-arrow">↓</div>
+<div class="flow-bubble b-side"><strong>Manager:</strong> Describe present problems caused by that decision: "If we had kept our juniors, we wouldn't be…"</div><div class="flow-arrow">↓</div>
+<div class="flow-bubble"><strong>CTO:</strong> Defend the decision with budget, risk and AI productivity arguments.</div><div class="flow-arrow">↓</div>
+<div class="flow-bubble b-side"><strong>Manager:</strong> Propose an apprenticeship model: "Were we to start a programme now, we would…"</div><div class="flow-arrow">↓</div>
+<div class="flow-bubble"><strong>CTO:</strong> Ask what would happen if it failed. Express a regret: "I wish we had…"</div><div class="flow-arrow">↓</div>
+<div class="flow-bubble b-side"><strong>Manager:</strong> Summarize a compromise and next steps.</div>
+</div></div></section>
+
+<!-- TWIST -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 15 · Game</span>
+<h2 class="section-title" contenteditable="true">🎴 Finish the Hypothesis</h2>
+<p class="section-desc" contenteditable="true">Draw an opening and finish the sentence aloud with the correct mixed structure. Reveal the model afterwards.</p>
+<div class="game-card-box">
+<div class="prompt-display" id="twistCard" contenteditable="true">Click "Draw a Card" to begin.</div>
+<div><button class="game-btn" onclick="drawTwistCard()">🎴 Draw a Card</button><button class="btn-secondary" onclick="toggleReveal('twistModel')">💡 Reveal Model</button></div>
+<div class="reveal-box" id="twistModel" contenteditable="true" style="text-align:left;margin-top:16px"></div>
+</div></div></section>
+
+<!-- WRITING -->
+<section class="section"><div class="section-inner">
+<span class="section-label" contenteditable="true">Task 16 · Grand Finale</span>
+<h2 class="section-title" contenteditable="true">The Retrospective</h2>
+<div class="board-game-grid">
+<div class="board-tile" contenteditable="true">If you could change one early-career decision, what would it be — and how would your life differ today?</div>
+<div class="board-tile" contenteditable="true">Is it ethical for a company to freeze junior hiring because of AI?</div>
+<div class="board-tile" contenteditable="true">Which human skills would remain a "moat" in 10 years?</div>
+<div class="board-tile" contenteditable="true">Could a junior developer today have a better career than you did? Why?</div>
+</div>
+<h3 contenteditable="true" style="margin:30px 0 10px;color:var(--grape)">✍️ Writing Task</h3>
+<p class="section-desc" contenteditable="true">Write a 150-word opinion column titled "If We Had Kept the Juniors…" Use at least three mixed conditionals (one inverted), one "but for / had it not been for", one wish, and four lexicon words.</p>
+<div contenteditable="true" style="background:#fff;border:2px dashed var(--gray-400);border-radius:var(--radius-md);min-height:160px;padding:18px;font-style:italic;color:var(--gray-600)">Start writing here...</div>
+</div></section>
+
+<!-- WHITEBOARD -->
+<section class="section" id="whiteboard"><div class="section-inner">
+<span class="section-label" contenteditable="true">Teacher's Space</span>
+<h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+<p class="section-desc" contenteditable="true">Draw two time lines (past / present) and connect conditions to results with arrows.</p>
+<div class="whiteboard-container">
+<div class="wb-toolbar">
+<button class="wb-btn active" data-tool="pencil">Pencil</button><button class="wb-btn" data-tool="highlight">Highlight</button><button class="wb-btn" data-tool="text">Text</button><button class="wb-btn" data-tool="square">Square</button><button class="wb-btn" data-tool="circle">Circle</button><button class="wb-btn" data-tool="arrow">Arrow</button>
+<input type="color" id="wbColor" class="wb-color" value="#22223B">
+<button class="wb-btn" id="wbClear" style="margin-left:auto;background:var(--coral)">Clear Board</button>
+</div><canvas id="boardCanvas" width="896" height="480"></canvas></div>
+<div class="sum-up-box"><h2 contenteditable="true">Lesson Complete! ✨</h2>
+<p><strong>What we've covered today:</strong></p>
+<ul style="list-style:none;margin-top:16px;font-size:1.05rem;line-height:1.8">
+<li contenteditable="true">✅ <strong>Vocabulary:</strong> entry-level, boilerplate, displace, augment, deskilling, upskill, talent pipeline, hallucination, commoditize, redundancy, moat, oversight.</li>
+<li contenteditable="true">✅ <strong>Grammar:</strong> mixed conditionals (past → present, present → past), inversion (Had… / Were… to), but for / had it not been for, wishes.</li>
+<li contenteditable="true">✅ <strong>Speaking:</strong> hypotheses about careers, the hiring-freeze meeting, "what if?" storytelling.</li>
+<li contenteditable="true">✅ <strong>Pronunciation:</strong> contracted conditionals (I'd've, wouldn't've).</li>
+</ul></div></div></section>
+
+<!-- HOMEWORK -->
+<section class="homework-section" id="homework"><div class="homework-inner">
+<span class="section-label" contenteditable="true">🏠 Homework</span>
+<h2 class="section-title" contenteditable="true">The Mixed Conditionals Check</h2>
+<p class="section-desc" contenteditable="true">Answer everything, then click "Check My Answers".</p>
+
+<div class="hw-card"><div class="hw-q">1. If the company ___ juniors back then, it ___ short of mid-level engineers now.</div><div class="hw-options" data-correct="a"><label><input type="radio" name="h1" value="a"> a) had hired / wouldn't be</label><label><input type="radio" name="h1" value="b"> b) hired / wouldn't have been</label><label><input type="radio" name="h1" value="c"> c) hires / won't be</label><label><input type="radio" name="h1" value="d"> d) would hire / hadn't been</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">2. If she weren't so skilled at prompting, she ___ that promotion last year.</div><div class="hw-options" data-correct="b"><label><input type="radio" name="h2" value="a"> a) wouldn't get</label><label><input type="radio" name="h2" value="b"> b) wouldn't have got</label><label><input type="radio" name="h2" value="c"> c) won't have got</label><label><input type="radio" name="h2" value="d"> d) hadn't got</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">3. ___ it not been for AI code review, the bug would still be in production.</div><div class="hw-options" data-correct="b"><label><input type="radio" name="h3" value="a"> a) Were</label><label><input type="radio" name="h3" value="b"> b) Had</label><label><input type="radio" name="h3" value="c"> c) If</label><label><input type="radio" name="h3" value="d"> d) Should</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">4. I wish I ___ more about system design when I was a junior.</div><div class="hw-options" data-correct="c"><label><input type="radio" name="h4" value="a"> a) learn</label><label><input type="radio" name="h4" value="b"> b) learned</label><label><input type="radio" name="h4" value="c"> c) had learned</label><label><input type="radio" name="h4" value="d"> d) would learn</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">5. If I were you, I ___ that offer last week.</div><div class="hw-options" data-correct="c"><label><input type="radio" name="h5" value="a"> a) would take</label><label><input type="radio" name="h5" value="b"> b) will have taken</label><label><input type="radio" name="h5" value="c"> c) would have taken</label><label><input type="radio" name="h5" value="d"> d) had taken</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">6. Which sentence is a mixed conditional?</div><div class="hw-options" data-correct="c"><label><input type="radio" name="h6" value="a"> a) If he studies, he'll pass.</label><label><input type="radio" name="h6" value="b"> b) If he had studied, he would have passed.</label><label><input type="radio" name="h6" value="c"> c) If he had studied, he would be a lead now.</label><label><input type="radio" name="h6" value="d"> d) If he studied, he would pass.</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">7. But for the layoffs, our team ___ fully staffed today.</div><div class="hw-options" data-correct="b"><label><input type="radio" name="h7" value="a"> a) would have been</label><label><input type="radio" name="h7" value="b"> b) would be</label><label><input type="radio" name="h7" value="c"> c) will be</label><label><input type="radio" name="h7" value="d"> d) had been</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card"><div class="hw-q">8. If automation hadn't accelerated so fast, junior roles ___ so scarce now.</div><div class="hw-options" data-correct="b"><label><input type="radio" name="h8" value="a"> a) wouldn't have been</label><label><input type="radio" name="h8" value="b"> b) wouldn't be</label><label><input type="radio" name="h8" value="c"> c) aren't</label><label><input type="radio" name="h8" value="d"> d) won't be</label></div><div class="hw-feedback"></div></div>
+<div class="hw-card hw-fill"><div class="hw-q">9. Complete (one word): If I ___ braver, I would have asked for a raise last year. (be, formal)</div><input type="text" data-answer="were"><div class="hw-feedback"></div></div>
+<div class="hw-card hw-fill"><div class="hw-q">10. Complete (one word): Had I ___ the layoffs were coming, I would be at another company now. (know)</div><input type="text" data-answer="known"><div class="hw-feedback"></div></div>
+
+<div class="hw-card"><div class="hw-q">Bonus (not graded): Write 4–5 mixed conditionals about your own career: two past → present, two present → past.</div><div contenteditable="true" style="font-style:italic;color:var(--gray-600)">Write your answer here...</div></div>
+
+<button class="hw-check-btn" onclick="gradeHomework()">✅ Check My Answers</button>
+<div class="hw-score-box" id="hwScoreBox"></div>
+</div></section>
+
+<div class="floating-actions" id="floatingActions">
+<button class="fab-btn" onclick="scrollToWB()" title="Whiteboard">🖍️</button>
+<button class="fab-btn" style="background:#4255FF" onclick="document.getElementById('quizletModal').style.display='flex'" title="Quizlet">📝</button>
+<button class="fab-btn" onclick="saveAsPDF()" title="Save as PDF">💾</button>
+</div>
+<div id="quizletModal" class="modal-overlay"><div class="modal-content"><span class="close-modal" onclick="document.getElementById('quizletModal').style.display='none'">×</span>
+<h2>Quizlet Exporter</h2><p style="margin-top:8px;font-size:.95rem;color:var(--gray-600)">Add words and translations, copy, and paste into Quizlet's import tool.</p>
+<div id="wordList"><div class="word-row"><input type="text" class="q-word" placeholder="English Word"><input type="text" class="q-trans" placeholder="Translation"></div><div class="word-row"><input type="text" class="q-word" placeholder="English Word"><input type="text" class="q-trans" placeholder="Translation"></div><div class="word-row"><input type="text" class="q-word" placeholder="English Word"><input type="text" class="q-trans" placeholder="Translation"></div></div>
+<div style="display:flex;gap:10px"><button onclick="addWordRow()" class="wb-btn" style="flex:1">+ Add Row</button><button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex:2;background:#4255FF">📋 Copy for Quizlet</button></div></div></div>
+
+<script>
+function fixError(el){el.outerHTML='<span class="es-fixed">'+el.dataset.correct+'</span> ✅';}
+function selectPoll(el){document.querySelectorAll('#pollOptions .board-tile').forEach(o=>o.style.background='#fff');el.style.background='var(--sun-light)';}
+function checkTF(btn,ok){const g=btn.parentElement;g.querySelectorAll('button').forEach(b=>b.classList.remove('correct','wrong'));btn.classList.add(ok?'correct':'wrong');const ex=g.parentElement.querySelector('.tf-explain');if(ex)ex.style.display='block';}
+function toggleReveal(id){const b=document.getElementById(id);b.style.display=b.style.display==='block'?'none':'block';}
+function speakPhrase(t){if(!('speechSynthesis' in window)){alert('Text-to-speech is not supported in this browser.');return;}const u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+/* Classification game */
+const classItems=[
+["If I had learned Rust earlier, I would be a staff engineer now.","A"],
+["If I were more confident, I would have asked for that promotion.","B"],
+["If we had kept the juniors, we would have avoided this crisis.","T3"],
+["If the model were more reliable, we wouldn't need so many reviewers.","T2"],
+["Had the company not automated QA, we would still have a QA team.","A"],
+["If she weren't so cautious, she would have joined the startup.","B"]];
+const labels={A:"Mixed A (past → present)",B:"Mixed B (present → past)",T3:"Third conditional",T2:"Second conditional"};
+(function(){const box=document.getElementById('classify');classItems.forEach((it,i)=>{
+const d=document.createElement('div');d.className='tf-item';d.dataset.correct=it[1];
+d.innerHTML='<span style="flex:1;min-width:260px">'+(i+1)+'. '+it[0]+'</span><span class="tf-buttons">'+Object.keys(labels).map(k=>'<button data-k="'+k+'">'+labels[k]+'</button>').join('')+'</span><div class="tf-explain"></div>';
+d.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{d.querySelectorAll('button').forEach(x=>x.classList.remove('correct','wrong'));
+const ok=b.dataset.k===d.dataset.correct;b.classList.add(ok?'correct':'wrong');d.dataset.done=ok?'1':'0';
+const ex=d.querySelector('.tf-explain');ex.style.display='block';ex.innerText=ok?'✅ Correct!':'❌ Try again, or check the table in Task 7.';
+const n=[...box.children].filter(x=>x.dataset.done==='1').length;document.getElementById('classScore').innerText=n+' / '+classItems.length+' correct';}));
+box.appendChild(d);});})();
+
+/* Story strips */
+const correctOrder=['strip-1','strip-2','strip-3','strip-4','strip-5'];
+(function(){const c=document.getElementById('storyStrips');
+c.querySelectorAll('.story-strip').forEach(i=>{i.addEventListener('dragstart',()=>i.classList.add('dragging'));i.addEventListener('dragend',()=>{i.classList.remove('dragging');if(window.syncDragOrder)window.syncDragOrder();});});
+c.addEventListener('dragover',e=>{e.preventDefault();const d=document.querySelector('.story-strip.dragging');if(!d)return;
+const els=[...c.querySelectorAll('.story-strip:not(.dragging)')];
+const after=els.reduce((cl,ch)=>{const b=ch.getBoundingClientRect();const o=e.clientY-b.top-b.height/2;return(o<0&&o>cl.offset)?{offset:o,element:ch}:cl;},{offset:-Infinity}).element;
+if(!after)c.appendChild(d);else c.insertBefore(d,after);});})();
+function checkStoryOrder(){const items=[...document.getElementById('storyStrips').children];let n=0;
+items.forEach((it,i)=>{it.classList.remove('story-correct','story-wrong');if(it.id===correctOrder[i]){it.classList.add('story-correct');n++;}else it.classList.add('story-wrong');});
+document.getElementById('storyStatus').innerText=n+' / 5 in the correct position'+(n===5?' 🎉 Perfect!':'');}
+function revealStoryOrder(){const c=document.getElementById('storyStrips');correctOrder.forEach(id=>{const e=document.getElementById(id);e.classList.remove('story-wrong');e.classList.add('story-correct');c.appendChild(e);});document.getElementById('storyStatus').innerText='Here is the correct order!';if(window.syncDragOrder)window.syncDragOrder();}
+
+/* Speaking */
+const storyPrompts=["If you had chosen a different career path at 18, what would your life look like now?","If you were a hiring manager today, how would you rebuild the junior pipeline?","Describe a skill you wish you had learned earlier, and how your present would differ.","If AI hadn't been invented, how would your daily work be different now?","Talk about a mistake you made, and what you would have done if you had been more experienced.","If you were more risk-tolerant, what would you have done differently in your career?","Argue: 'But for mentorship, I wouldn't be where I am today.'","Imagine you are a junior developer in 2030. If today's trends continue, what will your job be like?"];
+function spinStory(){document.getElementById('storyPrompt').innerText=storyPrompts[Math.floor(Math.random()*storyPrompts.length)];resetStoryTimer();}
+let sI=null,sT=60;
+function startStoryTimer(){clearInterval(sI);sT=60;document.getElementById('storyTimer').innerText=sT;sI=setInterval(()=>{sT--;document.getElementById('storyTimer').innerText=sT;if(sT<=0){clearInterval(sI);document.getElementById('storyTimer').innerText="Time's up! 🎉";}},1000);}
+function resetStoryTimer(){clearInterval(sI);sT=60;document.getElementById('storyTimer').innerText=60;}
+
+const twistCards=[
+{o:"If I had spent more time reviewing the AI's code last month…",m:"…we wouldn't be dealing with this security incident now."},
+{o:"If the startup weren't so short on money…",m:"…it would have hired a junior engineer last spring."},
+{o:"Had she not learned to debug manually as a junior…",m:"…she wouldn't be able to catch the model's subtle errors today."},
+{o:"If I were a faster learner…",m:"…I would have switched to machine learning years ago."},
+{o:"If the client hadn't changed the requirements so late…",m:"…we would be celebrating the launch right now."},
+{o:"Were we to reopen the junior programme tomorrow…",m:"…we would need a mentor for every two new hires."}];
+function drawTwistCard(){const c=twistCards[Math.floor(Math.random()*twistCards.length)];document.getElementById('twistCard').innerText='"'+c.o+'"';const m=document.getElementById('twistModel');m.innerText='Model: '+c.o+' '+c.m;m.style.display='none';}
+
+/* Homework */
+function gradeHomework(){let s=0;
+document.querySelectorAll('.hw-options').forEach(g=>{const sel=g.querySelector('input:checked');const fb=g.parentElement.querySelector('.hw-feedback');fb.style.display='block';
+if(sel&&sel.value===g.dataset.correct){s++;fb.className='hw-feedback correct';fb.innerText='✅ Correct!';}
+else{fb.className='hw-feedback wrong';const l=g.querySelector('input[value="'+g.dataset.correct+'"]').parentElement.innerText;fb.innerText=(sel?'❌ Not quite — ':'⚠️ Not answered — ')+'correct answer: '+l;}});
+document.querySelectorAll('.hw-fill').forEach(c=>{const i=c.querySelector('input'),fb=c.querySelector('.hw-feedback');fb.style.display='block';
+if(i.value.trim().toLowerCase()===i.dataset.answer.toLowerCase()){s++;fb.className='hw-feedback correct';fb.innerText='✅ Correct!';}
+else{fb.className='hw-feedback wrong';fb.innerText='❌ Correct answer: '+i.dataset.answer;}});
+const b=document.getElementById('hwScoreBox');b.style.display='block';b.innerText='🎉 Your Score: '+s+' / 10';}
+
+/* Video */
+function ytId(u){const m=(u||'').match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([A-Za-z0-9_-]{11})/);return m?m[1]:null;}
+function loadVideo(){const id=ytId(document.getElementById('vidUrl').value);if(!id){alert('Please paste a valid YouTube link.');return;}
+document.getElementById('vidFrame').src='https://www.youtube.com/embed/'+id;document.getElementById('vidBox').style.display='block';}
+
+/* Whiteboard */
+const canvas=document.getElementById('boardCanvas'),ctx=canvas.getContext('2d');
+function rs(){canvas.width=canvas.parentElement.clientWidth;canvas.height=480;}window.addEventListener('resize',rs);rs();
+let drawing=false,sx,sy,tool='pencil',col='#22223B',saved;
+document.querySelectorAll('.wb-btn[data-tool]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.wb-btn[data-tool]').forEach(x=>x.classList.remove('active'));b.classList.add('active');tool=b.dataset.tool;}));
+document.getElementById('wbColor').addEventListener('change',e=>col=e.target.value);
+document.getElementById('wbClear').addEventListener('click',()=>{ctx.clearRect(0,0,canvas.width,canvas.height);});
+function mp(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top};}
+canvas.addEventListener('mousedown',e=>{const p=mp(e);sx=p.x;sy=p.y;
+if(tool==='text'){const t=prompt('Enter text:');if(t){ctx.font="20px Inter,Arial";ctx.fillStyle=col;ctx.fillText(t,sx,sy);}return;}
+drawing=true;saved=ctx.getImageData(0,0,canvas.width,canvas.height);ctx.beginPath();ctx.moveTo(sx,sy);});
+canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=mp(e);
+if(tool==='pencil'||tool==='highlight'){ctx.lineTo(p.x,p.y);ctx.strokeStyle=tool==='highlight'?col+'66':col;ctx.lineWidth=tool==='highlight'?15:2;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke();}
+else{ctx.putImageData(saved,0,0);shape(p.x,p.y);}});
+canvas.addEventListener('mouseup',e=>{if(!drawing)return;drawing=false;if(tool!=='pencil'&&tool!=='highlight'){const p=mp(e);ctx.putImageData(saved,0,0);shape(p.x,p.y);}});
+canvas.addEventListener('mouseout',()=>{drawing=false;});
+function shape(x,y){ctx.beginPath();ctx.strokeStyle=col;ctx.lineWidth=2;
+if(tool==='square')ctx.strokeRect(sx,sy,x-sx,y-sy);
+else if(tool==='circle'){ctx.arc(sx,sy,Math.hypot(x-sx,y-sy),0,2*Math.PI);ctx.stroke();}
+else if(tool==='arrow'){const a=Math.atan2(y-sy,x-sx),h=15;ctx.moveTo(sx,sy);ctx.lineTo(x,y);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-h*Math.cos(a-Math.PI/6),y-h*Math.sin(a-Math.PI/6));ctx.moveTo(x,y);ctx.lineTo(x-h*Math.cos(a+Math.PI/6),y-h*Math.sin(a+Math.PI/6));ctx.stroke();}}
+
+function scrollToWB(){const s=document.getElementById('whiteboard');window.scrollTo({top:s.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});}
+document.querySelector('.nav-links').addEventListener('click',e=>{if(e.target.tagName==='A'){e.preventDefault();const t=document.querySelector(e.target.getAttribute('href'));if(t)window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-100,behavior:'smooth'});}});
+function saveAsPDF(){const fa=document.getElementById('floatingActions'),ss=document.getElementById('syncStatus');fa.style.display='none';ss.style.display='none';
+const el=document.body;html2pdf().set({margin:0,filename:'Lesson-7-AI-Junior-Developer.pdf',image:{type:'jpeg',quality:.95},html2canvas:{scale:1.5,useCORS:true,windowWidth:el.scrollWidth,scrollY:0},jsPDF:{unit:'px',format:[el.scrollWidth,el.scrollHeight],orientation:'portrait'}}).from(el).save().then(()=>{fa.style.display='flex';ss.style.display='flex';});}
+function addWordRow(){const r=document.createElement('div');r.className='word-row';r.innerHTML='<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation" class="q-trans">';document.getElementById('wordList').appendChild(r);}
+function copyForQuizlet(){let out='';document.querySelectorAll('.word-row').forEach(r=>{const w=r.querySelector('.q-word').value.trim(),t=r.querySelector('.q-trans').value.trim();if(w||t)out+=w+'\t'+t+'\n';});
+const b=document.getElementById('copyQuizletBtn'),o=b.innerText;
+if(out){const ta=document.createElement('textarea');ta.value=out;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);b.innerText='✅ Copied!';}else b.innerText='⚠️ Add some words first!';
+setTimeout(()=>b.innerText=o,3000);}
+
+</script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import{getAuth,signInAnonymously,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import{getFirestore,doc,setDoc,onSnapshot}from"https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+const cfg={apiKey:"AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",authDomain:"b1-oge-l1.firebaseapp.com",projectId:"b1-oge-l1",storageBucket:"b1-oge-l1.firebasestorage.app",messagingSenderId:"914766471365",appId:"1:914766471365:web:11764d3942bc385f3cd0ac"};
+const appId='lesson-7-c1-ai-junior-developer';
+const st=document.getElementById('syncText'),sd=document.getElementById('syncDot');
+const setS=(t,c)=>{st.innerText=t;sd.style.background=c;};
+try{
+const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app);let user=null,editing=null;
+const eds=[...document.querySelectorAll('[contenteditable="true"]')].filter(e=>!e.classList.contains('dict-key'));
+eds.forEach((e,i)=>e.dataset.syncId='e'+i);
+const deb=(f,w)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f(...a),w);};};
+const base=['artifacts',appId,'public','data','lesson_state'];
+const textRef=doc(db,...base,'text_edits'),dragRef=doc(db,...base,'drag_order');
+onAuthStateChanged(auth,u=>{user=u;if(u){setS('Live Sync On','#2EC4B6');
+eds.forEach(el=>{el.addEventListener('focus',()=>editing=el.dataset.syncId);el.addEventListener('blur',()=>{editing=null;setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});});el.addEventListener('input',deb(()=>{if(editing===el.dataset.syncId)setDoc(textRef,{[el.dataset.syncId]:el.innerHTML},{merge:true});},500));});
+onSnapshot(textRef,s=>{if(!s.exists())return;for(const[id,h]of Object.entries(s.data())){if(editing===id)continue;const el=document.querySelector('[data-sync-id="'+id+'"]');if(el&&el.innerHTML!==h)el.innerHTML=h;}});
+window.syncDragOrder=()=>{const c=document.getElementById('storyStrips');setDoc(dragRef,{storyStrips:[...c.children].map(x=>x.id)},{merge:true});};
+onSnapshot(dragRef,s=>{if(!s.exists())return;const o=s.data().storyStrips;const c=document.getElementById('storyStrips');if(o)o.forEach(id=>{const e=document.getElementById(id);if(e)c.appendChild(e);});});
+}else setS('Disconnected','#FF6B6B');});
+signInAnonymously(auth).catch(()=>setS('Auth Failed','#FF6B6B'));
+}catch(e){setS('Offline Mode','#A9AFC3');}
+</script>
+</body>
+</html>
