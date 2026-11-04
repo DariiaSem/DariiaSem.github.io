@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 7: C1/C2 | AI and The Loss of Intuition</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+        /* High-Energy Tech Theme: Cyan and Indigo */
+        --primary-900: #312E81; 
+        --primary-800: #3730A3;
+        --primary-700: #4338CA; 
+        --primary-100: #E0E7FF;
+        --primary-50:  #EEF2FF;
+        
+        --accent-700: #0369A1; 
+        --accent-500: #0EA5E9; 
+        --accent-100: #E0F2FE;
+        --accent-50:  #F0F9FF;
+        
+        --energy-500: #10B981; 
+        --energy-400: #34D399;
+        
+        --gray-900: #0F172A;
+        --gray-800: #1E293B;
+        --gray-600: #475569;
+        --gray-400: #94A3B8;
+        --gray-200: #E2E8F0;
+        --gray-100: #F1F5F9;
+        --gray-50:  #F8FAFC;
+        
+        --danger:   #EF4444;
+        --success:  #10B981;
+        
+        --font-ui:    'Outfit', sans-serif;
+        --font-serif: 'Playfair Display', serif;
+        --font-mono:  'JetBrains Mono', monospace;
+        
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: var(--font-ui);
+        line-height: 1.7;
+        color: var(--gray-800);
+        background-color: var(--gray-50);
+        background-image: radial-gradient(var(--gray-200) 1px, transparent 1px);
+        background-size: 24px 24px;
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif { font-family: var(--font-serif); }
+
+    [contenteditable="true"] { outline: none; transition: all 0.2s; border-radius: 4px; padding: 0 4px; margin: 0 -4px; border-bottom: 2px dashed transparent; }
+    [contenteditable="true"]:focus, [contenteditable="true"]:hover {
+        background-color: rgba(14, 165, 233, 0.1);
+        border-bottom: 2px dashed var(--accent-500);
+    }
+
+    .uk-tooltip {
+        position: relative; cursor: help; border-bottom: 2px dotted var(--accent-500);
+        font-weight: 700; color: var(--primary-700); transition: color 0.2s;
+    }
+    .uk-tooltip:hover { color: var(--accent-700); }
+    .uk-tooltip::after {
+        content: attr(data-uk); position: absolute; bottom: 130%; left: 50%;
+        transform: translateX(-50%); background: var(--primary-900); color: white;
+        padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+        white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        z-index: 50; font-family: var(--font-ui); box-shadow: var(--shadow-md);
+    }
+    .uk-tooltip:hover::after { opacity: 1; }
+
+    /* ====== HERO ====== */
+    .hero {
+        position: relative;
+        background: linear-gradient(135deg, var(--primary-50) 0%, var(--accent-50) 100%);
+        color: var(--gray-900); padding: 120px 24px 80px; text-align: center;
+        border-bottom: 4px solid var(--primary-100);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+    .hero-badge {
+        display: inline-block; background: white; border: 2px solid var(--primary-700);
+        color: var(--primary-800); padding: 8px 24px; border-radius: 50px; font-size: 0.9rem;
+        font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px;
+        font-family: var(--font-mono); box-shadow: var(--shadow-sm);
+    }
+    .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.15; margin-bottom: 20px; color: var(--primary-900); }
+    .hero h1 span { color: var(--accent-500); font-style: italic; font-weight: 700; font-family: var(--font-serif); }
+    .hero-subtitle { font-size: 1.2rem; color: var(--gray-600); max-width: 700px; margin: 0 auto 24px; font-weight: 400; }
+    .hero-meta { display:flex; gap: 12px; justify-content:center; flex-wrap:wrap; margin-top: 24px; }
+    .hero-pill { background: white; border: 1px solid var(--accent-500); padding: 6px 16px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; color: var(--accent-700); box-shadow: var(--shadow-sm); }
+
+    /* ====== NAV ====== */
+    .nav-bar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px; box-shadow: var(--shadow-sm); }
+    .nav-inner { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { font-weight: 800; font-size: 1.1rem; color: var(--primary-900); text-decoration: none; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px;}
+    .nav-logo .dot { display: inline-block; width: 10px; height: 10px; background: var(--accent-500); border-radius: 50%; }
+    .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--gray-600); font-size: 0.85rem; font-weight: 700; padding: 8px 14px; border-radius: 6px; transition: all 0.2s; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.5px;}
+    .nav-links a:hover { color: var(--primary-700); background: var(--primary-50); }
+    .nav-links a.active { color: var(--primary-900); background: var(--primary-100); }
+
+    /* ====== SECTIONS ====== */
+    .section { padding: 80px 24px; border-bottom: 1px solid var(--gray-200); }
+    .section:nth-child(even) { background: white; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+
+    .task-header { margin-bottom: 40px; text-align: left; }
+    .task-label { display: inline-block; font-size: 0.85rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-700); margin-bottom: 12px; font-family: var(--font-mono); background: var(--accent-100); padding: 4px 12px; border-radius: 4px;}
+    .task-title { font-size: 2.5rem; font-weight: 800; color: var(--gray-900); margin-bottom: 16px; line-height: 1.1; }
+    .task-title em { color: var(--primary-700); font-style: italic; font-weight: 700; font-family: var(--font-serif);}
+
+    .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    @media (max-width: 960px) { .split-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+    /* ====== CARDS ====== */
+    .card { background: white; border: 2px solid var(--gray-200); border-radius: var(--radius-md); padding: 40px; box-shadow: var(--shadow-sm); transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--primary-100); }
+    .card-primary { border-top: 6px solid var(--primary-500); }
+    .card-accent { border-top: 6px solid var(--accent-500); }
+
+    /* ====== INPUTS & LISTS ====== */
+    .practice-list { list-style: none; display: flex; flex-direction: column; gap: 16px; counter-reset: practice-counter; }
+    .practice-list li { background: white; padding: 20px 24px 20px 60px; border-radius: var(--radius-sm); border: 2px solid var(--gray-100); font-size: 1.05rem; position: relative; box-shadow: var(--shadow-sm); transition: border-color 0.2s; }
+    .practice-list li:hover { border-color: var(--primary-500); }
+    .practice-list li::before { counter-increment: practice-counter; content: counter(practice-counter, decimal-leading-zero) .; position: absolute; left: 20px; top: 22px; font-weight: 800; color: var(--accent-500); font-family: var(--font-mono); }
+    
+    /* Strict blank input styling */
+    .blank-input { display: inline-block; min-width: 100px; border: none; border-bottom: 3px solid var(--gray-300); color: var(--primary-700); font-weight: 800; padding: 0 8px; text-align: center; background: transparent; font-family: var(--font-mono); font-size: 1.05rem; outline: none; transition: all 0.2s; }
+    .blank-input:focus { border-bottom-color: var(--primary-600); background: var(--primary-50); }
+
+    .drill-input { width: 100%; padding: 14px 20px; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: 1.1rem; color: var(--gray-900); background: white; transition: all 0.2s; outline: none; font-weight: 600;}
+    .drill-input:focus { border-color: var(--primary-500); box-shadow: 0 0 0 4px var(--primary-100); }
+    
+    .inline-drill { display: inline-block; width: auto; min-width: 150px; padding: 6px 12px; border: 2px dashed var(--accent-500); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 1rem; color: var(--accent-700); background: var(--accent-50); transition: all 0.2s; outline: none; font-weight: 700; text-align: center; margin: 0 4px;}
+    .inline-drill:focus { border-style: solid; box-shadow: 0 0 0 3px var(--accent-100); background: white; }
+
+    .btn-verify { background: var(--primary-700); color: white; border: none; padding: 14px 28px; border-radius: var(--radius-sm); font-weight: 800; cursor: pointer; transition: background 0.2s; font-family: var(--font-mono); text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;}
+    .btn-verify:hover { background: var(--primary-800); transform: scale(1.02); }
+
+    /* ====== HUB NAVIGATION ====== */
+    .hub-nav { display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 2px solid var(--gray-200); padding-bottom: 16px; overflow-x: auto; }
+    .hub-tab { background: white; color: var(--gray-600); border: 2px solid var(--gray-200); padding: 12px 24px; border-radius: 50px; font-weight: 800; font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .hub-tab:hover { background: var(--gray-50); border-color: var(--gray-400); }
+    .hub-tab.active { background: var(--accent-500); color: white; border-color: var(--accent-500); box-shadow: var(--shadow-md); }
+    .hub-content { display: none; animation: fadeIn 0.3s ease; }
+    .hub-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ====== MFP VOCABULARY ELICITATION UI ====== */
+    .mfp-container { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; background: white; border: 2px solid var(--gray-100); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-md); }
+    @media (max-width: 960px) { .mfp-container { grid-template-columns: 1fr; } }
+    .mfp-image { width: 100%; height: 320px; border-radius: var(--radius-md); background-size: cover; background-position: center; border: 1px solid var(--gray-200); }
+    .mfp-content { display: flex; flex-direction: column; gap: 24px; }
+    .mfp-row { display: flex; gap: 20px; align-items: flex-start; }
+    .mfp-label-col { width: 110px; text-align: right; flex-shrink: 0; }
+    .mfp-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-800); background: var(--primary-100); padding: 6px 12px; border-radius: 6px; display: inline-block; font-family: var(--font-mono); }
+    .mfp-data { flex: 1; font-size: 1.1rem; color: var(--gray-800); padding-top: 4px; }
+    .ccq-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 0; }
+    .ccq-list li { color: var(--gray-900); font-weight: 600; font-size: 1.1rem; position: relative; padding-left: 24px; }
+    .ccq-list li::before { content: ›; position: absolute; left: 0; color: var(--accent-500); font-weight: 800; font-size: 1.4rem; line-height: 1; }
+
+    .word-reveal-btn { background: var(--primary-700); color: white; border: none; padding: 18px 28px; border-radius: 12px; font-family: var(--font-serif); font-size: 2rem; font-weight: 700; cursor: pointer; transition: all 0.3s; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; font-style: italic; box-shadow: var(--shadow-sm); }
+    .word-reveal-btn:hover { background: var(--primary-800); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .word-reveal-btn.revealed { background: var(--primary-50); color: var(--primary-900); border: 2px solid var(--primary-200); cursor: default; box-shadow: none; transform: none; font-weight: 800; font-style: normal; }
+
+    .form-details, .pron-details { opacity: 0; filter: blur(4px); transform: translateX(-10px); transition: all 0.4s ease; pointer-events: none; }
+    .form-details.visible, .pron-details.visible { opacity: 1; filter: blur(0); transform: translateX(0); pointer-events: auto; }
+    .reveal-trigger { font-size: 0.85rem; color: var(--accent-500); cursor: pointer; text-decoration: underline; margin-top: 8px; display: inline-block; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+    .reveal-trigger:hover { color: var(--accent-700); }
+
+    /* ====== INTERACTIVE GAMES ====== */
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
+    .match-col { display: flex; flex-direction: column; gap: 12px; }
+    .match-item { background: white; border: 3px solid var(--gray-200); padding: 18px 24px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-weight: 700; text-align: center; box-shadow: var(--shadow-sm); color: var(--gray-900); font-size: 1.1rem;}
+    .match-item:hover { border-color: var(--accent-500); transform: translateY(-2px); }
+    .match-item.selected { background: var(--accent-500); color: white; border-color: var(--accent-500); }
+    .match-item.matched { background: var(--primary-50); border-color: var(--primary-200); color: var(--primary-800); opacity: 0.7; cursor: default; transform: none; }
+
+    .pingpong-board { background: white; border: 4px solid var(--primary-100); border-radius: var(--radius-lg); padding: 40px; text-align: center; position: relative; overflow: hidden; }
+    .pingpong-target { font-size: 3rem; font-family: var(--font-serif); color: var(--primary-900); margin-bottom: 30px; font-weight: 700; }
+    .pingpong-options { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .pingpong-btn { background: var(--gray-100); border: 2px solid var(--gray-300); padding: 16px 32px; border-radius: 50px; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.1s; font-family: var(--font-mono); text-transform: uppercase; }
+    .pingpong-btn:hover { background: var(--gray-200); border-color: var(--gray-400); transform: scale(1.05); }
+    .pingpong-score { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; font-weight: 800; color: var(--accent-500); font-family: var(--font-mono); }
+
+    /* ====== ERROR SPY ====== */
+    .errorspy-sentence { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; }
+    .es-word { cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: background 0.2s; }
+    .es-word:hover { background: rgba(14,165,233,0.18); }
+    .es-word.correct-click { background: var(--primary-700); color: var(--white); font-weight: 700; }
+    .es-word.wrong-click { background: var(--danger); color: var(--white); }
+    .es-fixed { color: var(--accent-500); font-weight: 800; }
+
+    /* ====== BINARY CHOICE GAME ====== */
+    .binary-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 24px; }
+    .binary-card { background: white; border: 2px solid var(--gray-200); border-radius: var(--radius-md); padding: 32px; text-align: center; box-shadow: var(--shadow-sm); }
+    .binary-title { font-family: var(--font-serif); font-size: 1.4rem; color: var(--primary-900); margin-bottom: 20px; font-weight: 700; }
+    .binary-options { display: flex; gap: 12px; justify-content: center; }
+    .binary-btn { flex: 1; background: var(--gray-100); border: 2px solid var(--gray-300); padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .binary-btn:hover { border-color: var(--accent-500); }
+    .binary-btn.selected { background: var(--accent-500); color: white; border-color: var(--accent-500); }
+    .binary-followup { display: none; margin-top: 20px; background: var(--accent-50); padding: 16px; border-radius: 8px; border-left: 4px solid var(--accent-500); font-weight: 600; color: var(--gray-800); text-align: left; font-size: 0.95rem; }
+
+</style>
+</head>
+<body>
+
+<!-- Sync Tool Firewall -->
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: white; border: 3px solid var(--primary-500); color: var(--primary-900); padding: 8px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 800; z-index: 10000; display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-md); font-family: var(--font-mono); text-transform: uppercase;">
+    <span id="syncDot" style="display: block; width: 10px; height: 10px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success);"></span>
+    <span id="syncText">Link Established</span>
+</div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">Module 07 • Corporate Banking C1/C2</div>
+        <h1 contenteditable="true">AI and The Loss of <span>Intuition</span></h1>
+        <p class="hero-subtitle" contenteditable="true">Hypothesizing alternative tech timelines in algorithmic trading. Master Mixed Conditionals to debate causality and predict market shifts[cite: 12].</p>
+        <div class="hero-meta">
+            <span class="hero-pill" contenteditable="true">Mixed Conditionals</span>
+            <span class="hero-pill" contenteditable="true">Causality Mapping</span>
+            <span class="hero-pill" contenteditable="true">C2 Tech Lexicon</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot" contenteditable="true"></span> <span contenteditable="true">Level C1/C2</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#t1">01. Recap</a></li>
+            <li><a href="#t2">02. Warm-Up</a></li>
+            <li><a href="#t3">03. Discovery</a></li>
+            <li><a href="#t4">04. Lexicon</a></li>
+            <li><a href="#t5">05. Match</a></li>
+            <li><a href="#t6">06. Reading</a></li>
+            <li><a href="#t7">07. Theory 1</a></li>
+            <li><a href="#t8">08. Drill 1</a></li>
+            <li><a href="#t9">09. Theory 2</a></li>
+            <li><a href="#t10">10. Drill 2</a></li>
+            <li><a href="#t11">11. Speaking</a></li>
+            <li><a href="#t12">12. Pronunciation</a></li>
+            <li><a href="#t13">13. Roleplay</a></li>
+            <li><a href="#t14">14. Collocations</a></li>
+            <li><a href="#t15">15. Wrap-Up</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section" id="t1">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 01</span>
+            <h2 class="task-title" contenteditable="true">System Reboot: Lesson 6 Debug</h2>
+            <p class="section-desc" contenteditable="true">Verify the data from the previous lesson on existential cinematic analysis. Each sentence below hides one bug regarding narrative tenses or lexicon. Click the word you suspect is incorrect.</p>
+        </div>
+
+        <h3 contenteditable="true" style="margin-bottom: 10px; color: var(--primary-800);">Exercise A: Error Spy</h3>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">1. The director insisted that the film explores a feeling of severe <span class="es-word" data-correct="ennui" onclick="fixError(this)">catharsis</span> rather than active anger.</span>
+        </div>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">2. Before the final scene concluded the protagonist <span class="es-word" data-correct="had realized" onclick="fixError(this)">realizes</span> his entire life was meaningless.</span>
+        </div>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">3. The isolated spaceship acts perfectly as a <span class="es-word" data-correct="microcosm" onclick="fixError(this)">nihilism</span> for the broader society.</span>
+        </div>
+        <div class="errorspy-sentence" contenteditable="false">
+            <span contenteditable="true">4. We <span class="es-word" data-correct="had been waiting" onclick="fixError(this)">were waiting</span> for the sequel for three years before it finally hit theaters.</span>
+        </div>
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-top:6px;" contenteditable="true"><em>Click exactly on the phrase that breaks the grammatical or lexical rules.</em></p>
+    </div>
+</section>
+
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="t2">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 02</span>
+            <h2 class="task-title" contenteditable="true">The Binary <em>Boardroom</em></h2>
+            <p class="section-desc" contenteditable="true">Make a rapid choice between human intuition and algorithmic precision. Click your choice to reveal a constraint based follow up question.</p>
+        </div>
+
+        <div class="binary-container">
+            <div class="binary-card">
+                <div class="binary-title" contenteditable="true">Predicting Market Crashes</div>
+                <div class="binary-options">
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Provide exactly one sentence explaining why human intuition fails here.')">Human</button>
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Provide exactly one sentence explaining the danger of historical data bias.')">Algorithm</button>
+                </div>
+                <div class="binary-followup"></div>
+            </div>
+            
+            <div class="binary-card">
+                <div class="binary-title" contenteditable="true">Executing Mega Mergers</div>
+                <div class="binary-options">
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'List three emotional factors a machine cannot quantify during a deal.')">Human</button>
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Provide one reason why removing human ego guarantees a better acquisition.')">Algorithm</button>
+                </div>
+                <div class="binary-followup"></div>
+            </div>
+            
+            <div class="binary-card">
+                <div class="binary-title" contenteditable="true">Crisis De-escalation</div>
+                <div class="binary-options">
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Explain in exactly ten words how empathy saves client capital.')">Human</button>
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Explain in exactly ten words how pure logic prevents panic selling.')">Algorithm</button>
+                </div>
+                <div class="binary-followup"></div>
+            </div>
+        </div>
+
+        <script>
+            function revealFollowUp(btn, promptText) {
+                const container = btn.parentElement.parentElement;
+                container.querySelectorAll('.binary-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                const followup = container.querySelector('.binary-followup');
+                followup.innerText = promptText;
+                followup.style.display = 'block';
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 3: VOCABULARY GUESS ====== -->
+<section class="section" id="t3">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 03</span>
+            <h2 class="task-title" contenteditable="true">Lexical <em>Discovery</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Six advanced verbs regarding technology automation and human skill degradation are hidden below. Guess the word based on the context.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+            <div class="card" style="padding: 32px 24px; text-align: center;">
+                <p contenteditable="true" style="font-size:1.05rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">If traders rely entirely on machines their natural market intuition will eventually <strong style="color: var(--primary-700);">_______</strong> and die.</p>
+                <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 12px; font-style: italic;">Hint: To waste away or decline gradually due to lack of use.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 3px solid var(--gray-200); text-align: center; font-weight: 800; color: var(--primary-900); background: var(--gray-50); font-size: 1.1rem; font-family: var(--font-mono); outline: none;" placeholder="verb">
+            </div>
+            <div class="card" style="padding: 32px 24px; text-align: center;">
+                <p contenteditable="true" style="font-size:1.05rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">The new artificial intelligence system will completely <strong style="color: var(--primary-700);">_______</strong> the older manual trading protocols.</p>
+                <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 12px; font-style: italic;">Hint: To take the place of something older or inferior.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 3px solid var(--gray-200); text-align: center; font-weight: 800; color: var(--primary-900); background: var(--gray-50); font-size: 1.1rem; font-family: var(--font-mono); outline: none;" placeholder="verb">
+            </div>
+            <div class="card" style="padding: 32px 24px; text-align: center;">
+                <p contenteditable="true" style="font-size:1.05rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">The machine learning models constantly <strong style="color: var(--primary-700);">_______</strong> massive amounts of historical data to predict future crashes.</p>
+                <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 12px; font-style: italic;">Hint: To estimate a future trend based on known past facts.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 3px solid var(--gray-200); text-align: center; font-weight: 800; color: var(--primary-900); background: var(--gray-50); font-size: 1.1rem; font-family: var(--font-mono); outline: none;" placeholder="verb">
+            </div>
+            <div class="card" style="padding: 32px 24px; text-align: center;">
+                <p contenteditable="true" style="font-size:1.05rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">The complex code tends to <strong style="color: var(--primary-700);">_______</strong> the actual risk level making it impossible for humans to understand.</p>
+                <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 12px; font-style: italic;">Hint: To deliberately make something unclear or difficult to understand.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 3px solid var(--gray-200); text-align: center; font-weight: 800; color: var(--primary-900); background: var(--gray-50); font-size: 1.1rem; font-family: var(--font-mono); outline: none;" placeholder="verb">
+            </div>
+            <div class="card" style="padding: 32px 24px; text-align: center;">
+                <p contenteditable="true" style="font-size:1.05rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">After the market shock we must immediately <strong style="color: var(--primary-700);">_______</strong> our defensive algorithms to match the new volatility.</p>
+                <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 12px; font-style: italic;">Hint: To make precise adjustments to a machine or strategy.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 3px solid var(--gray-200); text-align: center; font-weight: 800; color: var(--primary-900); background: var(--gray-50); font-size: 1.1rem; font-family: var(--font-mono); outline: none;" placeholder="verb">
+            </div>
+            <div class="card" style="padding: 32px 24px; text-align: center;">
+                <p contenteditable="true" style="font-size:1.05rem; line-height: 1.6; color:var(--gray-700); font-weight: 600;">Modern executives simply <strong style="color: var(--primary-700);">_______</strong> basic market analysis to their software programs.</p>
+                <p style="font-size: 0.85rem; color: var(--gray-400); margin-top: 12px; font-style: italic;">Hint: To entrust a task or responsibility to another person or machine.</p>
+                <input type="text" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-bottom: 3px solid var(--gray-200); text-align: center; font-weight: 800; color: var(--primary-900); background: var(--gray-50); font-size: 1.1rem; font-family: var(--font-mono); outline: none;" placeholder="verb">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: THE LEXICON HUB ====== -->
+<section class="section" id="t4">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 04</span>
+            <h2 class="task-title" contenteditable="true">The Lexicon <em>Hub</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Explore the sophisticated terminology required to debate artificial intelligence in finance.</p>
+        </div>
+
+        <div class="hub-nav" id="vocabTabs">
+            <div class="hub-tab active" onclick="switchHub('v-1', this)">1. The Decline</div>
+            <div class="hub-tab" onclick="switchHub('v-2', this)">2. The Replacement</div>
+            <div class="hub-tab" onclick="switchHub('v-3', this)">3. The Prediction</div>
+            <div class="hub-tab" onclick="switchHub('v-4', this)">4. The Smoke</div>
+            <div class="hub-tab" onclick="switchHub('v-5', this)">5. The Adjustment</div>
+            <div class="hub-tab" onclick="switchHub('v-6', this)">6. The Transfer</div>
+        </div>
+
+        <!-- Word 1 -->
+        <div class="hub-content active" id="v-1">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Atrophy')">Click to reveal the target... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If you stop walking your leg muscles lose their strength. Does this verb apply to human intelligence as well?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-700);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f1">
+                            <strong contenteditable="true">Verb (Intransitive) / Noun</strong><br>
+                            <span style="color:var(--gray-600); font-size:1rem;" contenteditable="true">Collocations: mental <span class="uk-tooltip" data-uk="атрофія, відмирання">~</span>, skills begin to ~.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FEF2F2; color:#EF4444;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p1').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p1">
+                            <strong contenteditable="true">AT-ruh-fee</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:1rem; color:var(--gray-400);" contenteditable="true">/ˈæt.rə.fi/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 2 -->
+        <div class="hub-content" id="v-2">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Supersede')">Click to reveal the target... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">When a new powerful software launches does it coexist with the old manual systems or does it render them obsolete?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-700);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f2">
+                            <strong contenteditable="true">Verb (Transitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:1rem;" contenteditable="true">Collocations: to effectively <span class="uk-tooltip" data-uk="замінювати, витісняти">~</span> human judgment.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FEF2F2; color:#EF4444;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p2').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p2">
+                            <strong contenteditable="true">soo-pur-SEED</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:1rem; color:var(--gray-400);" contenteditable="true">/ˌsuː.pəˈsiːd/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 3 -->
+        <div class="hub-content" id="v-3">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Extrapolate')">Click to reveal the target... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If an AI analyzes the stock market from the past twenty years to guess what happens next what mathematical action is it taking?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-700);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f3">
+                            <strong contenteditable="true">Verb (Transitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:1rem;" contenteditable="true">Collocations: to securely <span class="uk-tooltip" data-uk="екстраполювати, робити висновки на основі даних">~</span> trends from data.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FEF2F2; color:#EF4444;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p3').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p3">
+                            <strong contenteditable="true">ik-STRAP-uh-layt</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:1rem; color:var(--gray-400);" contenteditable="true">/ɪkˈstræp.ə.leɪt/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 4 -->
+        <div class="hub-content" id="v-4">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Obfuscate')">Click to reveal the target... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">When neural networks make decisions we cannot understand does the code clarify the logic or actively hide it?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-700);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f4">
+                            <strong contenteditable="true">Verb (Transitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:1rem;" contenteditable="true">Collocations: to deliberately <span class="uk-tooltip" data-uk="заплутувати, затемнювати">~</span> the truth, ~ data.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FEF2F2; color:#EF4444;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p4').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p4">
+                            <strong contenteditable="true">OB-fus-kayt</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:1rem; color:var(--gray-400);" contenteditable="true">/ˈɒb.fʌs.keɪt/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 5 -->
+        <div class="hub-content" id="v-5">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Recalibrate')">Click to reveal the target... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If market conditions change drastically do you abandon your software or carefully tune its parameters?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-700);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f5').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f5">
+                            <strong contenteditable="true">Verb (Transitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:1rem;" contenteditable="true">Collocations: to constantly <span class="uk-tooltip" data-uk="перекалібрувати, налаштувати наново">~</span> models.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FEF2F2; color:#EF4444;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p5').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p5">
+                            <strong contenteditable="true">ree-KAL-ih-brayt</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:1rem; color:var(--gray-400);" contenteditable="true">/ˌriːˈkæl.ɪ.breɪt/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Word 6 -->
+        <div class="hub-content" id="v-6">
+            <div class="mfp-container">
+                <div class="mfp-image" style="background-image: url('https://images.unsplash.com/photo-1560264280-88b68371db39?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="mfp-content">
+                    <div>
+                        <button class="word-reveal-btn" onclick="revealWord(this, 'Delegate')">Click to reveal the target... <span>👀</span></button>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col"><span class="mfp-label">Meaning</span></div>
+                        <div class="mfp-data">
+                            <ul class="ccq-list">
+                                <li contenteditable="true">If you hand over all execution power to a trading bot are you doing the work yourself or assigning it?</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:var(--accent-50); color:var(--accent-700);">Form</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('f6').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data form-details" id="f6">
+                            <strong contenteditable="true">Verb (Transitive)</strong><br>
+                            <span style="color:var(--gray-600); font-size:1rem;" contenteditable="true">Collocations: to easily <span class="uk-tooltip" data-uk="делегувати, передавати повноваження">~</span> tasks to AI.</span>
+                        </div>
+                    </div>
+                    <div class="mfp-row">
+                        <div class="mfp-label-col">
+                            <span class="mfp-label" style="background:#FEF2F2; color:#EF4444;">Pron</span>
+                            <div class="reveal-trigger" onclick="document.getElementById('p6').classList.add('visible')">Reveal</div>
+                        </div>
+                        <div class="mfp-data pron-details" id="p6">
+                            <strong contenteditable="true">DEL-uh-gayt</strong><br>
+                            <span style="font-family:var(--font-mono); font-size:1rem; color:var(--gray-400);" contenteditable="true">/ˈdel.ɪ.ɡeɪt/</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function switchHub(id, tabElement) {
+                document.querySelectorAll('.hub-content').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.hub-tab').forEach(t => t.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
+                tabElement.classList.add('active');
+            }
+            function revealWord(btn, word) {
+                btn.innerHTML = word;
+                btn.classList.add('revealed');
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 5: INTERACTIVE MATCHING ====== -->
+<section class="section" id="t5">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 05</span>
+            <h2 class="task-title" contenteditable="true">Technological <em>Connections</em></h2>
+            <p class="section-desc" contenteditable="true">Match the advanced verbs on the left with their direct market consequences on the right.</p>
+        </div>
+
+        <div class="match-grid" id="matchGrid">
+            <div class="match-col">
+                <div class="match-item" data-id="1" onclick="selectMatch(this, 'left')">1. When human intuition atrophies...</div>
+                <div class="match-item" data-id="2" onclick="selectMatch(this, 'left')">2. By delegating all execution...</div>
+                <div class="match-item" data-id="3" onclick="selectMatch(this, 'left')">3. To extrapolate future crises...</div>
+                <div class="match-item" data-id="4" onclick="selectMatch(this, 'left')">4. When AI completely supersedes...</div>
+                <div class="match-item" data-id="5" onclick="selectMatch(this, 'left')">5. Complex code often obfuscates...</div>
+                <div class="match-item" data-id="6" onclick="selectMatch(this, 'left')">6. We must rapidly recalibrate...</div>
+            </div>
+            <div class="match-col">
+                <div class="match-item right-item" data-match="6" onclick="selectMatch(this, 'right')">A. ...the risk models immediately after a flash crash.</div>
+                <div class="match-item right-item" data-match="4" onclick="selectMatch(this, 'right')">B. ...the traditional brokers they lose their entire leverage.</div>
+                <div class="match-item right-item" data-match="1" onclick="selectMatch(this, 'right')">C. ...the traders become utterly incapable of reading panic.</div>
+                <div class="match-item right-item" data-match="3" onclick="selectMatch(this, 'right')">D. ...the machine simply analyzes the prior decades patterns.</div>
+                <div class="match-item right-item" data-match="5" onclick="selectMatch(this, 'right')">E. ...the true level of danger lurking in the portfolio.</div>
+                <div class="match-item right-item" data-match="2" onclick="selectMatch(this, 'right')">F. ...the firm eliminates human emotional errors entirely.</div>
+            </div>
+        </div>
+
+        <script>
+            let selectedLeft = null;
+            let selectedRight = null;
+
+            function selectMatch(el, side) {
+                if(el.classList.contains('matched')) return;
+                
+                if(side === 'left') {
+                    document.querySelectorAll('.match-col:first-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedLeft = el;
+                    el.classList.add('selected');
+                } else {
+                    document.querySelectorAll('.match-col:last-child .match-item').forEach(i => i.classList.remove('selected'));
+                    selectedRight = el;
+                    el.classList.add('selected');
+                }
+
+                if(selectedLeft && selectedRight) {
+                    if(selectedLeft.dataset.id === selectedRight.dataset.match) {
+                        selectedLeft.classList.remove('selected'); selectedLeft.classList.add('matched');
+                        selectedRight.classList.remove('selected'); selectedRight.classList.add('matched');
+                        selectedLeft = null; selectedRight = null;
+                    } else {
+                        selectedLeft.style.animation = 'shake 0.4s'; selectedRight.style.animation = 'shake 0.4s';
+                        selectedLeft.style.borderColor = 'var(--danger)'; selectedRight.style.borderColor = 'var(--danger)';
+                        setTimeout(() => {
+                            selectedLeft.style.animation = ''; selectedRight.style.animation = '';
+                            selectedLeft.style.borderColor = ''; selectedRight.style.borderColor = '';
+                            selectedLeft.classList.remove('selected'); selectedRight.classList.remove('selected');
+                            selectedLeft = null; selectedRight = null;
+                        }, 400);
+                    }
+                }
+            }
+            
+            const style = document.createElement('style');
+            style.innerHTML = `@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }`;
+            document.head.appendChild(style);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 6: INTERACTIVE READING ====== -->
+<section class="section" id="t6">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 06</span>
+            <h2 class="task-title" contenteditable="true">The Algorithmic <em>Flash Crash</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Read the postmortem of a severe market failure. Notice how the author blends past facts with present consequences. Type the correct vocabulary word into the inline blanks to repair the text.</p>
+        </div>
+
+        <div class="split-layout">
+            <div class="card card-primary" style="padding: 40px; font-family: var(--font-serif); font-size: 1.15rem; line-height: 2.2;">
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    <span style="float: left; font-size: 4rem; line-height: 0.8; padding-right: 12px; color: var(--primary-900); font-weight: 800;">T</span>he flash crash of 2024 proved that human intuition had completely <input type="text" class="inline-drill" id="cloze1" placeholder="verb"> on the trading floor. We had <input type="text" class="inline-drill" id="cloze2" placeholder="verb"> all execution to the machines assuming their speed would <input type="text" class="inline-drill" id="cloze3" placeholder="verb"> our slow judgment. 
+                </p>
+                <p contenteditable="true" style="margin-bottom: 20px;">
+                    The issue was that the AI models attempted to <input type="text" class="inline-drill" id="cloze4" placeholder="verb"> risk based only on quiet historical data. When a black swan event occurred the neural networks simply <input type="text" class="inline-drill" id="cloze5" placeholder="verb (past tense)"> the actual danger triggering massive automated sell orders. By the time the engineers managed to <input type="text" class="inline-drill" id="cloze6" placeholder="verb"> the systems billions had vanished.
+                </p>
+                
+                <button class="btn-verify" style="margin-top: 16px;" onclick="checkCloze()">Verify Text</button>
+                <div id="clozeFb" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="card" style="padding:24px; box-shadow: var(--shadow-sm);">
+                    <strong contenteditable="true" style="color:var(--gray-900); font-size: 1.2rem;">Discussion Point 1</strong>
+                    <p contenteditable="true" style="margin-top: 8px; color: var(--gray-600);">If we had maintained manual override protocols would this crash have happened? Answer in one sentence.</p>
+                </div>
+                <div class="card" style="padding:24px; box-shadow: var(--shadow-sm);">
+                    <strong contenteditable="true" style="color:var(--gray-900); font-size: 1.2rem;">Discussion Point 2</strong>
+                    <p contenteditable="true" style="margin-top: 8px; color: var(--gray-600);">Explain exactly why an AI cannot effectively extrapolate unprecedented black swan events.</p>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            function checkCloze() {
+                const answers = ['atrophied', 'delegated', 'supersede', 'extrapolate', 'obfuscated', 'recalibrate'];
+                let correctCount = 0;
+                for(let i = 1; i <= 6; i++) {
+                    const input = document.getElementById(`cloze${i}`);
+                    const userVal = input.value.toLowerCase().trim();
+                    if(userVal === answers[i-1] || (userVal.includes(answers[i-1].substring(0,5)))) {
+                        input.style.borderColor = 'var(--success)';
+                        input.style.color = 'var(--success)';
+                        correctCount++;
+                    } else {
+                        input.style.borderColor = 'var(--danger)';
+                        input.style.color = 'var(--danger)';
+                    }
+                }
+                const fb = document.getElementById('clozeFb');
+                fb.style.display = 'block';
+                if(correctCount === 6) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Perfect Syntax!';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again. Verify verb tenses.`;
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY 1 ====== -->
+<section class="section" id="t7">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 07</span>
+            <h2 class="task-title" contenteditable="true">Mixed Conditionals <em>Type 3+2</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">In high level corporate banking we rarely use simple hypothetical structures. We constantly map how a past error directly impacts our present reality[cite: 12].</p>
+        </div>
+
+        <div class="card card-primary" style="padding: 40px;">
+            <h3 style="color:var(--primary-900); font-family:var(--font-serif); margin-bottom:16px; font-size: 1.5rem;" contenteditable="true">Past Action causing Present Consequence</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true"><strong style="color:var(--primary-700);">Formula:</strong> If + Past Perfect , would/could + bare infinitive.</p>
+            
+            <div style="background: var(--primary-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--primary-700);">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--primary-700); margin-bottom:8px; text-transform:uppercase;" contenteditable="true">Fact: We delegated everything to AI yesterday. We are bankrupt today.</p>
+                <p style="font-size:1.15rem; color:var(--gray-900); font-weight:600;" contenteditable="true">Hypothesis: If we <strong style="color:var(--primary-900);">had not delegated</strong> everything to AI we <strong style="color:var(--primary-900);">would not be</strong> bankrupt today.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: GRAMMAR DRILL 1 ====== -->
+<section class="section" id="t8">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 08</span>
+            <h2 class="task-title" contenteditable="true">Causality <em>Mapping 1</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Transform these brutal corporate facts into a Type 3+2 mixed conditional statement. Type the exact verb forms.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 30px;">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--danger); margin-bottom:12px; font-weight: 700;" contenteditable="true">Fact: The engineers did not recalibrate the algorithm. The server is crashing now.</p>
+                <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                    <span style="font-weight:600; font-size: 1.1rem;">If they</span>
+                    <input type="text" class="drill-input" id="drill8-1" placeholder="past perfect" style="width:200px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">the algorithm the server</span>
+                    <input type="text" class="drill-input" id="drill8-2" placeholder="would + bare infinitive" style="width:200px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">now.</span>
+                    <button class="btn-verify" onclick="checkDrillDouble(8, 'had recalibrated', 'would not be crashing')">Verify</button>
+                </div>
+                <div id="fb8-1" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 30px;">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--danger); margin-bottom:12px; font-weight: 700;" contenteditable="true">Fact: She obfuscated the code last year. We do not understand the parameters today.</p>
+                <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                    <span style="font-weight:600; font-size: 1.1rem;">If she</span>
+                    <input type="text" class="drill-input" id="drill8-3" placeholder="past perfect neg" style="width:200px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">the code we</span>
+                    <input type="text" class="drill-input" id="drill8-4" placeholder="would + bare infinitive" style="width:200px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">the parameters today.</span>
+                    <button class="btn-verify" onclick="checkDrillDouble(8, 'had not obfuscated', 'would understand')">Verify</button>
+                </div>
+                <div id="fb8-3" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+            </div>
+        </div>
+
+        <script>
+            function checkDrillDouble(task, target1, target2) {
+                // We use a slight hack to adapt the IDs based on task
+                let input1, input2, fb;
+                if (target1 === 'had recalibrated') { input1 = document.getElementById('drill8-1'); input2 = document.getElementById('drill8-2'); fb = document.getElementById('fb8-1'); }
+                if (target1 === 'had not obfuscated') { input1 = document.getElementById('drill8-3'); input2 = document.getElementById('drill8-4'); fb = document.getElementById('fb8-3'); }
+                if (target1 === 'were not') { input1 = document.getElementById('drill10-1'); input2 = document.getElementById('drill10-2'); fb = document.getElementById('fb10-1'); }
+                if (target1 === 'were') { input1 = document.getElementById('drill10-3'); input2 = document.getElementById('drill10-4'); fb = document.getElementById('fb10-3'); }
+                
+                const val1 = input1.value.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const val2 = input2.value.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim();
+                const t1 = target1.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+                const t2 = target2.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+                
+                fb.style.display = 'block';
+                if(val1.includes(t1) && val2.includes(t2)) {
+                    fb.style.color = 'var(--success)'; fb.innerText = '✓ Flawless Syntax'; 
+                    input1.style.borderColor = 'var(--success)'; input2.style.borderColor = 'var(--success)';
+                } else {
+                    fb.style.color = 'var(--danger)'; fb.innerText = `✗ Try again.`; 
+                    input1.style.borderColor = 'var(--danger)'; input2.style.borderColor = 'var(--danger)';
+                }
+            }
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 9: GRAMMAR THEORY 2 ====== -->
+<section class="section" id="t9">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 09</span>
+            <h2 class="task-title" contenteditable="true">Mixed Conditionals <em>Type 2+3</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Alternatively we can map how a permanent structural flaw or present trait caused a massive historical disaster.</p>
+        </div>
+
+        <div class="card card-accent" style="padding: 40px;">
+            <h3 style="color:var(--accent-700); font-family:var(--font-serif); margin-bottom:16px; font-size: 1.5rem;" contenteditable="true">Present Trait causing Past Consequence</h3>
+            <p style="color:var(--gray-600); margin-bottom:20px; font-size:1.1rem;" contenteditable="true"><strong style="color:var(--accent-700);">Formula:</strong> If + Past Simple , would/could + have + V3.</p>
+            
+            <div style="background: var(--accent-50); padding: 24px; border-radius: var(--radius-sm); border-left: 4px solid var(--accent-500);">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--accent-700); margin-bottom:8px; text-transform:uppercase;" contenteditable="true">Fact: The algorithm is highly volatile. It caused the flash crash yesterday.</p>
+                <p style="font-size:1.15rem; color:var(--gray-900); font-weight:600;" contenteditable="true">Hypothesis: If the algorithm <strong style="color:var(--accent-700);">were not</strong> highly volatile it <strong style="color:var(--accent-700);">would not have caused</strong> the flash crash yesterday.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: GRAMMAR DRILL 2 ====== -->
+<section class="section" id="t10">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 10</span>
+            <h2 class="task-title" contenteditable="true">Causality <em>Mapping 2</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Transform these structural facts into a Type 2+3 mixed conditional statement.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px;">
+            <div class="card" style="padding: 30px;">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--danger); margin-bottom:12px; font-weight: 700;" contenteditable="true">Fact: Human intuition is currently atrophied. The traders ignored the warning signs yesterday.</p>
+                <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                    <span style="font-weight:600; font-size: 1.1rem;">If human intuition</span>
+                    <input type="text" class="drill-input" id="drill10-1" placeholder="past simple" style="width:200px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">atrophied the traders</span>
+                    <input type="text" class="drill-input" id="drill10-2" placeholder="would have + V3" style="width:250px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">the warning signs yesterday.</span>
+                    <button class="btn-verify" onclick="checkDrillDouble(10, 'were not', 'would not have ignored')">Verify</button>
+                </div>
+                <div id="fb10-1" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+            </div>
+
+            <div class="card" style="padding: 30px;">
+                <p style="font-family:var(--font-mono); font-size:0.9rem; color:var(--danger); margin-bottom:12px; font-weight: 700;" contenteditable="true">Fact: He is not a skilled coder. His AI models hallucinated during the stress test last week.</p>
+                <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                    <span style="font-weight:600; font-size: 1.1rem;">If he</span>
+                    <input type="text" class="drill-input" id="drill10-3" placeholder="past simple" style="width:200px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">a skilled coder his models</span>
+                    <input type="text" class="drill-input" id="drill10-4" placeholder="would have + V3" style="width:250px;">
+                    <span style="font-weight:600; font-size: 1.1rem;">during the test.</span>
+                    <button class="btn-verify" onclick="checkDrillDouble(10, 'were', 'would not have hallucinated')">Verify</button>
+                </div>
+                <div id="fb10-3" style="font-family:var(--font-mono); font-size:0.9rem; font-weight:700; margin-top:12px; display:none;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: SPEAKING ====== -->
+<section class="section" id="t11">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 11</span>
+            <h2 class="task-title" contenteditable="true">The Constraint <em>Matrix</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Your board of directors wants quick definitive answers. Click a scenario. You have exactly thirty seconds to answer using a Mixed Conditional structure.</p>
+        </div>
+
+        <div class="binary-container">
+            <div class="binary-card">
+                <div class="binary-title" contenteditable="true">The Ethical Breach</div>
+                <p style="font-size:0.95rem; color:var(--gray-600); margin-bottom:16px;" contenteditable="true">The AI algorithm redlined certain demographics last year resulting in a lawsuit today.</p>
+                <div class="binary-options">
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Create a Type 3+2 sentence proving that human intervention last year would fix the present.')">Map 3+2 Causality</button>
+                </div>
+                <div class="binary-followup"></div>
+            </div>
+            
+            <div class="binary-card">
+                <div class="binary-title" contenteditable="true">The Missing Intuition</div>
+                <p style="font-size:0.95rem; color:var(--gray-600); margin-bottom:16px;" contenteditable="true">Our traders are entirely dependent on screens. They failed to notice the market panic yesterday.</p>
+                <div class="binary-options">
+                    <button class="binary-btn" onclick="revealFollowUp(this, 'Create a Type 2+3 sentence showing how fixing their present trait would have stopped yesterdays failure.')">Map 2+3 Causality</button>
+                </div>
+                <div class="binary-followup"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 12: PRONUNCIATION ====== -->
+<section class="section" id="t12">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 12</span>
+            <h2 class="task-title" contenteditable="true">Pronunciation <em>Lab</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">When native speakers deliver hypothetical consequences they heavily compress the auxiliary verbs. Practice the reductions below.</p>
+        </div>
+
+        <div class="card card-primary" style="padding: 40px; text-align: center;">
+            <h3 style="font-family: var(--font-serif); font-size: 2rem; color: var(--primary-900); margin-bottom: 24px;" contenteditable="true">The Auxiliary Compression</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; text-align: left;">
+                <div style="background: var(--gray-50); padding: 16px 24px; border-radius: 8px; border: 1px solid var(--gray-200);">
+                    <strong style="color: var(--gray-900); font-size: 1.2rem;" contenteditable="true">Would have</strong>
+                    <div style="font-family: var(--font-mono); color: var(--primary-700); margin-top: 4px;" contenteditable="true">Sounds like: Woulda /wʊdə/</div>
+                    <div style="color: var(--gray-600); margin-top: 4px; font-style: italic;" contenteditable="true">The H and the V are entirely dropped.</div>
+                </div>
+                
+                <div style="background: var(--gray-50); padding: 16px 24px; border-radius: 8px; border: 1px solid var(--gray-200);">
+                    <strong style="color: var(--gray-900); font-size: 1.2rem;" contenteditable="true">Would not have</strong>
+                    <div style="font-family: var(--font-mono); color: var(--primary-700); margin-top: 4px;" contenteditable="true">Sounds like: Wouldnt of /wʊdntəv/</div>
+                    <div style="color: var(--gray-600); margin-top: 4px; font-style: italic;" contenteditable="true">The T and H blend together seamlessly.</div>
+                </div>
+
+                <div style="background: var(--gray-50); padding: 16px 24px; border-radius: 8px; border: 1px solid var(--gray-200);">
+                    <strong style="color: var(--gray-900); font-size: 1.2rem;" contenteditable="true">If it had not</strong>
+                    <div style="font-family: var(--font-mono); color: var(--primary-700); margin-top: 4px;" contenteditable="true">Sounds like: If it hadnt /ɪf ɪt hædnt/</div>
+                    <div style="color: var(--gray-600); margin-top: 4px; font-style: italic;" contenteditable="true">Deliver this clause incredibly fast to place the stress on the main verb.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: ROLE-PLAY / GAME ====== -->
+<section class="section" id="t13">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 13</span>
+            <h2 class="task-title" contenteditable="true">Syntax <em>Ping Pong</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Identify whether the logic presented demands a Type 3+2 or a Type 2+3 conditional response. Click the correct architecture.</p>
+        </div>
+
+        <div class="pingpong-board">
+            <div class="pingpong-score">Streak: <span id="pp-score">0</span></div>
+            <div class="pingpong-target" id="pp-verb">Prepare...</div>
+            <div class="pingpong-options" id="pp-options">
+                <button class="pingpong-btn" onclick="ppCheck('3+2')">Past Action -> Present Result (3+2)</button>
+                <button class="pingpong-btn" onclick="ppCheck('2+3')">Present Trait -> Past Result (2+3)</button>
+            </div>
+        </div>
+
+        <script>
+            const ppData = [
+                { verb: "If we had built a better firewall we would be safe today.", ans: "3+2" },
+                { verb: "If the algorithm were stable it would not have crashed yesterday.", ans: "2+3" },
+                { verb: "If she had not obfuscated the code we would understand it now.", ans: "3+2" },
+                { verb: "If human intuition were stronger they would have noticed the error last week.", ans: "2+3" }
+            ];
+
+            let ppScore = 0;
+            let currentPP = null;
+
+            function nextPP() {
+                currentPP = ppData[Math.floor(Math.random() * ppData.length)];
+                document.getElementById('pp-verb').innerText = currentPP.verb;
+                document.getElementById('pp-verb').style.color = "var(--primary-900)";
+                document.getElementById('pp-verb').style.fontSize = "1.6rem";
+            }
+
+            function ppCheck(ans) {
+                if(!currentPP) return;
+                if(ans === currentPP.ans) {
+                    ppScore++;
+                    document.getElementById('pp-score').innerText = ppScore;
+                    document.getElementById('pp-verb').style.color = "var(--success)";
+                    setTimeout(nextPP, 300);
+                } else {
+                    ppScore = 0;
+                    document.getElementById('pp-score').innerText = ppScore;
+                    document.getElementById('pp-verb').style.color = "var(--danger)";
+                    document.getElementById('pp-verb').innerText = "System Failure!";
+                    setTimeout(nextPP, 800);
+                }
+            }
+
+            setTimeout(nextPP, 1000);
+        </script>
+    </div>
+</section>
+
+<!-- ====== TASK 14: COLLOCATIONS ====== -->
+<section class="section" id="t14">
+    <div class="section-inner">
+        <div class="task-header">
+            <span class="task-label" contenteditable="true">Task 14</span>
+            <h2 class="task-title" contenteditable="true">Algorithmic <em>Collocations</em></h2>
+            <p style="color:var(--gray-600); font-size:1.1rem; max-width:700px;" contenteditable="true">Pair these high level adverbs with the correct tech verb to master C1 phrasing.</p>
+        </div>
+
+        <ul class="practice-list">
+            <li>
+                <div contenteditable="true"><strong>Entirely supersede:</strong> <br>
+                The new neural network will <span style="color:var(--primary-700); font-weight:700;">entirely supersede</span> the traditional risk analysts.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Rapidly atrophy:</strong> <br>
+                If we depend on screens our natural instincts will <span style="color:var(--primary-700); font-weight:700;">rapidly atrophy</span>.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Constantly recalibrate:</strong> <br>
+                The quantitative engineers must <span style="color:var(--primary-700); font-weight:700;">constantly recalibrate</span> the parameters to match the volatility.</div>
+            </li>
+            <li>
+                <div contenteditable="true"><strong>Deliberately obfuscate:</strong> <br>
+                The developers chose to <span style="color:var(--primary-700); font-weight:700;">deliberately obfuscate</span> the code to protect their intellectual property.</div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 15: FINAL SYNTHESIS ====== -->
+<section class="section" id="t15" style="border-bottom:none;">
+    <div class="section-inner">
+        <div class="task-header" style="text-align:center; margin-bottom:0;">
+            <span class="task-label" contenteditable="true">Task 15</span>
+        </div>
+        <div style="background: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-900) 100%); color: white; padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; box-shadow: var(--shadow-lg); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -50px; left: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+            
+            <div style="position:relative; z-index:1;">
+                <h2 contenteditable="true" style="color: var(--accent-500); margin-bottom: 16px; font-family: var(--font-serif); font-size: 3rem; font-weight: 700;">Logic Verified! 🤖</h2>
+                <p contenteditable="true" style="font-size: 1.15rem; color: var(--primary-100); margin-bottom: 30px;"><strong>What we mastered today:</strong></p>
+                <ul style="list-style: none; font-size: 1.1rem; line-height: 2.2; text-align: left; max-width: 650px; margin: 0 auto; font-weight: 600;">
+                    <li contenteditable="true"><strong style="color:var(--accent-500);">Lexicon:</strong> atrophy, supersede, extrapolate, obfuscate, recalibrate, delegate.</li>
+                    <li contenteditable="true"><strong style="color:var(--accent-500);">Grammar (3+2):</strong> Mapping past errors to present consequences effortlessly.</li>
+                    <li contenteditable="true"><strong style="color:var(--accent-500);">Grammar (2+3):</strong> Mapping present structural flaws to past historical disasters.</li>
+                    <li contenteditable="true"><strong style="color:var(--accent-500);">Corporate Fluency:</strong> Deconstructing the dangers of artificial intelligence in algorithmic trading.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main> <!-- END MAIN CONTENT -->
+
+<!-- ====== HOMEWORK MODULE (15 Mins, 15 Questions) ====== -->
+<div id="task-hw" style="display:none; position: fixed; inset: 0; background: var(--gray-50); z-index: 2000; overflow-y: auto; padding: 60px 20px;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <!-- Welcome Screen -->
+        <section id="hw-welcome" class="hw-screen active" style="text-align: center; background:white; padding:60px; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); border-top: 6px solid var(--primary-700);">
+            <div style="font-family:var(--font-mono); color:var(--primary-700); letter-spacing:2px; margin-bottom:16px; font-weight:800;">FINAL ASSESSMENT</div>
+            <h2 style="font-family:var(--font-serif); font-size:3rem; color:var(--gray-900); margin-bottom:20px; font-weight:700;">Module 07 Protocol</h2>
+            <p style="color:var(--gray-600); margin-bottom:40px; font-size:1.1rem; max-width:550px; margin-left:auto; margin-right:auto;">
+                <strong>Rules:</strong> You have exactly <strong>15 minutes</strong> to complete 15 advanced syntax and vocabulary challenges regarding artificial intelligence and mixed conditionals.
+            </p>
+            <input type="text" id="hwStudentName" placeholder="Enter Engineer ID/Name..." style="width:100%;max-width:400px;padding:16px;font-size:1.1rem;background:var(--gray-50);border:2px solid var(--gray-200);color:var(--gray-900);border-radius:6px;margin-bottom:24px;outline:none;font-family:var(--font-mono);text-align:center;font-weight:700;">
+            <br>
+            <button onclick="startHW()" style="background:var(--primary-700);color:white;border:none;padding:16px 40px;font-size:1.1rem;font-weight:800;cursor:pointer;transition:background 0.2s;font-family:var(--font-ui);border-radius:50px;">INITIATE</button>
+            <button onclick="exitHomework()" style="background:transparent;color:var(--gray-600);border:none;display:block;margin:20px auto;cursor:pointer;font-family:var(--font-ui);text-decoration:underline;">Abort</button>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="hw-quiz" class="hw-screen" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; color:var(--gray-900);">
+                <span style="font-family:var(--font-mono); font-weight:800;" id="hwQuestionCounter">Q 1 / 15</span>
+                <div id="timerContainer" style="font-family:var(--font-mono); color:var(--accent-700); font-weight:800; font-size:1.2rem; background:var(--accent-100); padding:6px 16px; border-radius:50px; border:2px solid var(--accent-500);">
+                    ⏱️ <span id="hwTimerDisplay">15:00</span>
+                </div>
+            </div>
+            
+            <div style="width:100%; height:8px; background:var(--gray-200); margin-bottom:40px; border-radius:4px; overflow:hidden;">
+                <div id="hwProgressFill" style="height:100%; background:var(--primary-600); width:0%; transition:width 0.3s ease;"></div>
+            </div>
+            
+            <div style="background:white; padding:40px; border-radius:var(--radius-lg); margin-bottom:30px; box-shadow:var(--shadow-md);">
+                <h3 id="hwQuestionText" style="font-size:1.4rem; font-weight:600; margin-bottom:30px; line-height:1.5; color:var(--gray-900); font-family:var(--font-serif);">Loading data...</h3>
+                <div id="hwOptionsGrid" style="display:flex; flex-direction:column; gap:12px;"></div>
+            </div>
+            
+            <button onclick="skipHWQuestion()" style="background:transparent; color:var(--gray-600); border:2px solid var(--gray-300); padding:10px 24px; cursor:pointer; border-radius:50px; transition:all 0.2s; font-family:var(--font-ui); font-weight:700;">Skip Question</button>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="hw-results" class="hw-screen" style="display:none;">
+            <div id="hw-pdf-content" style="background:white; padding:50px; border-radius:var(--radius-lg); box-shadow:var(--shadow-md);">
+                <div style="text-align:center; margin-bottom:40px;">
+                    <h2 style="font-family:var(--font-serif); font-size:3.5rem; color:var(--primary-900); margin-bottom:10px; font-weight:700;">Protocol Complete</h2>
+                    <p id="hwResultsMessage" style="color:var(--gray-600); font-size:1.1rem; font-weight: 500;"></p>
+                </div>
+
+                <div style="background:var(--gray-50); padding:40px; border-radius:var(--radius-md); text-align:center; margin-bottom:40px; border: 2px solid var(--gray-200);">
+                    <div style="font-family:var(--font-mono); color:var(--gray-600); text-transform:uppercase; letter-spacing:2px; font-size:0.9rem; font-weight:800;">Final Evaluation</div>
+                    <div id="hwScoreDetail" style="font-size:5rem; font-weight:800; color:var(--primary-700); margin:10px 0; line-height:1;">0/15</div>
+                    <div id="hwTerminationReason" style="font-weight:800; font-family:var(--font-mono); margin-top:20px; color:var(--primary-900);"></div>
+                </div>
+
+                <div id="hwReviewGrid" style="display:flex; flex-direction:column; gap:16px;"></div>
+            </div>
+            
+            <div style="display:flex; gap:20px; justify-content:center; margin-top:40px;">
+                <button onclick="downloadHWPDF()" style="background:var(--primary-700); color:white; border:none; padding:16px 36px; font-weight:800; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Export PDF</button>
+                <button onclick="exitHomework()" style="background:transparent; color:var(--gray-800); border:2px solid var(--gray-300); padding:16px 36px; font-weight:800; cursor:pointer; font-family:var(--font-ui); border-radius:50px;">Exit Protocol</button>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions" style="position:fixed; bottom:30px; right:30px; display:flex; flex-direction:column; gap:15px; z-index:1000;">
+    <button class="fab-btn" onclick="openAdmin()" title="Teacher Dashboard" style="background:var(--primary-900); color:white; border:none; width:56px; height:56px; border-radius:50%; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow-lg); display:flex; align-items:center; justify-content:center; transition:transform 0.2s;">📋</button>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="adminModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.8); backdrop-filter:blur(4px); z-index:2000; justify-content:center; align-items:center;">
+    <div class="modal-content" style="background:white; padding:40px; border-radius:var(--radius-lg); width:90%; max-width:800px; box-shadow:var(--shadow-lg); position:relative; border-top:4px solid var(--primary-700);">
+        <span onclick="closeAdmin()" style="position:absolute; top:15px; right:20px; font-size:2rem; cursor:pointer; color:var(--gray-600);">×</span>
+        <h2 style="font-family:var(--font-serif); color:var(--gray-900); margin-bottom:10px; font-size:2.2rem; font-weight:700;">Instructor Dashboard</h2>
+        <p style="color:var(--gray-600); margin-bottom:20px;">Review recent submissions.</p>
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left;">
+                <thead style="background:var(--gray-100); font-family:var(--font-mono); font-size:0.85rem; font-weight: 800; color:var(--gray-900);"><tr><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Date</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Agent</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Score</th><th style="padding:12px; border-bottom:2px solid var(--gray-200);">Status</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        <button style="background:var(--danger); color:white; border:none; padding:10px 20px; border-radius:6px; margin-top:20px; cursor:pointer; font-weight:700;" onclick="clearData()">Purge Records</button>
+    </div>
+</div>
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+    // ─── ANTI-CHEAT HOMEWORK LOGIC ───
+    const hwQuestionBank = [
+        { text: "To waste away or decline gradually due to lack of use is to:", options: ["obfuscate", "atrophy", "extrapolate", "delegate"], correct: 1 },
+        { text: "To take the place of something older or inferior is to:", options: ["supersede", "recalibrate", "atrophy", "obfuscate"], correct: 0 },
+        { text: "To deliberately make something unclear or difficult to understand is to:", options: ["extrapolate", "supersede", "obfuscate", "delegate"], correct: 2 },
+        { text: "To estimate a future trend based on known past facts is to:", options: ["atrophy", "extrapolate", "recalibrate", "supersede"], correct: 1 },
+        { text: "Which sentence is a Type 3 plus 2 Mixed Conditional?", options: ["If he were smarter he would have noticed it.", "If we had invested last year we would be rich today.", "If she had known she would have helped.", "If I am late I will call you."], correct: 1 },
+        { text: "Which sentence is a Type 2 plus 3 Mixed Conditional?", options: ["If the code were stable it would not have crashed.", "If they had recalibrated they would be fine now.", "If we had not obfuscated it would be clear.", "If it rains we will stay inside."], correct: 0 },
+        { text: "Identify the correct 3 plus 2 syntax: If I ___ the parameters yesterday the model ___ accurately today.", options: ["recalibrated / would function", "had recalibrated / would function", "recalibrate / functions", "had recalibrated / would have functioned"], correct: 1 },
+        { text: "Identify the correct 2 plus 3 syntax: If the AI ___ intelligent it ___ the obvious error last week.", options: ["were / would not have missed", "was / did not miss", "had been / would not miss", "is / will not miss"], correct: 0 },
+        { text: "To entrust a task or responsibility to an artificial intelligence is to ___ it.", options: ["obfuscate", "delegate", "atrophy", "supersede"], correct: 1 },
+        { text: "Select the correct collocation: The machine learning models constantly ___ massive amounts of data.", options: ["obfuscate", "recalibrate", "extrapolate", "atrophy"], correct: 2 },
+        { text: "Select the correct collocation: Our natural intuition will rapidly ___ if we only look at screens.", options: ["supersede", "atrophy", "extrapolate", "recalibrate"], correct: 1 },
+        { text: "Select the correct collocation: The developers chose to deliberately ___ the algorithm.", options: ["atrophy", "obfuscate", "delegate", "supersede"], correct: 1 },
+        { text: "In natural spoken English the phrase would have sounds closely like:", options: ["wood-hav", "would-of", "woulda", "wood-ven"], correct: 2 },
+        { text: "If we had not delegated everything to AI we ___ bankrupt right now.", options: ["will not be", "would not have been", "would not be", "are not"], correct: 2 },
+        { text: "If the firm ___ entirely reliant on algorithms the flash crash would not have happened.", options: ["was not", "is not", "had not been", "were not"], correct: 3 }
+    ];
+
+    let currentStudent = "", questionHistory = [], currentQuestionIndex = 0, score = 0, timeLeft = 900, timerInterval, cheatWarnings = 0, isTestActive = false;
+
+    document.addEventListener("visibilitychange", () => {
+        if (isTestActive && document.hidden) {
+            cheatWarnings++;
+            if (cheatWarnings >= 2) { alert("TEST TERMINATED. Multiple tab switches detected."); endHWQuiz(true, "Terminated (Anti-Cheat Violation)"); } 
+            else { alert("WARNING: Do not leave the test tab. If you do this again, your test will instantly end."); }
+        }
+    });
+
+    function startHWTimer() {
+        document.getElementById('hwTimerDisplay').innerText = "15:00";
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('hwTimerDisplay').innerText = `${Math.floor(timeLeft/60).toString().padStart(2,'0')}:${(timeLeft%60).toString().padStart(2,'0')}`;
+            if (timeLeft <= 60) { document.getElementById('timerContainer').style.background = "var(--danger)"; document.getElementById('timerContainer').style.color = "white"; document.getElementById('timerContainer').style.borderColor = "var(--danger)"; }
+            if (timeLeft <= 0) { clearInterval(timerInterval); alert("Time is up!"); endHWQuiz(true, "Terminated (Time Expired)"); }
+        }, 1000);
+    }
+
+    function startHW() {
+        const nameInput = document.getElementById('hwStudentName').value.trim();
+        if (!nameInput) { alert("Please enter your name."); return; }
+        currentStudent = nameInput; currentQuestionIndex = 0; score = 0; questionHistory = []; cheatWarnings = 0; timeLeft = 900; isTestActive = true;
+        hwQuestionBank.sort(() => Math.random() - 0.5); 
+        document.getElementById('hw-welcome').style.display='none'; document.getElementById('hw-quiz').style.display='block';
+        startHWTimer(); renderHWQuestion();
+    }
+
+    function renderHWQuestion() {
+        if (currentQuestionIndex >= 15) { endHWQuiz(false, "Completed Successfully"); return; }
+        const qObj = hwQuestionBank[currentQuestionIndex];
+        document.getElementById('hwQuestionCounter').innerText = `Question ${currentQuestionIndex + 1} / 15`;
+        document.getElementById('hwProgressFill').style.width = `${(currentQuestionIndex / 15) * 100}%`;
+        document.getElementById('hwQuestionText').innerText = qObj.text;
+        const grid = document.getElementById('hwOptionsGrid'); grid.innerHTML = "";
+        qObj.options.forEach((opt, index) => {
+            const btn = document.createElement('button'); btn.innerText = opt;
+            btn.style.cssText = "background:white; border:2px solid var(--gray-200); padding:16px 24px; border-radius:8px; font-size:1.1rem; text-align:left; cursor:pointer; font-family:var(--font-ui); color:var(--gray-900); font-weight: 600; transition:all 0.2s;";
+            btn.onmouseover = () => { btn.style.background = "var(--primary-50)"; btn.style.borderColor = "var(--primary-700)"; }
+            btn.onmouseout = () => { btn.style.background = "white"; btn.style.borderColor = "var(--gray-200)"; }
+            btn.onclick = () => {
+                const isCorrect = index === qObj.correct;
+                questionHistory.push({ text: qObj.text, userAns: opt, correctAns: qObj.options[qObj.correct], isCorrect: isCorrect });
+                if(isCorrect) score++;
+                currentQuestionIndex++; renderHWQuestion();
+            };
+            grid.appendChild(btn);
+        });
+    }
+
+    function skipHWQuestion() {
+        questionHistory.push({ text: hwQuestionBank[currentQuestionIndex].text, userAns: "Skipped", correctAns: hwQuestionBank[currentQuestionIndex].options[hwQuestionBank[currentQuestionIndex].correct], isCorrect: false });
+        currentQuestionIndex++; renderHWQuestion();
+    }
+
+    function endHWQuiz(forcedExit, statusMsg) {
+        isTestActive = false; clearInterval(timerInterval);
+        document.getElementById('hwProgressFill').style.width = '100%';
+        document.getElementById('hwResultsMessage').innerText = `Thank you ${currentStudent}. Your protocol is finalized.`;
+        document.getElementById('hwScoreDetail').innerText = `${score} / ${currentQuestionIndex}`;
+        document.getElementById('hwTerminationReason').innerHTML = `<span style="color:${forcedExit ? 'var(--danger)' : 'var(--primary-700)'};">Status:</span> ${statusMsg}`;
+        
+        const grid = document.getElementById('hwReviewGrid'); grid.innerHTML = "";
+        questionHistory.forEach((item, index) => {
+            grid.innerHTML += `<div style="background:var(--gray-50); border-radius:8px; border-left:6px solid ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; padding:20px; border-top: 1px solid var(--gray-200); border-right: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200);">
+                <div style="font-size:1.1rem; color:var(--gray-900); margin-bottom:10px; font-weight:700;">${index + 1}. ${item.text}</div>
+                <div style="font-size:0.95rem; color:var(--gray-600); font-weight:500;">Your answer: <span style="color: ${item.isCorrect ? 'var(--success)' : 'var(--danger)'}; font-weight:800;">${item.userAns}</span></div>
+                ${!item.isCorrect ? `<div style="font-size:0.95rem; color:var(--gray-600); font-weight:500;">Correct answer: <span style="color: var(--success); font-weight:800;">${item.correctAns}</span></div>` : ''}
+            </div>`;
+        });
+        document.getElementById('hw-quiz').style.display='none'; document.getElementById('hw-results').style.display='block';
+        
+        const results = JSON.parse(localStorage.getItem('lesson7AIHW')) || [];
+        results.push({ date: new Date().toLocaleString(), name: currentStudent, score: score, total: currentQuestionIndex, status: statusMsg });
+        localStorage.setItem('lesson7AIHW', JSON.stringify(results));
+    }
+
+    function downloadHWPDF() {
+        const el = document.getElementById('hw-pdf-content');
+        html2pdf().set({ margin:0, filename:`${currentStudent}_L7_Assessment.pdf`, image:{type:'jpeg',quality:1}, html2canvas:{scale:2}, jsPDF:{unit:'px',format:[800, el.scrollHeight],orientation:'portrait'} }).from(el).save();
+    }
+
+    // --- Admin ---
+    function openAdmin() {
+        const results = JSON.parse(localStorage.getItem('lesson7AIHW')) || [];
+        const tbody = document.getElementById('adminTableBody'); tbody.innerHTML = "";
+        if (results.length === 0) tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:20px; font-weight:600;'>No submissions yet.</td></tr>";
+        else results.reverse().forEach(r => tbody.innerHTML += `<tr><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-size:0.85rem; font-family:var(--font-mono);">${r.date}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:800; color:var(--gray-900);">${r.name}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:bold; color:var(--primary-700);">${r.score}/${r.total}</td><td style="padding:12px; border-bottom:1px solid var(--gray-200); font-weight:800; color:${r.status.includes('Completed') ? 'var(--success)' : 'var(--danger)'}">${r.status}</td></tr>`);
+        document.getElementById('adminModal').style.display = 'flex';
+    }
+    function closeAdmin() { document.getElementById('adminModal').style.display = 'none'; }
+    function clearData() { if(confirm("Delete all records?")) { localStorage.removeItem('lesson7AIHW'); openAdmin(); } }
+
+    function exitHomework() {
+        document.getElementById('task-hw').style.display = 'none';
+        document.getElementById('hw-welcome').style.display = 'block';
+        document.getElementById('hw-quiz').style.display = 'none';
+        document.getElementById('hw-results').style.display = 'none';
+    }
+
+    // --- Firebase Sync ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = { apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0", projectId: "b1-oge-l1" };
+    const appId = 'ai-intuition-c1-lesson7';
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let user = null, isSync = false;
+    let editingId = null;
+
+    signInAnonymously(auth).catch(console.error);
+
+    onAuthStateChanged(auth, u => {
+        user = u;
+        if (user && !isSync) {
+            isSync = true;
+            document.getElementById('syncText').innerText = "SYSTEM ACTIVE";
+            setupSync(); setupCursors();
+        }
+    });
+
+    function fastDebounce(f, ms) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => f(...a), ms); }; }
+
+    function setupSync() {
+        const txtRef = doc(db, 'artifacts', appId, 'data', 'text');
+
+        document.querySelectorAll('[contenteditable="true"]').forEach((el, i) => {
+            el.dataset.sid = 'ed_' + i;
+            el.addEventListener('focus', () => editingId = el.dataset.sid);
+            el.addEventListener('blur', () => { 
+                editingId = null; 
+                if(user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            });
+            el.addEventListener('input', fastDebounce(() => { 
+                if (editingId === el.dataset.sid && user) setDoc(txtRef, { [el.dataset.sid]: el.innerHTML }, { merge: true }); 
+            }, 150));
+        });
+
+        document.querySelectorAll('.inline-drill, .drill-input').forEach((el) => {
+            el.addEventListener('input', fastDebounce(() => {
+                if(user) setDoc(txtRef, { [el.id]: el.value }, { merge: true });
+            }, 150));
+        });
+
+        onSnapshot(txtRef, snap => {
+            if (!snap.exists()) return;
+            for (const [id, htmlOrVal] of Object.entries(snap.data())) {
+                if (editingId !== id) {
+                    const el = document.querySelector(`[data-sid="${id}"]`) || document.getElementById(id);
+                    if (el) {
+                        if (el.tagName === 'INPUT') {
+                            if (el.value !== htmlOrVal) el.value = htmlOrVal;
+                        } else {
+                            if (el.innerHTML !== htmlOrVal) el.innerHTML = htmlOrVal;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function setupCursors() {
+        const curRef = collection(db, 'artifacts', appId, 'cursors');
+        const myDoc = doc(curRef, user.uid);
+        const container = document.body;
+        const colors = ['#4338CA','#0EA5E9','#10B981','#0369A1'];
+        const myColor = colors[Math.floor(Math.random() * colors.length)];
+        const myName = "Developer " + Math.floor(Math.random() * 99);
+        
+        document.addEventListener('mousemove', fastDebounce(e => {
+            if(user && document.getElementById('task-hw').style.display !== 'block') {
+                setDoc(myDoc, { x: e.pageX - window.innerWidth/2, y: e.pageY, color: myColor, name: myName, ts: Date.now() });
+            }
+        }, 100));
+
+        onSnapshot(curRef, snap => {
+            snap.docChanges().forEach(ch => {
+                if(ch.doc.id === user.uid) return;
+                const d = ch.doc.data();
+                let el = document.getElementById('cur-'+ch.doc.id);
+                
+                if(ch.type === 'removed' || Date.now() - d.ts > 60000) { if(el) el.remove(); return; }
+                
+                if(!el) {
+                    el = document.createElement('div'); el.id = 'cur-'+ch.doc.id; el.className = 'remote-cursor';
+                    el.style = 'position:absolute; transition: top 0.15s, left 0.15s; pointer-events:none; z-index:999999;';
+                    el.innerHTML = `<svg viewBox="0 0 24 24" fill="${d.color}" width="24" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))"><path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg><div style="background:${d.color}; color:#fff; font-size:10px; font-family:var(--font-mono); padding:2px 6px; border-radius:3px; margin-top:2px; font-weight:bold;">${d.name}</div>`;
+                    container.appendChild(el);
+                }
+                el.style.left = (window.innerWidth/2 + d.x) + 'px'; el.style.top = d.y + 'px';
+            });
+        });
+
+        window.addEventListener('beforeunload', () => { if(user) deleteDoc(myDoc); });
+    }
+</script>
+</body>
+</html>
