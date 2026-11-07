@@ -1,0 +1,2375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1: C1 Dental | TOEFL Mission 120</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+    <!-- html2pdf for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            /* Clinical Clean theme: mint, deep blue, white */
+            --teal: #12A88A;
+            --teal-dark: #0B7A66;
+            --teal-light: #5FD3B8;
+            --navy: #0B2E5C;
+            --slate: #16467F;
+            --rose: #E5586B;
+            --rose-light: #F28B99;
+            --gold: #F2B84B;
+            --gold-light: #F8D58C;
+            --cream: #F1FBF8;
+            --light-bg: #F4FAF9;
+            --white: #FFFFFF;
+            --gray-100: #EEF5F4;
+            --gray-200: #DCE8E6;
+            --gray-400: #8FA6A3;
+            --gray-600: #46605E;
+            --gray-800: #1A2E33;
+            --ok: #1B9A5A;
+            --ok-bg: rgba(27,154,90,0.12);
+            --bad: #D64550;
+            --bad-bg: rgba(214,69,80,0.12);
+            --shadow-sm: 0 1px 3px rgba(11,46,92,0.08);
+            --shadow-md: 0 4px 16px rgba(11,46,92,0.10);
+            --shadow-lg: 0 12px 40px rgba(11,46,92,0.14);
+            --shadow-xl: 0 20px 60px rgba(11,46,92,0.18);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --highlight: rgba(242,184,75,0.45);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--gray-800);
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        h1, h2, .section-title { font-family: 'Fraunces', Georgia, serif; }
+
+        /* Editing utilities */
+        [contenteditable="true"] { outline: none; transition: background-color 0.2s; border-radius: 4px; }
+        [contenteditable="true"]:focus, [contenteditable="true"]:hover {
+            background-color: rgba(18,168,138,0.06);
+            box-shadow: 0 0 0 2px rgba(18,168,138,0.12);
+        }
+
+        /* ====== HERO ====== */
+        .hero {
+            position: relative;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--slate) 45%, var(--teal-dark) 100%);
+            color: var(--white);
+            padding: 100px 24px 84px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -120px; right: -100px; width: 420px; height: 420px;
+            background: radial-gradient(circle, rgba(95,211,184,0.28) 0%, transparent 70%); border-radius: 50%;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -140px; left: -80px; width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(242,184,75,0.18) 0%, transparent 70%); border-radius: 50%;
+        }
+        .hero-content { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+        .hero-badge {
+            display: inline-block; background: rgba(255,255,255,0.12); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25); color: var(--teal-light);
+            padding: 6px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 24px;
+        }
+        .hero h1 { font-size: clamp(2.2rem, 5vw, 3.7rem); font-weight: 800; line-height: 1.12; margin-bottom: 14px; letter-spacing: -1px; }
+        .hero-subtitle { font-size: clamp(1.02rem, 2vw, 1.25rem); color: rgba(255,255,255,0.8); max-width: 680px; margin: 0 auto 28px; }
+        .hero-stats { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+        .hero-stat {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            border-radius: var(--radius-md); padding: 10px 20px; min-width: 110px;
+        }
+        .hero-stat strong { display: block; font-size: 1.5rem; color: var(--gold-light); font-family: 'Fraunces', Georgia, serif; }
+        .hero-stat span { font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; opacity: 0.85; }
+        .hero-ribbon { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: var(--light-bg); clip-path: ellipse(55% 100% at 50% 100%); }
+
+        /* ====== NAV ====== */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.93);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 24px;
+        }
+        .nav-inner { max-width: 1150px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
+        .nav-logo { font-weight: 800; font-size: 1rem; color: var(--navy); text-decoration: none; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+        .nav-logo .dot { display: inline-block; width: 9px; height: 9px; background: var(--teal); border-radius: 50%; }
+        .nav-links { display: flex; gap: 4px; list-style: none; overflow-x: auto; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: var(--gray-600); font-size: 0.8rem; font-weight: 700;
+            padding: 6px 11px; border-radius: 6px; transition: color 0.2s, background 0.2s; white-space: nowrap; display: inline-block;
+        }
+        .nav-links a:hover { color: var(--teal-dark); background: var(--gray-100); }
+
+        /* ====== SECTIONS ====== */
+        .section { padding: 76px 24px; }
+        .section:nth-child(even) { background: var(--white); }
+        .section-inner { max-width: 940px; margin: 0 auto; }
+        .section-label {
+            display: inline-block; font-size: 0.74rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+            color: var(--teal-dark); background: rgba(18,168,138,0.12); padding: 4px 14px; border-radius: 50px; margin-bottom: 12px;
+        }
+        .section-title { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; color: var(--navy); margin-bottom: 8px; letter-spacing: -0.5px; line-height: 1.2; }
+        .section-desc { color: var(--gray-600); font-size: 1.04rem; margin-bottom: 30px; max-width: 700px; }
+        .sub-title { font-family: 'Fraunces', Georgia, serif; color: var(--teal-dark); font-size: 1.3rem; margin: 38px 0 10px; }
+
+        /* ====== PROMPT / SCENARIO / BOARD ====== */
+        .prompt-list { display: flex; flex-direction: column; gap: 18px; margin-top: 22px; }
+        .prompt-item {
+            background: var(--white); border-left: 4px solid var(--teal); border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 22px 26px; box-shadow: var(--shadow-sm); transition: border-color 0.25s;
+        }
+        .prompt-item:hover { border-left-color: var(--rose); }
+        .prompt-item strong { color: var(--navy); }
+
+        .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 22px; }
+        .scenario-card {
+            background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+            padding: 28px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--navy);
+        }
+        .scenario-card h3 { color: var(--navy); font-size: 1.15rem; margin-bottom: 12px; font-family: 'Fraunces', Georgia, serif; }
+        .scenario-card p + p { margin-top: 14px; }
+        .passage p { text-align: left; line-height: 1.85; font-size: 1.02rem; }
+        .passage-meta { font-size: 0.8rem; color: var(--gray-400); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+
+        .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 22px; }
+        .board-tile {
+            background: var(--white); border: 2px solid var(--teal-light); border-radius: var(--radius-md); padding: 18px;
+            text-align: center; font-weight: 600; color: var(--navy); box-shadow: var(--shadow-sm);
+            display: flex; flex-direction: column; justify-content: center; min-height: 100px;
+        }
+        .board-tile span.tile-no { display: block; font-size: 0.8rem; color: var(--gray-400); margin-bottom: 6px; }
+        .board-tile small { display: block; font-weight: 500; color: var(--gray-600); margin-top: 6px; font-size: 0.82rem; }
+
+        /* ====== TABLES ====== */
+        .table-wrap { overflow-x: auto; margin-top: 22px; border-radius: var(--radius-md); }
+        .grammar-table {
+            width: 100%; border-collapse: collapse; font-size: 0.94rem; overflow: hidden; border-radius: var(--radius-md);
+            border: 1px solid var(--gray-200); background: var(--white);
+        }
+        .grammar-table thead th {
+            background: var(--navy); color: var(--white); padding: 13px 16px; text-align: left; font-weight: 700;
+            font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+        .grammar-table tbody td { padding: 13px 16px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+        .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
+
+        .watch-out {
+            background: rgba(242,184,75,0.18); border-left: 4px solid var(--gold); padding: 13px 18px; margin-top: 18px;
+            font-size: 0.95rem; border-radius: 0 6px 6px 0;
+        }
+        .tip-box {
+            background: rgba(18,168,138,0.1); border-left: 4px solid var(--teal); padding: 13px 18px; margin-top: 18px;
+            font-size: 0.95rem; border-radius: 0 6px 6px 0;
+        }
+
+        /* ====== PRACTICE LIST / BLANKS ====== */
+        .practice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 22px; counter-reset: pc; }
+        .practice-list li {
+            background: var(--white); padding: 16px 20px 16px 52px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200);
+            position: relative; line-height: 1.8;
+        }
+        .practice-list li::before {
+            counter-increment: pc; content: counter(pc) "."; position: absolute; left: 20px; top: 16px; font-weight: 800; color: var(--teal);
+        }
+        .blank-input {
+            display: inline-block; min-width: 60px; border-bottom: 2px dashed var(--gray-400); color: var(--teal-dark);
+            font-weight: 700; padding: 0 8px; text-align: center; background: rgba(18,168,138,0.07);
+        }
+        .blank-input:focus { border-bottom-color: var(--teal); outline: none; background: rgba(18,168,138,0.14); }
+        .blank-input.correct { border-bottom: 2px solid var(--ok); background: var(--ok-bg); color: var(--ok); }
+        .blank-input.wrong { border-bottom: 2px solid var(--bad); background: var(--bad-bg); color: var(--bad); }
+        .cw-word b { color: var(--navy); font-weight: 800; letter-spacing: 0.5px; }
+
+        /* ====== BUTTONS & FEEDBACK ====== */
+        .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; align-items: center; }
+        .btn {
+            background: var(--navy); color: var(--white); border: none; padding: 9px 18px; border-radius: 8px;
+            font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: background 0.2s, transform 0.15s; font-family: inherit;
+        }
+        .btn:hover { background: var(--slate); transform: translateY(-1px); }
+        .btn.teal { background: var(--teal); }
+        .btn.teal:hover { background: var(--teal-dark); }
+        .btn.ghost { background: var(--white); color: var(--navy); border: 2px solid var(--navy); }
+        .btn.ghost:hover { background: var(--gray-100); }
+        .btn.sm { padding: 5px 12px; font-size: 0.8rem; }
+        .score-pill {
+            display: inline-block; background: var(--navy); color: var(--gold-light); padding: 6px 16px; border-radius: 50px;
+            font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;
+        }
+        .reveal-box {
+            display: none; margin-top: 14px; background: var(--cream); border: 2px dashed var(--teal); border-radius: var(--radius-md);
+            padding: 16px 20px; font-size: 0.95rem;
+        }
+        .reveal-box.open { display: block; }
+        .reveal-box p + p { margin-top: 8px; }
+
+        /* ====== MULTIPLE CHOICE ====== */
+        .q-block { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 20px 24px; margin-top: 16px; box-shadow: var(--shadow-sm); }
+        .q-type { display: inline-block; font-size: 0.7rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--slate); background: rgba(22,70,127,0.1); padding: 2px 10px; border-radius: 50px; margin-bottom: 8px; }
+        .q-text { font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+        .opt {
+            display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; border: 2px solid var(--gray-200); border-radius: 10px;
+            margin-top: 8px; cursor: pointer; transition: border-color 0.2s, background 0.2s; background: var(--white);
+        }
+        .opt:hover { border-color: var(--teal-light); background: var(--cream); }
+        .opt .key {
+            flex: 0 0 26px; height: 26px; border-radius: 50%; background: var(--gray-100); color: var(--navy); font-weight: 800; font-size: 0.8rem;
+            display: flex; align-items: center; justify-content: center; user-select: none;
+        }
+        .opt.correct { border-color: var(--ok); background: var(--ok-bg); }
+        .opt.correct .key { background: var(--ok); color: #fff; }
+        .opt.wrong { border-color: var(--bad); background: var(--bad-bg); }
+        .opt.wrong .key { background: var(--bad); color: #fff; }
+        .q-block.done .opt { cursor: default; }
+        .explain { display: none; margin-top: 12px; font-size: 0.92rem; color: var(--gray-600); border-top: 1px dashed var(--gray-200); padding-top: 10px; }
+        .q-block.done .explain { display: block; }
+
+        /* ====== ERROR SPY ====== */
+        .spy-word { background: var(--highlight); padding: 1px 6px; border-radius: 5px; border-bottom: 2px solid var(--gold); font-weight: 700; }
+        .spy-controls { display: flex; gap: 8px; align-items: center; margin-top: 10px; flex-wrap: wrap; }
+        .spy-input { padding: 7px 12px; border: 2px solid var(--gray-200); border-radius: 8px; font-size: 0.95rem; font-family: inherit; min-width: 180px; }
+        .spy-input:focus { outline: none; border-color: var(--teal); }
+        .spy-fb { font-weight: 700; font-size: 0.88rem; }
+        .spy-fb.ok { color: var(--ok); } .spy-fb.no { color: var(--bad); }
+        .word-bank { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .word-chip {
+            background: var(--white); border: 2px solid var(--teal); color: var(--navy); font-weight: 700; border-radius: 50px;
+            padding: 6px 18px; box-shadow: var(--shadow-sm);
+        }
+
+        /* Polish hover translations */
+        .pl { border-bottom: 2px dotted var(--teal); cursor: help; position: relative; }
+        .pl::after {
+            content: attr(data-pl); position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%) scale(0.95);
+            background: var(--navy); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600;
+            white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.15s, transform 0.15s; z-index: 50;
+        }
+        .pl:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
+
+        /* ====== SENTENCE BUILDER ====== */
+        .build-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 20px 24px; margin-top: 16px; box-shadow: var(--shadow-sm); }
+        .build-ctx { color: var(--gray-600); font-size: 0.92rem; margin-bottom: 10px; font-style: italic; }
+        .build-answer {
+            min-height: 54px; border: 2px dashed var(--teal-light); border-radius: 10px; padding: 8px; display: flex; flex-wrap: wrap; gap: 8px;
+            background: var(--cream); align-items: center;
+        }
+        .build-tray { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; min-height: 40px; }
+        .chip {
+            background: var(--white); border: 2px solid var(--navy); color: var(--navy); font-weight: 700; padding: 5px 14px; border-radius: 8px;
+            cursor: pointer; user-select: none; font-size: 0.95rem; transition: transform 0.12s, background 0.15s;
+        }
+        .chip:hover { background: var(--gray-100); transform: translateY(-2px); }
+        .build-answer .chip { border-color: var(--teal); background: var(--white); }
+        .build-answer.correct { border-color: var(--ok); background: var(--ok-bg); border-style: solid; }
+        .build-answer.wrong { border-color: var(--bad); background: var(--bad-bg); border-style: solid; }
+
+        /* ====== TIMELINE ====== */
+        .timeline { position: relative; margin: 44px 10px 20px; padding: 30px 0 250px; }
+        .tl-line { position: absolute; top: 50px; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--navy), var(--teal) 55%, var(--gold)); border-radius: 6px; }
+        .tl-line::after { content: ''; position: absolute; right: -4px; top: -7px; border-left: 16px solid var(--gold); border-top: 10px solid transparent; border-bottom: 10px solid transparent; }
+        .tl-label { position: absolute; top: 0; font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray-400); }
+        .tl-point { position: absolute; top: 40px; width: 26px; height: 26px; margin-left: -13px; border-radius: 50%; border: 4px solid var(--white); box-shadow: var(--shadow-md); }
+        .tl-note {
+            position: absolute; top: 80px; width: 190px; margin-left: -95px; text-align: center; font-size: 0.82rem; line-height: 1.4;
+            background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; padding: 8px 10px; box-shadow: var(--shadow-sm);
+        }
+        .tl-note.low::before{content:'';}
+        .tl-note b { color: var(--navy); display: block; font-size: 0.8rem; }
+        .tl-note em { color: var(--rose); font-style: normal; font-weight: 700; }
+        .tl-wrap { overflow-x: auto; padding-bottom: 10px; }
+        .tl-inner { min-width: 860px; }
+
+        /* ====== FLOWCHART ====== */
+        .flowchart {
+            display: flex; flex-direction: column; align-items: center; gap: 16px; margin: 30px 0; background: var(--cream);
+            padding: 36px 28px; border-radius: var(--radius-lg); border: 2px dashed var(--teal);
+        }
+        .flow-bubble {
+            background: var(--white); padding: 12px 24px; border-radius: 50px; font-weight: 600; color: var(--navy);
+            box-shadow: var(--shadow-sm); border: 2px solid var(--teal); text-align: center; min-width: 250px; max-width: 420px;
+        }
+        .flow-bubble.b-side { border-color: var(--rose); background: var(--rose-light); color: var(--white); }
+        .flow-bubble.b-gold { border-color: var(--gold); background: var(--gold-light); color: var(--navy); }
+        .flow-arrow { color: var(--gray-400); font-size: 1.5rem; line-height: 1; }
+        .flow-row { display: flex; gap: 36px; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+        .flow-col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+        .flow-tag { font-size: 0.72rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal-dark); }
+
+        /* ====== AUDIO / TIMER / WRITING ====== */
+        .audio-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 20px 24px; margin-top: 18px; box-shadow: var(--shadow-sm); }
+        .audio-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+        .audio-bar label { font-size: 0.82rem; color: var(--gray-600); font-weight: 600; }
+        .audio-bar select, .audio-bar input[type=range] { font-family: inherit; }
+        .video-container {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md); margin: 22px 0 12px; background: var(--navy);
+        }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .timer-box { background: var(--navy); color: #fff; border-radius: var(--radius-md); padding: 16px 22px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+        .timer-digits { font-family: 'Fraunces', Georgia, serif; font-size: 2.2rem; font-weight: 800; color: var(--gold-light); min-width: 90px; }
+        .timer-bar { flex: 1; min-width: 160px; height: 10px; background: rgba(255,255,255,0.18); border-radius: 10px; overflow: hidden; }
+        .timer-fill { height: 100%; width: 100%; background: linear-gradient(90deg, var(--teal-light), var(--gold)); transition: width 1s linear; }
+        .timer-box .btn { background: var(--teal); }
+        .timer-box .btn.ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,0.5); }
+        .write-area {
+            min-height: 240px; margin-top: 14px; background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-md);
+            padding: 18px 20px; font-size: 1.02rem; line-height: 1.85; white-space: pre-wrap;
+        }
+        .write-area:focus { border-color: var(--teal); }
+        .wc-bar { display: flex; gap: 14px; align-items: center; margin-top: 8px; flex-wrap: wrap; }
+        .wc-count { font-weight: 800; color: var(--navy); }
+        .wc-hint { font-size: 0.85rem; color: var(--gray-600); }
+        .check-list { list-style: none; margin-top: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px; }
+        .check-list li { background: var(--white); border: 1px solid var(--gray-200); border-radius: 10px; padding: 10px 14px; font-size: 0.92rem; }
+        .check-list li::before { content: '☐ '; color: var(--teal-dark); font-weight: 800; }
+
+        .post-card { background: var(--white); border: 1px solid var(--gray-200); border-left: 5px solid var(--navy); border-radius: var(--radius-md); padding: 18px 22px; margin-top: 14px; box-shadow: var(--shadow-sm); }
+        .post-card.prof { border-left-color: var(--teal); background: var(--cream); }
+        .post-card .who { font-weight: 800; color: var(--navy); font-size: 0.92rem; margin-bottom: 4px; }
+        mark.ann { background: var(--highlight); padding: 0 3px; border-radius: 3px; }
+
+        /* ====== WHITEBOARD ====== */
+        .whiteboard-container { border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; margin-top: 22px; box-shadow: var(--shadow-md); }
+        .wb-toolbar { background: var(--navy); padding: 12px 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .wb-btn { background: var(--slate); color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: background 0.2s; }
+        .wb-btn:hover, .wb-btn.active { background: var(--teal); border-color: var(--teal-light); }
+        .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--white); cursor: pointer; padding: 0; }
+        canvas { display: block; width: 100%; height: 500px; background: var(--white); cursor: crosshair; }
+
+        /* ====== SUM UP ====== */
+        .sum-up-box { background: linear-gradient(135deg, var(--navy), var(--teal-dark)); color: var(--white); padding: 34px; border-radius: var(--radius-lg); text-align: center; margin-top: 10px; }
+        .sum-up-box h2 { color: var(--gold-light); margin-bottom: 14px; }
+        .sum-up-box p { font-size: 1.08rem; }
+
+        /* ====== FABS ====== */
+        .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 14px; z-index: 1000; }
+        .fab-btn {
+            background: var(--teal); color: var(--white); border: none; width: 54px; height: 54px; border-radius: 50%; font-size: 1.4rem; cursor: pointer;
+            box-shadow: var(--shadow-lg); transition: transform 0.2s, background 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .fab-btn:hover { transform: translateY(-3px); background: var(--teal-dark); }
+        .quizlet-btn { background: #4255FF; } .quizlet-btn:hover { background: #2839d0; }
+
+        /* ====== QUIZLET MODAL ====== */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11,46,92,0.6);
+            backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center;
+        }
+        .modal-content { background: var(--white); padding: 30px; border-radius: var(--radius-lg); width: 92%; max-width: 640px; box-shadow: var(--shadow-xl); position: relative; }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); transition: color 0.2s; }
+        .close-modal:hover { color: var(--rose); }
+        .word-row { display: flex; gap: 10px; margin-bottom: 12px; }
+        .word-row input { flex: 1; padding: 10px 14px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 1rem; font-family: inherit; }
+        .word-row input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 2px rgba(18,168,138,0.15); }
+        #wordList { max-height: 350px; overflow-y: auto; margin: 20px 0; padding-right: 10px; }
+
+        /* ====== LIVE CURSORS ====== */
+        .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.4s linear, left 0.4s linear; display: flex; align-items: flex-start; opacity: 0; animation: fadeInCursor 0.3s forwards; }
+        @keyframes fadeInCursor { to { opacity: 1; } }
+        .remote-cursor svg { width: 22px; height: 22px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); pointer-events: none; }
+        .remote-cursor-label { color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: -5px; margin-top: 15px; white-space: nowrap; box-shadow: var(--shadow-sm); pointer-events: none; }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 768px) {
+            .hero { padding: 72px 20px 62px; }
+            .section { padding: 54px 16px; }
+            .nav-links { display: none; }
+            canvas { height: 400px; }
+            .flow-row { flex-direction: column; align-items: center; gap: 16px; }
+            .floating-actions { bottom: 20px; right: 20px; }
+            .practice-list li { padding-left: 44px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sync Status Indicator -->
+<div id="syncStatus" style="position: fixed; top: 15px; left: 50%; transform: translateX(-50%); background: rgba(11, 46, 92, 0.88); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 10000; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1);">
+    <span id="syncDot" style="display: block; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; box-shadow: 0 0 8px var(--gold);"></span>
+    <span id="syncText">Connecting Classroom...</span>
+</div>
+
+<!-- Container for Live Cursors -->
+<div id="liveCursorsContainer" style="position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 999999;"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge" contenteditable="true">C1 • Dental English • TOEFL iBT Track</div>
+        <h1 contenteditable="true">Mission 120: The TOEFL Precision Lab</h1>
+        <p class="hero-subtitle" contenteditable="true">Lesson 1 — Decode the current TOEFL iBT format, then train every task type at near-native accuracy: academic reading, listening, speaking and writing, plus the grammar, vocabulary and delivery that a perfect score demands.</p>
+        <div class="hero-stats">
+            <div class="hero-stat"><strong contenteditable="true">4</strong><span contenteditable="true">Sections</span></div>
+            <div class="hero-stat"><strong contenteditable="true">12</strong><span contenteditable="true">Task types</span></div>
+            <div class="hero-stat"><strong contenteditable="true">15</strong><span contenteditable="true">Missions</span></div>
+            <div class="hero-stat"><strong contenteditable="true">30×4</strong><span contenteditable="true">Target</span></div>
+        </div>
+    </div>
+    <div class="hero-ribbon"></div>
+</section>
+
+<!-- ====== NAV ====== -->
+<nav class="nav-bar">
+    <div class="nav-inner">
+        <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">Dental C1 • TOEFL</span></a>
+        <ul class="nav-links" id="navTabsContainer">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--teal); color: white; padding: 4px 10px; font-weight: 800; border-radius: 50px;" title="Add Custom Tab">+</a></li>
+            <li><a href="#format" contenteditable="true">Format</a></li>
+            <li><a href="#words" contenteditable="true">Reading</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#grammar" contenteditable="true">Grammar</a></li>
+            <li><a href="#listening" contenteditable="true">Listening</a></li>
+            <li><a href="#pron" contenteditable="true">Pronunciation</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#email" contenteditable="true">Writing</a></li>
+            <li><a href="#finale" contenteditable="true">Finale</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ====== TASK 1: FORMAT MAP + BASELINE ====== -->
+<section class="section" id="format">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 1: Baseline Audit</span>
+        <h2 class="section-title" contenteditable="true">Know the Machine</h2>
+        <p class="section-desc" contenteditable="true">This is Lesson 1, so there is no previous lesson to recap. Instead, we audit where you stand. First study the map of the current TOEFL iBT; then rate your own confidence on every task type.</p>
+
+        <div class="board-game-grid" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));">
+            <div class="board-tile" style="border-color: var(--teal);">
+                <span class="tile-no" contenteditable="true">READING • adaptive • ~30 min</span>
+                <span contenteditable="true">Complete the Words</span>
+                <span contenteditable="true">Read in Daily Life</span>
+                <span contenteditable="true">Read an Academic Passage</span>
+            </div>
+            <div class="board-tile" style="border-color: var(--slate);">
+                <span class="tile-no" contenteditable="true">LISTENING • adaptive • ~29 min</span>
+                <span contenteditable="true">Listen and Choose a Response</span>
+                <span contenteditable="true">Listen to a Conversation</span>
+                <span contenteditable="true">Listen to an Announcement</span>
+                <span contenteditable="true">Listen to an Academic Talk</span>
+            </div>
+            <div class="board-tile" style="border-color: var(--gold);">
+                <span class="tile-no" contenteditable="true">WRITING • ~23 min</span>
+                <span contenteditable="true">Build a Sentence</span>
+                <span contenteditable="true">Write an Email</span>
+                <span contenteditable="true">Write for an Academic Discussion</span>
+            </div>
+            <div class="board-tile" style="border-color: var(--rose);">
+                <span class="tile-no" contenteditable="true">SPEAKING • ~8 min</span>
+                <span contenteditable="true">Listen and Repeat</span>
+                <span contenteditable="true">Take an Interview</span>
+            </div>
+        </div>
+
+        <div class="watch-out" contenteditable="true">
+            <strong>Reality check:</strong> a "Legacy 120" means 30 out of 30 in every section. Since January 2026 ETS reports 1–6 bands, with a comparable 0–120 score shown during a two-year transition. At the very top of any scale, one careless slip per section can cost points, so this whole course hunts tiny errors: spelling, word forms, articles, word order and unfinished answers.
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Self-Audit: Rate Your Confidence (1 = shaky, 5 = automatic)</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th contenteditable="true">Task type</th>
+                        <th contenteditable="true">My rating</th>
+                        <th contenteditable="true">The typical trap at C1+</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td contenteditable="true"><strong>Complete the Words</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Spelling and word endings (-ed, -s, -ly); you must use context AND grammar.</td></tr>
+                    <tr><td contenteditable="true"><strong>Read in Daily Life</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Hidden conditions: dates, exceptions, "unless", "except".</td></tr>
+                    <tr><td contenteditable="true"><strong>Read an Academic Passage</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Paraphrase traps and extreme words (all, never, only).</td></tr>
+                    <tr><td contenteditable="true"><strong>Listen and Choose a Response</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Answers that repeat words from the speaker are usually wrong; tone and register matter.</td></tr>
+                    <tr><td contenteditable="true"><strong>Conversation</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Indirect answers ("Sort of…") and the speaker's real purpose.</td></tr>
+                    <tr><td contenteditable="true"><strong>Announcement</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">What changes versus what stays the same.</td></tr>
+                    <tr><td contenteditable="true"><strong>Academic Talk</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Confusing an example with the main claim; losing the structure.</td></tr>
+                    <tr><td contenteditable="true"><strong>Build a Sentence</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Embedded questions and inversion: normal word order is the trap.</td></tr>
+                    <tr><td contenteditable="true"><strong>Write an Email</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Skipping one required point; tone too casual or too stiff.</td></tr>
+                    <tr><td contenteditable="true"><strong>Academic Discussion</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Repeating peers instead of adding a NEW idea with a specific example.</td></tr>
+                    <tr><td contenteditable="true"><strong>Listen and Repeat</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Dropping word endings; sentences longer than your short-term memory chunk.</td></tr>
+                    <tr><td contenteditable="true"><strong>Take an Interview</strong></td><td><span class="blank-input" contenteditable="true"></span></td><td contenteditable="true">Stopping at 25 seconds; no example; filler words.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="section-desc" style="margin-top: 18px; margin-bottom: 0;" contenteditable="true">Circle your three lowest ratings. These become your personal homework priorities after this lesson.</p>
+    </div>
+</section>
+
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="warmup">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 2: Warm-Up</span>
+        <h2 class="section-title" contenteditable="true">Precision Under Pressure</h2>
+        <p class="section-desc" contenteditable="true">Discuss each prompt in full, developed answers (at least 30 seconds each). Aim for a claim, a reason and a concrete example every time.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" style="border-color: var(--teal);"><span class="tile-no" contenteditable="true">1</span><span contenteditable="true">Why do you need a top score? Describe what the score will unlock for your career.</span></div>
+            <div class="board-tile" style="border-color: var(--slate);"><span class="tile-no" contenteditable="true">2</span><span contenteditable="true">In a dental clinic, which tiny error could have big consequences? Compare it with a tiny error in an exam.</span></div>
+            <div class="board-tile" style="border-color: var(--gold);"><span class="tile-no" contenteditable="true">3</span><span contenteditable="true">Which TOEFL skill do you trust least when you are tired or nervous, and why?</span></div>
+            <div class="board-tile" style="border-color: var(--rose);"><span class="tile-no" contenteditable="true">4</span><span contenteditable="true">Is it better to give a perfect but short answer or a slightly imperfect but fully developed one? Defend your view.</span></div>
+            <div class="board-tile" style="border-color: var(--teal);"><span class="tile-no" contenteditable="true">5</span><span contenteditable="true">Describe a time when you misunderstood a spoken instruction in English. What did it teach you?</span></div>
+            <div class="board-tile" style="border-color: var(--slate);"><span class="tile-no" contenteditable="true">6</span><span contenteditable="true">Some universities test students only by computer. What is lost when no human listens to your answer?</span></div>
+            <div class="board-tile" style="border-color: var(--gold);"><span class="tile-no" contenteditable="true">7</span><span contenteditable="true">If you had to teach a patient one academic English word that improves their oral health literacy, which would you choose?</span></div>
+            <div class="board-tile" style="border-color: var(--rose);"><span class="tile-no" contenteditable="true">8</span><span contenteditable="true">Predict: which section of today's lesson will be your hardest? Why?</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 3: COMPLETE THE WORDS ====== -->
+<section class="section" id="words">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 3: Reading • Complete the Words</span>
+        <h2 class="section-title" contenteditable="true">Ten Missing Endings, Twice</h2>
+        <p class="section-desc" contenteditable="true">In each paragraph, ten words are cut in half. Type the missing letters only. Read the whole sentence first: the grammar around the gap tells you the ending (-ly, -ed, -ing, -s).</p>
+
+        <div class="scenario-card passage" style="border-top-color: var(--teal);" id="cwA">
+            <div class="passage-meta" contenteditable="true">Paragraph A • General science</div>
+            <p contenteditable="true">Researchers have long suspected that sleep is not <span class="cw-word"><b>mer</b><span class="blank-input" data-answer="ely" contenteditable="true"></span></span> a passive state but an active <span class="cw-word"><b>proc</b><span class="blank-input" data-answer="ess" contenteditable="true"></span></span> of memory <span class="cw-word"><b>consol</b><span class="blank-input" data-answer="idation" contenteditable="true"></span></span>. During deep sleep, the hippocampus replays recent experiences, <span class="cw-word"><b>grad</b><span class="blank-input" data-answer="ually" contenteditable="true"></span></span> transferring them to the cortex, where they are stored more <span class="cw-word"><b>dur</b><span class="blank-input" data-answer="ably" contenteditable="true"></span></span>. In one study, participants who slept after learning a list of words <span class="cw-word"><b>reca</b><span class="blank-input" data-answer="lled" contenteditable="true"></span></span> <span class="cw-word"><b>signif</b><span class="blank-input" data-answer="icantly" contenteditable="true"></span></span> more of them than those who stayed awake, even when the two groups were <span class="cw-word"><b>mat</b><span class="blank-input" data-answer="ched" contenteditable="true"></span></span> for age and motivation. Nevertheless, scientists remain cautious: the precise <span class="cw-word"><b>mecha</b><span class="blank-input" data-answer="nisms" contenteditable="true"></span></span> are still debated, and sleep deprivation may <span class="cw-word"><b>imp</b><span class="blank-input" data-answer="air" contenteditable="true"></span></span> learning through several overlapping pathways.</p>
+            <div class="btn-row">
+                <button class="btn teal" onclick="checkBlanks('cwA')">Check</button>
+                <button class="btn ghost" onclick="revealBlanks('cwA')">Reveal answers</button>
+                <button class="btn ghost" onclick="clearBlanks('cwA')">Clear</button>
+                <span class="score-pill" id="score-cwA">0 / 10</span>
+            </div>
+        </div>
+
+        <div class="scenario-card passage" style="border-top-color: var(--slate); margin-top: 24px;" id="cwB">
+            <div class="passage-meta" contenteditable="true">Paragraph B • Dental science</div>
+            <p contenteditable="true">Fluoride works <span class="cw-word"><b>prim</b><span class="blank-input" data-answer="arily" contenteditable="true"></span></span> by <span class="cw-word"><b>streng</b><span class="blank-input" data-answer="thening" contenteditable="true"></span></span> enamel, the hard outer layer of the tooth. When fluoride ions are <span class="cw-word"><b>pre</b><span class="blank-input" data-answer="sent" contenteditable="true"></span></span> in saliva, they are <span class="cw-word"><b>incorp</b><span class="blank-input" data-answer="orated" contenteditable="true"></span></span> into the crystal structure, making it more <span class="cw-word"><b>resis</b><span class="blank-input" data-answer="tant" contenteditable="true"></span></span> to acid. Nevertheless, <span class="cw-word"><b>exce</b><span class="blank-input" data-answer="ssive" contenteditable="true"></span></span> exposure during childhood can cause fluorosis, a cosmetic condition <span class="cw-word"><b>charac</b><span class="blank-input" data-answer="terized" contenteditable="true"></span></span> by white streaks on the surface. Public-health <span class="cw-word"><b>author</b><span class="blank-input" data-answer="ities" contenteditable="true"></span></span> therefore <span class="cw-word"><b>recom</b><span class="blank-input" data-answer="mend" contenteditable="true"></span></span> that children use only a pea-sized amount of toothpaste and be <span class="cw-word"><b>super</b><span class="blank-input" data-answer="vised" contenteditable="true"></span></span> while brushing.</p>
+            <div class="btn-row">
+                <button class="btn teal" onclick="checkBlanks('cwB')">Check</button>
+                <button class="btn ghost" onclick="revealBlanks('cwB')">Reveal answers</button>
+                <button class="btn ghost" onclick="clearBlanks('cwB')">Clear</button>
+                <span class="score-pill" id="score-cwB">0 / 10</span>
+            </div>
+        </div>
+        <div class="tip-box" contenteditable="true"><strong>Pro tip:</strong> never leave a gap blank. Decide the part of speech first (adverb after a verb? participle after "be"?), then the ending, then the middle letters. Spelling errors cost the same as wrong words.</div>
+    </div>
+</section>
+
+<!-- ====== TASK 4: ACADEMIC PASSAGE ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 4: Reading • Academic Passage</span>
+        <h2 class="section-title" contenteditable="true">The Teeth That Remember</h2>
+        <p class="section-desc" contenteditable="true">Read once for the argument (3 minutes), then answer. Hover over dotted words for a Polish hint. Watch for paraphrase: the correct answer almost never copies the passage word for word.</p>
+
+        <div class="scenario-card passage" style="border-top-color: var(--navy);">
+            <div class="passage-meta" contenteditable="true">Academic passage • Archaeology & dentistry • ≈ 330 words</div>
+            <p contenteditable="true"><strong>1</strong> &nbsp;For most of the twentieth century, archaeologists who excavated ancient burial sites treated the build-up of hardened plaque on teeth as an inconvenience. Known as dental <span class="pl" data-pl="kamień nazębny">calculus</span>, this <span class="pl" data-pl="zmineralizowany">mineralized</span> deposit was routinely scraped away before skeletons were cataloged, <strong>ostensibly</strong> to make the bones easier to measure. This habit has since been recognized as a remarkable act of unintentional destruction.</p>
+            <p contenteditable="true"><strong>2</strong> &nbsp;The turning point came in the 2010s, when molecular biologists demonstrated that calculus functions as a kind of microscopic time capsule. As plaque <span class="pl" data-pl="zwapnia się">calcifies</span>, it <span class="pl" data-pl="więzi, zatrzymuje">entraps</span> bacterial DNA, proteins, and even fragments of the food a person ate, and the mineral matrix shields these molecules from the decay that destroys most organic material. Analyses of calculus from Neolithic and medieval individuals have therefore revealed what these people consumed, which diseases they carried, and how their oral microbial communities differed from our own.</p>
+            <p contenteditable="true"><strong>3</strong> &nbsp;One finding in particular has unsettled long-held assumptions. Oral bacterial communities appear to have become markedly less diverse after the adoption of farming, and again after the Industrial Revolution, when refined sugar and flour became staples. Researchers contend that this loss of diversity may have left modern mouths more vulnerable to the cavity- and gum-disease-causing species that now <span class="pl" data-pl="dominować">predominate</span>. Not all scientists accept this interpretation, however; critics point out that the sample of well-preserved <span class="pl" data-pl="okazy">specimens</span> is small and geographically uneven, which makes broad generalizations hazardous.</p>
+            <p contenteditable="true"><strong>4</strong> &nbsp;Nevertheless, the method has opened doors that once seemed permanently closed. Calculus from a Neanderthal individual in northern Spain, who suffered from a dental <span class="pl" data-pl="ropień">abscess</span>, contained traces of poplar, a plant that produces salicylic acid, a natural painkiller. Such discoveries suggest that the mouth records far more than a mere inventory of meals.</p>
+        </div>
+
+        <div class="quiz" data-quiz="t4">
+            <div class="btn-row"><span class="score-pill" id="score-t4">0 / 7</span><button class="btn ghost sm" onclick="resetQuiz('t4')">Restart quiz</button></div>
+
+            <div class="q-block" data-correct="a">
+                <span class="q-type" contenteditable="true">Vocabulary in context</span>
+                <p class="q-text" contenteditable="true">The word "ostensibly" in paragraph 1 is closest in meaning to</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">apparently, though perhaps not truthfully</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">efficiently</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">deliberately</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">reluctantly</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Ostensibly" signals a stated reason that may not be the whole truth. "Deliberately" is the trap: the scraping was deliberate, but the word is about the claimed purpose.</div>
+            </div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Rhetorical purpose</span>
+                <p class="q-text" contenteditable="true">Why does the author mention that calculus was "routinely scraped away"?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">To criticize modern standards for measuring skeletons</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">To show that a material once discarded later became a rich source of evidence</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">To explain how calculus forms on teeth</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">To argue that teeth are less informative than bones</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> Paragraph 1 sets up a contrast (discarded → treasured) that paragraph 2 completes. Purpose questions ask what job a detail does in the argument, not what it says.</div>
+            </div>
+
+            <div class="q-block" data-correct="d">
+                <span class="q-type" contenteditable="true">Negative factual information</span>
+                <p class="q-text" contenteditable="true">According to paragraph 2, analyses of calculus have revealed all of the following EXCEPT</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">what ancient people ate</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">which diseases they carried</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">how their oral bacterial communities differed from modern ones</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">the age at which they died</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> Three options are stated almost directly in the last sentence of paragraph 2. Age at death is never mentioned. Underline the three true items first, then the leftover is your answer.</div>
+            </div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Author's attitude</span>
+                <p class="q-text" contenteditable="true">Which best describes the author's attitude toward the diversity-loss hypothesis in paragraph 3?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Uncritical enthusiasm</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Qualified acceptance: the idea is plausible, but its limits are acknowledged</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Outright dismissal</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">Complete neutrality with no view of the evidence</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> Hedges ("appear to", "may have") plus the critics' objection signal a balanced, cautious stance. Extreme options (A, C) are classic traps.</div>
+            </div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Reference</span>
+                <p class="q-text" contenteditable="true">In paragraph 3, "this interpretation" refers to the idea that</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">the sample of specimens is small and uneven</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">reduced bacterial diversity may have made modern mouths more vulnerable to disease</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">refined sugar and flour appeared before farming</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">DNA survives inside calcified plaque</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> The sentence immediately before ("Researchers contend…") contains the interpretation. Option A is the critics' counter-argument, which comes AFTER the pronoun.</div>
+            </div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Sentence simplification</span>
+                <p class="q-text" contenteditable="true">Which best expresses the essential information in this sentence? <em>"Not all scientists accept this interpretation, however; critics point out that the sample of well-preserved specimens is small and geographically uneven, which makes broad generalizations hazardous."</em></p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Critics reject the interpretation because the specimens are too old to study.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Some scientists doubt the interpretation because limited, unevenly distributed samples make wide conclusions unreliable.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Every scientist agrees the sample is small but still accepts the conclusion.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">The specimens are dangerous to handle, so few scientists have studied them.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Hazardous" is used figuratively (risky for reasoning), not literally (D). A changes the reason; C reverses the meaning of "not all".</div>
+            </div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Inference</span>
+                <p class="q-text" contenteditable="true">What can be inferred from the Neanderthal example in paragraph 4?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Neanderthals invented dentistry.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">This individual may have used a plant to relieve pain, though the evidence is indirect.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Neanderthals practiced farming.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">Poplar reliably cures dental abscesses.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> The passage says only that calculus "contained traces of poplar" and that poplar produces a painkiller. Anything stronger (invented, cures, farming) overreaches.</div>
+            </div>
+        </div>
+
+        <div class="board-game-grid" style="margin-top: 28px;">
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Discuss</span><span contenteditable="true">Summarize paragraph 2 in ONE sentence without using "calculus", "DNA" or "bacteria".</span></div>
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Discuss</span><span contenteditable="true">Which statement in the passage would you most like more evidence for? Why?</span></div>
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Discuss</span><span contenteditable="true">As a dental assistant, what could modern clinics learn from ancient oral microbiomes?</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 5: READ IN DAILY LIFE ====== -->
+<section class="section" id="daily">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 5: Reading • Read in Daily Life</span>
+        <h2 class="section-title" contenteditable="true">Scan, Don't Drown</h2>
+        <p class="section-desc" contenteditable="true">Short practical texts: read the question first, then scan for the exact detail. Most wrong answers are true statements about a different part of the text.</p>
+
+        <div class="quiz" data-quiz="t5">
+            <div class="btn-row"><span class="score-pill" id="score-t5">0 / 6</span><button class="btn ghost sm" onclick="resetQuiz('t5')">Restart quiz</button></div>
+
+            <div class="scenario-card" style="border-top-color: var(--teal); margin-top: 16px;">
+                <h3 contenteditable="true">✉️ Email: Change to Thursday's lab</h3>
+                <p contenteditable="true"><strong>From:</strong> Dr. Hartwell &nbsp;|&nbsp; <strong>To:</strong> Anatomy Lab Group B</p>
+                <p contenteditable="true">Dear students, owing to a scheduling conflict, Thursday's anatomy lab will now begin at 2:30 p.m. rather than 1:00 p.m. and will take place in Room 214 of the Wilson Building instead of the main lab. Please bring your own gloves and goggles; protective equipment will not be provided. If you cannot attend, notify me by Wednesday at noon so that I can arrange a make-up slot. Attendance is mandatory for anyone who missed last week's session.</p>
+                <div class="q-block" data-correct="c">
+                    <span class="q-type" contenteditable="true">Detail</span>
+                    <p class="q-text" contenteditable="true">What has changed about Thursday's lab?</p>
+                    <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Only the time</span></div>
+                    <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Only the location</span></div>
+                    <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Both the time and the location</span></div>
+                    <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">The equipment students must bring</span></div>
+                    <div class="explain" contenteditable="true"><strong>Why:</strong> Two changes are signaled by "rather than" and "instead of". The equipment instruction is a reminder, not a change.</div>
+                </div>
+                <div class="q-block" data-correct="b">
+                    <span class="q-type" contenteditable="true">Inference</span>
+                    <p class="q-text" contenteditable="true">A student who attended last week but cannot come on Thursday should</p>
+                    <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">come anyway, because attendance is mandatory for everyone</span></div>
+                    <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">tell Dr. Hartwell before Wednesday noon so a make-up can be arranged</span></div>
+                    <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">buy protective equipment from the lab</span></div>
+                    <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">wait for the following week's session</span></div>
+                    <div class="explain" contenteditable="true"><strong>Why:</strong> The notification rule applies to anyone who cannot attend. "Mandatory" applies only to those who missed last week: a restricted-scope trap.</div>
+                </div>
+            </div>
+
+            <div class="scenario-card" style="border-top-color: var(--slate); margin-top: 22px;">
+                <h3 contenteditable="true">📋 Flyer: Free dental screenings</h3>
+                <p contenteditable="true"><strong>Campus Dental Hygiene Clinic: Free Screenings.</strong> Every Tuesday, 10 a.m. to 4 p.m., Student Health Center, ground floor. Walk-ins are welcome until 3 p.m.; after that, appointments are required. Please present a valid student ID. Screenings do not include X-rays or treatment; patients who need further care will be referred to partner clinics.</p>
+                <div class="q-block" data-correct="d">
+                    <span class="q-type" contenteditable="true">Application</span>
+                    <p class="q-text" contenteditable="true">A student with a valid ID arrives at 3:30 p.m. on Tuesday without an appointment. What will most likely happen?</p>
+                    <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">She will be screened immediately.</span></div>
+                    <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">She will receive X-rays.</span></div>
+                    <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">She will be referred to a partner clinic.</span></div>
+                    <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">She will not be seen without booking an appointment.</span></div>
+                    <div class="explain" contenteditable="true"><strong>Why:</strong> After 3 p.m. an appointment is required. Referral (C) happens only after a screening shows further care is needed.</div>
+                </div>
+                <div class="q-block" data-correct="a">
+                    <span class="q-type" contenteditable="true">Negative detail</span>
+                    <p class="q-text" contenteditable="true">Which service is NOT provided at the screening?</p>
+                    <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Dental X-rays</span></div>
+                    <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">A basic oral examination</span></div>
+                    <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Referral to other clinics</span></div>
+                    <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">Walk-in service before 3 p.m.</span></div>
+                    <div class="explain" contenteditable="true"><strong>Why:</strong> The flyer states that screenings "do not include X-rays or treatment". Options B–D are all offered, so they cannot be the answer to an EXCEPT/NOT question.</div>
+                </div>
+            </div>
+
+            <div class="scenario-card" style="border-top-color: var(--gold); margin-top: 22px;">
+                <h3 contenteditable="true">📚 Library notice</h3>
+                <p contenteditable="true">Because of the exam period, the main reading room will stay open until midnight from December 1 to December 14. Group study rooms must be booked at least 24 hours in advance and are limited to two hours per booking. Food is not permitted, but covered drinks are allowed.</p>
+                <div class="q-block" data-correct="c">
+                    <span class="q-type" contenteditable="true">Application</span>
+                    <p class="q-text" contenteditable="true">A group wants a study room on December 10 at 4 p.m. By when must they book?</p>
+                    <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">By midnight on December 14</span></div>
+                    <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">By 4 p.m. on December 10 itself</span></div>
+                    <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">By 4 p.m. on December 9</span></div>
+                    <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">By 4 p.m. on December 8</span></div>
+                    <div class="explain" contenteditable="true"><strong>Why:</strong> "At least 24 hours in advance" means the deadline is exactly one day before the booking time.</div>
+                </div>
+                <div class="q-block" data-correct="d">
+                    <span class="q-type" contenteditable="true">True statement</span>
+                    <p class="q-text" contenteditable="true">Which statement is supported by the notice?</p>
+                    <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">The library will stay open until midnight all year.</span></div>
+                    <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Students may reserve a group room for a whole afternoon.</span></div>
+                    <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">No beverages are allowed in the reading room.</span></div>
+                    <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">Covered drinks are acceptable, but food is not.</span></div>
+                    <div class="explain" contenteditable="true"><strong>Why:</strong> A ignores the date range, B ignores the two-hour limit, C ignores the "covered drinks" exception. Every wrong answer breaks one small condition.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: VOCABULARY ERROR SPY ====== -->
+<section class="section" id="vocab">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 6: Vocabulary • Error Spy</span>
+        <h2 class="section-title" contenteditable="true">Eight Words, Eight Sabotaged Sentences</h2>
+        <p class="section-desc" contenteditable="true">Each sentence below contains one <span class="spy-word">highlighted</span> word that makes the sentence illogical. Find the saboteur, then type the word from the bank that repairs the meaning. Hover over a bank word for a Polish hint.</p>
+
+        <div class="word-bank">
+            <span class="word-chip pl" data-pl="wszechobecny" contenteditable="true">pervasive</span>
+            <span class="word-chip pl" data-pl="łagodzić, zmniejszać" contenteditable="true">mitigate</span>
+            <span class="word-chip pl" data-pl="wiarygodny, prawdopodobny" contenteditable="true">plausible</span>
+            <span class="word-chip pl" data-pl="rozbieżność" contenteditable="true">discrepancy</span>
+            <span class="word-chip pl" data-pl="pogarszać, zaostrzać" contenteditable="true">exacerbate</span>
+            <span class="word-chip pl" data-pl="rzekomo, pozornie" contenteditable="true">ostensibly</span>
+            <span class="word-chip pl" data-pl="szkodliwy" contenteditable="true">deleterious</span>
+            <span class="word-chip pl" data-pl="potwierdzać (dowodami)" contenteditable="true">corroborate</span>
+        </div>
+
+        <ul class="practice-list" id="spyList">
+            <li>
+                <div contenteditable="true">Skipping interdental cleaning can <span class="spy-word">alleviate</span> gum inflammation, which is why dentists keep reminding patients to floss.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="exacerbate" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">Fluoride varnish cannot eliminate the risk of decay, but it can <span class="spy-word">exacerbate</span> that risk considerably.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="mitigate" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">A second, independent laboratory was able to <span class="spy-word">contradict</span> the original findings, which greatly strengthened the study's credibility.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="corroborate" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">There was a striking <span class="spy-word">similarity</span> between the patient's reported sugar intake and her food diary, so the nurse asked her to explain.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="discrepancy" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">The campaign was <span class="spy-word">genuinely</span> about public health; in reality, it was designed to promote one particular toothpaste brand.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="ostensibly" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">Her explanation sounded entirely <span class="spy-word">implausible</span>, so the ethics committee accepted it without further questions.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="plausible" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">Prolonged use of highly acidic mouthwash can have <span class="spy-word">beneficial</span> effects on enamel, so dentists advise caution.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="deleterious" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+            <li>
+                <div contenteditable="true">Added sugar is a <span class="spy-word">rare</span> ingredient in modern diets, appearing in sauces, bread and even "healthy" yogurts.</div>
+                <div class="spy-controls"><input class="spy-input" data-answer="pervasive" placeholder="correct word…" autocomplete="off"><button class="btn sm teal" onclick="checkSpy(this)">Check</button><span class="spy-fb"></span></div>
+            </li>
+        </ul>
+        <div class="btn-row"><span class="score-pill" id="score-spy">0 / 8</span><button class="btn ghost sm" onclick="resetSpy()">Reset</button></div>
+
+        <h3 class="sub-title" contenteditable="true">Word Families (essential for Complete the Words & Build a Sentence)</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead><tr><th contenteditable="true">Base word</th><th contenteditable="true">Noun</th><th contenteditable="true">Adjective</th><th contenteditable="true">Adverb / other</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true"><strong>exacerbate</strong> (v)</td><td contenteditable="true">exacerbation</td><td contenteditable="true">exacerbating</td><td contenteditable="true">–</td></tr>
+                    <tr><td contenteditable="true"><strong>mitigate</strong> (v)</td><td contenteditable="true">mitigation</td><td contenteditable="true">mitigating (circumstances)</td><td contenteditable="true">–</td></tr>
+                    <tr><td contenteditable="true"><strong>corroborate</strong> (v)</td><td contenteditable="true">corroboration</td><td contenteditable="true">corroborative</td><td contenteditable="true">–</td></tr>
+                    <tr><td contenteditable="true"><strong>discrepancy</strong> (n)</td><td contenteditable="true">discrepancy</td><td contenteditable="true">discrepant (rare)</td><td contenteditable="true">–</td></tr>
+                    <tr><td contenteditable="true"><strong>ostensible</strong> (adj)</td><td contenteditable="true">–</td><td contenteditable="true">ostensible</td><td contenteditable="true">ostensibly</td></tr>
+                    <tr><td contenteditable="true"><strong>plausible</strong> (adj)</td><td contenteditable="true">plausibility</td><td contenteditable="true">plausible / implausible</td><td contenteditable="true">plausibly</td></tr>
+                    <tr><td contenteditable="true"><strong>deleterious</strong> (adj)</td><td contenteditable="true">–</td><td contenteditable="true">deleterious</td><td contenteditable="true">deleteriously</td></tr>
+                    <tr><td contenteditable="true"><strong>pervasive</strong> (adj)</td><td contenteditable="true">pervasiveness</td><td contenteditable="true">pervasive</td><td contenteditable="true">pervade (v)</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tip-box" contenteditable="true"><strong>Your turn:</strong> write ONE original sentence about a dental or study situation that uses at least two of the eight words. Type it here and read it aloud with natural stress. <br><span class="blank-input" style="min-width: 80%; text-align: left;"></span></div>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR DISCOVERY ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 7: Grammar Discovery</span>
+        <h2 class="section-title" contenteditable="true">From B2 to Band 6: Sentence Architecture</h2>
+        <p class="section-desc" contenteditable="true">Do not read rules yet. First compare two versions of the same idea and work out what the second writer did differently. Rules come after you discover the pattern.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card" style="border-top-color: var(--gray-400);">
+                <h3 contenteditable="true">Version A (solid B2)</h3>
+                <p contenteditable="true">Many people eat too much sugar. This makes more cavities. Dentists think we should tax sugary drinks, and some people agree with this. But I think it may not work.</p>
+            </div>
+            <div class="scenario-card" style="border-top-color: var(--teal);">
+                <h3 contenteditable="true">Version B (Band 6)</h3>
+                <p contenteditable="true">The overconsumption of sugar is widely believed to drive the rise in cavities. Dentists have long argued that sugary drinks should be taxed; yet it remains unclear whether such a measure would, in practice, change behavior. Not only is the evidence mixed, but it is also heavily context-dependent.</p>
+            </div>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Your Discoveries</h3>
+        <ol class="practice-list">
+            <li><div contenteditable="true">Version B turns the idea "people eat too much sugar" into a noun phrase. Copy it: <span class="blank-input" style="min-width: 220px;"></span></div></li>
+            <li><div contenteditable="true">Find two expressions that make claims less absolute: <span class="blank-input" style="min-width: 160px;"></span> and <span class="blank-input" style="min-width: 160px;"></span></div></li>
+            <li><div contenteditable="true">Which sentence uses inverted word order (auxiliary before subject)? <span class="blank-input" style="min-width: 220px;"></span></div></li>
+            <li><div contenteditable="true">Which verb form shows research that began in the past and still matters now? <span class="blank-input" style="min-width: 160px;"></span></div></li>
+        </ol>
+        <div class="btn-row"><button class="btn ghost" onclick="toggleReveal('rev-disc')">Reveal discoveries</button></div>
+        <div class="reveal-box" id="rev-disc" contenteditable="true">
+            <p><strong>1.</strong> "The overconsumption of sugar" (nominalization).</p>
+            <p><strong>2.</strong> "is widely believed to…", "it remains unclear whether…", "would, in practice" (any two hedges).</p>
+            <p><strong>3.</strong> "Not only is the evidence mixed…" (negative inversion).</p>
+            <p><strong>4.</strong> "have long argued" (present perfect).</p>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">The Six Moves</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead><tr><th contenteditable="true">Move</th><th contenteditable="true">Pattern</th><th contenteditable="true">Band-6 example</th><th contenteditable="true">Classic slip</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true"><strong>1. Nominalization</strong></td><td contenteditable="true">verb / adjective → noun phrase</td><td contenteditable="true">The <strong>decline in diversity</strong> coincided with the spread of farming.</td><td contenteditable="true">Long chains of "of" and missing articles.</td></tr>
+                    <tr><td contenteditable="true"><strong>2. Hedging</strong></td><td contenteditable="true">appear to / tend to / may well / it seems likely that</td><td contenteditable="true">Calculus <strong>appears to</strong> preserve DNA for millennia.</td><td contenteditable="true">Hedging every claim, or using casual "maybe" to open a sentence.</td></tr>
+                    <tr><td contenteditable="true"><strong>3. Negative inversion</strong></td><td contenteditable="true">Not only / Rarely / Never before / Seldom + auxiliary + subject</td><td contenteditable="true"><strong>Not only did</strong> the sealant reduce decay, <strong>but</strong> it was also cheap.</td><td contenteditable="true">Forgetting the auxiliary: "Not only the sealant reduced…".</td></tr>
+                    <tr><td contenteditable="true"><strong>4. Participle clauses</strong></td><td contenteditable="true">Having + past participle / Based on… / Given that…</td><td contenteditable="true"><strong>Having analyzed</strong> forty samples, the team found a pattern.</td><td contenteditable="true">Dangling subject: "Having analyzed, the results show…".</td></tr>
+                    <tr><td contenteditable="true"><strong>5. Cleft emphasis</strong></td><td contenteditable="true">What… is/was… ; It was… that…</td><td contenteditable="true"><strong>What surprised</strong> the researchers <strong>was</strong> the speed of the change.</td><td contenteditable="true">Double subject: "What surprised them it was…".</td></tr>
+                    <tr><td contenteditable="true"><strong>6. Reporting passive</strong></td><td contenteditable="true">It is believed that… / X is thought to have + past participle</td><td contenteditable="true">Neanderthals <strong>are thought to have used</strong> plants medicinally.</td><td contenteditable="true">Using a simple infinitive for an earlier event: "are thought to use".</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Tenses for Reporting Research: A Timeline</h3>
+        <div class="tl-wrap">
+            <div class="tl-inner">
+                <div class="timeline">
+                    <div class="tl-line"></div>
+                    <div class="tl-label" style="left: 0;" contenteditable="true">PAST</div>
+                    <div class="tl-label" style="left: 62%; margin-left: -14px; color: var(--navy);" contenteditable="true">NOW</div>
+                    <div class="tl-label" style="right: 0;" contenteditable="true">FUTURE</div>
+
+                    <div class="tl-point" style="left: 12%; background: var(--slate);"></div>
+                    <div class="tl-note" style="left: 12%;"><b contenteditable="true">Past perfect</b><span contenteditable="true">Before 2010, researchers <em>had</em> already <em>discarded</em> calculus.</span></div>
+
+                    <div class="tl-point" style="left: 30%; background: var(--navy);"></div>
+                    <div class="tl-note" style="left: 30%; top: 170px;"><b contenteditable="true">Past simple</b><span contenteditable="true">A 2017 study <em>found</em> poplar traces in Neanderthal calculus.</span></div>
+
+                    <div class="tl-point" style="left: 47%; background: var(--teal-dark);"></div>
+                    <div class="tl-note" style="left: 47%;"><b contenteditable="true">Present perfect</b><span contenteditable="true">Studies <em>have</em> repeatedly <em>shown</em> a decline in diversity.</span></div>
+
+                    <div class="tl-point" style="left: 62%; background: var(--teal); width: 34px; height: 34px; margin-left: -17px; top: 36px;"></div>
+                    <div class="tl-note" style="left: 62%; top: 170px;"><b contenteditable="true">Present simple</b><span contenteditable="true">Calculus <em>preserves</em> ancient DNA (general fact).</span></div>
+
+                    <div class="tl-point" style="left: 77%; background: var(--gold);"></div>
+                    <div class="tl-note" style="left: 77%;"><b contenteditable="true">Modal + infinitive</b><span contenteditable="true">Future work <em>may reveal</em> far older medicines.</span></div>
+
+                    <div class="tl-point" style="left: 90%; background: var(--rose);"></div>
+                    <div class="tl-note" style="left: 90%; top: 170px;"><b contenteditable="true">Future perfect</b><span contenteditable="true">By 2040, scientists <em>will have sequenced</em> thousands of samples.</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="watch-out" contenteditable="true"><strong>Rule of thumb:</strong> specific study in the past → past simple; accumulated evidence relevant today → present perfect; established fact or the author's own claim → present simple; prediction → modal.</div>
+
+        <h3 class="sub-title" contenteditable="true">Upgrade These Sentences</h3>
+        <ol class="practice-list">
+            <li><div contenteditable="true"><strong>(Nominalization)</strong> "Many patients ignore dentists' advice, and this makes treatment harder." → <span class="blank-input" style="min-width: 70%; text-align: left;"></span></div></li>
+            <li><div contenteditable="true"><strong>(Hedging)</strong> "I think the policy will work." → <span class="blank-input" style="min-width: 70%; text-align: left;"></span></div></li>
+            <li><div contenteditable="true"><strong>(Participle clause)</strong> "The team collected the data. Then they found a surprising pattern." → <span class="blank-input" style="min-width: 70%; text-align: left;"></span></div></li>
+            <li><div contenteditable="true"><strong>(Inversion)</strong> "People rarely realize how common gum disease is." → <span class="blank-input" style="min-width: 70%; text-align: left;"></span></div></li>
+        </ol>
+        <div class="btn-row"><button class="btn ghost" onclick="toggleReveal('rev-upg')">Reveal model upgrades</button></div>
+        <div class="reveal-box" id="rev-upg" contenteditable="true">
+            <p><strong>1.</strong> Patients' disregard for professional advice complicates treatment.</p>
+            <p><strong>2.</strong> The policy appears likely to succeed, although the evidence remains limited.</p>
+            <p><strong>3.</strong> Having collected the data, the team found a surprising pattern.</p>
+            <p><strong>4.</strong> Rarely do people realize how common gum disease is.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 8: BUILD A SENTENCE ====== -->
+<section class="section" id="build">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 8: Writing • Build a Sentence</span>
+        <h2 class="section-title" contenteditable="true">Rebuild It, Word by Word</h2>
+        <p class="section-desc" contenteditable="true">Click words to place them in order; click a placed word to send it back. Punctuation is attached to the words. In the real test you have under a minute per sentence, so aim for speed and accuracy.</p>
+
+        <div id="buildList">
+            <div class="build-card" data-answer="Could you tell me whether the seminar has been rescheduled?">
+                <p class="build-ctx" contenteditable="true">Context: you are asking a classmate about a seminar (indirect question).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+            <div class="build-card" data-answer="Never before had the department received so many applications.">
+                <p class="build-ctx" contenteditable="true">Context: an administrator describes a record year (negative inversion).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+            <div class="build-card" data-answer="The results, which were published last week, have been widely criticized.">
+                <p class="build-ctx" contenteditable="true">Context: describing a controversial study (non-defining relative clause + passive).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+            <div class="build-card" data-answer="Had she reviewed the notes, she would have noticed the error.">
+                <p class="build-ctx" contenteditable="true">Context: expressing regret about a missed step (inverted third conditional).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+            <div class="build-card" data-answer="What surprised the researchers most was how quickly the bacteria adapted.">
+                <p class="build-ctx" contenteditable="true">Context: emphasizing a surprising result (cleft sentence).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+            <div class="build-card" data-answer="It is generally agreed that regular flossing reduces the risk of gum disease.">
+                <p class="build-ctx" contenteditable="true">Context: reporting a consensus (impersonal passive).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+            <div class="build-card" data-answer="Not only did the patients recover faster, but they also reported less pain.">
+                <p class="build-ctx" contenteditable="true">Context: contrasting two benefits of a new technique (Not only… but also).</p>
+                <div class="build-answer"></div><div class="build-tray"></div>
+                <div class="btn-row"><button class="btn teal sm" onclick="checkBuild(this)">Check</button><button class="btn ghost sm" onclick="resetBuild(this)">Reset</button><button class="btn ghost sm" onclick="showBuild(this)">Show answer</button><span class="spy-fb"></span></div>
+            </div>
+        </div>
+        <div class="btn-row"><span class="score-pill" id="score-build">0 / 7</span></div>
+
+        <h3 class="sub-title" contenteditable="true">Fill the Gap: Six More Moves</h3>
+        <ul class="practice-list" id="gramA">
+            <li><div contenteditable="true">Not only <span class="blank-input" data-answer="does" contenteditable="true"></span> the new sealant reduce decay, but it is also cheaper.</div></li>
+            <li><div contenteditable="true"><span class="blank-input" data-answer="Having analyzed|Having analysed" contenteditable="true"></span> (analyze) the data, the committee decided to extend the trial.</div></li>
+            <li><div contenteditable="true">The vaccine is <span class="blank-input" data-answer="thought|believed|said|considered" contenteditable="true"></span> to have been developed in the 1950s.</div></li>
+            <li><div contenteditable="true"><span class="blank-input" data-answer="What" contenteditable="true"></span> surprised the examiner was how few candidates finished.</div></li>
+            <li><div contenteditable="true">The <span class="blank-input" data-answer="expansion" contenteditable="true"></span> (expand) of the clinic's services led to longer waiting times.</div></li>
+            <li><div contenteditable="true">Rarely <span class="blank-input" data-answer="do" contenteditable="true"></span> patients ask about long-term side effects.</div></li>
+        </ul>
+        <div class="btn-row">
+            <button class="btn teal" onclick="checkBlanks('gramA')">Check</button>
+            <button class="btn ghost" onclick="revealBlanks('gramA')">Reveal answers</button>
+            <button class="btn ghost" onclick="clearBlanks('gramA')">Clear</button>
+            <span class="score-pill" id="score-gramA">0 / 6</span>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 9: LISTENING ====== -->
+<section class="section" id="listening">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 9: Listening • Response, Conversation, Announcement</span>
+        <h2 class="section-title" contenteditable="true">Ears Only</h2>
+        <p class="section-desc" contenteditable="true">Press play (the audio is read by your browser's voice). Take notes BEFORE looking at options. You may replay once; in the real test you will not be able to replay. If you hear nothing, ask your teacher to read the transcript aloud.</p>
+
+        <div class="audio-bar">
+            <label contenteditable="true">Speed:</label>
+            <select id="ttsRate">
+                <option value="0.85">Slower (0.85)</option>
+                <option value="1" selected>Natural (1.0)</option>
+                <option value="1.1">Faster (1.1)</option>
+            </select>
+            <button class="btn ghost sm" onclick="stopAudio()">■ Stop</button>
+        </div>
+
+        <div class="quiz" data-quiz="t9">
+            <div class="btn-row"><span class="score-pill" id="score-t9">0 / 10</span><button class="btn ghost sm" onclick="resetQuiz('t9')">Restart quiz</button></div>
+
+            <h3 class="sub-title" contenteditable="true">Part A • Listen and Choose a Response</h3>
+
+            <div class="q-block" data-correct="a">
+                <span class="q-type" contenteditable="true">Response 1</span>
+                <div class="btn-row" style="margin-top:0; margin-bottom: 10px;"><button class="btn teal sm" onclick="playClip('c1')">▶ Play audio</button></div>
+                <p class="q-text" contenteditable="true">Choose the most natural reply.</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Not really, but there's a quiz on Friday, so review chapter four.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Yes, I missed it too yesterday in the last class.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">You should have been missing it.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> A answers the question and adds useful information. B and C reuse words from the speaker but do not respond logically.</div>
+            </div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Response 2</span>
+                <div class="btn-row" style="margin-top:0; margin-bottom: 10px;"><button class="btn teal sm" onclick="playClip('c2')">▶ Play audio</button></div>
+                <p class="q-text" contenteditable="true">Choose the most natural reply.</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">Yes, I'd be glad to mind it for you.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Sure, sorry, I didn't realize it was in the way.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">No, the seat was free yesterday.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Would you mind…?" is answered with "Sure / Not at all" (= I don't mind). "Yes" would mean "I do mind", which is the trap.</div>
+            </div>
+
+            <div class="q-block" data-correct="c">
+                <span class="q-type" contenteditable="true">Response 3</span>
+                <div class="btn-row" style="margin-top:0; margin-bottom: 10px;"><button class="btn teal sm" onclick="playClip('c3')">▶ Play audio</button></div>
+                <p class="q-text" contenteditable="true">Choose the most natural reply.</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">No, I'll apply next week.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">The scholarship office is in the library.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">I thought so too, but the website says it was extended to the 30th.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> A negative question ("Isn't it…?") expects confirmation or correction; C corrects politely with a source. B answers a different question.</div>
+            </div>
+
+            <h3 class="sub-title" contenteditable="true">Part B • Conversation (student and advisor)</h3>
+            <div class="btn-row"><button class="btn teal" onclick="playClip('conv')">▶ Play conversation</button><button class="btn ghost" onclick="showTranscript('conv','tr-conv')">Show transcript</button></div>
+            <div class="reveal-box" id="tr-conv"></div>
+
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Purpose</span>
+                <p class="q-text" contenteditable="true">Why does the student visit the advisor?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">To request an extension on a deadline</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">To get advice about an obstacle in her research plan</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">To complain about the ethics board</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">To change her capstone topic completely</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> She describes a problem (translated consent forms) and asks for a way forward. She never asks for an extension or a new topic.</div>
+            </div>
+            <div class="q-block" data-correct="c">
+                <span class="q-type" contenteditable="true">Detail</span>
+                <p class="q-text" contenteditable="true">Why does the advisor suggest using the clinic's existing records?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">They are more detailed than surveys.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">They are exempt from every ethical rule.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Using them would not require new consent.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">Reviewers prefer existing data.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "You wouldn't need new consent for that." B exaggerates ("every rule"); D is never said.</div>
+            </div>
+            <div class="q-block" data-correct="d">
+                <span class="q-type" contenteditable="true">Detail</span>
+                <p class="q-text" contenteditable="true">Why does the student reject that suggestion?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">The records are anonymized, so she cannot read them.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">The clinic refused her access.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">It would take several weeks.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">The records do not contain the self-reported habits she wants to study.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Several weeks" belongs to the earlier consent-form problem: a time-shift trap.</div>
+            </div>
+            <div class="q-block" data-correct="a">
+                <span class="q-type" contenteditable="true">Inference</span>
+                <p class="q-text" contenteditable="true">What does the advisor imply about reviewers?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">They value honesty about a study's limitations.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">They dislike small studies.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">They rarely read discussion sections.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">They prefer multilingual surveys.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Reviewers tend to respect honesty about scope more than overreach."</div>
+            </div>
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Speaker's function</span>
+                <p class="q-text" contenteditable="true">When the student says "Sort of," what does she mean?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">She has completely finished choosing her topic.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">She has an idea but is not fully settled.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">She refuses to answer the question.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">She is making a joke.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Sort of" is a partial yes. The continuation ("I was planning to…, but…") confirms it.</div>
+            </div>
+
+            <h3 class="sub-title" contenteditable="true">Part C • Announcement</h3>
+            <div class="btn-row"><button class="btn teal" onclick="playClip('ann')">▶ Play announcement</button><button class="btn ghost" onclick="showTranscript('ann','tr-ann')">Show transcript</button></div>
+            <div class="reveal-box" id="tr-ann"></div>
+
+            <div class="q-block" data-correct="c">
+                <span class="q-type" contenteditable="true">Detail</span>
+                <p class="q-text" contenteditable="true">What will happen to reservations for Monday and Tuesday?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">They will be canceled.</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Students must rebook by phone.</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">They will be moved to Wednesday unless students cancel them.</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">They will be moved to Thursday.</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> Thursday appears in the announcement, but only as an orientation time: a nearby-detail trap.</div>
+            </div>
+            <div class="q-block" data-correct="b">
+                <span class="q-type" contenteditable="true">Detail</span>
+                <p class="q-text" contenteditable="true">Who may use the new simulators?</p>
+                <div class="opt" data-k="a"><span class="key">A</span><span contenteditable="true">All dental students</span></div>
+                <div class="opt" data-k="b"><span class="key">B</span><span contenteditable="true">Only students who have completed the safety orientation</span></div>
+                <div class="opt" data-k="c"><span class="key">C</span><span contenteditable="true">Faculty members only</span></div>
+                <div class="opt" data-k="d"><span class="key">D</span><span contenteditable="true">Students who registered for Wednesday</span></div>
+                <div class="explain" contenteditable="true"><strong>Why:</strong> "Only to students who have completed…" Option A drops the restriction.</div>
+            </div>
+        </div>
+
+        <div class="board-game-grid" style="margin-top: 28px;">
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Notes</span><span contenteditable="true">Re-tell the conversation in three sentences using reported speech.</span></div>
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Notes</span><span contenteditable="true">Which of your notes were unnecessary? Which keyword would you underline next time?</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 10: VIDEO ====== -->
+<section class="section" id="video">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 10: Listening • Academic Talk (Video)</span>
+        <h2 class="section-title" contenteditable="true">What Causes Cavities? (TED-Ed)</h2>
+        <p class="section-desc" contenteditable="true">An animated academic talk of about 5 minutes. Treat it like a real Academic Talk: take structured notes, then answer from your notes only.</p>
+
+        <div class="board-game-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Predict</span><span contenteditable="true">Which three words do you expect in a talk about cavities? Write them before watching.</span></div>
+            <div class="board-tile"><span class="tile-no" contenteditable="true">Predict</span><span contenteditable="true">Will the speaker mostly describe a process, compare two theories, or give a history? Why?</span></div>
+        </div>
+
+        <!-- Video Embed -->
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube-nocookie.com/embed/zGoBFU1q4g0?rel=0&modestbranding=1" title="What causes cavities? - Mel Rosenberg (TED-Ed)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="text-align: center; margin-bottom: 28px;">
+            <a href="https://www.youtube.com/watch?v=zGoBFU1q4g0" target="_blank" style="color: var(--teal-dark); font-weight: 700; text-decoration: none;" contenteditable="true">🔗 Click here to watch directly on YouTube</a>
+        </p>
+
+        <h3 class="sub-title" contenteditable="true">Note-Taking Organizer (fill while watching)</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead><tr><th contenteditable="true">Stage of the process</th><th contenteditable="true">Your notes (keywords only!)</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true"><strong>1. Opening hook / discovery</strong></td><td><span class="blank-input" style="min-width: 90%; text-align: left;" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>2. Who or what is responsible?</strong></td><td><span class="blank-input" style="min-width: 90%; text-align: left;" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>3. What happens to the tooth?</strong></td><td><span class="blank-input" style="min-width: 90%; text-align: left;" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>4. Prevention / advice</strong></td><td><span class="blank-input" style="min-width: 90%; text-align: left;" contenteditable="true"></span></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Comprehension (answer aloud, then reveal)</h3>
+        <ol class="practice-list">
+            <li><div contenteditable="true">What discovery about 15,000-year-old human remains opens the lesson, and why is it surprising?</div></li>
+            <li><div contenteditable="true">What role do bacteria in the mouth play in the formation of cavities?</div></li>
+            <li><div contenteditable="true">What does the acid they produce do to the tooth's surface?</div></li>
+            <li><div contenteditable="true">According to the talk, how can cavities be avoided?</div></li>
+            <li><div contenteditable="true">Academic Talk skill: which sentence in the talk works as the "main claim", and which parts are examples?</div></li>
+        </ol>
+        <div class="btn-row"><button class="btn ghost" onclick="toggleReveal('rev-vid')">Reveal suggested answers</button></div>
+        <div class="reveal-box" id="rev-vid" contenteditable="true">
+            <p><strong>1.</strong> The ancient teeth were riddled with holes, so tooth decay is not only a modern problem.</p>
+            <p><strong>2.</strong> Bacteria in plaque feed on sugars and carbohydrates from food.</p>
+            <p><strong>3.</strong> They produce acid that dissolves the hard mineral enamel, gradually creating holes.</p>
+            <p><strong>4.</strong> Clean the teeth regularly and limit sugary food and drinks, so the bacteria have less to feed on.</p>
+            <p><strong>5.</strong> Open answer: the main claim explains the cause-and-effect chain (bacteria + sugar → acid → damage); the ancient remains and everyday examples support it.</p>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Summary Sprint (Band 6 moves)</h3>
+        <p class="section-desc" style="margin-bottom: 10px;" contenteditable="true">Write a three-sentence summary of the talk. Use at least one nominalization, one hedge, and one participle clause from Task 7.</p>
+        <div class="write-area" style="min-height: 140px;" contenteditable="true"></div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: PRONUNCIATION ====== -->
+<section class="section" id="pron">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 11: Pronunciation • Speaking • Listen and Repeat</span>
+        <h2 class="section-title" contenteditable="true">Thought Groups, Focus Words, Fast Speech</h2>
+        <p class="section-desc" contenteditable="true">Based on the Avery &amp; Ehrlich approach to American English: listeners understand you through rhythm first, individual sounds second. In Listen and Repeat you must copy a whole sentence, so you need to hear it in chunks (thought groups), not in single words.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card" style="border-top-color: var(--teal);">
+                <h3 contenteditable="true">1. Thought groups</h3>
+                <p contenteditable="true">Speakers break long sentences into short meaningful chunks, pausing slightly at the slash (/). Remember each chunk, not each word.</p>
+            </div>
+            <div class="scenario-card" style="border-top-color: var(--gold);">
+                <h3 contenteditable="true">2. Focus word</h3>
+                <p contenteditable="true">In each chunk, one important content word gets the strongest stress: longer, louder, higher. Function words (the, to, of, and) shrink and sound reduced.</p>
+            </div>
+            <div class="scenario-card" style="border-top-color: var(--rose);">
+                <h3 contenteditable="true">3. Endings count</h3>
+                <p contenteditable="true">Dropped -s, -ed and -th endings change grammar. Finish every word, even in fast speech.</p>
+            </div>
+        </div>
+
+        <div class="audio-bar" style="margin-top: 24px;">
+            <label contenteditable="true">Playback speed:</label>
+            <button class="btn ghost sm" onclick="document.getElementById('ttsRate').value='0.85'">Slower</button>
+            <button class="btn ghost sm" onclick="document.getElementById('ttsRate').value='1'">Natural</button>
+            <button class="btn ghost sm" onclick="document.getElementById('ttsRate').value='1.1'">Faster</button>
+            <button class="btn ghost sm" onclick="stopAudio()">■ Stop</button>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">A. Listen and Repeat Ladder (bold = focus word)</h3>
+        <ul class="practice-list">
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true">The dental <b>hygienist</b> / will see you / in about <b>ten</b> minutes.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true">Please make <b>sure</b> / that you've <b>signed</b> / the <b>consent</b> form / before the <b>procedure</b>.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true">The <b>seminar</b> on oral health / has been <b>moved</b> / to the <b>library</b>.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true">If you haven't picked up your <b>results</b> yet, / the front <b>desk</b> / can <b>print</b> them.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true">Students are <b>required</b> / to wear protective <b>equipment</b> / in the <b>laboratory</b>.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true"><b>Although</b> the clinic closes at <b>five</b>, / walk-in patients / are welcome until <b>four</b>.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+            <li><div style="display:flex; gap:12px; align-items:center; justify-content: space-between;"><span class="say-text" contenteditable="true"><b>Research</b> suggests / that regular <b>brushing</b> / significantly reduces / the <b>risk</b> of <b>decay</b>.</span><button class="btn teal sm" onclick="sayEl(this)">▶</button></div></li>
+        </ul>
+        <div class="tip-box" contenteditable="true"><strong>Routine:</strong> listen once, look away, repeat the whole sentence, then compare. If you lose the end, your chunks are too small: group the words into meaning, not into syllables.</div>
+
+        <h3 class="sub-title" contenteditable="true">B. Fast-Speech Reductions (listening decoder)</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead><tr><th contenteditable="true">Written</th><th contenteditable="true">Sounds like</th><th contenteditable="true">In a sentence</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true">going to</td><td contenteditable="true">"gonna"</td><td contenteditable="true">We're gonna reschedule the seminar.</td></tr>
+                    <tr><td contenteditable="true">have to / has to</td><td contenteditable="true">"hafta / hasta"</td><td contenteditable="true">You hafta sign the form first.</td></tr>
+                    <tr><td contenteditable="true">should have</td><td contenteditable="true">"shoulda"</td><td contenteditable="true">She shoulda asked sooner.</td></tr>
+                    <tr><td contenteditable="true">kind of</td><td contenteditable="true">"kinda"</td><td contenteditable="true">It's kinda complicated.</td></tr>
+                    <tr><td contenteditable="true">did you</td><td contenteditable="true">"didja"</td><td contenteditable="true">Didja read the abstract?</td></tr>
+                    <tr><td contenteditable="true">can (positive) vs can't</td><td contenteditable="true">/kən/ vs /kænt/</td><td contenteditable="true">I can come (weak, unstressed) vs I can't come (full vowel, stressed).</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="watch-out" contenteditable="true"><strong>Trap alert:</strong> the positive "can" is almost invisible in fast speech. Listen for the stressed main verb and the vowel quality: "I can COME" vs "I CAN'T come".</div>
+
+        <h3 class="sub-title" contenteditable="true">C. Word Stress Detective</h3>
+        <p class="section-desc" style="margin-bottom: 8px;" contenteditable="true">Mark the stressed syllable of each word from Task 6 (write the syllable number), then check.</p>
+        <div class="table-wrap">
+            <table class="grammar-table" id="stressTable">
+                <thead><tr><th contenteditable="true">Word</th><th contenteditable="true">Syllables</th><th contenteditable="true">Stressed syllable (1, 2, 3…)</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true"><strong>exacerbate</strong></td><td contenteditable="true">ex · ac · er · bate</td><td><span class="blank-input" data-answer="2" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>mitigate</strong></td><td contenteditable="true">mit · i · gate</td><td><span class="blank-input" data-answer="1" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>corroborate</strong></td><td contenteditable="true">cor · rob · o · rate</td><td><span class="blank-input" data-answer="2" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>discrepancy</strong></td><td contenteditable="true">dis · crep · an · cy</td><td><span class="blank-input" data-answer="2" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>ostensibly</strong></td><td contenteditable="true">os · ten · si · bly</td><td><span class="blank-input" data-answer="2" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>plausible</strong></td><td contenteditable="true">plau · si · ble</td><td><span class="blank-input" data-answer="1" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>deleterious</strong></td><td contenteditable="true">del · e · ter · i · ous</td><td><span class="blank-input" data-answer="3" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>pervasive</strong></td><td contenteditable="true">per · va · sive</td><td><span class="blank-input" data-answer="2" contenteditable="true"></span></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-row">
+            <button class="btn teal" onclick="checkBlanks('stressTable')">Check</button>
+            <button class="btn ghost" onclick="revealBlanks('stressTable')">Reveal</button>
+            <button class="btn ghost" onclick="clearBlanks('stressTable')">Clear</button>
+            <span class="score-pill" id="score-stressTable">0 / 8</span>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">D. Intonation Map</h3>
+        <div class="board-game-grid">
+            <div class="board-tile" style="border-color: var(--teal);"><span class="tile-no" contenteditable="true">Statements ↘</span><span contenteditable="true">The results were <b>clear</b>.</span><small contenteditable="true">Falling at the end signals a finished thought.</small></div>
+            <div class="board-tile" style="border-color: var(--gold);"><span class="tile-no" contenteditable="true">Yes/no questions ↗</span><span contenteditable="true">Is the lab <b>open</b>?</span><small contenteditable="true">Rising at the end signals a question.</small></div>
+            <div class="board-tile" style="border-color: var(--rose);"><span class="tile-no" contenteditable="true">Lists ↗ ↗ ↘</span><span contenteditable="true">Gloves ↗, masks ↗, and <b>goggles</b> ↘.</span><small contenteditable="true">Rise on each item, fall on the last.</small></div>
+        </div>
+        <p class="section-desc" style="margin-top: 16px; margin-bottom: 0;" contenteditable="true">Self-check: record yourself reading sentence 7 on your phone. Count the thought groups you actually produced and compare with the slashes.</p>
+    </div>
+</section>
+
+<!-- ====== TASK 12: TAKE AN INTERVIEW ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 12: Speaking • Take an Interview</span>
+        <h2 class="section-title" contenteditable="true">Forty-Five Seconds, No Excuses</h2>
+        <p class="section-desc" contenteditable="true">An interviewer asks four questions about one topic: "Studying in the digital age". Answer each for the full 45 seconds. Stopping early, long pauses and filler words cost points; aim for about 100 to 120 words per answer.</p>
+
+        <div class="board-game-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            <div class="board-tile" style="border-color: var(--teal);"><span class="tile-no" contenteditable="true">A</span><span contenteditable="true">Answer directly in the first sentence.</span></div>
+            <div class="board-tile" style="border-color: var(--slate);"><span class="tile-no" contenteditable="true">R</span><span contenteditable="true">Give a reason with a precise word.</span></div>
+            <div class="board-tile" style="border-color: var(--gold);"><span class="tile-no" contenteditable="true">E</span><span contenteditable="true">Add a specific example from real life.</span></div>
+            <div class="board-tile" style="border-color: var(--rose);"><span class="tile-no" contenteditable="true">+</span><span contenteditable="true">Close with a reflection ("All things considered…").</span></div>
+        </div>
+
+        <div class="scenario-card" style="margin-top: 24px; border-top-color: var(--teal);">
+            <h3 contenteditable="true">🎤 Question 1 (easy start)</h3>
+            <p contenteditable="true">"Do you prefer to study alone or with other people? Why?"</p>
+            <div class="timer-box" data-secs="45"><span class="timer-digits">0:45</span><div class="timer-bar"><div class="timer-fill"></div></div><button class="btn" data-act="start">Start</button><button class="btn ghost" data-act="reset">Reset</button></div>
+        </div>
+        <div class="scenario-card" style="margin-top: 20px; border-top-color: var(--slate);">
+            <h3 contenteditable="true">🎤 Question 2 (opinion)</h3>
+            <p contenteditable="true">"Some universities are replacing printed textbooks with digital ones. How do you feel about that?"</p>
+            <div class="timer-box" data-secs="45"><span class="timer-digits">0:45</span><div class="timer-bar"><div class="timer-fill"></div></div><button class="btn" data-act="start">Start</button><button class="btn ghost" data-act="reset">Reset</button></div>
+        </div>
+        <div class="scenario-card" style="margin-top: 20px; border-top-color: var(--gold);">
+            <h3 contenteditable="true">🎤 Question 3 (experience)</h3>
+            <p contenteditable="true">"Describe a time when technology made learning harder instead of easier."</p>
+            <div class="timer-box" data-secs="45"><span class="timer-digits">0:45</span><div class="timer-bar"><div class="timer-fill"></div></div><button class="btn" data-act="start">Start</button><button class="btn ghost" data-act="reset">Reset</button></div>
+        </div>
+        <div class="scenario-card" style="margin-top: 20px; border-top-color: var(--rose);">
+            <h3 contenteditable="true">🎤 Question 4 (abstract)</h3>
+            <p contenteditable="true">"In your opinion, which skill will be more valuable in twenty years: memorizing information or knowing how to find and evaluate it?"</p>
+            <div class="timer-box" data-secs="45"><span class="timer-digits">0:45</span><div class="timer-bar"><div class="timer-fill"></div></div><button class="btn" data-act="start">Start</button><button class="btn ghost" data-act="reset">Reset</button></div>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Upgrade Your Phrases</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead><tr><th contenteditable="true">Weak</th><th contenteditable="true">Stronger</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true">I think…</td><td contenteditable="true">From my perspective… / As far as I'm concerned…</td></tr>
+                    <tr><td contenteditable="true">It is good because…</td><td contenteditable="true">It significantly improves… / A major advantage is that…</td></tr>
+                    <tr><td contenteditable="true">For example, my friend…</td><td contenteditable="true">A case in point is… / Take my own experience: …</td></tr>
+                    <tr><td contenteditable="true">But also it has problems.</td><td contenteditable="true">That said, there is a downside: … / Admittedly, …</td></tr>
+                    <tr><td contenteditable="true">So, yes, that's all.</td><td contenteditable="true">All things considered, … / Ultimately, I would argue that…</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Self-Scoring Grid (rate each answer 1 to 5)</h3>
+        <div class="table-wrap">
+            <table class="grammar-table">
+                <thead><tr><th contenteditable="true">Criterion</th><th contenteditable="true">Q1</th><th contenteditable="true">Q2</th><th contenteditable="true">Q3</th><th contenteditable="true">Q4</th></tr></thead>
+                <tbody>
+                    <tr><td contenteditable="true"><strong>Delivery</strong> (pace, stress, no long pauses)</td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>Language use</strong> (range + accuracy)</td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td></tr>
+                    <tr><td contenteditable="true"><strong>Topic development</strong> (full 45 s, example)</td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td><td><span class="blank-input" contenteditable="true"></span></td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-row"><button class="btn ghost" onclick="toggleReveal('rev-int')">Reveal a model answer to Question 2</button></div>
+        <div class="reveal-box" id="rev-int" contenteditable="true">
+            <p>"Honestly, I have mixed feelings. On the one hand, digital textbooks are searchable and far cheaper, which matters to students who are already burdened by tuition. On the other hand, I tend to retain less when I read on a screen; last semester I found myself skimming a pharmacology chapter and had to reread it on paper before the exam. So, all things considered, I would favor a hybrid model: digital copies for quick reference and printed copies for the chapters you really need to master. After all, learning is not just about access to information, but about how deeply you process it."</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 13: WRITE AN EMAIL ====== -->
+<section class="section" id="email">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 13: Writing • Write an Email</span>
+        <h2 class="section-title" contenteditable="true">Seven Minutes, One Perfect Email</h2>
+        <p class="section-desc" contenteditable="true">Read the scenario, cover every required point, and match the register (polite, professional, clear). Start the timer, then type directly in the box below; your teacher can watch your text appear live.</p>
+
+        <div class="scenario-card" style="border-top-color: var(--navy);">
+            <h3 contenteditable="true">Scenario</h3>
+            <p contenteditable="true">You are a dental assistant student in a clinical practicum. Your supervising instructor, Dr. Lindqvist, has scheduled a mandatory workshop on Thursday morning. However, you have a visa appointment at the consulate at exactly that time, and it cannot be moved. Write an email to Dr. Lindqvist. In your email:</p>
+            <ul style="margin: 12px 0 0 22px;">
+                <li contenteditable="true">explain your situation clearly,</li>
+                <li contenteditable="true">request an alternative arrangement, and</li>
+                <li contenteditable="true">propose a way to make up the content you will miss.</li>
+            </ul>
+        </div>
+
+        <div class="timer-box" data-secs="420"><span class="timer-digits">7:00</span><div class="timer-bar"><div class="timer-fill"></div></div><button class="btn" data-act="start">Start</button><button class="btn ghost" data-act="reset">Reset</button></div>
+        <div class="write-area" id="emailArea" data-counter="emailCount" contenteditable="true"></div>
+        <div class="wc-bar"><span>Words: <span class="wc-count" id="emailCount">0</span></span><span class="wc-hint" contenteditable="true">Target: about 100 to 130 words, with subject line, greeting and closing.</span></div>
+
+        <ul class="check-list">
+            <li contenteditable="true">Subject line is specific (not "Hello").</li>
+            <li contenteditable="true">Purpose stated in the first or second sentence.</li>
+            <li contenteditable="true">All three bullet points are covered.</li>
+            <li contenteditable="true">Polite request form: "I would be grateful if…", "Would it be possible…".</li>
+            <li contenteditable="true">One precise advanced word or structure (e.g., "coincides with", "in advance").</li>
+            <li contenteditable="true">Closing with thanks and a professional sign-off.</li>
+            <li contenteditable="true">Proofread: articles, prepositions, capital letters, spelling.</li>
+            <li contenteditable="true">No contractions overload, no slang, no emojis.</li>
+        </ul>
+
+        <div class="btn-row"><button class="btn ghost" onclick="toggleReveal('rev-email')">Reveal model email</button></div>
+        <div class="reveal-box" id="rev-email" contenteditable="true">
+            <p><strong>Subject:</strong> Request to attend the practicum workshop on a different day</p>
+            <p>Dear Dr. Lindqvist,</p>
+            <p>I hope you are well. I am writing about Thursday's mandatory workshop, which unfortunately coincides with a visa appointment at the consulate that I booked two months ago and cannot reschedule without losing my place in the queue.</p>
+            <p>I would therefore be very grateful if I could attend a different session of the workshop or complete an equivalent assessment at another time. Alternatively, I could study the slides and reading materials in advance and meet you during office hours to discuss the content, so that no learning would be missed.</p>
+            <p>Please let me know which option would suit you best. Thank you very much for your understanding.</p>
+            <p>Kind regards,<br>[Your name]</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: ACADEMIC DISCUSSION ====== -->
+<section class="section" id="discussion">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 14: Writing • Write for an Academic Discussion</span>
+        <h2 class="section-title" contenteditable="true">Join the Conversation</h2>
+        <p class="section-desc" contenteditable="true">Read the professor's question and two student replies. You have 10 minutes to write a post that responds to the question, engages with at least one classmate, and adds a NEW idea.</p>
+
+        <div class="post-card prof">
+            <div class="who" contenteditable="true">Dr. Alvarez, Professor of Public Health</div>
+            <p contenteditable="true">This week we are discussing health policy. Several cities have introduced a tax on sugar-sweetened drinks in order to reduce consumption and, ultimately, rates of tooth decay and obesity. Critics, however, argue that such taxes unfairly burden low-income households. Do you think governments should tax sugary drinks? Explain your position and support it with reasons or examples.</p>
+        </div>
+        <div class="post-card">
+            <div class="who" contenteditable="true">Kai</div>
+            <p contenteditable="true">I support the tax. After Mexico introduced one in 2014, purchases of sugary drinks fell noticeably. If a small price signal can change habits, it is a cheap way to protect public health.</p>
+        </div>
+        <div class="post-card">
+            <div class="who" contenteditable="true">Priya</div>
+            <p contenteditable="true">I disagree. Taxes hit low-income people hardest because they spend a larger share of their money on groceries, and many families will simply switch to cheaper sugary alternatives. Better education in schools would change behavior without punishing anyone.</p>
+        </div>
+
+        <div class="timer-box" data-secs="600"><span class="timer-digits">10:00</span><div class="timer-bar"><div class="timer-fill"></div></div><button class="btn" data-act="start">Start</button><button class="btn ghost" data-act="reset">Reset</button></div>
+        <div class="write-area" id="discArea" data-counter="discCount" contenteditable="true"></div>
+        <div class="wc-bar"><span>Words: <span class="wc-count" id="discCount">0</span></span><span class="wc-hint" contenteditable="true">Target: 130 to 180 words. Under 100 words rarely scores in the top band.</span></div>
+
+        <ul class="check-list">
+            <li contenteditable="true">Clear position in the first two sentences.</li>
+            <li contenteditable="true">Names and answers a classmate (Kai or Priya) specifically.</li>
+            <li contenteditable="true">Adds a NEW idea nobody has mentioned.</li>
+            <li contenteditable="true">At least one specific example (not "many people say").</li>
+            <li contenteditable="true">At least two Band-6 moves from Task 7 (hedge, inversion, participle clause, cleft…).</li>
+            <li contenteditable="true">Concession + conclusion ("Admittedly…", "Overall…").</li>
+        </ul>
+
+        <div class="btn-row"><button class="btn ghost" onclick="toggleReveal('rev-disc2')">Reveal annotated model post</button></div>
+        <div class="reveal-box" id="rev-disc2" contenteditable="true">
+            <p><mark class="ann">Priya raises a valid concern about fairness</mark> (engages a peer), but I believe a well-designed tax can actually protect lower-income households. Kai's evidence from Mexico shows that behavior can change, yet <mark class="ann">what neither of them mentions is where the revenue goes</mark> (NEW idea, cleft). If the money funds subsidized fresh fruit, free dental screenings or clean drinking water in schools, the policy could narrow, rather than widen, health inequalities. <mark class="ann">Having worked in a dental clinic, I have seen how frequently sugary drinks contribute to decay in teenagers</mark> (specific example, participle clause) whose families cannot afford regular care. Education alone, as Priya suggests, <mark class="ann">tends to be</mark> (hedge) slow and unevenly effective, whereas a price signal works immediately. <mark class="ann">Not only does a tax discourage consumption, but it also generates the funds needed for prevention</mark> (inversion). <mark class="ann">Admittedly</mark> (concession), it should be introduced gradually and evaluated rigorously. Overall, I would support it, <mark class="ann">provided that the revenue is visibly reinvested in public health</mark> (proviso).</p>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: ROLE-PLAY + GRAND FINALE ====== -->
+<section class="section" id="finale">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 15: Role-Play, Debrief &amp; Grand Finale</span>
+        <h2 class="section-title" contenteditable="true">Office Hours Under Pressure</h2>
+        <p class="section-desc" contenteditable="true">Part A: act out the conversation with your teacher, choosing a path. Part B: report what was said. Part C: tie the whole lesson together.</p>
+
+        <h3 class="sub-title" contenteditable="true">Part A • Branching Role-Play</h3>
+        <div class="flowchart">
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Professor Reyes:</strong> "Come in. What can I do for you?"</div>
+            <div class="flow-arrow">↓ choose a path ↓</div>
+            <div class="flow-row">
+                <div class="flow-col">
+                    <div class="flow-tag" contenteditable="true">Path A: precise and diplomatic</div>
+                    <div class="flow-bubble" contenteditable="true"><strong>You:</strong> "Thank you for seeing me. I'd like to discuss the lab report deadline; a clinical placement has been rescheduled and now clashes with Friday."</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-bubble b-side" contenteditable="true"><strong>Professor:</strong> "I see. Have you started the draft?"</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-bubble" contenteditable="true"><strong>You:</strong> Report progress using a participle clause: "Having analyzed the data, I only need to…"</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-bubble b-gold" contenteditable="true"><strong>Professor:</strong> "Then I can offer a two-day extension, provided you send an outline tomorrow."</div>
+                </div>
+                <div class="flow-col">
+                    <div class="flow-tag" contenteditable="true">Path B: vague and defensive</div>
+                    <div class="flow-bubble" contenteditable="true"><strong>You:</strong> "I'm too busy. Can you just move the deadline?"</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-bubble b-side" contenteditable="true"><strong>Professor:</strong> "Busy with what? I need specifics before I can decide."</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-bubble" contenteditable="true"><strong>You:</strong> Repair the situation: apologize briefly, rephrase with precise detail, use one hedge.</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-bubble b-gold" contenteditable="true"><strong>Professor:</strong> "Much clearer. What exactly is the obstacle, and what will you deliver?"</div>
+                </div>
+            </div>
+            <div class="flow-arrow">↓ both paths merge ↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Professor:</strong> "How will you make sure this doesn't happen again?"</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>You:</strong> Answer with future forms: "From now on I will…", "By next month I will have…", "I'm going to…"</div>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Part B • Reported Speech Debrief</h3>
+        <p class="section-desc" style="margin-bottom: 8px;" contenteditable="true">Report what the professor said (use "that", "if/whether", "to"-infinitive). Back-shift tenses where needed.</p>
+        <ol class="practice-list" id="repList">
+            <li><div contenteditable="true">"I can offer you a two-day extension." → The professor said that she <span class="blank-input" data-answer="could" contenteditable="true"></span> offer me a two-day extension.</div></li>
+            <li><div contenteditable="true">"Have you started the draft?" → She asked me <span class="blank-input" data-answer="if|whether" contenteditable="true"></span> I had started the draft.</div></li>
+            <li><div contenteditable="true">"Send me an outline tomorrow." → She told me <span class="blank-input" data-answer="to send" contenteditable="true"></span> her an outline the next day.</div></li>
+            <li><div contenteditable="true">"I'll read it over the weekend." → She promised <span class="blank-input" data-answer="to read" contenteditable="true"></span> it over the weekend.</div></li>
+            <li><div contenteditable="true">"Don't submit it without references!" → She warned me <span class="blank-input" data-answer="not to submit" contenteditable="true"></span> it without references.</div></li>
+            <li><div contenteditable="true">"You should have asked sooner." → She pointed out that I <span class="blank-input" data-answer="should have asked" contenteditable="true"></span> sooner.</div></li>
+        </ol>
+        <div class="btn-row">
+            <button class="btn teal" onclick="checkBlanks('repList')">Check</button>
+            <button class="btn ghost" onclick="revealBlanks('repList')">Reveal answers</button>
+            <button class="btn ghost" onclick="clearBlanks('repList')">Clear</button>
+            <span class="score-pill" id="score-repList">0 / 6</span>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Part C • Grand Finale Grid</h3>
+        <p class="section-desc" style="margin-bottom: 8px;" contenteditable="true">Roll a die or pick a tile. Speak for 45 seconds, using the vocabulary and the grammar move named on the tile.</p>
+        <div class="board-game-grid">
+            <div class="board-tile" style="border-color: var(--teal);"><span class="tile-no" contenteditable="true">1</span><span contenteditable="true">Describe a health claim that is <em>ostensibly</em> scientific. Use a participle clause.</span></div>
+            <div class="board-tile" style="border-color: var(--slate);"><span class="tile-no" contenteditable="true">2</span><span contenteditable="true">Explain how sugar can <em>exacerbate</em> decay. Use "Not only… but also".</span></div>
+            <div class="board-tile" style="border-color: var(--gold);"><span class="tile-no" contenteditable="true">3</span><span contenteditable="true">Give a <em>plausible</em> reason why patients skip flossing. Hedge it with "tend to" or "appear to".</span></div>
+            <div class="board-tile" style="border-color: var(--rose);"><span class="tile-no" contenteditable="true">4</span><span contenteditable="true">Report a <em>discrepancy</em> you noticed in a record. Use the past perfect.</span></div>
+            <div class="board-tile" style="border-color: var(--teal);"><span class="tile-no" contenteditable="true">5</span><span contenteditable="true">Which habits are <em>deleterious</em> to teeth? Use a reporting passive ("is thought to…").</span></div>
+            <div class="board-tile" style="border-color: var(--slate);"><span class="tile-no" contenteditable="true">6</span><span contenteditable="true">Why is misinformation <em>pervasive</em> online? Use a cleft: "What worries me is…".</span></div>
+            <div class="board-tile" style="border-color: var(--gold);"><span class="tile-no" contenteditable="true">7</span><span contenteditable="true">How could clinics <em>mitigate</em> patient anxiety? Use a nominalization.</span></div>
+            <div class="board-tile" style="border-color: var(--rose);"><span class="tile-no" contenteditable="true">8</span><span contenteditable="true">What evidence would <em>corroborate</em> the diversity-loss theory? Use future perfect.</span></div>
+        </div>
+
+        <h3 class="sub-title" contenteditable="true">Homework: Your 20-Minute Daily Drill</h3>
+        <ul class="check-list">
+            <li contenteditable="true">5 min: one Complete the Words paragraph, spelling checked aloud.</li>
+            <li contenteditable="true">5 min: 7 Listen and Repeat sentences, recorded on your phone.</li>
+            <li contenteditable="true">5 min: one Take an Interview answer, full 45 seconds.</li>
+            <li contenteditable="true">5 min: rewrite two sentences from today using a Band-6 move.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== INTERACTIVE WHITEBOARD ====== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Draw timelines, annotate sentence structures, or take notes together.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil">Pencil</button>
+                <button class="wb-btn" data-tool="highlight">Highlight</button>
+                <button class="wb-btn" data-tool="text">Text (click canvas)</button>
+                <button class="wb-btn" data-tool="square">Square</button>
+                <button class="wb-btn" data-tool="circle">Circle</button>
+                <button class="wb-btn" data-tool="arrow">Arrow</button>
+                <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.3); margin: 0 10px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#0B2E5C" title="Change Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; background: var(--rose);">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ====== SUM UP ====== -->
+<section class="section">
+    <div class="section-inner">
+        <div class="sum-up-box">
+            <h2 contenteditable="true">Mission Briefing Complete ✨</h2>
+            <p contenteditable="true"><strong>What we trained today:</strong></p>
+            <ul style="list-style: none; margin-top: 16px; font-size: 1.04rem; line-height: 1.8; text-align: left; max-width: 720px; margin-left: auto; margin-right: auto;">
+                <li contenteditable="true">✅ <strong>Format:</strong> all 12 task types of the current TOEFL iBT, with your personal risk map.</li>
+                <li contenteditable="true">✅ <strong>Reading:</strong> Complete the Words, Daily Life scanning, and academic question types (purpose, EXCEPT, inference, simplification).</li>
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> exacerbate, mitigate, corroborate, discrepancy, ostensibly, plausible, deleterious, pervasive, plus word families.</li>
+                <li contenteditable="true">✅ <strong>Grammar:</strong> six Band-6 moves (nominalization, hedging, inversion, participle clauses, clefts, reporting passives) and tenses for reporting research.</li>
+                <li contenteditable="true">✅ <strong>Listening &amp; Pronunciation:</strong> response, conversation, announcement, academic talk; thought groups, focus words, reductions, word stress.</li>
+                <li contenteditable="true">✅ <strong>Speaking &amp; Writing:</strong> 45-second interviews, a timed email and an academic discussion post.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Go to Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet">📝</button>
+    <button class="fab-btn save-btn" onclick="window.saveAsPDF()" title="Save as PDF">💾</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background: var(--rose);" title="Reset Lesson">🔄</button>
+</div>
+
+<!-- ====== QUIZLET EXPORT MODAL ====== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2>Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.95rem; color: var(--gray-600);">Words from this lesson are pre-filled with Polish translations; edit or add your own. Then copy and paste into Quizlet's "Import from Word, Excel, Google Docs" tool.</p>
+        <div id="wordList"></div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1; text-align: center;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex: 2; text-align: center; background: #4255FF; border-color: #4255FF;">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    // ============ 1. Text highlighting (Ctrl/Cmd + H) ============
+    document.addEventListener('keydown', function(e) {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'h') {
+            e.preventDefault();
+            const selection = window.getSelection();
+            if (!selection.rangeCount || selection.isCollapsed) return;
+            document.execCommand('hiliteColor', false, 'rgba(242, 184, 75, 0.45)');
+        }
+    });
+
+    // ============ 2. Interactive whiteboard ============
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = 500;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing = false;
+    let pendingDraw = false;
+    let startX, startY;
+    let currentTool = 'pencil';
+    let currentColor = '#0B2E5C';
+    let savedImageData;
+
+    const tools = document.querySelectorAll('.wb-btn[data-tool]');
+    const colorPicker = document.getElementById('wbColor');
+    const clearBtn = document.getElementById('wbClear');
+
+    tools.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tools.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    colorPicker.addEventListener('change', (e) => { currentColor = e.target.value; });
+    clearBtn.addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (window.syncWhiteboardClear) window.syncWhiteboardClear();
+    });
+
+    function getMousePos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const pos = getMousePos(e);
+        startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const text = prompt("Enter text:");
+            if (text) {
+                ctx.font = "20px 'DM Sans', 'Segoe UI', Arial, sans-serif";
+                ctx.fillStyle = currentColor;
+                ctx.fillText(text, startX, startY);
+                if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+            }
+            return;
+        }
+        isDrawing = true;
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 15 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        } else {
+            ctx.putImageData(savedImageData, 0, 0);
+            drawShape(pos.x, pos.y);
+        }
+    });
+
+    canvas.addEventListener('mouseup', (e) => {
+        if (!isDrawing) return;
+        isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') {
+            const pos = getMousePos(e);
+            drawShape(pos.x, pos.y);
+        }
+        if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+    });
+
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) {
+            isDrawing = false;
+            if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+        }
+    });
+
+    function drawShape(endX, endY) {
+        ctx.beginPath();
+        ctx.strokeStyle = currentColor;
+        ctx.lineWidth = 2;
+        if (currentTool === 'square') {
+            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+        } else if (currentTool === 'circle') {
+            const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+        } else if (currentTool === 'arrow') {
+            const headlen = 15;
+            const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.stroke();
+        }
+    }
+
+    // ============ 3. Fill-in-the-blank engine ============
+    function normAns(s) { return s.trim().toLowerCase().replace(/\s+/g, ' '); }
+
+    window.checkBlanks = function(id) {
+        const box = document.getElementById(id);
+        if (!box) return;
+        const blanks = box.querySelectorAll('.blank-input[data-answer]');
+        let ok = 0;
+        blanks.forEach(b => {
+            const answers = b.dataset.answer.split('|').map(normAns);
+            const val = normAns(b.textContent);
+            b.classList.remove('correct', 'wrong');
+            if (!val) return;
+            if (answers.includes(val)) { b.classList.add('correct'); ok++; }
+            else b.classList.add('wrong');
+        });
+        const sc = document.getElementById('score-' + id);
+        if (sc) sc.textContent = ok + ' / ' + blanks.length;
+    };
+    window.revealBlanks = function(id) {
+        const box = document.getElementById(id);
+        if (!box) return;
+        box.querySelectorAll('.blank-input[data-answer]').forEach(b => {
+            b.textContent = b.dataset.answer.split('|')[0];
+            b.classList.remove('wrong'); b.classList.add('correct');
+        });
+        const sc = document.getElementById('score-' + id);
+        if (sc) sc.textContent = 'answers shown';
+    };
+    window.clearBlanks = function(id) {
+        const box = document.getElementById(id);
+        if (!box) return;
+        const blanks = box.querySelectorAll('.blank-input[data-answer]');
+        blanks.forEach(b => { b.textContent = ''; b.classList.remove('correct', 'wrong'); });
+        const sc = document.getElementById('score-' + id);
+        if (sc) sc.textContent = '0 / ' + blanks.length;
+    };
+    window.toggleReveal = function(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('open');
+    };
+
+    // ============ 4. Multiple-choice engine ============
+    function updateQuizScore(quiz) {
+        const total = quiz.querySelectorAll('.q-block').length;
+        const ok = quiz.querySelectorAll('.q-block[data-ok="1"]').length;
+        const sc = document.getElementById('score-' + quiz.dataset.quiz);
+        if (sc) sc.textContent = ok + ' / ' + total;
+    }
+    document.addEventListener('click', function(e) {
+        const opt = e.target.closest('.quiz .opt');
+        if (!opt) return;
+        const block = opt.closest('.q-block');
+        if (!block || block.classList.contains('done')) return;
+        const correctKey = block.dataset.correct;
+        block.classList.add('done');
+        if (opt.dataset.k === correctKey) {
+            opt.classList.add('correct');
+            block.dataset.ok = '1';
+        } else {
+            opt.classList.add('wrong');
+            const right = block.querySelector('.opt[data-k="' + correctKey + '"]');
+            if (right) right.classList.add('correct');
+        }
+        updateQuizScore(opt.closest('.quiz'));
+    });
+    window.resetQuiz = function(name) {
+        const quiz = document.querySelector('.quiz[data-quiz="' + name + '"]');
+        if (!quiz) return;
+        quiz.querySelectorAll('.q-block').forEach(b => { b.classList.remove('done'); b.removeAttribute('data-ok'); });
+        quiz.querySelectorAll('.opt').forEach(o => o.classList.remove('correct', 'wrong'));
+        updateQuizScore(quiz);
+    };
+
+    // ============ 5. Error Spy ============
+    function updateSpyScore() {
+        const all = document.querySelectorAll('#spyList .spy-input');
+        const ok = document.querySelectorAll('#spyList .spy-input[data-ok="1"]').length;
+        document.getElementById('score-spy').textContent = ok + ' / ' + all.length;
+    }
+    window.checkSpy = function(btn) {
+        const wrap = btn.closest('.spy-controls');
+        const input = wrap.querySelector('.spy-input');
+        const fb = wrap.querySelector('.spy-fb');
+        const val = normAns(input.value);
+        if (!val) { fb.textContent = 'Type a word first.'; fb.className = 'spy-fb no'; return; }
+        if (val === input.dataset.answer) {
+            fb.textContent = '✓ Correct';
+            fb.className = 'spy-fb ok';
+            input.dataset.ok = '1';
+        } else {
+            fb.textContent = '✗ Not quite. Check the bank and the logic.';
+            fb.className = 'spy-fb no';
+            input.removeAttribute('data-ok');
+        }
+        updateSpyScore();
+    };
+    window.resetSpy = function() {
+        document.querySelectorAll('#spyList .spy-input').forEach(i => { i.value = ''; i.removeAttribute('data-ok'); });
+        document.querySelectorAll('#spyList .spy-fb').forEach(f => { f.textContent = ''; f.className = 'spy-fb'; });
+        updateSpyScore();
+    };
+
+    // ============ 6. Build a Sentence ============
+    function shuffle(arr) {
+        const a = arr.slice();
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+    function makeChip(word, card) {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+        chip.textContent = word;
+        chip.addEventListener('click', () => {
+            const ans = card.querySelector('.build-answer');
+            const tray = card.querySelector('.build-tray');
+            ans.classList.remove('correct', 'wrong');
+            if (chip.parentElement === tray) ans.appendChild(chip); else tray.appendChild(chip);
+        });
+        return chip;
+    }
+    function initBuilders() {
+        document.querySelectorAll('.build-card').forEach(card => {
+            const words = card.dataset.answer.split(' ');
+            let order = shuffle(words);
+            let guard = 0;
+            while (order.join(' ') === words.join(' ') && guard++ < 10) order = shuffle(words);
+            const tray = card.querySelector('.build-tray');
+            const ans = card.querySelector('.build-answer');
+            tray.innerHTML = ''; ans.innerHTML = '';
+            order.forEach(w => tray.appendChild(makeChip(w, card)));
+        });
+        updateBuildScore();
+    }
+    function updateBuildScore() {
+        const cards = document.querySelectorAll('.build-card');
+        const ok = document.querySelectorAll('.build-card[data-ok="1"]').length;
+        const el = document.getElementById('score-build');
+        if (el) el.textContent = ok + ' / ' + cards.length;
+    }
+    window.checkBuild = function(btn) {
+        const card = btn.closest('.build-card');
+        const ans = card.querySelector('.build-answer');
+        const fb = card.querySelector('.spy-fb');
+        const built = Array.from(ans.children).map(c => c.textContent).join(' ');
+        ans.classList.remove('correct', 'wrong');
+        if (!built) { fb.textContent = 'Place some words first.'; fb.className = 'spy-fb no'; return; }
+        if (built.toLowerCase() === card.dataset.answer.toLowerCase()) {
+            ans.classList.add('correct'); fb.textContent = '✓ Perfect'; fb.className = 'spy-fb ok';
+            card.dataset.ok = '1';
+        } else {
+            ans.classList.add('wrong'); fb.textContent = '✗ Check the word order'; fb.className = 'spy-fb no';
+            card.removeAttribute('data-ok');
+        }
+        updateBuildScore();
+    };
+    window.resetBuild = function(btn) {
+        const card = btn.closest('.build-card');
+        const ans = card.querySelector('.build-answer');
+        const tray = card.querySelector('.build-tray');
+        Array.from(ans.children).forEach(c => tray.appendChild(c));
+        ans.classList.remove('correct', 'wrong');
+        card.removeAttribute('data-ok');
+        const fb = card.querySelector('.spy-fb'); fb.textContent = ''; fb.className = 'spy-fb';
+        updateBuildScore();
+    };
+    window.showBuild = function(btn) {
+        const card = btn.closest('.build-card');
+        const fb = card.querySelector('.spy-fb');
+        fb.textContent = 'Answer: ' + card.dataset.answer;
+        fb.className = 'spy-fb';
+    };
+    initBuilders();
+
+    // ============ 7. Text-to-speech listening ============
+    const CLIPS = {
+        c1: [['S', "I couldn't make it to class yesterday. Did I miss anything important?"]],
+        c2: [['S', "Would you mind moving your bag so I can sit down?"]],
+        c3: [['S', "Isn't the deadline for the scholarship application next week?"]],
+        conv: [
+            ['S', "Thanks for seeing me, Dr. Okafor. I wanted to ask about the capstone project."],
+            ['A', "Of course. Have you settled on a topic?"],
+            ['S', "Sort of. I was planning to survey patients about their flossing habits, but the ethics board says I'd need consent forms translated into three languages, and that could take weeks."],
+            ['A', "Ah. That does complicate things. Have you considered using the clinic's existing, anonymized records instead? You wouldn't need new consent for that."],
+            ['S', "I thought about it, but the records don't include self-reported habits, which is the whole point of my study."],
+            ['A', "True. Then perhaps narrow the sample. One language, one clinic, and flag the limitation in your discussion section. Reviewers tend to respect honesty about scope more than overreach."],
+            ['S', "That makes sense. Would that still count as original research?"],
+            ['A', "Absolutely. A modest study that's executed rigorously beats an ambitious one that collapses. Send me a one-page revision by Friday, and I'll fast-track it with the board."]
+        ],
+        ann: [
+            ['N', "Attention, students. The university's Dental Simulation Lab will be closed next Monday and Tuesday for equipment upgrades. Reservations made for those days will be automatically moved to Wednesday, unless you cancel them through the portal. Please note that the new haptic simulators will be available only to students who have completed the safety orientation. Orientation sessions run Wednesday at nine and Thursday at two. Space is limited, so register early."]
+        ]
+    };
+    const SPEAKER_NAMES = { S: 'Student', A: 'Advisor', N: 'Announcer' };
+
+    function getEnVoices() {
+        if (!('speechSynthesis' in window)) return [];
+        const all = window.speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
+        const us = all.filter(v => /en[-_]US/i.test(v.lang));
+        return us.length ? us : all;
+    }
+    if ('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged = getEnVoices;
+
+    function speakQueue(items) {
+        if (!('speechSynthesis' in window)) { alert('Speech is not supported in this browser. Ask your teacher to read the transcript aloud.'); return; }
+        window.speechSynthesis.cancel();
+        const rate = parseFloat(document.getElementById('ttsRate').value) || 1;
+        const voices = getEnVoices();
+        items.forEach(([sp, txt]) => {
+            const u = new SpeechSynthesisUtterance(txt);
+            u.lang = 'en-US';
+            u.rate = rate;
+            if (voices.length) u.voice = (sp === 'A' && voices.length > 1) ? voices[1] : voices[0];
+            u.pitch = sp === 'A' ? 0.85 : (sp === 'S' ? 1.1 : 1);
+            window.speechSynthesis.speak(u);
+        });
+    }
+    window.playClip = function(id) { if (CLIPS[id]) speakQueue(CLIPS[id]); };
+    window.stopAudio = function() { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); };
+    window.sayEl = function(btn) {
+        const t = btn.closest('li').querySelector('.say-text').textContent.replace(/\s*\/\s*/g, ', ');
+        speakQueue([['N', t]]);
+    };
+    window.showTranscript = function(id, boxId) {
+        const box = document.getElementById(boxId);
+        if (!box) return;
+        if (box.classList.contains('open')) { box.classList.remove('open'); return; }
+        box.innerHTML = CLIPS[id].map(([sp, txt]) => '<p><strong>' + SPEAKER_NAMES[sp] + ':</strong> ' + txt + '</p>').join('');
+        box.classList.add('open');
+    };
+
+    // ============ 8. Timers & word counters ============
+    function fmt(s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+    function initTimers() {
+        document.querySelectorAll('.timer-box').forEach(box => {
+            const total = parseInt(box.dataset.secs, 10);
+            const digits = box.querySelector('.timer-digits');
+            const fill = box.querySelector('.timer-fill');
+            let left = total, handle = null;
+            function render() {
+                digits.textContent = fmt(left);
+                fill.style.width = (left / total * 100) + '%';
+                digits.style.color = left <= 10 && handle ? '#F28B99' : '';
+            }
+            box._reset = function() { clearInterval(handle); handle = null; left = total; render(); box.querySelector('[data-act="start"]').textContent = 'Start'; };
+            box.querySelector('[data-act="start"]').addEventListener('click', function() {
+                if (handle) { clearInterval(handle); handle = null; this.textContent = 'Resume'; return; }
+                if (left <= 0) left = total;
+                this.textContent = 'Pause';
+                handle = setInterval(() => {
+                    left--;
+                    render();
+                    if (left <= 0) { clearInterval(handle); handle = null; digits.textContent = 'Time!'; box.querySelector('[data-act="start"]').textContent = 'Start'; }
+                }, 1000);
+            });
+            box.querySelector('[data-act="reset"]').addEventListener('click', box._reset);
+            render();
+        });
+    }
+    initTimers();
+
+    function wordCount(el) {
+        const t = (el.innerText || '').trim();
+        return t ? t.split(/\s+/).length : 0;
+    }
+    function updateCounters() {
+        document.querySelectorAll('.write-area[data-counter]').forEach(a => {
+            const out = document.getElementById(a.dataset.counter);
+            if (out) out.textContent = wordCount(a);
+        });
+    }
+    document.addEventListener('input', function(e) {
+        if (e.target.closest && e.target.closest('.write-area[data-counter]')) updateCounters();
+    });
+    setInterval(updateCounters, 1500); // also catches remote (synced) edits
+
+    // ============ 9. PDF generation ============
+    window.saveAsPDF = function() {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const element = document.body;
+        const totalHeight = element.scrollHeight;
+        const totalWidth = element.scrollWidth;
+        const opt = {
+            margin: 0,
+            filename: 'TOEFL-Lesson-1-Mission-120-Completed.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, windowWidth: totalWidth, scrollY: 0 },
+            jsPDF: { unit: 'px', format: [totalWidth, totalHeight], orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    };
+
+    // ============ 10. Quizlet modal ============
+    const QUIZLET_WORDS = [
+        ['exacerbate', 'pogarszać, zaostrzać'], ['mitigate', 'łagodzić, zmniejszać'], ['corroborate', 'potwierdzać (dowodami)'],
+        ['discrepancy', 'rozbieżność'], ['ostensibly', 'rzekomo, pozornie'], ['plausible', 'wiarygodny, prawdopodobny'],
+        ['deleterious', 'szkodliwy'], ['pervasive', 'wszechobecny'], ['dental calculus', 'kamień nazębny'], ['enamel', 'szkliwo'],
+        ['abscess', 'ropień'], ['calcify', 'zwapniać się'], ['entrap', 'zatrzymywać, więzić'], ['predominate', 'dominować, przeważać'],
+        ['specimen', 'okaz, próbka'], ['consolidation', 'utrwalanie (np. pamięci)'], ['hedge a claim', 'łagodzić twierdzenie'],
+        ['nominalization', 'nominalizacja'], ['coincide with', 'zbiegać się z'], ['fluorosis', 'fluoroza'],
+        ['practicum', 'praktyka kliniczna'], ['capstone project', 'projekt końcowy / praca dyplomowa'], ['consent form', 'formularz zgody']
+    ];
+    function buildQuizletRows() {
+        const list = document.getElementById('wordList');
+        list.innerHTML = '';
+        QUIZLET_WORDS.forEach(([w, t]) => addWordRow(w, t));
+        addWordRow(); addWordRow();
+    }
+    window.openQuizletModal = function() { document.getElementById('quizletModal').style.display = 'flex'; };
+    window.closeQuizletModal = function() { document.getElementById('quizletModal').style.display = 'none'; };
+    window.addWordRow = function(word, trans) {
+        const row = document.createElement('div');
+        row.className = 'word-row';
+        row.innerHTML = '<input type="text" placeholder="English word" class="q-word"> <input type="text" placeholder="Translation (PL/UA/RU)" class="q-trans">';
+        if (typeof word === 'string') row.querySelector('.q-word').value = word;
+        if (typeof trans === 'string') row.querySelector('.q-trans').value = trans;
+        const list = document.getElementById('wordList');
+        list.appendChild(row);
+        list.scrollTop = list.scrollHeight;
+    };
+    window.copyForQuizlet = function() {
+        let output = '';
+        document.querySelectorAll('.word-row').forEach(row => {
+            const word = row.querySelector('.q-word').value.trim();
+            const trans = row.querySelector('.q-trans').value.trim();
+            if (word || trans) output += word + '\t' + trans + '\n';
+        });
+        const btn = document.getElementById('copyQuizletBtn');
+        const originalText = btn.innerText;
+        if (output) {
+            const ta = document.createElement('textarea');
+            ta.value = output;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            btn.innerText = '✅ Copied! Ready to paste';
+        } else {
+            btn.innerText = '⚠️ Add some words first!';
+        }
+        setTimeout(() => { btn.innerText = originalText; }, 3000);
+    };
+    buildQuizletRows();
+
+    // ============ 11. Navigation + scroll helpers ============
+    document.getElementById('navTabsContainer').addEventListener('click', function(e) {
+        const a = e.target.closest('a');
+        if (a && !a.hasAttribute('onclick')) {
+            e.preventDefault();
+            const targetId = a.getAttribute('href');
+            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                const target = document.querySelector(targetId);
+                if (target) {
+                    const y = target.getBoundingClientRect().top + window.pageYOffset - 100;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            }
+        }
+    });
+    window.scrollToWhiteboard = function() {
+        const wb = document.getElementById('whiteboard');
+        if (wb) window.scrollTo({ top: wb.getBoundingClientRect().top + window.pageYOffset - 100, behavior: 'smooth' });
+    };
+
+    // ============ 12. Local reset (called by Reset Lesson on every device) ============
+    window.resetLocalState = function() {
+        document.querySelectorAll('.quiz').forEach(q => window.resetQuiz(q.dataset.quiz));
+        window.resetSpy();
+        document.querySelectorAll('.build-card').forEach(c => { c.removeAttribute('data-ok'); });
+        initBuilders();
+        document.querySelectorAll('.build-card .spy-fb').forEach(f => { f.textContent = ''; f.className = 'spy-fb'; });
+        document.querySelectorAll('.timer-box').forEach(b => b._reset && b._reset());
+        document.querySelectorAll('.reveal-box').forEach(b => b.classList.remove('open'));
+        ['tr-conv', 'tr-ann'].forEach(id => { const b = document.getElementById(id); if (b) b.innerHTML = ''; });
+        ['cwA', 'cwB', 'gramA', 'stressTable', 'repList'].forEach(id => {
+            const sc = document.getElementById('score-' + id);
+            const n = document.querySelectorAll('#' + id + ' .blank-input[data-answer]').length;
+            if (sc) sc.textContent = '0 / ' + n;
+        });
+        window.stopAudio();
+        buildQuizletRows();
+        updateCounters();
+    };
+</script>
+
+<!-- ====== FIREBASE & ADVANCED SYNC SCRIPT ====== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot, deleteDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+        authDomain: "b1-oge-l1.firebaseapp.com",
+        projectId: "b1-oge-l1",
+        storageBucket: "b1-oge-l1.firebasestorage.app",
+        messagingSenderId: "914766471365",
+        appId: "1:914766471365:web:11764d3942bc385f3cd0ac",
+        measurementId: "G-K12KF1N7YS"
+    };
+
+    // Unique database folder for THIS lesson
+    const appId = 'lesson-1-c1-dental-toefl-mission-120';
+    const pageLoadTime = Date.now();
+
+    const statusText = document.getElementById('syncText');
+    const statusDot = document.getElementById('syncDot');
+    function setStatus(text, color) {
+        if (statusText) statusText.innerText = text;
+        if (statusDot) statusDot.style.background = color;
+    }
+
+    if (!firebaseConfig) {
+        setStatus('Offline Mode', '#8FA6A3');
+    } else {
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        let currentUser = null;
+        let isSyncSetup = false;
+
+        const myCursorColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+        let myCursorName = "Student";
+
+        // Only TOP-LEVEL editable elements are synced (nested ones travel inside their parent's HTML)
+        const editables = Array.from(document.querySelectorAll('[contenteditable="true"]'))
+            .filter(el => !(el.parentElement && el.parentElement.closest('[contenteditable="true"]')));
+        const originalStates = {};
+        editables.forEach((el, index) => {
+            el.dataset.syncId = 'edit-' + index;
+            originalStates['edit-' + index] = el.innerHTML;
+        });
+        let isEditing = null;
+
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); };
+        }
+
+        const initAuth = async () => {
+            try { await signInAnonymously(auth); } catch (e) { setStatus('Auth Failed', '#D64550'); }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user && !isSyncSetup) {
+                isSyncSetup = true;
+                getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'cursors')).then(snap => {
+                    myCursorName = "Student " + (snap.size + 1);
+                    setStatus('Live Sync On', '#12A88A');
+                    setupRealtimeSync(db, appId);
+                    setupLiveCursors(db, appId);
+                }).catch(() => {
+                    myCursorName = "Student " + (Math.floor(Math.random() * 99) + 1);
+                    setStatus('Live Sync On', '#12A88A');
+                    setupRealtimeSync(db, appId);
+                    setupLiveCursors(db, appId);
+                });
+            } else if (!user) {
+                setStatus('Disconnected', '#D64550');
+            }
+        });
+        initAuth();
+
+        function setupRealtimeSync(db, appId) {
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            const metaRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'meta');
+
+            // ---- A. TEXT & TAB SYNC ----
+            window.saveTextUpdate = (el) => {
+                if (!currentUser || !el.dataset.syncId) return;
+                setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true });
+            };
+
+            window.attachEditableListeners = (el) => {
+                el.addEventListener('focusin', () => { isEditing = el.dataset.syncId; });
+                el.addEventListener('focusout', () => { isEditing = null; window.saveTextUpdate(el); });
+                el.addEventListener('input', debounce(() => {
+                    if (isEditing === el.dataset.syncId) window.saveTextUpdate(el);
+                }, 500));
+            };
+            editables.forEach(el => window.attachEditableListeners(el));
+
+            window.addNewTab = (e) => {
+                e.preventDefault();
+                const container = document.getElementById('navTabsContainer');
+                const newLi = document.createElement('li');
+                const newId = 'edit-tab-' + Date.now();
+                newLi.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+                container.appendChild(newLi);
+                window.attachEditableListeners(newLi.querySelector('a'));
+                if (currentUser) setDoc(textRef, { 'nav_tabs_structure': container.innerHTML }, { merge: true });
+            };
+
+            onSnapshot(textRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    for (const [syncId, html] of Object.entries(data)) {
+                        if (syncId === 'nav_tabs_structure') {
+                            const container = document.getElementById('navTabsContainer');
+                            if (!container.contains(document.activeElement)) {
+                                container.innerHTML = html;
+                                container.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a));
+                            }
+                            continue;
+                        }
+                        if (isEditing !== syncId) {
+                            const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                            if (el && el.innerHTML !== html) el.innerHTML = html;
+                        }
+                    }
+                } else {
+                    Object.entries(originalStates).forEach(([syncId, html]) => {
+                        const el = document.querySelector(`[data-sync-id="${syncId}"]`);
+                        if (el && el.innerHTML !== html) el.innerHTML = html;
+                    });
+                }
+            });
+
+            // ---- B. MEDIA PASTE INTERCEPTOR (images & YouTube) ----
+            document.addEventListener('paste', function(e) {
+                const target = e.target;
+                if (!target.closest || !target.closest('[contenteditable="true"]')) return;
+
+                const items = (e.clipboardData || window.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        e.preventDefault();
+                        const blob = item.getAsFile();
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = new Image();
+                            img.onload = function() {
+                                const cv = document.createElement('canvas');
+                                const MAX_WIDTH = 800;
+                                let width = img.width, height = img.height;
+                                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                                cv.width = width; cv.height = height;
+                                cv.getContext('2d').drawImage(img, 0, 0, width, height);
+                                const dataUrl = cv.toDataURL('image/jpeg', 0.8);
+                                const wrapper = `<div contenteditable="false" style="margin: 16px 0; text-align: center;"><img src="${dataUrl}" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);"></div><p><br></p>`;
+                                target.focus();
+                                document.execCommand('insertHTML', false, wrapper);
+                                target.dispatchEvent(new Event('input', { bubbles: true }));
+                            };
+                            img.src = event.target.result;
+                        };
+                        reader.readAsDataURL(blob);
+                        return;
+                    }
+                }
+
+                const pasteText = (e.clipboardData || window.clipboardData).getData('text');
+                if (pasteText) {
+                    const ytMatch = pasteText.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                    if (ytMatch && ytMatch[1]) {
+                        e.preventDefault();
+                        const vid = ytMatch[1];
+                        const embed = `<div class="video-container" contenteditable="false"><iframe src="https://www.youtube.com/embed/${vid}" title="Embedded video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><p style="text-align: center; margin-bottom: 32px;"><a href="https://www.youtube.com/watch?v=${vid}" target="_blank" style="color: var(--teal-dark); font-weight: 600; text-decoration: none;">🔗 Click here to watch directly on YouTube</a></p><p><br></p>`;
+                        document.execCommand('insertHTML', false, embed);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+                    const urlRegex = /^(https?:\/\/[^\s]+)$/i;
+                    if (urlRegex.test(pasteText.trim())) {
+                        e.preventDefault();
+                        const link = `<a href="${pasteText.trim()}" target="_blank" style="color: var(--teal-dark); text-decoration: underline;" contenteditable="false">${pasteText.trim()}</a>`;
+                        document.execCommand('insertHTML', false, link);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+                }
+            });
+
+            // ---- C. WHITEBOARD SYNC ----
+            window.syncWhiteboardDraw = debounce(() => {
+                if (!currentUser) return;
+                const cv = document.getElementById('boardCanvas');
+                const dataUrl = cv.toDataURL('image/png', 0.5);
+                setDoc(wbRef, { image: dataUrl, clearTimestamp: window.lastClear || 0 }, { merge: true });
+                pendingDraw = false;
+            }, 800);
+
+            window.syncWhiteboardClear = () => {
+                if (!currentUser) return;
+                const ts = Date.now();
+                window.lastClear = ts;
+                setDoc(wbRef, { clearTimestamp: ts, image: null }, { merge: true });
+            };
+
+            onSnapshot(wbRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const cv = document.getElementById('boardCanvas');
+                    const c = cv.getContext('2d');
+                    if (data.clearTimestamp > (window.lastClear || 0)) {
+                        c.clearRect(0, 0, cv.width, cv.height);
+                        window.lastClear = data.clearTimestamp;
+                        return;
+                    }
+                    if (data.image && !pendingDraw) {
+                        const img = new Image();
+                        img.onload = () => { c.clearRect(0, 0, cv.width, cv.height); c.drawImage(img, 0, 0); };
+                        img.src = data.image;
+                    }
+                }
+            });
+
+            // ---- D. RESET BROADCAST (so every device clears quiz/timer state) ----
+            onSnapshot(metaRef, (snap) => {
+                if (snap.exists()) {
+                    const d = snap.data();
+                    if (d.resetAt && d.resetAt > pageLoadTime && window.resetLocalState) window.resetLocalState();
+                }
+            });
+        }
+
+        // ---- E. LIVE CURSORS ----
+        function setupLiveCursors(db, appId) {
+            const cursorsCol = collection(db, 'artifacts', appId, 'public', 'data', 'cursors');
+            const myCursorRef = doc(db, 'artifacts', appId, 'public', 'data', 'cursors', currentUser.uid);
+            const container = document.getElementById('liveCursorsContainer');
+
+            document.addEventListener('mousemove', debounce((e) => {
+                if (!currentUser) return;
+                const xOffset = e.pageX - (window.innerWidth / 2);
+                setDoc(myCursorRef, { xOffset: xOffset, y: e.pageY, color: myCursorColor, name: myCursorName, timestamp: Date.now() });
+            }, 400));
+
+            onSnapshot(cursorsCol, (snap) => {
+                snap.docChanges().forEach(change => {
+                    const id = change.doc.id;
+                    if (id === currentUser.uid) return;
+                    if (change.type === 'removed') {
+                        const el = document.getElementById('cursor-' + id);
+                        if (el) el.remove();
+                    } else {
+                        const data = change.doc.data();
+                        if (Date.now() - data.timestamp > 60000) {
+                            const el = document.getElementById('cursor-' + id);
+                            if (el) el.remove();
+                            return;
+                        }
+                        let cursorEl = document.getElementById('cursor-' + id);
+                        if (!cursorEl) {
+                            cursorEl = document.createElement('div');
+                            cursorEl.id = 'cursor-' + id;
+                            cursorEl.className = 'remote-cursor';
+                            cursorEl.innerHTML = `
+                                <svg viewBox="0 0 24 24" fill="${data.color}" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 2L20 10.5L12 13.5L9 22L4 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>
+                                <div class="remote-cursor-label" style="background: ${data.color}">${data.name}</div>`;
+                            container.appendChild(cursorEl);
+                        }
+                        cursorEl.style.left = ((window.innerWidth / 2) + data.xOffset) + 'px';
+                        cursorEl.style.top = data.y + 'px';
+                    }
+                });
+            });
+
+            window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myCursorRef); });
+        }
+
+        // ---- F. GLOBAL RESET ----
+        window.resetLesson = async () => {
+            if (!currentUser) return;
+            if (!confirm("Are you sure you want to reset the lesson? This clears all text edits, answers, the whiteboard and the timers for everyone.")) return;
+            setStatus('Resetting...', '#F2B84B');
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            const metaRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'meta');
+            await deleteDoc(textRef);
+            const ts = Date.now();
+            window.lastClear = ts;
+            await setDoc(wbRef, { clearTimestamp: ts, image: null });
+            await setDoc(metaRef, { resetAt: ts });
+            if (window.resetLocalState) window.resetLocalState();
+            setTimeout(() => setStatus('Live Sync On', '#12A88A'), 1000);
+        };
+    }
+</script>
+</body>
+</html>
