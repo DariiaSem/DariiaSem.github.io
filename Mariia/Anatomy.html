@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 11 · Anatomy Tour</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6ee;--ink:#2b2a33;--mute:#6d6a75;--card:#fff;--coral:#ef6f5e;--teal:#1f9d8f;--tealsoft:#e3f4f1;--gold:#f2b33d;--goldsoft:#fdf2d6;--plum:#7a4fa3;--line:#eadfce;--ok:#2e9d5b;--oksoft:#dcf3e5;--bad:#d64545;--badsoft:#fbe0e0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;line-height:1.55;font-size:16px}
+h1,h2,h3,h4{font-family:Fraunces,Georgia,serif;margin:0}
+.bar{position:sticky;top:0;z-index:20;background:rgba(251,246,238,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:12px;align-items:center}
+.bar b{font-family:Fraunces,serif;color:var(--coral)}
+#nav{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:thin}
+#nav a{flex:none;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+#nav a:hover{background:var(--gold)}
+.score{flex:none;background:var(--ink);color:#fff;border-radius:20px;padding:4px 14px;font-weight:800}
+.hero{max-width:960px;margin:28px auto 8px;padding:0 16px}
+.hero .tag{display:inline-block;background:var(--coral);color:#fff;font-weight:800;border-radius:20px;padding:3px 14px;letter-spacing:.05em}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:10px 0}
+.hero p{color:var(--mute);margin:0 0 14px;font-size:1.1rem}
+.cando{background:var(--goldsoft);border-radius:16px;padding:14px 20px}
+.cando ul{margin:6px 0 0;padding-left:20px}
+main{max-width:960px;margin:0 auto;padding:0 16px 60px}
+.task{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;margin-top:22px;box-shadow:0 4px 0 var(--line)}
+.thead{display:flex;gap:12px;align-items:center}
+.num{flex:none;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:Fraunces,serif;font-weight:800;font-size:1.2rem}
+.task:nth-of-type(3n+2) .num{background:var(--coral)}.task:nth-of-type(3n) .num{background:var(--plum)}
+.thead h2{font-size:1.5rem}
+.instr{color:var(--mute);margin:8px 0 14px}
+.q{border-top:1px dashed var(--line);padding:12px 0}
+.qt{font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+button{font-family:inherit}
+.opt,.btn{background:#fff;border:2px solid var(--line);border-radius:12px;padding:7px 14px;cursor:pointer;font-weight:700;font-size:.95rem}
+.opt:hover,.btn:hover{border-color:var(--teal)}
+.btn{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn.alt{background:#fff;color:var(--ink);border-color:var(--line)}
+.good{background:var(--oksoft)!important;border-color:var(--ok)!important}
+.bad{background:var(--badsoft)!important;border-color:var(--bad)!important}
+.fb{color:var(--ok);font-size:.9rem;margin-top:6px;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.vcard{position:relative;height:235px;cursor:pointer}
+.vocab-front,.vocab-def{position:absolute;inset:0;border-radius:16px;padding:14px;transition:opacity .25s;display:flex;flex-direction:column;justify-content:center;border:2px solid var(--line)}
+.vocab-front{background:#fff;opacity:1;align-items:center;text-align:center;gap:4px}
+.vocab-def{background:var(--tealsoft);opacity:0;font-size:.84rem;overflow:auto;justify-content:flex-start;gap:4px;border-color:var(--teal)}
+.vcard:hover .vocab-front,.vcard.flip .vocab-front{opacity:0}
+.vcard:hover .vocab-def,.vcard.flip .vocab-def{opacity:1}
+.en{font-family:Fraunces,serif;font-weight:800;font-size:1.45rem}
+.la{font-style:italic;color:var(--plum);font-weight:700}
+.chip{display:inline-block;background:var(--goldsoft);border-radius:20px;padding:2px 10px;font-size:.78rem;font-weight:700}
+.vocab-def b{color:var(--teal)}
+.mini{background:#fff;border:1px solid var(--line);border-radius:8px;cursor:pointer;padding:2px 8px;font-size:.9rem}
+.say{background:none;border:none;cursor:pointer;font-size:1.2rem}
+.pron{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-top:1px dashed var(--line);padding:10px 0}
+.pron .w{font-family:Fraunces,serif;font-weight:800;font-size:1.25rem;min-width:140px}
+.pron .ipa{color:var(--mute);min-width:140px}
+.syl{background:#fff;border:2px solid var(--line);border-radius:10px;padding:4px 12px;cursor:pointer;font-weight:700}
+.regions{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:560px;margin:0 auto 14px}
+.regions div{background:var(--tealsoft);border-radius:10px;padding:10px 6px;text-align:center;font-weight:700;font-size:.88rem}
+.regions small{display:block;color:var(--plum);font-style:italic;font-weight:600}
+.note{background:var(--goldsoft);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.95rem}
+.tool{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-bottom:14px}
+.tool div{background:var(--tealsoft);border-radius:10px;padding:8px 12px;font-size:.92rem}
+select,input[type=text],textarea{font-family:inherit;font-size:1rem;border:2px solid var(--line);border-radius:10px;padding:5px 8px;background:#fff}
+.gap{padding:8px 0;border-top:1px dashed var(--line)}
+.match{display:grid;grid-template-columns:1fr 1.4fr;gap:14px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mitem{background:#fff;border:2px solid var(--line);border-radius:12px;padding:8px 12px;text-align:left;cursor:pointer;font-weight:600}
+.mitem.sel{border-color:var(--gold);background:var(--goldsoft)}
+.riddle{border-top:1px dashed var(--line);padding:12px 0}
+.riddle p{margin:0 0 8px;font-style:italic}
+.spy{background:var(--goldsoft);border-radius:6px;padding:1px 6px;cursor:pointer;font-weight:700}
+.spy.wrong{background:var(--badsoft)}
+.spy.found{background:var(--oksoft)}
+.spyrow{padding:12px 0;border-top:1px dashed var(--line)}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:12px 0}
+.zone{border:2px dashed var(--line);border-radius:14px;padding:8px;min-height:90px;background:#fff}
+.zone h4{font-size:1rem;margin-bottom:6px;color:var(--teal)}
+.drop{display:flex;flex-wrap:wrap;gap:6px;min-height:36px}
+.zone.pool{background:var(--goldsoft)}
+.pchip{background:#fff;border:2px solid var(--line);border-radius:20px;padding:3px 12px;cursor:grab;font-weight:700;font-size:.9rem;user-select:none}
+.pchip.armed{border-color:var(--plum);box-shadow:0 0 0 3px #e7d9f3}
+.reading{background:var(--tealsoft);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+.order{padding-left:26px}
+.oitem{display:flex;gap:6px;align-items:center;padding:4px 8px;margin:4px 0;border:2px solid var(--line);border-radius:10px;background:#fff}
+.oitem span{flex:1}
+table{border-collapse:collapse;width:100%}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+th{background:var(--tealsoft)}
+.hide-en td.en:not(.peek),.hide-la td.la:not(.peek),.hide-ua td.ua:not(.peek){filter:blur(7px);cursor:pointer}
+.big{font-family:Fraunces,serif;font-size:2.2rem;font-weight:800;color:var(--coral)}
+.spinbox{background:var(--goldsoft);border-radius:16px;padding:18px;text-align:center;margin-bottom:14px}
+.words{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.words span{background:#f1ece3;border-radius:16px;padding:2px 10px;font-size:.85rem;font-weight:700;color:var(--mute)}
+.words span.on{background:var(--oksoft);color:var(--ok)}
+textarea{width:100%;min-height:150px}
+footer{text-align:center;color:var(--mute);padding:30px 16px}
+@media(max-width:600px){.match{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bar"><b>L11</b><div id="nav"></div><div class="score">⭐ <span id="score">0 / 0</span></div></div>
+
+<div class="hero">
+  <span class="tag">LESSON 11</span>
+  <h1>A Guided Tour Inside the Body</h1>
+  <p>Organs, cavities, Latin names and the language of position.</p>
+  <div class="cando"><b>By the end you can:</b>
+    <ul>
+      <li>name the main organs of each body cavity in English and Latin;</li>
+      <li>describe where an organ lies using anatomical language (<i>posterior to, lateral to, retroperitoneal…</i>);</li>
+      <li>explain how organs are related to their neighbours.</li>
+    </ul>
+  </div>
+</div>
+<main id="tasks"></main>
+<footer>Lesson 11 · Anatomy Tour · Keep your stars — try to beat your score next time ⭐</footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const h=(t,c,html)=>{const e=document.createElement(t);if(c)e.className=c;if(html!=null)e.innerHTML=html;return e};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().replace(/[^a-z0-9\s]/g,'').replace(/\b(the|a|an)\b/g,'').replace(/\s+/g,' ').trim();
+let total=0;const done=new Set();
+const upd=()=>{$('#score').textContent=done.size+' / '+total};
+const reg=(n=1)=>{total+=n;upd()};
+const ok=k=>{if(!done.has(k)){done.add(k);upd()}};
+function say(t,l='en-GB'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+
+const main=$('#tasks');
+function task(n,icon,title,instr){
+  const s=h('section','task');s.id='t'+n;
+  s.innerHTML=`<div class="thead"><span class="num">${n}</span><h2>${icon} ${title}</h2></div><p class="instr">${instr}</p>`;
+  const b=h('div');s.appendChild(b);main.appendChild(s);
+  const a=h('a',null,n);a.href='#t'+n;$('#nav').appendChild(a);
+  return b;
+}
+/* multiple choice: it.o = options, it.a = index of correct (default 0) */
+function mcq(box,items,key){
+  items.forEach((it,i)=>{
+    reg();
+    const q=h('div','q');q.innerHTML=`<div class="qt">${it.q}</div>`;
+    const o=h('div','opts'),fb=h('div','fb');let wrong=false,solved=false;
+    let ops=it.o.map((t,j)=>({t,c:j===(it.a||0)}));if(!it.fixed)ops=shuffle(ops);
+    ops.forEach(op=>{
+      const b=h('button','opt',op.t);
+      b.onclick=()=>{
+        if(solved)return;
+        if(op.c){solved=true;b.classList.add('good');if(!wrong)ok(key+i);if(it.w)fb.textContent=it.w}
+        else{wrong=true;b.classList.add('bad');b.disabled=true}
+      };
+      o.appendChild(b);
+    });
+    q.append(o,fb);box.appendChild(q);
+  });
+}
+const tf=(box,items,key)=>mcq(box,items.map(x=>({q:x[0],o:['True','False'],a:x[1]?0:1,fixed:true,w:x[2]})),key);
+
+function flip(front,def){
+  const c=h('div','vcard');
+  c.innerHTML=`<div class="vocab-front">${front}</div><div class="vocab-def">${def}</div>`;
+  c.onclick=()=>c.classList.toggle('flip');
+  return c;
+}
+
+/* ---------------- DATA ---------------- */
+const O={
+ I:[
+  ['brain','encephalon','Cranial cavity','Fills the cranial cavity; the cerebrum lies superior to the cerebellum and brainstem.','Wrapped in the meninges; continuous with the spinal cord at the foramen magnum.'],
+  ['spinal cord','medulla spinalis','Vertebral canal','Runs inside the vertebral canal from the foramen magnum down to L1–L2 (adults).','Continuous with the brainstem superiorly; ends as the conus medullaris; surrounded by meninges.'],
+  ['trachea','trachea','Neck → thoracic cavity','Descends from the larynx (C6) to the carina (T4–T5); lies anterior to the oesophagus.','Divides into the right and left main bronchi; posterior to the manubrium of the sternum.'],
+  ['lungs','pulmones','Thoracic cavity','Lie in the pleural cavities, lateral to the mediastinum and superior to the diaphragm.','Right lung: 3 lobes. Left lung: 2 lobes, with a cardiac notch for the heart.'],
+  ['heart','cor','Thoracic cavity','In the middle mediastinum, inside the pericardium; posterior to the sternum, apex pointing left.','Anterior to the oesophagus and the vertebral column; between the lungs; rests on the diaphragm.'],
+  ['oesophagus','oesophagus','Thorax → abdomen','Runs through the posterior mediastinum, posterior to the trachea and the heart.','Anterior to the vertebral column; pierces the diaphragm at T10 and joins the stomach.'],
+  ['thymus','thymus','Thoracic cavity','Lies in the superior (and anterior) mediastinum, posterior to the sternum.','Anterior to the great vessels; large in children, shrinks in adults.']
+ ],
+ II:[
+  ['liver','hepar','Abdominal cavity','Right hypochondrium and epigastrium, inferior to the diaphragm.','Gallbladder on its inferior surface; stomach to its left; right kidney posterior-inferior to it.'],
+  ['gallbladder','vesica biliaris','Abdominal cavity','On the inferior (visceral) surface of the liver, in the right upper quadrant.','Neck leads to the cystic duct; close to the duodenum and the transverse colon.'],
+  ['stomach','ventriculus (gaster)','Abdominal cavity','Left upper quadrant and epigastrium, inferior to the diaphragm.','Liver to its right and above; pancreas posterior to it; spleen posterolateral.'],
+  ['spleen','splen (lien)','Abdominal cavity','Left hypochondrium, deep to ribs 9–11.','Posterolateral to the stomach; superior to the left kidney; touches the tail of the pancreas.'],
+  ['pancreas','pancreas','Abdominal cavity','Retroperitoneal, crossing the posterior abdominal wall at L1–L2.','Posterior to the stomach; head in the C-loop of the duodenum; tail reaches the spleen.'],
+  ['small intestine','intestinum tenue','Abdominal cavity','Central abdomen: duodenum, jejunum, ileum.','Framed by the large intestine; starts at the pylorus, ends at the caecum (ileocaecal valve).'],
+  ['large intestine','intestinum crassum','Abdominal cavity','Frames the small intestine: caecum, ascending, transverse, descending, sigmoid colon.','Continues into the rectum in the pelvis; transverse colon lies inferior to the stomach and liver.'],
+  ['appendix','appendix vermiformis','Abdominal cavity','Right iliac fossa (right lower quadrant).','Attached to the caecum; near the right ovary and ureter; tender at McBurney\u2019s point.'],
+  ['kidneys','renes','Abdominal cavity','Retroperitoneal, T12–L3, on either side of the vertebral column.','The right kidney is slightly lower (because of the liver); an adrenal gland sits on each upper pole.'],
+  ['adrenal glands','glandulae suprarenales','Abdominal cavity','Retroperitoneal, on the superior pole of each kidney.','Right: posterior to the liver and IVC. Left: posterior to the pancreas and stomach.'],
+  ['ureters','ureteres','Abdominal → pelvic','Retroperitoneal tubes running from the renal pelvis down to the bladder.','Pass anterior to psoas major, cross the pelvic brim and enter the bladder posteriorly.']
+ ],
+ III:[
+  ['bladder','vesica urinaria','Pelvic cavity','Extraperitoneal, in the anterior pelvis, posterior to the pubic symphysis.','Anterior to the uterus and vagina (women) or the rectum (men); the ureters enter its posterior wall.'],
+  ['uterus','uterus','Pelvic cavity','In the pelvic cavity, between the bladder (anterior) and the rectum (posterior).','Uterine tubes and ovaries lie laterally; the cervix opens into the vagina inferiorly.'],
+  ['ovary','ovarium','Pelvic cavity','On the lateral pelvic wall, in the ovarian fossa, posterior to the broad ligament.','Close to the uterine tube, the ureter and the internal iliac vessels.'],
+  ['prostate','prostata','Pelvic cavity','Inferior to the bladder, surrounding the first part of the urethra.','Anterior to the rectum (felt on digital rectal exam); posterior to the pubic symphysis.'],
+  ['rectum','rectum','Pelvic cavity','Posterior pelvis, from S3 to the anorectal junction.','Anterior to the sacrum and coccyx; posterior to the bladder/prostate (men) or the uterus/vagina (women).']
+ ]
+};
+const ALL=[].concat(O.I,O.II,O.III);
+function organCards(box,list){
+  const g=h('div','cards');
+  list.forEach(o=>{
+    const f=`<div class="en">${o[0]}</div><div class="la">${o[1]}</div><span class="chip">${o[2]}</span><button class="say" title="Listen to the Latin name">🔊</button><small style="color:#6d6a75">hover or tap to flip</small>`;
+    const d=`<div><b>📍 Position</b><br>${o[3]}</div><div><b>🔗 Relations</b><br>${o[4]}</div>`;
+    const c=flip(f,d);
+    c.querySelector('.say').onclick=e=>{e.stopPropagation();say(o[1],'it-IT')};
+    g.appendChild(c);
+  });
+  box.appendChild(g);
+}
+
+/* ---------------- 1 WARM-UP ---------------- */
+(()=>{
+  const b=task(1,'🎯','Warm-up &amp; Latin Quick-fire','Chat for two minutes, then race through the Latin names. Every correct first try earns a star.');
+  b.appendChild(h('div','note',`<b>Talk first:</b><br>① Which organ do you think is the most underrated – and why?<br>② Which Latin anatomical word do you already use at work or at university?<br>③ If your body were a building, which organ would be the “engine room”?`));
+  const L=[['liver','hepar',['splen','ren']],['kidney','ren',['hepar','cor']],['heart','cor',['pulmo','ren']],['lung','pulmo',['hepar','cor']],['stomach','ventriculus',['vesica','intestinum']],['urinary bladder','vesica urinaria',['vesica biliaris','ureter']],['gallbladder','vesica biliaris',['vesica urinaria','hepar']],['brain','encephalon',['cerebellum','medulla']]];
+  mcq(b,L.map(x=>({q:`Latin for <b>${x[0]}</b>?`,o:[x[1]].concat(x[2])})),'q1_');
+})();
+
+/* ---------------- 2 SAY IT RIGHT ---------------- */
+(()=>{
+  const b=task(2,'🗣️','Say It Right','Press 🔊, listen, then click the <b>stressed syllable</b>. Beware of silent letters!');
+  const P=[['oesophagus','/iːˈsɒfəɡəs/',['oe','soph','a','gus'],1,'“oe” sounds like “ee”. (US spelling: esophagus)'],
+   ['peritoneum','/ˌperɪtəˈniːəm/',['per','i','to','ne','um'],3,'Five syllables, main stress on “NE”.'],
+   ['diaphragm','/ˈdaɪəfræm/',['di','a','phragm'],0,'The “g” is silent!'],
+   ['pancreas','/ˈpæŋkriəs/',['pan','cre','as'],0,'First syllable: “PAN”.'],
+   ['appendix','/əˈpendɪks/',['ap','pen','dix'],1,'Plural: appendices.'],
+   ['duodenum','/ˌdjuːəˈdiːnəm/',['du','o','de','num'],2,'dyoo-uh-DEE-num.'],
+   ['abdomen','/ˈæbdəmən/',['ab','do','men'],0,'UK: AB-do-men. US often: ab-DOH-men. Adjective: abdominal.'],
+   ['mediastinum','/ˌmiːdiəˈstaɪnəm/',['me','di','as','ti','num'],3,'Stress on “TI”, which sounds like “sty”.']];
+  P.forEach((p,k)=>{
+    reg();const r=h('div','pron');
+    r.innerHTML=`<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s=h('button','say','🔊');s.onclick=()=>say(p[0]);r.appendChild(s);
+    const fb=h('span','fb');let wrong=false,solved=false;
+    p[2].forEach((t,i)=>{const y=h('button','syl',t);y.onclick=()=>{if(solved)return;if(i===p[3]){solved=true;y.classList.add('good');y.textContent=t.toUpperCase();if(!wrong)ok('p'+k);fb.textContent=p[4]}else{wrong=true;y.classList.add('bad')}};r.appendChild(y)});
+    r.appendChild(fb);b.appendChild(r);
+  });
+})();
+
+/* ---------------- 3 CAVITIES ---------------- */
+(()=>{
+  const b=task(3,'🏠','Body Cavities &amp; Membranes','Hover or tap each card. Then test yourself.');
+  const C=[['Cranial cavity','cavitas cranii','Contains the <b>brain</b>. Bounded by the skull. Lined by the <b>meninges</b>.'],
+   ['Vertebral canal','canalis vertebralis','Contains the <b>spinal cord</b>. Runs inside the vertebral column. Also covered by the meninges.'],
+   ['Thoracic cavity','cavitas thoracis','Lungs, heart, trachea, oesophagus, thymus. Separated from the abdomen by the <b>diaphragm</b>. Membranes: <b>pleura</b> and <b>pericardium</b>.'],
+   ['Abdominal cavity','cavitas abdominis','Digestive organs, spleen, kidneys… Lined by the <b>peritoneum</b>. Continuous with the pelvic cavity.'],
+   ['Pelvic cavity','cavitas pelvis','Bladder, rectum and internal reproductive organs. Bounded by the pelvic bones; partly covered by peritoneum.'],
+   ['Mediastinum','mediastinum','The central compartment of the thorax, between the two pleural sacs: heart, trachea, oesophagus, thymus, great vessels.'],
+   ['Peritoneum','peritoneum','A thin serous membrane. <b>Intraperitoneal</b> organs are wrapped in it; <b>retroperitoneal</b> organs lie behind it.']];
+  const g=h('div','cards');
+  C.forEach(c=>g.appendChild(flip(`<div class="en" style="font-size:1.25rem">${c[0]}</div><div class="la">${c[1]}</div>`,c[2])));
+  b.appendChild(g);
+  mcq(b,[{q:'Which membrane lines the abdominal cavity?',o:['Peritoneum','Pleura','Pericardium','Meninges']},
+   {q:'What separates the thoracic cavity from the abdominal cavity?',o:['The diaphragm','The sternum','The mediastinum','The pelvic brim']},
+   {q:'The meninges protect…',o:['the brain and spinal cord','the lungs','the heart','the kidneys']}],'c_');
+})();
+
+/* ---------------- 4-6 ORGAN CARDS ---------------- */
+(()=>{
+  let b=task(4,'🧠','Organ Cards I: Head &amp; Chest','Flip every card, then decide: true or false?');
+  organCards(b,O.I);
+  tf(b,[['The oesophagus lies posterior to the trachea.',true],['The thymus lies in the abdominal cavity.',false,'It is in the superior mediastinum (thorax).'],['The heart lies anterior to the oesophagus.',true],['The spinal cord ends at about L1–L2 in adults.',true],['The right lung has two lobes.',false,'The right lung has three; the left has two.']],'o1_');
+  b=task(5,'🍽️','Organ Cards II: Abdomen','Eleven organs, lots of neighbours. Flip and learn!');
+  organCards(b,O.II);
+  tf(b,[['The kidneys are intraperitoneal.',false,'They are retroperitoneal.'],['The gallbladder lies on the inferior surface of the liver.',true],['The spleen lies in the right hypochondrium.',false,'It lies in the LEFT hypochondrium.'],['The pancreas lies anterior to the stomach.',false,'It lies posterior to the stomach.'],['The right kidney usually lies slightly lower than the left.',true,'The liver pushes it down.']],'o2_');
+  b=task(6,'🔬','Organ Cards III: Pelvis','Five organs in the smallest cavity.');
+  organCards(b,O.III);
+  tf(b,[['The bladder lies anterior to the uterus.',true],['The rectum lies anterior to the sacrum.',true],['The prostate lies superior to the bladder.',false,'It lies inferior to the bladder.'],['The ovaries lie in the abdominal cavity, next to the kidneys.',false,'They lie in the pelvic cavity.']],'o3_');
+})();
+
+/* ---------------- 7 REGIONS + CLINICAL ---------------- */
+(()=>{
+  const b=task(7,'🩺','Regions &amp; “Where Does It Hurt?”','Learn the nine abdominal regions, then diagnose six patients.');
+  const R=[['right hypochondrium','regio hypochondriaca dextra'],['epigastrium','regio epigastrica'],['left hypochondrium','regio hypochondriaca sinistra'],['right lumbar (flank)','regio lateralis dextra'],['umbilical region','regio umbilicalis'],['left lumbar (flank)','regio lateralis sinistra'],['right iliac fossa','regio inguinalis dextra'],['hypogastrium (suprapubic)','regio pubica'],['left iliac fossa','regio inguinalis sinistra']];
+  const g=h('div','regions');R.forEach(r=>g.appendChild(h('div',null,`${r[0]}<small>${r[1]}</small>`)));b.appendChild(g);
+  b.appendChild(h('div','note','⚠️ The patient\u2019s <b>right</b> is on <b>your left</b> when you face the patient. Quadrants: RUQ, LUQ, RLQ, LLQ.'));
+  mcq(b,[
+   {q:'Sharp pain in the <b>right iliac fossa</b>, which began around the navel. Most likely organ?',o:['Appendix','Spleen','Pancreas','Thymus']},
+   {q:'Pain in the <b>right hypochondrium</b> after a fatty meal, spreading to the right shoulder.',o:['Gallbladder','Spleen','Appendix','Rectum']},
+   {q:'A burning pain in the <b>epigastrium</b> after spicy food.',o:['Stomach','Uterus','Appendix','Right lung']},
+   {q:'A cyclist hits the handlebar and has pain in the <b>left hypochondrium</b> with low blood pressure.',o:['Spleen','Liver','Bladder','Appendix']},
+   {q:'Severe colicky pain from the loin to the groin.',o:['Ureter (kidney stone)','Oesophagus','Thymus','Spinal cord']},
+   {q:'<b>Suprapubic</b> pain and a constant urge to urinate.',o:['Urinary bladder','Pancreas','Spleen','Gallbladder']}],'cl_');
+})();
+
+/* ---------------- 8 POSITION TOOLKIT ---------------- */
+(()=>{
+  const b=task(8,'🧰','Position Toolkit &amp; Gap-fill','Study the toolkit, then choose the correct word for each sentence.');
+  const T=[['superior ↔ inferior','above ↔ below (cranial ↔ caudal)'],['anterior ↔ posterior','in front ↔ behind (ventral ↔ dorsal)'],['medial ↔ lateral','nearer to ↔ farther from the midline'],['proximal ↔ distal','nearer to ↔ farther from the point of origin'],['superficial ↔ deep','nearer to ↔ farther from the surface'],['retroperitoneal','behind the peritoneum']];
+  const t=h('div','tool');T.forEach(x=>t.appendChild(h('div',null,`<b>${x[0]}</b><br>${x[1]}`)));b.appendChild(t);
+  b.appendChild(h('div','note','Useful phrases: <i>lies … to · is bounded by · is continuous with · is adjacent to · at the level of T10 · is related to</i>'));
+  const bank=['superior','inferior','anterior','posterior','medial','lateral','retroperitoneal','deep'];
+  const G=[['The diaphragm lies ___ to the liver.','superior'],['The bladder lies ___ to the rectum.','anterior'],['The lungs lie ___ to the heart.','lateral'],['The left kidney lies ___ to the spleen.','inferior'],['The pancreas is ___ : it lies behind the peritoneum.','retroperitoneal'],['The oesophagus lies ___ to the trachea.','posterior'],['The spleen lies ___ to ribs 9–11.','deep'],['The thymus lies ___ to the two lungs, in the middle of the chest.','medial']];
+  G.forEach((g,i)=>{
+    reg();const d=h('div','gap');const parts=g[0].split('___');
+    const s=h('select');s.innerHTML='<option value="">…</option>'+shuffle(bank).map(w=>`<option>${w}</option>`).join('');
+    s.onchange=()=>{if(!s.value){s.className='';return}if(s.value===g[1]){s.className='good';ok('g'+i)}else s.className='bad'};
+    d.append(parts[0],s,parts[1]);b.appendChild(d);
+  });
+})();
+
+/* ---------------- generic click-matcher ---------------- */
+function matcher(box,pairs,key){
+  reg(pairs.length);
+  const w=h('div','match'),L=h('div','mcol'),R=h('div','mcol');let sl=null,sr=null;
+  const mk=(txt,id,side)=>{
+    const b=h('button','mitem',txt);b.dataset.id=id;
+    b.onclick=()=>{
+      if(b.classList.contains('good'))return;
+      if(side==='L'){if(sl)sl.classList.remove('sel');sl=b}else{if(sr)sr.classList.remove('sel');sr=b}
+      b.classList.add('sel');
+      if(sl&&sr){const a=sl,c=sr;sl=sr=null;
+        if(a.dataset.id===c.dataset.id){[a,c].forEach(x=>{x.classList.remove('sel');x.classList.add('good')});ok(key+a.dataset.id)}
+        else{[a,c].forEach(x=>x.classList.add('bad'));setTimeout(()=>[a,c].forEach(x=>x.classList.remove('bad','sel')),600)}}
+    };return b;
+  };
+  shuffle(pairs.map((p,i)=>[p[0],i])).forEach(x=>L.appendChild(mk(x[0],x[1],'L')));
+  shuffle(pairs.map((p,i)=>[p[1],i])).forEach(x=>R.appendChild(mk(x[0],x[1],'R')));
+  w.append(L,R);box.appendChild(w);
+}
+
+/* ---------------- 9 MATCH IT ---------------- */
+(()=>{
+  const b=task(9,'🧩','Match It: Latin ↔ Position','Click a Latin name on the left, then its position on the right.');
+  matcher(b,[['renes','retroperitoneal, at the level of T12–L3'],['hepar','right hypochondrium, inferior to the diaphragm'],['splen','posterolateral to the stomach, deep to ribs 9–11'],['vesica biliaris','on the inferior surface of the liver'],['appendix vermiformis','arises from the caecum, right iliac fossa'],['cor','middle mediastinum, posterior to the sternum'],['vesica urinaria','posterior to the pubic symphysis'],['glandulae suprarenales','on the superior poles of the kidneys']],'m');
+})();
+
+/* ---------------- 10 WHO AM I ---------------- */
+(()=>{
+  const b=task(10,'🕵️','Who Am I?','Read the riddle and type the organ (English or Latin). Need help? Press the hint.');
+  const R=[[`I\u2019m the largest solid organ in the abdomen. I lie under the diaphragm, mostly on the right. The gallbladder hangs from my lower surface.`,['liver','hepar']],
+   [`I\u2019m a muscular tube behind the trachea. I carry food through the chest and pierce the diaphragm at T10.`,['oesophagus','esophagus']],
+   [`We are bean-shaped and retroperitoneal. Little glands sit on our upper poles like hats. The right one of us lies a bit lower.`,['kidneys','kidney','renes','ren']],
+   [`I\u2019m a small worm-like pouch attached to the caecum in the right iliac fossa. Doctors worry when I hurt.`,['appendix','appendix vermiformis']],
+   [`I lie to the left of the stomach, behind the ribs. I filter the blood, but you can live without me.`,['spleen','splen','lien']],
+   [`I\u2019m a muscular sac in the pelvis, behind the pubic symphysis. In women, the uterus sits behind me.`,['bladder','urinary bladder','vesica urinaria']]];
+  R.forEach((r,i)=>{
+    reg();const d=h('div','riddle');d.innerHTML=`<p>“${r[0]}”</p>`;
+    const inp=h('input');inp.type='text';inp.placeholder='Who am I?';
+    const c=h('button','btn','Check'),hint=h('button','btn alt','💡 Hint'),fb=h('span','fb');fb.style.marginLeft='8px';
+    c.onclick=()=>{if(r[1].map(norm).includes(norm(inp.value))){inp.className='good';fb.textContent='✔ '+r[1][0]+' / '+r[1][r[1].length-1];ok('r'+i)}else inp.className='bad'};
+    hint.onclick=()=>{fb.textContent=`Starts with “${r[1][0][0].toUpperCase()}” – ${r[1][0].length} letters`;fb.style.color='#6d6a75'};
+    inp.onkeydown=e=>{if(e.key==='Enter')c.click()};
+    d.append(inp,' ',c,' ',hint,fb);b.appendChild(d);
+  });
+})();
+
+/* ---------------- 11 ERROR SPY ---------------- */
+(()=>{
+  const b=task(11,'🔍','Error Spy','Each sentence hides ONE mistake – about position or about language. Click the wrong word, then type the correction.');
+  const E=[['The liver lies in the [left] upper quadrant, [inferior] to the [diaphragm].',0,['right']],
+   ['The oesophagus passes through the [diaphragm] at T10 and then joins the [stomach] in the [thoracic] cavity.',2,['abdominal']],
+   ['The kidneys are [intraperitoneal] organs: they lie [behind] the peritoneum, at the level of [T12–L3].',0,['retroperitoneal']],
+   ['The pancreas lies [anterior] to the [stomach], and its tail reaches the [spleen].',0,['posterior']],
+   ['The heart is [situate] in the middle mediastinum, [between] the two lungs.',0,['situated']],
+   ['The right lung [have] three lobes, while the left lung [has] only two.',0,['has']],
+   ['The ureters [carries] urine from the kidneys to the [bladder].',0,['carry']],
+   ['The small intestine is [more long] than the large intestine, but it is [narrower].',0,['longer']]];
+  E.forEach((e,k)=>{
+    reg();const d=h('div','spyrow');let idx=0;
+    const html=e[0].replace(/\[(.+?)\]/g,(m,w)=>`<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML=`<div>${html}</div>`;const fix=h('div');fix.style.marginTop='6px';d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp=>sp.onclick=()=>{
+      if(sp.classList.contains('found'))return;
+      if(+sp.dataset.i!==e[1]){sp.classList.add('wrong');setTimeout(()=>sp.classList.remove('wrong'),600);return}
+      sp.classList.add('wrong');
+      fix.innerHTML='';const inp=h('input');inp.type='text';inp.placeholder='Correct word…';
+      const c=h('button','btn','Fix it');
+      c.onclick=()=>{if(e[2].map(norm).includes(norm(inp.value))){sp.classList.remove('wrong');sp.classList.add('found');sp.textContent=e[2][0];fix.innerHTML='<span class="fb">✔ Well spotted!</span>';ok('e'+k)}else inp.className='bad'};
+      inp.onkeydown=ev=>{if(ev.key==='Enter')c.click()};
+      fix.append(inp,' ',c);inp.focus();
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 12 CAVITY SORTER ---------------- */
+(()=>{
+  const b=task(12,'🗂️','Cavity Sorter','Drag each organ into the correct cavity (or tap an organ, then tap a cavity). Press “Check”.');
+  const I=[['brain','c'],['spinal cord','c'],['heart','t'],['lungs','t'],['trachea','t'],['thymus','t'],['oesophagus','t'],['liver','a'],['stomach','a'],['spleen','a'],['pancreas','a'],['kidneys','a'],['gallbladder','a'],['appendix','a'],['adrenal glands','a'],['bladder','p'],['uterus','p'],['rectum','p'],['prostate','p'],['ovary','p']];
+  reg(I.length);let armed=null,drag=null;
+  const zoneEl=(z,label,cls)=>{const d=h('div','zone '+(cls||''));d.dataset.z=z;d.innerHTML=(label?`<h4>${label}</h4>`:'')+'<div class="drop"></div>';
+    d.ondragover=e=>e.preventDefault();
+    d.ondrop=e=>{e.preventDefault();if(drag){move(drag,d)}};
+    d.onclick=()=>{if(armed)move(armed,d)};return d};
+  const move=(chip,z)=>{z.querySelector('.drop').appendChild(chip);chip.classList.remove('armed','good','bad');armed=null;drag=null};
+  const pool=zoneEl('pool','Organs','pool');b.appendChild(pool);
+  const zb=h('div','zones');[['c','Cranial / vertebral'],['t','Thoracic'],['a','Abdominal'],['p','Pelvic']].forEach(z=>zb.appendChild(zoneEl(z[0],z[1])));b.appendChild(zb);
+  shuffle(I).forEach((o,i)=>{const c=h('div','pchip',o[0]);c.draggable=true;c.dataset.b=o[1];c.dataset.i=i;
+    c.ondragstart=()=>{drag=c};
+    c.onclick=e=>{e.stopPropagation();if(armed)armed.classList.remove('armed');armed=(armed===c)?null:c;if(armed)c.classList.add('armed')};
+    pool.querySelector('.drop').appendChild(c)});
+  const res=h('span','fb'),btn=h('button','btn','Check');
+  btn.onclick=()=>{let n=0;
+    zb.querySelectorAll('.zone').forEach(z=>z.querySelectorAll('.pchip').forEach(c=>{if(z.dataset.z===c.dataset.b){c.classList.add('good');c.classList.remove('bad');n++;ok('s'+c.dataset.i)}else{c.classList.add('bad');c.classList.remove('good')}}));
+    res.textContent=` ${n} / ${I.length} correct`;};
+  b.append(btn,res);
+  b.appendChild(h('div','note','Hint: the oesophagus starts in the neck but spends most of its journey in the chest. The kidneys sit behind the peritoneum in the abdomen.'));
+})();
+
+/* ---------------- ordering helper ---------------- */
+function orderer(box,seq,key){
+  reg(1);let cur=shuffle(seq);while(cur.join()===seq.join())cur=shuffle(seq);
+  const list=h('ol','order');
+  const draw=()=>{list.innerHTML='';cur.forEach((t,i)=>{const li=h('li','oitem');li.innerHTML=`<span>${t}</span>`;
+    const u=h('button','mini','↑'),d=h('button','mini','↓');
+    u.onclick=()=>{if(i>0){[cur[i-1],cur[i]]=[cur[i],cur[i-1]];draw()}};
+    d.onclick=()=>{if(i<cur.length-1){[cur[i+1],cur[i]]=[cur[i],cur[i+1]];draw()}};
+    li.append(u,d);list.appendChild(li)})};
+  draw();
+  const btn=h('button','btn','Check the route'),fb=h('span','fb');
+  btn.onclick=()=>{let all=true;[...list.children].forEach((li,i)=>{const g=cur[i]===seq[i];li.classList.toggle('good',g);li.classList.toggle('bad',!g);if(!g)all=false});
+    fb.textContent=all?' ✔ Perfect journey!':' Green = right place. Keep moving the red ones.';if(all)ok(key)};
+  box.append(list,btn,fb);
+}
+
+/* ---------------- 13 CASE + FOLLOW THE FOOD ---------------- */
+(()=>{
+  const b=task(13,'📖','Case Study &amp; Follow the Food','Read the case, answer the questions, then rebuild the path of a sandwich through the body.');
+  b.appendChild(h('div','reading',`<b>Case: Olena, 19</b><br>Olena, a second-year student, comes to the emergency department with abdominal pain. It began yesterday evening as a dull ache around her <i>umbilicus</i> (navel). Overnight the pain moved to the <i>right iliac fossa</i> and became sharp. She feels nauseous and has a mild fever. On palpation, the nurse finds tenderness at <i>McBurney\u2019s point</i>, about two-thirds of the way from the umbilicus to the right anterior superior iliac spine. The doctor suspects appendicitis.<br><br>The appendix is a narrow, worm-shaped pouch attached to the caecum, at the beginning of the large intestine. Because it lies close to the right ovary, the right ureter and the urinary bladder, other conditions can cause similar pain. So the team also tests a urine sample and orders a pelvic ultrasound.`));
+  mcq(b,[{q:'Where did Olena\u2019s pain begin?',o:['Around the umbilicus','In the epigastrium','In the left hypochondrium','In the suprapubic region']},
+   {q:'Which organ is the appendix attached to?',o:['The caecum','The stomach','The rectum','The liver']},
+   {q:'Why does the team order a urine test and pelvic ultrasound?',o:['Neighbouring organs (ovary, ureter, bladder) can cause similar pain','Appendicitis always affects the bladder','The doctor wants to remove the ovary','The appendix lies in the pelvic cavity only']},
+   {q:'McBurney\u2019s point is found in which region?',o:['Right iliac fossa','Left iliac fossa','Epigastrium','Right hypochondrium']}],'cs_');
+  b.appendChild(h('h3',null,'🥪 Follow the Food'));b.lastChild.style.margin='16px 0 6px';
+  orderer(b,['mouth (os)','oesophagus','stomach (ventriculus)','duodenum','jejunum','ileum','caecum','ascending colon','transverse colon','descending colon','sigmoid colon','rectum'],'food');
+})();
+
+/* ---------------- 14 TRANSLATION HUB ---------------- */
+(()=>{
+  const b=task(14,'🌍','Translation Hub','Your glossary: English – Latin – Ukrainian. Tick a box to blur a column, then tap a blurred cell to peek. Quiz yourself!');
+  const T=[['brain','encephalon','головний мозок'],['spinal cord','medulla spinalis','спинний мозок'],['trachea','trachea','трахея'],['lungs','pulmones','легені'],['heart','cor','серце'],['oesophagus','oesophagus','стравохід'],['thymus','thymus','вилочкова залоза (тимус)'],['diaphragm','diaphragma','діафрагма'],['liver','hepar','печінка'],['gallbladder','vesica biliaris','жовчний міхур'],['stomach','ventriculus (gaster)','шлунок'],['spleen','splen (lien)','селезінка'],['pancreas','pancreas','підшлункова залоза'],['small intestine','intestinum tenue','тонка кишка'],['large intestine','intestinum crassum','товста кишка'],['appendix','appendix vermiformis','апендикс (червоподібний відросток)'],['kidneys','renes','нирки'],['adrenal glands','glandulae suprarenales','надниркові залози'],['ureters','ureteres','сечоводи'],['bladder','vesica urinaria','сечовий міхур'],['uterus','uterus','матка'],['ovary','ovarium','яєчник'],['prostate','prostata','передміхурова залоза'],['rectum','rectum','пряма кишка'],['peritoneum','peritoneum','очеревина'],['mediastinum','mediastinum','середостіння'],['superior','superior','верхній'],['inferior','inferior','нижній'],['anterior','anterior','передній'],['posterior','posterior','задній'],['medial','medialis','присередній (медіальний)'],['lateral','lateralis','бічний (латеральний)'],['retroperitoneal','—','заочеревинний']];
+  const ctl=h('div');ctl.style.margin='0 0 10px';
+  const tb=h('table');
+  ctl.innerHTML=['en:Hide English','la:Hide Latin','ua:Hide Ukrainian'].map(x=>{const[k,l]=x.split(':');return `<label style="margin-right:14px"><input type="checkbox" data-k="${k}"> ${l}</label>`}).join('');
+  ctl.querySelectorAll('input').forEach(i=>i.onchange=()=>{tb.classList.toggle('hide-'+i.dataset.k,i.checked);tb.querySelectorAll('.peek').forEach(c=>c.classList.remove('peek'))});
+  tb.innerHTML='<tr><th>English</th><th>Latin</th><th>Українська</th></tr>'+T.map(r=>`<tr><td class="en">${r[0]}</td><td class="la" style="font-style:italic;color:#7a4fa3">${r[1]}</td><td class="ua">${r[2]}</td></tr>`).join('');
+  tb.onclick=e=>{if(e.target.tagName==='TD')e.target.classList.toggle('peek')};
+  const cp=h('button','btn alt','📋 Copy for Quizlet'),fb=h('span','fb');
+  cp.onclick=()=>{const txt=T.map(r=>`${r[0]} — ${r[1]}\t${r[2]}`).join('\n');
+    const done2=()=>fb.textContent=' Copied! Paste into Quizlet → Import.';
+    if(navigator.clipboard)navigator.clipboard.writeText(txt).then(done2,()=>{});else{const t=h('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();done2()}};
+  b.append(ctl,tb,h('div'),cp,fb);
+})();
+
+/* ---------------- 15 SPEAKING ROULETTE + WRITING LOG ---------------- */
+(()=>{
+  const b=task(15,'🎤','Tour-guide Roulette &amp; Writing Log','You are a tour guide inside the human body. Spin, speak for one minute, then write.');
+  const CH=['Say where it lies, using at least two position words (e.g. posterior to, lateral to).','Give the Latin name and spell it aloud.','Name two neighbouring organs and describe how they are related.','Explain the organ to a worried patient in simple words.','Give one clinical fact a nurse should know about it.','Say which cavity it is in and which membrane covers it.'];
+  const sb=h('div','spinbox');
+  sb.innerHTML='<div class="big" id="spOrg">Press SPIN</div><div id="spLa" class="la"></div><div id="spCh" style="margin:10px 0"></div><div id="spT" style="font-size:1.6rem;font-weight:800"></div>';
+  const spin=h('button','btn','🎰 SPIN'),tm=h('button','btn alt','⏱ Start 60 s');
+  let iv=null;
+  spin.onclick=()=>{const o=ALL[Math.floor(Math.random()*ALL.length)],c=shuffle(CH).slice(0,2);
+    $('#spOrg').textContent=o[0];$('#spLa').textContent=o[1];$('#spCh').innerHTML='🎯 <b>Mission 1:</b> '+c[0]+'<br>🎯 <b>Mission 2:</b> '+c[1];$('#spT').textContent='';clearInterval(iv)};
+  tm.onclick=()=>{clearInterval(iv);let t=60;$('#spT').textContent=t;iv=setInterval(()=>{t--;$('#spT').textContent=t>0?t:'Time! 👏';if(t<=0)clearInterval(iv)},1000)};
+  sb.append(spin,' ',tm);b.appendChild(sb);
+  b.appendChild(h('h3',null,'✍️ Writing log'));b.lastChild.style.margin='14px 0 4px';
+  b.appendChild(h('p','instr','Write 5–7 sentences: <i>“A guided tour of my favourite organ.”</i> Say where it lies, what it is related to and give its Latin name. Use at least <b>4</b> position words.'));
+  const W=['superior','inferior','anterior','posterior','medial','lateral','retroperitoneal','adjacent','deep','superficial','proximal','distal','bounded by','continuous with'];
+  const ta=h('textarea');ta.placeholder='Welcome to the tour! On your left you can see…';
+  try{ta.value=localStorage.getItem('l11_log')||''}catch(e){}
+  const wd=h('div','words');wd.innerHTML=W.map(w=>`<span>${w}</span>`).join('');
+  const cnt=h('div','fb');cnt.style.color='#6d6a75';reg();
+  const upd2=()=>{const t=ta.value.toLowerCase();let n=0;[...wd.children].forEach((s,i)=>{const on=t.includes(W[i]);s.classList.toggle('on',on);if(on)n++});
+    const wc=(ta.value.trim().match(/\S+/g)||[]).length;cnt.textContent=`${wc} words · ${n} position words used`;
+    if(n>=4&&wc>=40)ok('write');try{localStorage.setItem('l11_log',ta.value)}catch(e){}};
+  ta.oninput=upd2;b.append(ta,wd,cnt);upd2();
+})();
+</script>
+</body>
+</html>
