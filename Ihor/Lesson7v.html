@@ -78,12 +78,14 @@
 
     /* ====== SHARED CARDS ====== */
     .scenario-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--theme-primary); }
-    
+    .board-game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 22px; }
+    .board-tile { background: var(--white); border: 2px solid var(--theme-primary); border-radius: var(--radius-md); padding: 18px 20px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); display: flex; align-items: center; }
+
     .grammar-table { width: 100%; border-collapse: collapse; margin-top: 22px; font-size: 0.95rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--gray-200); background: var(--white); }
     .grammar-table thead th { background: var(--ink); color: var(--white); padding: 13px 16px; text-align: left; font-size: 0.82rem; letter-spacing: 0.5px; text-transform: uppercase; }
-    .grammar-table tbody td { padding: 13px 16px; border-bottom: 1px solid var(--gray-200); vertical-align: middle; }
+    .grammar-table tbody td { padding: 13px 16px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
     .grammar-table tbody tr:nth-child(even) { background: var(--gray-100); }
-    .form-chip { display: inline-block; font-weight: 800; color: var(--white); background: var(--grape); padding: 4px 14px; border-radius: 50px; font-size: 0.85rem; margin-bottom: 4px; }
+    .form-chip { display: inline-block; font-weight: 800; color: var(--white); background: var(--theme-primary); padding: 2px 12px; border-radius: 50px; font-size: 0.78rem; margin-bottom: 4px; }
 
     .practice-list { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-top: 22px; counter-reset: pc; }
     .practice-list li { background: var(--white); padding: 15px 20px 15px 46px; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); position: relative; }
@@ -93,20 +95,36 @@
 
     .watch-out { background: rgba(255,193,69,0.18); border-left: 4px solid var(--sun-dark); padding: 14px 18px; margin-top: 16px; border-radius: 0 8px 8px 0; }
 
+    .flowchart { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 28px 0; background: var(--cream); padding: 36px; border-radius: var(--radius-lg); border: 3px dashed var(--theme-primary); }
+    .flow-bubble { background: var(--white); padding: 12px 22px; border-radius: 50px; font-weight: 600; color: var(--ink); box-shadow: var(--shadow-sm); border: 2px solid var(--theme-primary); text-align: center; max-width: 540px; }
+    .flow-bubble.b-side { border-color: var(--coral); background: var(--coral); color: var(--white); }
+    .flow-arrow { color: var(--gray-400); font-size: 1.4rem; }
+
+    /* ====== VOCAB FLIP CARDS ====== */
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; margin-top: 22px; }
+    .vocab-card { position: relative; height: 140px; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); border: 2px solid var(--theme-light); }
+    .vocab-front { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, var(--theme-primary) 0%, var(--grape) 100%); color: var(--white); font-weight: 800; font-size: 1.05rem; padding: 12px; transition: opacity 0.3s ease; z-index: 2; }
+    .vocab-card:hover .vocab-front { opacity: 0; pointer-events: none; }
+    .vocab-def { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; text-align: center; background: var(--white); color: var(--gray-800); font-size: 0.86rem; padding: 16px; z-index: 1; }
+
     /* ====== ERROR SPY ====== */
-    .errorspy-sentence { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; font-size: 1.05rem; }
-    .es-word { cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: background 0.2s; border-bottom: 2px dotted var(--coral); }
+    .errorspy-sentence { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; }
+    .es-word { cursor: pointer; padding: 1px 4px; border-radius: 4px; transition: background 0.2s; border-bottom: 2px dotted var(--coral); }
     .es-word:hover { background: rgba(255,107,107,0.18); }
-    .es-word.correct-click { background: var(--theme-primary); color: var(--white); font-weight: 700; border-bottom: none; }
+    .es-word.correct-click { background: var(--theme-primary); color: var(--white); font-weight: 700; border-bottom: none;}
     .es-fixed { color: var(--white); font-weight: 800; }
 
-    /* ====== INLINE MULTIPLE CHOICE ====== */
-    .inline-choice { display: inline-flex; gap: 4px; background: var(--gray-100); padding: 4px; border-radius: 8px; border: 1px solid var(--gray-200); align-items: center; }
-    .inline-choice button { border: none; background: transparent; padding: 4px 10px; border-radius: 6px; font-weight: 600; cursor: pointer; color: var(--gray-600); transition: all 0.2s; }
-    .inline-choice button:hover { background: var(--white); }
-    .inline-choice button.correct { background: var(--theme-primary); color: var(--white); }
-    .inline-choice button.wrong { background: var(--coral); color: var(--white); }
-    
+    /* ====== TRUE/FALSE ====== */
+    .tf-item { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .tf-buttons button { border: 2px solid var(--gray-200); background: var(--white); padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; margin-left: 6px; }
+    .tf-buttons button.correct { background: var(--theme-primary); border-color: var(--theme-primary); color: var(--white); }
+    .tf-buttons button.wrong { background: var(--coral); border-color: var(--coral-dark); color: var(--white); }
+    .tf-explain { font-size: 0.85rem; color: var(--gray-600); width: 100%; display: none; margin-top: 6px; }
+
+    /* ====== REVEAL TOGGLE ====== */
+    .reveal-btn { background: var(--grape); color: var(--white); border: none; padding: 8px 16px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; margin-top: 10px; }
+    .reveal-box { display: none; background: var(--grape-light); border-left: 4px solid var(--grape); padding: 12px 16px; margin-top: 10px; border-radius: 0 8px 8px 0; font-size: 0.9rem; }
+
     /* ====== STORY SEQUENCING GAME ====== */
     .story-strips { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
     .story-strip { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; cursor: grab; font-weight: 600; display: flex; align-items: center; gap: 12px; }
@@ -115,13 +133,10 @@
     .story-strip .handle { color: var(--theme-primary); font-size: 1.2rem; cursor: grab; }
     .story-strip.story-correct { border-color: var(--theme-primary); background: var(--theme-light); }
     .story-strip.story-wrong { border-color: var(--coral-dark); background: #FFD9D9; }
+    .match-status { text-align: center; margin-top: 16px; font-weight: 700; color: var(--grape); }
     .game-controls { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; justify-content: center; }
     .btn-primary { background: var(--theme-primary); color: var(--white); border: none; padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; }
     .btn-secondary { background: var(--white); color: var(--gray-800); border: 2px solid var(--gray-200); padding: 10px 20px; border-radius: 50px; font-weight: 700; cursor: pointer; }
-    
-    /* ====== REVEAL TOGGLE ====== */
-    .reveal-btn { background: var(--grape); color: var(--white); border: none; padding: 8px 16px; border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem; margin-top: 10px; }
-    .reveal-box { display: none; background: var(--grape-light); border-left: 4px solid var(--grape); padding: 12px 16px; margin-top: 10px; border-radius: 0 8px 8px 0; font-size: 0.95rem; }
 
     /* ====== GAME CARD ====== */
     .game-card-box { background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius-lg); padding: 32px; text-align: center; box-shadow: var(--shadow-md); margin-top: 22px; }
@@ -130,6 +145,74 @@
     .game-btn { background: linear-gradient(120deg, var(--coral) 0%, var(--sun) 100%); color: var(--white); border: none; padding: 12px 28px; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; box-shadow: var(--shadow-sm); margin: 6px; }
     .game-btn.alt { background: linear-gradient(120deg, var(--theme-primary) 0%, var(--grape) 100%); }
 
+    /* ====== PRONUNCIATION ====== */
+    .pron-item { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 10px; flex-wrap: wrap; }
+    .listen-btn { background: var(--theme-primary); color: var(--white); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; flex-shrink: 0; }
+    .syllable { cursor: pointer; padding: 1px 3px; border-radius: 3px; }
+    .syllable.stressed { color: var(--coral-dark); font-weight: 800; text-decoration: underline; }
+
+    /* ====== POLL ====== */
+    .poll-options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .poll-opt { background: var(--white); border: 2px solid var(--gray-200); padding: 10px 18px; border-radius: 50px; cursor: pointer; font-weight: 600; }
+    .poll-opt.selected { background: var(--sun-light); border-color: var(--sun-dark); }
+
+    /* ====== WHITEBOARD ====== */
+    .whiteboard-container { border: 2px solid var(--gray-200); border-radius: var(--radius-lg); background: var(--white); overflow: hidden; margin-top: 24px; box-shadow: var(--shadow-md); }
+    .wb-toolbar { background: var(--ink); padding: 12px 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .wb-btn { background: var(--gray-800); color: var(--white); border: 1px solid rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+    .wb-btn:hover, .wb-btn.active { background: var(--theme-primary); }
+    .wb-color { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--white); cursor: pointer; padding: 0; }
+    canvas { display: block; width: 100%; height: 480px; background: var(--white); cursor: crosshair; }
+
+    /* ====== HOMEWORK ====== */
+    .homework-section { background: linear-gradient(160deg, var(--ink) 0%, #3A3F63 100%); padding: 70px 24px; }
+    .homework-inner { max-width: 820px; margin: 0 auto; color: var(--white); }
+    .homework-inner .section-label { background: rgba(255,193,69,0.2); color: var(--sun-light); }
+    .homework-inner .section-title { color: var(--white); }
+    .homework-inner .section-desc { color: rgba(255,255,255,0.75); }
+    .hw-card { background: var(--white); color: var(--gray-800); border-radius: var(--radius-md); padding: 20px 22px; margin-bottom: 14px; }
+    .hw-card .hw-q { font-weight: 700; margin-bottom: 10px; }
+    .hw-options label { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; }
+    .hw-fill input[type=text] { border: 2px solid var(--gray-200); border-radius: 8px; padding: 8px 12px; font-size: 1rem; width: 240px; }
+    .hw-feedback { margin-top: 10px; font-weight: 700; font-size: 0.9rem; display: none; }
+    .hw-feedback.correct { color: var(--theme-primary); }
+    .hw-feedback.wrong { color: var(--coral-dark); }
+    .hw-score-box { text-align: center; background: rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 24px; margin-top: 24px; font-size: 1.4rem; font-weight: 800; display: none; }
+    .hw-check-btn { display: block; margin: 26px auto 0; background: var(--sun); color: var(--ink); border: none; padding: 14px 34px; border-radius: 50px; font-weight: 800; font-size: 1.05rem; cursor: pointer; }
+
+    /* ====== SUM UP ====== */
+    .sum-up-box { background: var(--theme-primary); color: var(--white); padding: 32px; border-radius: var(--radius-lg); text-align: center; margin-top: 40px; }
+    .sum-up-box h2 { color: var(--white); margin-bottom: 16px; }
+
+    /* ====== FABs & MODAL ====== */
+    .floating-actions { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 1000; }
+    .fab-btn { background: var(--coral); color: var(--white); border: none; width: 56px; height: 56px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center; }
+    .fab-btn:hover { transform: translateY(-3px); }
+    .quizlet-btn { background: #4255FF; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(34,34,59,0.6); backdrop-filter: blur(4px); z-index: 2000; justify-content: center; align-items: center; }
+    .modal-content { background: var(--white); padding: 30px; border-radius: var(--radius-lg); width: 90%; max-width: 600px; box-shadow: var(--shadow-lg); position: relative; }
+    .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--gray-600); }
+    .word-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .word-row input { flex: 1; padding: 10px 14px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 1rem; }
+    #wordList { max-height: 350px; overflow-y: auto; margin: 20px 0; padding-right: 10px; }
+
+    /* ====== LIVE CURSORS ====== */
+    .remote-cursor { position: absolute; pointer-events: none; z-index: 999999; transition: top 0.4s linear, left 0.4s linear; display: flex; align-items: flex-start; opacity: 0; animation: fadeInCursor 0.3s forwards; }
+    @keyframes fadeInCursor { to { opacity: 1; } }
+    .remote-cursor svg { width: 22px; height: 22px; transform: rotate(-15deg); filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.3)); }
+    .remote-cursor-label { color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-left: -5px; margin-top: 15px; white-space: nowrap; box-shadow: var(--shadow-sm); }
+
+    /* ====== VIDEO ====== */
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 18px; background: var(--ink); }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+    @media (max-width: 768px) {
+        .hero { padding: 64px 20px 56px; }
+        .section { padding: 48px 16px; }
+        .nav-links { display: none; }
+        canvas { height: 380px; }
+        .floating-actions { bottom: 20px; right: 20px; }
+    }
 </style>
 </head>
 <body>
@@ -155,260 +238,561 @@
 <nav class="nav-bar">
     <div class="nav-inner">
         <a href="#" class="nav-logo"><span class="dot"></span> <span contenteditable="true">C1 Advanced</span></a>
-        <ul class="nav-links" id="navTabsContainer">
-            <li><a href="#theory1" contenteditable="true">Habits & Narrative</a></li>
-            <li><a href="#theory2" contenteditable="true">Modals & Regret</a></li>
-            <li><a href="#theory3" contenteditable="true">Future Past & Inversion</a></li>
-            <li><a href="#ex1" contenteditable="true">Ex 1: Editor</a></li>
-            <li><a href="#ex2" contenteditable="true">Ex 2: Transformation</a></li>
-            <li><a href="#ex3" contenteditable="true">Ex 3: Deduction</a></li>
-            <li><a href="#ex4" contenteditable="true">Ex 4: Sequencing</a></li>
+        <ul class="nav-links" id="navTabsContainer" style="list-style:none; display:flex; gap:4px; align-items:center;">
+            <li><a href="#" onclick="window.addNewTab(event)" style="background: var(--theme-primary); color: white; padding: 4px 10px; font-weight: 800; border-radius: 50px;" title="Add Custom Tab">+</a></li>
+            <li><a href="#recap" contenteditable="true">Recap</a></li>
+            <li><a href="#warmup" contenteditable="true">Warm-Up</a></li>
+            <li><a href="#vocab" contenteditable="true">Vocabulary</a></li>
+            <li><a href="#reading" contenteditable="true">Reading</a></li>
+            <li><a href="#grammar" contenteditable="true">Theory</a></li>
+            <li><a href="#ex1" contenteditable="true">Practice</a></li>
+            <li><a href="#speaking" contenteditable="true">Speaking</a></li>
+            <li><a href="#video" contenteditable="true">Video</a></li>
+            <li><a href="#roleplay" contenteditable="true">Role-Play</a></li>
+            <li><a href="#homework" contenteditable="true">Homework</a></li>
         </ul>
     </div>
 </nav>
 
-<!-- ====== THEORY 1: USED TO / WOULD & NARRATIVE PRESENT ====== -->
-<section class="section" id="theory1">
+<!-- ====== TASK 1: RECAP ====== -->
+<section class="section" id="recap">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Theory 1</span>
-        <h2 class="section-title" contenteditable="true">Past Habits & Vivid Storytelling</h2>
-        <p class="section-desc" contenteditable="true">When we tell stories about the past, we don't just use the Past Simple. We use specific structures to highlight habits, states, or to bring the listener directly into the action[cite: 4].</p>
+        <span class="section-label" contenteditable="true">Task 1 · Recap</span>
+        <h2 class="section-title" contenteditable="true">System Reboot: Lesson 6</h2>
+        <p class="section-desc" contenteditable="true">Let's quickly check the logs from our previous lesson on Existentialism and Past Perfect vs. Past Simple.</p>
 
-        <table class="grammar-table">
-            <thead>
-                <tr>
-                    <th contenteditable="true">Structure</th>
-                    <th contenteditable="true">Usage & Constraints</th>
-                    <th contenteditable="true">Example[cite: 4]</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td contenteditable="true"><span class="form-chip">Used to</span></td>
-                    <td contenteditable="true">Past habits <strong>AND</strong> past states. Can be used for things that were true but aren't anymore (live, be, know, have).</td>
-                    <td contenteditable="true"><em>She used to be certain about everything.</em> (State)</td>
-                </tr>
-                <tr>
-                    <td contenteditable="true"><span class="form-chip">Would</span></td>
-                    <td contenteditable="true">Past habits/actions <strong>ONLY</strong>. Cannot be used with stative verbs. Usually requires an established past timeframe.</td>
-                    <td contenteditable="true"><em>She would sit in row three.</em> (Repeated action)</td>
-                </tr>
-                <tr>
-                    <td contenteditable="true"><span class="form-chip" style="background:var(--ink);">Narrative Present</span></td>
-                    <td contenteditable="true">Using Present Simple/Continuous to tell a past story. Creates vivid immediacy for synopses, jokes, anecdotes, or film plots.</td>
-                    <td contenteditable="true"><em>In the final scene, the hero walks away and doesn't look back.</em></td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="watch-out" contenteditable="true">⚠️ <strong>Watch out:</strong> You cannot say "I <em>would</em> live in London." (Live is a state). You must say "I <em>used to</em> live in London."</div>
+        <h3 contenteditable="true" style="margin-bottom: 10px; color: var(--grape);">🐞 Exercise A: Error Spy</h3>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">1. By the time he looked in the mirror, his ego <span class="es-word" data-correct="had already destroyed" onclick="fixError(this)">already destroyed</span> his life.</span></div>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">2. I <span class="es-word" data-correct="woke up" onclick="fixError(this)">had woke up</span> and realized society was full of lies.</span></div>
+        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">3. Before she finally faced her fears, she <span class="es-word" data-correct="had shut down" onclick="fixError(this)">was shutting down</span> completely.</span></div>
+        <p style="font-size:0.85rem; color:var(--gray-600); margin-top:6px;" contenteditable="true"><em>💡 Click the error to fix the narrative sequence.</em></p>
+
     </div>
 </section>
 
-<!-- ====== THEORY 2: PAST MODALS & UNREAL PAST ====== -->
-<section class="section" id="theory2">
+<!-- ====== TASK 2: WARM-UP ====== -->
+<section class="section" id="warmup">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Theory 2</span>
-        <h2 class="section-title" contenteditable="true">Deduction, Criticism & Alternate Histories</h2>
-        <p class="section-desc" contenteditable="true">How do we talk about things we are sure happened, things that were a mistake, or things that never happened at all?[cite: 4]</p>
+        <span class="section-label" contenteditable="true">Task 2 · Warm-Up</span>
+        <h2 class="section-title" contenteditable="true">The Weight of Hindsight</h2>
+        <p class="section-desc" contenteditable="true">Discuss these questions about memory, regret, and how we tell our own stories.</p>
 
-        <table class="grammar-table">
-            <thead>
-                <tr>
-                    <th contenteditable="true">Category</th>
-                    <th contenteditable="true">Modals / Structures</th>
-                    <th contenteditable="true">Example[cite: 4]</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td contenteditable="true" style="font-weight: 700;">Past Modals (Deduction)</td>
-                    <td contenteditable="true">
-                        <strong>Must have + V3:</strong> 99% sure it happened.<br>
-                        <strong>Can't / Couldn't have + V3:</strong> 99% sure it didn't.
-                    </td>
-                    <td contenteditable="true"><em>He must have known.</em></td>
-                </tr>
-                <tr>
-                    <td contenteditable="true" style="font-weight: 700;">Past Modals (Regret/Criticism)</td>
-                    <td contenteditable="true">
-                        <strong>Should have / Ought to have + V3:</strong> It was a good idea, but didn't happen.<br>
-                        <strong>Needn't have + V3:</strong> You did it, but it wasn't necessary.
-                    </td>
-                    <td contenteditable="true"><em>She shouldn't have left.<br>They needn't have worried.</em></td>
-                </tr>
-                <tr>
-                    <td contenteditable="true" style="font-weight: 700;">Unreal Past (Alternate Histories)</td>
-                    <td contenteditable="true">
-                        <strong>If only / I wish + Past Perfect:</strong> Regret about the past.<br>
-                        <strong>Had I known (Inverted 3rd Conditional):</strong> Formal alternate history.
-                    </td>
-                    <td contenteditable="true"><em>If only I'd asked.<br>Had I known, I'd have stayed.<br>I wish he had told me.</em></td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true">Do you tend to look back at your childhood through "rose-tinted glasses"?</div>
+            <div class="board-tile" contenteditable="true">What is a habit you used to have that you are incredibly glad you broke?</div>
+            <div class="board-tile" contenteditable="true">Have you ever had a moment where you thought, "I should have known better"?</div>
+            <div class="board-tile" contenteditable="true">If you could change one minor decision from your past, what would it be?</div>
+            <div class="board-tile" contenteditable="true">Why do people love reading alternate history novels or watching movies about time travel?</div>
+            <div class="board-tile" contenteditable="true">When you tell a funny story, do you naturally switch into the present tense? ("So I walk in, and he says...")</div>
+        </div>
+
+        <h3 contenteditable="true" style="margin: 30px 0 6px; color: var(--grape);">⚡ Quick Poll: How do you deal with regret?</h3>
+        <div class="poll-options" id="pollOptions">
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">🧠 Over-analyze it forever</div>
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">🗑 Repress it immediately</div>
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">😂 Turn it into a funny story</div>
+            <div class="poll-opt" onclick="selectPoll(this)" contenteditable="true">🧘 Accept it as fate</div>
+        </div>
     </div>
 </section>
 
-<!-- ====== THEORY 3: FUTURE IN THE PAST & INVERSION ====== -->
-<section class="section" id="theory3">
+<!-- ====== TASK 3: VOCABULARY ====== -->
+<section class="section" id="vocab">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Theory 3</span>
-        <h2 class="section-title" contenteditable="true">Destiny & Dramatic Tension</h2>
-        <p class="section-desc" contenteditable="true">Advanced storytelling requires pacing. We use these structures to build anticipation or show what a character believed was going to happen[cite: 4].</p>
+        <span class="section-label" contenteditable="true">Task 3 · Vocabulary</span>
+        <h2 class="section-title" contenteditable="true">The Memory Lexicon</h2>
+        <p class="section-desc" contenteditable="true">Hover over each card to reveal the definition. These words will help us discuss nostalgia, alternate histories, and deduction.</p>
+
+        <div class="vocab-grid">
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Hindsight</div><div class="vocab-def" contenteditable="true">Understanding of a situation or event only after it has happened.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Rose-tinted</div><div class="vocab-def" contenteditable="true">Viewed in a positive light; overly optimistic or nostalgic.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">To Reminisce</div><div class="vocab-def" contenteditable="true">To indulge in enjoyable recollection of past events.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Lingering</div><div class="vocab-def" contenteditable="true">Lasting for a long time or slow to end (often a feeling or regret).</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Foregone Conclusion</div><div class="vocab-def" contenteditable="true">A result that is obvious and certain before it actually happens.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Retrospect</div><div class="vocab-def" contenteditable="true">A survey or review of a past course of events or period of time.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">Evocative</div><div class="vocab-def" contenteditable="true">Bringing strong images, memories, or feelings to mind.</div></div>
+            <div class="vocab-card"><div class="vocab-front" contenteditable="true">To Repress</div><div class="vocab-def" contenteditable="true">To subconsciously block difficult thoughts or memories from the conscious mind.</div></div>
+        </div>
+
+        <h3 contenteditable="true" style="margin: 30px 0 10px; color: var(--grape);">🔍 Guess the Word (No Peeking!)</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">"In ______, I realize I shouldn't have sent that email." → <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">"The smell of old books is highly ______ of my grandfather's house." → <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">"We sat on the porch to ______ about our university days." → <span class="blank-input"></span></div></li>
+            <li><div contenteditable="true">"That they would lose the match was a ______; their team was terrible." → <span class="blank-input"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 4: READING ====== -->
+<section class="section" id="reading">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 4 · Reading</span>
+        <h2 class="section-title" contenteditable="true">The Director's Regret</h2>
+        <p class="section-desc" contenteditable="true">Read this short narrative. Pay attention to the bolded grammar structures—we will deconstruct them next.</p>
+
+        <div class="scenario-card">
+            <p contenteditable="true" style="line-height: 2;">
+                We <strong>used to be</strong> so certain about everything. Back then, Clara <strong>would sit</strong> in row three of the lecture hall, sketching scenes that she thought <strong>would change</strong> cinema forever. She <strong>must have known</strong> she was talented, even if she never admitted it. 
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                I often think about the day she left the film academy. <strong>Had I known</strong> she was leaving for good, I <strong>would have begged</strong> her to stay. <strong>Hardly had she packed</strong> her bags when the dean announced the scholarship winners—and Clara’s name was first. I <strong>shouldn't have let</strong> her walk away without telling her.
+            </p><br>
+            <p contenteditable="true" style="line-height: 2;">
+                Sometimes, when I recount the story to my students, I catch myself changing the ending. "So, she <strong>stands</strong> at the train station," I tell them, "and right before she boards, the dean <strong>runs</strong> up and <strong>hands</strong> her the envelope." It's a lie, of course. But <strong>if only I had spoken up</strong> that day, it might have been the truth. She <strong>was to become</strong> the greatest director of our generation, but instead, she just disappeared.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ====== TASK 5: TRUE/FALSE ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 5 · Comprehension</span>
+        <h2 class="section-title" contenteditable="true">True or False?</h2>
+        <p class="section-desc" contenteditable="true">Check your understanding of the narrative.</p>
+
+        <div class="tf-item"><span contenteditable="true">1. Clara was highly confident and constantly bragged about her talent.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False — the text says "even if she never admitted it."</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">2. The narrator regrets not trying to stop Clara from leaving.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,true)">True</button><button onclick="checkTF(this,false)">False</button></span>
+            <div class="tf-explain" contenteditable="true">True — "I shouldn't have let her walk away..."</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">3. The dean actually caught Clara at the train station to give her the scholarship.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False — the narrator admits "It's a lie, of course."</div>
+        </div>
+        <div class="tf-item"><span contenteditable="true">4. Clara went on to become a famous director anyway.</span>
+            <span class="tf-buttons"><button onclick="checkTF(this,false)">True</button><button onclick="checkTF(this,true)">False</button></span>
+            <div class="tf-explain" contenteditable="true">False — "instead, she just disappeared."</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 6: GRAMMAR DISCOVERY ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 6 · Grammar Discovery</span>
+        <h2 class="section-title" contenteditable="true">Decoding the Past</h2>
+        <p class="section-desc" contenteditable="true">Match the bolded phrases from the reading to their function.</p>
+
+        <ul class="practice-list">
+            <li><div contenteditable="true">"<strong>Used to be</strong>" vs "<strong>Would sit</strong>" → Which one describes a past <em>action</em>, and which describes a past <em>state</em>? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">"<strong>Must have known</strong>" → Is this a past regret, or a logical deduction about the past? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">"<strong>Shouldn't have let</strong>" → Is this a deduction, or a regret? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">"She <strong>stands</strong>... the dean <strong>runs</strong> up..." → Why did the narrator switch to Present Simple here? <span class="blank-input" style="min-width:200px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 7: GRAMMAR THEORY ====== -->
+<section class="section" id="grammar">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 7 · Grammar Theory</span>
+        <h2 class="section-title" contenteditable="true">Advanced Past Narrative Forms</h2>
+        <p class="section-desc" contenteditable="true">To tell complex stories, we need structures that show deduction, regret, alternate timelines, and dramatic anticipation[cite: 4]. Review this master table.</p>
 
         <table class="grammar-table">
             <thead>
                 <tr>
                     <th contenteditable="true">Concept</th>
-                    <th contenteditable="true">Forms</th>
-                    <th contenteditable="true">Example[cite: 4]</th>
+                    <th contenteditable="true">Structure & Rules</th>
+                    <th contenteditable="true">Examples[cite: 4]</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td contenteditable="true"><span class="form-chip" style="background:var(--sun-dark);">Future in the past</span></td>
-                    <td contenteditable="true">Looking forward from a past viewpoint: <em>would, was going to, was about to, was to.</em> (Note: <em>was to</em> implies a destined or formal plan).</td>
-                    <td contenteditable="true"><em>She thought the film would change her.<br>He was to die in the next scene.</em></td>
+                    <td contenteditable="true"><strong>Used to / Would</strong></td>
+                    <td contenteditable="true">Past habits. <em>Would</em> is ONLY for repeated actions. <em>Used to</em> is for actions AND states (be, have, live, know).</td>
+                    <td contenteditable="true">She <strong>would sit</strong> in row three.<br>She <strong>used to be</strong> certain about everything.</td>
                 </tr>
                 <tr>
-                    <td contenteditable="true"><span class="form-chip" style="background:var(--grape);">Inversion</span></td>
-                    <td contenteditable="true">Formal, dramatic sequence. Moving a negative adverbial to the front, followed by Auxiliary + Subject.</td>
-                    <td contenteditable="true"><em>Hardly had it begun when...<br>Not until it ended did she understand.</em></td>
+                    <td contenteditable="true"><strong>Past Modals</strong></td>
+                    <td contenteditable="true">Deduction (Must have / Can't have).<br>Regret/Criticism (Should have / Needn't have).</td>
+                    <td contenteditable="true">He <strong>must have known</strong>.<br>She <strong>shouldn't have left</strong>.<br>They <strong>needn't have worried</strong>.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Unreal Past</strong></td>
+                    <td contenteditable="true">Regrets and alternate histories using 3rd Conditional structures or "If only / I wish".</td>
+                    <td contenteditable="true"><strong>If only I'd</strong> asked.<br><strong>Had I known</strong>, I'd have stayed.<br>I <strong>wish he had told</strong> me.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Future in the past</strong></td>
+                    <td contenteditable="true">Looking forward from a past viewpoint: <em>would, was going to, was about to, was to</em> (destiny).</td>
+                    <td contenteditable="true">She thought the film <strong>would change</strong> her.<br>He <strong>was to die</strong> in the next scene.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Inversion</strong></td>
+                    <td contenteditable="true">Formal, dramatic sequence. Moving a negative adverb to the front, followed by Aux + Subject.</td>
+                    <td contenteditable="true"><strong>Hardly had it begun when</strong>...<br><strong>Not until it ended did</strong> she understand.</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true"><strong>Narrative present</strong></td>
+                    <td contenteditable="true">Using present tenses for synopses, jokes, anecdotes, film plots; creates vivid immediacy.</td>
+                    <td contenteditable="true">In the final scene, the hero <strong>walks</strong> away and <strong>doesn't look</strong> back.</td>
                 </tr>
             </tbody>
         </table>
     </div>
 </section>
 
-<!-- ====== EXERCISE 1: ERROR SPY ====== -->
-<section class="section" id="ex1">
+<!-- ====== TASK 8: GRAMMAR PRACTICE (DIFFICULT EXERCISE 1) ====== -->
+<section class="section">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Exercise 1</span>
-        <h2 class="section-title" contenteditable="true">The Editor's Pen</h2>
-        <p class="section-desc" contenteditable="true">Click the grammatically incorrect word or phrase in each sentence to reveal the advanced C1 correction.</p>
-
-        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">1. When I was a child, I <span class="es-word" data-correct="used to have" onclick="fixError(this)">would have</span> a recurring dream about a giant clock.</span></div>
-        
-        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">2. You <span class="es-word" data-correct="can't have" onclick="fixError(this)">mustn't have</span> seen him at the station; he's been in Berlin all week.</span></div>
-        
-        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">3. Hardly had she opened the letter <span class="es-word" data-correct="when" onclick="fixError(this)">than</span> the phone started ringing.</span></div>
-        
-        <div class="errorspy-sentence" contenteditable="false"><span contenteditable="true">4. We <span class="es-word" data-correct="didn't need to book" onclick="fixError(this)">needn't have booked</span> a taxi because we knew Tom was going to drive us, so we just waited for him.</span></div>
-        
-        <p style="font-size:0.85rem; color:var(--gray-600); margin-top:6px;" contenteditable="true"><em>💡 Hint: Remember the difference between "did an unnecessary action" (needn't have) and "didn't do an action because it wasn't necessary" (didn't need to).</em></p>
-    </div>
-</section>
-
-<!-- ====== EXERCISE 2: SENTENCE TRANSFORMATION ====== -->
-<section class="section" id="ex2">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Exercise 2</span>
+        <span class="section-label" contenteditable="true">Task 8 · Practice (C1 Advanced)</span>
         <h2 class="section-title" contenteditable="true">Key Word Transformations</h2>
-        <p class="section-desc" contenteditable="true">Rewrite the sentence so it has a similar meaning, using the grammar concepts from today. Type your answers, then reveal the key.</p>
+        <p class="section-desc" contenteditable="true">Rewrite the sentence so it has a similar meaning, using the word given in bold. Do not change the word given. Use between 3 and 6 words.</p>
 
         <ul class="practice-list">
             <li>
-                <div contenteditable="true" style="margin-bottom: 8px;"><strong>1. Regret:</strong> I deeply regret not speaking to her before she left.</div>
-                <div contenteditable="false">I wish <input type="text" class="blank-input" style="width: 250px;" data-answer="I had spoken to her"> before she left.</div>
+                <div contenteditable="true" style="margin-bottom: 8px;">1. I'm absolutely sure he didn't see the email; he was in a meeting all day. <br><strong>CAN'T</strong></div>
+                <div contenteditable="false">He <input type="text" class="blank-input" style="width: 280px;" data-answer="can't have seen the email"> because he was in a meeting all day.</div>
             </li>
             <li>
-                <div contenteditable="true" style="margin-bottom: 8px;"><strong>2. Alternate History:</strong> If I had known about the delay, I would have stayed home.</div>
-                <div contenteditable="false"><input type="text" class="blank-input" style="width: 150px;" data-answer="Had I known"> about the delay, I would have stayed home.</div>
+                <div contenteditable="true" style="margin-bottom: 8px;">2. I deeply regret not taking that job offer in London. <br><strong>ONLY</strong></div>
+                <div contenteditable="false"><input type="text" class="blank-input" style="width: 250px;" data-answer="If only I had taken"> that job offer in London.</div>
             </li>
             <li>
-                <div contenteditable="true" style="margin-bottom: 8px;"><strong>3. Inversion:</strong> The movie had only just started when the power went out.</div>
-                <div contenteditable="false">Hardly <input type="text" class="blank-input" style="width: 250px;" data-answer="had the movie started when"> the power went out.</div>
+                <div contenteditable="true" style="margin-bottom: 8px;">3. We arrived at the cinema, and immediately the film started. <br><strong>HAD</strong></div>
+                <div contenteditable="false">Hardly <input type="text" class="blank-input" style="width: 250px;" data-answer="had we arrived when"> the film started.</div>
             </li>
             <li>
-                <div contenteditable="true" style="margin-bottom: 8px;"><strong>4. Future in the Past:</strong> It was his destiny to become the greatest director of his generation.</div>
-                <div contenteditable="false">He <input type="text" class="blank-input" style="width: 150px;" data-answer="was to become"> the greatest director of his generation.</div>
+                <div contenteditable="true" style="margin-bottom: 8px;">4. It was completely unnecessary for you to buy such an expensive gift! <br><strong>NEEDN'T</strong></div>
+                <div contenteditable="false">You <input type="text" class="blank-input" style="width: 250px;" data-answer="needn't have bought such"> an expensive gift!</div>
             </li>
         </ul>
         
-        <button class="reveal-btn" onclick="toggleReveal('reveal-ex2')">💡 Reveal Answers</button>
-        <div class="reveal-box" id="reveal-ex2" contenteditable="true">
-            1. I wish <strong>I had spoken to her</strong>.<br>
-            2. <strong>Had I known</strong> about the delay...<br>
-            3. Hardly <strong>had the movie started when</strong>...<br>
-            4. He <strong>was to become</strong>...
+        <button class="reveal-btn" onclick="toggleReveal('reveal-t8')">💡 Reveal Answers</button>
+        <div class="reveal-box" id="reveal-t8" contenteditable="true">
+            1. <strong>can't have seen the email</strong><br>
+            2. <strong>If only I had taken</strong><br>
+            3. <strong>had we arrived when</strong><br>
+            4. <strong>needn't have bought such</strong>
         </div>
     </div>
 </section>
 
-<!-- ====== EXERCISE 3: DEDUCTION DETECTIVE ====== -->
-<section class="section" id="ex3">
+<!-- ====== TASK 9: SEQUENCING GAME (DIFFICULT EXERCISE 2) ====== -->
+<section class="section">
     <div class="section-inner">
-        <span class="section-label" contenteditable="true">Exercise 3</span>
-        <h2 class="section-title" contenteditable="true">The Deduction Detective</h2>
-        <p class="section-desc" contenteditable="true">Read the context and choose the correct past modal to complete the narrative.</p>
+        <span class="section-label" contenteditable="true">Task 9 · Game</span>
+        <h2 class="section-title" contenteditable="true">📖 Advanced Narrative Sequencer</h2>
+        <p class="section-desc" contenteditable="true">Drag these advanced grammatical clauses into the correct chronological and syntactical order to form a cohesive, dramatic paragraph about a doomed expedition.</p>
 
-        <div class="scenario-card" style="line-height: 2.2;">
-            <span contenteditable="true">Sarah looked at the empty safe. The thief </span>
-            
-            <span class="inline-choice" data-correct="must">
-                <button onclick="checkInline(this, 'must')">must have known</button> | 
-                <button onclick="checkInline(this, 'can')">can't have known</button>
-            </span>
-            
-            <span contenteditable="true"> the code, because there were no signs of a break-in. She sighed, realizing she </span>
-            
-            <span class="inline-choice" data-correct="should">
-                <button onclick="checkInline(this, 'should')">should have changed</button> | 
-                <button onclick="checkInline(this, 'must')">must have changed</button>
-            </span>
-            
-            <span contenteditable="true"> the combination last week when the manager suggested it. The security guard, Jim, was asleep at his desk. He </span>
-            
-            <span class="inline-choice" data-correct="could">
-                <button onclick="checkInline(this, 'ought')">ought to have stopped</button> | 
-                <button onclick="checkInline(this, 'could')">could have stopped</button>
-            </span>
-            
-            <span contenteditable="true"> the robbery if he had been awake, but it was too late now. Furthermore, they </span>
-            
-            <span class="inline-choice" data-correct="neednt">
-                <button onclick="checkInline(this, 'neednt')">needn't have upgraded</button> | 
-                <button onclick="checkInline(this, 'didnt')">didn't need to upgrade</button>
-            </span>
-            
-            <span contenteditable="true"> the camera system last month—it was completely useless since the thief just cut the wires anyway.</span>
-        </div>
-    </div>
-</section>
-
-<!-- ====== EXERCISE 4: SEQUENCING / MATCHING ====== -->
-<section class="section" id="ex4">
-    <div class="section-inner">
-        <span class="section-label" contenteditable="true">Exercise 4</span>
-        <h2 class="section-title" contenteditable="true">Dramatic Pairings</h2>
-        <p class="section-desc" contenteditable="true">Drag the second half of the sentence to match its correct dramatic opening.</p>
-
-        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-            <!-- Static left side -->
-            <div style="flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 10px; margin-top: 22px;">
-                <div style="padding: 14px 18px; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-weight: 600;">1. Hardly had the film started...</div>
-                <div style="padding: 14px 18px; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-weight: 600;">2. Had she known about the storm...</div>
-                <div style="padding: 14px 18px; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-weight: 600;">3. Not until the very last scene...</div>
-                <div style="padding: 14px 18px; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-weight: 600;">4. He swore he would call...</div>
-            </div>
-
-            <!-- Draggable right side -->
-            <div style="flex: 1; min-width: 250px;" class="story-strips" id="storyStrips">
-                <div class="story-strip" id="strip-3" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">...did the audience understand the twist.</span></div>
-                <div class="story-strip" id="strip-1" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">...when the projector suddenly caught fire.</span></div>
-                <div class="story-strip" id="strip-4" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">...but the phone never rang.</span></div>
-                <div class="story-strip" id="strip-2" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">...she would have canceled the outdoor shoot.</span></div>
-            </div>
+        <div class="story-strips" id="storyStrips">
+            <div class="story-strip" id="strip-3" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Had they known the storm was approaching, they would never have set sail.</span></div>
+            <div class="story-strip" id="strip-1" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">The crew used to believe the captain was invincible.</span></div>
+            <div class="story-strip" id="strip-5" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Not until the mast snapped did they realize their terrible mistake.</span></div>
+            <div class="story-strip" id="strip-2" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">They thought the journey would be a simple routine crossing.</span></div>
+            <div class="story-strip" id="strip-4" draggable="true"><span class="handle">⋮⋮</span><span contenteditable="true">Hardly had they left the harbor when the sky turned a bruised, violent purple.</span></div>
         </div>
 
         <div class="game-controls">
             <button class="btn-primary" onclick="checkStoryOrder()">✅ Check My Order</button>
             <button class="btn-secondary" onclick="revealStoryOrder()">💡 Reveal Correct Order</button>
         </div>
-        <div class="match-status" id="storyStatus" contenteditable="true">Match the right side to the left side (1 to 4).</div>
+        <div class="match-status" id="storyStatus" contenteditable="true">Drag the strips, then check your order.</div>
     </div>
 </section>
+
+<!-- ====== TASK 10: SPEAKING GAME ====== -->
+<section class="section" id="speaking">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 10 · Speaking Game</span>
+        <h2 class="section-title" contenteditable="true">🎙️ 60-Second Storyteller</h2>
+        <p class="section-desc" contenteditable="true">Spin for a prompt, then speak for 60 seconds. You MUST use at least one Past Modal of Deduction (must have/can't have) OR an Inversion (Hardly had I...).</p>
+
+        <div class="game-card-box">
+            <div class="prompt-display" id="storyPrompt" contenteditable="true">Click "Spin" to get your first prompt!</div>
+            <div class="timer-display" id="storyTimer">60</div>
+            <div>
+                <button class="game-btn" onclick="spinStory()">🎲 Spin the Wheel</button>
+                <button class="game-btn alt" onclick="startStoryTimer()">▶️ Start 60s</button>
+                <button class="btn-secondary" onclick="resetStoryTimer()">⏹ Reset Timer</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 11: VIDEO ====== -->
+<section class="section" id="video">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 11 · Listening</span>
+        <h2 class="section-title" contenteditable="true">The Mandela Effect & False Memories</h2>
+        <p class="section-desc" contenteditable="true">Watch this short excerpt explaining why we remember things that never happened, then answer the questions.</p>
+
+        <div class="video-container" contenteditable="false">
+            <iframe src="https://www.youtube-nocookie.com/embed/V4XN4z7hTTo?rel=0&modestbranding=1" title="The Mandela Effect" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="text-align: center; margin-bottom: 26px;" contenteditable="true">
+            <a href="https://www.youtube.com/watch?v=V4XN4z7hTTo" target="_blank" style="color: var(--theme-primary); font-weight: 700; text-decoration: none;">🔗 Click here to watch directly on YouTube</a>
+        </p>
+
+        <h3 contenteditable="true" style="margin-bottom: 10px; color: var(--grape);">🎧 Deep-Dive Questions</h3>
+        <ul class="practice-list">
+            <li><div contenteditable="true">Why does the speaker say we <em>must have</em> altered our memories over time? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">Give one example from the video of a cultural memory that turned out to be false. <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">According to the video, what <em>would</em> people do when confronted with the truth about these memories? <span class="blank-input" style="min-width:200px;"></span></div></li>
+            <li><div contenteditable="true">Do you have a personal memory that you later discovered <em>couldn't have</em> happened the way you remembered? <span class="blank-input" style="min-width:200px;"></span></div></li>
+        </ul>
+    </div>
+</section>
+
+<!-- ====== TASK 12: PRONUNCIATION ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 12 · Pronunciation</span>
+        <h2 class="section-title" contenteditable="true">Fast Speech: The Weak "Have"</h2>
+        <p class="section-desc" contenteditable="true">In fluent English, the "have" in past modals is almost never fully pronounced. It reduces to a schwa /ə/ or /v/. Click 🔊 to hear each phrase, then copy the rhythm.</p>
+
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('He must have known')">🔊</button><span contenteditable="true">He <strong>must've</strong> known. (/mʌstəv/)</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('You should not have left')">🔊</button><span contenteditable="true">You <strong>shouldn't've</strong> left. (/ʃʊdntəv/)</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('They could not have seen us')">🔊</button><span contenteditable="true">They <strong>couldn't've</strong> seen us. (/kʊdntəv/)</span></div>
+        <div class="pron-item"><button class="listen-btn" onclick="speakPhrase('I would have stayed')">🔊</button><span contenteditable="true">I <strong>would've</strong> stayed. (/wʊdəv/)</span></div>
+
+        <h3 contenteditable="true" style="margin: 26px 0 10px; color: var(--grape);">🎯 Rhythm Practice</h3>
+        <p class="section-desc" contenteditable="true" style="margin-bottom:14px;">Click the syllable where the heavy beat (stress) falls.</p>
+        <p style="font-size: 1.2rem; font-weight: 700; line-height: 2.4;" contenteditable="false">
+            <span class="syllable" onclick="toggleStress(this)" contenteditable="true">re</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">tro</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">SPECT</span>
+            &nbsp;&nbsp;
+            <span class="syllable" onclick="toggleStress(this)" contenteditable="true">e</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">VOC</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">a</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">tive</span>
+            &nbsp;&nbsp;
+            <span class="syllable" onclick="toggleStress(this)" contenteditable="true">hin</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">der</span><span class="syllable" onclick="toggleStress(this)" contenteditable="true">SIGHT</span>
+        </p>
+    </div>
+</section>
+
+<!-- ====== TASK 13: ROLE-PLAY ====== -->
+<section class="section" id="roleplay">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 13 · Role-Play</span>
+        <h2 class="section-title" contenteditable="true">The Faulty Witness</h2>
+        <p class="section-desc" contenteditable="true">Act out this branching conversation between two siblings arguing over a shared childhood memory using Past Modals of Deduction.</p>
+
+        <div class="flowchart">
+            <div class="flow-bubble" contenteditable="true"><strong>Sibling A:</strong> Tell a story using <em>used to</em> or <em>would</em> about a family vacation where Sibling B ruined a camera.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Sibling B:</strong> Deny it completely using <em>can't have</em>. (e.g., "I can't have done that, I wasn't even there!")</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Sibling A:</strong> Use <em>must have</em> to deduce why they are remembering it wrong.</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Sibling B:</strong> Express regret using <em>should have</em> (e.g., "Mom should have taken more photos so we could prove it.")</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble" contenteditable="true"><strong>Sibling A:</strong> Drop into the <em>Narrative Present</em> to vividly describe exactly how the camera broke. ("So you're standing by the pool...")</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-bubble b-side" contenteditable="true"><strong>Sibling B:</strong> Finally concede, saying it was a "foregone conclusion" that it would break eventually anyway.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 14: PLOT TWIST GAME (DIFFICULT EXERCISE 3) ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 14 · Game</span>
+        <h2 class="section-title" contenteditable="true">🎴 The Deduction Detective</h2>
+        <p class="section-desc" contenteditable="true">You will be given a bizarre crime scene. You must use exactly ONE past modal of deduction (must have / can't have / might have) to explain what happened. Then reveal the true continuation.</p>
+
+        <div class="game-card-box">
+            <div class="prompt-display" id="twistCard" contenteditable="true">Click "Draw a Card" to begin.</div>
+            <div>
+                <button class="game-btn" onclick="drawTwistCard()">🎴 Draw a Card</button>
+                <button class="btn-secondary" onclick="toggleReveal('twistModel')">💡 Reveal True Scenario</button>
+            </div>
+            <div class="reveal-box" id="twistModel" contenteditable="true" style="text-align:left; margin-top:16px;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== TASK 15: SYNTHESIS ====== -->
+<section class="section">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Task 15 · Grand Finale</span>
+        <h2 class="section-title" contenteditable="true">The Alternate History</h2>
+        <p class="section-desc" contenteditable="true">Let's tie it all together — discussion, then a short piece of writing combining our advanced structures.</p>
+
+        <div class="board-game-grid">
+            <div class="board-tile" contenteditable="true">Which grammar structure do you find most difficult: Inversion, or Past Modals?</div>
+            <div class="board-tile" contenteditable="true">Is "hindsight" a useful tool for learning, or just a way to torture ourselves with regret?</div>
+            <div class="board-tile" contenteditable="true">Can you think of a historical event where the outcome was a "foregone conclusion"?</div>
+            <div class="board-tile" contenteditable="true">Why does switching to the "Narrative Present" make a joke or story suddenly feel so much more engaging?</div>
+        </div>
+
+        <h3 contenteditable="true" style="margin: 30px 0 10px; color: var(--grape);">✍️ Writing Task</h3>
+        <p class="section-desc" contenteditable="true">Write a short paragraph (4–5 sentences) detailing an "alternate history" of a famous event or personal choice. You MUST include one <strong>Inversion</strong> (e.g., Hardly had...), one <strong>Unreal Past</strong> (e.g., Had I known...), and one <strong>Past Modal</strong> (e.g., They must have...).</p>
+        <div contenteditable="true" style="background: var(--white); border: 2px dashed var(--gray-400); border-radius: var(--radius-md); min-height: 140px; padding: 18px; font-style: italic; color: var(--gray-600);">Start writing here...</div>
+    </div>
+</section>
+
+<!-- ====== INTERACTIVE WHITEBOARD ====== -->
+<section class="section" id="whiteboard">
+    <div class="section-inner">
+        <span class="section-label" contenteditable="true">Teacher's Space</span>
+        <h2 class="section-title" contenteditable="true">Interactive Whiteboard</h2>
+        <p class="section-desc" contenteditable="true">Use the tools below to draw timelines, map out grammar rules, or take notes together, live.</p>
+
+        <div class="whiteboard-container">
+            <div class="wb-toolbar">
+                <button class="wb-btn active" data-tool="pencil" contenteditable="true">Pencil</button>
+                <button class="wb-btn" data-tool="highlight" contenteditable="true">Highlight</button>
+                <button class="wb-btn" data-tool="text" contenteditable="true">Text (Click canvas)</button>
+                <button class="wb-btn" data-tool="square" contenteditable="true">Square</button>
+                <button class="wb-btn" data-tool="circle" contenteditable="true">Circle</button>
+                <button class="wb-btn" data-tool="arrow" contenteditable="true">Arrow</button>
+                <div style="width: 1px; height: 24px; background: rgba(255,255,255,0.3); margin: 0 10px;"></div>
+                <input type="color" id="wbColor" class="wb-color" value="#22223B" title="Change Color">
+                <button class="wb-btn" id="wbClear" style="margin-left: auto; background: var(--coral);" contenteditable="true">Clear Board</button>
+            </div>
+            <canvas id="boardCanvas"></canvas>
+        </div>
+
+        <div class="sum-up-box">
+            <h2 contenteditable="true">Lesson Complete! ✨</h2>
+            <p contenteditable="true"><strong>What we've covered today:</strong></p>
+            <ul style="list-style: none; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">
+                <li contenteditable="true">✅ <strong>Vocabulary:</strong> Hindsight, Rose-tinted, Reminisce, Lingering, Foregone Conclusion, Retrospect.</li>
+                <li contenteditable="true">✅ <strong>Grammar:</strong> Past Modals, Used to/Would, Future in the past, Narrative Present, Inversion, Unreal past.</li>
+                <li contenteditable="true">✅ <strong>Writing:</strong> Key word transformations, C1 inversions, and Alternate Histories.</li>
+                <li contenteditable="true">✅ <strong>Pronunciation:</strong> The weak /əv/ sound in complex past modals.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ====== HOMEWORK (DIFFICULT EXERCISE 4) ====== -->
+<section class="homework-section" id="homework">
+    <div class="homework-inner">
+        <span class="section-label" contenteditable="true">🏠 Homework (C1 Advanced)</span>
+        <h2 class="section-title" contenteditable="true">The Grammar Gauntlet</h2>
+        <p class="section-desc" contenteditable="true">This is a mixed C1-level cloze and error correction test. Choose the most precise answer for each context.</p>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">1. When I was living in Paris, I ___ to work every day, even in the rain. (Focus: Habitual action, not state).</div>
+            <div class="hw-options" data-correct="b">
+                <label><input type="radio" name="hw1" value="a"> <span contenteditable="true">a) used to walk</span></label>
+                <label><input type="radio" name="hw1" value="b"> <span contenteditable="true">b) would walk</span></label>
+                <label><input type="radio" name="hw1" value="c"> <span contenteditable="true">c) was walking</span></label>
+                <label><input type="radio" name="hw1" value="d"> <span contenteditable="true">d) walked</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">2. The streets are completely dry. It ___ rained last night.</div>
+            <div class="hw-options" data-correct="a">
+                <label><input type="radio" name="hw2" value="a"> <span contenteditable="true">a) can't have</span></label>
+                <label><input type="radio" name="hw2" value="b"> <span contenteditable="true">b) mustn't have</span></label>
+                <label><input type="radio" name="hw2" value="c"> <span contenteditable="true">c) shouldn't have</span></label>
+                <label><input type="radio" name="hw2" value="d"> <span contenteditable="true">d) didn't need to</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">3. Not until the contract was signed ___ that they had made a terrible mistake.</div>
+            <div class="hw-options" data-correct="c">
+                <label><input type="radio" name="hw3" value="a"> <span contenteditable="true">a) they realized</span></label>
+                <label><input type="radio" name="hw3" value="b"> <span contenteditable="true">b) had they realized</span></label>
+                <label><input type="radio" name="hw3" value="c"> <span contenteditable="true">c) did they realize</span></label>
+                <label><input type="radio" name="hw3" value="d"> <span contenteditable="true">d) they did realize</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">4. She thought the project ___ launch in May, but it was delayed until October. (Future in the past)</div>
+            <div class="hw-options" data-correct="c">
+                <label><input type="radio" name="hw4" value="a"> <span contenteditable="true">a) will</span></label>
+                <label><input type="radio" name="hw4" value="b"> <span contenteditable="true">b) is going to</span></label>
+                <label><input type="radio" name="hw4" value="c"> <span contenteditable="true">c) was going to</span></label>
+                <label><input type="radio" name="hw4" value="d"> <span contenteditable="true">d) has to</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">5. "Hindsight" most nearly means:</div>
+            <div class="hw-options" data-correct="b">
+                <label><input type="radio" name="hw5" value="a"> <span contenteditable="true">a) Predicting the future accurately</span></label>
+                <label><input type="radio" name="hw5" value="b"> <span contenteditable="true">b) Understanding an event only after it has happened</span></label>
+                <label><input type="radio" name="hw5" value="c"> <span contenteditable="true">c) Having a very strong memory</span></label>
+                <label><input type="radio" name="hw5" value="d"> <span contenteditable="true">d) Feeling deep regret</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">6. Which sentence is grammatically correct?</div>
+            <div class="hw-options" data-correct="a">
+                <label><input type="radio" name="hw6" value="a"> <span contenteditable="true">a) Had I known, I wouldn't have gone.</span></label>
+                <label><input type="radio" name="hw6" value="b"> <span contenteditable="true">b) If had I known, I wouldn't go.</span></label>
+                <label><input type="radio" name="hw6" value="c"> <span contenteditable="true">c) Had I know, I wouldn't have went.</span></label>
+                <label><input type="radio" name="hw6" value="d"> <span contenteditable="true">d) If only I know, I hadn't gone.</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card">
+            <div class="hw-q" contenteditable="true">7. I took an umbrella, but it didn't rain at all. I ___ an umbrella!</div>
+            <div class="hw-options" data-correct="a">
+                <label><input type="radio" name="hw7" value="a"> <span contenteditable="true">a) needn't have taken</span></label>
+                <label><input type="radio" name="hw7" value="b"> <span contenteditable="true">b) didn't need to take</span></label>
+                <label><input type="radio" name="hw7" value="c"> <span contenteditable="true">c) couldn't have taken</span></label>
+                <label><input type="radio" name="hw7" value="d"> <span contenteditable="true">d) shouldn't take</span></label>
+            </div>
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-fill">
+            <div class="hw-q" contenteditable="true">8. A result that is obvious before it happens is a foregone ______.</div>
+            <input type="text" id="hwfill1" data-answer="conclusion">
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-fill">
+            <div class="hw-q" contenteditable="true">9. Write the correct word for inversion: ______ had he arrived when the alarm went off.</div>
+            <input type="text" id="hwfill2" data-answer="Hardly">
+            <div class="hw-feedback"></div>
+        </div>
+
+        <div class="hw-card hw-fill">
+            <div class="hw-q" contenteditable="true">10. Complete the Unreal Past: I wish I ______ (study) harder when I was in school.</div>
+            <input type="text" id="hwfill3" data-answer="had studied">
+            <div class="hw-feedback"></div>
+        </div>
+
+        <button class="hw-check-btn" onclick="gradeHomework()">✅ Check My Answers</button>
+        <div class="hw-score-box" id="hwScoreBox"></div>
+    </div>
+</section>
+
+<!-- ====== FLOATING ACTIONS ====== -->
+<div class="floating-actions" id="floatingActions">
+    <button class="fab-btn" onclick="window.scrollToWhiteboard()" title="Go to Whiteboard">🖍️</button>
+    <button class="fab-btn quizlet-btn" onclick="openQuizletModal()" title="Export to Quizlet">📝</button>
+    <button class="fab-btn save-btn" onclick="window.saveAsPDF()" title="Save as PDF">💾</button>
+    <button class="fab-btn" onclick="window.resetLesson()" style="background: var(--coral-dark);" title="Reset Lesson">🔄</button>
+</div>
+
+<!-- ====== QUIZLET MODAL ====== -->
+<div id="quizletModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeQuizletModal()">&times;</span>
+        <h2>Quizlet Exporter</h2>
+        <p style="margin-top: 8px; font-size: 0.95rem; color: var(--gray-600);">Add English words and their translations, then copy and paste into Quizlet's import tool.</p>
+        <div id="wordList">
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+            <div class="word-row"><input type="text" placeholder="English Word" class="q-word"><input type="text" placeholder="Translation" class="q-trans"></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button onclick="addWordRow()" class="wb-btn" style="flex: 1; text-align: center;">+ Add Row</button>
+            <button id="copyQuizletBtn" onclick="copyForQuizlet()" class="wb-btn active" style="flex: 2; text-align: center; background: var(--theme-primary); border-color: var(--theme-primary);">📋 Copy for Quizlet</button>
+        </div>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script>
@@ -429,30 +813,29 @@
         el.onclick = null;
     }
 
+    // --- Poll (Task 2) ---
+    function selectPoll(el) {
+        document.querySelectorAll('.poll-opt').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    // --- True/False (Task 5) ---
+    function checkTF(btn, isCorrect) {
+        const group = btn.parentElement;
+        group.querySelectorAll('button').forEach(b => b.classList.remove('correct', 'wrong'));
+        btn.classList.add(isCorrect ? 'correct' : 'wrong');
+        const explain = group.parentElement.querySelector('.tf-explain');
+        if (explain) explain.style.display = 'block';
+    }
+
     // --- Generic Reveal Toggle ---
     function toggleReveal(id) {
         const box = document.getElementById(id);
         box.style.display = (box.style.display === 'block') ? 'none' : 'block';
     }
 
-    // --- Inline Multiple Choice (Task 8) ---
-    function checkInline(btn, correctVal) {
-        const container = btn.parentElement;
-        container.querySelectorAll('button').forEach(b => {
-            b.classList.remove('correct', 'wrong');
-            b.disabled = true;
-        });
-        if (container.dataset.correct === correctVal) {
-            btn.classList.add('correct');
-        } else {
-            btn.classList.add('wrong');
-            // highlight the actual correct one
-            container.querySelector(`button[onclick*="'${container.dataset.correct}'"]`).classList.add('correct');
-        }
-    }
-
     // --- Story Sequencing Game (Task 9) ---
-    const correctStoryOrder = ['strip-1', 'strip-2', 'strip-3', 'strip-4'];
+    const correctStoryOrder = ['strip-1', 'strip-2', 'strip-4', 'strip-5', 'strip-3'];
     function setupStoryDrag() {
         const container = document.getElementById('storyStrips');
         if (!container) return;
@@ -489,7 +872,7 @@
             if (item.id === correctStoryOrder[idx]) { item.classList.add('story-correct'); correctCount++; }
             else { item.classList.add('story-wrong'); }
         });
-        document.getElementById('storyStatus').innerText = correctCount + ' / 4 in the correct position' + (correctCount === 4 ? ' 🎉 Perfect!' : '');
+        document.getElementById('storyStatus').innerText = correctCount + ' / 5 in the correct position' + (correctCount === 5 ? ' 🎉 Perfect!' : '');
     }
     function revealStoryOrder() {
         const container = document.getElementById('storyStrips');
@@ -500,9 +883,250 @@
         document.getElementById('storyStatus').innerText = 'Here is the correct order!';
         if (window.syncDragOrder) window.syncDragOrder();
     }
+
+    // --- 60-Second Story Roulette (Task 10) ---
+    const storyPrompts = [
+        "Tell a story starting with: 'Hardly had I left the house when...'",
+        "Describe a time you lost something. Use 'must have' to deduce where it went.",
+        "Talk about a historical event. 'Had they known X, they would have...'",
+        "Use the 'Narrative Present' to vividly describe a funny misunderstanding.",
+        "Describe a childhood habit using 'would'. (e.g. Every summer, I would...)",
+        "Tell a story starting with: 'Not until the very last moment did I realize...'",
+        "Describe a time you were 'about to' do something, but changed your mind.",
+        "Talk about a regret. 'I really shouldn't have...'",
+        "Describe a mystery at work. 'It can't have been John, because...'",
+        "Talk about an item you bought. 'I needn't have bought it because...'"
+    ];
+    function spinStory() {
+        const p = storyPrompts[Math.floor(Math.random() * storyPrompts.length)];
+        document.getElementById('storyPrompt').innerText = p;
+        resetStoryTimer();
+    }
+    let storyInterval = null, storyTimeLeft = 60;
+    function startStoryTimer() {
+        clearInterval(storyInterval);
+        storyTimeLeft = 60;
+        document.getElementById('storyTimer').innerText = storyTimeLeft;
+        storyInterval = setInterval(() => {
+            storyTimeLeft--;
+            document.getElementById('storyTimer').innerText = storyTimeLeft;
+            if (storyTimeLeft <= 0) { clearInterval(storyInterval); document.getElementById('storyTimer').innerText = "Time's up! 🎉"; }
+        }, 1000);
+    }
+    function resetStoryTimer() {
+        clearInterval(storyInterval);
+        storyTimeLeft = 60;
+        document.getElementById('storyTimer').innerText = 60;
+    }
+
+    // --- Pronunciation TTS (Task 12) ---
+    function speakPhrase(text) {
+        if (!('speechSynthesis' in window)) { alert('Text-to-speech is not supported in this browser.'); return; }
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utter);
+    }
+    function toggleStress(el) { el.classList.toggle('stressed'); }
+
+    // --- Plot Twist Game (Task 14) ---
+    const twistCards = [
+        { opener: "You wake up, and your car is missing from the driveway. The keys are still on the kitchen counter.", model: "The thief MUST HAVE hacked the electronic key fob system from outside." },
+        { opener: "Your colleague's presentation is completely deleted 5 minutes before the meeting, but nobody else has his password.", model: "He CAN'T HAVE deleted it by accident; he MUST HAVE been sabotaged by the IT department." },
+        { opener: "You order a coffee, and the barista hands you a cup with a $100 bill taped to the bottom.", model: "They MIGHT HAVE mistaken me for their secret informant." },
+        { opener: "You find a letter in your mailbox dated 50 years in the future, written in your own handwriting.", model: "I MUST HAVE discovered time travel in my old age and sent myself a warning." },
+        { opener: "The vault door is locked from the inside, but the diamond is gone and the room is empty.", model: "The thief CAN'T HAVE escaped through the door. They MUST HAVE tunneled up through the floor." }
+    ];
+    function drawTwistCard() {
+        const card = twistCards[Math.floor(Math.random() * twistCards.length)];
+        document.getElementById('twistCard').innerText = '"' + card.opener + '"';
+        document.getElementById('twistModel').innerText = card.model;
+        document.getElementById('twistModel').style.display = 'none';
+    }
+
+    // --- Homework Grading ---
+    function gradeHomework() {
+        let score = 0;
+        const total = 10;
+        document.querySelectorAll('.hw-options').forEach((group) => {
+            const selected = group.querySelector('input:checked');
+            const feedback = group.parentElement.querySelector('.hw-feedback');
+            feedback.style.display = 'block';
+            if (selected && selected.value === group.dataset.correct) {
+                score++;
+                feedback.className = 'hw-feedback correct';
+                feedback.innerText = '✅ Correct!';
+            } else {
+                feedback.className = 'hw-feedback wrong';
+                const correctLabel = group.querySelector('input[value="' + group.dataset.correct + '"]').parentElement.innerText;
+                feedback.innerText = selected ? '❌ Not quite — correct answer: ' + correctLabel : '⚠️ Not answered — correct answer: ' + correctLabel;
+            }
+        });
+        document.querySelectorAll('.hw-fill').forEach(card => {
+            const input = card.querySelector('input[type=text]');
+            const feedback = card.querySelector('.hw-feedback');
+            feedback.style.display = 'block';
+            const userVal = (input.value || '').trim().toLowerCase();
+            const correctVal = input.dataset.answer.toLowerCase();
+            if (userVal === correctVal) {
+                score++;
+                feedback.className = 'hw-feedback correct';
+                feedback.innerText = '✅ Correct!';
+            } else {
+                feedback.className = 'hw-feedback wrong';
+                feedback.innerText = '❌ Correct answer: ' + input.dataset.answer;
+            }
+        });
+        const box = document.getElementById('hwScoreBox');
+        box.style.display = 'block';
+        box.innerText = '🎉 Your Score: ' + score + ' / ' + total;
+    }
+
+    // --- Interactive Whiteboard ---
+    const canvas = document.getElementById('boardCanvas');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas() { canvas.width = canvas.parentElement.clientWidth; canvas.height = 480; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let isDrawing = false, pendingDraw = false, startX, startY, currentTool = 'pencil', currentColor = '#22223B', savedImageData;
+    const tools = document.querySelectorAll('.wb-btn[data-tool]');
+    const colorPicker = document.getElementById('wbColor');
+    const clearBtn = document.getElementById('wbClear');
+
+    tools.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tools.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTool = btn.dataset.tool;
+            canvas.style.cursor = currentTool === 'text' ? 'text' : 'crosshair';
+        });
+    });
+    colorPicker.addEventListener('change', (e) => { currentColor = e.target.value; });
+    clearBtn.addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); if (window.syncWhiteboardClear) window.syncWhiteboardClear(); });
+
+    function getMousePos(e) { const rect = canvas.getBoundingClientRect(); return { x: e.clientX - rect.left, y: e.clientY - rect.top }; }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const pos = getMousePos(e); startX = pos.x; startY = pos.y;
+        if (currentTool === 'text') {
+            const text = prompt("Enter text:");
+            if (text) {
+                ctx.font = "20px 'Inter', Arial, sans-serif"; ctx.fillStyle = currentColor; ctx.fillText(text, startX, startY);
+                if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+            }
+            return;
+        }
+        isDrawing = true;
+        savedImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        ctx.beginPath(); ctx.moveTo(startX, startY);
+    });
+    canvas.addEventListener('mousemove', (e) => {
+        if (!isDrawing) return;
+        const pos = getMousePos(e);
+        if (currentTool === 'pencil' || currentTool === 'highlight') {
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = currentTool === 'highlight' ? currentColor + '66' : currentColor;
+            ctx.lineWidth = currentTool === 'highlight' ? 15 : 2;
+            ctx.lineCap = currentTool === 'highlight' ? 'square' : 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+        } else { ctx.putImageData(savedImageData, 0, 0); drawShape(pos.x, pos.y); }
+    });
+    canvas.addEventListener('mouseup', (e) => {
+        if (!isDrawing) return;
+        isDrawing = false;
+        if (currentTool !== 'pencil' && currentTool !== 'highlight') { const pos = getMousePos(e); drawShape(pos.x, pos.y); }
+        if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); }
+    });
+    canvas.addEventListener('mouseout', () => {
+        if (isDrawing) { isDrawing = false; if (window.syncWhiteboardDraw) { pendingDraw = true; window.syncWhiteboardDraw(); } }
+    });
+    function drawShape(endX, endY) {
+        ctx.beginPath(); ctx.strokeStyle = currentColor; ctx.lineWidth = 2;
+        if (currentTool === 'square') { ctx.strokeRect(startX, startY, endX - startX, endY - startY); }
+        else if (currentTool === 'circle') {
+            const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+            ctx.arc(startX, startY, radius, 0, 2 * Math.PI); ctx.stroke();
+        } else if (currentTool === 'arrow') {
+            const headlen = 15; const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.moveTo(startX, startY); ctx.lineTo(endX, endY); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.moveTo(endX, endY);
+            ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.stroke();
+        }
+    }
+
+    // --- PDF Generation ---
+    window.saveAsPDF = function() {
+        document.getElementById('floatingActions').style.display = 'none';
+        document.getElementById('syncStatus').style.display = 'none';
+        const element = document.body;
+        const totalHeight = element.scrollHeight, totalWidth = element.scrollWidth;
+        const opt = { margin: 0, filename: 'Lesson-7-Architecture-Of-Memory.pdf', image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, windowWidth: totalWidth, scrollY: 0 }, jsPDF: { unit: 'px', format: [totalWidth, totalHeight], orientation: 'portrait' } };
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.getElementById('floatingActions').style.display = 'flex';
+            document.getElementById('syncStatus').style.display = 'flex';
+        });
+    }
+
+    // --- Quizlet Modal ---
+    window.openQuizletModal = function() { document.getElementById('quizletModal').style.display = 'flex'; }
+    window.closeQuizletModal = function() { document.getElementById('quizletModal').style.display = 'none'; }
+    window.addWordRow = function() {
+        const row = document.createElement('div'); row.className = 'word-row';
+        row.innerHTML = '<input type="text" placeholder="English Word" class="q-word"> <input type="text" placeholder="Translation" class="q-trans">';
+        document.getElementById('wordList').appendChild(row);
+        const wordList = document.getElementById('wordList'); wordList.scrollTop = wordList.scrollHeight;
+    }
+    window.copyForQuizlet = function() {
+        const rows = document.querySelectorAll('.word-row'); let output = '';
+        rows.forEach(row => {
+            const word = row.querySelector('.q-word').value.trim();
+            const trans = row.querySelector('.q-trans').value.trim();
+            if (word || trans) output += `${word}\t${trans}\n`;
+        });
+        const btn = document.getElementById('copyQuizletBtn'); const originalText = btn.innerText;
+        if (output) {
+            const textArea = document.createElement("textarea"); textArea.value = output;
+            document.body.appendChild(textArea); textArea.select(); document.execCommand("copy"); document.body.removeChild(textArea);
+            btn.innerText = "✅ Copied! Ready to Paste";
+        } else { btn.innerText = "⚠️ Add some words first!"; }
+        setTimeout(() => { btn.innerText = originalText; }, 3000);
+    }
+
+    // --- Nav Link Fix ---
+    document.getElementById('navTabsContainer').addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && !e.target.hasAttribute('onclick')) {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            if (targetId && targetId.startsWith('#') && targetId.length > 1) {
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    const headerOffset = 100;
+                    const elementPosition = targetSection.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            }
+        }
+    });
+
+    window.scrollToWhiteboard = function() {
+        const wbSection = document.getElementById('whiteboard');
+        if (wbSection) {
+            const headerOffset = 100;
+            const elementPosition = wbSection.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+    }
 </script>
 
-<!-- ====== FIREBASE & ADVANCED SYNC SCRIPT (Standard Template) ====== -->
+<!-- ====== FIREBASE & ADVANCED SYNC SCRIPT ====== -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -518,7 +1142,7 @@
         measurementId: "G-K12KF1N7YS"
     };
 
-    const appId = 'lesson-7-c1-advanced-past';
+    const appId = 'lesson-7-c1-architecture-of-memory';
 
     const statusText = document.getElementById('syncText');
     const statusDot = document.getElementById('syncDot');
@@ -539,7 +1163,7 @@
         editables.forEach((el, index) => { el.dataset.syncId = 'edit-' + index; originalStates['edit-' + index] = el.innerHTML; });
 
         const dragColumnIds = ['storyStrips'];
-        const originalDragOrders = { storyStrips: ['strip-3', 'strip-1', 'strip-4', 'strip-2'] };
+        const originalDragOrders = { storyStrips: ['strip-3', 'strip-1', 'strip-5', 'strip-2', 'strip-4'] };
         let isEditing = null;
 
         function debounce(func, wait) { let timeout; return function(...args) { clearTimeout(timeout); timeout = setTimeout(() => func(...args), wait); }; }
@@ -568,6 +1192,7 @@
         function setupRealtimeSync(db, appId) {
             const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
             const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
 
             window.saveTextUpdate = (el) => { if (!currentUser) return; setDoc(textRef, { [el.dataset.syncId]: el.innerHTML }, { merge: true }); };
             window.attachEditableListeners = (el) => {
@@ -577,10 +1202,30 @@
             };
             editables.forEach(el => window.attachEditableListeners(el));
 
+            window.addNewTab = (e) => {
+                e.preventDefault();
+                const container = document.getElementById('navTabsContainer');
+                const newLi = document.createElement('li');
+                const newId = 'edit-tab-' + Date.now();
+                newLi.innerHTML = `<a href="#" contenteditable="true" data-sync-id="${newId}">New Tab</a>`;
+                container.appendChild(newLi);
+                const newAnchor = newLi.querySelector('a');
+                window.attachEditableListeners(newAnchor);
+                if (currentUser) setDoc(textRef, { 'nav_tabs_structure': container.innerHTML }, { merge: true });
+            };
+
             onSnapshot(textRef, (snap) => {
                 if (snap.exists()) {
                     const data = snap.data();
                     for (const [syncId, html] of Object.entries(data)) {
+                        if (syncId === 'nav_tabs_structure') {
+                            const container = document.getElementById('navTabsContainer');
+                            if (!container.contains(document.activeElement)) {
+                                container.innerHTML = html;
+                                container.querySelectorAll('[contenteditable="true"]').forEach(a => window.attachEditableListeners(a));
+                            }
+                            continue;
+                        }
                         if (isEditing !== syncId) {
                             const el = document.querySelector(`[data-sync-id="${syncId}"]`);
                             if (el && el.innerHTML !== html) el.innerHTML = html;
@@ -591,6 +1236,59 @@
                         const el = document.querySelector(`[data-sync-id="${syncId}"]`);
                         if (el && el.innerHTML !== html) el.innerHTML = html;
                     });
+                }
+            });
+
+            document.addEventListener('paste', function(e) {
+                const target = e.target;
+                if (!target.closest('[contenteditable="true"]')) return;
+                const items = (e.clipboardData || window.clipboardData).items;
+                for (let index in items) {
+                    const item = items[index];
+                    if (item.kind === 'file' && item.type.startsWith('image/')) {
+                        e.preventDefault();
+                        const blob = item.getAsFile();
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            const img = new Image();
+                            img.onload = function() {
+                                const canvasImg = document.createElement('canvas');
+                                const MAX_WIDTH = 800;
+                                let width = img.width, height = img.height;
+                                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                                canvasImg.width = width; canvasImg.height = height;
+                                const ctx2 = canvasImg.getContext('2d');
+                                ctx2.drawImage(img, 0, 0, width, height);
+                                const dataUrl = canvasImg.toDataURL('image/jpeg', 0.8);
+                                const imgWrapper = `<div contenteditable="false" style="margin: 16px 0; text-align: center;"><img src="${dataUrl}" style="max-width: 100%; border-radius: 8px; box-shadow: var(--shadow-sm);"></div><p><br></p>`;
+                                target.focus();
+                                document.execCommand('insertHTML', false, imgWrapper);
+                                target.dispatchEvent(new Event('input', { bubbles: true }));
+                            };
+                            img.src = event.target.result;
+                        };
+                        reader.readAsDataURL(blob);
+                        return;
+                    }
+                }
+                const pasteText = (e.clipboardData || window.clipboardData).getData('text');
+                if (pasteText) {
+                    const ytMatch = pasteText.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+                    if (ytMatch && ytMatch[1]) {
+                        e.preventDefault();
+                        const iframeWrapper = `<div contenteditable="false" style="margin: 16px 0; user-select: none; text-align: center;"><iframe width="560" height="315" src="https://www.youtube.com/embed/${ytMatch[1]}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; max-width: 100%;"></iframe></div><p><br></p>`;
+                        document.execCommand('insertHTML', false, iframeWrapper);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
+                    const urlRegex = /^(https?:\/\/[^\s]+)$/i;
+                    if (urlRegex.test(pasteText.trim())) {
+                        e.preventDefault();
+                        const link = `<a href="${pasteText.trim()}" target="_blank" style="color: var(--theme-primary); text-decoration: underline;" contenteditable="false">${pasteText.trim()}</a>`;
+                        document.execCommand('insertHTML', false, link);
+                        target.dispatchEvent(new Event('input', { bubbles: true }));
+                        return;
+                    }
                 }
             });
 
@@ -618,6 +1316,36 @@
                         if (!col) return;
                         originalDragOrders[colId].forEach(id => { const el = document.getElementById(id); if (el) col.appendChild(el); });
                     });
+                }
+            });
+
+            window.syncWhiteboardDraw = debounce(() => {
+                if (!currentUser) return;
+                const canvasEl = document.getElementById('boardCanvas');
+                const dataUrl = canvasEl.toDataURL('image/png', 0.5);
+                setDoc(wbRef, { image: dataUrl, clearTimestamp: window.lastClear || 0 }, { merge: true });
+                pendingDraw = false;
+            }, 800);
+            window.syncWhiteboardClear = () => {
+                if (!currentUser) return;
+                const ts = Date.now(); window.lastClear = ts;
+                setDoc(wbRef, { clearTimestamp: ts, image: null }, { merge: true });
+            };
+            onSnapshot(wbRef, (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const canvasEl = document.getElementById('boardCanvas');
+                    const ctx2 = canvasEl.getContext('2d');
+                    if (data.clearTimestamp > (window.lastClear || 0)) {
+                        ctx2.clearRect(0, 0, canvasEl.width, canvasEl.height);
+                        window.lastClear = data.clearTimestamp;
+                        return;
+                    }
+                    if (data.image && !pendingDraw) {
+                        const img = new Image();
+                        img.onload = () => { ctx2.clearRect(0, 0, canvasEl.width, canvasEl.height); ctx2.drawImage(img, 0, 0); };
+                        img.src = data.image;
+                    }
                 }
             });
         }
@@ -664,6 +1392,20 @@
 
             window.addEventListener('beforeunload', () => { if (currentUser) deleteDoc(myCursorRef); });
         }
+
+        window.resetLesson = async () => {
+            if (!currentUser) return;
+            if (!confirm("Are you sure you want to reset the lesson? This will clear all text edits, the sequencing game, and the whiteboard for everyone.")) return;
+            setStatus('Resetting...', '#FFC145');
+            const textRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'text_edits');
+            const dragRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'drag_order');
+            const wbRef = doc(db, 'artifacts', appId, 'public', 'data', 'lesson_state', 'whiteboard');
+            await deleteDoc(textRef);
+            await deleteDoc(dragRef);
+            const ts = Date.now(); window.lastClear = ts;
+            await setDoc(wbRef, { clearTimestamp: ts, image: null });
+            setTimeout(() => setStatus('Live Sync On', '#2EC4B6'), 1000);
+        };
     }
 </script>
 </body>
