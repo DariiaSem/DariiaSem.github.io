@@ -1,0 +1,349 @@
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2 Grammar Check: Present & Past Tenses</title>
+    <style>
+        :root {
+            --primary: #4361EE;
+            --primary-dark: #3A0CA3;
+            --accent: #F72585;
+            --grape: #7209B7;
+            --bg: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --text: #2B2E42;
+            --text-light: #6C757D;
+            --border: #E9ECEF;
+        }
+        body { font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.7; padding: 40px 20px; max-width: 900px; margin: 0 auto; }
+        h1, h2, h3 { color: #22223B; margin-top: 0; }
+        .header { text-align: center; margin-bottom: 40px; background: linear-gradient(120deg, var(--primary) 0%, var(--grape) 100%); color: white; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(34,34,59,0.1); }
+        .header h1 { color: white; font-size: 2.2rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .task-container { background: var(--card-bg); padding: 35px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 35px; border-top: 5px solid var(--primary); }
+        .task-desc { color: var(--text-light); margin-bottom: 25px; font-size: 1.05rem; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        .question { margin-bottom: 25px; font-weight: 500; font-size: 1.05rem; display: flex; flex-direction: column; }
+        .q-text { margin-bottom: 8px; }
+        .ru-text { color: var(--text-light); font-size: 0.95rem; font-style: italic; margin-bottom: 5px; }
+        .inline-text { line-height: 2.4; }
+        select, input[type="text"], textarea { padding: 10px 14px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; transition: all 0.2s; font-family: inherit; background-color: #FAFBFC; }
+        input[type="text"] { max-width: 300px; }
+        textarea { width: 100%; resize: vertical; min-height: 80px; }
+        select { cursor: pointer; max-width: 300px; }
+        select:focus, input[type="text"]:focus, textarea:focus { border-color: var(--primary); background-color: #fff; box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15); }
+        .inline-input { display: inline-block; margin: 0 5px; min-width: 120px; }
+        .btn-submit { display: block; width: 100%; padding: 18px; background: linear-gradient(120deg, var(--accent) 0%, #FFB703 100%); color: white; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(247, 37, 133, 0.3); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(247, 37, 133, 0.4); }
+        .feedback { display: none; margin-top: 8px; font-size: 0.95rem; font-weight: 700; padding: 10px 14px; border-radius: 6px; background: #f8f9fa; }
+        .correct-bg { background-color: rgba(67, 97, 238, 0.1); color: var(--primary-dark); border-left: 4px solid var(--primary); }
+        .incorrect-bg { background-color: rgba(247, 37, 133, 0.1); color: #D00000; border-left: 4px solid var(--accent); }
+        #results-screen { display: none; text-align: center; background: #22223B; color: white; padding: 50px; border-radius: 16px; margin-top: 30px; box-shadow: 0 14px 36px rgba(34,34,59,0.2); }
+        .student-info { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .student-info input { max-width: 100%; }
+        #teacherAccess { text-align: center; margin-top: 60px; opacity: 0.5; transition: opacity 0.3s; }
+        #teacherAccess:hover { opacity: 1; }
+        .btn-teacher { background: #22223B; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; }
+        #teacherDashboard { display: none; background: white; padding: 30px; border-radius: 12px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid var(--grape); }
+        .results-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .results-table th, .results-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        .results-table th { background: var(--bg); color: var(--grape); font-weight: 800; }
+        @media (max-width: 768px) { .student-info { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>A2 Grammar Homework</h1>
+        <p>Present Simple & Continuous, Past Simple, Present Perfect</p>
+    </div>
+
+    <div id="homework-form">
+
+        <!-- Task 1: Present Simple vs Present Continuous -->
+        <div class="task-container">
+            <h2>Task 1: Present Simple or Present Continuous?</h2>
+            <p class="task-desc">Choose the correct tense. <em>(Выберите правильное время: Настоящее простое или длительное).</em></p>
+            
+            <div class="question">
+                <div class="ru-text">Обычно он просыпается в 7 утра, но сегодня он спит.</div>
+                <div class="q-text">1. He usually <input type="text" class="inline-input" data-answer="wakes" placeholder="wake"> up at 7 AM, but today he <input type="text" class="inline-input" data-answer="is sleeping|'s sleeping" placeholder="sleep">.</div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question">
+                <div class="ru-text">Смотри! Собака ест твой бутерброд!</div>
+                <div class="q-text">2. Look! The dog <input type="text" class="inline-input" data-answer="is eating|'s eating" placeholder="eat"> your sandwich!</div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question">
+                <div class="ru-text">Я не понимаю, что ты сейчас говоришь. (Remember: understand is a stative verb!)</div>
+                <div class="q-text">3. I <input type="text" class="inline-input" data-answer="don't understand|do not understand" placeholder="not / understand"> what you are saying right now.</div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question">
+                <div class="ru-text">Она ездит на работу на машине каждый день.</div>
+                <div class="q-text">4. She <input type="text" class="inline-input" data-answer="drives" placeholder="drive"> to work by car every day.</div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="ru-text">В эти дни мы проводим много времени вместе.</div>
+                <div class="q-text">5. These days, we <input type="text" class="inline-input" data-answer="are spending|'re spending" placeholder="spend"> a lot of time together.</div>
+                <div class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Task 2: Past Simple Part 1 -->
+        <div class="task-container">
+            <h2>Task 2: Past Simple (Irregular Verbs - Part 1)</h2>
+            <p class="task-desc">Write the verbs in the Past Simple tense. <em>(Напишите глаголы в прошедшем времени: Past Simple).</em></p>
+
+            <div class="question"><div class="ru-text">Вчера я проснулся очень поздно.</div><div class="q-text">1. (wake) Yesterday, I <input type="text" class="inline-input" data-answer="woke"> up very late.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Ветер дул очень сильно прошлой ночью.</div><div class="q-text">2. (blow) The wind <input type="text" class="inline-input" data-answer="blew"> very hard last night.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я пошел на кухню.</div><div class="q-text">3. (go) I <input type="text" class="inline-input" data-answer="went"> to the kitchen.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я обжег палец о горячую плиту.</div><div class="q-text">4. (burn) I <input type="text" class="inline-input" data-answer="burned|burnt"> my finger on the hot stove.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Вместо этого я съел яблоко.</div><div class="q-text">5. (eat) I <input type="text" class="inline-input" data-answer="ate"> an apple instead.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">По пути на работу я вел машину слишком быстро.</div><div class="q-text">6. (drive) On my way to work, I <input type="text" class="inline-input" data-answer="drove"> too fast.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Злая собака укусила мою сумку.</div><div class="q-text">7. (bite) An angry dog <input type="text" class="inline-input" data-answer="bit"> my bag.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Мой телефон упал на землю.</div><div class="q-text">8. (fall) My phone <input type="text" class="inline-input" data-answer="fell"> on the ground.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я чувствовал себя очень уставшим после работы.</div><div class="q-text">9. (feel) I <input type="text" class="inline-input" data-answer="felt"> very tired after work.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Мы услышали странный шум в саду.</div><div class="q-text">10. (hear) We <input type="text" class="inline-input" data-answer="heard"> a strange noise in the garden.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я прекрасно понял урок.</div><div class="q-text">11. (understand) I <input type="text" class="inline-input" data-answer="understood"> the lesson perfectly.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Она с самого начала знала ответ.</div><div class="q-text">12. (know) She <input type="text" class="inline-input" data-answer="knew"> the answer from the start.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я потратил все свои деньги на новую одежду.</div><div class="q-text">13. (spend) I <input type="text" class="inline-input" data-answer="spent"> all my money on new clothes.</div><div class="feedback"></div></div>
+        </div>
+
+        <!-- Task 3: Past Simple Part 2 -->
+        <div class="task-container">
+            <h2>Task 3: Past Simple (Irregular Verbs - Part 2)</h2>
+            <p class="task-desc">Write the verbs in the Past Simple tense. <em>(Напишите глаголы в прошедшем времени: Past Simple).</em></p>
+
+            <div class="question"><div class="ru-text">Погода была ужасной вчера.</div><div class="q-text">1. (be) The weather <input type="text" class="inline-input" data-answer="was"> terrible yesterday.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Он стал врачом в 2020 году.</div><div class="q-text">2. (become) He <input type="text" class="inline-input" data-answer="became"> a doctor in 2020.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Фильм начался в 8 вечера.</div><div class="q-text">3. (begin) The movie <input type="text" class="inline-input" data-answer="began"> at 8 PM.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Кто разбил это окно?</div><div class="q-text">4. (break) Who <input type="text" class="inline-input" data-answer="broke"> this window?</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Она принесла немного торта в офис.</div><div class="q-text">5. (bring) She <input type="text" class="inline-input" data-answer="brought"> some cake to the office.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Они построили этот дом в прошлом году.</div><div class="q-text">6. (build) They <input type="text" class="inline-input" data-answer="built"> this house last year.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я купил новый телефон в субботу.</div><div class="q-text">7. (buy) I <input type="text" class="inline-input" data-answer="bought"> a new phone on Saturday.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Полиция поймала вора быстро.</div><div class="q-text">8. (catch) The police <input type="text" class="inline-input" data-answer="caught"> the thief quickly.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Мы выбрали красную машину.</div><div class="q-text">9. (choose) We <input type="text" class="inline-input" data-answer="chose"> the red car.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Мои друзья пришли ко мне домой.</div><div class="q-text">10. (come) My friends <input type="text" class="inline-input" data-answer="came"> to my house.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Билет стоил 50 долларов.</div><div class="q-text">11. (cost) The ticket <input type="text" class="inline-input" data-answer="cost"> 50 dollars.</div><div class="feedback"></div></div>
+            <div class="question"><div class="ru-text">Я порезал палец ножом.</div><div class="q-text">12. (cut) I <input type="text" class="inline-input" data-answer="cut"> my finger with a knife.</div><div class="feedback"></div></div>
+        </div>
+
+        <!-- Task 4: Present Perfect -->
+        <div class="task-container">
+            <h2>Task 4: Present Perfect (Ever / Never)</h2>
+            <p class="task-desc">Fill in the blanks with the correct form of Present Perfect (have/has + V3). <em>(Заполните пропуски, используя Present Perfect).</em></p>
+
+            <div class="question">
+                <div class="ru-text">Ты когда-нибудь был в Лондоне?</div>
+                <div class="q-text">1. <input type="text" class="inline-input" data-answer="have" style="width: 70px;"> you ever <input type="text" class="inline-input" data-answer="been" style="width: 100px;"> (be) to London?</div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question">
+                <div class="ru-text">Я никогда не ел осьминога.</div>
+                <div class="q-text">2. I <input type="text" class="inline-input" data-answer="have" style="width: 70px;"> never <input type="text" class="inline-input" data-answer="eaten" style="width: 100px;"> (eat) octopus.</div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question">
+                <div class="ru-text">Она когда-нибудь водила спортивную машину?</div>
+                <div class="q-text">3. <input type="text" class="inline-input" data-answer="has" style="width: 70px;"> she ever <input type="text" class="inline-input" data-answer="driven" style="width: 100px;"> (drive) a sports car?</div>
+                <div class="feedback"></div>
+            </div>
+
+            <div class="question">
+                <div class="ru-text">Мы никогда не нарушали (break) никаких правил.</div>
+                <div class="q-text">4. We <input type="text" class="inline-input" data-answer="have" style="width: 70px;"> never <input type="text" class="inline-input" data-answer="broken" style="width: 100px;"> (break) any rules.</div>
+                <div class="feedback"></div>
+            </div>
+            
+            <div class="question">
+                <div class="ru-text">Они когда-нибудь выбирали (choose) тебя в команду?</div>
+                <div class="q-text">5. <input type="text" class="inline-input" data-answer="have" style="width: 70px;"> they ever <input type="text" class="inline-input" data-answer="chosen" style="width: 100px;"> (choose) you for the team?</div>
+                <div class="feedback"></div>
+            </div>
+        </div>
+
+        <!-- Student details -->
+        <div class="task-container" style="padding-bottom: 20px;">
+            <h2>Final Step: Submit Work</h2>
+            <div class="student-info">
+                <div>
+                    <label style="display:block; margin-bottom:5px; font-weight:600;">Student Name (Имя студента):</label>
+                    <input type="text" id="studentName" placeholder="Enter your name" required style="width: 100%;">
+                </div>
+                <div>
+                    <label style="display:block; margin-bottom:5px; font-weight:600;">Email (Optional):</label>
+                    <input type="text" id="studentEmail" placeholder="Enter email" style="width: 100%;">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="window.gradeHomework()">🚀 Submit & Check Answers</button>
+    </div>
+
+    <!-- Results Screen for Student -->
+    <div id="results-screen">
+        <h2>Evaluation Complete! (Проверка завершена!)</h2>
+        <h1 id="final-score" style="color: #4361EE; font-size: 4rem; margin: 10px 0; font-weight: 800;"></h1>
+        <p id="final-percentage" style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px;"></p>
+        <p>Your results have been securely saved for your teacher. Please scroll up to review your mistakes.</p>
+        <p><em>(Ваши результаты сохранены для преподавателя. Прокрутите вверх, чтобы посмотреть ошибки).</em></p>
+    </div>
+
+    <!-- Hidden Teacher Dashboard -->
+    <div id="teacherAccess">
+        <button class="btn-teacher" onclick="window.openTeacherDashboard()">👩‍🏫 Teacher View</button>
+    </div>
+    <div id="teacherDashboard">
+        <h2 style="color: var(--grape);">Homework Submissions (A2 Grammar HW)</h2>
+        <p>Results are pulled live from your Firebase database.</p>
+        <table class="results-table">
+            <thead><tr><th>Student</th><th>Score</th><th>Percentage</th><th>Date</th></tr></thead>
+            <tbody id="resultsTableBody">
+                <tr><td colspan="4">Loading data...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Firebase Script Connection -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Re-using the same Firebase configuration from the C1 template 
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8pXdc5k1mc-wLBSso4yLHWaTysilhiC0",
+            authDomain: "b1-oge-l1.firebaseapp.com",
+            projectId: "b1-oge-l1",
+            storageBucket: "b1-oge-l1.firebasestorage.app",
+            messagingSenderId: "914766471365",
+            appId: "1:914766471365:web:11764d3942bc385f3cd0ac",
+            measurementId: "G-K12KF1N7YS"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        signInAnonymously(auth).catch((error) => console.error("Silent Auth Failed:", error));
+
+        const db = getFirestore(app);
+        // NEW Collection path for this specific A2 homework to isolate the data
+        const homeworkCollection = collection(db, 'artifacts', 'a2-grammar-hw1', 'homework_submissions');
+
+        window.gradeHomework = async function() {
+            const studentName = document.getElementById("studentName").value.trim();
+            const studentEmail = document.getElementById("studentEmail").value.trim();
+            if (!studentName) {
+                alert("Please enter your name before submitting. (Пожалуйста, введите свое имя перед отправкой.)");
+                document.getElementById("studentName").focus();
+                return;
+            }
+
+            let score = 0, total = 0;
+            
+            // Autograde Tasks
+            const elements = document.querySelectorAll('input[data-answer], select[data-answer]');
+            elements.forEach(el => {
+                total++;
+                const userAnswer = el.value.trim().toLowerCase().replace(/\s+/g, ' ');
+                const validAnswers = el.getAttribute('data-answer').toLowerCase().split('|');
+                
+                // Find or create feedback div
+                let feedbackDiv = el.parentElement.querySelector('.feedback') || el.parentElement.parentElement.querySelector('.feedback') || el.nextElementSibling;
+                
+                if(feedbackDiv) {
+                    feedbackDiv.style.display = "block";
+                    
+                    if (validAnswers.includes(userAnswer)) {
+                        score++;
+                        feedbackDiv.innerHTML = "✅ Correct";
+                        feedbackDiv.className = "feedback correct-bg";
+                        el.style.borderColor = "#4361EE";
+                        el.style.backgroundColor = "rgba(67, 97, 238, 0.05)";
+                    } else {
+                        feedbackDiv.innerHTML = `❌ Incorrect. Accepted answer(s): <strong>${validAnswers.join(' OR ')}</strong>`;
+                        feedbackDiv.className = "feedback incorrect-bg";
+                        el.style.borderColor = "#F72585";
+                        el.style.backgroundColor = "rgba(247, 37, 133, 0.05)";
+                    }
+                }
+                el.disabled = true;
+            });
+
+            const percentage = ((score / total) * 100).toFixed(1) + "%";
+
+            // Update UI
+            document.getElementById("results-screen").style.display = "block";
+            document.getElementById("final-score").innerText = `${score} / ${total}`;
+            document.getElementById("final-percentage").innerText = `Score: ${percentage}`;
+            document.querySelector(".btn-submit").style.display = "none";
+            document.getElementById("results-screen").scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Push result to Firebase
+            try {
+                await addDoc(homeworkCollection, {
+                    studentName: studentName,
+                    email: studentEmail || "N/A",
+                    score: `${score}/${total}`,
+                    percentage: percentage,
+                    timestamp: new Date().toISOString()
+                });
+            } catch (e) {
+                console.error("Error saving to Firebase: ", e);
+            }
+        };
+
+        window.openTeacherDashboard = async function() {
+            const pass = prompt("Enter Teacher Password (Password is A2Teacher):");
+            if (pass !== "A2Teacher") return alert("Incorrect password.");
+
+            document.getElementById("teacherDashboard").style.display = "block";
+            document.getElementById("homework-form").style.display = "none";
+            document.getElementById("results-screen").style.display = "none";
+            document.getElementById("teacherAccess").style.display = "none";
+
+            const tbody = document.getElementById("resultsTableBody");
+            
+            try {
+                const q = query(homeworkCollection, orderBy("timestamp", "desc"));
+                const querySnapshot = await getDocs(q);
+                
+                if(querySnapshot.empty) {
+                    tbody.innerHTML = "<tr><td colspan='4'>No submissions yet.</td></tr>";
+                    return;
+                }
+
+                tbody.innerHTML = "";
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const dateObj = new Date(data.timestamp);
+                    const formattedDate = dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    const tr = document.createElement("tr");
+                    tr.innerHTML = `
+                        <td style="font-weight:bold;">${data.studentName}</td>
+                        <td>${data.score}</td>
+                        <td style="color:var(--primary-dark); font-weight:bold;">${data.percentage}</td>
+                        <td style="font-size: 0.9rem; color: #555;">${formattedDate}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan='4' style='color:red;'>Error loading data: ${e.message}</td></tr>`;
+            }
+        };
+    </script>
+</body>
+</html>
+"""
+with open("A2_Grammar_Homework.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+print("File successfully created.")
