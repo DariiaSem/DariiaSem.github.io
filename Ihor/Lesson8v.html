@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 8: C1 | Dystopian Parallels</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #fbf6ee;
+    --ink: #2b2a33;
+    --mute: #6d6a75;
+    --card: #fff;
+    --coral: #ef6f5e;
+    --teal: #1f9d8f;
+    --tealsoft: #e3f4f1;
+    --gold: #f2b33d;
+    --goldsoft: #fdf2d6;
+    --plum: #7a4fa3;
+    --plumsoft: #f0e6f7;
+    --line: #eadfce;
+    --ok: #2e9d5b;
+    --oksoft: #dcf3e5;
+    --bad: #d64545;
+    --badsoft: #fbe0e0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Nunito', system-ui, sans-serif; line-height: 1.55; font-size: 16px; scroll-behavior: smooth; }
+h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; margin: 0; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,246,238,.95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 12px; align-items: center; }
+.bar b { font-family: 'Fraunces', serif; color: var(--plum); }
+#nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: thin; }
+#nav::-webkit-scrollbar { height: 4px; }
+#nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+#nav a { flex: none; text-decoration: none; background: #fff; border: 1px solid var(--line); color: var(--ink); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; transition: background 0.2s; }
+#nav a:hover { background: var(--gold); }
+.score { flex: none; background: var(--ink); color: #fff; border-radius: 20px; padding: 4px 14px; font-weight: 800; }
+
+.hero { max-width: 960px; margin: 28px auto 8px; padding: 0 16px; text-align: center; }
+.hero .tag { display: inline-block; background: var(--plum); color: #fff; font-weight: 800; border-radius: 20px; padding: 3px 14px; letter-spacing: .05em; font-size: 0.85rem; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: 10px 0; color: var(--ink); }
+.hero p { color: var(--mute); margin: 0 auto 14px; font-size: 1.1rem; max-width: 720px; }
+
+main { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+.task { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin-top: 22px; box-shadow: 0 4px 0 var(--line); scroll-margin-top: 60px; }
+.thead { display: flex; gap: 12px; align-items: center; }
+.num { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.2rem; }
+.task:nth-of-type(3n+2) .num { background: var(--coral); }
+.task:nth-of-type(3n) .num { background: var(--plum); }
+.thead h2 { font-size: 1.5rem; }
+.instr { color: var(--mute); margin: 8px 0 14px; font-size: 1.05rem; }
+
+/* RICH CARDS & STARTING PHRASES */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.rich-card { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.card-emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+.starter-box { margin-top: 12px; padding: 10px 12px; background: #fff; border-left: 4px solid var(--plum); border-radius: 8px; font-size: 0.92rem; }
+.starter-label { display: block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--plum); margin-bottom: 4px; }
+.starter-phrase { display: block; font-weight: 700; color: var(--ink); margin-top: 3px; }
+
+/* MINDMAP */
+.mindmap { display: flex; flex-direction: column; gap: 16px; align-items: center; margin-bottom: 20px; padding: 20px; background: var(--goldsoft); border-radius: 20px; border: 2px dashed var(--gold); }
+.mm-core { background: var(--ink); color: #fff; font-family: 'Fraunces', serif; font-size: 1.65rem; padding: 12px 24px; border-radius: 30px; font-weight: 800; z-index: 2; position: relative; text-align: center; }
+.mm-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+.mm-branch { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 16px; }
+.mm-branch h4 { color: var(--teal); margin-bottom: 8px; font-family: 'Nunito', sans-serif; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+.mm-branch ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.mm-branch li { background: var(--bg); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--line); }
+
+/* MCQ & BUTTONS */
+.q { border-top: 1px dashed var(--line); padding: 12px 0; }
+.qt { font-weight: 700; margin-bottom: 8px; font-size: 1.05rem; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font-family: inherit; }
+.opt, .btn { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 7px 14px; cursor: pointer; font-weight: 700; font-size: .95rem; color: var(--ink); transition: border 0.2s; }
+.opt:hover, .btn:hover { border-color: var(--teal); }
+.btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.btn.alt { background: #fff; color: var(--ink); border-color: var(--line); }
+.good { background: var(--oksoft) !important; border-color: var(--ok) !important; color: #1E6038 !important; }
+.bad { background: var(--badsoft) !important; border-color: var(--bad) !important; color: #7F1D1D !important; }
+.fb { color: var(--ok); font-size: .9rem; margin-left: 8px; font-weight: 700; }
+
+/* VOCAB FLIP CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.vcard { position: relative; height: 195px; cursor: pointer; }
+.vocab-front, .vocab-def { position: absolute; inset: 0; border-radius: 16px; padding: 14px; transition: opacity .25s; display: flex; flex-direction: column; justify-content: center; border: 2px solid var(--line); }
+.vocab-front { background: #fff; opacity: 1; align-items: center; text-align: center; gap: 4px; }
+.vocab-def { background: var(--tealsoft); opacity: 0; font-size: .88rem; overflow: auto; align-items: center; text-align: center; gap: 6px; border-color: var(--teal); font-weight: 600; }
+.vcard:hover .vocab-front, .vcard.flip .vocab-front { opacity: 0; }
+.vcard:hover .vocab-def, .vcard.flip .vocab-def { opacity: 1; }
+.en { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.35rem; color: var(--coral); }
+.say { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+/* PRONUNCIATION */
+.pron { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border-top: 1px dashed var(--line); padding: 12px 0; }
+.pron .w { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.25rem; min-width: 145px; }
+.pron .ipa { color: var(--mute); min-width: 130px; font-family: monospace; }
+.syl { background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 4px 12px; cursor: pointer; font-weight: 700; }
+
+/* GAP FILL & TOOLKIT */
+.note { background: var(--goldsoft); border-radius: 12px; padding: 14px 18px; margin: 10px 0; font-size: .95rem; }
+.note.plum { background: var(--plumsoft); border-left: 4px solid var(--plum); }
+.note.teal { background: var(--tealsoft); border-left: 4px solid var(--teal); }
+.gap { padding: 10px 0; border-top: 1px dashed var(--line); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 1.03rem; }
+select, input[type=text], textarea { font-family: inherit; font-size: 1rem; border: 2px solid var(--line); border-radius: 10px; padding: 6px 10px; background: #fff; outline: none; }
+select:focus, input[type=text]:focus, textarea:focus { border-color: var(--teal); }
+
+/* MATCH IT */
+.match { display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; }
+.mcol { display: flex; flex-direction: column; gap: 8px; }
+.mitem { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.mitem.sel { border-color: var(--gold); background: var(--goldsoft); }
+
+/* ERROR SPY */
+.spyrow { padding: 14px 0; border-top: 1px dashed var(--line); font-size: 1.05rem; }
+.spy { background: var(--goldsoft); border-radius: 6px; padding: 1px 6px; cursor: pointer; font-weight: 700; border: 1px solid var(--gold); }
+.spy.wrong { background: var(--badsoft); border-color: var(--bad); }
+.spy.found { background: var(--oksoft); border-color: var(--ok); color: #1E6038; }
+.fix-box { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ORDERER */
+.order { padding-left: 0; list-style: none; margin: 10px 0; }
+.oitem { display: flex; gap: 8px; align-items: center; padding: 8px 12px; margin: 5px 0; border: 2px solid var(--line); border-radius: 10px; background: #fff; font-weight: 600; font-size: 1.03rem; }
+.oitem span { flex: 1; }
+.mini { background: #fff; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; padding: 2px 8px; font-size: 1.1rem; font-weight: 800; }
+
+/* CHAT */
+.chat-container { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 85%; padding: 10px 16px; border-radius: 16px; font-size: 1rem; font-weight: 600; position: relative; }
+.chat-msg.received { background: var(--bg); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--line); }
+.chat-msg.sent { background: var(--plum); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-name { font-size: 0.75rem; font-weight: 800; margin-bottom: 2px; color: var(--mute); }
+.chat-msg.sent .chat-name { text-align: right; color: var(--plumsoft); }
+
+/* TABLE */
+table { border-collapse: collapse; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin: 12px 0; }
+th, td { border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: var(--plumsoft); color: var(--plum); font-weight: 800; }
+td { background: #fff; font-weight: 600; }
+td.en { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--coral); }
+td.def { color: var(--mute); }
+
+/* SPINBOX & WRITING */
+.spinbox { background: var(--goldsoft); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 14px; border: 2px dashed var(--gold); }
+.big { font-family: 'Fraunces', serif; font-size: 1.55rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.spin-starter { background: #fff; border: 2px solid var(--plum); color: var(--plum); border-radius: 12px; padding: 8px 14px; display: inline-block; font-weight: 800; margin-bottom: 14px; font-size: 0.98rem; }
+textarea { width: 100%; min-height: 120px; resize: vertical; margin-bottom: 8px; }
+.words { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.words span { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 2px 10px; font-size: .85rem; font-weight: 700; color: var(--mute); }
+.words span.on { background: var(--oksoft); color: #1E6038; border-color: var(--ok); }
+
+/* UA HOVER */
+.ua-hover { position: relative; cursor: help; border-bottom: 2px dotted var(--teal); font-weight: 700; color: var(--teal); transition: all 0.2s; }
+.ua-hover:hover { background: var(--tealsoft); }
+.ua-hover::after { content: attr(data-ua); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(6px); background: var(--ink); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.2s; font-weight: 600; pointer-events: none; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.ua-hover:hover::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+footer { text-align: center; color: var(--mute); padding: 30px 16px; font-weight: 700; font-size: 0.9rem; }
+@media(max-width: 600px) { .match { grid-template-columns: 1fr; } .mm-branches { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar"><b>L08 · C1</b><div id="nav"></div><div class="score">⭐ <span id="score">0 / 0</span></div></div>
+
+<div class="hero">
+  <span class="tag">SOCIAL · LESSON 08 · C1</span>
+  <h1>Dystopian Parallels</h1>
+  <p>Explore how speculative fiction mirrors modern anxieties about surveillance and control. Master <i>Participle Clauses</i> and <i>Future in the Past</i> through guided speaking.</p>
+</div>
+
+<main id="tasks"></main>
+<footer>Lesson 08 · Dystopian Parallels · C1 Social English ⭐</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const h = (t, c, html) => { const e = document.createElement(t); if(c) e.className = c; if(html != null) e.innerHTML = html; return e; };
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+
+let total = 0; const done = new Set();
+const upd = () => { $('#score').textContent = done.size + ' / ' + total; };
+const reg = (n = 1) => { total += n; upd(); };
+const ok = k => { if(!done.has(k)) { done.add(k); upd(); } };
+function say(t, l='en-GB') { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = l; u.rate = 0.88; speechSynthesis.speak(u); } catch(e) {} }
+
+const main = $('#tasks');
+function task(n, icon, title, instr) {
+  const s = h('section', 'task'); s.id = 't' + n;
+  s.innerHTML = `<div class="thead"><span class="num">${icon}</span><h2>${title}</h2></div><p class="instr">${instr}</p>`;
+  const b = h('div'); s.appendChild(b); main.appendChild(s);
+  const a = h('a', null, n); a.href = '#t' + n; $('#nav').appendChild(a);
+  return b;
+}
+
+function mcq(box, items, key) {
+  items.forEach((it, i) => {
+    reg();
+    const q = h('div', 'q'); q.innerHTML = `<div class="qt">${it.q}</div>`;
+    const o = h('div', 'opts'), fb = h('div', 'fb'); let wrong = false, solved = false;
+    let ops = it.o.map((t, j) => ({ t, c: j === (it.a || 0) }));
+    if(!it.fixed) ops = shuffle(ops);
+    ops.forEach(op => {
+      const b = h('button', 'opt', op.t);
+      b.onclick = () => {
+        if(solved) return;
+        if(op.c) { solved = true; b.classList.add('good'); if(!wrong) ok(key + i); if(it.w) fb.textContent = it.w; }
+        else { wrong = true; b.classList.add('bad'); b.disabled = true; }
+      };
+      o.appendChild(b);
+    });
+    q.append(o, fb); box.appendChild(q);
+  });
+}
+const tf = (box, items, key) => mcq(box, items.map(x => ({ q: x[0], o: ['True', 'False'], a: x[1] ? 0 : 1, fixed: true, w: x[2] })), key);
+
+function flip(front, def) {
+  const c = h('div', 'vcard');
+  c.innerHTML = `<div class="vocab-front">${front}</div><div class="vocab-def">${def}</div>`;
+  c.onclick = () => c.classList.toggle('flip');
+  return c;
+}
+
+/* ---------------- 1 WARM-UP SPEAKING ---------------- */
+(() => {
+  const b = task(1, '🔥', 'Warm-Up: Fiction vs. Reality', 'Discuss these opening prompts aloud. Use the starting phrases to anchor your response.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">👁️</span>
+      <h4>The Comfort of Surveillance</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">In classic dystopias, surveillance is forced upon citizens. Today, we buy devices that listen to us. Why do we accept this trade-off?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Having grown accustomed to convenience, we tend to...</span>
+        <span class="starter-phrase">• Early tech pioneers thought smartphones would...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">📚</span>
+      <h4>Prophetic Fiction</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Which dystopian book, film, or series feels most uncomfortably accurate right now, and why?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Watching that series today, I am struck by how...</span>
+        <span class="starter-phrase">• At the time it was written, it was going to be just a warning, yet...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+
+  mcq(b, [
+    { q: 'Which classic dystopian concept describes a prison where inmates never know if they are being watched, so they police themselves?', o: ['The Panopticon', 'The Agora', 'The Labyrinth'] },
+    { q: 'When citizens trade privacy for convenience without protesting, critics call this...', o: ['digital complacency', 'civic dissent', 'algorithmic autonomy'] }
+  ], 'q1_');
+})();
+
+/* ---------------- 2 VOCABULARY MINDMAP ---------------- */
+(() => {
+  const b = task(2, '🧠', 'Vocabulary Mindmap', 'Explore eight C1 terms for discussing surveillance, algorithmic control, and resistance.');
+  const mm = h('div', 'mindmap');
+  mm.innerHTML = `
+    <div class="mm-core">Surveillance & Control (C1)</div>
+    <div class="mm-branches">
+      <div class="mm-branch" style="border-color: var(--teal)">
+        <h4>Visibility</h4>
+        <ul>
+          <li><b>Ubiquitous:</b> Present, appearing, or found everywhere at once.</li>
+          <li><b>Panopticon:</b> A system of constant, invisible observation that enforces self-censorship.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--coral)">
+        <h4>Power</h4>
+        <ul>
+          <li><b>Coercion:</b> Persuading someone to do something by using force, threats, or pressure.</li>
+          <li><b>Obfuscation:</b> Making something unclear or hard to understand on purpose.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--plum)">
+        <h4>Submission</h4>
+        <ul>
+          <li><b>Complacency:</b> Uncritical satisfaction with the status quo while ignoring danger.</li>
+          <li><b>Conformity:</b> Compliance with social standards, rules, or laws.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--gold)">
+        <h4>Resistance</h4>
+        <ul>
+          <li><b>Dissent:</b> The expression of opinions at variance with those officially held.</li>
+          <li><b>Autonomy:</b> The right or condition of self-government and independent choice.</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  b.appendChild(mm);
+})();
+
+/* ---------------- 3 PRONUNCIATION ---------------- */
+(() => {
+  const b = task(3, '🗣️', 'Say It Right', 'Press 🔊, listen, then click the <b>stressed syllable</b> of these C1 words.');
+  const P = [
+    ['ubiquitous', '/juːˈbɪkwɪtəs/', ['u', 'bi', 'qui', 'tous'], 1, 'Stress on BI.'],
+    ['panopticon', '/pæˈnɒptɪkən/', ['pan', 'op', 'ti', 'con'], 1, 'Stress on OP.'],
+    ['complacency', '/kəmˈpleɪsənsi/', ['com', 'pla', 'cen', 'cy'], 1, 'Stress on PLA.'],
+    ['autonomy', '/ɔːˈtɒnəmi/', ['au', 'ton', 'o', 'my'], 1, 'Stress on TON.'],
+    ['obfuscation', '/ˌɒbfʌsˈkeɪʃən/', ['ob', 'fus', 'ca', 'tion'], 2, 'Stress on CA.']
+  ];
+  P.forEach((p, k) => {
+    reg(); const r = h('div', 'pron');
+    r.innerHTML = `<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s = h('button', 'say', '🔊'); s.onclick = () => say(p[0]); r.appendChild(s);
+    const fb = h('span', 'fb'); let wrong = false, solved = false;
+    p[2].forEach((t, i) => {
+      const y = h('button', 'syl', t);
+      y.onclick = () => {
+        if(solved) return;
+        if(i === p[3]) { solved = true; y.classList.add('good'); y.textContent = t.toUpperCase(); if(!wrong) ok('p'+k); fb.textContent = p[4]; }
+        else { wrong = true; y.classList.add('bad'); }
+      };
+      r.appendChild(y);
+    });
+    r.appendChild(fb); b.appendChild(r);
+  });
+})();
+
+/* ---------------- 4 VOCAB FLIP CARDS + MICRO-SPEAKING ---------------- */
+(() => {
+  const b = task(4, '🎴', 'Concept Check & Micro-Speaking', 'Tap each card to reveal the definition and a speaking starter. Finish the sentence aloud.');
+  const V = [
+    ['Ubiquitous', 'Found everywhere at once.', 'Starter: Facial recognition has become so ubiquitous that...'],
+    ['Complacency', 'Uncritical acceptance of a dangerous situation.', 'Starter: Driven by digital complacency, most users...'],
+    ['Obfuscation', 'Deliberately making rules or terms hard to understand.', 'Starter: Hidden behind legal obfuscation, tech companies...'],
+    ['Autonomy', 'Freedom to make independent decisions.', 'Starter: Without true algorithmic autonomy, citizens...']
+  ];
+  const g = h('div', 'cards');
+  V.forEach(v => {
+    const f = `<div class="en">${v[0]}</div><button class="say" title="Listen">🔊</button><small style="color:var(--mute); margin-top:6px;">tap to flip</small>`;
+    const d = `<div>${v[1]}</div><div style="color:var(--plum); font-size:0.82rem; margin-top:6px;">${v[2]}</div>`;
+    const c = flip(f, d);
+    c.querySelector('.say').onclick = e => { e.stopPropagation(); say(v[0]); };
+    g.appendChild(c);
+  });
+  b.appendChild(g);
+})();
+
+/* ---------------- 5 MATCH THE PARALLEL ---------------- */
+(() => {
+  const b = task(5, '🧩', 'Match the Parallel', 'Click the C1 term on the left, then match it to its modern surveillance example on the right.');
+  const pairs = [
+    ['Panopticon', 'Workers self-censor because productivity software might be recording their screen.'],
+    ['Obfuscation', 'A 90-page terms of service document designed so nobody reads it.'],
+    ['Coercion', 'Forcing citizens to install a tracking app in order to access public transport.'],
+    ['Dissent', 'Journalists publishing leaked documents that expose mass data collection.'],
+    ['Conformity', 'Social credit scores rewarding citizens who never question official narratives.']
+  ];
+  reg(pairs.length);
+  const w = h('div', 'match'), L = h('div', 'mcol'), R = h('div', 'mcol'); let sl = null, sr = null;
+  const mk = (txt, id, side) => {
+    const btn = h('button', 'mitem', txt); btn.dataset.id = id;
+    btn.onclick = () => {
+      if(btn.classList.contains('good')) return;
+      if(side === 'L') { if(sl) sl.classList.remove('sel'); sl = btn; } else { if(sr) sr.classList.remove('sel'); sr = btn; }
+      btn.classList.add('sel');
+      if(sl && sr) {
+        const a = sl, c = sr; sl = sr = null;
+        if(a.dataset.id === c.dataset.id) { [a, c].forEach(x => { x.classList.remove('sel'); x.classList.add('good'); }); ok('m' + a.dataset.id); }
+        else { [a, c].forEach(x => x.classList.add('bad')); setTimeout(() => [a, c].forEach(x => x.classList.remove('bad', 'sel')), 600); }
+      }
+    }; return btn;
+  };
+  shuffle(pairs.map((p, i) => [p[0], i])).forEach(x => L.appendChild(mk(x[0], x[1], 'L')));
+  shuffle(pairs.map((p, i) => [p[1], i])).forEach(x => R.appendChild(mk(x[0], x[1], 'R')));
+  w.append(L, R); b.appendChild(w);
+})();
+
+/* ---------------- 6 GRAMMAR 1: PARTICIPLE CLAUSES ---------------- */
+(() => {
+  const b = task(6, '⚖️', 'Grammar 1: Participle Clauses', 'Participle clauses condense complex ideas into sharp, C1-level statements. They are ideal for analyzing cause, time, and passive control.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Type</th><th>Form & Function</th><th>Dystopian Example</th></tr>
+    <tr>
+      <td class="en">Present Participle</td>
+      <td><b>V-ing</b> — active meaning; shows simultaneous actions or immediate cause.</td>
+      <td><b>Fearing</b> constant surveillance, citizens speak in code.</td>
+    </tr>
+    <tr>
+      <td class="en">Past Participle</td>
+      <td><b>V3 (-ed)</b> — passive meaning; shows condition or reason.</td>
+      <td><b>Monitored</b> by ubiquitous cameras, the city falls silent.</td>
+    </tr>
+    <tr>
+      <td class="en">Perfect Participle</td>
+      <td><b>Having + V3</b> — emphasizes that one action finished before the next began.</td>
+      <td><b>Having surrendered</b> their data, users lost all leverage.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note');
+  nb.innerHTML = `<b>Critical C1 Rule (No Dangling Participles):</b> The subject of the participle clause MUST match the subject of the main clause.<br>
+  ❌ <i>Walking past the camera, my face was scanned.</i> (Your face was not walking!)<br>
+  ✅ <i>Walking past the camera, <b>I</b> had my face scanned.</i>`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 7 PARTICIPLE CLAUSE PRACTICE + SPEAKING ---------------- */
+(() => {
+  const b = task(7, '📝', 'Participle Clause Precision', 'Choose the correct participle form to complete each sentence, then finish prompt 5 aloud.');
+  const bank = ['Having ignored', 'Tracked', 'Scrolling', 'Faced with'];
+  const G = [
+    ['___ through their feeds for hours, users rarely notice how their opinions shift.', 'Scrolling'],
+    ['___ by algorithms every second, modern consumers live inside a soft panopticon.', 'Tracked'],
+    ['___ early warnings from whistleblowers, the public woke up too late.', 'Having ignored'],
+    ['___ subtle coercion, many citizens choose quiet conformity.', 'Faced with']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('gp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+
+  const sp = h('div', 'starter-box');
+  sp.innerHTML = `
+    <span class="starter-label">Speaking Follow-Up (Complete Aloud)</span>
+    <span class="starter-phrase">• Surrounded by smart devices, I sometimes feel that...</span>
+    <span class="starter-phrase">• Having seen how social media shapes elections, I believe...</span>
+  `;
+  b.appendChild(sp);
+})();
+
+/* ---------------- 8 GRAMMAR 2: FUTURE IN THE PAST (FULL EXPLANATION) ---------------- */
+(() => {
+  const b = task(8, '⏳', 'Grammar 2: Future in the Past', 'Looking forward from a past viewpoint. Essential for discussing failed predictions, broken promises, interrupted moments, and historical destiny.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Form</th><th>Meaning & Nuance</th><th>Example</th></tr>
+    <tr>
+      <td class="en">would + V</td>
+      <td><b>Past prediction, belief, or promise</b> — looking ahead from a past moment (the past of <i>will</i>).</td>
+      <td>Orwell warned that technology <b>would become</b> a tool of control.<br>They promised the data <b>would remain</b> private.</td>
+    </tr>
+    <tr>
+      <td class="en">was / were going to + V</td>
+      <td><b>Past intention or plan</b> — often used when the plan did NOT happen or changed.</td>
+      <td>The internet <b>was going to democratize</b> information, yet monopolies took over.</td>
+    </tr>
+    <tr>
+      <td class="en">was / were about to + V</td>
+      <td><b>Imminent action in the past</b> — on the very point of happening, usually interrupted.</td>
+      <td>The whistleblower <b>was about to publish</b> the files when the server went dark.</td>
+    </tr>
+    <tr>
+      <td class="en">was / were to + V</td>
+      <td><b>Destiny or formal fate</b> — looking back at what later happened, as if written by fate (very literary/C1).</td>
+      <td>That simple tracking cookie <b>was to reshape</b> the entire global economy.<br>Little did they know, the app <b>was to become</b> mandatory.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note plum');
+  nb.innerHTML = `<b>Compare the nuance:</b><br>
+  • <i>It <b>was going to</b> protect us</i> = That was the original plan (it probably failed).<br>
+  • <i>It <b>was to</b> protect us</i> = Formal arrangement or destiny (it actually happened later, or was officially scheduled).`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 9 FUTURE IN THE PAST GAP-FILL ---------------- */
+(() => {
+  const b = task(9, '🎯', 'Future in the Past: Choose the Nuance', 'Select the exact form that matches the context.');
+  const bank = ['would', 'was going to', 'was about to', 'was to'];
+  const G = [
+    ['In the 1990s, optimists genuinely believed the web ___ end authoritarian censorship forever.', 'would'],
+    ['The committee ___ pass a strict privacy law, but intense lobbying killed the bill.', 'was going to'],
+    ['She ___ delete her account when a targeted ad predicted her exact medical condition.', 'was about to'],
+    ['At the time, nobody realized that this small startup ___ become the most powerful surveillance engine on earth.', 'was to']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('fp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+})();
+
+/* ---------------- 10 READING & COMPREHENSION ---------------- */
+(() => {
+  const b = task(10, '📖', 'Reading: The Soft Panopticon', 'Hover over the dotted phrases for Ukrainian translations. Notice how Participle Clauses and Future in the Past work together.');
+  const rc = h('div', 'rich-card');
+  rc.style.borderTop = '5px solid var(--teal)';
+  rc.innerHTML = `
+    <p>
+      Writing in 1949, George Orwell imagined a state that <b>would enforce</b> <span class="ua-hover" data-ua="конформізм">conformity</span> through brute <span class="ua-hover" data-ua="примус">coercion</span>. 
+      He believed citizens <b>were to live</b> in terror of a single telescreen. 
+      Yet, <span class="ua-hover" data-ua="поглянувши на"><b>looking at</b></span> our modern pockets, we see a quieter reality.
+    </p>
+    <p style="margin-top:12px;">
+      The smartphone <b>was going to</b> liberate us from bureaucracy. Instead, <span class="ua-hover" data-ua="маючи всюдисущий доступ"><b>having granted</b></span> apps <span class="ua-hover" data-ua="всюдисущий">ubiquitous</span> access to our locations, we built a voluntary panopticon. 
+      Just when critics <b>were about to</b> sound the alarm, algorithmic convenience lulled the public into <span class="ua-hover" data-ua="самозаспокоєння">complacency</span>. 
+      <span class="ua-hover" data-ua="прихований за"><b>Hidden behind</b></span> legal <span class="ua-hover" data-ua="заплутування">obfuscation</span>, modern control rarely needs a boot; it only needs an algorithm.
+    </p>
+  `;
+  b.appendChild(rc);
+
+  tf(b, [
+    ['According to the text, Orwell predicted that citizens would voluntarily buy their own surveillance devices.', false, 'He imagined brute coercion rather than voluntary adoption.'],
+    ['The phrase was going to liberate us implies that the original promise of the smartphone was not fully realized.', true, 'Correct — was going to highlights an unfulfilled past expectation.'],
+    ['The author argues that modern control relies more on convenience and obfuscation than physical force.', true]
+  ], 'r10_');
+})();
+
+/* ---------------- 11 SPEAKING ARENA (WITH STARTING PHRASES) ---------------- */
+(() => {
+  const b = task(11, '💬', 'Speaking Arena: Surveillance Dilemmas', 'Spend 2 minutes on each dilemma. Start your answer with one of the provided C1 starting phrases.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--teal)">
+      <span class="card-emoji">🛡️</span>
+      <h4>Safety vs. Autonomy</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">If ubiquitous facial recognition reduced violent crime by 50 percent, would you support installing it on every street corner?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Weighing public safety against personal autonomy, I would argue that...</span>
+        <span class="starter-phrase">• Even if the system was going to reduce crime, it would inevitably...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🤖</span>
+      <h4>Predictive Policing</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Speculative fiction like Minority Report warns against punishing people before they act. How close are modern risk-scoring algorithms to this?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Driven by biased historical data, these algorithms...</span>
+        <span class="starter-phrase">• Having watched predictive models fail in hiring and banking, I think...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">🏛️</span>
+      <h4>The Illusion of Choice</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Can a citizen still claim to have free will when recommendation engines curate every news article and video they see?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Exposed to endless micro-targeting, people rarely realize...</span>
+        <span class="starter-phrase">• Social media was to connect the world, yet in reality it...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--gold)">
+      <span class="card-emoji">📵</span>
+      <h4>The Right to Disappear</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Should opting out of the digital grid be a protected human right, or is it already impossible in modern society?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Attempting to live offline today, a person quickly discovers...</span>
+        <span class="starter-phrase">• Just when governments were about to regulate data brokers, ...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+})();
+
+/* ---------------- 12 ERROR SPY ---------------- */
+(() => {
+  const b = task(12, '🔍', 'Error Spy: C1 Grammar Debug', 'Each sentence hides ONE mistake in Participle Clauses or Future in the Past. Click the wrong bracketed phrase, then type the fix.');
+  const E = [
+    ['[Watched] by millions online, the whistleblower [decided] to [vanish].', 0, ['watched', 'being watched']],
+    ['[Walked] into the dark server room, the engineer [noticed] the [blinking] light.', 0, ['walking']],
+    ['The startup [was] about [to launching] its tracking app when regulators [intervened].', 1, ['to launch']],
+    ['Little did he know, that brief email [was] [become] the spark of a [revolution].', 1, ['to become']],
+    ['[Having] [losing] all trust in the media, citizens turned to [encrypted] channels.', 1, ['lost']]
+  ];
+  // Fix item 0 to have an actual error: [Watching] -> Watched
+  E[0] = ['[Watching] by millions online, the whistleblower [decided] to [vanish].', 0, ['watched', 'being watched']];
+
+  E.forEach((e, k) => {
+    reg(); const d = h('div', 'spyrow'); let idx = 0;
+    const html = e[0].replace(/\[(.+?)\]/g, (m, w) => `<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML = `<div>${html}</div>`;
+    const fix = h('div', 'fix-box'); d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp => {
+      sp.onclick = () => {
+        if(sp.classList.contains('found')) return;
+        if(+sp.dataset.i !== e[1]) { sp.classList.add('wrong'); setTimeout(() => sp.classList.remove('wrong'), 600); return; }
+        sp.classList.add('wrong');
+        fix.innerHTML = '';
+        const inp = h('input'); inp.type = 'text'; inp.placeholder = 'Type correction...';
+        const c = h('button', 'btn', 'Fix');
+        c.onclick = () => {
+          if(e[2].map(norm).includes(norm(inp.value))) {
+            sp.classList.remove('wrong'); sp.classList.add('found'); sp.textContent = e[2][0];
+            fix.innerHTML = '<span class="fb">✔ Fixed!</span>'; ok('e'+k);
+          } else { inp.className = 'bad'; }
+        };
+        inp.onkeydown = ev => { if(ev.key === 'Enter') c.click(); };
+        fix.append(inp, c); inp.focus();
+      };
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 13 ROLE-PLAY CHAT ---------------- */
+(() => {
+  const b = task(13, '📱', 'Role-Play: The Architect vs. The Dissident', 'Read the exchange aloud with your teacher, then continue the debate for 3 more turns using the starting phrases below.');
+  b.innerHTML += `
+    <div class="chat-container">
+      <div class="chat-msg received">
+        <div class="chat-name">The Architect (Tech Executive)</div>
+        <div><b>Designed</b> to prevent fraud, our biometric grid <b>was going to</b> make the city safer for everyone. Why oppose progress?</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">The Dissident (You)</div>
+        <div><b>Having seen</b> how quickly emergency tools become permanent, I know this system <b>would</b> eventually be used to silence <b>dissent</b>.</div>
+      </div>
+      <div class="chat-msg received">
+        <div class="chat-name">The Architect</div>
+        <div>That is pure paranoia. People willingly trade privacy for convenience. Nobody is using <b>coercion</b>.</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">The Dissident (You)</div>
+        <div><b>Trapped</b> in a system where you cannot even buy a train ticket without scanning your face, citizens have no real <b>autonomy</b>.</div>
+      </div>
+    </div>
+    <div class="starter-box" style="margin-top:16px;">
+      <span class="starter-label">Continue the Role-Play Aloud (Pick a Side)</span>
+      <span class="starter-phrase">• Looking back five years from now, we will realize that this policy was to...</span>
+      <span class="starter-phrase">• Hidden behind corporate obfuscation, the real motive is...</span>
+      <span class="starter-phrase">• We were about to achieve real digital freedom, until...</span>
+    </div>
+  `;
+})();
+
+/* ---------------- 14 SENTENCE BUILDER ---------------- */
+(() => {
+  const b = task(14, '🏗️', 'C1 Sentence Builder', 'Arrange the chunks to form a dramatic C1 sentence combining a Perfect Participle and Future in the Past (destiny).');
+  const seq = [
+    'Having underestimated',
+    'the power of',
+    'ubiquitous algorithms,',
+    'the founders never imagined',
+    'their harmless app',
+    'was to reshape',
+    'modern democracy.'
+  ];
+  reg(1); let cur = shuffle(seq); while(cur.join() === seq.join()) cur = shuffle(seq);
+  const list = h('ol', 'order');
+  const draw = () => {
+    list.innerHTML = '';
+    cur.forEach((t, i) => {
+      const li = h('li', 'oitem'); li.innerHTML = `<span>${t}</span>`;
+      const u = h('button', 'mini', '↑'), d = h('button', 'mini', '↓');
+      u.onclick = () => { if(i > 0) { [cur[i-1], cur[i]] = [cur[i], cur[i-1]]; draw(); } };
+      d.onclick = () => { if(i < cur.length - 1) { [cur[i+1], cur[i]] = [cur[i], cur[i+1]]; draw(); } };
+      li.append(u, d); list.appendChild(li);
+    });
+  };
+  draw();
+  const btn = h('button', 'btn', 'Check syntax'), fb = h('span', 'fb');
+  btn.onclick = () => {
+    let all = true;
+    [...list.children].forEach((li, i) => {
+      const g = cur[i] === seq[i];
+      li.classList.toggle('good', g); li.classList.toggle('bad', !g);
+      if(!g) all = false;
+    });
+    fb.textContent = all ? ' ✔ Perfect C1 syntax!' : ' Green = right place.';
+    if(all) ok('ord14');
+  };
+  b.append(list, btn, fb);
+})();
+
+/* ---------------- 15 SPEAKING ROULETTE & WRITING LOG ---------------- */
+(() => {
+  const b = task(15, '🎤', 'Dystopian Roulette & Reflection Log', 'Spin to get a C1 speaking prompt and a mandatory starting phrase. Speak for 60 seconds, then summarize your argument below.');
+  const CH = [
+    {
+      q: 'Why do people willingly accept digital surveillance that dystopian authors thought would require violent force?',
+      s: 'Starting phrase: Seduced by effortless convenience, modern citizens...'
+    },
+    {
+      q: 'Describe a technology from the last 15 years that was going to make life better, yet created a new form of control.',
+      s: 'Starting phrase: Originally, this technology was going to...'
+    },
+    {
+      q: 'How can a society encourage healthy dissent when algorithms reward conformity and outrage?',
+      s: 'Starting phrase: Having allowed engagement metrics to dictate public debate, we...'
+    },
+    {
+      q: 'Imagine a historian in 2075 looking back at our current era. What will they say was to become our biggest mistake?',
+      s: 'Starting phrase: Looking back at the 2020s, historians will see that our complacency was to...'
+    },
+    {
+      q: 'Tell a brief story about a moment you were about to accept a digital shortcut, then suddenly questioned the privacy cost.',
+      s: 'Starting phrase: I was about to click accept when I realized...'
+    }
+  ];
+
+  const sb = h('div', 'spinbox');
+  sb.innerHTML = '<div class="big" id="spOrg">Press SPIN for your C1 Speaking Prompt</div><div class="spin-starter" id="spStart" style="display:none;"></div><div id="spT" style="font-size:1.4rem;font-weight:800; color: var(--teal); margin-top: 8px;"></div>';
+  const spin = h('button', 'btn', '🎰 SPIN'), tm = h('button', 'btn alt', '⏱ Start 60 s'); tm.style.marginLeft = '8px';
+  let iv = null;
+  spin.onclick = () => {
+    const c = shuffle(CH)[0];
+    $('#spOrg').textContent = c.q;
+    $('#spStart').textContent = c.s;
+    $('#spStart').style.display = 'inline-block';
+    $('#spT').textContent = ''; clearInterval(iv);
+  };
+  tm.onclick = () => {
+    clearInterval(iv); let t = 60; $('#spT').textContent = t + 's';
+    iv = setInterval(() => { t--; $('#spT').textContent = t > 0 ? t + 's' : 'Time! 👏'; if(t <= 0) clearInterval(iv); }, 1000);
+  };
+  sb.append(spin, tm); b.appendChild(sb);
+
+  b.appendChild(h('h3', null, '✍️ Quick Synthesis Log')); b.lastChild.style.margin = '20px 0 8px';
+  b.appendChild(h('p', 'instr', 'Write 4–6 sentences capturing your main argument. Try to activate at least <b>3</b> target words or grammar markers below.'));
+
+  const W = ['ubiquitous', 'panopticon', 'complacency', 'autonomy', 'coercion', 'dissent', 'obfuscation', 'having', 'was going to', 'was about to', 'was to'];
+  const ta = h('textarea'); ta.placeholder = 'Having grown accustomed to ubiquitous tracking, society was going to...';
+
+  const wd = h('div', 'words'); wd.innerHTML = W.map(w => `<span>${w}</span>`).join('');
+  const cnt = h('div', 'fb'); cnt.style.color = 'var(--mute)'; reg();
+
+  const upd2 = () => {
+    const t = ta.value.toLowerCase(); let n = 0;
+    [...wd.children].forEach((s, i) => { const on = t.includes(W[i]); s.classList.toggle('on', on); if(on) n++; });
+    const wc = (ta.value.trim().match(/\S+/g) || []).length;
+    cnt.textContent = `${wc} words · ${n} target items used`;
+    if(n >= 3 && wc >= 30) ok('write');
+  };
+  ta.oninput = upd2; b.append(ta, wd, cnt); upd2();
+})();
+</script>
+</body>
+</html>
