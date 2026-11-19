@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 8 · Rosso Corsa</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6ee;--ink:#2b2a33;--mute:#6d6a75;--card:#fff;--coral:#d9382b;--teal:#1f9d8f;--tealsoft:#e3f4f1;--gold:#f2b33d;--goldsoft:#fdf2d6;--plum:#7a4fa3;--line:#eadfce;--ok:#2e9d5b;--oksoft:#dcf3e5;--bad:#d64545;--badsoft:#fbe0e0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,sans-serif;line-height:1.55;font-size:16px}
+h1,h2,h3,h4{font-family:Fraunces,Georgia,serif;margin:0}
+.bar{position:sticky;top:0;z-index:20;background:rgba(251,246,238,.95);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:12px;align-items:center}
+.bar b{font-family:Fraunces,serif;color:var(--coral)}
+#nav{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:thin}
+#nav a{flex:none;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--ink);width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem}
+#nav a:hover{background:var(--gold)}
+.score{flex:none;background:var(--ink);color:#fff;border-radius:20px;padding:4px 14px;font-weight:800}
+.flag{height:14px;background:repeating-conic-gradient(#2b2a33 0 25%,#fff 0 50%) 0 0/14px 14px;border-bottom:1px solid var(--line)}
+.hero{max-width:960px;margin:28px auto 8px;padding:0 16px}
+.hero .tag{display:inline-block;background:var(--coral);color:#fff;font-weight:800;border-radius:20px;padding:3px 14px;letter-spacing:.05em}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.05;margin:10px 0}
+.hero p{color:var(--mute);margin:0 0 14px;font-size:1.1rem}
+.cando{background:var(--goldsoft);border-radius:16px;padding:14px 20px}
+.cando ul{margin:6px 0 0;padding-left:20px}
+main{max-width:960px;margin:0 auto;padding:0 16px 60px}
+.task{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;margin-top:22px;box-shadow:0 4px 0 var(--line)}
+.thead{display:flex;gap:12px;align-items:center}
+.num{flex:none;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:Fraunces,serif;font-weight:800;font-size:1.2rem}
+.task:nth-of-type(3n+2) .num{background:var(--coral)}.task:nth-of-type(3n) .num{background:var(--plum)}
+.thead h2{font-size:1.5rem}
+.instr{color:var(--mute);margin:8px 0 14px}
+.q{border-top:1px dashed var(--line);padding:12px 0}
+.qt{font-weight:700;margin-bottom:8px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+button{font-family:inherit}
+.opt,.btn{background:#fff;border:2px solid var(--line);border-radius:12px;padding:7px 14px;cursor:pointer;font-weight:700;font-size:.95rem}
+.opt:hover,.btn:hover{border-color:var(--teal)}
+.btn{background:var(--teal);color:#fff;border-color:var(--teal)}
+.btn.alt{background:#fff;color:var(--ink);border-color:var(--line)}
+.good{background:var(--oksoft)!important;border-color:var(--ok)!important}
+.bad{background:var(--badsoft)!important;border-color:var(--bad)!important}
+.fb{color:var(--ok);font-size:.9rem;margin-top:6px;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.vcard{position:relative;height:250px;cursor:pointer}
+.vocab-front,.vocab-def{position:absolute;inset:0;border-radius:16px;padding:14px;transition:opacity .25s;display:flex;flex-direction:column;justify-content:center;border:2px solid var(--line)}
+.vocab-front{background:#fff;opacity:1;align-items:center;text-align:center;gap:4px}
+.vocab-def{background:var(--tealsoft);opacity:0;font-size:.84rem;overflow:auto;justify-content:flex-start;gap:4px;border-color:var(--teal)}
+.vcard:hover .vocab-front,.vcard.flip .vocab-front{opacity:0}
+.vcard:hover .vocab-def,.vcard.flip .vocab-def{opacity:1}
+.en{font-family:Fraunces,serif;font-weight:800;font-size:1.45rem}
+.la{font-style:italic;color:var(--plum);font-weight:700}
+.chip{display:inline-block;background:var(--goldsoft);border-radius:20px;padding:2px 10px;font-size:.78rem;font-weight:700}
+.vocab-def b{color:var(--teal)}
+.mini{background:#fff;border:1px solid var(--line);border-radius:8px;cursor:pointer;padding:2px 8px;font-size:.9rem}
+.say{background:none;border:none;cursor:pointer;font-size:1.2rem}
+.pron{display:flex;flex-wrap:wrap;align-items:center;gap:10px;border-top:1px dashed var(--line);padding:10px 0}
+.pron .w{font-family:Fraunces,serif;font-weight:800;font-size:1.25rem;min-width:140px}
+.pron .ipa{color:var(--mute);min-width:140px}
+.syl{background:#fff;border:2px solid var(--line);border-radius:10px;padding:4px 12px;cursor:pointer;font-weight:700}
+.note{background:var(--goldsoft);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:.95rem}
+.rule{background:var(--tealsoft);border:2px solid var(--teal);border-radius:14px;padding:14px 18px;margin:12px 0}
+.rule h4{color:var(--teal);margin-bottom:6px}
+select,input[type=text],textarea{font-family:inherit;font-size:1rem;border:2px solid var(--line);border-radius:10px;padding:5px 8px;background:#fff}
+.gap{padding:8px 0;border-top:1px dashed var(--line)}
+.spy{background:var(--goldsoft);border-radius:6px;padding:1px 6px;cursor:pointer;font-weight:700}
+.spy.wrong{background:var(--badsoft)}
+.spy.found{background:var(--oksoft)}
+.spyrow{padding:12px 0;border-top:1px dashed var(--line)}
+.zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin:12px 0}
+.zone{border:2px dashed var(--line);border-radius:14px;padding:8px;min-height:90px;background:#fff}
+.zone h4{font-size:1rem;margin-bottom:6px;color:var(--teal)}
+.drop{display:flex;flex-wrap:wrap;gap:6px;min-height:36px}
+.zone.pool{background:var(--goldsoft)}
+.pchip{background:#fff;border:2px solid var(--line);border-radius:20px;padding:4px 12px;cursor:grab;font-weight:700;font-size:.9rem;user-select:none}
+.pchip.armed{border-color:var(--plum);box-shadow:0 0 0 3px #e7d9f3}
+.reading{background:var(--tealsoft);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+.reading p{margin:0 0 10px}
+.gm{background:none;color:inherit;border-radius:4px}
+.show-gm .gm{background:#fde3a3;box-shadow:0 0 0 2px #fde3a3}
+.show-gm .gm.c{background:#f6c2bd;box-shadow:0 0 0 2px #f6c2bd}
+.voc{font-weight:800;color:var(--coral)}
+.radio{border-top:1px dashed var(--line);padding:12px 0}
+.radio .sent{font-weight:700;margin-bottom:8px}
+.radio .sel{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:.95rem}
+.big{font-family:Fraunces,serif;font-size:2.2rem;font-weight:800;color:var(--coral)}
+.spinbox{background:var(--goldsoft);border-radius:16px;padding:18px;text-align:center;margin-bottom:14px}
+.words{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.words span{background:#f1ece3;border-radius:16px;padding:2px 10px;font-size:.85rem;font-weight:700;color:var(--mute)}
+.words span.on{background:var(--oksoft);color:var(--ok)}
+textarea{width:100%;min-height:170px}
+.videobox{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:16px;background:#2b2a33;margin-bottom:8px}
+.videobox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.rev{margin:6px 0 0}
+.rev .ans{display:none;background:var(--oksoft);border-radius:10px;padding:8px 12px;margin-top:6px;font-size:.93rem}
+.rev.open .ans{display:block}
+.rp{background:var(--bg);border:2px solid var(--line);border-radius:16px;padding:16px}
+.rp .msg{background:#fff;border-left:5px solid var(--coral);border-radius:10px;padding:10px 14px;margin-bottom:10px;font-weight:600}
+.rp .hist{color:var(--mute);font-size:.88rem;margin-bottom:8px}
+.rp .choices{display:flex;flex-direction:column;gap:8px}
+.rp .choices button{text-align:left}
+.endbox{background:var(--oksoft);border:2px solid var(--ok);border-radius:14px;padding:12px 16px;margin-top:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.dcard{position:relative;border:2px solid var(--line);border-radius:16px;padding:12px;cursor:pointer;background:#fff;min-height:128px}
+.dcard .k{font-weight:800;color:var(--coral);font-family:Fraunces,serif}
+.dcard .qq{display:none;margin-top:6px}
+.dcard.open{background:var(--goldsoft);border-color:var(--gold)}
+.dcard.open .qq{display:block}
+.dcard small{display:block;color:var(--mute);margin-top:6px}
+.tlbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:10px 0}
+.tlbox .cap{font-weight:800;color:var(--teal);margin-bottom:2px}
+.tlbox svg{width:100%;height:auto;display:block}
+footer{text-align:center;color:var(--mute);padding:30px 16px}
+@media(max-width:600px){.vcard{height:270px}}
+</style>
+</head>
+<body>
+<div class="bar"><b>L8</b><div id="nav"></div><div class="score">🏁 <span id="score">0 / 0</span></div></div>
+<div class="flag"></div>
+
+<div class="hero">
+  <span class="tag">LESSON 8 · C1</span>
+  <h1>Rosso Corsa: Life in the Fast Lane</h1>
+  <p>Formula 1, Ferrari and the people who refuse to look away. Habits, regrets and what-ifs.</p>
+  <div class="cando"><b>By the end you can:</b>
+    <ul>
+      <li>talk about past habits and past states with <i>used to</i> and <i>would</i> – and avoid the classic traps;</li>
+      <li>link a past cause to a present result (and the reverse) with <b>mixed conditionals</b>;</li>
+      <li>use 12 C1 words for rivalry, pressure and resilience;</li>
+      <li>discuss loyalty, rivalry and the price of perfection with real range.</li>
+    </ul>
+  </div>
+</div>
+<main id="tasks"></main>
+<footer>Lesson 8 · Rosso Corsa · Keep your chequered flags 🏁 and try to beat your score next time</footer>
+
+<script>
+const $=(s,r=document)=>r.querySelector(s);
+const h=(t,c,html)=>{const e=document.createElement(t);if(c)e.className=c;if(html!=null)e.innerHTML=html;return e};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const norm=s=>s.toLowerCase().replace(/[\u2019']/g,"'").replace(/[^a-z0-9'\s]/g,'').replace(/\s+/g,' ').trim();
+let total=0;const done=new Set();
+const upd=()=>{$('#score').textContent=done.size+' / '+total};
+const reg=(n=1)=>{total+=n;upd()};
+const ok=k=>{if(!done.has(k)){done.add(k);upd()}};
+function say(t,l='en-GB'){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=l;u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+
+const main=$('#tasks');
+function task(n,icon,title,instr){
+  const s=h('section','task');s.id='t'+n;
+  s.innerHTML=`<div class="thead"><span class="num">${n}</span><h2>${icon} ${title}</h2></div><p class="instr">${instr}</p>`;
+  const b=h('div');s.appendChild(b);main.appendChild(s);
+  const a=h('a',null,n);a.href='#t'+n;$('#nav').appendChild(a);
+  return b;
+}
+/* multiple choice: it.o = options, it.a = index of correct (default 0) */
+function mcq(box,items,key){
+  items.forEach((it,i)=>{
+    reg();
+    const q=h('div','q');q.innerHTML=`<div class="qt">${it.q}</div>`;
+    const o=h('div','opts'),fb=h('div','fb');let wrong=false,solved=false;
+    let ops=it.o.map((t,j)=>({t,c:j===(it.a||0)}));if(!it.fixed)ops=shuffle(ops);
+    ops.forEach(op=>{
+      const b=h('button','opt',op.t);
+      b.onclick=()=>{
+        if(solved)return;
+        if(op.c){solved=true;b.classList.add('good');if(!wrong)ok(key+i);if(it.w)fb.textContent=it.w}
+        else{wrong=true;b.classList.add('bad');b.disabled=true}
+      };
+      o.appendChild(b);
+    });
+    q.append(o,fb);box.appendChild(q);
+  });
+}
+function flip(front,def){
+  const c=h('div','vcard');
+  c.innerHTML=`<div class="vocab-front">${front}</div><div class="vocab-def">${def}</div>`;
+  c.onclick=()=>c.classList.toggle('flip');
+  return c;
+}
+/* reveal box (self-check) */
+function reveal(box,qtext,model){
+  const d=h('div','q');d.innerHTML=`<div class="qt">${qtext}</div>`;
+  const r=h('div','rev');const b=h('button','btn alt','👀 Show model answer');
+  const a=h('div','ans',model);
+  b.onclick=()=>{r.classList.toggle('open');b.textContent=r.classList.contains('open')?'🙈 Hide':'👀 Show model answer'};
+  r.append(b,a);d.appendChild(r);box.appendChild(d);
+}
+/* timeline svg: positions past | now | future */
+let tlId=0;
+function tlSvg(cond,res,cl,rl){
+  const X={past:110,now:300,future:490},id='ar'+(tlId++),x1=X[cond],x2=X[res],mid=(x1+x2)/2;
+  return `<svg viewBox="0 0 600 150" role="img"><defs><marker id="${id}" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1f9d8f"/></marker></defs>
+  <line x1="30" y1="95" x2="570" y2="95" stroke="#eadfce" stroke-width="5" stroke-linecap="round"/>
+  ${['past','now','future'].map(k=>`<line x1="${X[k]}" y1="88" x2="${X[k]}" y2="102" stroke="#6d6a75" stroke-width="2"/><text x="${X[k]}" y="125" text-anchor="middle" font-size="14" font-weight="800" fill="#6d6a75">${k.toUpperCase()}</text>`).join('')}
+  <path d="M${x1},86 Q${mid},10 ${x2},86" fill="none" stroke="#1f9d8f" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#${id})"/>
+  <circle cx="${x1}" cy="95" r="11" fill="#d9382b"/><circle cx="${x2}" cy="95" r="11" fill="#1f9d8f"/>
+  <text x="${x1}" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#d9382b">${cl}</text>
+  <text x="${x2}" y="${x1===x2?8:24}" text-anchor="middle" font-size="13" font-weight="800" fill="#1f9d8f">${rl}</text></svg>`;
+}
+/* sorter: drag chips (or tap chip, then tap zone) */
+function sorter(box,items,zonesDef,key,after){
+  reg(items.length);let armed=null,drag=null;
+  const zoneEl=(z,label,cls)=>{const d=h('div','zone '+(cls||''));d.dataset.z=z;d.innerHTML=(label?`<h4>${label}</h4>`:'')+'<div class="drop"></div>';
+    d.ondragover=e=>e.preventDefault();
+    d.ondrop=e=>{e.preventDefault();if(drag)move(drag,d)};
+    d.onclick=()=>{if(armed)move(armed,d)};return d};
+  const move=(chip,z)=>{z.querySelector('.drop').appendChild(chip);chip.classList.remove('armed','good','bad');armed=null;drag=null};
+  const pool=zoneEl('pool','Sentences','pool');box.appendChild(pool);
+  const zb=h('div','zones');zonesDef.forEach(z=>zb.appendChild(zoneEl(z[0],z[1])));box.appendChild(zb);
+  shuffle(items).forEach((o,i)=>{const c=h('div','pchip',o[0]);c.draggable=true;c.dataset.b=o[1];c.dataset.i=i;
+    c.ondragstart=()=>{drag=c};
+    c.onclick=e=>{e.stopPropagation();if(armed)armed.classList.remove('armed');armed=(armed===c)?null:c;if(armed)c.classList.add('armed')};
+    pool.querySelector('.drop').appendChild(c)});
+  const res=h('span','fb'),btn=h('button','btn','Check');
+  btn.onclick=()=>{let n=0;
+    zb.querySelectorAll('.zone').forEach(z=>z.querySelectorAll('.pchip').forEach(c=>{if(z.dataset.z===c.dataset.b){c.classList.add('good');c.classList.remove('bad');n++;ok(key+c.dataset.i)}else{c.classList.add('bad');c.classList.remove('good')}}));
+    res.textContent=` ${n} / ${items.length} correct`;if(n===items.length&&after)after();};
+  box.append(btn,res);
+}
+
+/* ---------------- DATA ---------------- */
+/* word, pos, definition, example, collocations */
+const V=[
+ ['relentless','adj.','never stopping or losing intensity','The <b>relentless</b> pace of in-season development exhausts even the biggest teams.','relentless pressure / pursuit / criticism'],
+ ['meticulous','adj.','extremely careful and precise about every detail','A <b>meticulous</b> pit crew can change four tyres in under three seconds.','meticulous planning / attention to detail'],
+ ['gruelling','adj.','physically or mentally exhausting','Drivers lose several kilos in a <b>gruelling</b> race in tropical heat.','a gruelling schedule / training session'],
+ ['formidable','adj.','inspiring respect or fear because of strength or skill','Ferrari has always been a <b>formidable</b> opponent at Monza.','a formidable rival / challenge / reputation'],
+ ['pivotal','adj.','of crucial importance to the outcome','Lap 38 was the <b>pivotal</b> moment of the whole season.','a pivotal role / moment / decision'],
+ ['jeopardise','v.','to put something valuable at risk (US: jeopardize)','One careless error in the pit lane can <b>jeopardise</b> an entire championship.','jeopardise your chances / safety / career'],
+ ['scrutiny','n. (U)','close, critical examination','Every strategic decision comes under intense <b>scrutiny</b> from fans and media.','under scrutiny / face scrutiny / intense scrutiny'],
+ ['tenacity','n. (U)','stubborn determination; refusing to give up','She won through sheer <b>tenacity</b>, not raw speed.','show tenacity / remarkable tenacity'],
+ ['cutthroat','adj.','ruthlessly competitive','The paddock is a <b>cutthroat</b> world: nobody shares their secrets.','a cutthroat industry / rivalry / competition'],
+ ['adversity','n. (U)','difficulty or misfortune','The team\u2019s real character shows in how it responds to <b>adversity</b>.','overcome / face / bounce back from adversity'],
+ ['unrivalled','adj.','better than any other (US: unrivaled)','Ferrari\u2019s heritage in the sport is <b>unrivalled</b>.','an unrivalled record / reputation / success'],
+ ['outmanoeuvre','v.','to gain an advantage over someone by clever tactics (US: outmaneuver)','He managed to <b>outmanoeuvre</b> two rivals before the first corner.','outmanoeuvre your opponents / rivals']
+];
+
+/* ---------------- 1 WARM-UP ---------------- */
+(()=>{
+  const b=task(1,'🚦','Lights Out: Warm-up','Pick a card, talk for 60–90 seconds, tick it when done. Use full, developed answers – examples, reasons, a little story.');
+  const Q=[['Loyalty','Is staying loyal to a team (or a club, a brand, a city) rational? When did you last stick with something long after logic told you to quit?'],
+   ['Habits','Which childhood habit have you completely dropped? Which one did you keep without noticing?'],
+   ['Heritage','What makes a team iconic: the results, the heritage or the style? Where does Ferrari sit on that scale for you?'],
+   ['Marginal gains','F1 teams spend hundreds of millions chasing a tenth of a second. Is that obsession admirable or absurd?'],
+   ['Turning points','Which single decision in your past changed your life most? How different would things be now?'],
+   ['Scrutiny','Who faces more public scrutiny today: elite athletes or politicians? Does fame justify it?']];
+  const g=h('div','grid');
+  Q.forEach(q=>{const c=h('div','dcard');c.innerHTML=`<div class="k">${q[0]}</div><div>${q[1]}</div><small>click when you have answered ✔</small>`;
+    c.onclick=()=>{c.classList.toggle('good')};g.appendChild(c)});
+  b.appendChild(g);
+})();
+
+/* ---------------- 2 READING ---------------- */
+(()=>{
+  const b=task(2,'📖','Reading: The Sunday Ritual','Read the memoir extract first for pleasure. Notice how the narrator moves between <i>then</i> and <i>now</i>. Then answer the questions.');
+  b.appendChild(h('div','reading',`
+  <p><b>The Sunday Ritual</b></p>
+  <p>On race Sundays, <mark class="gm">Nonno Aldo would wake</mark> the whole house at six. He <mark class="gm">used to be</mark> a mechanic in Maranello, so for him the Grand Prix was never entertainment; it was a family duty. He <mark class="gm">would brew</mark> espresso strong enough to restart a dead engine, tune the old radio and sit three centimetres from the screen. We <mark class="gm">weren\u2019t allowed</mark> to speak during the start.</p>
+  <p>My cousins and I <mark class="gm">used to think</mark> he was exaggerating when he said Ferrari “ran in his blood”. Back then we didn\u2019t understand the <span class="voc">relentless</span> devotion of the tifosi; we just wanted the pastries. We <mark class="gm">used to hide</mark> his reading glasses, just to watch him panic before lights out.</p>
+  <p>Then came the barren years. We <mark class="gm">would sit</mark> there in gloomy silence as another strategic gamble backfired, and he would mutter, “<mark class="gm c">If they had trusted the data in Hungary, we would be fighting for the title now.</mark>” He had a <span class="voc">formidable</span> memory for every <span class="voc">pivotal</span> mistake, and every one came under his personal <span class="voc">scrutiny</span>. “<mark class="gm c">If I weren\u2019t so stubborn, I would have left this sport years ago</mark>,” he\u2019d laugh. But he never did.</p>
+  <p>Today I live in Milan and stream the races on my laptop. I <mark class="gm">used to resent</mark> those dawn alarms; now I\u2019d give anything for one more Sunday of burnt toast. <mark class="gm c">If Nonno hadn\u2019t taught me that <span class="voc">tenacity</span> matters more than trophies, I probably wouldn\u2019t be writing this at six in the morning, before the Grand Prix.</mark></p>`));
+  mcq(b,[{q:'What was Nonno Aldo\u2019s job?',o:['He was a mechanic in Maranello','He was a Ferrari driver','He was a radio commentator','He was a team strategist']},
+   {q:'Why was the Grand Prix “never entertainment” for him?',o:['It was a family duty tied to his career and pride','He disliked the sport','He was paid to watch it','He wanted to teach the children English']},
+   {q:'What does the narrator mean by the “barren years”?',o:['A long period without success','A time when the family had no money','Years when races were cancelled','The years Nonno lived abroad']},
+   {q:'What did Nonno say about the Hungary decision?',o:['A different decision would have given them a better position today','He would never watch Hungary again','The team was right to gamble','The title was already lost']},
+   {q:'What is the narrator\u2019s attitude at the end?',o:['Nostalgic and grateful','Bitter and regretful','Indifferent','Angry with Ferrari']}],'rd');
+  b.appendChild(h('div','note',`<b>Talk about it:</b><br>① Do you have a family ritual (sport, food, music) that shaped who you are?<br>② Is it healthier to stay loyal to a struggling team, or to move on? Why?<br>③ What do you think Nonno meant by “tenacity matters more than trophies”?`));
+})();
+
+/* ---------------- 3 PATTERN DETECTIVE ---------------- */
+(()=>{
+  const b=task(3,'🔎','Pattern Detective: used to vs would','Look back at the story. Sort each sentence: can only <b>used to</b> be used, or are <b>both used to and would</b> possible? Think: state or repeated action?');
+  const I=[['Nonno Aldo ___ a mechanic in Maranello. (be)','u'],['He ___ espresso every race morning. (brew)','b'],['My cousins and I ___ he was exaggerating. (think)','u'],['We ___ his reading glasses every Sunday. (hide)','b'],['We ___ there in gloomy silence after every failed gamble. (sit)','b'],['I ___ those dawn alarms. (resent)','u'],['He ___ a huge Ferrari flag on the balcony. (have)','u'],['Mum ___ the remote just before lights out. (hide)','b']];
+  sorter(b,I,[['u','🟥 only <i>used to</i>'],['b','🟩 <i>used to</i> OR <i>would</i>']],'sd',()=>{
+    fbBox.innerHTML=`<div class="rule"><h4>✅ Rule you just discovered</h4>
+    <b>used to</b> + infinitive → past <u>states</u> (be, have, think, believe, own, resent) <i>and</i> past repeated actions.<br>
+    <b>would</b> + infinitive → only repeated <u>actions</u> (and only once the past time is clear).<br>
+    <b>Negative / question:</b> <i>Did you use to…? I didn\u2019t use to…</i> (no “d” on <i>use</i>).<br>
+    <b>Not the same:</b> <i>be used to + -ing</i> = be accustomed; <i>get used to + -ing</i> = become accustomed.</div>
+    <div class="tlbox"><div class="cap">Timeline: past habit that has stopped</div>
+    <svg viewBox="0 0 600 90"><line x1="30" y1="50" x2="570" y2="50" stroke="#eadfce" stroke-width="5" stroke-linecap="round"/>
+    ${[60,100,140,180,220,260,300,340].map(x=>`<circle cx="${x}" cy="50" r="8" fill="#1f9d8f"/>`).join('')}
+    <circle cx="480" cy="50" r="11" fill="#fff" stroke="#d9382b" stroke-width="3"/><text x="480" y="30" text-anchor="middle" font-size="13" font-weight="800" fill="#d9382b">NOW ✖</text>
+    <text x="200" y="82" text-anchor="middle" font-size="13" font-weight="800" fill="#1f9d8f">repeated in the past</text></svg></div>`;
+  });
+  const fbBox=h('div');b.appendChild(fbBox);
+  const tg=h('button','btn alt','🔦 Show the grammar in the story');tg.style.marginTop='10px';
+  tg.onclick=()=>{document.querySelectorAll('.reading').forEach(r=>r.classList.toggle('show-gm'))};
+  b.appendChild(tg);
+  b.appendChild(h('div','note','Click the button, then look at the <b>red</b> highlights in the story. Which structure is that? You will meet it in Task 6.'));
+})();
+
+/* ---------------- 4 VOCAB ---------------- */
+(()=>{
+  const b=task(4,'🏆','C1 Pit Lane: 12 Power Words','Hover or tap each card to flip it. Say the example aloud, then use the 🔊 to check the pronunciation.');
+  const g=h('div','cards');
+  V.forEach(v=>{
+    const f=`<div class="en">${v[0]}</div><span class="chip">${v[1]}</span><button class="say" title="Listen">🔊</button><small style="color:#6d6a75">hover or tap to flip</small>`;
+    const d=`<div><b>Meaning</b><br>${v[2]}</div><div><b>Example</b><br>${v[3]}</div><div><b>Collocations</b><br>${v[4]}</div>`;
+    const c=flip(f,d);c.querySelector('.say').onclick=e=>{e.stopPropagation();say(v[0])};g.appendChild(c);
+  });
+  b.appendChild(g);
+  const cp=h('button','btn alt','📋 Copy for Quizlet'),fb=h('span','fb');cp.style.marginTop='12px';
+  cp.onclick=()=>{const txt=V.map(v=>`${v[0]}\t${v[2]}`).join('\n');
+    const dn=()=>fb.textContent=' Copied! Paste into Quizlet → Import.';
+    if(navigator.clipboard)navigator.clipboard.writeText(txt).then(dn,()=>{});else{const t=h('textarea');t.value=txt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();dn()}};
+  b.append(cp,fb);
+})();
+
+/* ---------------- 5 ERROR SPY ---------------- */
+(()=>{
+  const b=task(5,'🕵️','Error Spy','Each sentence hides ONE mistake – in a used to / would structure, a conditional, or a C1 word. Click the wrong word, then type the correction.');
+  const E=[['My grandfather [would] own a Ferrari 308 [before] he sold it [in] the nineties.',0,['used to']],
+   ['We [use to] gather at my uncle\u2019s house [every] race Sunday.',0,['used to']],
+   ['He [didn\u2019t used to] like Formula 1, but [now] he never misses a race.',0,['didn\u2019t use to','did not use to','didnt use to']],
+   ['The team\u2019s [meticulously] preparation [is] famous in the [paddock].',0,['meticulous']],
+   ['One bad pit stop could [jeopardy] the [whole] championship.',0,['jeopardise','jeopardize']],
+   ['She is [tenaciously] and never [gives] up, even [after] a crash.',0,['tenacious']],
+   ['If Ferrari [would have] chosen the right tyres, they [would be] leading the championship [now].',0,['had']],
+   ['I am [so used to] [wake] up at five that I [no longer] need an alarm.',1,['waking']]];
+  E.forEach((e,k)=>{
+    reg();const d=h('div','spyrow');let idx=0;
+    const html=e[0].replace(/\[(.+?)\]/g,(m,w)=>`<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML=`<div>${html}</div>`;const fix=h('div');fix.style.marginTop='6px';d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp=>sp.onclick=()=>{
+      if(sp.classList.contains('found'))return;
+      if(+sp.dataset.i!==e[1]){sp.classList.add('wrong');setTimeout(()=>sp.classList.remove('wrong'),600);return}
+      sp.classList.add('wrong');
+      fix.innerHTML='';const inp=h('input');inp.type='text';inp.placeholder='Correct word…';
+      const c=h('button','btn','Fix it');
+      c.onclick=()=>{if(e[2].map(norm).includes(norm(inp.value))){sp.classList.remove('wrong');sp.classList.add('found');sp.textContent=e[2][0];fix.innerHTML='<span class="fb">✔ Well spotted!</span>';ok('e'+k)}else inp.className='bad'};
+      inp.onkeydown=ev=>{if(ev.key==='Enter')c.click()};
+      fix.append(inp,' ',c);inp.focus();
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 6 RADIO REWIND (mixed conditionals) ---------------- */
+(()=>{
+  const b=task(6,'📻','Radio Rewind: Hindsight on the Pit Wall','Engineers love hindsight. For each sentence, decide <b>when</b> the if-part and the result happen. Then reveal the pattern.');
+  const T=['past','now','future'];
+  const R=[['If the crew hadn\u2019t fumbled the left-rear, Luca would be celebrating on the podium right now.','past','now'],
+   ['If Giulia weren\u2019t so impatient, she wouldn\u2019t have overtaken on the wet kerb.','now','past'],
+   ['If the strategist had listened to the driver, we would still be in the championship fight.','past','now'],
+   ['If I spoke fluent Italian, I wouldn\u2019t have misunderstood the pit-wall call.','now','past'],
+   ['If the regulations hadn\u2019t changed in 2022, this car would be unbeatable today.','past','now'],
+   ['If he were less reckless, he wouldn\u2019t have ended up in the gravel on lap 3.','now','past']];
+  R.forEach((r,i)=>{
+    reg();const d=h('div','radio');d.innerHTML=`<div class="sent">${i+1}. “${r[0]}”</div>`;
+    const sel=h('div','sel');
+    const mk=lab=>{const s=h('select');s.innerHTML='<option value="">…</option>'+T.map(t=>`<option value="${t}">${t==='now'?'now / always true':t}</option>`).join('');return [h('span',null,lab),s]};
+    const [l1,s1]=mk('The <b>if-part</b> is about the'),[l2,s2]=mk('The <b>result</b> is about the');
+    const chk=()=>{if(!s1.value||!s2.value)return;
+      const a=s1.value===r[1],c=s2.value===r[2];s1.className=a?'good':'bad';s2.className=c?'good':'bad';if(a&&c)ok('rw'+i)};
+    s1.onchange=chk;s2.onchange=chk;sel.append(l1,s1,l2,s2);d.appendChild(sel);b.appendChild(d);
+  });
+  const btn=h('button','btn','🔦 Reveal the pattern');btn.style.marginTop='12px';
+  const box=h('div');box.style.display='none';
+  box.innerHTML=`<div class="rule"><h4>Mixed conditionals: the two time frames are different</h4>
+  <b>A. Past cause → present result</b><br><i>If + past perfect, would + base verb</i><br>
+  <i>If the crew hadn\u2019t fumbled the tyre (past), Luca would be on the podium (now).</i>${tlSvg('past','now','IF + had + past participle','would + base verb')}
+  <b>B. Present state → past result</b><br><i>If + past simple, would have + past participle</i><br>
+  <i>If Giulia weren\u2019t so impatient (always true), she wouldn\u2019t have crashed (past).</i>${tlSvg('now','past','IF + past simple','would have + past participle')}
+  <div class="note">Tip: type B usually describes a <b>permanent quality</b> (personality, ability, situation). Use <i>were</i> for all persons in formal speech. Also possible: <i>could / might</i> instead of <i>would</i>.</div></div>`;
+  btn.onclick=()=>{box.style.display=box.style.display==='none'?'block':'none'};
+  b.append(btn,box);
+})();
+
+/* ---------------- 7 VIDEO ---------------- */
+(()=>{
+  const b=task(7,'🎬','Video: What Is Downforce?','Watch roughly the first five minutes (pause whenever you like). Then answer the questions in your own words and check yourself with the model answers.');
+  const vb=h('div','videobox');
+  vb.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/ylPnQ7ypYuw?rel=0&modestbranding=1" title="What is downforce? F1 Wings, Endplates and Ground Effect explained" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+  b.appendChild(vb);
+  b.appendChild(h('p',null,'<a href="https://www.youtube.com/watch?v=ylPnQ7ypYuw" target="_blank" rel="noopener" style="color:#1f9d8f;font-weight:700;text-decoration:none">🔗 Click here to watch directly on YouTube</a>'));
+  reveal(b,'1. In your own words: what is downforce, and why do F1 teams want so much of it?','Downforce is an aerodynamic force that presses the car down onto the track. More downforce means more grip, so the car can corner much faster.');
+  reveal(b,'2. Why is an F1 wing often described as an “upside-down aeroplane wing”?','An aeroplane wing is shaped to create lift; an F1 wing is shaped to do the opposite and push the car downwards.');
+  reveal(b,'3. What do endplates do on a wing?','They manage the airflow at the edges of the wing, limiting leakage and controlling the vortices around the wing tips.');
+  reveal(b,'4. What is ground effect?','Air is accelerated through shaped tunnels under the car, creating low pressure that sucks the car towards the track.');
+  b.appendChild(h('div','note',`<b>Language hunt:</b> while you watch, note down (a) two C1 adjectives or verbs you would like to steal, and (b) any sentence with <i>if</i>, <i>used to</i> or <i>would</i>. Then use one of them in a sentence about Ferrari.<br><b>Discuss:</b> If aerodynamics had been banned in 1970, how different would F1 look today?`));
+})();
+
+/* ---------------- 8 SEASON REVIEW CLOZE ---------------- */
+(()=>{
+  const b=task(8,'📰','Season Review: Fill the Gaps','Choose the best C1 word for each gap. Watch the grammar: some need a different word form.');
+  const bank=['relentless','meticulous','gruelling','formidable','pivotal','jeopardise','scrutiny','tenacity','cutthroat','adversity','unrivalled','outmanoeuvre'];
+  b.appendChild(h('div','words',bank.map(w=>`<span>${w}</span>`).join('')));
+  const G=[['A ___ 300-kilometre race in 35 °C heat leaves drivers dehydrated and drained.','gruelling'],
+   ['Every pit crew is ___: a missing tenth of a second can decide a podium.','meticulous'],
+   ['The rivalry in the paddock is ___; nobody shares a single secret.','cutthroat'],
+   ['The team principal is under constant ___ from fans and the media.','scrutiny'],
+   ['That overtake into the first corner was the ___ moment of the race.','pivotal'],
+   ['One careless error in the pit lane can ___ the entire season.','jeopardise'],
+   ['After the engine failure she showed real ___ and refused to retire.','tenacity'],
+   ['The new rival turned out to be a ___ opponent on every kind of circuit.','formidable']];
+  G.forEach((g,i)=>{
+    reg();const d=h('div','gap');const parts=g[0].split('___');
+    const s=h('select');s.innerHTML='<option value="">…</option>'+shuffle(bank).map(w=>`<option>${w}</option>`).join('');
+    s.onchange=()=>{if(!s.value){s.className='';return}if(s.value===g[1]){s.className='good';ok('cl'+i)}else s.className='bad'};
+    d.append(parts[0],s,parts[1]);b.appendChild(d);
+  });
+  b.appendChild(h('div','note','<b>Left over:</b> relentless, adversity, unrivalled, outmanoeuvre. Write one sentence of your own with each of them.'));
+})();
+
+/* ---------------- 9 SAY IT RIGHT ---------------- */
+(()=>{
+  const b=task(9,'🗣️','Say It Right: Word Stress','Press 🔊, listen, then click the <b>stressed syllable</b>. Pattern to notice: in words ending in <b>-ity</b> the stress falls on the syllable <i>before</i> the ending (te<b>NA</b>city, ad<b>VER</b>sity).');
+  const P=[['relentless','/rɪˈlentləs/',['re','lent','less'],1,'Stress on the second syllable: re-LENT-less.'],
+   ['meticulous','/məˈtɪkjələs/',['me','tic','u','lous'],1,'me-TIC-u-lous.'],
+   ['formidable','/ˈfɔːmɪdəbl/',['for','mi','da','ble'],0,'FOR-mi-da-ble. (The variant for-MID-a-ble is also common.)'],
+   ['jeopardise','/ˈdʒepədaɪz/',['jeo','par','dise'],0,'JEP-ar-dize. The “eo” sounds like /e/.'],
+   ['tenacity','/təˈnæsəti/',['te','na','ci','ty'],1,'-ity rule: stress the syllable before the ending: te-NA-ci-ty.'],
+   ['scrutiny','/ˈskruːtəni/',['scru','ti','ny'],0,'SCROO-ti-ny.'],
+   ['adversity','/ədˈvɜːsəti/',['ad','ver','si','ty'],1,'-ity rule again: ad-VER-si-ty.'],
+   ['outmanoeuvre','/ˌaʊtməˈnuːvə/',['out','ma','noeu','vre'],2,'Main stress on “noeu”: out-ma-NOO-ver.']];
+  P.forEach((p,k)=>{
+    reg();const r=h('div','pron');
+    r.innerHTML=`<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s=h('button','say','🔊');s.onclick=()=>say(p[0]);r.appendChild(s);
+    const fb=h('span','fb');let wrong=false,solved=false;
+    p[2].forEach((t,i)=>{const y=h('button','syl',t);y.onclick=()=>{if(solved)return;if(i===p[3]){solved=true;y.classList.add('good');y.textContent=t.toUpperCase();if(!wrong)ok('p'+k);fb.textContent=p[4]}else{wrong=true;y.classList.add('bad')}};r.appendChild(y)});
+    r.appendChild(fb);b.appendChild(r);
+  });
+})();
+
+/* ---------------- 10 FAST SPEECH ---------------- */
+(()=>{
+  const b=task(10,'🎧','Sound Like a Local: Fast-Speech Reductions','In natural English, little grammar words shrink: <i>have → /əv/</i>, <i>to → /tə/</i>, <i>had → /d/</i>. Answer the questions, then shadow the sentences (listen, pause, repeat at the same speed).');
+  mcq(b,[{q:'In fast speech, <b>would have</b> (“She would have won”) sounds like…',o:['/wʊdəv/ (“wooduv”)','/wʊd hæv/ with both words stressed','/wuːd heɪv/','/wɔːd əv/']},
+   {q:'<b>used to</b> (“We used to go”) is pronounced…',o:['/ˈjuːstə/ (“yoosta”)','/juːzd tuː/','/jʌst tuː/','/ˈjuːzdə/']},
+   {q:'<b>wouldn\u2019t have</b> (“He wouldn\u2019t have crashed”) sounds like…',o:['/ˈwʊdntəv/ (“woodn-tuv”)','/wʊlnt hæv/','/wuːdnt heɪv/','/wʌdn hæf/']},
+   {q:'<b>If I had known</b> in a natural, fast sentence becomes…',o:['/ɪf aɪd nəʊn/ (“if I’d known”)','/ɪf aɪ hæd nəʊn/, each word stressed','/ɪf aɪ həv nəʊn/','/ɪf aɪ hæv nəʊn/']},
+   {q:'In “If he hadn\u2019t pitted, he\u2019d be winning now”, the strongest stresses fall on…',o:['pitted · winning (content words)','If · he · be (function words)','he\u2019d · be · now','every word equally']}],'fs');
+  b.appendChild(h('h3',null,'🔁 Shadowing'));b.lastChild.style.margin='14px 0 6px';
+  ['We used to watch every race together.','If he hadn\u2019t pitted, he would be winning now.','She wouldn\u2019t have crashed if she weren\u2019t so impatient.','I would never have become a fan if my grandfather hadn\u2019t taken me to Monza.'].forEach(s=>{
+    const r=h('div','pron');r.innerHTML=`<span style="flex:1">${s}</span>`;
+    const a=h('button','say','🔊');a.onclick=()=>say(s);r.appendChild(a);b.appendChild(r);
+  });
+  b.appendChild(h('div','note','Record yourself on your phone and compare. The goal is rhythm, not perfect sounds: stress the content words, glide over the little ones.'));
+})();
+
+/* ---------------- 11 USED TO / WOULD / BE USED TO ---------------- */
+(()=>{
+  const b=task(11,'🎛️','Used to, Would, Be Used to, Get Used to','One answer is correct each time. Pay attention to whether it is a state, a habit, or an adaptation.');
+  mcq(b,[
+   {q:'My dad ___ a Ferrari F40 poster on his wall, but he sold it years ago.',o:['used to have','would have','was used to having','got used to have']},
+   {q:'Every summer we ___ the garage and watch qualifying together.',o:['would clear','were used to clear','used to being','use to clear']},
+   {q:'It took me months to ___ the 5 a.m. start times for the Australian GP.',o:['get used to','get use to','used to','would']},
+   {q:'I ___ staying up late for races; I\u2019m a night owl.',o:['am used to','used to','would','get used']},
+   {q:'Did you ___ support Ferrari before the 2000s?',o:['use to','used to','would','get used to']},
+   {q:'He ___ be terrified of heights, but now he skydives.',o:['used to','would','is used to','was used']},
+   {q:'She ___ living in Monaco; it no longer feels strange.',o:['has got used to','would live','used to live','is use to']},
+   {q:'There ___ be a chicane here, but they removed it.',o:['used to','would','is used to','got used to']}],'ut');
+})();
+
+/* ---------------- 12 REWRITE IT ---------------- */
+(()=>{
+  const b=task(12,'✍️','Rewrite It: Mixed Conditionals','Rewrite each pair of facts as ONE mixed conditional. Type your sentence, press “Show model”, then decide honestly if yours works.');
+  const R=[['Luca didn\u2019t study engineering, so he doesn\u2019t work for Ferrari now.','If Luca had studied engineering, he would work for Ferrari now.'],
+   ['Giulia isn\u2019t fast enough, so she didn\u2019t get the seat.','If Giulia were fast enough, she would have got the seat.'],
+   ['The team ignored the forecast, so they are last on the grid now.','If the team hadn\u2019t ignored the forecast, they wouldn\u2019t be last on the grid now.'],
+   ['He doesn\u2019t speak Italian, so he misunderstood the pit-wall call.','If he spoke Italian, he wouldn\u2019t have misunderstood the pit-wall call.'],
+   ['The tyres weren\u2019t durable enough, so we\u2019re still waiting for our first win.','If the tyres had been durable enough, we wouldn\u2019t still be waiting for our first win.'],
+   ['I\u2019m afraid of crowds, so I never went to Monza.','If I weren\u2019t afraid of crowds, I would have gone to Monza.']];
+  R.forEach((r,i)=>{
+    reg();const d=h('div','q');d.innerHTML=`<div class="qt">${i+1}. ${r[0]}</div>`;
+    const t=h('input');t.type='text';t.style.width='100%';t.placeholder='If …';
+    const sh=h('button','btn alt','👀 Show model'),mine=h('button','btn','✔ Mine works'),m=h('div','fb');m.style.display='none';
+    sh.onclick=()=>{m.style.display='block';m.textContent='Model: '+r[1]};
+    mine.onclick=()=>{mine.classList.add('good');ok('rw2'+i)};
+    const row=h('div');row.style.cssText='margin-top:6px;display:flex;gap:8px;flex-wrap:wrap';row.append(sh,mine);
+    d.append(t,row,m);b.appendChild(d);
+  });
+  b.appendChild(h('div','note','Remember: only claim ✔ when your tenses match the time frames (past cause → now, or permanent quality → past result).'));
+})();
+
+/* ---------------- 13 STRATEGY WALL ROLE-PLAY ---------------- */
+(()=>{
+  const b=task(13,'🎙️','Strategy Wall: Branching Role-Play','You are the race strategist at Monza, lap 38. Read the radio message, choose your reply, and SAY your reply aloud in full sentences. Play again to see other endings.');
+  const N={
+   start:{m:'🎙️ Driver: “Box, box? It\u2019s starting to spit at Turn 4. My tyres are finished, and I can\u2019t hold him off!”',c:[['“Box now. We switch to intermediates.”','inter'],['“Stay out one more lap and keep pushing.”','stay'],['“Tell me what you feel in sectors 1 and 2.”','ask']]},
+   ask:{m:'🎙️ Driver: “Sector 1 is dry, sector 2 is damp. Decide fast!”',c:[['“Box now for intermediates.”','inter'],['“Stay out, and stay off the kerbs.”','stay']]},
+   inter:{m:'🔧 The crew is meticulous: 2.4 seconds. The rain gets heavier. What next?',c:[['“Push now, we have the pace.”','e1'],['“Manage the gap and bring it home.”','e2']]},
+   stay:{m:'🎙️ Driver: “It\u2019s getting slippery! I nearly lost it!” What do you say?',c:[['“Box now, we have lost time but we are safe.”','e3'],['“Nurse the tyres, the rain will stop.”','e4']]},
+   e1:{e:1,t:'🏆 Podium!',x:'You outmanoeuvre two rivals in the wet and finish second. The gamble was pivotal.',d:'If we had stayed out, we ____ (be) fifth now. / If you ____ (not be) so brave, I ____ (call) the stop earlier.'},
+   e2:{e:1,t:'🥈 Safe and solid',x:'Fourth place. A sensible result, but the rivals were more tenacious.',d:'If we had pushed harder, we ____ (be) on the podium now.'},
+   e3:{e:1,t:'😬 Damage limitation',x:'You lose twelve seconds and finish fifth, but the car is intact.',d:'If I had boxed a lap earlier, we ____ (lose) less time.'},
+   e4:{e:1,t:'💥 Disaster',x:'The car spins at Turn 4 and retires. The press scrutiny will be relentless.',d:'If you hadn\u2019t asked him to nurse the tyres, he ____ (be) in the points now.'}
+  };
+  const box=h('div','rp');b.appendChild(box);let hist=[],ended=new Set();
+  reg();
+  const show=id=>{
+    const n=N[id];box.innerHTML='';
+    if(hist.length)box.appendChild(h('div','hist','Your calls: '+hist.join(' → ')));
+    if(n.e){
+      ended.add(id);ok('rp');
+      box.appendChild(h('div','endbox',`<b>${n.t}</b><br>${n.x}<br><br><b>🗣️ Debrief – say it aloud, filling the gap with a mixed conditional:</b><br><i>${n.d}</i><br><small>Endings found: ${ended.size} / 4</small>`));
+      const r=h('button','btn','🔄 Play again');r.style.marginTop='10px';r.onclick=()=>{hist=[];show('start')};box.appendChild(r);
+      return;
+    }
+    box.appendChild(h('div','msg',n.m));
+    const c=h('div','choices');
+    n.c.forEach(ch=>{const bt=h('button','opt',ch[0]);bt.onclick=()=>{hist.push(ch[0].replace(/[“”]/g,''));show(ch[1])};c.appendChild(bt)});
+    box.appendChild(c);
+  };
+  show('start');
+})();
+
+/* ---------------- 14 WHAT-IF ROULETTE ---------------- */
+(()=>{
+  const b=task(14,'🎰','What-If Roulette','Spin, speak for 60 seconds, then spin again. Each spin gives you a hindsight question AND a childhood-habit mission.');
+  const A=['you had been born in Maranello','you had chosen a different career at eighteen','you had learned to drive at ten','you had moved abroad five years ago','the internet had never been invented','you had kept playing your childhood sport'];
+  const B=['you were completely fearless','you were much richer','you spoke five languages fluently','you weren\u2019t such a perfectionist','you lived by the sea','you were a morning person'];
+  const M=['Describe a weekly ritual from your childhood using <b>would</b>.','Describe something you believed or owned as a kid using <b>used to</b>.','Describe a habit you were forced to give up using <b>used to</b> and <b>would</b>.','Contrast a childhood state with your life now (<b>used to</b> … but now …).'];
+  const sb=h('div','spinbox');
+  sb.innerHTML='<div class="big" id="spQ">Press SPIN</div><div id="spM" style="margin:10px 0"></div><div id="spT" style="font-size:1.6rem;font-weight:800"></div>';
+  const spin=h('button','btn','🎰 SPIN'),tm=h('button','btn alt','⏱ Start 60 s');let iv=null,n=0;
+  spin.onclick=()=>{const t=Math.random()<.5;const a=A[Math.floor(Math.random()*A.length)],bb=B[Math.floor(Math.random()*B.length)];
+    $('#spQ').style.fontSize='1.5rem';
+    $('#spQ').innerHTML=t?`If ${a}, what would your life be like now?`:`If ${bb}, what would you have done differently in your life?`;
+    $('#spM').innerHTML=`🎯 <b>Mission 1:</b> ${t?'Mixed conditional type A (past cause → present result).':'Mixed conditional type B (present quality → past result).'}<br>🎯 <b>Mission 2:</b> ${M[Math.floor(Math.random()*M.length)]}<br>🎯 <b>Mission 3:</b> Use at least one C1 word from today.`;
+    $('#spT').textContent='';clearInterval(iv);n++;if(n>=3)ok('spin')};
+  tm.onclick=()=>{clearInterval(iv);let t=60;$('#spT').textContent=t;iv=setInterval(()=>{t--;$('#spT').textContent=t>0?t:'Time! 👏';if(t<=0)clearInterval(iv)},1000)};
+  reg();sb.append(spin,' ',tm);b.appendChild(sb);
+  b.appendChild(h('div','note','Score: spin at least <b>3 times</b> to earn the star.'));
+})();
+
+/* ---------------- 15 GRAND FINALE ---------------- */
+(()=>{
+  const b=task(15,'🏁','Paddock Grand Finale: Discussion Grid &amp; Writing Log','Open a card, answer in full paragraphs (2 minutes each), and aim to use today\u2019s vocabulary and both grammar points. Then write.');
+  const D=[['Loyalty vs logic','Some fans stay loyal to Ferrari through decades of disappointment. Where does loyalty become stubbornness?','tenacity · adversity · used to'],
+   ['The price of perfection','Is a <b>meticulous</b> culture healthy, or does it <b>jeopardise</b> people\u2019s wellbeing?','meticulous · jeopardise · If + had…would'],
+   ['Rivalry','Is a <b>cutthroat</b> industry the only way to reach the top? Give an example from your field.','cutthroat · formidable · would'],
+   ['Hindsight','Think of a decision you regret. How would your life be different now if you had decided otherwise?','mixed conditional A'],
+   ['Character','Which quality made you who you are? If you weren\u2019t so …, you wouldn\u2019t have …','mixed conditional B'],
+   ['Under the microscope','Does constant public <b>scrutiny</b> help athletes improve, or does it ruin them?','scrutiny · relentless · pivotal'],
+   ['Nostalgia','What did people <b>use to</b> do that we have lost? What would you bring back?','used to · would · unrivalled'],
+   ['Sport and money','F1 budgets are enormous. Is that money better spent elsewhere? Defend a position.','gruelling · pivotal · conditionals'],
+   ['Teamwork','A pit stop takes two seconds but needs 20 people. What does that say about success?','outmanoeuvre · meticulous · adversity'],
+   ['Heritage','Is heritage an advantage or a burden when a brand struggles? Think of Ferrari or any institution.','unrivalled · scrutiny · If…hadn\u2019t…would'],
+   ['Gruelling goals','Describe the most gruelling thing you have done. How did you cope with adversity?','gruelling · adversity · tenacity'],
+   ['Future self','What will you wish you had started today? If you start now, where will you be in ten years?','conditionals · pivotal']];
+  const g=h('div','grid');
+  D.forEach(d=>{const c=h('div','dcard');c.innerHTML=`<div class="k">${d[0]}</div><div class="qq">${d[1]}<small>🎯 ${d[2]}</small></div><small class="tap">tap to open</small>`;
+    c.onclick=()=>{c.classList.toggle('open');c.querySelector('.tap').style.display=c.classList.contains('open')?'none':'block'};g.appendChild(c)});
+  b.appendChild(g);
+  b.appendChild(h('h3',null,'✍️ Writing log'));b.lastChild.style.margin='18px 0 4px';
+  b.appendChild(h('p','instr','Write 90–140 words: <i>“How my past made my present: a Sunday ritual, a turning point and what I would change.”</i> Required: at least <b>2</b> used to / would habits, <b>1</b> mixed conditional and <b>3</b> words from today.'));
+  const W=V.map(v=>v[0]);
+  const ta=h('textarea');ta.placeholder='When I was a child, we used to…';
+  try{ta.value=localStorage.getItem('l8_log')||''}catch(e){}
+  const wd=h('div','words');wd.innerHTML=W.map(w=>`<span>${w}</span>`).join('');
+  const cnt=h('div','fb');cnt.style.color='#6d6a75';reg();
+  const upd2=()=>{
+    const raw=ta.value,t=raw.toLowerCase().replace(/[\u2019]/g,"'");
+    let vc=0;[...wd.children].forEach((s,i)=>{const on=t.includes(W[i].replace(/ise$/,'is'))||t.includes(W[i]);s.classList.toggle('on',on);if(on)vc++});
+    const habits=(t.match(/\bused to\b|\bwould\s+(?!have\b|be\b)\w+/g)||[]).length;
+    const mixA=/\bif\b[^.!?]*\b(had|hadn't)\b[^.!?]*\b(would|wouldn't|'d)\s+(?!have\b)\w+/.test(t);
+    const mixB=/\bif\b[^.!?]*\b(were|weren't|was|wasn't|spoke|knew|had to)\b[^.!?]*\b(would|wouldn't)\s+have\b/.test(t);
+    const wc=(raw.trim().match(/\S+/g)||[]).length;
+    cnt.textContent=`${wc} words · habits: ${habits}/2 · mixed conditional: ${(mixA||mixB)?'✔':'✖'} · vocabulary: ${vc}/3`;
+    if(wc>=90&&habits>=2&&(mixA||mixB)&&vc>=3)ok('write');
+    try{localStorage.setItem('l8_log',raw)}catch(e){}
+  };
+  ta.oninput=upd2;b.append(ta,wd,cnt);upd2();
+})();
+</script>
+</body>
+</html>
