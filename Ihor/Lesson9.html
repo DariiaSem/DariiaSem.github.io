@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 9: C1 | Press Start: The GTA Phenomenon</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #fbf6ee;
+    --ink: #2b2a33;
+    --mute: #6d6a75;
+    --card: #fff;
+    --coral: #ef6f5e;
+    --teal: #1f9d8f;
+    --tealsoft: #e3f4f1;
+    --gold: #f2b33d;
+    --goldsoft: #fdf2d6;
+    --plum: #7a4fa3;
+    --plumsoft: #f0e6f7;
+    --line: #eadfce;
+    --ok: #2e9d5b;
+    --oksoft: #dcf3e5;
+    --bad: #d64545;
+    --badsoft: #fbe0e0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Nunito', system-ui, sans-serif; line-height: 1.55; font-size: 16px; scroll-behavior: smooth; }
+h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; margin: 0; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,246,238,.95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 12px; align-items: center; }
+.bar b { font-family: 'Fraunces', serif; color: var(--plum); }
+#nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: thin; }
+#nav::-webkit-scrollbar { height: 4px; }
+#nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+#nav a { flex: none; text-decoration: none; background: #fff; border: 1px solid var(--line); color: var(--ink); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; transition: background 0.2s; }
+#nav a:hover { background: var(--gold); }
+.score { flex: none; background: var(--ink); color: #fff; border-radius: 20px; padding: 4px 14px; font-weight: 800; }
+
+.hero { max-width: 960px; margin: 28px auto 8px; padding: 0 16px; text-align: center; }
+.hero .tag { display: inline-block; background: var(--plum); color: #fff; font-weight: 800; border-radius: 20px; padding: 3px 14px; letter-spacing: .05em; font-size: 0.85rem; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: 10px 0; color: var(--ink); }
+.hero p { color: var(--mute); margin: 0 auto 14px; font-size: 1.1rem; max-width: 720px; }
+
+main { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+.task { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin-top: 22px; box-shadow: 0 4px 0 var(--line); scroll-margin-top: 60px; }
+.thead { display: flex; gap: 12px; align-items: center; }
+.num { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.2rem; }
+.task:nth-of-type(3n+2) .num { background: var(--coral); }
+.task:nth-of-type(3n) .num { background: var(--plum); }
+.thead h2 { font-size: 1.5rem; }
+.instr { color: var(--mute); margin: 8px 0 14px; font-size: 1.05rem; }
+
+/* RICH CARDS & STARTING PHRASES */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.rich-card { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.card-emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+.starter-box { margin-top: 12px; padding: 10px 12px; background: #fff; border-left: 4px solid var(--plum); border-radius: 8px; font-size: 0.92rem; }
+.starter-label { display: block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--plum); margin-bottom: 4px; }
+.starter-phrase { display: block; font-weight: 700; color: var(--ink); margin-top: 3px; }
+
+/* VOCAB SKILL TREE */
+.tree-wrap { background: radial-gradient(circle at 1px 1px, #e6d6b8 1.5px, transparent 1.5px) 0 0 / 22px 22px, var(--goldsoft); border: 2px dashed var(--gold); border-radius: 22px; padding: 8px; overflow: hidden; }
+.tree-svg { width: 100%; height: auto; display: block; }
+.tline { fill: none; stroke-width: 3.5; stroke-linecap: round; opacity: .3; transition: opacity .3s; }
+.tline.hubline { stroke-width: 4.5; opacity: .55; }
+.tline.on { opacity: 1; }
+.node { cursor: pointer; outline: none; }
+.node rect { fill: #fff; stroke: var(--c); stroke-width: 3; transition: all .2s; }
+.node text { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; fill: var(--ink); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.node.locked rect { stroke-dasharray: 7 4; }
+.node:hover rect, .node:focus-visible rect { stroke-width: 5; fill: var(--goldsoft); }
+.node.done rect { fill: var(--c); stroke-dasharray: none; }
+.node.done text { fill: #fff; }
+.node.sel rect { stroke-width: 6; }
+.hub { cursor: default; }
+.hub text { font-family: 'Fraunces', serif; font-size: 16px; }
+.hub:hover rect { stroke-width: 3; fill: #fff; }
+.hub.done:hover rect { fill: var(--c); }
+.ccirc { fill: var(--ink); transition: fill .4s; }
+.ccirc.win { fill: var(--ok); }
+.ctext { fill: #fff; font-family: 'Fraunces', serif; font-weight: 800; font-size: 15px; text-anchor: middle; }
+.csub { fill: var(--gold); font-weight: 800; font-size: 20px; text-anchor: middle; font-family: 'Nunito', sans-serif; }
+.tpanel { margin-top: 14px; background: #fff; border: 2px solid var(--c, var(--line)); border-left-width: 8px; border-radius: 16px; padding: 14px 18px; }
+.tp-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.tp-word { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.7rem; color: var(--c, var(--coral)); }
+.tp-ipa { color: var(--mute); font-family: monospace; }
+.tp-tag { margin-left: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 20px; padding: 2px 12px; font-weight: 800; font-size: .8rem; }
+.tp-def { margin: 8px 0 2px; font-weight: 700; }
+.tp-ua { margin: 2px 0; color: var(--teal); font-weight: 700; }
+.tp-ex { margin: 6px 0; color: var(--mute); }
+
+/* MCQ & BUTTONS */
+.q { border-top: 1px dashed var(--line); padding: 12px 0; }
+.qt { font-weight: 700; margin-bottom: 8px; font-size: 1.05rem; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font-family: inherit; }
+.opt, .btn { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 7px 14px; cursor: pointer; font-weight: 700; font-size: .95rem; color: var(--ink); transition: border 0.2s; }
+.opt:hover, .btn:hover { border-color: var(--teal); }
+.btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.btn.alt { background: #fff; color: var(--ink); border-color: var(--line); }
+.btn:disabled { opacity: .7; cursor: default; }
+.good { background: var(--oksoft) !important; border-color: var(--ok) !important; color: #1E6038 !important; }
+.bad { background: var(--badsoft) !important; border-color: var(--bad) !important; color: #7F1D1D !important; }
+.fb { color: var(--ok); font-size: .9rem; margin-left: 8px; font-weight: 700; }
+
+/* PRONUNCIATION */
+.pron { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border-top: 1px dashed var(--line); padding: 12px 0; }
+.pron .w { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.25rem; min-width: 145px; }
+.pron .ipa { color: var(--mute); min-width: 130px; font-family: monospace; }
+.syl { background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 4px 12px; cursor: pointer; font-weight: 700; }
+.say { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+/* GAP FILL & TOOLKIT */
+.note { background: var(--goldsoft); border-radius: 12px; padding: 14px 18px; margin: 10px 0; font-size: .95rem; }
+.note.plum { background: var(--plumsoft); border-left: 4px solid var(--plum); }
+.note.teal { background: var(--tealsoft); border-left: 4px solid var(--teal); }
+.gap { padding: 10px 0; border-top: 1px dashed var(--line); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 1.03rem; }
+select, input[type=text], textarea { font-family: inherit; font-size: 1rem; border: 2px solid var(--line); border-radius: 10px; padding: 6px 10px; background: #fff; outline: none; }
+select:focus, input[type=text]:focus, textarea:focus { border-color: var(--teal); }
+
+/* MATCH IT */
+.match { display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; }
+.mcol { display: flex; flex-direction: column; gap: 8px; }
+.mitem { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.mitem.sel { border-color: var(--gold); background: var(--goldsoft); }
+
+/* ERROR SPY */
+.spyrow { padding: 14px 0; border-top: 1px dashed var(--line); font-size: 1.05rem; }
+.spy { background: var(--goldsoft); border-radius: 6px; padding: 1px 6px; cursor: pointer; font-weight: 700; border: 1px solid var(--gold); }
+.spy.wrong { background: var(--badsoft); border-color: var(--bad); }
+.spy.found { background: var(--oksoft); border-color: var(--ok); color: #1E6038; }
+.fix-box { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ORDERER */
+.order { padding-left: 0; list-style: none; margin: 10px 0; }
+.oitem { display: flex; gap: 8px; align-items: center; padding: 8px 12px; margin: 5px 0; border: 2px solid var(--line); border-radius: 10px; background: #fff; font-weight: 600; font-size: 1.03rem; }
+.oitem span { flex: 1; }
+.mini { background: #fff; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; padding: 2px 8px; font-size: 1.1rem; font-weight: 800; }
+
+/* CHAT */
+.chat-container { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 85%; padding: 10px 16px; border-radius: 16px; font-size: 1rem; font-weight: 600; position: relative; }
+.chat-msg.received { background: var(--bg); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--line); }
+.chat-msg.sent { background: var(--plum); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-name { font-size: 0.75rem; font-weight: 800; margin-bottom: 2px; color: var(--mute); }
+.chat-msg.sent .chat-name { text-align: right; color: var(--plumsoft); }
+
+/* TABLE */
+table { border-collapse: collapse; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin: 12px 0; }
+th, td { border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: var(--plumsoft); color: var(--plum); font-weight: 800; }
+td { background: #fff; font-weight: 600; }
+td.en { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--coral); }
+td.def { color: var(--mute); }
+
+/* SPINBOX & WRITING */
+.spinbox { background: var(--goldsoft); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 14px; border: 2px dashed var(--gold); }
+.big { font-family: 'Fraunces', serif; font-size: 1.55rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.spin-starter { background: #fff; border: 2px solid var(--plum); color: var(--plum); border-radius: 12px; padding: 8px 14px; display: inline-block; font-weight: 800; margin-bottom: 14px; font-size: 0.98rem; }
+textarea { width: 100%; min-height: 120px; resize: vertical; margin-bottom: 8px; }
+.words { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.words span { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 2px 10px; font-size: .85rem; font-weight: 700; color: var(--mute); }
+.words span.on { background: var(--oksoft); color: #1E6038; border-color: var(--ok); }
+
+/* UA HOVER */
+.ua-hover { position: relative; cursor: help; border-bottom: 2px dotted var(--teal); font-weight: 700; color: var(--teal); transition: all 0.2s; }
+.ua-hover:hover { background: var(--tealsoft); }
+.ua-hover::after { content: attr(data-ua); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(6px); background: var(--ink); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.2s; font-weight: 600; pointer-events: none; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.ua-hover:hover::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+footer { text-align: center; color: var(--mute); padding: 30px 16px; font-weight: 700; font-size: 0.9rem; }
+@media(max-width: 600px) { .match { grid-template-columns: 1fr; } .node text { font-size: 17px; } .tp-tag { margin-left: 0; } }
+</style>
+</head>
+<body>
+<div class="bar"><b>L09 · C1</b><div id="nav"></div><div class="score">⭐ <span id="score">0 / 0</span></div></div>
+
+<div class="hero">
+  <span class="tag">CULTURE · LESSON 09 · C1</span>
+  <h1>Press Start: The GTA Phenomenon</h1>
+  <p>How open-world games became a cultural mirror and a moral battleground. Master <i>Cleft Sentences</i> and <i>Emphatic Inversion</i> to put the spotlight exactly where you want it.</p>
+</div>
+
+<main id="tasks"></main>
+<footer>Lesson 09 · Press Start: The GTA Phenomenon · C1 Culture English ⭐</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const h = (t, c, html) => { const e = document.createElement(t); if(c) e.className = c; if(html != null) e.innerHTML = html; return e; };
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+
+let total = 0; const done = new Set();
+const upd = () => { $('#score').textContent = done.size + ' / ' + total; };
+const reg = (n = 1) => { total += n; upd(); };
+const ok = k => { if(!done.has(k)) { done.add(k); upd(); } };
+function say(t, l='en-GB') { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = l; u.rate = 0.88; speechSynthesis.speak(u); } catch(e) {} }
+
+const main = $('#tasks');
+function task(n, icon, title, instr) {
+  const s = h('section', 'task'); s.id = 't' + n;
+  s.innerHTML = `<div class="thead"><span class="num">${icon}</span><h2>${title}</h2></div><p class="instr">${instr}</p>`;
+  const b = h('div'); s.appendChild(b); main.appendChild(s);
+  const a = h('a', null, n); a.href = '#t' + n; $('#nav').appendChild(a);
+  return b;
+}
+
+function mcq(box, items, key) {
+  items.forEach((it, i) => {
+    reg();
+    const q = h('div', 'q'); q.innerHTML = `<div class="qt">${it.q}</div>`;
+    const o = h('div', 'opts'), fb = h('div', 'fb'); let wrong = false, solved = false;
+    let ops = it.o.map((t, j) => ({ t, c: j === (it.a || 0) }));
+    if(!it.fixed) ops = shuffle(ops);
+    ops.forEach(op => {
+      const b = h('button', 'opt', op.t);
+      b.onclick = () => {
+        if(solved) return;
+        if(op.c) { solved = true; b.classList.add('good'); if(!wrong) ok(key + i); if(it.w) fb.textContent = it.w; }
+        else { wrong = true; b.classList.add('bad'); b.disabled = true; }
+      };
+      o.appendChild(b);
+    });
+    q.append(o, fb); box.appendChild(q);
+  });
+}
+const tf = (box, items, key) => mcq(box, items.map(x => ({ q: x[0], o: ['True', 'False'], a: x[1] ? 0 : 1, fixed: true, w: x[2] })), key);
+
+/* ---------------- 1 WARM-UP ---------------- */
+(() => {
+  const b = task(1, '🎮', 'Warm-Up: Press Start', 'Discuss these opening prompts aloud. Use the starting phrases to anchor your response.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--teal)">
+      <span class="card-emoji">🏙️</span>
+      <h4>The Sandbox Itch</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Open-world games let you ignore the story and just wander, experiment and cause chaos. Why is that freedom so addictive?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• What I find most addictive about open worlds is...</span>
+        <span class="starter-phrase">• It was ... that first made me realise games could be more than...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🎭</span>
+      <h4>Games as Culture</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Is a game like GTA closer to a film, a satirical novel or a theme park? Where would you put it, and why?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• What a game can do that a film never can is...</span>
+        <span class="starter-phrase">• Rarely do we treat games as serious art, yet...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+
+  mcq(b, [
+    { q: 'A game world where you can roam freely and ignore the main missions is often described as a...', o: ['sandbox', 'linear campaign', 'tutorial level'] },
+    { q: 'Humour that exaggerates real society in order to criticise it is called...', o: ['satire', 'nostalgia', 'propaganda'] }
+  ], 'q1_');
+})();
+
+/* ---------------- 2 VOCAB SKILL TREE ---------------- */
+(() => {
+  const b = task(2, '🗺️', 'Vocab Skill Tree', 'Twelve C1 words, four branches. <b>Tap a node</b> to inspect it, listen, say the starter aloud, then <b>unlock</b> it. Dashed outline = locked. Unlock the whole tree to level up!');
+  const BR = [
+    { name: 'Gameplay', icon: '🎮', color: '#1f9d8f', ang: -135, words: [
+      { w: 'immersive', ipa: '/ɪˈmɜːsɪv/', def: 'So absorbing that you forget the real world around you.', ua: 'повністю занурювальний', ex: 'The weather, the radio and the crowds make the city feel gloriously immersive.', st: 'The most immersive game I have ever played was...' },
+      { w: 'emergent', ipa: '/ɪˈmɜːdʒənt/', def: "Arising unplanned from the way a game's systems interact, not scripted by the designers.", ua: 'спонтанний, такий що виникає сам собою', ex: 'No designer scripted it: the funniest moments are pure emergent gameplay.', st: 'A hilarious emergent moment I remember is...' },
+      { w: 'sandbox', ipa: '/ˈsændbɒks/', def: 'A game or mode with few fixed goals, where you are free to experiment and play your own way.', ua: '«пісочниця»', ex: 'Many players ignore the missions and treat the whole city as a sandbox.', st: 'In a sandbox game, what I enjoy doing most is...' }
+    ]},
+    { name: 'Story & Satire', icon: '🎭', color: '#ef6f5e', ang: -45, words: [
+      { w: 'satire', ipa: '/ˈsætaɪə/', def: 'Humour, irony or exaggeration used to criticise society, politics or powerful people.', ua: 'сатира', ex: 'The fake adverts and talk shows are sharp satire of consumer culture.', st: 'What the satire in games like this really targets is...' },
+      { w: 'anti-hero', ipa: '/ˈæntiˌhɪərəʊ/', def: 'A main character who lacks traditional heroic qualities, yet still holds our sympathy or fascination.', ua: 'антигерой', ex: 'The protagonist is a classic anti-hero: charming, flawed and rarely noble.', st: 'My favourite anti-hero in fiction is ... because...' },
+      { w: 'tongue-in-cheek', ipa: '/ˌtʌŋ ɪn ˈtʃiːk/', def: 'Humorous and not meant to be taken seriously.', ua: 'жартома, з іронією, не всерйоз', ex: 'The tongue-in-cheek tone makes the chaos feel more like a cartoon than a threat.', st: 'A tongue-in-cheek detail that made me laugh was...' }
+    ]},
+    { name: 'The Business', icon: '💰', color: '#c98a10', ang: 45, words: [
+      { w: 'monetization', ipa: '/ˌmɒnɪtaɪˈzeɪʃən/', def: "Turning something, such as a game or its players' attention, into a source of income.", ua: 'монетизація', ex: 'Aggressive monetization in online modes has angered many long-term players.', st: 'The kind of monetization I accept in games is ... but never...' },
+      { w: 'blockbuster', ipa: '/ˈblɒkˌbʌstə/', def: 'A hugely popular, very expensive production that earns enormous profits.', ua: 'блокбастер', ex: 'A modern blockbuster game can cost as much to make as a major film.', st: 'What turns a game into a blockbuster is...' },
+      { w: 'crunch', ipa: '/krʌntʃ/', def: "A period of extreme overtime in the final months before a game's release.", ua: 'аврал, виснажливі переробки', ex: 'Developers have spoken openly about crunch before major launches.', st: 'What worries me about crunch culture is...' }
+    ]},
+    { name: 'Culture Wars', icon: '🔥', color: '#7a4fa3', ang: 135, words: [
+      { w: 'moral panic', ipa: '/ˌmɒrəl ˈpænɪk/', def: "Widespread, often exaggerated public fear that something new threatens society's values.", ua: 'моральна паніка', ex: 'Comics, rock music and video games have all faced a moral panic in their time.', st: 'Rarely do new media avoid a moral panic because...' },
+      { w: 'desensitize', ipa: '/diːˈsensɪtaɪz/', def: 'To make someone less emotionally reactive to something, such as violence or suffering.', ua: 'знечулювати, притуплювати чутливість', ex: 'Critics argue that games desensitize players, though the evidence remains disputed.', st: 'What I think the evidence on desensitization really shows is...' },
+      { w: 'modding', ipa: '/ˈmɒdɪŋ/', def: 'Changing or expanding a game with fan-made content, from new cars to entire role-play worlds.', ua: 'моддинг, створення модифікацій', ex: 'The modding scene has kept the game alive far longer than the studio planned.', st: 'It is modding that makes a game...' }
+    ]}
+  ];
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (t, a = {}, p) => { const e = document.createElementNS(NS, t); for(const k in a) e.setAttribute(k, a[k]); if(p) p.appendChild(e); return e; };
+  const wrap = h('div', 'tree-wrap');
+  const svg = el('svg', { viewBox: '0 0 900 620', class: 'tree-svg', role: 'group', 'aria-label': 'Vocabulary skill tree' });
+  wrap.appendChild(svg);
+  const panel = h('div', 'tpanel', '<b>👆 Tap any node on the map to inspect the word.</b>');
+  b.append(wrap, panel);
+  reg(12);
+
+  const cx = 450, cy = 310;
+  const unlocked = new Set(); let cur = null;
+  const pos = (rx, ry, deg) => [cx + rx * Math.cos(deg * Math.PI / 180), cy + ry * Math.sin(deg * Math.PI / 180)];
+  const curve = (x1, y1, x2, y2) => {
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, dx = x2 - x1, dy = y2 - y1, l = Math.hypot(dx, dy) || 1;
+    return `M${x1.toFixed(1)} ${y1.toFixed(1)} Q${(mx - dy / l * 20).toFixed(1)} ${(my + dx / l * 20).toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  };
+  const lines = el('g', {}, svg), nodes = el('g', {}, svg);
+
+  const center = el('g', {}, nodes);
+  const circ = el('circle', { cx, cy, r: 60, class: 'ccirc' }, center);
+  const ct1 = el('text', { x: cx, y: cy - 8, class: 'ctext' }, center); ct1.textContent = 'PRESS START';
+  const ct2 = el('text', { x: cx, y: cy + 18, class: 'csub' }, center); ct2.textContent = '0 / 12';
+
+  const refresh = () => {
+    ct2.textContent = unlocked.size + ' / 12';
+    if(unlocked.size === 12) { ct1.textContent = 'LEVEL UP!'; circ.classList.add('win'); }
+  };
+
+  function show(bi, wi) {
+    const br = BR[bi], w = br.words[wi], k = bi * 3 + wi;
+    if(cur) cur.g.classList.remove('sel');
+    cur = w; w.g.classList.add('sel');
+    panel.style.setProperty('--c', br.color);
+    panel.innerHTML = `
+      <div class="tp-head"><span class="tp-word">${w.w}</span><button class="say" title="Listen" aria-label="Listen">🔊</button><span class="tp-ipa">${w.ipa}</span><span class="tp-tag">${br.icon} ${br.name}</span></div>
+      <p class="tp-def">${w.def}</p>
+      <p class="tp-ua">🇺🇦 ${w.ua}</p>
+      <p class="tp-ex">💬 <i>${w.ex}</i></p>
+      <div class="starter-box"><span class="starter-label">Say it aloud</span><span class="starter-phrase">• ${w.st}</span></div>`;
+    panel.querySelector('.say').onclick = () => say(w.w);
+    const done = unlocked.has(k);
+    const btn = h('button', 'btn', done ? 'Unlocked ✔' : '🔓 Unlock this skill');
+    btn.style.marginTop = '12px'; btn.disabled = done;
+    btn.onclick = () => {
+      unlocked.add(k); w.g.classList.remove('locked'); w.g.classList.add('done');
+      w.t.textContent = '✓ ' + w.w; w.path.classList.add('on'); ok('v' + k);
+      if(br.words.every((x, i) => unlocked.has(bi * 3 + i))) { br.hub.classList.add('done'); }
+      refresh(); show(bi, wi);
+    };
+    panel.appendChild(btn);
+  }
+
+  BR.forEach((br, bi) => {
+    const [hx, hy] = pos(175, 115, br.ang);
+    el('path', { d: curve(cx, cy, hx, hy), stroke: br.color, class: 'tline hubline' }, lines);
+    const hub = el('g', { class: 'node hub', style: `--c:${br.color}` }, nodes);
+    el('rect', { x: hx - 92, y: hy - 25, width: 184, height: 50, rx: 25 }, hub);
+    const ht = el('text', { x: hx, y: hy }, hub); ht.textContent = br.icon + ' ' + br.name;
+    br.hub = hub;
+    br.words.forEach((w, wi) => {
+      const [lx, ly] = pos(385, 250, br.ang + [-26, 0, 26][wi]);
+      w.path = el('path', { d: curve(hx, hy, lx, ly), stroke: br.color, class: 'tline' }, lines);
+      const g = el('g', { class: 'node leaf locked', style: `--c:${br.color}`, tabindex: 0, role: 'button', 'aria-label': w.w }, nodes);
+      const wd = Math.max(104, w.w.length * 10.5 + 40);
+      el('rect', { x: lx - wd / 2, y: ly - 20, width: wd, height: 40, rx: 20 }, g);
+      w.t = el('text', { x: lx, y: ly }, g); w.t.textContent = w.w;
+      w.g = g;
+      const act = () => show(bi, wi);
+      g.addEventListener('click', act);
+      g.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+    });
+  });
+})();
+
+/* ---------------- 3 PRONUNCIATION ---------------- */
+(() => {
+  const b = task(3, '🗣️', 'Say It Right', 'Press 🔊, listen, then click the <b>stressed syllable</b> of these C1 words.');
+  const P = [
+    ['immersive', '/ɪˈmɜːsɪv/', ['im', 'mer', 'sive'], 1, 'Stress on MER.'],
+    ['emergent', '/ɪˈmɜːdʒənt/', ['e', 'mer', 'gent'], 1, 'Stress on MER.'],
+    ['satire', '/ˈsætaɪə/', ['sat', 'ire'], 0, 'Stress on SAT.'],
+    ['desensitize', '/diːˈsensɪtaɪz/', ['de', 'sen', 'si', 'tize'], 1, 'Stress on SEN.'],
+    ['monetization', '/ˌmɒnɪtaɪˈzeɪʃən/', ['mo', 'ne', 'ti', 'za', 'tion'], 3, 'Main stress on ZA.']
+  ];
+  P.forEach((p, k) => {
+    reg(); const r = h('div', 'pron');
+    r.innerHTML = `<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s = h('button', 'say', '🔊'); s.onclick = () => say(p[0]); r.appendChild(s);
+    const fb = h('span', 'fb'); let wrong = false, solved = false;
+    p[2].forEach((t, i) => {
+      const y = h('button', 'syl', t);
+      y.onclick = () => {
+        if(solved) return;
+        if(i === p[3]) { solved = true; y.classList.add('good'); y.textContent = t.toUpperCase(); if(!wrong) ok('p'+k); fb.textContent = p[4]; }
+        else { wrong = true; y.classList.add('bad'); }
+      };
+      r.appendChild(y);
+    });
+    r.appendChild(fb); b.appendChild(r);
+  });
+})();
+
+/* ---------------- 4 MATCH THE EXAMPLE ---------------- */
+(() => {
+  const b = task(4, '🧩', 'Match the Concept', 'Click the C1 term on the left, then match it to the situation on the right.');
+  const pairs = [
+    ['Sandbox', 'You ignore every mission and spend an entire evening just driving around and experimenting.'],
+    ['Satire', 'A fake advert that mocks celebrity culture by exaggerating it to absurd extremes.'],
+    ['Crunch', 'Developers working 80-hour weeks in the final months before a launch.'],
+    ['Moral panic', 'Newspapers and politicians blaming a new game for every social problem overnight.'],
+    ['Modding', 'Fans building new maps, cars and role-play servers that the original studio never made.']
+  ];
+  reg(pairs.length);
+  const w = h('div', 'match'), L = h('div', 'mcol'), R = h('div', 'mcol'); let sl = null, sr = null;
+  const mk = (txt, id, side) => {
+    const btn = h('button', 'mitem', txt); btn.dataset.id = id;
+    btn.onclick = () => {
+      if(btn.classList.contains('good')) return;
+      if(side === 'L') { if(sl) sl.classList.remove('sel'); sl = btn; } else { if(sr) sr.classList.remove('sel'); sr = btn; }
+      btn.classList.add('sel');
+      if(sl && sr) {
+        const a = sl, c = sr; sl = sr = null;
+        if(a.dataset.id === c.dataset.id) { [a, c].forEach(x => { x.classList.remove('sel'); x.classList.add('good'); }); ok('m' + a.dataset.id); }
+        else { [a, c].forEach(x => x.classList.add('bad')); setTimeout(() => [a, c].forEach(x => x.classList.remove('bad', 'sel')), 600); }
+      }
+    }; return btn;
+  };
+  shuffle(pairs.map((p, i) => [p[0], i])).forEach(x => L.appendChild(mk(x[0], x[1], 'L')));
+  shuffle(pairs.map((p, i) => [p[1], i])).forEach(x => R.appendChild(mk(x[0], x[1], 'R')));
+  w.append(L, R); b.appendChild(w);
+})();
+
+/* ---------------- 5 GRAMMAR 1: CLEFT SENTENCES ---------------- */
+(() => {
+  const b = task(5, '🔦', 'Grammar 1: Cleft Sentences', 'A cleft sentence splits one idea into two parts so that one piece gets the spotlight. Perfect for correcting expectations, building contrast and sounding persuasive.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Type</th><th>Form & Function</th><th>Gaming Example</th></tr>
+    <tr>
+      <td class="en">It-cleft</td>
+      <td><b>It + be + focus + that / who + clause</b> — spotlights a person, thing, time or place.</td>
+      <td><b>It was the satire that</b> made critics take the series seriously.<br><b>It was in 2001 that</b> open worlds went mainstream.</td>
+    </tr>
+    <tr>
+      <td class="en">Wh-cleft (pseudo-cleft)</td>
+      <td><b>What + clause + be + focus</b> — spotlights an action, idea or feeling.</td>
+      <td><b>What makes</b> the series unique <b>is</b> its sense of humour.<br><b>What I'd love to see is</b> a campaign with real consequences.</td>
+    </tr>
+    <tr>
+      <td class="en">Reversed wh-cleft</td>
+      <td><b>Focus + be + what + clause</b> — the spotlight comes first.</td>
+      <td>Total freedom <b>is what</b> players really want.</td>
+    </tr>
+    <tr>
+      <td class="en">All / The thing / The reason / The place</td>
+      <td><b>All / The reason (why) / The place (where) + clause + be…</b></td>
+      <td><b>All I wanted was</b> to explore.<br><b>The reason why</b> it sold so well <b>is that</b> it offers total freedom.</td>
+    </tr>
+    <tr>
+      <td class="en">What happened was… / do-cleft</td>
+      <td>Narrates an event or action; after <i>do</i>, an infinitive follows.</td>
+      <td><b>What happened was that</b> the mod became more popular than the game.<br><b>What I did was</b> (to) delete my save file.</td>
+    </tr>
+    <tr>
+      <td class="en">Time clefts</td>
+      <td><b>It was not until / only when + clause + that…</b></td>
+      <td><b>It was not until</b> the final mission <b>that</b> the joke landed.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note');
+  nb.innerHTML = `<b>Critical C1 Rules:</b><br>
+  ❌ <i>It was the soundtrack <b>what</b> made the city feel alive.</i> → ✅ <i>It was the soundtrack <b>that</b> made the city feel alive.</i><br>
+  ❌ <i>What annoys me <b>it is</b> the loading screens.</i> → ✅ <i>What annoys me <b>is</b> the loading screens.</i><br>
+  💡 In an it-cleft, <i>that</i> can be dropped in informal speech when the focus is not the subject. Don't overuse clefts: one or two per paragraph keeps them powerful.`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 6 CLEFT PRACTICE ---------------- */
+(() => {
+  const b = task(6, '📝', 'Cleft Precision', 'Choose the word that completes each cleft sentence, then finish the speaking prompts aloud.');
+  const bank = ['What', 'that', 'why', 'was'];
+  const G = [
+    ['___ makes the series unique is its razor-sharp satire.', 'What'],
+    ['It was the radio stations ___ gave the city its personality.', 'that'],
+    ['The reason ___ the game sold so well is that it offered total freedom.', 'why'],
+    ['It ___ the story, not the graphics, that kept me playing.', 'was']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('cl'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+
+  const sp = h('div', 'starter-box');
+  sp.innerHTML = `
+    <span class="starter-label">Speaking Follow-Up (Complete Aloud)</span>
+    <span class="starter-phrase">• What I enjoy most about open-world games is...</span>
+    <span class="starter-phrase">• It was ... that made me stop playing a game for good.</span>
+    <span class="starter-phrase">• The reason why some games feel timeless is that...</span>
+  `;
+  b.appendChild(sp);
+})();
+
+/* ---------------- 7 GRAMMAR 2: EMPHATIC INVERSION ---------------- */
+(() => {
+  const b = task(7, '🔄', 'Grammar 2: Emphatic Inversion', 'Put a negative or restrictive phrase first, then flip the auxiliary and the subject. Dramatic, formal, and very C1.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Trigger</th><th>Structure</th><th>Gaming Example</th></tr>
+    <tr>
+      <td class="en">Negative adverbials</td>
+      <td><b>Never / Rarely / Seldom / Little / Hardly + auxiliary + subject</b></td>
+      <td><b>Never before had</b> a game world felt so alive.<br><b>Rarely do</b> studios admit how much overtime a blockbuster requires.</td>
+    </tr>
+    <tr>
+      <td class="en">Not only … but also</td>
+      <td><b>Not only + auxiliary + subject</b> (first clause only)</td>
+      <td><b>Not only was</b> the game huge, but it was also beautifully designed.</td>
+    </tr>
+    <tr>
+      <td class="en">No sooner … than / Hardly … when</td>
+      <td><b>No sooner + had + subject + V3 … than</b></td>
+      <td><b>No sooner had</b> I picked up the controller <b>than</b> the console froze.</td>
+    </tr>
+    <tr>
+      <td class="en">Only + time / condition</td>
+      <td><b>Only after / when / if + clause + auxiliary + subject</b></td>
+      <td><b>Only after</b> finishing the story <b>did I</b> understand the joke.</td>
+    </tr>
+    <tr>
+      <td class="en">Not until / Under no circumstances</td>
+      <td><b>Not until / Under no circumstances / On no account + auxiliary + subject</b></td>
+      <td><b>Not until</b> the credits rolled <b>did I</b> realise how clever it was.<br><b>Under no circumstances should</b> you skip the tutorial.</td>
+    </tr>
+    <tr>
+      <td class="en">So … / Such …</td>
+      <td><b>So + adjective + be + subject + that…</b></td>
+      <td><b>So immersive was</b> the world <b>that</b> players forgot to eat.</td>
+    </tr>
+    <tr>
+      <td class="en">Conditional inversion</td>
+      <td><b>Had / Were / Should + subject</b> replaces <i>if</i></td>
+      <td><b>Had the studio listened</b>, the launch would have been smoother.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note plum');
+  nb.innerHTML = `<b>How the flip works:</b><br>
+  • No auxiliary in the normal sentence? Add <i>do / does / did</i>: <i>I understood</i> → <i>Only then <b>did I understand</b></i>.<br>
+  • ❌ <i>Never before I have seen a game so ambitious.</i> → ✅ <i>Never before <b>have I</b> seen a game so ambitious.</i><br>
+  • ❌ <i>Not only the game was huge…</i> → ✅ <i>Not only <b>was the game</b> huge…</i><br>
+  • Inversion is for emphasis and style. Use it once or twice in a text, not in every sentence.`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 8 INVERSION PRACTICE ---------------- */
+(() => {
+  const b = task(8, '🎯', 'Inversion Practice: Choose the Correct Sentence', 'Only one option in each set is grammatically correct.');
+  mcq(b, [
+    { q: 'Which sentence is correct?', o: ['Rarely do studios admit how much overtime a blockbuster requires.', 'Rarely studios admit how much overtime a blockbuster requires.', 'Rarely do studios admits how much overtime a blockbuster requires.'] },
+    { q: 'Which sentence is correct?', o: ['Not only was the game huge, but it was also beautifully designed.', 'Not only the game was huge, but it was also beautifully designed.', 'Not only was huge the game, but also beautiful.'] },
+    { q: 'Only after hours of exploring ___ the hidden mission.', o: ['did I find', 'I found', 'found I'] },
+    { q: 'No sooner ___ the controller than the console froze.', o: ['had I picked up', 'I had picked up', 'did I pick up'] },
+    { q: 'Rewrite with inversion: "If the studio had listened, the launch would have gone smoothly." →', o: ['Had the studio listened, the launch would have gone smoothly.', 'Did the studio listen, the launch would have gone smoothly.', 'If had the studio listened, the launch would have gone smoothly.'] }
+  ], 'inv');
+})();
+
+/* ---------------- 9 READING ---------------- */
+(() => {
+  const b = task(9, '📖', 'Reading: The Sandbox and the Mirror', 'Hover over the dotted phrases for Ukrainian translations. Notice how <b>clefts</b> and <b>inversion</b> add emphasis.');
+  const rc = h('div', 'rich-card');
+  rc.style.borderTop = '5px solid var(--teal)';
+  rc.innerHTML = `
+    <p>
+      <b>It was</b> in 2001 <b>that</b> Grand Theft Auto III helped to reshape the industry. <b>What</b> it offered <b>was</b> a living 3D city, a
+      <span class="ua-hover" data-ua="пісочниця">sandbox</span> where players could ignore the story and simply wander. Yet <b>it is</b> the
+      <span class="ua-hover" data-ua="сатира">satire</span>, not the freedom, <b>that</b> critics keep returning to: <b>what</b> the fake adverts and talk-radio mock <b>is</b> the culture of celebrity and consumerism itself.
+    </p>
+    <p style="margin-top:12px;">
+      Predictably, the games were met with a <span class="ua-hover" data-ua="моральна паніка">moral panic</span>. <b>Rarely do</b> new forms of entertainment escape the blame for society's problems.
+      Politicians warned that players would be <span class="ua-hover" data-ua="знечулені">desensitized</span> to violence, yet the evidence for a simple link remains hotly disputed. <b>Not only did</b> the controversy fail to harm sales; it made the games even more famous.
+    </p>
+    <p style="margin-top:12px;">
+      Today, <b>what</b> keeps millions of players returning <b>is</b> the <span class="ua-hover" data-ua="спонтанний">emergent</span> chaos: no designer scripted the moment a police chase collides with a passing lorry.
+      Meanwhile, <span class="ua-hover" data-ua="моддинг">modding</span> has turned the games into platforms for experiences the studio never planned, from role-play servers to total makeovers.
+      <b>Only when</b> we look behind the screen <b>do</b> we see the darker side: <span class="ua-hover" data-ua="аврал, переробки">crunch</span>, aggressive <span class="ua-hover" data-ua="монетизація">monetization</span> and ever-bigger budgets.
+      <b>Little did</b> fans <b>know</b>, when the first GTA VI trailer arrived in December 2023, how long they would have to wait: after several delays, the game was set to launch on 19 November 2026.
+      In the end, <b>what</b> these games are <b>is</b> both a technical marvel and a cultural mirror.
+    </p>
+  `;
+  b.appendChild(rc);
+
+  tf(b, [
+    ['The text says critics mainly return to the freedom of the game, not to its satire.', false, 'The opposite: "it is the satire, not the freedom, that critics keep returning to."'],
+    ['According to the text, the evidence linking games to real-world violence is still disputed.', true, 'Correct — "the evidence for a simple link remains hotly disputed."'],
+    ['The author suggests that crunch and aggressive monetization are part of the industry\'s darker side.', true]
+  ], 'r9_');
+})();
+
+/* ---------------- 10 SPEAKING ARENA ---------------- */
+(() => {
+  const b = task(10, '💬', 'Speaking Arena: Gaming Dilemmas', 'Spend 2 minutes on each dilemma. Start your answer with one of the provided C1 starting phrases.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🚨</span>
+      <h4>Violence & Games</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Do violent games make players more aggressive, or are they simply a convenient scapegoat for bigger social problems?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• What the research seems to suggest is that...</span>
+        <span class="starter-phrase">• Rarely do we blame novels or films with the same intensity, yet...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">🎨</span>
+      <h4>Games as Art</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Can a game that is also a commercial blockbuster count as art? Where would you draw the line?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• It is the storytelling, not the graphics, that...</span>
+        <span class="starter-phrase">• Not only do games tell stories; they also...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--gold)">
+      <span class="card-emoji">⏰</span>
+      <h4>The Crunch Dilemma</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Should players boycott games made under crunch, or is it the studios and publishers that must change?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• What bothers me most about crunch is...</span>
+        <span class="starter-phrase">• Only when players start to demand fair conditions will...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--teal)">
+      <span class="card-emoji">🛠️</span>
+      <h4>Mods & Communities</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Should studios welcome mods and fan-made servers, or protect their game from outside changes?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• It is the modding community that...</span>
+        <span class="starter-phrase">• Had studios not allowed mods, ...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+})();
+
+/* ---------------- 11 ERROR SPY ---------------- */
+(() => {
+  const b = task(11, '🔍', 'Error Spy: C1 Grammar Debug', 'Each sentence hides ONE mistake in a cleft or an inversion. Click the wrong bracketed phrase, then type the fix.');
+  const E = [
+    ['It [was] the soundtrack [what] made the city feel [alive].', 1, ['that']],
+    ['Never [before] [I have] seen a game world so [alive].', 1, ['have I']],
+    ['Not only [the game was] huge, [but] it was also [beautiful].', 0, ['was the game']],
+    ['Only [after] finishing the story [I understood] the [joke].', 1, ['did I understand']],
+    ['All I wanted [was] to [exploring] the [city].', 1, ['explore']]
+  ];
+  E.forEach((e, k) => {
+    reg(); const d = h('div', 'spyrow'); let idx = 0;
+    const html = e[0].replace(/\[(.+?)\]/g, (m, w) => `<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML = `<div>${html}</div>`;
+    const fix = h('div', 'fix-box'); d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp => {
+      sp.onclick = () => {
+        if(sp.classList.contains('found')) return;
+        if(+sp.dataset.i !== e[1]) { sp.classList.add('wrong'); setTimeout(() => sp.classList.remove('wrong'), 600); return; }
+        sp.classList.add('wrong');
+        fix.innerHTML = '';
+        const inp = h('input'); inp.type = 'text'; inp.placeholder = 'Type correction...';
+        const c = h('button', 'btn', 'Fix');
+        c.onclick = () => {
+          if(e[2].map(norm).includes(norm(inp.value))) {
+            sp.classList.remove('wrong'); sp.classList.add('found'); sp.textContent = e[2][0];
+            fix.innerHTML = '<span class="fb">✔ Fixed!</span>'; ok('e'+k);
+          } else { inp.className = 'bad'; }
+        };
+        inp.onkeydown = ev => { if(ev.key === 'Enter') c.click(); };
+        fix.append(inp, c); inp.focus();
+      };
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 12 ROLE-PLAY CHAT ---------------- */
+(() => {
+  const b = task(12, '📱', 'Role-Play: The Concerned Parent vs. The Gamer', 'Read the exchange aloud with your teacher, then continue the debate for 3 more turns using the starting phrases below.');
+  b.innerHTML += `
+    <div class="chat-container">
+      <div class="chat-msg received">
+        <div class="chat-name">The Concerned Parent</div>
+        <div><b>What</b> worries me <b>is</b> that these games treat crime as entertainment. <b>Never</b> in my childhood <b>did</b> we have anything like this.</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">The Gamer (You)</div>
+        <div>I understand, but <b>it is</b> the <b>satire that</b> most people overlook. <b>What</b> the game mocks <b>is</b> the very society that panics about it.</div>
+      </div>
+      <div class="chat-msg received">
+        <div class="chat-name">The Concerned Parent</div>
+        <div><b>Rarely do</b> teenagers see it that way. <b>All</b> they notice <b>is</b> the chaos.</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">The Gamer (You)</div>
+        <div><b>Only when</b> you play carefully <b>do</b> you notice that the joke is on the powerful.</div>
+      </div>
+    </div>
+    <div class="starter-box" style="margin-top:16px;">
+      <span class="starter-label">Continue the Role-Play Aloud (Pick a Side)</span>
+      <span class="starter-phrase">• Not only does the game invite reflection, but it also...</span>
+      <span class="starter-phrase">• What I would like you to understand is...</span>
+      <span class="starter-phrase">• Had you played it yourself, you would have...</span>
+    </div>
+  `;
+})();
+
+/* ---------------- 13 SENTENCE BUILDER ---------------- */
+(() => {
+  const b = task(13, '🏗️', 'C1 Sentence Builder', 'Arrange the chunks to form a dramatic C1 sentence that combines a time cleft with a natural, flowing ending.');
+  const seq = [
+    'It was not until',
+    'the final mission',
+    'that the satire',
+    'finally became',
+    'impossible',
+    'to ignore.'
+  ];
+  reg(1); let cur = shuffle(seq); while(cur.join() === seq.join()) cur = shuffle(seq);
+  const list = h('ol', 'order');
+  const draw = () => {
+    list.innerHTML = '';
+    cur.forEach((t, i) => {
+      const li = h('li', 'oitem'); li.innerHTML = `<span>${t}</span>`;
+      const u = h('button', 'mini', '↑'), d = h('button', 'mini', '↓');
+      u.onclick = () => { if(i > 0) { [cur[i-1], cur[i]] = [cur[i], cur[i-1]]; draw(); } };
+      d.onclick = () => { if(i < cur.length - 1) { [cur[i+1], cur[i]] = [cur[i], cur[i+1]]; draw(); } };
+      li.append(u, d); list.appendChild(li);
+    });
+  };
+  draw();
+  const btn = h('button', 'btn', 'Check syntax'), fb = h('span', 'fb');
+  btn.onclick = () => {
+    let all = true;
+    [...list.children].forEach((li, i) => {
+      const g = cur[i] === seq[i];
+      li.classList.toggle('good', g); li.classList.toggle('bad', !g);
+      if(!g) all = false;
+    });
+    fb.textContent = all ? ' ✔ Perfect C1 syntax!' : ' Green = right place.';
+    if(all) ok('ord13');
+  };
+  b.append(list, btn, fb);
+})();
+
+/* ---------------- 14 SPEAKING ROULETTE & WRITING LOG ---------------- */
+(() => {
+  const b = task(14, '🎤', 'Gaming Roulette & Reflection Log', 'Spin to get a C1 speaking prompt and a mandatory starting phrase. Speak for 60 seconds, then summarize your argument below.');
+  const CH = [
+    {
+      q: 'Why do people spend hundreds of hours in a game world that has no real goal?',
+      s: 'Starting phrase: What keeps people coming back to a sandbox is...'
+    },
+    {
+      q: 'Is it fair to blame a game for real-world behaviour? Argue for or against.',
+      s: 'Starting phrase: Rarely do we ask whether...'
+    },
+    {
+      q: 'Describe a game moment you will never forget. What happened, and why did it stay with you?',
+      s: 'Starting phrase: It was the moment when ... that...'
+    },
+    {
+      q: 'You are a studio boss. How would you protect your developers from crunch without losing profit?',
+      s: 'Starting phrase: Only when studios stop ... will...'
+    },
+    {
+      q: 'Convince a sceptical relative that games can be art.',
+      s: 'Starting phrase: Not only do games ..., they also...'
+    }
+  ];
+
+  const sb = h('div', 'spinbox');
+  sb.innerHTML = '<div class="big" id="spOrg">Press SPIN for your C1 Speaking Prompt</div><div class="spin-starter" id="spStart" style="display:none;"></div><div id="spT" style="font-size:1.4rem;font-weight:800; color: var(--teal); margin-top: 8px;"></div>';
+  const spin = h('button', 'btn', '🎰 SPIN'), tm = h('button', 'btn alt', '⏱ Start 60 s'); tm.style.marginLeft = '8px';
+  let iv = null;
+  spin.onclick = () => {
+    const c = shuffle(CH)[0];
+    $('#spOrg').textContent = c.q;
+    $('#spStart').textContent = c.s;
+    $('#spStart').style.display = 'inline-block';
+    $('#spT').textContent = ''; clearInterval(iv);
+  };
+  tm.onclick = () => {
+    clearInterval(iv); let t = 60; $('#spT').textContent = t + 's';
+    iv = setInterval(() => { t--; $('#spT').textContent = t > 0 ? t + 's' : 'Time! 👏'; if(t <= 0) clearInterval(iv); }, 1000);
+  };
+  sb.append(spin, tm); b.appendChild(sb);
+
+  b.appendChild(h('h3', null, '✍️ Quick Synthesis Log')); b.lastChild.style.margin = '20px 0 8px';
+  b.appendChild(h('p', 'instr', 'Write 4–6 sentences capturing your main argument. Try to activate at least <b>3</b> target words or grammar markers below.'));
+
+  const W = ['satire', 'sandbox', 'emergent', 'moral panic', 'crunch', 'it was', 'rarely', 'not only', 'only when'];
+  const ta = h('textarea'); ta.placeholder = 'It was the freedom of the sandbox that first drew me in; rarely do I find a game that...';
+
+  const wd = h('div', 'words'); wd.innerHTML = W.map(w => `<span>${w}</span>`).join('');
+  const cnt = h('div', 'fb'); cnt.style.color = 'var(--mute)'; reg();
+
+  const upd2 = () => {
+    const t = ta.value.toLowerCase(); let n = 0;
+    [...wd.children].forEach((s, i) => { const on = t.includes(W[i]); s.classList.toggle('on', on); if(on) n++; });
+    const wc = (ta.value.trim().match(/\S+/g) || []).length;
+    cnt.textContent = `${wc} words · ${n} target items used`;
+    if(n >= 3 && wc >= 30) ok('write');
+  };
+  ta.oninput = upd2; b.append(ta, wd, cnt); upd2();
+})();
+</script>
+</body>
+</html>
