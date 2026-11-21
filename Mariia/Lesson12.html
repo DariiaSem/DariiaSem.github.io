@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 12: C1 | Medical Case Study &amp; History</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #fbf6ee;
+    --ink: #2b2a33;
+    --mute: #6d6a75;
+    --card: #fff;
+    --coral: #ef6f5e;
+    --teal: #1f9d8f;
+    --tealsoft: #e3f4f1;
+    --gold: #f2b33d;
+    --goldsoft: #fdf2d6;
+    --plum: #7a4fa3;
+    --plumsoft: #f0e6f7;
+    --line: #eadfce;
+    --ok: #2e9d5b;
+    --oksoft: #dcf3e5;
+    --bad: #d64545;
+    --badsoft: #fbe0e0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Nunito', system-ui, sans-serif; line-height: 1.55; font-size: 16px; scroll-behavior: smooth; }
+h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; margin: 0; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,246,238,.95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 12px; align-items: center; }
+.bar b { font-family: 'Fraunces', serif; color: var(--plum); }
+#nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: thin; }
+#nav::-webkit-scrollbar { height: 4px; }
+#nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+#nav a { flex: none; text-decoration: none; background: #fff; border: 1px solid var(--line); color: var(--ink); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; transition: background 0.2s; }
+#nav a:hover { background: var(--gold); }
+.score { flex: none; background: var(--ink); color: #fff; border-radius: 20px; padding: 4px 14px; font-weight: 800; }
+
+.hero { max-width: 960px; margin: 28px auto 8px; padding: 0 16px; text-align: center; }
+.hero .tag { display: inline-block; background: var(--plum); color: #fff; font-weight: 800; border-radius: 20px; padding: 3px 14px; letter-spacing: .05em; font-size: 0.85rem; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: 10px 0; color: var(--ink); }
+.hero p { color: var(--mute); margin: 0 auto 14px; font-size: 1.1rem; max-width: 720px; }
+
+main { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+.task { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin-top: 22px; box-shadow: 0 4px 0 var(--line); scroll-margin-top: 60px; }
+.thead { display: flex; gap: 12px; align-items: center; }
+.num { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.2rem; }
+.task:nth-of-type(3n+2) .num { background: var(--coral); }
+.task:nth-of-type(3n) .num { background: var(--plum); }
+.thead h2 { font-size: 1.5rem; }
+.instr { color: var(--mute); margin: 8px 0 14px; font-size: 1.05rem; }
+
+/* RICH CARDS & STARTING PHRASES */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.rich-card { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.card-emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+.starter-box { margin-top: 12px; padding: 10px 12px; background: #fff; border-left: 4px solid var(--plum); border-radius: 8px; font-size: 0.92rem; }
+.starter-label { display: block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--plum); margin-bottom: 4px; }
+.starter-phrase { display: block; font-weight: 700; color: var(--ink); margin-top: 3px; }
+
+/* MINDMAP */
+.mindmap { display: flex; flex-direction: column; gap: 16px; align-items: center; margin-bottom: 20px; padding: 20px; background: var(--goldsoft); border-radius: 20px; border: 2px dashed var(--gold); }
+.mm-core { background: var(--ink); color: #fff; font-family: 'Fraunces', serif; font-size: 1.65rem; padding: 12px 24px; border-radius: 30px; font-weight: 800; z-index: 2; position: relative; text-align: center; }
+.mm-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+.mm-branch { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 16px; }
+.mm-branch h4 { color: var(--teal); margin-bottom: 8px; font-family: 'Nunito', sans-serif; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+.mm-branch ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.mm-branch li { background: var(--bg); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--line); }
+
+/* MCQ & BUTTONS */
+.q { border-top: 1px dashed var(--line); padding: 12px 0; }
+.qt { font-weight: 700; margin-bottom: 8px; font-size: 1.05rem; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font-family: inherit; }
+.opt, .btn { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 7px 14px; cursor: pointer; font-weight: 700; font-size: .95rem; color: var(--ink); transition: border 0.2s; }
+.opt:hover, .btn:hover { border-color: var(--teal); }
+.btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.btn.alt { background: #fff; color: var(--ink); border-color: var(--line); }
+.good { background: var(--oksoft) !important; border-color: var(--ok) !important; color: #1E6038 !important; }
+.bad { background: var(--badsoft) !important; border-color: var(--bad) !important; color: #7F1D1D !important; }
+.fb { color: var(--ok); font-size: .9rem; margin-left: 8px; font-weight: 700; }
+
+/* VOCAB FLIP CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.vcard { position: relative; height: 195px; cursor: pointer; }
+.vocab-front, .vocab-def { position: absolute; inset: 0; border-radius: 16px; padding: 14px; transition: opacity .25s; display: flex; flex-direction: column; justify-content: center; border: 2px solid var(--line); }
+.vocab-front { background: #fff; opacity: 1; align-items: center; text-align: center; gap: 4px; }
+.vocab-def { background: var(--tealsoft); opacity: 0; font-size: .88rem; overflow: auto; align-items: center; text-align: center; gap: 6px; border-color: var(--teal); font-weight: 600; }
+.vcard:hover .vocab-front, .vcard.flip .vocab-front { opacity: 0; }
+.vcard:hover .vocab-def, .vcard.flip .vocab-def { opacity: 1; }
+.en { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.35rem; color: var(--coral); }
+.say { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+/* PRONUNCIATION */
+.pron { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border-top: 1px dashed var(--line); padding: 12px 0; }
+.pron .w { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.25rem; min-width: 145px; }
+.pron .ipa { color: var(--mute); min-width: 130px; font-family: monospace; }
+.syl { background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 4px 12px; cursor: pointer; font-weight: 700; }
+
+/* GAP FILL & TOOLKIT */
+.note { background: var(--goldsoft); border-radius: 12px; padding: 14px 18px; margin: 10px 0; font-size: .95rem; }
+.note.plum { background: var(--plumsoft); border-left: 4px solid var(--plum); }
+.note.teal { background: var(--tealsoft); border-left: 4px solid var(--teal); }
+.gap { padding: 10px 0; border-top: 1px dashed var(--line); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 1.03rem; }
+select, input[type=text], textarea { font-family: inherit; font-size: 1rem; border: 2px solid var(--line); border-radius: 10px; padding: 6px 10px; background: #fff; outline: none; }
+select:focus, input[type=text]:focus, textarea:focus { border-color: var(--teal); }
+
+/* MATCH IT */
+.match { display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; }
+.mcol { display: flex; flex-direction: column; gap: 8px; }
+.mitem { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.mitem.sel { border-color: var(--gold); background: var(--goldsoft); }
+
+/* ERROR SPY */
+.spyrow { padding: 14px 0; border-top: 1px dashed var(--line); font-size: 1.05rem; }
+.spy { background: var(--goldsoft); border-radius: 6px; padding: 1px 6px; cursor: pointer; font-weight: 700; border: 1px solid var(--gold); }
+.spy.wrong { background: var(--badsoft); border-color: var(--bad); }
+.spy.found { background: var(--oksoft); border-color: var(--ok); color: #1E6038; }
+.fix-box { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ORDERER */
+.order { padding-left: 0; list-style: none; margin: 10px 0; }
+.oitem { display: flex; gap: 8px; align-items: center; padding: 8px 12px; margin: 5px 0; border: 2px solid var(--line); border-radius: 10px; background: #fff; font-weight: 600; font-size: 1.03rem; }
+.oitem span { flex: 1; }
+.mini { background: #fff; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; padding: 2px 8px; font-size: 1.1rem; font-weight: 800; }
+
+/* CHAT */
+.chat-container { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 85%; padding: 10px 16px; border-radius: 16px; font-size: 1rem; font-weight: 600; position: relative; }
+.chat-msg.received { background: var(--bg); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--line); }
+.chat-msg.sent { background: var(--plum); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-name { font-size: 0.75rem; font-weight: 800; margin-bottom: 2px; color: var(--mute); }
+.chat-msg.sent .chat-name { text-align: right; color: var(--plumsoft); }
+
+/* TABLE */
+table { border-collapse: collapse; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin: 12px 0; }
+th, td { border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: var(--plumsoft); color: var(--plum); font-weight: 800; }
+td { background: #fff; font-weight: 600; }
+td.en { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--coral); }
+td.def { color: var(--mute); }
+
+/* SPINBOX & WRITING */
+.spinbox { background: var(--goldsoft); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 14px; border: 2px dashed var(--gold); }
+.big { font-family: 'Fraunces', serif; font-size: 1.55rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.spin-starter { background: #fff; border: 2px solid var(--plum); color: var(--plum); border-radius: 12px; padding: 8px 14px; display: inline-block; font-weight: 800; margin-bottom: 14px; font-size: 0.98rem; }
+textarea { width: 100%; min-height: 120px; resize: vertical; margin-bottom: 8px; }
+.words { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.words span { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 2px 10px; font-size: .85rem; font-weight: 700; color: var(--mute); }
+.words span.on { background: var(--oksoft); color: #1E6038; border-color: var(--ok); }
+
+/* UA HOVER */
+.ua-hover { position: relative; cursor: help; border-bottom: 2px dotted var(--teal); font-weight: 700; color: var(--teal); transition: all 0.2s; }
+.ua-hover:hover { background: var(--tealsoft); }
+.ua-hover::after { content: attr(data-ua); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(6px); background: var(--ink); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.2s; font-weight: 600; pointer-events: none; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.ua-hover:hover::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+footer { text-align: center; color: var(--mute); padding: 30px 16px; font-weight: 700; font-size: 0.9rem; }
+@media(max-width: 600px) { .match { grid-template-columns: 1fr; } .mm-branches { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar"><b>L12 · C1</b><div id="nav"></div><div class="score">⭐ <span id="score">0 / 0</span></div></div>
+
+<div class="hero">
+  <span class="tag">MEDICAL · LESSON 12 · C1</span>
+  <h1>Clinical Case Study &amp; Medical History</h1>
+  <p>Analyze a complex patient presentation and reconstruct accurate clinical timelines. Master all four <i>Past Tenses</i>—Past Simple, Past Continuous, Past Perfect, and Past Perfect Continuous—through guided medical speaking.</p>
+</div>
+
+<main id="tasks"></main>
+<footer>Lesson 12 · Clinical Case Study &amp; Medical History · C1 Medical English ⭐</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const h = (t, c, html) => { const e = document.createElement(t); if(c) e.className = c; if(html != null) e.innerHTML = html; return e; };
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+
+let total = 0; const done = new Set();
+const upd = () => { $('#score').textContent = done.size + ' / ' + total; };
+const reg = (n = 1) => { total += n; upd(); };
+const ok = k => { if(!done.has(k)) { done.add(k); upd(); } };
+function say(t, l='en-GB') { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = l; u.rate = 0.88; speechSynthesis.speak(u); } catch(e) {} }
+
+const main = $('#tasks');
+function task(n, icon, title, instr) {
+  const s = h('section', 'task'); s.id = 't' + n;
+  s.innerHTML = `<div class="thead"><span class="num">${icon}</span><h2>${title}</h2></div><p class="instr">${instr}</p>`;
+  const b = h('div'); s.appendChild(b); main.appendChild(s);
+  const a = h('a', null, n); a.href = '#t' + n; $('#nav').appendChild(a);
+  return b;
+}
+
+function mcq(box, items, key) {
+  items.forEach((it, i) => {
+    reg();
+    const q = h('div', 'q'); q.innerHTML = `<div class="qt">${it.q}</div>`;
+    const o = h('div', 'opts'), fb = h('div', 'fb'); let wrong = false, solved = false;
+    let ops = it.o.map((t, j) => ({ t, c: j === (it.a || 0) }));
+    if(!it.fixed) ops = shuffle(ops);
+    ops.forEach(op => {
+      const b = h('button', 'opt', op.t);
+      b.onclick = () => {
+        if(solved) return;
+        if(op.c) { solved = true; b.classList.add('good'); if(!wrong) ok(key + i); if(it.w) fb.textContent = it.w; }
+        else { wrong = true; b.classList.add('bad'); b.disabled = true; }
+      };
+      o.appendChild(b);
+    });
+    q.append(o, fb); box.appendChild(q);
+  });
+}
+const tf = (box, items, key) => mcq(box, items.map(x => ({ q: x[0], o: ['True', 'False'], a: x[1] ? 0 : 1, fixed: true, w: x[2] })), key);
+
+function flip(front, def) {
+  const c = h('div', 'vcard');
+  c.innerHTML = `<div class="vocab-front">${front}</div><div class="vocab-def">${def}</div>`;
+  c.onclick = () => c.classList.toggle('flip');
+  return c;
+}
+
+/* ---------------- 1 WARM-UP SPEAKING ---------------- */
+(() => {
+  const b = task(1, '🩺', 'Warm-Up: The Art of History-Taking', 'Discuss these opening clinical prompts aloud. Use the starting phrases to anchor your response.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">📋</span>
+      <h4>Timeline Matters</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Clinicians say that 80% of a diagnosis comes from the patient's history. Why is the exact sequence of symptoms so critical?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Before a doctor orders expensive scans, knowing what had happened first...</span>
+        <span class="starter-phrase">• If a patient had been experiencing subtle warning signs for weeks...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🗣️</span>
+      <h4>Unreliable Narrators</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Patients often minimize pain, forget medications, or mix up dates. How can a clinician gently clarify a messy medical history?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• When a patient was describing their symptoms vaguely, I would ask...</span>
+        <span class="starter-phrase">• By anchoring symptoms to daily events, the clinician can...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+
+  mcq(b, [
+    { q: 'What is the medical term for the complete record of a patient’s past illnesses, surgeries, and symptoms?', o: ['Anamnesis', 'Prognosis', 'Aetiology'] },
+    { q: 'When a patient arrives at the clinic with a specific primary complaint, doctors say the patient...', o: ['presents with', 'prescribes to', 'remits from'] }
+  ], 'q1_');
+})();
+
+/* ---------------- 2 VOCABULARY MINDMAP ---------------- */
+(() => {
+  const b = task(2, '🧠', 'Vocabulary Mindmap', 'Explore eight C1 clinical terms for describing medical history, symptom progression, and diagnosis.');
+  const mm = h('div', 'mindmap');
+  mm.innerHTML = `
+    <div class="mm-core">Clinical Case History (C1)</div>
+    <div class="mm-branches">
+      <div class="mm-branch" style="border-color: var(--teal)">
+        <h4>Onset &amp; Progression</h4>
+        <ul>
+          <li><b>Insidious:</b> Developing gradually and subtly, with serious effects appearing later.</li>
+          <li><b>Exacerbation:</b> A sudden worsening of an existing chronic disease or symptom.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--coral)">
+        <h4>Background &amp; Risks</h4>
+        <ul>
+          <li><b>Comorbidity:</b> The simultaneous presence of two or more chronic conditions in a patient.</li>
+          <li><b>Predisposition:</b> A genetic or lifestyle tendency to develop a particular illness.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--plum)">
+        <h4>Clinical Investigation</h4>
+        <ul>
+          <li><b>Differential:</b> A list of possible diagnoses that could explain a patient’s symptoms.</li>
+          <li><b>Aetiology:</b> The underlying cause or set of causes of a disease.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--gold)">
+        <h4>Outcome &amp; Course</h4>
+        <ul>
+          <li><b>Remission:</b> A temporary or permanent reduction in the severity of symptoms.</li>
+          <li><b>Prognosis:</b> The likely course and expected outcome of a medical condition.</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  b.appendChild(mm);
+})();
+
+/* ---------------- 3 PRONUNCIATION ---------------- */
+(() => {
+  const b = task(3, '🗣️', 'Say It Right', 'Press 🔊, listen, then click the <b>stressed syllable</b> of these C1 medical terms.');
+  const P = [
+    ['insidious', '/ɪnˈsɪdiəs/', ['in', 'sid', 'i', 'ous'], 1, 'Stress on SID.'],
+    ['exacerbation', '/ɪɡˌzæsəˈbeɪʃən/', ['ex', 'ac', 'er', 'ba', 'tion'], 3, 'Stress on BA.'],
+    ['comorbidity', '/ˌkəʊmɔːˈbɪdəti/', ['co', 'mor', 'bid', 'i', 'ty'], 2, 'Stress on BID.'],
+    ['aetiology', '/ˌiːtiˈɒlədʒi/', ['ae', 'ti', 'ol', 'o', 'gy'], 2, 'Stress on OL.'],
+    ['prognosis', '/prɒɡˈnəʊsɪs/', ['prog', 'no', 'sis'], 1, 'Stress on NO.']
+  ];
+  P.forEach((p, k) => {
+    reg(); const r = h('div', 'pron');
+    r.innerHTML = `<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s = h('button', 'say', '🔊'); s.onclick = () => say(p[0]); r.appendChild(s);
+    const fb = h('span', 'fb'); let wrong = false, solved = false;
+    p[2].forEach((t, i) => {
+      const y = h('button', 'syl', t);
+      y.onclick = () => {
+        if(solved) return;
+        if(i === p[3]) { solved = true; y.classList.add('good'); y.textContent = t.toUpperCase(); if(!wrong) ok('p'+k); fb.textContent = p[4]; }
+        else { wrong = true; y.classList.add('bad'); }
+      };
+      r.appendChild(y);
+    });
+    r.appendChild(fb); b.appendChild(r);
+  });
+})();
+
+/* ---------------- 4 VOCAB FLIP CARDS + MICRO-SPEAKING ---------------- */
+(() => {
+  const b = task(4, '🎴', 'Concept Check & Micro-Speaking', 'Tap each card to reveal the definition and a speaking starter. Finish the sentence aloud.');
+  const V = [
+    ['Insidious', 'Progressing quietly and subtly before becoming severe.', 'Starter: Because the onset was so insidious, the patient had been ignoring...'],
+    ['Exacerbation', 'A sharp flare-up or worsening of a chronic condition.', 'Starter: The patient was admitted after an acute exacerbation that began while...'],
+    ['Comorbidity', 'Two or more chronic conditions coexisting in one patient.', 'Starter: Managing the infection was complicated because the patient had a comorbidity of...'],
+    ['Differential', 'A shortlist of competing diagnoses under consideration.', 'Starter: Before the biopsy results arrived, the team had included... in their differential.']
+  ];
+  const g = h('div', 'cards');
+  V.forEach(v => {
+    const f = `<div class="en">${v[0]}</div><button class="say" title="Listen">🔊</button><small style="color:var(--mute); margin-top:6px;">tap to flip</small>`;
+    const d = `<div>${v[1]}</div><div style="color:var(--plum); font-size:0.82rem; margin-top:6px;">${v[2]}</div>`;
+    const c = flip(f, d);
+    c.querySelector('.say').onclick = e => { e.stopPropagation(); say(v[0]); };
+    g.appendChild(c);
+  });
+  b.appendChild(g);
+})();
+
+/* ---------------- 5 MATCH THE CLINICAL CLUE ---------------- */
+(() => {
+  const b = task(5, '🧩', 'Match the Clinical Clue', 'Click the medical term on the left, then match it to its real-world case note on the right.');
+  const pairs = [
+    ['Insidious', 'Fatigue crept up over eight months before the patient finally sought help.'],
+    ['Exacerbation', 'A mild asthmatic suddenly required emergency nebulizers after wildfire smoke.'],
+    ['Comorbidity', 'The 64-year-old presented with both Type 2 diabetes and chronic kidney disease.'],
+    ['Aetiology', 'Lab cultures confirmed that contaminated water was the true origin of the outbreak.'],
+    ['Remission', 'Following six cycles of therapy, all scans showed no active signs of disease.']
+  ];
+  reg(pairs.length);
+  const w = h('div', 'match'), L = h('div', 'mcol'), R = h('div', 'mcol'); let sl = null, sr = null;
+  const mk = (txt, id, side) => {
+    const btn = h('button', 'mitem', txt); btn.dataset.id = id;
+    btn.onclick = () => {
+      if(btn.classList.contains('good')) return;
+      if(side === 'L') { if(sl) sl.classList.remove('sel'); sl = btn; } else { if(sr) sr.classList.remove('sel'); sr = btn; }
+      btn.classList.add('sel');
+      if(sl && sr) {
+        const a = sl, c = sr; sl = sr = null;
+        if(a.dataset.id === c.dataset.id) { [a, c].forEach(x => { x.classList.remove('sel'); x.classList.add('good'); }); ok('m' + a.dataset.id); }
+        else { [a, c].forEach(x => x.classList.add('bad')); setTimeout(() => [a, c].forEach(x => x.classList.remove('bad', 'sel')), 600); }
+      }
+    }; return btn;
+  };
+  shuffle(pairs.map((p, i) => [p[0], i])).forEach(x => L.appendChild(mk(x[0], x[1], 'L')));
+  shuffle(pairs.map((p, i) => [p[1], i])).forEach(x => R.appendChild(mk(x[1], x[1], 'R')));
+  w.append(L, R); b.appendChild(w);
+})();
+
+/* ---------------- 6 GRAMMAR 1: PAST SIMPLE & PAST CONTINUOUS ---------------- */
+(() => {
+  const b = task(6, '⚖️', 'Grammar 1: Past Simple &amp; Past Continuous', 'In medical histories, these two tenses anchor the <b>main clinical events</b> against the <b>background activity</b>.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Tense</th><th>Form &amp; Clinical Function</th><th>Case Study Example</th></tr>
+    <tr>
+      <td class="en">Past Simple</td>
+      <td><b>V2 (-ed / irregular)</b> — completed events, admissions, test results, and sequential actions.</td>
+      <td>The patient <b>collapsed</b> at noon and <b>arrived</b> in the ER twenty minutes later.</td>
+    </tr>
+    <tr>
+      <td class="en">Past Continuous</td>
+      <td><b>was / were + V-ing</b> — ongoing background action in progress when an acute symptom struck.</td>
+      <td>She <b>was climbing</b> the stairs when she suddenly <b>felt</b> crushing chest pain.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note');
+  nb.innerHTML = `<b>Clinical Timeline Tip:</b> Use <b>Past Continuous</b> for the scene-setting activity or evolving state, and <b>Past Simple</b> for the sharp interruption or key diagnostic event.<br>
+  ✅ <i>While the resident <b>was reviewing</b> the ECG, the patient’s heart rate <b>dropped</b> sharply.</i>`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 7 PAST SIMPLE / CONTINUOUS PRACTICE + SPEAKING ---------------- */
+(() => {
+  const b = task(7, '📝', 'Acute Onset Precision', 'Choose the correct Past Simple or Past Continuous form for each clinical note, then complete the speaking starters aloud.');
+  const bank = ['was jogging', 'ordered', 'were monitoring', 'developed'];
+  const G = [
+    ['The 42-year-old patient ___ in the park when he experienced sudden shortness of breath.', 'was jogging'],
+    ['Upon admission, the attending physician immediately ___ a full blood panel and chest X-ray.', 'ordered'],
+    ['While nurses ___ her oxygen saturation, her fever spiked to 39.8°C.', 'were monitoring'],
+    ['Two hours after receiving the contrast dye, the patient ___ a widespread rash.', 'developed']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('gp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+
+  const sp = h('div', 'starter-box');
+  sp.innerHTML = `
+    <span class="starter-label">Speaking Follow-Up (Complete Aloud)</span>
+    <span class="starter-phrase">• The patient was working at his desk when he suddenly noticed...</span>
+    <span class="starter-phrase">• While the paramedics were transporting her to the hospital, she...</span>
+  `;
+  b.appendChild(sp);
+})();
+
+/* ---------------- 8 GRAMMAR 2: PAST PERFECT & PAST PERFECT CONTINUOUS ---------------- */
+(() => {
+  const b = task(8, '⏳', 'Grammar 2: Past Perfect &amp; Past Perfect Continuous', 'Essential for looking <b>further back</b> from the moment of admission—reconstructing prior diagnoses, missed doses, and prolonged symptom duration.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Tense</th><th>Form &amp; Clinical Function</th><th>Case Study Example</th></tr>
+    <tr>
+      <td class="en">Past Perfect</td>
+      <td><b>had + V3</b> — a completed event, surgery, or diagnosis that happened <i>before</i> another past event.</td>
+      <td>By the time she visited the specialist, she <b>had already tried</b> three different antibiotics.</td>
+    </tr>
+    <tr>
+      <td class="en">Past Perfect Continuous</td>
+      <td><b>had been + V-ing</b> — an ongoing symptom, habit, or medication regimen lasting up to a past point (emphasizes <b>duration</b>).</td>
+      <td>He <b>had been experiencing</b> night sweats for six months before he sought care.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note plum');
+  nb.innerHTML = `<b>Compare the clinical nuance:</b><br>
+  • <i>She <b>had taken</b> ibuprofen</i> = Completed fact before admission (how many / whether it happened).<br>
+  • <i>She <b>had been taking</b> ibuprofen daily for two years</i> = Prolonged duration explaining a current complication (e.g., a gastric ulcer).`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 9 ALL 4 PAST TENSES GAP-FILL ---------------- */
+(() => {
+  const b = task(9, '🎯', 'Reconstruct the Full Timeline', 'Select the exact Past Tense form that fits the clinical sequence.');
+  const bank = ['had been losing', 'had undergone', 'collapsed', 'was preparing'];
+  const G = [
+    ['Prior to his hospital admission, the patient ___ weight steadily for nearly four months.', 'had been losing'],
+    ['Her chart revealed that she ___ an appendectomy ten years earlier with no complications.', 'had undergone'],
+    ['He ___ dinner in the kitchen when his vision suddenly blurred.', 'was preparing'],
+    ['Within minutes of the visual disturbance, he ___ onto the floor.', 'collapsed']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('fp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+})();
+
+/* ---------------- 10 READING & COMPREHENSION: CASE STUDY ---------------- */
+(() => {
+  const b = task(10, '📖', 'Case Study: The Unexplained Fatigue', 'Hover over the dotted phrases for Ukrainian translations. Notice how all four Past Tenses build a precise clinical timeline.');
+  const rc = h('div', 'rich-card');
+  rc.style.borderTop = '5px solid var(--teal)';
+  rc.innerHTML = `
+    <p>
+      On March 14, a 38-year-old software engineer <b>presented</b> to the emergency department after she <b>fainted</b> while she <b>was walking</b> to her car. 
+      During history-taking, she <b>admitted</b> that she <b>had been suffering</b> from <span class="ua-hover" data-ua="підступний, непомітний">insidious</span> fatigue and dizziness for nearly five months. 
+      Because she <b>had recently changed</b> jobs, she <b>had assumed</b> her exhaustion was merely burnout.
+    </p>
+    <p style="margin-top:12px;">
+      Her medical record showed no major <span class="ua-hover" data-ua="супутнє захворювання">comorbidity</span>, though she <b>had been taking</b> high-dose over-the-counter painkillers for chronic migraines. 
+      While the resident <b>was palpating</b> her abdomen, the patient <b>reported</b> sharp tenderness. 
+      Lab results quickly narrowed the <span class="ua-hover" data-ua="диференціальний діагноз">differential</span>: her haemoglobin <b>had dropped</b> to a critical level. 
+      An urgent endoscopy confirmed the <span class="ua-hover" data-ua="етіологія, причина">aetiology</span>—a bleeding gastric ulcer caused by prolonged NSAID use. 
+      After a blood transfusion and medication adjustment, her <span class="ua-hover" data-ua="прогноз">prognosis</span> <b>improved</b> dramatically.
+    </p>
+  `;
+  b.appendChild(rc);
+
+  tf(b, [
+    ['The patient’s fatigue began suddenly on the morning of March 14.', false, 'She had been suffering from insidious fatigue for nearly five months.'],
+    ['She had previously blamed her exhaustion on starting a new job.', true, 'Correct — Past Perfect shows her assumption before admission.'],
+    ['Prolonged use of over-the-counter painkillers was identified as the cause of her bleeding ulcer.', true]
+  ], 'r10_');
+})();
+
+/* ---------------- 11 SPEAKING ARENA (WITH STARTING PHRASES) ---------------- */
+(() => {
+  const b = task(11, '💬', 'Speaking Arena: Clinical Rounds', 'Spend 2 minutes on each case scenario. Start your answer with one of the provided C1 starting phrases.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--teal)">
+      <span class="card-emoji">💊</span>
+      <h4>Self-Medication Risks</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Why do busy professionals often self-medicate for months instead of booking a proper consultation?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Many patients who had been taking OTC drugs for months never realized...</span>
+        <span class="starter-phrase">• When symptoms were developing insidiously, it was easy to assume...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🧬</span>
+      <h4>Family History &amp; Predisposition</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">How much should a patient’s genetic predisposition influence a doctor’s differential diagnosis?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Knowing that a patient’s father had suffered from early heart disease...</span>
+        <span class="starter-phrase">• While the clinician was taking the family history, they uncovered...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">🏥</span>
+      <h4>Diagnostic Anchoring</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Sometimes doctors fixate on the first plausible explanation (like stress) and miss a rare disease. How can teams prevent this?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Even though the patient had already been diagnosed with anxiety, the team...</span>
+        <span class="starter-phrase">• When the symptoms were not responding to standard treatment, they...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--gold)">
+      <span class="card-emoji">📉</span>
+      <h4>Relapse vs. Remission</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">How should a clinician communicate an uncertain prognosis without taking away a patient’s hope?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• After the patient had been in remission for two years, the exacerbation...</span>
+        <span class="starter-phrase">• While delivering difficult news, the physician made sure to...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+})();
+
+/* ---------------- 12 ERROR SPY ---------------- */
+(() => {
+  const b = task(12, '🔍', 'Error Spy: Past Tenses Debug', 'Each clinical sentence hides ONE mistake in Past Tenses. Click the wrong bracketed phrase, then type the fix.');
+  const E = [
+    ['The patient [had been coughing] for three weeks before he finally [was visiting] the [clinic].', 1, ['visited']],
+    ['While the surgeon [performed] the procedure, the monitor [suddenly] [alarmed].', 0, ['was performing']],
+    ['By the time the ambulance [arrived], the bystander [already gave] [CPR].', 1, ['had already given']],
+    ['She [was taking] the wrong dosage for two months before the pharmacist [caught] the [error].', 0, ['had been taking']],
+    ['He [had] [never] [experience] an allergic reaction prior to that afternoon.', 2, ['experienced']]
+  ];
+
+  E.forEach((e, k) => {
+    reg(); const d = h('div', 'spyrow'); let idx = 0;
+    const html = e[0].replace(/\[(.+?)\]/g, (m, w) => `<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML = `<div>${html}</div>`;
+    const fix = h('div', 'fix-box'); d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp => {
+      sp.onclick = () => {
+        if(sp.classList.contains('found')) return;
+        if(+sp.dataset.i !== e[1]) { sp.classList.add('wrong'); setTimeout(() => sp.classList.remove('wrong'), 600); return; }
+        sp.classList.add('wrong');
+        fix.innerHTML = '';
+        const inp = h('input'); inp.type = 'text'; inp.placeholder = 'Type correction...';
+        const c = h('button', 'btn', 'Fix');
+        c.onclick = () => {
+          if(e[2].map(norm).includes(norm(inp.value))) {
+            sp.classList.remove('wrong'); sp.classList.add('found'); sp.textContent = e[2][0];
+            fix.innerHTML = '<span class="fb">✔ Fixed!</span>'; ok('e'+k);
+          } else { inp.className = 'bad'; }
+        };
+        inp.onkeydown = ev => { if(ev.key === 'Enter') c.click(); };
+        fix.append(inp, c); inp.focus();
+      };
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 13 ROLE-PLAY CHAT ---------------- */
+(() => {
+  const b = task(13, '📱', 'Role-Play: History-Taking Consultation', 'Read the exchange aloud with your teacher, then continue the consultation for 3 more turns using the starting phrases below.');
+  b.innerHTML += `
+    <div class="chat-container">
+      <div class="chat-msg received">
+        <div class="chat-name">Dr. Alvarez (Clinician)</div>
+        <div>Thank you for coming in. Can you walk me through what you <b>were doing</b> right before the pain <b>started</b>?</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">Patient (You)</div>
+        <div>I <b>was carrying</b> groceries upstairs when a sharp ache <b>hit</b> my left shoulder. Honestly, I <b>had been feeling</b> unusually breathless all week.</div>
+      </div>
+      <div class="chat-msg received">
+        <div class="chat-name">Dr. Alvarez</div>
+        <div>That is a vital detail. <b>Had you experienced</b> anything similar before this week, or was this the first time?</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">Patient (You)</div>
+        <div>I <b>had noticed</b> mild tightness last winter, but it <b>went</b> away on its own, so I never <b>mentioned</b> it.</div>
+      </div>
+    </div>
+    <div class="starter-box" style="margin-top:16px;">
+      <span class="starter-label">Continue the Consultation Aloud (Pick a Role)</span>
+      <span class="starter-phrase">• Had you been taking any new medications or supplements before...</span>
+      <span class="starter-phrase">• While the pain was radiating down my arm, I also noticed...</span>
+      <span class="starter-phrase">• Based on your family predisposition, we need to rule out...</span>
+    </div>
+  `;
+})();
+
+/* ---------------- 14 SENTENCE BUILDER ---------------- */
+(() => {
+  const b = task(14, '🏗️', 'C1 Clinical Sentence Builder', 'Arrange the chunks to form a precise case-summary sentence combining Past Perfect Continuous, Past Continuous, and Past Simple.');
+  const seq = [
+    'The patient had been ignoring',
+    'insidious headaches',
+    'for three months',
+    'before she suddenly collapsed',
+    'while she was presenting',
+    'at a board meeting.'
+  ];
+  reg(1); let cur = shuffle(seq); while(cur.join() === seq.join()) cur = shuffle(seq);
+  const list = h('ol', 'order');
+  const draw = () => {
+    list.innerHTML = '';
+    cur.forEach((t, i) => {
+      const li = h('li', 'oitem'); li.innerHTML = `<span>${t}</span>`;
+      const u = h('button', 'mini', '↑'), d = h('button', 'mini', '↓');
+      u.onclick = () => { if(i > 0) { [cur[i-1], cur[i]] = [cur[i], cur[i-1]]; draw(); } };
+      d.onclick = () => { if(i < cur.length - 1) { [cur[i+1], cur[i]] = [cur[i], cur[i+1]]; draw(); } };
+      li.append(u, d); list.appendChild(li);
+    });
+  };
+  draw();
+  const btn = h('button', 'btn', 'Check syntax'), fb = h('span', 'fb');
+  btn.onclick = () => {
+    let all = true;
+    [...list.children].forEach((li, i) => {
+      const g = cur[i] === seq[i];
+      li.classList.toggle('good', g); li.classList.toggle('bad', !g);
+      if(!g) all = false;
+    });
+    fb.textContent = all ? ' ✔ Perfect clinical syntax!' : ' Green = right place.';
+    if(all) ok('ord14');
+  };
+  b.append(list, btn, fb);
+})();
+
+/* ---------------- 15 SPEAKING ROULETTE & WRITING LOG ---------------- */
+(() => {
+  const b = task(15, '🎤', 'Case Presentation Roulette &amp; Clinical Log', 'Spin to get a C1 medical speaking prompt and a mandatory starting phrase. Speak for 60 seconds, then write a concise case summary below.');
+  const CH = [
+    {
+      q: 'Present a brief fictional case of a marathon runner who collapsed mid-race after weeks of ignoring warning signs.',
+      s: 'Starting phrase: Prior to the race, the athlete had been experiencing...'
+    },
+    {
+      q: 'Describe a time (real or fictional) when a minor symptom turned out to have a surprising underlying aetiology.',
+      s: 'Starting phrase: At first, everyone had assumed the symptom was...'
+    },
+    {
+      q: 'Explain how a doctor reconstructed a patient’s timeline when the patient was too anxious to remember exact dates.',
+      s: 'Starting phrase: While the clinician was gently guiding the conversation...'
+    },
+    {
+      q: 'Summarize a case where an acute exacerbation of a chronic comorbidity led to an urgent hospital admission.',
+      s: 'Starting phrase: Although the patient had been in remission for a year...'
+    },
+    {
+      q: 'Describe a diagnostic breakthrough where one overlooked detail in the medical history changed the entire differential.',
+      s: 'Starting phrase: Just as the team was preparing to discharge the patient...'
+    }
+  ];
+
+  const sb = h('div', 'spinbox');
+  sb.innerHTML = '<div class="big" id="spOrg">Press SPIN for your C1 Case Prompt</div><div class="spin-starter" id="spStart" style="display:none;"></div><div id="spT" style="font-size:1.4rem;font-weight:800; color: var(--teal); margin-top: 8px;"></div>';
+  const spin = h('button', 'btn', '🎰 SPIN'), tm = h('button', 'btn alt', '⏱ Start 60 s'); tm.style.marginLeft = '8px';
+  let iv = null;
+  spin.onclick = () => {
+    const c = shuffle(CH)[0];
+    $('#spOrg').textContent = c.q;
+    $('#spStart').textContent = c.s;
+    $('#spStart').style.display = 'inline-block';
+    $('#spT').textContent = ''; clearInterval(iv);
+  };
+  tm.onclick = () => {
+    clearInterval(iv); let t = 60; $('#spT').textContent = t + 's';
+    iv = setInterval(() => { t--; $('#spT').textContent = t > 0 ? t + 's' : 'Time! 👏'; if(t <= 0) clearInterval(iv); }, 1000);
+  };
+  sb.append(spin, tm); b.appendChild(sb);
+
+  b.appendChild(h('h3', null, '✍️ Clinical Case Note Log')); b.lastChild.style.margin = '20px 0 8px';
+  b.appendChild(h('p', 'instr', 'Write a 4–6 sentence case summary using all four Past Tenses. Try to activate at least <b>3</b> target terms or tense markers below.'));
+
+  const W = ['insidious', 'exacerbation', 'comorbidity', 'differential', 'aetiology', 'remission', 'prognosis', 'had been', 'had ', 'was ', 'were '];
+  const ta = h('textarea'); ta.placeholder = 'The 45-year-old patient presented to the clinic after he had been experiencing insidious fatigue...';
+
+  const wd = h('div', 'words'); wd.innerHTML = W.map(w => `<span>${w.trim()}</span>`).join('');
+  const cnt = h('div', 'fb'); cnt.style.color = 'var(--mute)'; reg();
+
+  const upd2 = () => {
+    const t = ta.value.toLowerCase(); let n = 0;
+    [...wd.children].forEach((s, i) => { const on = t.includes(W[i]); s.classList.toggle('on', on); if(on) n++; });
+    const wc = (ta.value.trim().match(/\S+/g) || []).length;
+    cnt.textContent = `${wc} words · ${n} target items used`;
+    if(n >= 3 && wc >= 30) ok('write');
+  };
+  ta.oninput = upd2; b.append(ta, wd, cnt); upd2();
+})();
+</script>
+</body>
+</html>
