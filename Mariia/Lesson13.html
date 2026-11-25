@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 13: C1 | Diagnostic Mystery &amp; Acute Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #fbf6ee;
+    --ink: #2b2a33;
+    --mute: #6d6a75;
+    --card: #fff;
+    --coral: #ef6f5e;
+    --teal: #1f9d8f;
+    --tealsoft: #e3f4f1;
+    --gold: #f2b33d;
+    --goldsoft: #fdf2d6;
+    --plum: #7a4fa3;
+    --plumsoft: #f0e6f7;
+    --line: #eadfce;
+    --ok: #2e9d5b;
+    --oksoft: #dcf3e5;
+    --bad: #d64545;
+    --badsoft: #fbe0e0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Nunito', system-ui, sans-serif; line-height: 1.55; font-size: 16px; scroll-behavior: smooth; }
+h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; margin: 0; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,246,238,.95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 12px; align-items: center; }
+.bar b { font-family: 'Fraunces', serif; color: var(--plum); }
+#nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: thin; }
+#nav::-webkit-scrollbar { height: 4px; }
+#nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+#nav a { flex: none; text-decoration: none; background: #fff; border: 1px solid var(--line); color: var(--ink); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; transition: background 0.2s; }
+#nav a:hover { background: var(--gold); }
+.score { flex: none; background: var(--ink); color: #fff; border-radius: 20px; padding: 4px 14px; font-weight: 800; }
+
+.hero { max-width: 960px; margin: 28px auto 8px; padding: 0 16px; text-align: center; }
+.hero .tag { display: inline-block; background: var(--plum); color: #fff; font-weight: 800; border-radius: 20px; padding: 3px 14px; letter-spacing: .05em; font-size: 0.85rem; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: 10px 0; color: var(--ink); }
+.hero p { color: var(--mute); margin: 0 auto 14px; font-size: 1.1rem; max-width: 720px; }
+
+main { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+.task { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin-top: 22px; box-shadow: 0 4px 0 var(--line); scroll-margin-top: 60px; }
+.thead { display: flex; gap: 12px; align-items: center; }
+.num { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.2rem; }
+.task:nth-of-type(3n+2) .num { background: var(--coral); }
+.task:nth-of-type(3n) .num { background: var(--plum); }
+.thead h2 { font-size: 1.5rem; }
+.instr { color: var(--mute); margin: 8px 0 14px; font-size: 1.05rem; }
+
+/* RICH CARDS & STARTING PHRASES */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.rich-card { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.card-emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+.starter-box { margin-top: 12px; padding: 10px 12px; background: #fff; border-left: 4px solid var(--plum); border-radius: 8px; font-size: 0.92rem; }
+.starter-label { display: block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--plum); margin-bottom: 4px; }
+.starter-phrase { display: block; font-weight: 700; color: var(--ink); margin-top: 3px; }
+
+/* MINDMAP */
+.mindmap { display: flex; flex-direction: column; gap: 16px; align-items: center; margin-bottom: 20px; padding: 20px; background: var(--goldsoft); border-radius: 20px; border: 2px dashed var(--gold); }
+.mm-core { background: var(--ink); color: #fff; font-family: 'Fraunces', serif; font-size: 1.65rem; padding: 12px 24px; border-radius: 30px; font-weight: 800; z-index: 2; position: relative; text-align: center; }
+.mm-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+.mm-branch { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 16px; }
+.mm-branch h4 { color: var(--teal); margin-bottom: 8px; font-family: 'Nunito', sans-serif; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+.mm-branch ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.mm-branch li { background: var(--bg); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--line); }
+
+/* MCQ & BUTTONS */
+.q { border-top: 1px dashed var(--line); padding: 12px 0; }
+.qt { font-weight: 700; margin-bottom: 8px; font-size: 1.05rem; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font-family: inherit; }
+.opt, .btn { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 7px 14px; cursor: pointer; font-weight: 700; font-size: .95rem; color: var(--ink); transition: border 0.2s; }
+.opt:hover, .btn:hover { border-color: var(--teal); }
+.btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.btn.alt { background: #fff; color: var(--ink); border-color: var(--line); }
+.good { background: var(--oksoft) !important; border-color: var(--ok) !important; color: #1E6038 !important; }
+.bad { background: var(--badsoft) !important; border-color: var(--bad) !important; color: #7F1D1D !important; }
+.fb { color: var(--ok); font-size: .9rem; margin-left: 8px; font-weight: 700; }
+
+/* VOCAB FLIP CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.vcard { position: relative; height: 195px; cursor: pointer; }
+.vocab-front, .vocab-def { position: absolute; inset: 0; border-radius: 16px; padding: 14px; transition: opacity .25s; display: flex; flex-direction: column; justify-content: center; border: 2px solid var(--line); }
+.vocab-front { background: #fff; opacity: 1; align-items: center; text-align: center; gap: 4px; }
+.vocab-def { background: var(--tealsoft); opacity: 0; font-size: .88rem; overflow: auto; align-items: center; text-align: center; gap: 6px; border-color: var(--teal); font-weight: 600; }
+.vcard:hover .vocab-front, .vcard.flip .vocab-front { opacity: 0; }
+.vcard:hover .vocab-def, .vcard.flip .vocab-def { opacity: 1; }
+.en { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.35rem; color: var(--coral); }
+.say { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+/* PRONUNCIATION */
+.pron { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border-top: 1px dashed var(--line); padding: 12px 0; }
+.pron .w { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.25rem; min-width: 165px; }
+.pron .ipa { color: var(--mute); min-width: 140px; font-family: monospace; }
+.syl { background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 4px 12px; cursor: pointer; font-weight: 700; }
+
+/* GAP FILL & TOOLKIT */
+.note { background: var(--goldsoft); border-radius: 12px; padding: 14px 18px; margin: 10px 0; font-size: .95rem; }
+.note.plum { background: var(--plumsoft); border-left: 4px solid var(--plum); }
+.note.teal { background: var(--tealsoft); border-left: 4px solid var(--teal); }
+.gap { padding: 10px 0; border-top: 1px dashed var(--line); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 1.03rem; }
+select, input[type=text], textarea { font-family: inherit; font-size: 1rem; border: 2px solid var(--line); border-radius: 10px; padding: 6px 10px; background: #fff; outline: none; }
+select:focus, input[type=text]:focus, textarea:focus { border-color: var(--teal); }
+
+/* MATCH IT */
+.match { display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; }
+.mcol { display: flex; flex-direction: column; gap: 8px; }
+.mitem { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.mitem.sel { border-color: var(--gold); background: var(--goldsoft); }
+
+/* ERROR SPY */
+.spyrow { padding: 14px 0; border-top: 1px dashed var(--line); font-size: 1.05rem; }
+.spy { background: var(--goldsoft); border-radius: 6px; padding: 1px 6px; cursor: pointer; font-weight: 700; border: 1px solid var(--gold); }
+.spy.wrong { background: var(--badsoft); border-color: var(--bad); }
+.spy.found { background: var(--oksoft); border-color: var(--ok); color: #1E6038; }
+.fix-box { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ORDERER */
+.order { padding-left: 0; list-style: none; margin: 10px 0; }
+.oitem { display: flex; gap: 8px; align-items: center; padding: 8px 12px; margin: 5px 0; border: 2px solid var(--line); border-radius: 10px; background: #fff; font-weight: 600; font-size: 1.03rem; }
+.oitem span { flex: 1; }
+.mini { background: #fff; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; padding: 2px 8px; font-size: 1.1rem; font-weight: 800; }
+
+/* CHAT */
+.chat-container { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 85%; padding: 10px 16px; border-radius: 16px; font-size: 1rem; font-weight: 600; position: relative; }
+.chat-msg.received { background: var(--bg); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--line); }
+.chat-msg.sent { background: var(--plum); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-name { font-size: 0.75rem; font-weight: 800; margin-bottom: 2px; color: var(--mute); }
+.chat-msg.sent .chat-name { text-align: right; color: var(--plumsoft); }
+
+/* TABLE */
+table { border-collapse: collapse; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin: 12px 0; }
+th, td { border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: var(--plumsoft); color: var(--plum); font-weight: 800; }
+td { background: #fff; font-weight: 600; }
+td.en { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--coral); }
+td.def { color: var(--mute); }
+
+/* SPINBOX & WRITING */
+.spinbox { background: var(--goldsoft); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 14px; border: 2px dashed var(--gold); }
+.big { font-family: 'Fraunces', serif; font-size: 1.55rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.spin-starter { background: #fff; border: 2px solid var(--plum); color: var(--plum); border-radius: 12px; padding: 8px 14px; display: inline-block; font-weight: 800; margin-bottom: 14px; font-size: 0.98rem; }
+textarea { width: 100%; min-height: 120px; resize: vertical; margin-bottom: 8px; }
+.words { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.words span { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 2px 10px; font-size: .85rem; font-weight: 700; color: var(--mute); }
+.words span.on { background: var(--oksoft); color: #1E6038; border-color: var(--ok); }
+
+/* UA HOVER */
+.ua-hover { position: relative; cursor: help; border-bottom: 2px dotted var(--teal); font-weight: 700; color: var(--teal); transition: all 0.2s; }
+.ua-hover:hover { background: var(--tealsoft); }
+.ua-hover::after { content: attr(data-ua); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(6px); background: var(--ink); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.2s; font-weight: 600; pointer-events: none; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.ua-hover:hover::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+footer { text-align: center; color: var(--mute); padding: 30px 16px; font-weight: 700; font-size: 0.9rem; }
+@media(max-width: 600px) { .match { grid-template-columns: 1fr; } .mm-branches { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar"><b>L13 · C1</b><div id="nav"></div><div class="score">⭐ <span id="score">0 / 0</span></div></div>
+
+<div class="hero">
+  <span class="tag">MEDICAL · LESSON 13 · C1</span>
+  <h1>Diagnostic Mystery &amp; Acute Case Study</h1>
+  <p>Investigate an emergency pulmonary case and trace the chain of risk factors behind a sudden collapse. Master all four <i>Past Tenses</i>—Past Simple, Past Continuous, Past Perfect, and Past Perfect Continuous—through precision clinical speaking.</p>
+</div>
+
+<main id="tasks"></main>
+<footer>Lesson 13 · Diagnostic Mystery &amp; Acute Case Study · C1 Medical English ⭐</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const h = (t, c, html) => { const e = document.createElement(t); if(c) e.className = c; if(html != null) e.innerHTML = html; return e; };
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+
+let total = 0; const done = new Set();
+const upd = () => { $('#score').textContent = done.size + ' / ' + total; };
+const reg = (n = 1) => { total += n; upd(); };
+const ok = k => { if(!done.has(k)) { done.add(k); upd(); } };
+function say(t, l='en-GB') { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = l; u.rate = 0.88; speechSynthesis.speak(u); } catch(e) {} }
+
+const main = $('#tasks');
+function task(n, icon, title, instr) {
+  const s = h('section', 'task'); s.id = 't' + n;
+  s.innerHTML = `<div class="thead"><span class="num">${icon}</span><h2>${title}</h2></div><p class="instr">${instr}</p>`;
+  const b = h('div'); s.appendChild(b); main.appendChild(s);
+  const a = h('a', null, n); a.href = '#t' + n; $('#nav').appendChild(a);
+  return b;
+}
+
+function mcq(box, items, key) {
+  items.forEach((it, i) => {
+    reg();
+    const q = h('div', 'q'); q.innerHTML = `<div class="qt">${it.q}</div>`;
+    const o = h('div', 'opts'), fb = h('div', 'fb'); let wrong = false, solved = false;
+    let ops = it.o.map((t, j) => ({ t, c: j === (it.a || 0) }));
+    if(!it.fixed) ops = shuffle(ops);
+    ops.forEach(op => {
+      const b = h('button', 'opt', op.t);
+      b.onclick = () => {
+        if(solved) return;
+        if(op.c) { solved = true; b.classList.add('good'); if(!wrong) ok(key + i); if(it.w) fb.textContent = it.w; }
+        else { wrong = true; b.classList.add('bad'); b.disabled = true; }
+      };
+      o.appendChild(b);
+    });
+    q.append(o, fb); box.appendChild(q);
+  });
+}
+const tf = (box, items, key) => mcq(box, items.map(x => ({ q: x[0], o: ['True', 'False'], a: x[1] ? 0 : 1, fixed: true, w: x[2] })), key);
+
+function flip(front, def) {
+  const c = h('div', 'vcard');
+  c.innerHTML = `<div class="vocab-front">${front}</div><div class="vocab-def">${def}</div>`;
+  c.onclick = () => c.classList.toggle('flip');
+  return c;
+}
+
+/* ---------------- 1 WARM-UP SPEAKING ---------------- */
+(() => {
+  const b = task(1, '🚑', 'Warm-Up: Under Pressure in the ER', 'Discuss these opening clinical prompts aloud. Use the starting phrases to anchor your response.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">✈️</span>
+      <h4>Hidden Triggers</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Everyday events like a long-haul flight or minor knee surgery can trigger life-threatening emergencies days later. Why do patients rarely connect these dots?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Because the surgery had gone smoothly weeks earlier, the patient assumed...</span>
+        <span class="starter-phrase">• While they were sitting immobilized for hours, a silent risk...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">⏱️</span>
+      <h4>The Golden Hour</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">In acute care, doctors must act before every lab result comes back. How do clinicians balance speed with diagnostic accuracy?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Before the CT results even arrived, the ER team had already...</span>
+        <span class="starter-phrase">• When a patient’s oxygen saturation was dropping rapidly, the priority...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+
+  mcq(b, [
+    { q: 'Which term describes sorting emergency patients by the urgency of their medical need?', o: ['Triage', 'Sequela', 'Ischaemia'] },
+    { q: 'An abnormally rapid resting heart rate (above 100 beats per minute) is known as...', o: ['tachycardia', 'dyspnoea', 'thrombosis'] }
+  ], 'q1_');
+})();
+
+/* ---------------- 2 VOCABULARY MINDMAP ---------------- */
+(() => {
+  const b = task(2, '🧠', 'Vocabulary Mindmap', 'Explore eight C1 clinical terms for acute emergencies, vascular pathology, and emergency decision-making.');
+  const mm = h('div', 'mindmap');
+  mm.innerHTML = `
+    <div class="mm-core">Acute Case Analysis (C1)</div>
+    <div class="mm-branches">
+      <div class="mm-branch" style="border-color: var(--teal)">
+        <h4>Acute Signs</h4>
+        <ul>
+          <li><b>Dyspnoea:</b> Difficult, laboured breathing or acute shortness of breath.</li>
+          <li><b>Tachycardia:</b> A heart rate exceeding the normal resting range.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--coral)">
+        <h4>Vascular Pathology</h4>
+        <ul>
+          <li><b>Thrombosis:</b> The formation of a blood clot inside a blood vessel, obstructing flow.</li>
+          <li><b>Ischaemia:</b> An inadequate supply of oxygenated blood to an organ or tissue.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--plum)">
+        <h4>Clinical Protocol</h4>
+        <ul>
+          <li><b>Triage:</b> Assessing and prioritizing patients according to the severity of their condition.</li>
+          <li><b>Contraindication:</b> A clinical factor that makes a specific drug or procedure unsafe.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--gold)">
+        <h4>Mechanism &amp; Aftermath</h4>
+        <ul>
+          <li><b>Pathophysiology:</b> The disordered physiological processes associated with a disease or injury.</li>
+          <li><b>Sequela:</b> A pathological condition resulting directly from a prior disease or injury.</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  b.appendChild(mm);
+})();
+
+/* ---------------- 3 PRONUNCIATION ---------------- */
+(() => {
+  const b = task(3, '🗣️', 'Say It Right', 'Press 🔊, listen, then click the <b>stressed syllable</b> of these C1 medical terms.');
+  const P = [
+    ['thrombosis', '/θrɒmˈbəʊsɪs/', ['throm', 'bo', 'sis'], 1, 'Stress on BO.'],
+    ['ischaemia', '/ɪˈskiːmiə/', ['is', 'chae', 'mi', 'a'], 1, 'Stress on CHAE.'],
+    ['tachycardia', '/ˌtækiˈkɑːdiə/', ['tach', 'y', 'car', 'di', 'a'], 2, 'Stress on CAR.'],
+    ['contraindication', '/ˌkɒntrəɪndɪˈkeɪʃən/', ['con', 'tra', 'in', 'di', 'ca', 'tion'], 4, 'Stress on CA.'],
+    ['pathophysiology', '/ˌpæθəʊfɪziˈɒlədʒi/', ['pa', 'tho', 'phy', 'si', 'ol', 'o', 'gy'], 4, 'Stress on OL.']
+  ];
+  P.forEach((p, k) => {
+    reg(); const r = h('div', 'pron');
+    r.innerHTML = `<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s = h('button', 'say', '🔊'); s.onclick = () => say(p[0]); r.appendChild(s);
+    const fb = h('span', 'fb'); let wrong = false, solved = false;
+    p[2].forEach((t, i) => {
+      const y = h('button', 'syl', t);
+      y.onclick = () => {
+        if(solved) return;
+        if(i === p[3]) { solved = true; y.classList.add('good'); y.textContent = t.toUpperCase(); if(!wrong) ok('p'+k); fb.textContent = p[4]; }
+        else { wrong = true; y.classList.add('bad'); }
+      };
+      r.appendChild(y);
+    });
+    r.appendChild(fb); b.appendChild(r);
+  });
+})();
+
+/* ---------------- 4 VOCAB FLIP CARDS + MICRO-SPEAKING ---------------- */
+(() => {
+  const b = task(4, '🎴', 'Concept Check &amp; Micro-Speaking', 'Tap each card to reveal the definition and a speaking starter. Finish the sentence aloud.');
+  const V = [
+    ['Dyspnoea', 'Laboured breathing or severe shortness of breath.', 'Starter: The patient developed sudden dyspnoea while he was...'],
+    ['Thrombosis', 'A blood clot obstructing normal vascular flow.', 'Starter: Because he had been sitting motionless for twelve hours, a thrombosis...'],
+    ['Contraindication', 'A reason a medication or procedure must be withheld.', 'Starter: Before administering clot-busting drugs, the team checked whether the patient had...'],
+    ['Sequela', 'A lingering condition caused by a previous illness or injury.', 'Starter: Months after surviving the acute event, she still faced a sequela that...']
+  ];
+  const g = h('div', 'cards');
+  V.forEach(v => {
+    const f = `<div class="en">${v[0]}</div><button class="say" title="Listen">🔊</button><small style="color:var(--mute); margin-top:6px;">tap to flip</small>`;
+    const d = `<div>${v[1]}</div><div style="color:var(--plum); font-size:0.82rem; margin-top:6px;">${v[2]}</div>`;
+    const c = flip(f, d);
+    c.querySelector('.say').onclick = e => { e.stopPropagation(); say(v[0]); };
+    g.appendChild(c);
+  });
+  b.appendChild(g);
+})();
+
+/* ---------------- 5 MATCH THE CLINICAL SCENARIO ---------------- */
+(() => {
+  const b = task(5, '🧩', 'Match the Clinical Scenario', 'Click the C1 medical term on the left, then match it to the ER case note on the right.');
+  const pairs = [
+    ['Tachycardia', 'The bedside monitor alarmed as his pulse raced to 132 beats per minute.'],
+    ['Contraindication', 'Recent brain surgery ruled out using powerful thrombolytic medication.'],
+    ['Ischaemia', 'Reduced blood flow to the lower limb caused pale, cold skin and severe pain.'],
+    ['Triage', 'Because her oxygen saturation was 86%, nurses moved her ahead of minor injuries.'],
+    ['Sequela', 'Persistent lung scarring remained long after the viral pneumonia had cleared.']
+  ];
+  reg(pairs.length);
+  const w = h('div', 'match'), L = h('div', 'mcol'), R = h('div', 'mcol'); let sl = null, sr = null;
+  const mk = (txt, id, side) => {
+    const btn = h('button', 'mitem', txt); btn.dataset.id = id;
+    btn.onclick = () => {
+      if(btn.classList.contains('good')) return;
+      if(side === 'L') { if(sl) sl.classList.remove('sel'); sl = btn; } else { if(sr) sr.classList.remove('sel'); sr = btn; }
+      btn.classList.add('sel');
+      if(sl && sr) {
+        const a = sl, c = sr; sl = sr = null;
+        if(a.dataset.id === c.dataset.id) { [a, c].forEach(x => { x.classList.remove('sel'); x.classList.add('good'); }); ok('m' + a.dataset.id); }
+        else { [a, c].forEach(x => x.classList.add('bad')); setTimeout(() => [a, c].forEach(x => x.classList.remove('bad', 'sel')), 600); }
+      }
+    }; return btn;
+  };
+  shuffle(pairs.map((p, i) => [p[0], i])).forEach(x => L.appendChild(mk(x[0], x[1], 'L')));
+  shuffle(pairs.map((p, i) => [p[1], i])).forEach(x => R.appendChild(mk(x[1], x[1], 'R')));
+  w.append(L, R); b.appendChild(w);
+})();
+
+/* ---------------- 6 GRAMMAR 1: PAST SIMPLE & PAST CONTINUOUS ---------------- */
+(() => {
+  const b = task(6, '⚖️', 'Grammar 1: Past Simple &amp; Past Continuous', 'When presenting an acute case, use these two tenses to separate <b>rapid clinical milestones</b> from <b>ongoing background states</b>.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Tense</th><th>Form &amp; Acute Case Function</th><th>ER Case Example</th></tr>
+    <tr>
+      <td class="en">Past Simple</td>
+      <td><b>V2 (-ed / irregular)</b> — discrete interventions, sudden symptom onset, and completed diagnostic steps.</td>
+      <td>The physician <b>administered</b> heparin and <b>requested</b> an urgent CT angiogram.</td>
+    </tr>
+    <tr>
+      <td class="en">Past Continuous</td>
+      <td><b>was / were + V-ing</b> — evolving vital signs, background activity at onset, or parallel actions in the resuscitation bay.</td>
+      <td>While the nurse <b>was inserting</b> the IV line, the patient <b>was gasping</b> for air.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note');
+  nb.innerHTML = `<b>Parallel vs. Interrupted Actions:</b><br>
+  • Two ongoing actions at the same time → <b>Past Continuous + Past Continuous</b>: <i>While the paramedic <b>was checking</b> his pulse, the family <b>was explaining</b> his travel history.</i><br>
+  • An ongoing action cut short by an event → <b>Past Continuous + Past Simple</b>: <i>He <b>was walking</b> through customs when sharp chest pain <b>struck</b>.</i>`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 7 PAST SIMPLE / CONTINUOUS PRACTICE + SPEAKING ---------------- */
+(() => {
+  const b = task(7, '📝', 'ER Timeline Precision', 'Choose the correct Past Simple or Past Continuous form for each emergency note, then finish the speaking prompts aloud.');
+  const bank = ['was waiting', 'stabilized', 'were preparing', 'spiked'];
+  const G = [
+    ['The 54-year-old architect ___ at baggage claim when he suddenly felt light-headed.', 'was waiting'],
+    ['While the trauma team ___ the ultrasound machine, his breathing grew shallower.', 'were preparing'],
+    ['During triage, his heart rate ___ to 128 beats per minute.', 'spiked'],
+    ['Once anticoagulants took effect, his oxygen levels gradually ___.', 'stabilized']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('gp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+
+  const sp = h('div', 'starter-box');
+  sp.innerHTML = `
+    <span class="starter-label">Speaking Follow-Up (Complete Aloud)</span>
+    <span class="starter-phrase">• While the ER physician was examining the patient’s swollen calf, she noticed...</span>
+    <span class="starter-phrase">• The moment the monitor alarmed, the resident immediately...</span>
+  `;
+  b.appendChild(sp);
+})();
+
+/* ---------------- 8 GRAMMAR 2: PAST PERFECT & PAST PERFECT CONTINUOUS ---------------- */
+(() => {
+  const b = task(8, '⏳', 'Grammar 2: Past Perfect &amp; Past Perfect Continuous', 'To solve a diagnostic mystery, clinicians look <b>backward from the crisis</b> to uncover prior procedures and prolonged risk exposures.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Tense</th><th>Form &amp; Diagnostic Function</th><th>ER Case Example</th></tr>
+    <tr>
+      <td class="en">Past Perfect</td>
+      <td><b>had + V3</b> — a completed prior surgery, flight, or missed medication that occurred <i>before</i> the emergency.</td>
+      <td>Three weeks before the collapse, he <b>had undergone</b> arthroscopic knee surgery.</td>
+    </tr>
+    <tr>
+      <td class="en">Past Perfect Continuous</td>
+      <td><b>had been + V-ing</b> — a continuous behaviour, immobility, or recurring warning sign lasting up to the acute event.</td>
+      <td>He <b>had been ignoring</b> a dull ache in his left calf for four days before boarding the plane.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note plum');
+  nb.innerHTML = `<b>Diagnostic Cause &amp; Effect:</b><br>
+  • <i>He <b>had stopped</b> taking his blood thinners</i> = Completed decision prior to the flight.<br>
+  • <i>He <b>had been sitting</b> in a cramped window seat for eleven hours</i> = Prolonged physical process directly explaining the thrombosis.`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 9 ALL 4 PAST TENSES GAP-FILL ---------------- */
+(() => {
+  const b = task(9, '🎯', 'Master All 4 Past Tenses', 'Select the exact Past Tense form to complete this diagnostic reconstruction.');
+  const bank = ['had undergone', 'had been experiencing', 'was wheeling', 'confirmed'];
+  const G = [
+    ['Just three weeks before his international trip, the patient ___ minor orthopaedic surgery.', 'had undergone'],
+    ['He admitted that he ___ mild calf tenderness for several days prior to departure.', 'had been experiencing'],
+    ['While an orderly ___ him toward radiology, his oxygen saturation dipped again.', 'was wheeling'],
+    ['Ten minutes later, the CT pulmonary angiogram ___ a massive bilateral embolism.', 'confirmed']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('fp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+})();
+
+/* ---------------- 10 READING & COMPREHENSION: CASE STUDY ---------------- */
+(() => {
+  const b = task(10, '📖', 'Case Study: The Long-Haul Collapse', 'Hover over the dotted terms for Ukrainian translations. Notice how all four Past Tenses weave the clinical narrative together.');
+  const rc = h('div', 'rich-card');
+  rc.style.borderTop = '5px solid var(--teal)';
+  rc.innerHTML = `
+    <p>
+      At 08:15, paramedics <b>brought</b> a 54-year-old architect into <span class="ua-hover" data-ua="медичне сортування">triage</span> after he <b>collapsed</b> while he <b>was walking</b> out of an airport terminal. 
+      He <b>was gasping</b> with severe <span class="ua-hover" data-ua="задишка">dyspnoea</span> and displayed marked <span class="ua-hover" data-ua="тахікардія">tachycardia</span>. 
+      At first, onlookers <b>assumed</b> he <b>was having</b> a panic attack.
+    </p>
+    <p style="margin-top:12px;">
+      However, rapid history-taking <b>uncovered</b> the true <span class="ua-hover" data-ua="патофізіологія">pathophysiology</span>. 
+      He <b>had just flown</b> eleven hours from Tokyo, and he <b>had been sitting</b> virtually motionless to finish a design deadline. 
+      More crucially, he <b>had undergone</b> knee surgery three weeks earlier and <b>had been noticing</b> swelling in his left calf for two days. 
+      Suspecting deep vein <span class="ua-hover" data-ua="тромбоз">thrombosis</span> leading to a pulmonary embolism, the team <b>checked</b> for any bleeding <span class="ua-hover" data-ua="протипоказання">contraindication</span>. 
+      Because his recent surgery <b>had healed</b> cleanly, they <b>started</b> anticoagulation immediately, preventing fatal <span class="ua-hover" data-ua="ішемія">ischaemia</span> and long-term pulmonary <span class="ua-hover" data-ua="наслідок, ускладнення">sequelae</span>.
+    </p>
+  `;
+  b.appendChild(rc);
+
+  tf(b, [
+    ['The architect collapsed while he was still seated aboard the aeroplane.', false, 'He collapsed while he was walking out of the airport terminal.'],
+    ['Prior knee surgery and eleven hours of immobility were key clues to the diagnosis.', true, 'Correct — Past Perfect and Past Perfect Continuous highlight these prior risk factors.'],
+    ['The ER team withheld anticoagulants because his recent knee surgery was a strict contraindication.', false, 'His surgery had healed cleanly, so they started anticoagulation immediately.']
+  ], 'r10_');
+})();
+
+/* ---------------- 11 SPEAKING ARENA (WITH STARTING PHRASES) ---------------- */
+(() => {
+  const b = task(11, '💬', 'Speaking Arena: Emergency Debrief', 'Spend 2 minutes on each clinical discussion point. Start your answer with one of the provided C1 starting phrases.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--teal)">
+      <span class="card-emoji">🧠</span>
+      <h4>Panic Attack vs. Embolism</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Acute shortness of breath and a racing heart are often mislabelled as anxiety. How can clinicians avoid dismissing physical emergencies?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Although bystanders had assumed he was simply panicking, the triage nurse...</span>
+        <span class="starter-phrase">• While the patient was struggling to catch his breath, objective vitals revealed...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">⚖️</span>
+      <h4>Weighing Contraindications</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">When a life-saving drug carries a severe bleeding risk due to prior surgery, how should doctors communicate that trade-off to a frightened family?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Because the patient had recently undergone surgery, the attending physician explained...</span>
+        <span class="starter-phrase">• While the family was processing the shock, the team clearly outlined...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">🛫</span>
+      <h4>Preventable Travel Risks</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Should airlines or surgical clinics do more to warn post-operative patients about long-haul thrombosis?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• If the clinic had warned him before discharge, he would never have...</span>
+        <span class="starter-phrase">• Many travellers who had been sitting still for ten hours had no idea...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--gold)">
+      <span class="card-emoji">🔄</span>
+      <h4>Life After an Acute Crisis</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Surviving a sudden collapse often leaves psychological as well as physical sequelae. What follow-up care matters most?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Even after his physical symptoms had resolved, the patient realized...</span>
+        <span class="starter-phrase">• Having ignored subtle warning signs for days, survivors often become...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+})();
+
+/* ---------------- 12 ERROR SPY ---------------- */
+(() => {
+  const b = task(12, '🔍', 'Error Spy: Past Tenses Debug', 'Each clinical sentence hides ONE mistake in Past Tenses. Click the wrong bracketed phrase, then type the fix.');
+  const E = [
+    ['While the triage nurse [checked] his vitals, the patient [suddenly] [lost] consciousness.', 0, ['was checking']],
+    ['The surgeon [realized] that the patient [forgot] to disclose a severe [contraindication].', 1, ['had forgotten']],
+    ['He [was sitting] immobilized on the flight for twelve hours before his calf [began] to [swell].', 0, ['had been sitting']],
+    ['By the time the CT scan [had finished], his heart rate [had already climbed] to [130 bpm].', 0, ['finished']],
+    ['She [had been] [experience] mild dyspnoea for days before she [collapsed] at the gate.', 1, ['experiencing']]
+  ];
+
+  E.forEach((e, k) => {
+    reg(); const d = h('div', 'spyrow'); let idx = 0;
+    const html = e[0].replace(/\[(.+?)\]/g, (m, w) => `<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML = `<div>${html}</div>`;
+    const fix = h('div', 'fix-box'); d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp => {
+      sp.onclick = () => {
+        if(sp.classList.contains('found')) return;
+        if(+sp.dataset.i !== e[1]) { sp.classList.add('wrong'); setTimeout(() => sp.classList.remove('wrong'), 600); return; }
+        sp.classList.add('wrong');
+        fix.innerHTML = '';
+        const inp = h('input'); inp.type = 'text'; inp.placeholder = 'Type correction...';
+        const c = h('button', 'btn', 'Fix');
+        c.onclick = () => {
+          if(e[2].map(norm).includes(norm(inp.value))) {
+            sp.classList.remove('wrong'); sp.classList.add('found'); sp.textContent = e[2][0];
+            fix.innerHTML = '<span class="fb">✔ Fixed!</span>'; ok('e'+k);
+          } else { inp.className = 'bad'; }
+        };
+        inp.onkeydown = ev => { if(ev.key === 'Enter') c.click(); };
+        fix.append(inp, c); inp.focus();
+      };
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 13 ROLE-PLAY CHAT ---------------- */
+(() => {
+  const b = task(13, '📱', 'Role-Play: ER Handover', 'Read the ambulance handover aloud with your teacher, then continue the clinical exchange for 3 more turns using the starting phrases below.');
+  b.innerHTML += `
+    <div class="chat-container">
+      <div class="chat-msg received">
+        <div class="chat-name">Paramedic (Incoming Team)</div>
+        <div>We picked up a 54-year-old male at Terminal 2. He <b>was walking</b> toward the taxi rank when he <b>collapsed</b> with severe <b>dyspnoea</b>.</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">Attending Physician (You)</div>
+        <div>Got it. What were his vitals in the ambulance, and <b>had he complained</b> of any symptoms before the flight?</div>
+      </div>
+      <div class="chat-msg received">
+        <div class="chat-name">Paramedic</div>
+        <div>He <b>was showing</b> persistent <b>tachycardia</b> at 126 bpm. His colleague told us he <b>had been rubbing</b> a swollen left calf all morning.</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">Attending Physician (You)</div>
+        <div>Classic presentation for a <b>thrombosis</b>. Let’s check if he <b>had undergone</b> any recent procedures before we rule out a <b>contraindication</b> to anticoagulants.</div>
+      </div>
+    </div>
+    <div class="starter-box" style="margin-top:16px;">
+      <span class="starter-label">Continue the Handover Aloud (Pick a Role)</span>
+      <span class="starter-phrase">• While we were transporting him, his oxygen saturation...</span>
+      <span class="starter-phrase">• His wife confirmed on the phone that he had been taking...</span>
+      <span class="starter-phrase">• Before we move him to CT, had anyone already started...</span>
+    </div>
+  `;
+})();
+
+/* ---------------- 14 SENTENCE BUILDER ---------------- */
+(() => {
+  const b = task(14, '🏗️', 'C1 Clinical Sentence Builder', 'Arrange the chunks to form a high-level case summary combining Past Perfect Continuous, Past Perfect, and Past Simple.');
+  const seq = [
+    'Because he had been sitting',
+    'immobilized for eleven hours',
+    'after he had undergone',
+    'recent knee surgery,',
+    'a silent thrombosis formed',
+    'and triggered acute dyspnoea.'
+  ];
+  reg(1); let cur = shuffle(seq); while(cur.join() === seq.join()) cur = shuffle(seq);
+  const list = h('ol', 'order');
+  const draw = () => {
+    list.innerHTML = '';
+    cur.forEach((t, i) => {
+      const li = h('li', 'oitem'); li.innerHTML = `<span>${t}</span>`;
+      const u = h('button', 'mini', '↑'), d = h('button', 'mini', '↓');
+      u.onclick = () => { if(i > 0) { [cur[i-1], cur[i]] = [cur[i], cur[i-1]]; draw(); } };
+      d.onclick = () => { if(i < cur.length - 1) { [cur[i+1], cur[i]] = [cur[i], cur[i+1]]; draw(); } };
+      li.append(u, d); list.appendChild(li);
+    });
+  };
+  draw();
+  const btn = h('button', 'btn', 'Check syntax'), fb = h('span', 'fb');
+  btn.onclick = () => {
+    let all = true;
+    [...list.children].forEach((li, i) => {
+      const g = cur[i] === seq[i];
+      li.classList.toggle('good', g); li.classList.toggle('bad', !g);
+      if(!g) all = false;
+    });
+    fb.textContent = all ? ' ✔ Perfect clinical syntax!' : ' Green = right place.';
+    if(all) ok('ord14');
+  };
+  b.append(list, btn, fb);
+})();
+
+/* ---------------- 15 SPEAKING ROULETTE & WRITING LOG ---------------- */
+(() => {
+  const b = task(15, '🎤', 'Diagnostic Roulette &amp; Case Discharge Log', 'Spin to get a C1 acute-care speaking prompt and a mandatory starting phrase. Speak for 60 seconds, then write a concise clinical summary below.');
+  const CH = [
+    {
+      q: 'Present a case where a patient’s tachycardia and dyspnoea were initially mistaken for a panic attack until triage uncovered the real cause.',
+      s: 'Starting phrase: While everyone was trying to calm the patient down, the nurse noticed...'
+    },
+    {
+      q: 'Reconstruct the timeline of an emergency patient who had been ignoring subtle vascular warning signs for a week.',
+      s: 'Starting phrase: Before the acute collapse occurred, the patient had been experiencing...'
+    },
+    {
+      q: 'Describe a tense moment in the ER when a newly discovered contraindication forced the team to change their treatment plan.',
+      s: 'Starting phrase: Just as the resident was preparing the infusion, the chart revealed that the patient had...'
+    },
+    {
+      q: 'Explain the pathophysiology of a travel-related thrombosis to a patient’s anxious relative using clear, reassuring language.',
+      s: 'Starting phrase: Because your husband had been sitting motionless after his surgery...'
+    },
+    {
+      q: 'Summarize a successful emergency intervention that prevented permanent ischaemia or long-term sequelae.',
+      s: 'Starting phrase: By the time the patient reached the ICU, the team had already...'
+    }
+  ];
+
+  const sb = h('div', 'spinbox');
+  sb.innerHTML = '<div class="big" id="spOrg">Press SPIN for your C1 Emergency Prompt</div><div class="spin-starter" id="spStart" style="display:none;"></div><div id="spT" style="font-size:1.4rem;font-weight:800; color: var(--teal); margin-top: 8px;"></div>';
+  const spin = h('button', 'btn', '🎰 SPIN'), tm = h('button', 'btn alt', '⏱ Start 60 s'); tm.style.marginLeft = '8px';
+  let iv = null;
+  spin.onclick = () => {
+    const c = shuffle(CH)[0];
+    $('#spOrg').textContent = c.q;
+    $('#spStart').textContent = c.s;
+    $('#spStart').style.display = 'inline-block';
+    $('#spT').textContent = ''; clearInterval(iv);
+  };
+  tm.onclick = () => {
+    clearInterval(iv); let t = 60; $('#spT').textContent = t + 's';
+    iv = setInterval(() => { t--; $('#spT').textContent = t > 0 ? t + 's' : 'Time! 👏'; if(t <= 0) clearInterval(iv); }, 1000);
+  };
+  sb.append(spin, tm); b.appendChild(sb);
+
+  b.appendChild(h('h3', null, '✍️ Acute Case Discharge Summary')); b.lastChild.style.margin = '20px 0 8px';
+  b.appendChild(h('p', 'instr', 'Write a 4–6 sentence clinical case note using all four Past Tenses. Try to activate at least <b>3</b> target terms or tense markers below.'));
+
+  const W = ['dyspnoea', 'tachycardia', 'thrombosis', 'ischaemia', 'triage', 'contraindication', 'sequela', 'pathophysiology', 'had been', 'had ', 'was ', 'were '];
+  const ta = h('textarea'); ta.placeholder = 'The 54-year-old patient arrived in triage with acute dyspnoea after he had been sitting...';
+
+  const wd = h('div', 'words'); wd.innerHTML = W.map(w => `<span>${w.trim()}</span>`).join('');
+  const cnt = h('div', 'fb'); cnt.style.color = 'var(--mute)'; reg();
+
+  const upd2 = () => {
+    const t = ta.value.toLowerCase(); let n = 0;
+    [...wd.children].forEach((s, i) => { const on = t.includes(W[i]); s.classList.toggle('on', on); if(on) n++; });
+    const wc = (ta.value.trim().match(/\S+/g) || []).length;
+    cnt.textContent = `${wc} words · ${n} target items used`;
+    if(n >= 3 && wc >= 30) ok('write');
+  };
+  ta.oninput = upd2; b.append(ta, wd, cnt); upd2();
+})();
+</script>
+</body>
+</html>
