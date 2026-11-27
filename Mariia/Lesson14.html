@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lesson 14: C1 | Clinical Protocols &amp; Diagnostic "What Ifs"</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #fbf6ee;
+    --ink: #2b2a33;
+    --mute: #6d6a75;
+    --card: #fff;
+    --coral: #ef6f5e;
+    --teal: #1f9d8f;
+    --tealsoft: #e3f4f1;
+    --gold: #f2b33d;
+    --goldsoft: #fdf2d6;
+    --plum: #7a4fa3;
+    --plumsoft: #f0e6f7;
+    --line: #eadfce;
+    --ok: #2e9d5b;
+    --oksoft: #dcf3e5;
+    --bad: #d64545;
+    --badsoft: #fbe0e0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Nunito', system-ui, sans-serif; line-height: 1.55; font-size: 16px; scroll-behavior: smooth; }
+h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; margin: 0; }
+
+.bar { position: sticky; top: 0; z-index: 20; background: rgba(251,246,238,.95); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); padding: 8px 16px; display: flex; gap: 12px; align-items: center; }
+.bar b { font-family: 'Fraunces', serif; color: var(--plum); }
+#nav { display: flex; gap: 6px; overflow-x: auto; flex: 1; scrollbar-width: thin; }
+#nav::-webkit-scrollbar { height: 4px; }
+#nav::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+#nav a { flex: none; text-decoration: none; background: #fff; border: 1px solid var(--line); color: var(--ink); width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; transition: background 0.2s; }
+#nav a:hover { background: var(--gold); }
+.score { flex: none; background: var(--ink); color: #fff; border-radius: 20px; padding: 4px 14px; font-weight: 800; }
+
+.hero { max-width: 960px; margin: 28px auto 8px; padding: 0 16px; text-align: center; }
+.hero .tag { display: inline-block; background: var(--plum); color: #fff; font-weight: 800; border-radius: 20px; padding: 3px 14px; letter-spacing: .05em; font-size: 0.85rem; margin-bottom: 12px; }
+.hero h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: 10px 0; color: var(--ink); }
+.hero p { color: var(--mute); margin: 0 auto 14px; font-size: 1.1rem; max-width: 720px; }
+
+main { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+.task { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; margin-top: 22px; box-shadow: 0 4px 0 var(--line); scroll-margin-top: 60px; }
+.thead { display: flex; gap: 12px; align-items: center; }
+.num { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.2rem; }
+.task:nth-of-type(3n+2) .num { background: var(--coral); }
+.task:nth-of-type(3n) .num { background: var(--plum); }
+.thead h2 { font-size: 1.5rem; }
+.instr { color: var(--mute); margin: 8px 0 14px; font-size: 1.05rem; }
+
+/* RICH CARDS & STARTING PHRASES */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+.rich-card { background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.card-emoji { font-size: 2rem; margin-bottom: 8px; display: block; }
+.starter-box { margin-top: 12px; padding: 10px 12px; background: #fff; border-left: 4px solid var(--plum); border-radius: 8px; font-size: 0.92rem; }
+.starter-label { display: block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--plum); margin-bottom: 4px; }
+.starter-phrase { display: block; font-weight: 700; color: var(--ink); margin-top: 3px; }
+
+/* MINDMAP */
+.mindmap { display: flex; flex-direction: column; gap: 16px; align-items: center; margin-bottom: 20px; padding: 20px; background: var(--goldsoft); border-radius: 20px; border: 2px dashed var(--gold); }
+.mm-core { background: var(--ink); color: #fff; font-family: 'Fraunces', serif; font-size: 1.65rem; padding: 12px 24px; border-radius: 30px; font-weight: 800; z-index: 2; position: relative; text-align: center; }
+.mm-branches { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+.mm-branch { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 16px; }
+.mm-branch h4 { color: var(--teal); margin-bottom: 8px; font-family: 'Nunito', sans-serif; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+.mm-branch ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.mm-branch li { background: var(--bg); padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--line); }
+
+/* MCQ & BUTTONS */
+.q { border-top: 1px dashed var(--line); padding: 12px 0; }
+.qt { font-weight: 700; margin-bottom: 8px; font-size: 1.05rem; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+button { font-family: inherit; }
+.opt, .btn { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 7px 14px; cursor: pointer; font-weight: 700; font-size: .95rem; color: var(--ink); transition: border 0.2s; }
+.opt:hover, .btn:hover { border-color: var(--teal); }
+.btn { background: var(--teal); color: #fff; border-color: var(--teal); }
+.btn.alt { background: #fff; color: var(--ink); border-color: var(--line); }
+.good { background: var(--oksoft) !important; border-color: var(--ok) !important; color: #1E6038 !important; }
+.bad { background: var(--badsoft) !important; border-color: var(--bad) !important; color: #7F1D1D !important; }
+.fb { color: var(--ok); font-size: .9rem; margin-left: 8px; font-weight: 700; }
+
+/* VOCAB FLIP CARDS */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+.vcard { position: relative; height: 195px; cursor: pointer; }
+.vocab-front, .vocab-def { position: absolute; inset: 0; border-radius: 16px; padding: 14px; transition: opacity .25s; display: flex; flex-direction: column; justify-content: center; border: 2px solid var(--line); }
+.vocab-front { background: #fff; opacity: 1; align-items: center; text-align: center; gap: 4px; }
+.vocab-def { background: var(--tealsoft); opacity: 0; font-size: .88rem; overflow: auto; align-items: center; text-align: center; gap: 6px; border-color: var(--teal); font-weight: 600; }
+.vcard:hover .vocab-front, .vcard.flip .vocab-front { opacity: 0; }
+.vcard:hover .vocab-def, .vcard.flip .vocab-def { opacity: 1; }
+.en { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.35rem; color: var(--coral); }
+.say { background: none; border: none; cursor: pointer; font-size: 1.2rem; }
+
+/* PRONUNCIATION */
+.pron { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; border-top: 1px dashed var(--line); padding: 12px 0; }
+.pron .w { font-family: 'Fraunces', serif; font-weight: 800; font-size: 1.25rem; min-width: 155px; }
+.pron .ipa { color: var(--mute); min-width: 140px; font-family: monospace; }
+.syl { background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 4px 12px; cursor: pointer; font-weight: 700; }
+
+/* GAP FILL & TOOLKIT */
+.note { background: var(--goldsoft); border-radius: 12px; padding: 14px 18px; margin: 10px 0; font-size: .95rem; }
+.note.plum { background: var(--plumsoft); border-left: 4px solid var(--plum); }
+.note.teal { background: var(--tealsoft); border-left: 4px solid var(--teal); }
+.gap { padding: 10px 0; border-top: 1px dashed var(--line); display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 1.03rem; }
+select, input[type=text], textarea { font-family: inherit; font-size: 1rem; border: 2px solid var(--line); border-radius: 10px; padding: 6px 10px; background: #fff; outline: none; }
+select:focus, input[type=text]:focus, textarea:focus { border-color: var(--teal); }
+
+/* MATCH IT */
+.match { display: grid; grid-template-columns: 1fr 1.3fr; gap: 14px; }
+.mcol { display: flex; flex-direction: column; gap: 8px; }
+.mitem { background: #fff; border: 2px solid var(--line); border-radius: 12px; padding: 8px 12px; text-align: left; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.mitem.sel { border-color: var(--gold); background: var(--goldsoft); }
+
+/* ERROR SPY */
+.spyrow { padding: 14px 0; border-top: 1px dashed var(--line); font-size: 1.05rem; }
+.spy { background: var(--goldsoft); border-radius: 6px; padding: 1px 6px; cursor: pointer; font-weight: 700; border: 1px solid var(--gold); }
+.spy.wrong { background: var(--badsoft); border-color: var(--bad); }
+.spy.found { background: var(--oksoft); border-color: var(--ok); color: #1E6038; }
+.fix-box { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ORDERER */
+.order { padding-left: 0; list-style: none; margin: 10px 0; }
+.oitem { display: flex; gap: 8px; align-items: center; padding: 8px 12px; margin: 5px 0; border: 2px solid var(--line); border-radius: 10px; background: #fff; font-weight: 600; font-size: 1.03rem; }
+.oitem span { flex: 1; }
+.mini { background: #fff; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; padding: 2px 8px; font-size: 1.1rem; font-weight: 800; }
+
+/* CHAT */
+.chat-container { background: #fff; border-radius: 16px; padding: 20px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 85%; padding: 10px 16px; border-radius: 16px; font-size: 1rem; font-weight: 600; position: relative; }
+.chat-msg.received { background: var(--bg); color: var(--ink); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--line); }
+.chat-msg.sent { background: var(--plum); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-name { font-size: 0.75rem; font-weight: 800; margin-bottom: 2px; color: var(--mute); }
+.chat-msg.sent .chat-name { text-align: right; color: var(--plumsoft); }
+
+/* TABLE */
+table { border-collapse: collapse; width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); margin: 12px 0; }
+th, td { border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+th { background: var(--plumsoft); color: var(--plum); font-weight: 800; }
+td { background: #fff; font-weight: 600; }
+td.en { font-family: 'Fraunces', serif; font-size: 1.05rem; color: var(--coral); }
+td.def { color: var(--mute); }
+
+/* SPINBOX & WRITING */
+.spinbox { background: var(--goldsoft); border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 14px; border: 2px dashed var(--gold); }
+.big { font-family: 'Fraunces', serif; font-size: 1.55rem; font-weight: 800; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.spin-starter { background: #fff; border: 2px solid var(--plum); color: var(--plum); border-radius: 12px; padding: 8px 14px; display: inline-block; font-weight: 800; margin-bottom: 14px; font-size: 0.98rem; }
+textarea { width: 100%; min-height: 120px; resize: vertical; margin-bottom: 8px; }
+.words { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.words span { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 2px 10px; font-size: .85rem; font-weight: 700; color: var(--mute); }
+.words span.on { background: var(--oksoft); color: #1E6038; border-color: var(--ok); }
+
+/* UA HOVER */
+.ua-hover { position: relative; cursor: help; border-bottom: 2px dotted var(--teal); font-weight: 700; color: var(--teal); transition: all 0.2s; }
+.ua-hover:hover { background: var(--tealsoft); }
+.ua-hover::after { content: attr(data-ua); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(6px); background: var(--ink); color: #fff; padding: 6px 12px; border-radius: 8px; font-size: 0.88rem; font-family: 'Nunito', sans-serif; white-space: nowrap; opacity: 0; visibility: hidden; transition: all 0.2s; font-weight: 600; pointer-events: none; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.ua-hover:hover::after { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+
+footer { text-align: center; color: var(--mute); padding: 30px 16px; font-weight: 700; font-size: 0.9rem; }
+@media(max-width: 600px) { .match { grid-template-columns: 1fr; } .mm-branches { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="bar"><b>L14 · C1</b><div id="nav"></div><div class="score">⭐ <span id="score">0 / 0</span></div></div>
+
+<div class="hero">
+  <span class="tag">MEDICAL · LESSON 14 · C1</span>
+  <h1>Clinical Protocols &amp; Diagnostic "What Ifs"</h1>
+  <p>Examine a post-operative sepsis case and evaluate life-saving decisions in hindsight. Master <i>Zero, First, Second, Third, and Mixed Conditionals</i> through clinical reasoning and guided speaking.</p>
+</div>
+
+<main id="tasks"></main>
+<footer>Lesson 14 · Clinical Protocols &amp; Diagnostic "What Ifs" · C1 Medical English ⭐</footer>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const h = (t, c, html) => { const e = document.createElement(t); if(c) e.className = c; if(html != null) e.innerHTML = html; return e; };
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const norm = s => s.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+
+let total = 0; const done = new Set();
+const upd = () => { $('#score').textContent = done.size + ' / ' + total; };
+const reg = (n = 1) => { total += n; upd(); };
+const ok = k => { if(!done.has(k)) { done.add(k); upd(); } };
+function say(t, l='en-GB') { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = l; u.rate = 0.88; speechSynthesis.speak(u); } catch(e) {} }
+
+const main = $('#tasks');
+function task(n, icon, title, instr) {
+  const s = h('section', 'task'); s.id = 't' + n;
+  s.innerHTML = `<div class="thead"><span class="num">${icon}</span><h2>${title}</h2></div><p class="instr">${instr}</p>`;
+  const b = h('div'); s.appendChild(b); main.appendChild(s);
+  const a = h('a', null, n); a.href = '#t' + n; $('#nav').appendChild(a);
+  return b;
+}
+
+function mcq(box, items, key) {
+  items.forEach((it, i) => {
+    reg();
+    const q = h('div', 'q'); q.innerHTML = `<div class="qt">${it.q}</div>`;
+    const o = h('div', 'opts'), fb = h('div', 'fb'); let wrong = false, solved = false;
+    let ops = it.o.map((t, j) => ({ t, c: j === (it.a || 0) }));
+    if(!it.fixed) ops = shuffle(ops);
+    ops.forEach(op => {
+      const b = h('button', 'opt', op.t);
+      b.onclick = () => {
+        if(solved) return;
+        if(op.c) { solved = true; b.classList.add('good'); if(!wrong) ok(key + i); if(it.w) fb.textContent = it.w; }
+        else { wrong = true; b.classList.add('bad'); b.disabled = true; }
+      };
+      o.appendChild(b);
+    });
+    q.append(o, fb); box.appendChild(q);
+  });
+}
+const tf = (box, items, key) => mcq(box, items.map(x => ({ q: x[0], o: ['True', 'False'], a: x[1] ? 0 : 1, fixed: true, w: x[2] })), key);
+
+function flip(front, def) {
+  const c = h('div', 'vcard');
+  c.innerHTML = `<div class="vocab-front">${front}</div><div class="vocab-def">${def}</div>`;
+  c.onclick = () => c.classList.toggle('flip');
+  return c;
+}
+
+/* ---------------- 1 WARM-UP SPEAKING ---------------- */
+(() => {
+  const b = task(1, '⚕️', 'Warm-Up: Clinical "What Ifs"', 'Discuss these opening prompts aloud. Use the starting phrases to anchor your response.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">🧪</span>
+      <h4>Protocols vs. Intuition</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Hospitals rely on strict checklists and protocols, yet every patient is unique. When should a clinician trust a protocol over personal instinct?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• If a hospital strictly follows sepsis protocols, mortality rates...</span>
+        <span class="starter-phrase">• If I were the attending physician in an ambiguous case, I would...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🔄</span>
+      <h4>Learning from Hindsight</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Medical teams hold Morbidity &amp; Mortality (M&amp;M) conferences to review complications. Why is constructive hindsight essential for patient safety?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• If the team had spotted the subtle fever earlier, the patient would not have...</span>
+        <span class="starter-phrase">• Had they checked the allergy alert first, the patient would be... today.</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+
+  mcq(b, [
+    { q: 'What is the medical term for preventive treatment given before surgery to stop an infection from starting?', o: ['Prophylaxis', 'Anaphylaxis', 'Toxicity'] },
+    { q: 'A life-threatening, body-wide inflammatory response to an infection is known as...', o: ['sepsis', 'efficacy', 'titration'] }
+  ], 'q1_');
+})();
+
+/* ---------------- 2 VOCABULARY MINDMAP ---------------- */
+(() => {
+  const b = task(2, '🧠', 'Vocabulary Mindmap', 'Explore eight C1 clinical terms for infection control, pharmacology, and surgical outcomes.');
+  const mm = h('div', 'mindmap');
+  mm.innerHTML = `
+    <div class="mm-core">Protocols &amp; Pharmacology (C1)</div>
+    <div class="mm-branches">
+      <div class="mm-branch" style="border-color: var(--teal)">
+        <h4>Infection &amp; Crisis</h4>
+        <ul>
+          <li><b>Pathogen:</b> A bacterium, virus, or microorganism capable of causing disease.</li>
+          <li><b>Sepsis:</b> A life-threatening organ dysfunction caused by a dysregulated response to infection.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--coral)">
+        <h4>Adverse Reactions</h4>
+        <ul>
+          <li><b>Anaphylaxis:</b> A rapid, severe, potentially fatal systemic allergic reaction.</li>
+          <li><b>Toxicity:</b> The degree to which a drug or substance can damage an organism or organ.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--plum)">
+        <h4>Dosing &amp; Prevention</h4>
+        <ul>
+          <li><b>Prophylaxis:</b> Action or medication taken to prevent a disease or infection before it occurs.</li>
+          <li><b>Titration:</b> The gradual adjustment of a medication dose to achieve the optimal effect.</li>
+        </ul>
+      </div>
+      <div class="mm-branch" style="border-color: var(--gold)">
+        <h4>Clinical Outcomes</h4>
+        <ul>
+          <li><b>Efficacy:</b> The ability of a drug or intervention to produce the intended therapeutic result.</li>
+          <li><b>Morbidity:</b> The rate of illness, complication, or suffering caused by a condition.</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  b.appendChild(mm);
+})();
+
+/* ---------------- 3 PRONUNCIATION ---------------- */
+(() => {
+  const b = task(3, '🗣️', 'Say It Right', 'Press 🔊, listen, then click the <b>stressed syllable</b> of these C1 medical terms.');
+  const P = [
+    ['anaphylaxis', '/ˌænəfɪˈlæksɪs/', ['an', 'a', 'phy', 'lax', 'is'], 3, 'Stress on LAX.'],
+    ['prophylaxis', '/ˌprɒfɪˈlæksɪs/', ['pro', 'phy', 'lax', 'is'], 2, 'Stress on LAX.'],
+    ['titration', '/taɪˈtreɪʃən/', ['ti', 'tra', 'tion'], 1, 'Stress on TRA.'],
+    ['efficacy', '/ˈefɪkəsi/', ['ef', 'fi', 'ca', 'cy'], 0, 'Stress on EF.'],
+    ['toxicity', '/tɒkˈsɪsəti/', ['tox', 'ic', 'i', 'ty'], 1, 'Stress on IC.']
+  ];
+  P.forEach((p, k) => {
+    reg(); const r = h('div', 'pron');
+    r.innerHTML = `<span class="w">${p[0]}</span><span class="ipa">${p[1]}</span>`;
+    const s = h('button', 'say', '🔊'); s.onclick = () => say(p[0]); r.appendChild(s);
+    const fb = h('span', 'fb'); let wrong = false, solved = false;
+    p[2].forEach((t, i) => {
+      const y = h('button', 'syl', t);
+      y.onclick = () => {
+        if(solved) return;
+        if(i === p[3]) { solved = true; y.classList.add('good'); y.textContent = t.toUpperCase(); if(!wrong) ok('p'+k); fb.textContent = p[4]; }
+        else { wrong = true; y.classList.add('bad'); }
+      };
+      r.appendChild(y);
+    });
+    r.appendChild(fb); b.appendChild(r);
+  });
+})();
+
+/* ---------------- 4 VOCAB FLIP CARDS + MICRO-SPEAKING ---------------- */
+(() => {
+  const b = task(4, '🎴', 'Concept Check &amp; Micro-Speaking', 'Tap each card to reveal the definition and a speaking starter. Finish the sentence aloud.');
+  const V = [
+    ['Prophylaxis', 'Preventive medication given before a procedure.', 'Starter: If surgeons skip antibiotic prophylaxis before bowel surgery, ...'],
+    ['Anaphylaxis', 'A severe, rapid allergic reaction requiring immediate adrenaline.', 'Starter: If a patient shows signs of anaphylaxis, the nurse immediately...'],
+    ['Titration', 'Carefully adjusting a drug dose step by step.', 'Starter: If we do not perform careful titration, the patient will risk...'],
+    ['Efficacy', 'How well a treatment works under ideal clinical conditions.', 'Starter: If this new antibiotic had higher efficacy against resistant pathogens, we would...']
+  ];
+  const g = h('div', 'cards');
+  V.forEach(v => {
+    const f = `<div class="en">${v[0]}</div><button class="say" title="Listen">🔊</button><small style="color:var(--mute); margin-top:6px;">tap to flip</small>`;
+    const d = `<div>${v[1]}</div><div style="color:var(--plum); font-size:0.82rem; margin-top:6px;">${v[2]}</div>`;
+    const c = flip(f, d);
+    c.querySelector('.say').onclick = e => { e.stopPropagation(); say(v[0]); };
+    g.appendChild(c);
+  });
+  b.appendChild(g);
+})();
+
+/* ---------------- 5 MATCH THE CLINICAL SCENARIO ---------------- */
+(() => {
+  const b = task(5, '🧩', 'Match the Clinical Scenario', 'Click the C1 medical term on the left, then match it to the hospital case note on the right.');
+  const pairs = [
+    ['Prophylaxis', 'Administering a single dose of IV cefazolin 30 minutes before surgical incision.'],
+    ['Anaphylaxis', 'Sudden airway swelling and plummeting blood pressure minutes after penicillin.'],
+    ['Titration', 'Increasing insulin infusion by 1 unit per hour until blood glucose stabilizes.'],
+    ['Toxicity', 'Elevated liver enzymes caused by exceeding the maximum daily acetaminophen limit.'],
+    ['Pathogen', 'Blood cultures isolated a multi-drug-resistant strain of Staphylococcus aureus.']
+  ];
+  reg(pairs.length);
+  const w = h('div', 'match'), L = h('div', 'mcol'), R = h('div', 'mcol'); let sl = null, sr = null;
+  const mk = (txt, id, side) => {
+    const btn = h('button', 'mitem', txt); btn.dataset.id = id;
+    btn.onclick = () => {
+      if(btn.classList.contains('good')) return;
+      if(side === 'L') { if(sl) sl.classList.remove('sel'); sl = btn; } else { if(sr) sr.classList.remove('sel'); sr = btn; }
+      btn.classList.add('sel');
+      if(sl && sr) {
+        const a = sl, c = sr; sl = sr = null;
+        if(a.dataset.id === c.dataset.id) { [a, c].forEach(x => { x.classList.remove('sel'); x.classList.add('good'); }); ok('m' + a.dataset.id); }
+        else { [a, c].forEach(x => x.classList.add('bad')); setTimeout(() => [a, c].forEach(x => x.classList.remove('bad', 'sel')), 600); }
+      }
+    }; return btn;
+  };
+  shuffle(pairs.map((p, i) => [p[0], i])).forEach(x => L.appendChild(mk(x[0], x[1], 'L')));
+  shuffle(pairs.map((p, i) => [p[1], i])).forEach(x => R.appendChild(mk(x[1], x[1], 'R')));
+  w.append(L, R); b.appendChild(w);
+})();
+
+/* ---------------- 6 GRAMMAR 1: ZERO, FIRST & SECOND CONDITIONALS ---------------- */
+(() => {
+  const b = task(6, '⚖️', 'Grammar 1: Zero, First &amp; Second Conditionals', 'Clinicians use these three conditionals for <b>physiological facts</b>, <b>real clinical plans</b>, and <b>hypothetical scenarios</b>.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Type</th><th>Form</th><th>Clinical Function &amp; Example</th></tr>
+    <tr>
+      <td class="en">Zero Conditional</td>
+      <td><b>If + Present Simple, Present Simple</b></td>
+      <td><b>Scientific facts &amp; standard protocols.</b><br>If a patient <b>develops</b> anaphylaxis, blood pressure <b>drops</b> rapidly.</td>
+    </tr>
+    <tr>
+      <td class="en">First Conditional</td>
+      <td><b>If + Present Simple, will / may / must + V</b></td>
+      <td><b>Real, likely future clinical outcomes.</b><br>If the fever <b>persists</b> tonight, we <b>will switch</b> to broad-spectrum antibiotics.</td>
+    </tr>
+    <tr>
+      <td class="en">Second Conditional</td>
+      <td><b>If + Past Simple, would / could + V</b></td>
+      <td><b>Unreal or unlikely present/future hypotheses.</b><br>If this ward <b>had</b> rapid PCR testing, we <b>would identify</b> the pathogen in an hour.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note');
+  nb.innerHTML = `<b>C1 Precision Tip:</b> In formal medical English, use <b>were</b> for all subjects in the Second Conditional (<i>If the patient <b>were</b> allergic...</i>), and replace <i>if</i> with <b>provided that</b> or <b>unless</b> to sound natural and authoritative.`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 7 ZERO, FIRST & SECOND PRACTICE + SPEAKING ---------------- */
+(() => {
+  const b = task(7, '📝', 'Protocol &amp; Prediction Precision', 'Choose the correct verb form for each Zero, First, or Second Conditional statement, then complete the speaking prompts aloud.');
+  const bank = ['triggers', 'will reduce', 'would prescribe', 'exceeds'];
+  const G = [
+    ['If a drug dose ___ the renal threshold, toxicity occurs quickly.', 'exceeds'],
+    ['If we start IV fluids within the hour, we ___ the risk of septic shock.', 'will reduce'],
+    ['If the hospital had access to that experimental antiviral, doctors ___ it immediately.', 'would prescribe'],
+    ['When a resistant pathogen enters the bloodstream, it ___ a systemic inflammatory cascade.', 'triggers']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('gp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+
+  const sp = h('div', 'starter-box');
+  sp.innerHTML = `
+    <span class="starter-label">Speaking Follow-Up (Complete Aloud)</span>
+    <span class="starter-phrase">• If a patient’s lactate level rises above 4 mmol/L, the protocol requires...</span>
+    <span class="starter-phrase">• If I were designing a safer hospital prescribing system, I would...</span>
+  `;
+  b.appendChild(sp);
+})();
+
+/* ---------------- 8 GRAMMAR 2: THIRD & MIXED CONDITIONALS ---------------- */
+(() => {
+  const b = task(8, '⏳', 'Grammar 2: Third &amp; Mixed Conditionals', 'Essential for M&amp;M reviews: analyzing <b>past clinical regrets</b> and how <b>past decisions shape present patient outcomes</b>.');
+  const tb = h('table');
+  tb.innerHTML = `
+    <tr><th>Type</th><th>Form</th><th>Clinical Function &amp; Example</th></tr>
+    <tr>
+      <td class="en">Third Conditional</td>
+      <td><b>If + Past Perfect, would have + V3</b></td>
+      <td><b>Unreal past (Past → Past):</b> imagining a different past outcome.<br>If they <b>had administered</b> prophylaxis on time, sepsis <b>would not have developed</b>.</td>
+    </tr>
+    <tr>
+      <td class="en">Mixed (Past → Present)</td>
+      <td><b>If + Past Perfect, would + V (now)</b></td>
+      <td><b>Past action affecting the present state.</b><br>If he <b>had completed</b> the antibiotic course, he <b>would not be</b> in the ICU today.</td>
+    </tr>
+    <tr>
+      <td class="en">Mixed (Present → Past)</td>
+      <td><b>If + Past Simple, would have + V3</b></td>
+      <td><b>General/present fact explaining a past event.</b><br>If she <b>were not</b> allergic to penicillin, they <b>would have given</b> her amoxicillin yesterday.</td>
+    </tr>
+  `;
+  b.appendChild(tb);
+
+  const nb = h('div', 'note plum');
+  nb.innerHTML = `<b>C1 Inversion Upgrade (Drop "If"):</b><br>
+  • Standard: <i>If the nurse <b>had noticed</b> the rash earlier, they would have stopped the drip.</i><br>
+  • C1 Formal: <i><b>Had the nurse noticed</b> the rash earlier, they would have stopped the drip.</i>`;
+  b.appendChild(nb);
+})();
+
+/* ---------------- 9 ALL CONDITIONALS GAP-FILL ---------------- */
+(() => {
+  const b = task(9, '🎯', 'Master All 5 Conditionals', 'Select the exact form to match the time frame (Zero, 1st, 2nd, 3rd, or Mixed).');
+  const bank = ['would not be', 'would have prevented', 'will monitor', 'had not been'];
+  const G = [
+    ['If the lab had flagged the culture six hours earlier, the team ___ septic shock yesterday.', 'would have prevented'],
+    ['If the patient had followed the discharge instructions last week, he ___ back in the ER right now.', 'would not be'],
+    ['If we adjust the titration this afternoon, nurses ___ her blood pressure every fifteen minutes.', 'will monitor'],
+    ['If she ___ immunocompromised, the minor wound would have healed without IV antibiotics.', 'had not been']
+  ];
+  G.forEach((g, i) => {
+    reg(); const d = h('div', 'gap'); const parts = g[0].split('___');
+    const s = h('select'); s.innerHTML = '<option value="">…</option>' + shuffle(bank).map(w => `<option>${w}</option>`).join('');
+    s.onchange = () => { if(!s.value) { s.className = ''; return; } if(s.value === g[1]) { s.className = 'good'; ok('fp'+i); } else s.className = 'bad'; };
+    d.append(parts[0], s, parts[1]); b.appendChild(d);
+  });
+})();
+
+/* ---------------- 10 READING & COMPREHENSION: CASE STUDY ---------------- */
+(() => {
+  const b = task(10, '📖', 'Case Study: The Missed Prophylaxis', 'Hover over the dotted terms for Ukrainian translations. Notice how Zero, 1st, 2nd, 3rd, and Mixed Conditionals drive the clinical review.');
+  const rc = h('div', 'rich-card');
+  rc.style.borderTop = '5px solid var(--teal)';
+  rc.innerHTML = `
+    <p>
+      In surgical care, one rule is absolute: if a hospital <b>omits</b> pre-operative <span class="ua-hover" data-ua="профілактика">prophylaxis</span>, post-operative infection rates <b>climb</b> sharply. 
+      Last Tuesday, a 61-year-old patient underwent routine abdominal surgery. 
+      Because of an electronic chart glitch, his pre-surgical antibiotic was delayed by three hours. 
+      Within 36 hours, a virulent <span class="ua-hover" data-ua="патоген, збудник">pathogen</span> triggered full-blown <span class="ua-hover" data-ua="сепсис">sepsis</span>.
+    </p>
+    <p style="margin-top:12px;">
+      During the review, the chief surgeon was blunt: "If the team <b>had verified</b> the checklist before incision, this complication <b>would never have occurred</b>. 
+      Even more importantly, if we <b>had caught</b> the error on Tuesday, the patient <b>would be recovering</b> comfortably at home today instead of lying in the ICU." 
+      Doctors could not use first-line penicillin because of his history of <span class="ua-hover" data-ua="анафілаксія">anaphylaxis</span>; if he <b>were not</b> severely allergic, they <b>would have chosen</b> a simpler regimen with lower renal <span class="ua-hover" data-ua="токсичність">toxicity</span>. 
+      Now, careful drug <span class="ua-hover" data-ua="титрування дози">titration</span> is underway. 
+      If his kidneys <b>respond</b> well over the next 24 hours, the new antibiotic’s <span class="ua-hover" data-ua="ефективність">efficacy</span> <b>will spare</b> him permanent <span class="ua-hover" data-ua="захворюваність / ускладнення">morbidity</span>.
+    </p>
+  `;
+  b.appendChild(rc);
+
+  tf(b, [
+    ['The patient’s sepsis was caused by an unavoidable allergic reaction to penicillin.', false, 'It was triggered by a pathogen after pre-operative prophylaxis was delayed.'],
+    ['The chief surgeon uses a Mixed Conditional to show that Tuesday’s error is the reason the patient is still in the ICU today.', true, 'Correct — Past Perfect (had caught) + would be recovering (present).'],
+    ['Doctors avoided penicillin because the patient had a documented history of anaphylaxis.', true]
+  ], 'r10_');
+})();
+
+/* ---------------- 11 SPEAKING ARENA (WITH STARTING PHRASES) ---------------- */
+(() => {
+  const b = task(11, '💬', 'Speaking Arena: M&amp;M Case Review', 'Spend 2 minutes on each clinical dilemma. Start your answer with one of the provided C1 conditional starters.');
+  const g = h('div', 'card-grid');
+  g.innerHTML = `
+    <div class="rich-card" style="border-top: 4px solid var(--teal)">
+      <span class="card-emoji">💻</span>
+      <h4>Alert Fatigue</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Electronic medical records flash dozens of warnings every shift, causing doctors to click past them. How would you redesign hospital alerts?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• If electronic charts only flagged life-threatening toxicity or anaphylaxis, clinicians would...</span>
+        <span class="starter-phrase">• Unless hospitals reduce alert fatigue, critical errors will continue to...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--coral)">
+      <span class="card-emoji">🦠</span>
+      <h4>Antibiotic Stewardship</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Overusing broad-spectrum antibiotics creates resistant pathogens, yet under-treating risks sepsis. How do teams walk this tightrope?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• If doctors prescribe broad-spectrum drugs for every mild fever, pathogens...</span>
+        <span class="starter-phrase">• If we had invested more in rapid diagnostics ten years ago, we would not be...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--plum)">
+      <span class="card-emoji">🤝</span>
+      <h4>Disclosing Medical Errors</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">When a missed protocol causes a preventable complication, how transparently should the surgical team explain what happened to the patient?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• If I were the patient in that ICU bed, I would expect the surgeon to...</span>
+        <span class="starter-phrase">• If a hospital hides a systemic glitch, the same mistake will inevitably...</span>
+      </div>
+    </div>
+    <div class="rich-card" style="border-top: 4px solid var(--gold)">
+      <span class="card-emoji">⚖️</span>
+      <h4>Efficacy vs. Toxicity</h4>
+      <p style="margin:6px 0 0; color:var(--mute)">Sometimes the only drug strong enough to stop an infection also risks damaging the kidneys. How should clinicians weigh that balance?</p>
+      <div class="starter-box">
+        <span class="starter-label">Starting Phrases</span>
+        <span class="starter-phrase">• Provided that the team performs strict daily titration, the drug’s efficacy...</span>
+        <span class="starter-phrase">• Had the patient’s kidneys been healthier, the team would have...</span>
+      </div>
+    </div>
+  `;
+  b.appendChild(g);
+})();
+
+/* ---------------- 12 ERROR SPY ---------------- */
+(() => {
+  const b = task(12, '🔍', 'Error Spy: Conditionals Debug', 'Each clinical sentence hides ONE conditional mistake. Click the wrong bracketed phrase, then type the fix.');
+  const E = [
+    ['If the resident [would have checked] the allergy band, anaphylaxis [would not have] [occurred].', 0, ['had checked']],
+    ['If a patient [will develop] septic shock, blood pressure [falls] [dangerously] low.', 0, ['develops']],
+    ['If he [had taken] his prophylaxis yesterday, he [would not have been] in the ICU [right now].', 1, ['would not be', 'wouldnt be']],
+    ['If the clinic [has] faster lab equipment, we [would identify] the pathogen [today].', 0, ['had']],
+    ['If we [do not adjust] the titration soon, renal toxicity [would] [worsen] tonight.', 1, ['will']]
+  ];
+
+  E.forEach((e, k) => {
+    reg(); const d = h('div', 'spyrow'); let idx = 0;
+    const html = e[0].replace(/\[(.+?)\]/g, (m, w) => `<span class="spy" data-i="${idx++}">${w}</span>`);
+    d.innerHTML = `<div>${html}</div>`;
+    const fix = h('div', 'fix-box'); d.appendChild(fix);
+    d.querySelectorAll('.spy').forEach(sp => {
+      sp.onclick = () => {
+        if(sp.classList.contains('found')) return;
+        if(+sp.dataset.i !== e[1]) { sp.classList.add('wrong'); setTimeout(() => sp.classList.remove('wrong'), 600); return; }
+        sp.classList.add('wrong');
+        fix.innerHTML = '';
+        const inp = h('input'); inp.type = 'text'; inp.placeholder = 'Type correction...';
+        const c = h('button', 'btn', 'Fix');
+        c.onclick = () => {
+          if(e[2].map(norm).includes(norm(inp.value))) {
+            sp.classList.remove('wrong'); sp.classList.add('found'); sp.textContent = e[2][0];
+            fix.innerHTML = '<span class="fb">✔ Fixed!</span>'; ok('e'+k);
+          } else { inp.className = 'bad'; }
+        };
+        inp.onkeydown = ev => { if(ev.key === 'Enter') c.click(); };
+        fix.append(inp, c); inp.focus();
+      };
+    });
+    b.appendChild(d);
+  });
+})();
+
+/* ---------------- 13 ROLE-PLAY CHAT ---------------- */
+(() => {
+  const b = task(13, '📱', 'Role-Play: Morbidity &amp; Mortality Review', 'Read the clinical debrief aloud with your teacher, then continue the discussion for 3 more turns using the starting phrases below.');
+  b.innerHTML += `
+    <div class="chat-container">
+      <div class="chat-msg received">
+        <div class="chat-name">Chief of Surgery</div>
+        <div>Let’s review the timeline objectively. If we <b>had confirmed</b> the <b>prophylaxis</b> order during the pre-op timeout, the patient <b>would not be</b> on vasopressors today.</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">Senior Resident (You)</div>
+        <div>I completely agree. If the electronic system <b>were</b> better integrated with pharmacy, that delay <b>would have triggered</b> a hard stop before incision.</div>
+      </div>
+      <div class="chat-msg received">
+        <div class="chat-name">Chief of Surgery</div>
+        <div>Good point. What is our plan for the next 24 hours? If the current antibiotic <b>fails</b> to show <b>efficacy</b>, what is our backup?</div>
+      </div>
+      <div class="chat-msg sent">
+        <div class="chat-name">Senior Resident (You)</div>
+        <div>If his fever <b>does not drop</b> by morning, we <b>will consult</b> infectious diseases and adjust the <b>titration</b> to avoid renal <b>toxicity</b>.</div>
+      </div>
+    </div>
+    <div class="starter-box" style="margin-top:16px;">
+      <span class="starter-label">Continue the Debrief Aloud (Pick a Role)</span>
+      <span class="starter-phrase">• Had we known about the resistant pathogen earlier, we would have...</span>
+      <span class="starter-phrase">• If a patient has a history of anaphylaxis, our updated checklist will...</span>
+      <span class="starter-phrase">• If I were leading the safety audit, I would recommend...</span>
+    </div>
+  `;
+})();
+
+/* ---------------- 14 SENTENCE BUILDER ---------------- */
+(() => {
+  const b = task(14, '🏗️', 'C1 Mixed Conditional Builder', 'Arrange the chunks to form a sharp C1 Mixed Conditional (with formal inversion) linking a past oversight to a present ICU outcome.');
+  const seq = [
+    'Had the surgical team',
+    'verified antibiotic prophylaxis',
+    'before the incision,',
+    'the patient would not be',
+    'fighting post-operative sepsis',
+    'in the ICU today.'
+  ];
+  reg(1); let cur = shuffle(seq); while(cur.join() === seq.join()) cur = shuffle(seq);
+  const list = h('ol', 'order');
+  const draw = () => {
+    list.innerHTML = '';
+    cur.forEach((t, i) => {
+      const li = h('li', 'oitem'); li.innerHTML = `<span>${t}</span>`;
+      const u = h('button', 'mini', '↑'), d = h('button', 'mini', '↓');
+      u.onclick = () => { if(i > 0) { [cur[i-1], cur[i]] = [cur[i], cur[i-1]]; draw(); } };
+      d.onclick = () => { if(i < cur.length - 1) { [cur[i+1], cur[i]] = [cur[i], cur[i+1]]; draw(); } };
+      li.append(u, d); list.appendChild(li);
+    });
+  };
+  draw();
+  const btn = h('button', 'btn', 'Check syntax'), fb = h('span', 'fb');
+  btn.onclick = () => {
+    let all = true;
+    [...list.children].forEach((li, i) => {
+      const g = cur[i] === seq[i];
+      li.classList.toggle('good', g); li.classList.toggle('bad', !g);
+      if(!g) all = false;
+    });
+    fb.textContent = all ? ' ✔ Perfect C1 Mixed Conditional!' : ' Green = right place.';
+    if(all) ok('ord14');
+  };
+  b.append(list, btn, fb);
+})();
+
+/* ---------------- 15 SPEAKING ROULETTE & WRITING LOG ---------------- */
+(() => {
+  const b = task(15, '🎤', 'Clinical "What If" Roulette &amp; Safety Memo', 'Spin to get a C1 conditional speaking prompt and a mandatory starting phrase. Speak for 60 seconds, then write a concise clinical reflection below.');
+  const CH = [
+    {
+      q: 'Explain a universal emergency protocol for anaphylaxis using a Zero Conditional, then predict what will happen if adrenaline is delayed (First Conditional).',
+      s: 'Starting phrase: If a patient develops acute anaphylaxis, ...'
+    },
+    {
+      q: 'Imagine you could redesign one hospital safety rule to eliminate preventable morbidity. What would you change?',
+      s: 'Starting phrase: If I had the authority to redesign hospital protocols, I would...'
+    },
+    {
+      q: 'Reflect on a past clinical case (real or from this lesson) where one earlier action would have prevented a major complication.',
+      s: 'Starting phrase: If the team had recognized the early signs of sepsis, ...'
+    },
+    {
+      q: 'Use a Mixed Conditional to explain how a past mistake in drug titration or prophylaxis is still affecting a patient today.',
+      s: 'Starting phrase: Had the clinic caught the dosing error last week, the patient would not be...'
+    },
+    {
+      q: 'Explain why a patient’s permanent allergy (present fact) forced doctors to choose a different drug yesterday (Mixed Conditional: Present → Past).',
+      s: 'Starting phrase: If the patient were not severely allergic to penicillin, the team would have...'
+    }
+  ];
+
+  const sb = h('div', 'spinbox');
+  sb.innerHTML = '<div class="big" id="spOrg">Press SPIN for your C1 Conditional Prompt</div><div class="spin-starter" id="spStart" style="display:none;"></div><div id="spT" style="font-size:1.4rem;font-weight:800; color: var(--teal); margin-top: 8px;"></div>';
+  const spin = h('button', 'btn', '🎰 SPIN'), tm = h('button', 'btn alt', '⏱ Start 60 s'); tm.style.marginLeft = '8px';
+  let iv = null;
+  spin.onclick = () => {
+    const c = shuffle(CH)[0];
+    $('#spOrg').textContent = c.q;
+    $('#spStart').textContent = c.s;
+    $('#spStart').style.display = 'inline-block';
+    $('#spT').textContent = ''; clearInterval(iv);
+  };
+  tm.onclick = () => {
+    clearInterval(iv); let t = 60; $('#spT').textContent = t + 's';
+    iv = setInterval(() => { t--; $('#spT').textContent = t > 0 ? t + 's' : 'Time! 👏'; if(t <= 0) clearInterval(iv); }, 1000);
+  };
+  sb.append(spin, tm); b.appendChild(sb);
+
+  b.appendChild(h('h3', null, '✍️ Clinical Safety Memo')); b.lastChild.style.margin = '20px 0 8px';
+  b.appendChild(h('p', 'instr', 'Write a 4–6 sentence M&amp;M safety reflection using at least two different Conditional types. Try to activate at least <b>3</b> target terms or markers below.'));
+
+  const W = ['prophylaxis', 'sepsis', 'pathogen', 'anaphylaxis', 'toxicity', 'titration', 'efficacy', 'morbidity', 'would have', 'would not be', 'if ', 'had '];
+  const ta = h('textarea'); ta.placeholder = 'If the surgical team had verified antibiotic prophylaxis before incision, the patient would not be...';
+
+  const wd = h('div', 'words'); wd.innerHTML = W.map(w => `<span>${w.trim()}</span>`).join('');
+  const cnt = h('div', 'fb'); cnt.style.color = 'var(--mute)'; reg();
+
+  const upd2 = () => {
+    const t = ta.value.toLowerCase(); let n = 0;
+    [...wd.children].forEach((s, i) => { const on = t.includes(W[i]); s.classList.toggle('on', on); if(on) n++; });
+    const wc = (ta.value.trim().match(/\S+/g) || []).length;
+    cnt.textContent = `${wc} words · ${n} target items used`;
+    if(n >= 3 && wc >= 30) ok('write');
+  };
+  ta.oninput = upd2; b.append(ta, wd, cnt); upd2();
+})();
+</script>
+</body>
+</html>
